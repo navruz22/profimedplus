@@ -26,7 +26,9 @@ export const TableServices = ({
   setModal1,
   setImports,
   setModal2,
-  loading
+  loading,
+  servicetypesSelect,
+  searchServiceType
 }) => {
   const edit = (e, service) => {
     setService(service);
@@ -43,18 +45,18 @@ export const TableServices = ({
     // Xatolik bor birinchi mareta tahrirlash bosilganda xizmat turi tanlay olinmaydi
   };
   return (
-    <div className="table-container">
-      <div className="table-container">
+    <div className="border-0 table-container">
+      <div className="border-0 table-container">
         <div className="table-responsive">
           <table className="table m-0">
             <thead className="bg-white">
               <tr>
-                <th>
+                <th className="text-[16px]">
                   <select
                     className="form-control form-control-sm selectpicker"
                     placeholder="Bo'limni tanlang"
                     onChange={setPageSize}
-                    style={{  minWidth: "50px" }}
+                    style={{ minWidth: "50px" }}
                   >
                     <option value={10}>10</option>
                     <option value={25}>25</option>
@@ -62,26 +64,33 @@ export const TableServices = ({
                     <option value={100}>100</option>
                   </select>
                 </th>
-                <th>
-                  <input
-                    onChange={searchDepartment}
-                    style={{ maxWidth: "100px", minWidth: "100px" }}
-                    type="search"
-                    className="w-100 form-control form-control-sm selectpicker"
-                    placeholder=""
-                  />
-                </th>
-                <th>
-                  <input
-                    onChange={searchName}
-                    style={{ maxWidth: "100px" }}
-                    type="search"
+                <th className="text-[16px]">
+                  <select
                     className="form-control form-control-sm selectpicker"
-                    placeholder=""
-                    aria-controls="basicExample"
-                  />
+                    placeholder="Bo'limni tanlang"
+                    onChange={searchDepartment}
+                    style={{ minWidth: "50px" }}
+                  >
+                    <option value='none'>Hammasi</option>
+                    {departments.length > 0 && departments.map((d, ind) =>
+                      <option value={d._id} key={ind}>{d.name}</option>
+                    )}
+                  </select>
                 </th>
-                <th colSpan={6}>
+                <th className="text-[16px]">
+                  <select
+                    className="form-control form-control-sm selectpicker"
+                    placeholder="Xizmat turini tanlang"
+                    onChange={searchServiceType}
+                    style={{ minWidth: "50px" }}
+                  >
+                    <option value='none'>Hammasi</option>
+                    {servicetypesSelect.length > 0 && servicetypesSelect.map((d, ind) =>
+                      <option value={d._id} key={ind}>{d.name}</option>
+                    )}
+                  </select>
+                </th>
+                <th colSpan={6} className="text-[16px]">
                   <Pagination
                     setCurrentDatas={setCurrentServices}
                     datas={services}
@@ -90,7 +99,7 @@ export const TableServices = ({
                     totalDatas={services.length}
                   />
                 </th>
-                <th className="text-center">
+                <th className="text-center text-[16px]">
                   <ExcelUpload setData={setImports} setModal={setModal2} loading={loading} />
                 </th>
                 {/* <th>
@@ -122,12 +131,12 @@ export const TableServices = ({
                       <span class="spinner-border spinner-border-sm"></span>
                       Loading...
                     </button> :
-                    <button
-                      onClick={() => setModal1(true)}
-                      className="btn btn-danger py-0 px-3 pt-1"
-                    >
-                      <span className="icon-trash-2"></span>
-                    </button>
+                      <button
+                        onClick={() => setModal1(true)}
+                        className="btn btn-danger py-0 px-3 pt-1"
+                      >
+                        <span className="icon-trash-2"></span>
+                      </button>
                     }
                   </Tooltip>
                 </th>
@@ -135,8 +144,8 @@ export const TableServices = ({
             </thead>
             <thead>
               <tr>
-                <th className="border-right">№</th>
-                <th className="border-right">
+                <th className="border-right  text-[12px] bg-alotrade">№</th>
+                <th className="border-right  text-[12px] bg-alotrade">
                   Bo'lim
                   <div className="btn-group-vertical ml-2">
                     <FontAwesomeIcon
@@ -163,7 +172,7 @@ export const TableServices = ({
                     />
                   </div>
                 </th>
-                <th className="border-right">
+                <th className="border-right  text-[12px] bg-alotrade">
                   Xizmat turi
                   <Sort
                     data={currentServices}
@@ -171,7 +180,7 @@ export const TableServices = ({
                     property={"serveicetype"}
                   />
                 </th>
-                <th className="border-right">
+                <th className="border-right  text-[12px] bg-alotrade">
                   Xizmat
                   <Sort
                     data={currentServices}
@@ -179,7 +188,7 @@ export const TableServices = ({
                     property={"name"}
                   />
                 </th>
-                <th className="border-right">
+                <th className="border-right text-[12px] bg-alotrade">
                   Qisqartma nomi
                   <Sort
                     data={currentServices}
@@ -187,7 +196,7 @@ export const TableServices = ({
                     property={"shortname"}
                   />
                 </th>
-                <th className="border-right">
+                <th className="border-right text-[12px] bg-alotrade">
                   Narxi
                   <Sort
                     data={currentServices}
@@ -195,7 +204,7 @@ export const TableServices = ({
                     property={"price"}
                   />
                 </th>
-                <th className="border-right">
+                <th className="border-right text-[12px] bg-alotrade">
                   Doktor ulushi
                   <Sort
                     data={currentServices}
@@ -203,7 +212,7 @@ export const TableServices = ({
                     property={"doctorProcient"}
                   />
                 </th>
-                <th className="border-right">
+                <th className="border-right text-[12px] bg-alotrade">
                   Kontragent ulushi
                   <div className="btn-group-vertical ml-2">
                     <Sort
@@ -213,7 +222,7 @@ export const TableServices = ({
                     />
                   </div>
                 </th>
-                <th className="border-right">
+                <th className="border-right text-[12px] bg-alotrade">
                   Kounterdoktor ulushi
                   <Sort
                     data={currentServices}
@@ -221,52 +230,52 @@ export const TableServices = ({
                     property={"counterDoctorProcient"}
                   />
                 </th>
-                <th className="border-right text-center">Tahrirlash</th>
-                <th className="text-center">O'chirish</th>
+                <th className="border-right text-center text-[12px] bg-alotrade">Tahrirlash</th>
+                <th className="text-center text-[12px] bg-alotrade">O'chirish</th>
               </tr>
             </thead>
             <tbody>
               {currentServices.map((service, key) => {
                 return (
                   <tr key={key}>
-                    <td className="border-right font-weight-bold">
+                    <td className="border-right text-[16px] font-weight-bold">
                       {currentPage * countPage + key + 1}
                     </td>
-                    <td className="border-right">{service.department.name}</td>
-                    <td className="border-right">
+                    <td className="border-right text-[16px]">{service.department.name}</td>
+                    <td className="border-right text-[16px]">
                       {service.servicetype && service.servicetype.name}
                     </td>
-                    <td className="border-right">{service.name}</td>
-                    <td className="border-right">{service.shortname}</td>
-                    <td className="border-right">{service.price}</td>
-                    <td className="border-right">{service.doctorProcient}</td>
-                    <td className="border-right">
+                    <td className="border-right text-[16px]">{service.name}</td>
+                    <td className="border-right text-[16px]">{service.shortname}</td>
+                    <td className="border-right text-[16px]">{service.price}</td>
+                    <td className="border-right text-[16px]">{service.doctorProcient}</td>
+                    <td className="border-right text-[16px]">
                       {service.counterAgentProcient}
                     </td>
-                    <td className="border-right">
+                    <td className="border-right text-[16px]">
                       {service.counterDoctorProcient}
                     </td>
-                    <td className="border-right text-center">
+                    <td className="border-right text-[16px] text-center">
                       <button
                         id={`btn${key}`}
                         onClick={(e) => {
                           edit(e, service);
                         }}
                         type="button"
-                        className="btn btn-success py-1 px-2"
+                        className="text-white font-semibold bg-alotrade rounded py-1 px-2"
                         style={{ fontSize: "75%" }}
                       >
                         Tahrirlash
                       </button>
                     </td>
-                    <td className="text-center">
+                    <td className="text-center text-[16px]">
                       <button
                         onClick={() => {
                           setRemove(service);
                           setModal(true);
                         }}
                         type="button"
-                        className="btn btn-secondary py-1 px-2"
+                        className="text-white font-semibold bg-red-400 rounded-lg py-1 px-2"
                         style={{ fontSize: "75%" }}
                       >
                         O'chirish

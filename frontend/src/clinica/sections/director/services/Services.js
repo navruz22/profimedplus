@@ -1,15 +1,20 @@
-import React, {useCallback, useContext, useEffect, useState} from 'react'
-import {Loader} from '../../../loader/Loader'
-import {useToast} from '@chakra-ui/react'
-import {useHttp} from '../../../hooks/http.hook'
-import {AuthContext} from '../../../context/AuthContext'
-import {checkService, checkUploadServices} from './checkData'
-import {Modal} from './modal/Modal'
-import {TableServices} from './serviceComponents/TableServices'
-import {InputService} from './serviceComponents/InputService'
-import {ExcelCols} from './serviceComponents/ExcelCols'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
+import { Loader } from '../../../loader/Loader'
+import { useToast } from '@chakra-ui/react'
+import { useHttp } from '../../../hooks/http.hook'
+import { AuthContext } from '../../../context/AuthContext'
+import { checkService, checkUploadServices } from './checkData'
+import { Modal } from './modal/Modal'
+import { TableServices } from './serviceComponents/TableServices'
+import { InputService } from './serviceComponents/InputService'
+import { ExcelCols } from './serviceComponents/ExcelCols'
+import { useLocation } from 'react-router-dom'
 
 export const Services = () => {
+
+    const location = useLocation()
+    console.log(location);
+
     //====================================================================
     //====================================================================
     // Pagenation
@@ -62,7 +67,7 @@ export const Services = () => {
 
     //====================================================================
     //====================================================================
-    const {request, loading} = useHttp()
+    const { request, loading } = useHttp()
     const auth = useContext(AuthContext)
 
     const [service, setService] = useState({
@@ -80,15 +85,15 @@ export const Services = () => {
     const [changeImports, setChangeImports] = useState([])
 
     const sections = [
-        {name: 'Shifoxona nomi', value: 'clinica'},
-        {name: "Bo'lim nomi", value: 'department'},
-        {name: 'Xizmat turi', value: 'servicetype'},
-        {name: 'Xizmat nomi', value: 'name'},
-        {name: 'Qisqartma nomi', value: 'shortname'},
-        {name: 'Narxi', value: 'price'},
-        {name: 'Shifokor ulushi', value: 'doctorProcient'},
-        {name: 'Kontragent ulushi', value: 'counterAgentProcient'},
-        {name: "Yo'naltiruvchi shifokor ulushi", value: 'counterDoctorProcient'},
+        { name: 'Shifoxona nomi', value: 'clinica' },
+        { name: "Bo'lim nomi", value: 'department' },
+        { name: 'Xizmat turi', value: 'servicetype' },
+        { name: 'Xizmat nomi', value: 'name' },
+        { name: 'Qisqartma nomi', value: 'shortname' },
+        { name: 'Narxi', value: 'price' },
+        { name: 'Shifokor ulushi', value: 'doctorProcient' },
+        { name: 'Kontragent ulushi', value: 'counterAgentProcient' },
+        { name: "Yo'naltiruvchi shifokor ulushi", value: 'counterDoctorProcient' },
     ]
 
     const getServices = useCallback(async () => {
@@ -96,14 +101,19 @@ export const Services = () => {
             const data = await request(
                 `/api/services/service/getall`,
                 'POST',
-                {clinica: auth.clinica._id},
+                { clinica: auth.clinica._id },
                 {
                     Authorization: `Bearer ${auth.token}`,
                 },
             )
-            setServices(data)
             setSearchStrorage(data)
-            setCurrentServices(data.slice(indexFirstService, indexLastService))
+            if (location?.state?.servicetype) {
+                setCurrentServices([...data].filter(el => el.servicetype._id === location.state.servicetype).slice(indexFirstService, indexLastService))
+                setServices([...data].filter(el => el.servicetype._id === location.state.servicetype))
+            } else {
+                setCurrentServices(data);
+                setServices(data);
+            }
         } catch (error) {
             notify({
                 title: error,
@@ -125,14 +135,14 @@ export const Services = () => {
 
     //====================================================================
     //====================================================================
-    const [departments, setDepartments] = useState()
+    const [departments, setDepartments] = useState([])
 
     const getDepartments = useCallback(async () => {
         try {
             const data = await request(
                 `/api/services/department/getall`,
                 'POST',
-                {clinica: auth.clinica._id},
+                { clinica: auth.clinica._id },
                 {
                     Authorization: `Bearer ${auth.token}`,
                 },
@@ -151,19 +161,21 @@ export const Services = () => {
 
     //====================================================================
     //====================================================================
-    const [servicetypes, setServiceTypes] = useState()
+    const [servicetypes, setServiceTypes] = useState([])
+    const [servicetypesSelect, setServiceTypesSelect] = useState([])
 
     const getServiceTypes = useCallback(async () => {
         try {
             const data = await request(
                 `/api/services/servicetype/getall`,
                 'POST',
-                {clinica: auth.clinica._id},
+                { clinica: auth.clinica._id },
                 {
                     Authorization: `Bearer ${auth.token}`,
                 },
             )
             setServiceTypes(data)
+            setServiceTypesSelect(data);
         } catch (error) {
             notify({
                 title: error,
@@ -183,7 +195,7 @@ export const Services = () => {
             const data = await request(
                 `/api/services/service/register`,
                 'POST',
-                {...service},
+                { ...service },
                 {
                     Authorization: `Bearer ${auth.token}`,
                 },
@@ -212,7 +224,7 @@ export const Services = () => {
             const data = await request(
                 `/api/services/service/update`,
                 'PUT',
-                {...service},
+                { ...service },
                 {
                     Authorization: `Bearer ${auth.token}`,
                 },
@@ -312,7 +324,7 @@ export const Services = () => {
             const data = await request(
                 `/api/services/service`,
                 'DELETE',
-                {...remove},
+                { ...remove },
                 {
                     Authorization: `Bearer ${auth.token}`,
                 },
@@ -349,7 +361,7 @@ export const Services = () => {
             const data = await request(
                 `/api/services/service/deleteall`,
                 'DELETE',
-                {...service},
+                { ...service },
                 {
                     Authorization: `Bearer ${auth.token}`,
                 },
@@ -381,7 +393,7 @@ export const Services = () => {
     //====================================================================
 
     const inputHandler = (e) => {
-        setService({...service, [e.target.name]: e.target.value})
+        setService({ ...service, [e.target.name]: e.target.value })
     }
 
     //====================================================================
@@ -391,31 +403,27 @@ export const Services = () => {
     //====================================================================
     // SEARCH
 
-    const searchDepartment = useCallback(
-        (e) => {
-            const searching = searchStorage.filter((item) =>
-                item.department.name
-                    .toLowerCase()
-                    .includes(e.target.value.toLowerCase()),
-            )
-            setServices(searching)
-            setCurrentServices(searching.slice(0, countPage))
-        },
-        [searchStorage, countPage],
-    )
+    const searchDepartment = (e) => {
+        if (e.target.value !== 'none') {
+            setCurrentServices([...searchStorage].filter(el => el.department._id === e.target.value))
+            setServices([...searchStorage].filter(el => el.department._id === e.target.value))
+            setServiceTypesSelect([...servicetypes].filter(el => el.department._id === e.target.value))
+        } else {
+            setCurrentServices(searchStorage)
+            setServices(searchStorage)
+            setServiceTypesSelect(servicetypes)
+        }
+    }
 
-    const searchServiceType = useCallback(
-        (e) => {
-            const searching = searchStorage.filter((item) =>
-                item.servicetype.name
-                    .toLowerCase()
-                    .includes(e.target.value.toLowerCase()),
-            )
-            setServices(searching)
-            setCurrentServices(searching.slice(0, countPage))
-        },
-        [searchStorage, countPage],
-    )
+    const searchServiceType = (e) => {
+        if (e.target.value !== 'none') {
+            setServices([...searchStorage].filter(el => el.servicetype._id === e.target.value))
+            setCurrentServices([...searchStorage].filter(el => el.servicetype._id === e.target.value))
+        } else {
+            setServices(searchStorage)
+            setCurrentServices(searchStorage)
+        }
+    }
 
     const searchName = useCallback(
         (e) => {
@@ -456,8 +464,8 @@ export const Services = () => {
 
     return (
         <>
-            {loading ? <Loader/> : ''}
-            <div className="content-wrapper px-lg-5 px-3">
+            {loading ? <Loader /> : ''}
+            <div className="bg-slate-100 content-wrapper px-lg-5 px-3">
                 <div className="row gutters">
                     <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <InputService
@@ -472,6 +480,7 @@ export const Services = () => {
                         />
                         <TableServices
                             servicetypes={servicetypes}
+                            servicetypesSelect={servicetypesSelect}
                             searchName={searchName}
                             searchServiceType={searchServiceType}
                             searchDepartment={searchDepartment}

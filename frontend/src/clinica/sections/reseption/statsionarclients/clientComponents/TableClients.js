@@ -36,8 +36,8 @@ export const TableClients = ({
   searchDoctor,
 }) => {
   return (
-    <div className="table-container">
-      <div className="table-container">
+    <div className="border-0 shadow-lg table-container">
+      <div className="border-0 table-container">
         <div className="table-responsive">
           <table className="table m-0">
             <thead className="bg-white">
@@ -136,8 +136,8 @@ export const TableClients = ({
             </thead>
             <thead>
               <tr>
-                <th className="border py-1">№</th>
-                <th className="border py-1">
+                <th className="border py-1 bg-alotrade text-[16px]">№</th>
+                <th className="border py-1 bg-alotrade text-[16px]">
                   F.I.O
                   <div className="btn-group-vertical ml-2">
                     <FontAwesomeIcon
@@ -164,7 +164,7 @@ export const TableClients = ({
                     />
                   </div>
                 </th>
-                <th className="border py-1">
+                <th className="border py-1 bg-alotrade text-[16px]">
                   Tug'ilgan yili
                   <div className="btn-group-vertical ml-2">
                     <FontAwesomeIcon
@@ -172,7 +172,7 @@ export const TableClients = ({
                         setCurrentConnectors(
                           [...currentConnectors].sort((a, b) =>
                             a.client.born.toLocaleDateString() >
-                            b.client.toLocaleDateString()
+                              b.client.toLocaleDateString()
                               ? 1
                               : -1
                           )
@@ -188,7 +188,7 @@ export const TableClients = ({
                         setCurrentConnectors(
                           [...currentConnectors].sort((a, b) =>
                             b.client.born.toLocaleDateString() >
-                            a.client.born.toLocaleDateString()
+                              a.client.born.toLocaleDateString()
                               ? 1
                               : -1
                           )
@@ -197,7 +197,7 @@ export const TableClients = ({
                     />
                   </div>
                 </th>
-                <th className="border py-1">
+                <th className="border py-1 bg-alotrade text-[16px]">
                   Tel
                   <div className="btn-group-vertical ml-2">
                     <FontAwesomeIcon
@@ -224,7 +224,7 @@ export const TableClients = ({
                     />
                   </div>
                 </th>
-                <th className="border py-1">
+                <th className="border py-1 bg-alotrade text-[16px]">
                   ID
                   <div className="btn-group-vertical ml-2">
                     <FontAwesomeIcon
@@ -251,7 +251,7 @@ export const TableClients = ({
                     />
                   </div>
                 </th>
-                <th className="border py-1">
+                <th className="border py-1 bg-alotrade text-[16px]">
                   Shikokor
                   <div className="btn-group-vertical ml-2">
                     <FontAwesomeIcon
@@ -278,7 +278,7 @@ export const TableClients = ({
                     />
                   </div>
                 </th>
-                <th className="border py-1">
+                <th className="border py-1 bg-alotrade text-[16px]">
                   Kelgan vaqti
                   <Sort
                     data={currentConnectors}
@@ -286,9 +286,9 @@ export const TableClients = ({
                     property={"createdAt"}
                   />
                 </th>
-                <th className="border py-1">Qo'shish</th>
-                <th className="border py-1 text-center">Chek</th>
-                <th className="border py-1 text-center">Tugatish</th>
+                <th className="border py-1 bg-alotrade text-[16px]">Qo'shish</th>
+                <th className="border py-1 bg-alotrade text-[16px] text-center">Chek</th>
+                <th className="border py-1 bg-alotrade text-[16px] text-center">Tugatish</th>
               </tr>
             </thead>
             <tbody>
@@ -296,33 +296,32 @@ export const TableClients = ({
                 return (
                   <tr key={key}>
                     <td
-                      className="border py-1 font-weight-bold text-right"
+                      className="border py-1 font-weight-bold text-right text-[16px]"
                       style={{ maxWidth: "30px !important" }}
                     >
                       {currentPage * countPage + key + 1}
                     </td>
-                    <td className="border py-1 font-weight-bold">
+                    <td className="border py-1 font-weight-bold text-[16px]">
                       {connector.client.fullname}
                     </td>
-                    <td className="border py-1 text-right">
+                    <td className="border py-1 text-right text-[16px]">
                       {new Date(connector.client.born).toLocaleDateString()}
                     </td>
-                    <td className="border py-1 text-right">
+                    <td className="border py-1 text-right text-[16px]">
                       +998{connector.client.phone}
                     </td>
-                    <td className="border py-1 text-right">
+                    <td className="border py-1 text-right text-[16px]">
                       {connector.client.id}
                     </td>
-                    <td className="border py-1">
+                    <td className="border py-1 text-[16px]">
                       {connector.doctor.lastname +
                         " " +
                         connector.doctor.firstname}
                     </td>
-                    <td className="border py-1 text-right">
-                      {new Date(connector.createdAt).toLocaleDateString()}{" "}
-                      {new Date(connector.createdAt).toLocaleTimeString()}
+                    <td className="border py-1 text-right text-[16px]">
+                      {new Date(connector.room.beginday).toLocaleDateString()}{" "}
                     </td>
-                    <td className="border py-1 text-center">
+                    <td className="border py-1 text-center text-[16px]">
                       {loading ? (
                         <button className="btn btn-success" disabled>
                           <span className="spinner-border spinner-border-sm"></span>
@@ -346,7 +345,7 @@ export const TableClients = ({
                       )}
                     </td>
 
-                    <td className="border py-1 text-center">
+                    <td className="border py-1 text-center text-[16px]">
                       {loading ? (
                         <button className="btn btn-primary" disabled>
                           <span className="spinner-border spinner-border-sm"></span>
@@ -364,7 +363,7 @@ export const TableClients = ({
                         </button>
                       )}
                     </td>
-                    <td className="border py-1 text-center">
+                    <td className="border py-1 text-center text-[16px]">
                       {connector.room.endday ? (
                         "Tugalgan"
                       ) : loading ? (

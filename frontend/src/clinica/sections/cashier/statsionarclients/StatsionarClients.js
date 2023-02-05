@@ -1,11 +1,11 @@
-import {useToast} from '@chakra-ui/react'
-import React, {useCallback, useContext, useEffect, useState} from 'react'
-import {AuthContext} from '../../../context/AuthContext'
-import {useHttp} from '../../../hooks/http.hook'
-import {Modal} from "../components/Modal";
-import {RegisterClient} from './clientComponents/RegisterClient'
-import {TableClients} from './clientComponents/TableClients'
-import {checkData, checkServices} from './checkData/checkData'
+import { useToast } from '@chakra-ui/react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
+import { AuthContext } from '../../../context/AuthContext'
+import { useHttp } from '../../../hooks/http.hook'
+import { Modal } from "../components/Modal";
+import { RegisterClient } from './clientComponents/RegisterClient'
+import { TableClients } from './clientComponents/TableClients'
+import { checkData, checkServices } from './checkData/checkData'
 // import {
 //   checkClientData,
 //   checkProductsData,
@@ -73,7 +73,7 @@ export const StatsionarClients = () => {
 
     //====================================================================
     //====================================================================
-    const {request, loading} = useHttp()
+    const { request, loading } = useHttp()
     const auth = useContext(AuthContext)
 
     //====================================================================
@@ -91,7 +91,7 @@ export const StatsionarClients = () => {
                 const data = await request(
                     `/api/cashier/statsionar/getall`,
                     'POST',
-                    {clinica: auth && auth.clinica._id, beginDay, endDay},
+                    { clinica: auth && auth.clinica._id, beginDay, endDay },
                     {
                         Authorization: `Bearer ${auth.token}`,
                     },
@@ -264,12 +264,12 @@ export const StatsionarClients = () => {
         setProducts(prods)
 
         setClient(JSON.parse(JSON.stringify(connector.client)))
-        setConnector({...connector})
+        setConnector({ ...connector })
 
         let payments = connector.payments.reduce((summa, payment) => {
             return summa + payment.payment
         }, 0)
-        
+
         setPayments(payments)
 
         let roomprice = 0
@@ -291,11 +291,13 @@ export const StatsionarClients = () => {
                 type: connector.room.room.type
             })
         } else {
+            let begin = new Date(connector.room.beginday)
+            let today = new Date()
             const day = Math.round(
                 Math.abs(
-                    (new Date().setUTCHours(23, 59, 59, 999)
+                    (today.getTime()
                         -
-                        new Date(connector.room.beginday))
+                        begin.getTime())
                     /
                     (24 * 60 * 60 * 1000)
                 )
@@ -322,16 +324,17 @@ export const StatsionarClients = () => {
             debt: 0,
         })
         setTotalPayment(total)
-        if(connector.discount){
+        if (connector.discount) {
             setDiscount(connector.discount)
-        }else{
-        setDiscount({
-            total: total,
-            discount: 0,
-            clinica: connector.clinica,
-            client: connector.client._id,
-            connector: connector._id,
-        })}
+        } else {
+            setDiscount({
+                total: total,
+                discount: 0,
+                clinica: connector.clinica,
+                client: connector.client._id,
+                connector: connector._id,
+            })
+        }
     }, [])
 
     const changeService = (e, index) => {
@@ -446,7 +449,7 @@ export const StatsionarClients = () => {
         if (e.target.value !== '')
             disc = parseInt(e.target.value)
 
-        if (disc > totalpayment -  payment.debt - payment.payment) {
+        if (disc > totalpayment - payment.debt - payment.payment) {
             e.target.value = parseInt(parseInt(e.target.value) / 10)
             return notify({
                 title:
@@ -501,7 +504,7 @@ export const StatsionarClients = () => {
             delete s.comment
             setDiscount(s)
         } else {
-            setDiscount({...discount, comment: e.target.value})
+            setDiscount({ ...discount, comment: e.target.value })
         }
     }
 
@@ -510,7 +513,7 @@ export const StatsionarClients = () => {
         if (e.target.value !== '')
             debt = parseInt(e.target.value)
 
-        if (debt > totalpayment - discount.discount - payments ) {
+        if (debt > totalpayment - discount.discount - payments) {
             e.target.value = parseInt(parseInt(e.target.value) / 10)
             return notify({
                 title:
@@ -526,7 +529,7 @@ export const StatsionarClients = () => {
             transfer: 0,
             type: '',
             debt: debt,
-            payment: totalpayment - payments- discount.discount - debt,
+            payment: totalpayment - payments - discount.discount - debt,
             clinica: connector.clinica,
             client: connector.client._id,
             connector: connector._id,
@@ -545,16 +548,16 @@ export const StatsionarClients = () => {
 
         switch (e.target.name) {
             case 'cash':
-                if ((totalpayment - payments < m + payment.card + payment.transfer + discount.discount 
-                    && m > 0) ||(totalpayment - payments > m + payment.card + payment.transfer + discount.discount 
-                        && m < 0)) {
-                    return notify({
-                        title:
-                            "Diqqat! to'lov summasi umumiy to'lov summasidan oshmasligi kerak!",
-                        description: '',
-                        status: 'error',
-                    })
-                }
+                // if ((totalpayment - payments < m + payment.card + payment.transfer + discount.discount
+                //     && m > 0) || (totalpayment - payments > m + payment.card + payment.transfer + discount.discount
+                //         && m < 0)) {
+                //     return notify({
+                //         title:
+                //             "Diqqat! to'lov summasi umumiy to'lov summasidan oshmasligi kerak!",
+                //         description: '',
+                //         status: 'error',
+                //     })
+                // }
                 return setPayment({
                     ...payment,
                     [e.target.name]: m,
@@ -562,39 +565,39 @@ export const StatsionarClients = () => {
                     debt: totalpayment - (payments + discount.discount + m + payment.card + payment.transfer)
                 })
             case 'card':
-                if ((totalpayment - payments < m + payment.cash + payment.transfer + discount.discount && m > 0) ||
-                (totalpayment - payments > m + payment.cash + payment.transfer + discount.discount && m < 0)) {
-                    return notify({
-                        title:
-                            "Diqqat! to'lov summasi umumiy to'lov summasidan oshmasligi kerak!",
-                        description: '',
-                        status: 'error',
-                    })
-                }
+                //     if ((totalpayment - payments < m + payment.cash + payment.transfer + discount.discount && m > 0) ||
+                //         (totalpayment - payments > m + payment.cash + payment.transfer + discount.discount && m < 0)) {
+                //         return notify({
+                //             title:
+                //                 "Diqqat! to'lov summasi umumiy to'lov summasidan oshmasligi kerak!",
+                //             description: '',
+                //             status: 'error',
+                //         })
+                //     }
                 return setPayment({
                     ...payment,
                     [e.target.name]: m,
                     payment: m + payment.cash + payment.transfer,
-                    debt: totalpayment - (payments  + discount.discount + m + payment.cash + payment.transfer)
+                    debt: totalpayment - (payments + discount.discount + m + payment.cash + payment.transfer)
                 })
             case 'transfer':
-                if ((totalpayment - payments  < m + payment.card + payment.cash + discount.discount
-                    && m > 0)
-                    ||
-                    (totalpayment - payments  > m + payment.card + payment.cash + discount.discount
-                        && m < 0)) {
-                    return notify({
-                        title:
-                            "Diqqat! to'lov summasi umumiy to'lov summasidan oshmasligi kerak!",
-                        description: '',
-                        status: 'error',
-                    })
-                }
+                // if ((totalpayment - payments < m + payment.card + payment.cash + discount.discount
+                //     && m > 0)
+                //     ||
+                //     (totalpayment - payments > m + payment.card + payment.cash + discount.discount
+                //         && m < 0)) {
+                //     return notify({
+                //         title:
+                //             "Diqqat! to'lov summasi umumiy to'lov summasidan oshmasligi kerak!",
+                //         description: '',
+                //         status: 'error',
+                //     })
+                // }
                 return setPayment({
                     ...payment,
                     [e.target.name]: m,
                     payment: m + payment.card + payment.cash,
-                    debt: totalpayment - (payments  + discount.discount + m + payment.card + payment.cash)
+                    debt: totalpayment - (payments + discount.discount + m + payment.card + payment.cash)
                 })
             default:
         }
@@ -648,43 +651,8 @@ export const StatsionarClients = () => {
                 `/api/cashier/statsionar/payment`,
                 'POST',
                 {
-                    payment: {...payment},
-                    discount: {...discount},
-                    services: [...services],
-                    products: [...products],
-                },
-                {
-                    Authorization: `Bearer ${auth.token}`,
-                },
-            )
-            localStorage.setItem("data", data)
-            setModal(false)
-            setVisible(false)
-            notify({
-                title: "To'lov muvaffaqqiyatli amalga oshirildi.",
-                description: '',
-                status: 'success',
-            })
-            setAll()
-        } catch (error) {
-            notify({
-                title: error,
-                description: '',
-                status: 'error',
-            })
-        }
-    }, [auth, payment, discount, request, services, products, notify, setAll])
-
-    const createPrepayment = useCallback(async () => {
-        try {
-            if (checkServices(services, products)) {
-                return toast(checkServices(services, products))
-            }
-            const data = await request(
-                `/api/cashier/statsionar/prepayment`,
-                'POST',
-                {
-                    payment: {...payment},
+                    payment: { ...payment },
+                    discount: { ...discount },
                     services: [...services],
                     products: [...products],
                 },
@@ -709,7 +677,43 @@ export const StatsionarClients = () => {
                 status: 'error',
             })
         }
-    }, [beginDay, endDay, toast,getConnectors, auth, payment,  request, services, products, notify, setAll])
+    }, [auth, payment, discount, request, services, products, notify, setAll])
+
+    const createPrepayment = useCallback(async () => {
+        try {
+            if (checkServices(services, products)) {
+                return toast(checkServices(services, products))
+            }
+            const data = await request(
+                `/api/cashier/statsionar/prepayment`,
+                'POST',
+                {
+                    payment: { ...payment },
+                    services: [...services],
+                    products: [...products],
+                },
+                {
+                    Authorization: `Bearer ${auth.token}`,
+                },
+            )
+            localStorage.setItem("data", data)
+            setModal(false)
+            setVisible(false)
+            notify({
+                title: "To'lov muvaffaqqiyatli amalga oshirildi.",
+                description: '',
+                status: 'success',
+            })
+            setAll()
+            getConnectors(beginDay, endDay)
+        } catch (error) {
+            notify({
+                title: error,
+                description: '',
+                status: 'error',
+            })
+        }
+    }, [beginDay, endDay, toast, getConnectors, auth, payment, request, services, products, notify, setAll])
 
     const updateServices = useCallback(async () => {
         try {
@@ -765,23 +769,21 @@ export const StatsionarClients = () => {
     //====================================================================
     return (
         <div>
-            <div className="content-wrapper px-lg-5 px-3">
+            <div className="bg-slate-100 content-wrapper px-lg-5 px-3">
                 <div className="row gutters">
                     <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div className="row">
                             <div className="col-12 text-end">
                                 <button
-                                    className={`btn btn-primary mb-2 w-100 ${
-                                        visible ? 'd-none' : ''
-                                    }`}
+                                    className={`btn bg-alotrade text-white mb-2 w-100 ${visible ? 'd-none' : ''
+                                        }`}
                                     onClick={changeVisible}
                                 >
                                     Malumot
                                 </button>
                                 <button
-                                    className={`btn btn-primary mb-2 w-100 ${
-                                        visible ? '' : 'd-none'
-                                    }`}
+                                    className={`btn bg-alotrade text-white mb-2 w-100 ${visible ? '' : 'd-none'
+                                        }`}
                                     onClick={changeVisible}
                                 >
                                     Malumot
@@ -864,6 +866,52 @@ export const StatsionarClients = () => {
                     <div className="card-body">
                         <table className="table table-sm">
                             <tfoot>
+                                <tr>
+                                    <th className="text-right w-50">
+                                        Jami to'lov:
+                                    </th>
+                                    <th className="text-left w-50">
+                                        {totalpayment}
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th className="text-right">
+                                        Chegirma:
+                                    </th>
+                                    <th className="text-left">
+                                        {discount.discount}
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th className="text-right">
+                                        To'langan:
+                                    </th>
+                                    <th className="text-left">
+                                        {payments}
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th className="text-right">
+                                        Qarz:
+                                    </th>
+                                    <th className="text-left">
+                                        {payment.debt}
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th className="text-right">
+                                        To'lanayotgan:
+                                    </th>
+                                    <th className="text-left">
+                                        {payment.payment}
+                                    </th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div> : <div className="card-body">
+                    <table className="table table-sm">
+                        <tfoot>
                             <tr>
                                 <th className="text-right w-50">
                                     Jami to'lov:
@@ -874,15 +922,7 @@ export const StatsionarClients = () => {
                             </tr>
                             <tr>
                                 <th className="text-right">
-                                    Chegirma:
-                                </th>
-                                <th className="text-left">
-                                    { discount.discount}
-                                </th>
-                            </tr>
-                            <tr>
-                                <th className="text-right">
-                                    To'langan:
+                                    Oldindan to'lov:
                                 </th>
                                 <th className="text-left">
                                     {payments}
@@ -890,50 +930,12 @@ export const StatsionarClients = () => {
                             </tr>
                             <tr>
                                 <th className="text-right">
-                                    Qarz:
-                                </th>
-                                <th className="text-left">
-                                    {payment.debt}
-                                </th>
-                            </tr>
-                            <tr>
-                                <th className="text-right">
-                                    To'lanayotgan:
+                                    To'lanayotgan summa:
                                 </th>
                                 <th className="text-left">
                                     {payment.payment}
                                 </th>
                             </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-                </div> : <div className="card-body">
-                    <table className="table table-sm">
-                        <tfoot>
-                        <tr>
-                            <th className="text-right w-50">
-                                Jami to'lov:
-                            </th>
-                            <th className="text-left w-50">
-                                {totalpayment}
-                            </th>
-                        </tr>
-                        <tr>
-                            <th className="text-right">
-                                Oldindan to'lov:
-                            </th>
-                            <th className="text-left">
-                                {payments}
-                            </th>
-                        </tr>
-                        <tr>
-                            <th className="text-right">
-                                To'lanayotgan summa:
-                            </th>
-                            <th className="text-left">
-                                {payment.payment}
-                            </th>
-                        </tr>
                         </tfoot>
                     </table>
                 </div>}

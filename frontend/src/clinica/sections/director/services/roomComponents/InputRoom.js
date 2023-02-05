@@ -8,16 +8,16 @@ export const InputRoom = ({
   loading
 }) => {
   return (
-    <div className="table-container">
+    <div className="border-0 table-container">
       <div className="table-responsive">
         <table className="table m-0">
           <thead>
             <tr>
-              <th>Xona turi</th>
-              <th>Xona raqami</th>
-              <th>O'rin raqami</th>
-              <th>Narxi</th>
-              <th>Saqlash</th>
+              <th className="bg-alotrade text-[16px]">Xona turi</th>
+              <th className="bg-alotrade text-[16px]">Xona raqami</th>
+              <th className="bg-alotrade text-[16px]">O'rin raqami</th>
+              <th className="bg-alotrade text-[16px]">Narxi</th>
+              <th className="bg-alotrade text-[16px]">Saqlash</th>
             </tr>
           </thead>
           <tbody>
@@ -75,21 +75,21 @@ export const InputRoom = ({
                 />
               </td>
               <td>
-                {loading ? 
-                <button
-                  className="btn btn-info"
-                  disabled
-                >
-                  <span class="spinner-border spinner-border-sm"></span>
-                  Loading...
-                </button>
+                {loading ?
+                  <button
+                    className="btn btn-info"
+                    disabled
+                  >
+                    <span class="spinner-border spinner-border-sm"></span>
+                    Loading...
+                  </button>
                   :
-                <button
-                  onClick={saveHandler}
-                  className="btn btn-info py-1 px-4"
-                >
-                  Saqlash
-                </button>
+                  <button
+                    onClick={saveHandler}
+                    className="btn btn-info py-1 px-4"
+                  >
+                    Saqlash
+                  </button>
                 }
               </td>
             </tr>

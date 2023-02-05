@@ -1,12 +1,12 @@
-import {useToast} from "@chakra-ui/react";
-import React, {useCallback, useContext, useEffect, useState} from "react";
-import {AuthContext} from "../../../context/AuthContext";
-import {useHttp} from "../../../hooks/http.hook";
-import {Modal} from "../components/Modal";
-import {RegisterClient} from "./clientComponents/RegisterClient";
-import {TableClients} from "./clientComponents/TableClients";
-import {checkClientData, checkProductsData, checkServicesData,} from "./checkData/checkData";
-import {CheckModal} from "../components/ModalCheck";
+import { useToast } from "@chakra-ui/react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
+import { AuthContext } from "../../../context/AuthContext";
+import { useHttp } from "../../../hooks/http.hook";
+import { Modal } from "../components/Modal";
+import { RegisterClient } from "./clientComponents/RegisterClient";
+import { TableClients } from "./clientComponents/TableClients";
+import { checkClientData, checkProductsData, checkServicesData, } from "./checkData/checkData";
+import { CheckModal } from "../components/ModalCheck";
 
 export const OfflineClients = () => {
     const [beginDay, setBeginDay] = useState(
@@ -68,7 +68,7 @@ export const OfflineClients = () => {
 
     //====================================================================
     //====================================================================
-    const {request, loading} = useHttp();
+    const { request, loading } = useHttp();
     const auth = useContext(AuthContext);
 
     //====================================================================
@@ -86,7 +86,7 @@ export const OfflineClients = () => {
                 const data = await request(
                     `/api/offlineclient/client/getallreseption`,
                     "POST",
-                    {clinica: auth && auth.clinica._id, beginDay, endDay},
+                    { clinica: auth && auth.clinica._id, beginDay, endDay },
                     {
                         Authorization: `Bearer ${auth.token}`,
                     }
@@ -184,7 +184,7 @@ export const OfflineClients = () => {
             const data = await request(
                 `/api/services/department/reseption`,
                 "POST",
-                {clinica: auth.clinica._id},
+                { clinica: auth.clinica._id },
                 {
                     Authorization: `Bearer ${auth.token}`,
                 }
@@ -213,7 +213,7 @@ export const OfflineClients = () => {
         let s = [];
         services.map((service) => {
             if (service.department.probirka) {
-                setConnector({...connector, probirka: 1, clinica: auth.clinica._id});
+                setConnector({ ...connector, probirka: 1, clinica: auth.clinica._id });
             }
             return s.push({
                 clinica: auth.clinica._id,
@@ -241,7 +241,7 @@ export const OfflineClients = () => {
             const data = await request(
                 `/api/user/gettype`,
                 "POST",
-                {clinica: auth.clinica._id, type: "CounterDoctor"},
+                { clinica: auth.clinica._id, type: "CounterDoctor" },
                 {
                     Authorization: `Bearer ${auth.token}`,
                 }
@@ -263,7 +263,7 @@ export const OfflineClients = () => {
 
     const changeCounterAgent = (e) => {
         if (e.target.value === "delete") {
-            let s = {...counteragent};
+            let s = { ...counteragent };
             delete s.counterdoctor;
             delete s.counteragent;
             setCounterAgent(s);
@@ -289,7 +289,7 @@ export const OfflineClients = () => {
             const data = await request(
                 `/api/adver/adver/getall`,
                 "POST",
-                {clinica: auth.clinica._id},
+                { clinica: auth.clinica._id },
                 {
                     Authorization: `Bearer ${auth.token}`,
                 }
@@ -311,7 +311,7 @@ export const OfflineClients = () => {
 
     const changeAdver = (e) => {
         if (e.target.value === "delete") {
-            let s = {...adver};
+            let s = { ...adver };
             delete s.adver;
             setAdver(s);
         } else {
@@ -334,7 +334,7 @@ export const OfflineClients = () => {
             const data = await request(
                 `/api/services/product/getallreseption`,
                 "POST",
-                {clinica: auth.clinica._id},
+                { clinica: auth.clinica._id },
                 {
                     Authorization: `Bearer ${auth.token}`,
                 }
@@ -410,11 +410,13 @@ export const OfflineClients = () => {
     });
 
     const changeClientData = (e) => {
-        setClient({...client, [e.target.name]: e.target.value});
+        setClient({ ...client, [e.target.name]: e.target.value });
     };
 
+    console.log(client);
+
     const changeClientBorn = (e) => {
-        setClient({...client, born: e});
+        setClient({ ...client, born: new Date(e.target.value) });
     };
     //====================================================================
     //====================================================================
@@ -473,12 +475,12 @@ export const OfflineClients = () => {
                 `/api/offlineclient/client/register`,
                 "POST",
                 {
-                    client: {...client, clinica: auth.clinica._id},
-                    connector: {...connector, clinica: auth.clinica._id},
+                    client: { ...client, clinica: auth.clinica._id },
+                    connector: { ...connector, clinica: auth.clinica._id },
                     services: [...services],
                     products: [...newproducts],
-                    counteragent: {...counteragent, clinica: auth.clinica._id},
-                    adver: {...adver, clinica: auth.clinica._id},
+                    counteragent: { ...counteragent, clinica: auth.clinica._id },
+                    adver: { ...adver, clinica: auth.clinica._id },
                 },
                 {
                     Authorization: `Bearer ${auth.token}`,
@@ -528,10 +530,10 @@ export const OfflineClients = () => {
                 `/api/offlineclient/client/update`,
                 "PUT",
                 {
-                    client: {...client, clinica: auth.clinica._id},
-                    connector: {...connector, clinica: auth.clinica._id},
-                    counteragent: {...counteragent, clinica: auth.clinica._id},
-                    adver: {...adver, clinica: auth.clinica._id},
+                    client: { ...client, clinica: auth.clinica._id },
+                    connector: { ...connector, clinica: auth.clinica._id },
+                    counteragent: { ...counteragent, clinica: auth.clinica._id },
+                    adver: { ...adver, clinica: auth.clinica._id },
                 },
                 {
                     Authorization: `Bearer ${auth.token}`,
@@ -539,9 +541,8 @@ export const OfflineClients = () => {
             );
             getConnectors(beginDay, endDay);
             notify({
-                title: `${
-                    data.lastname + " " + data.firstname
-                }  ismli mijoz ma'lumotlari muvaffaqqiyatl yangilandi.`,
+                title: `${data.lastname + " " + data.firstname
+                    }  ismli mijoz ma'lumotlari muvaffaqqiyatl yangilandi.`,
                 description: "",
                 status: "success",
             });
@@ -574,12 +575,12 @@ export const OfflineClients = () => {
                 `/api/offlineclient/client/add`,
                 "POST",
                 {
-                    client: {...client, clinica: auth.clinica._id},
-                    connector: {...connector, clinica: auth.clinica._id},
+                    client: { ...client, clinica: auth.clinica._id },
+                    connector: { ...connector, clinica: auth.clinica._id },
                     services: [...services],
                     products: [...newproducts],
-                    counteragent: {...counteragent, clinica: auth.clinica._id},
-                    adver: {...adver, clinica: auth.clinica._id},
+                    counteragent: { ...counteragent, clinica: auth.clinica._id },
+                    adver: { ...adver, clinica: auth.clinica._id },
                 },
                 {
                     Authorization: `Bearer ${auth.token}`,
@@ -588,9 +589,8 @@ export const OfflineClients = () => {
             localStorage.setItem("data", data);
             getConnectors(beginDay, endDay);
             notify({
-                title: `${
-                    client.lastname + " " + client.firstname
-                }  ismli mijozga xizmatlar muvaffaqqiyatli qo'shildi.`,
+                title: `${client.lastname + " " + client.firstname
+                    }  ismli mijozga xizmatlar muvaffaqqiyatli qo'shildi.`,
                 description: "",
                 status: "success",
             });
@@ -678,24 +678,22 @@ export const OfflineClients = () => {
     //====================================================================
     //====================================================================
     return (
-        <div>
-            <div className="content-wrapper px-lg-5 px-3">
+        <div className="min-h-full">
+            <div className="bg-slate-100 content-wrapper px-lg-5 px-3">
                 <div className="row gutters">
                     <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div className="row">
                             <div className="col-12 text-end">
                                 <button
-                                    className={`btn btn-primary mb-2 w-100 ${
-                                        visible ? "d-none" : ""
-                                    }`}
+                                    className={`btn bg-alotrade text-white mb-2 w-100 ${visible ? "d-none" : ""
+                                        }`}
                                     onClick={changeVisible}
                                 >
                                     Registratsiya
                                 </button>
                                 <button
-                                    className={`btn btn-primary mb-2 w-100 ${
-                                        visible ? "" : "d-none"
-                                    }`}
+                                    className={`btn bg-alotrade text-white mb-2 w-100 ${visible ? "" : "d-none"
+                                        }`}
                                     onClick={changeVisible}
                                 >
                                     Registratsiya

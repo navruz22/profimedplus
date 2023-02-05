@@ -1,26 +1,28 @@
-const {Department} = require("../../models/Services/Department");
-const {ServiceType} = require("../../models/Services/ServiceType");
-const {ServiceTable} = require("../../models/Services/ServiceTable");
-const {TableColumn} = require("../../models/Services/TableColumn");
-const {Service} = require("../../models/Services/Service");
-const {ObjectId} = require("mongodb");
+const { Department } = require("../../models/Services/Department");
+const { ServiceType } = require("../../models/Services/ServiceType");
+const { ServiceTable } = require("../../models/Services/ServiceTable");
+const { TableColumn } = require("../../models/Services/TableColumn");
+const { Service } = require("../../models/Services/Service");
+const { ObjectId } = require("mongodb");
 
 module.exports.update = async (req, res) => {
     try {
-        const {service} = req.body
-        const update = await Service.findByIdAndUpdate(service._id, {...service})
+        const { service } = req.body
+
+        const update = await Service.findByIdAndUpdate(service._id, { ...service })
+
 
         return res.status(200).send(update)
 
     } catch (error) {
-        res.status(501).json({error: 'Serverda xatolik yuz berdi...'})
+        res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
     }
 }
 
 // GET SERVICES
 module.exports.services = async (req, res) => {
     try {
-        const {clinica, doctor} = req.body
+        const { clinica, doctor } = req.body
         const services = await Service.find({
             clinica: clinica,
             department: doctor.specialty
@@ -33,14 +35,14 @@ module.exports.services = async (req, res) => {
         return res.status(200).send(services)
 
     } catch (error) {
-        res.status(501).json({error: 'Serverda xatolik yuz berdi...'})
+        res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
     }
 }
 
 // GET SERVICES
 module.exports.delete = async (req, res) => {
     try {
-        const {service} = req.body
+        const { service } = req.body
         const deleteColumn = await TableColumn.findByIdAndDelete(service.column._id)
 
         for (const table of service.tables) {
@@ -54,6 +56,6 @@ module.exports.delete = async (req, res) => {
         return res.status(200).send(servic)
 
     } catch (error) {
-        res.status(501).json({error: 'Serverda xatolik yuz berdi...'})
+        res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
     }
 }

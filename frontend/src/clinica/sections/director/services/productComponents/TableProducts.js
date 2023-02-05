@@ -24,8 +24,8 @@ export const TableProducts = ({
   loading
 }) => {
   return (
-    <div className="table-container">
-      <div className="table-container">
+    <div className="border-0 shadow-lg table-container">
+      <div className="border-0 table-container">
         <div className="table-responsive">
           <table className="table m-0">
             <thead className="bg-white">
@@ -93,12 +93,12 @@ export const TableProducts = ({
                       Loading...
                     </button>
                       :
-                    <button
-                      onClick={() => setModal1(true)}
-                      className="btn btn-danger py-0 px-3 pt-1"
-                    >
-                      <span className="icon-trash-2"></span>
-                    </button>
+                      <button
+                        onClick={() => setModal1(true)}
+                        className="btn btn-danger py-0 px-3 pt-1"
+                      >
+                        <span className="icon-trash-2"></span>
+                      </button>
                     }
                   </Tooltip>
                 </th>
@@ -106,8 +106,8 @@ export const TableProducts = ({
             </thead>
             <thead>
               <tr>
-                <th className="border-right">№</th>
-                <th className="border-right">
+                <th className="border-right bg-alotrade text-[16px]">№</th>
+                <th className="border-right bg-alotrade text-[16px]">
                   Nomi
                   <div className="btn-group-vertical ml-2">
                     <Sort
@@ -117,7 +117,7 @@ export const TableProducts = ({
                     />
                   </div>
                 </th>
-                <th className="border-right">
+                <th className="border-right bg-alotrade text-[16px]">
                   O'lchov birligi
                   <Sort
                     data={currentProducts}
@@ -125,7 +125,7 @@ export const TableProducts = ({
                     property={"unit"}
                   />
                 </th>
-                <th className="border-right">
+                <th className="border-right bg-alotrade text-[16px]">
                   Narxi
                   <Sort
                     data={currentProducts}
@@ -133,7 +133,7 @@ export const TableProducts = ({
                     property={"price"}
                   />
                 </th>
-                <th className="border-right">
+                <th className="border-right bg-alotrade text-[16px]">
                   Soni
                   <Sort
                     data={currentProducts}
@@ -141,42 +141,42 @@ export const TableProducts = ({
                     property={"total"}
                   />
                 </th>
-                <th className="border-right text-center">Tahrirlash</th>
-                <th className="text-center">O'chirish</th>
+                <th className="border-right text-center bg-alotrade text-[16px]">Tahrirlash</th>
+                <th className="text-center bg-alotrade text-[16px]">O'chirish</th>
               </tr>
             </thead>
             <tbody>
               {currentProducts.map((product, key) => {
                 return (
                   <tr key={key}>
-                    <td className="border-right font-weight-bold">
+                    <td className="border-right font-weight-bold text-[16px]">
                       {currentPage * countPage + key + 1}
                     </td>
-                    <td className="border-right">{product.name}</td>
-                    <td className="border-right">{product.unit}</td>
-                    <td className="border-right">{product.price}</td>
-                    <td className="border-right">{product.total}</td>
-                    <td className="border-right text-center">
+                    <td className="border-right text-[16px]">{product.name}</td>
+                    <td className="border-right text-[16px]">{product.unit}</td>
+                    <td className="border-right text-[16px]">{product.price}</td>
+                    <td className="border-right text-[16px]">{product.total}</td>
+                    <td className="border-right text-[16px] text-center">
                       <button
                         id={`btn${key}`}
                         onClick={(e) => {
                           setProduct(product)
                         }}
                         type="button"
-                        className="btn btn-success py-1 px-2"
+                        className="text-white font-semibold bg-alotrade rounded py-1 px-2"
                         style={{ fontSize: "75%" }}
                       >
                         Tahrirlash
                       </button>
                     </td>
-                    <td className="text-center">
+                    <td className="text-center text-[16px]">
                       <button
                         onClick={() => {
                           setRemove(product);
                           setModal(true);
                         }}
                         type="button"
-                        className="btn btn-secondary py-1 px-2"
+                        className="text-white font-semibold bg-red-400 rounded py-1 px-2"
                         style={{ fontSize: "75%" }}
                       >
                         O'chirish

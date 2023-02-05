@@ -1,14 +1,14 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react'
-import { Link, useHistory } from 'react-router-dom'
-import { AuthContext } from '../../../context/AuthContext'
-import { useHttp } from '../../../hooks/http.hook'
-import { useToast } from '@chakra-ui/react'
+import React, { useCallback, useContext, useEffect, useState } from "react";
+import { Link, useHistory } from "react-router-dom";
+import { AuthContext } from "../../../context/AuthContext";
+import { useHttp } from "../../../hooks/http.hook";
+import { useToast } from "@chakra-ui/react";
 
 export const Navbar = ({ baseUrl }) => {
-  const history = useHistory()
+  const history = useHistory();
   //====================================================================
   //====================================================================
-  const toast = useToast()
+  const toast = useToast();
 
   const notify = useCallback(
     (data) => {
@@ -18,21 +18,21 @@ export const Navbar = ({ baseUrl }) => {
         status: data.status && data.status,
         duration: 5000,
         isClosable: true,
-        position: 'top-right',
-      })
+        position: "top-right",
+      });
     },
-    [toast],
-  )
+    [toast]
+  );
   //====================================================================
   //====================================================================
 
   //====================================================================
   //====================================================================
 
-  const { request } = useHttp()
-  const auth = useContext(AuthContext)
+  const { request } = useHttp();
+  const auth = useContext(AuthContext);
 
-  const [user, setUser] = useState(auth.user)
+  const [user, setUser] = useState(auth.user);
   //====================================================================
   //====================================================================
 
@@ -42,40 +42,42 @@ export const Navbar = ({ baseUrl }) => {
   const getDirector = useCallback(async () => {
     try {
       const data = await request(
-        '/api/director',
-        'POST',
+        "/api/director",
+        "POST",
         {
           directorId: auth.userId,
         },
         {
           Authorization: `Bearer ${auth.token}`,
-        },
-      )
-      setUser(data)
+        }
+      );
+      setUser(data);
     } catch (error) {
-      notify({ title: error, description: '', status: 'error' })
+      notify({ title: error, description: "", status: "error" });
     }
-  }, [request, auth, notify])
+  }, [request, auth, notify]);
 
   //====================================================================
   //====================================================================
+
+  const [activePage, setActivePage] = useState(window.location.pathname)
 
   //====================================================================
   //====================================================================
   useEffect(() => {
-    getDirector()
-  }, [getDirector])
+    getDirector();
+  }, [getDirector]);
   //====================================================================
   //====================================================================
 
   return (
     <div>
-      <header className="header p-0">
-        <div className="container-fluid">
+      <header className="header p-0 bg-white">
+        <div className="container-fluid bg-slate-100">
           {/* Row start */}
           <div className="row gutters">
             <div className="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4">
-              <Link to="/alo24" className="logo" style={{ fontSize: '26pt' }}>
+              <Link to="/alo24" className="logo" style={{ fontSize: "26pt" }}>
                 Alo24
               </Link>
             </div>
@@ -135,8 +137,8 @@ export const Navbar = ({ baseUrl }) => {
                       </Link>
                       <button
                         onClick={() => {
-                          auth.logout()
-                          history.push('/')
+                          auth.logout();
+                          history.push("/");
                         }}
                       >
                         <i className="icon-log-out1" /> Sign Out
@@ -174,14 +176,18 @@ export const Navbar = ({ baseUrl }) => {
               <i />
             </span>
           </button>
-          <div className="collapse navbar-collapse" id="royalHospitalsNavbar">
-            <ul className="navbar-nav">
+          <div
+            className="bg-slate-100 collapse navbar-collapse"
+            id="royalHospitalsNavbar"
+          >
+            <ul className="bg-slate-100 navbar-nav">
               <li className="nav-item">
                 <Link
-                  className={`nav-link ${
-                    window.location.pathname === '/alo24' ? 'active-page' : ''
-                  }`}
-                  to=""
+                  className={`nav-link ${activePage === "/alo24" ? "active-page" : ""
+                    }`}
+                  to="/alo24"
+                  onClick={() => setActivePage('/alo24')}
+                  style={{ background: activePage === "/alo24" || activePage === "/" ? "#00c2cb" : "" }}
                 >
                   <i className="icon-devices_other nav-icon" />
                   Bosh sahifa
@@ -194,18 +200,29 @@ export const Navbar = ({ baseUrl }) => {
                   data-toggle="dropdown"
                   aria-haspopup="true"
                   aria-expanded="false"
-                  className={`nav-link ${
-                    window.location.pathname === '/alo24/departments' ||
-                    window.location.pathname === '/alo24/servicetypes' ||
-                    window.location.pathname === '/alo24/services' ||
-                    window.location.pathname === '/alo24/rooms' ||
-                    window.location.pathname === '/alo24/products' ||
-                    window.location.pathname === '/alo24/recieptproducts' ||
-                    window.location.pathname === '/alo24/rooms' ||
-                    window.location.pathname === '/alo24/productconnector'
-                      ? 'active-page'
-                      : ''
-                  }`}
+                  className={`nav-link ${activePage === "/alo24/departments" ||
+                    activePage === "/alo24/servicetypes" ||
+                    activePage === "/alo24/services" ||
+                    activePage === "/alo24/rooms" ||
+                    activePage === "/alo24/products" ||
+                    activePage === "/alo24/recieptproducts" ||
+                    activePage === "/alo24/rooms" ||
+                    activePage === "/alo24/productconnector"
+                    ? "active-page"
+                    : ""
+                    }`}
+                  style={{
+                    background: activePage === "/alo24/departments" ||
+                      activePage === "/alo24/servicetypes" ||
+                      activePage === "/alo24/services" ||
+                      activePage === "/alo24/rooms" ||
+                      activePage === "/alo24/products" ||
+                      activePage === "/alo24/recieptproducts" ||
+                      activePage === "/alo24/rooms" ||
+                      activePage === "/alo24/productconnector"
+                      ? "#00c2cb"
+                      : ""
+                  }}
                 >
                   <i className="icon-users nav-icon" />
                   Xizmatlar
@@ -228,7 +245,7 @@ export const Navbar = ({ baseUrl }) => {
                       aria-labelledby="buttonsDropdown"
                     >
                       <li>
-                        <Link className="dropdown-item" to="/alo24/departments">
+                        <Link className="dropdown-item" onClick={() => setActivePage('/alo24/departments')} to="/alo24/departments">
                           Bo'limlar
                         </Link>
                       </li>
@@ -236,19 +253,20 @@ export const Navbar = ({ baseUrl }) => {
                         <Link
                           className="dropdown-item"
                           to="/alo24/servicetypes"
+                          onClick={() => setActivePage('/alo24/servicetypes')}
                         >
                           Xizmat turlari
                         </Link>
                       </li>
                       <li>
-                        <Link className="dropdown-item" to="/alo24/services">
+                        <Link className="dropdown-item" onClick={() => setActivePage('/alo24/services')} to="/alo24/services">
                           Xizmatlar
                         </Link>
                       </li>
                     </ul>
                   </li>
                   <li>
-                    <Link className="dropdown-item" to="/alo24/rooms">
+                    <Link className="dropdown-item" onClick={() => setActivePage('/alo24/rooms')} to="/alo24/rooms">
                       Statsionar xonalar
                     </Link>
                   </li>
@@ -269,7 +287,7 @@ export const Navbar = ({ baseUrl }) => {
                       aria-labelledby="buttonsDropdown"
                     >
                       <li>
-                        <Link className="dropdown-item" to="/alo24/products">
+                        <Link className="dropdown-item" onClick={() => setActivePage('/alo24/products')} to="/alo24/products">
                           Barcha mahsulotlar
                         </Link>
                       </li>
@@ -277,6 +295,7 @@ export const Navbar = ({ baseUrl }) => {
                         <Link
                           className="dropdown-item"
                           to="/alo24/recieptproducts"
+                          onClick={() => setActivePage('/alo24/recieproducts')}
                         >
                           Keltirilgan mahsulotlar
                         </Link>
@@ -285,6 +304,7 @@ export const Navbar = ({ baseUrl }) => {
                         <Link
                           className="dropdown-item"
                           to="/alo24/productconnector"
+                          onClick={() => setActivePage('/alo24/productconnector')}
                         >
                           Xizmatlarga bog'lash
                         </Link>
@@ -295,13 +315,14 @@ export const Navbar = ({ baseUrl }) => {
               </li>
               <li className="nav-item dropdown">
                 <Link
-                  className={`nav-link ${
-                    window.location.pathname === '/alo24/users'
-                      ? 'active-page'
-                      : ''
-                  }`}
+                  className={`nav-link ${activePage === "/alo24/users"
+                    ? "active-page"
+                    : ""
+                    }`}
                   to="/alo24/users"
                   role="button"
+                  style={{ background: activePage === '/alo24/users' ? "#00c2cb" : "" }}
+                  onClick={() => setActivePage('/alo24/users')}
                 >
                   <i className="icon-book-open nav-icon" />
                   Foydalanuvchilar
@@ -309,32 +330,50 @@ export const Navbar = ({ baseUrl }) => {
               </li>
               <li className="nav-item dropdown">
                 <span
-                  className="nav-link dropdown-toggle"
                   to="#"
                   id="formsDropdown"
                   role="button"
                   data-toggle="dropdown"
                   aria-haspopup="true"
                   aria-expanded="false"
+                  className={`nav-link ${activePage === "/alo24/offlineclients" ||
+                    activePage === "/alo24/statsionarclients"
+                    ? "active-page"
+                    : ""
+                    }`}
+                  style={{
+                    background: activePage === "/alo24/offlineclients" ||
+                      activePage === "/alo24/statsionarclients"
+                      ? "#00c2cb"
+                      : ""
+                  }}
                 >
                   <i className="icon-edit1 nav-icon" />
                   Mijozlar
                 </span>
                 <ul className="dropdown-menu" aria-labelledby="formsDropdown">
                   <li>
-                    <Link className="dropdown-item" to="datepickers.html">
-                      Datepickers
+                    <Link className="dropdown-item" to="/alo24/offlineclients"
+                      onClick={() => setActivePage('/alo24/offlineclients')}
+                    >
+                      Kunduzgi
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="dropdown-item" to="/alo24/statsionarclients"
+                      onClick={() => setActivePage('/alo24/statsionarclients')}
+                    >
+                      Statsionar
                     </Link>
                   </li>
                 </ul>
               </li>
               <li className="nav-item dropdown">
                 <span
-                  className={`nav-link dropdown-toggle ${
-                    window.location.pathname === '/alo24/adver'
-                      ? 'active-page'
-                      : ''
-                  }`}
+                  className={`nav-link dropdown-toggle ${window.location.pathname === "/alo24/adver"
+                    ? "active-page"
+                    : ""
+                    }`}
                   to="#"
                   id="uiElementsDropdown"
                   role="button"
@@ -524,7 +563,7 @@ export const Navbar = ({ baseUrl }) => {
         {/* Navigation end */}
         <div className="main-container">
           {/* Page header start */}
-          <div className="page-header">
+          <div className="page-header bg-alotrade">
             <ol className="breadcrumb">
               <li className="breadcrumb-item active">Bosh sahifa</li>
             </ol>
@@ -533,5 +572,5 @@ export const Navbar = ({ baseUrl }) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};

@@ -1,7 +1,7 @@
 const express = require("express");
 module.exports.routers = (app) => {
-    app.use(express.json({extended: true}));
-    app.use(express.urlencoded({extended: true}));
+    app.use(express.json({ extended: true }));
+    app.use(express.urlencoded({ extended: true }));
     app.use(
         "/api",
         require("./clinica_and_director_and_user/clinica_and_director_and_user")
@@ -37,4 +37,5 @@ module.exports.routers = (app) => {
         "/api/doctor",
         require("./doctor/doctor.route")
     );
+    app.use('/api/labaratory', require('./labaratory/labaratory.route'))
 };

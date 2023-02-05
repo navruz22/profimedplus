@@ -370,7 +370,7 @@ export const Rooms = () => {
   return (
     <>
       {loading ? <Loader /> : ''}
-      <div className="content-wrapper px-lg-5 px-3">
+      <div className="bg-slate-100 content-wrapper px-lg-5 px-3">
         <div className="row gutters">
           <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
             <InputRoom

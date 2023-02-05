@@ -22,8 +22,8 @@ export const TableClients = ({
   sortDiscounts,
 }) => {
   return (
-    <div className="table-container">
-      <div className="table-container">
+    <div className="border-0 shadow-lg table-container">
+      <div className="border-0 table-container">
         <div className="table-responsive">
           <table className="table m-0" id="discount-table">
             <thead className="bg-white">
@@ -115,8 +115,8 @@ export const TableClients = ({
             </thead>
             <thead>
               <tr>
-                <th className="border py-1">№</th>
-                <th className="border py-1">
+                <th className="border py-1 bg-alotrade text-[14px]">№</th>
+                <th className="border py-1 bg-alotrade text-[14px]">
                   F.I.O
                   <div className="btn-group-vertical ml-2">
                     <FontAwesomeIcon
@@ -143,7 +143,7 @@ export const TableClients = ({
                     />
                   </div>
                 </th>
-                <th className="border py-1">
+                <th className="border py-1 bg-alotrade text-[14px]">
                   ID
                   <div className="btn-group-vertical ml-2">
                     <FontAwesomeIcon
@@ -170,7 +170,7 @@ export const TableClients = ({
                     />
                   </div>
                 </th>
-                <th className="border py-1">
+                <th className="border py-1 bg-alotrade text-[14px]">
                   Telefon raqami
                   <div className="btn-group-vertical ml-2">
                     <FontAwesomeIcon
@@ -197,7 +197,7 @@ export const TableClients = ({
                     />
                   </div>
                 </th>
-                <th className="border py-1">
+                <th className="border py-1 bg-alotrade text-[14px]">
                   Tugilgan yil
                   <div className="btn-group-vertical ml-2">
                     <FontAwesomeIcon
@@ -224,7 +224,7 @@ export const TableClients = ({
                     />
                   </div>
                 </th>
-                <th className="border py-1">
+                <th className="border py-1 bg-alotrade text-[14px]">
                   Jami to'lov
                   <Sort
                     data={currentConnectors}
@@ -232,7 +232,7 @@ export const TableClients = ({
                     property={"totalprice"}
                   />
                 </th>
-                <th className="border py-1">
+                <th className="border py-1 bg-alotrade text-[14px]">
                   Procient
                   <div className="btn-group-vertical ml-2">
                     <FontAwesomeIcon
@@ -259,7 +259,7 @@ export const TableClients = ({
                     />
                   </div>
                 </th>
-                <th className="border py-1">
+                <th className="border py-1 bg-alotrade text-[14px]">
                   Chegirma summasi
                   <Sort
                     data={currentConnectors}
@@ -267,7 +267,7 @@ export const TableClients = ({
                     property={"createdAt"}
                   />
                 </th>
-                <th className="border py-1">Izoh</th>
+                <th className="border py-1 bg-alotrade text-[14px]">Izoh</th>
               </tr>
             </thead>
             <tbody>
@@ -275,33 +275,33 @@ export const TableClients = ({
                 return (
                   <tr key={key}>
                     <td
-                      className="border py-1 font-weight-bold text-right"
+                      className="border py-1 font-weight-bold text-right text-[16px]"
                       style={{ maxWidth: "30px !important" }}
                     >
                       {currentPage * countPage + key + 1}
                     </td>
-                    <td className="border py-1 font-weight-bold">
+                    <td className="border py-1 font-weight-bold text-[16px]">
                       {connector.client.fullname}
                     </td>
-                    <td className="border py-1 text-right">
+                    <td className="border py-1 text-right text-[16px]">
                       {connector.client.id}
                     </td>
-                    <td className="border py-1 text-right">
+                    <td className="border py-1 text-right text-[16px]">
                       {connector.client.phone}
                     </td>
-                    <td className="border py-1 text-right">
+                    <td className="border py-1 text-right text-[16px]">
                       {new Date(connector.client.born).toLocaleDateString()}
                     </td>
-                    <td className="border py-1 text-right">
+                    <td className="border py-1 text-right text-[16px]">
                       {connector.total}
                     </td>
-                    <td className="border py-1 text-right">
+                    <td className="border py-1 text-right text-[16px]">
                       {connector.procient}
                     </td>
-                    <td className="border py-1 text-right">
+                    <td className="border py-1 text-right text-[16px]">
                       {connector.discount}
                     </td>
-                    <td className="border py-1 text-right">
+                    <td className="border py-1 text-right text-[16px]">
                       {connector.comment}
                     </td>
                   </tr>

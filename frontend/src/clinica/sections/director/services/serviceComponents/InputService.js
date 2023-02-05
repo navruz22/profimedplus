@@ -11,27 +11,27 @@ export const InputService = ({
   loading
 }) => {
   return (
-    <div className="table-container">
+    <div className="border-0 table-container">
       <div className="table-responsive">
         <table className="table m-0">
           <thead>
             <tr>
-              <th>Bo'lim nomi</th>
-              <th>Xizmat turi</th>
-              <th>Xizmat nomi</th>
-              <th>Qisqartma nomi</th>
-              <th>Narxi</th>
-              <th>Doktor ulushi</th>
-              <th>Kounteragent ulushi</th>
-              <th>Kounterdoktor ulushi</th>
-              <th>Saqlash</th>
+              <th className="bg-alotrade text-[14px]">Bo'lim nomi</th>
+              <th className="bg-alotrade text-[14px]">Xizmat turi</th>
+              <th className="bg-alotrade text-[14px]">Xizmat nomi</th>
+              <th className="bg-alotrade text-[14px]">Qisqartma nomi</th>
+              <th className="bg-alotrade text-[14px]">Narxi</th>
+              <th className="bg-alotrade text-[14px]">Doktor ulushi</th>
+              <th className="bg-alotrade text-[14px]">Kounteragent ulushi</th>
+              <th className="bg-alotrade text-[14px]">Kounterdoktor ulushi</th>
+              <th className="bg-alotrade text-[14px]">Saqlash</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td>
                 <select
-                  className="form-control form-control-sm selectpicker"
+                  className="text-[14px] form-control form-control-sm selectpicker"
                   id="select"
                   onChange={(e) =>
                     setService({
@@ -81,7 +81,7 @@ export const InputService = ({
                         (service.department === servicetype.department._id ||
                           (service.department._id &&
                             service.department._id ===
-                              servicetype.department._id))
+                            servicetype.department._id))
                       ) {
                         return (
                           <option key={index} value={servicetype._id}>
@@ -179,7 +179,7 @@ export const InputService = ({
                 >
                   <span class="spinner-border spinner-border-sm"></span>
                   Loading...
-                </button>: <button
+                </button> : <button
                   onClick={saveHandler}
                   className="btn btn-info py-1 px-4"
                 >

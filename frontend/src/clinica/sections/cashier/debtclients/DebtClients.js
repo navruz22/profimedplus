@@ -392,23 +392,21 @@ export const DebtClients = () => {
   //====================================================================
   return (
     <div>
-      <div className="content-wrapper px-lg-5 px-3">
+      <div className="bg-slate-100 content-wrapper px-lg-5 px-3">
         <div className="row gutters">
           <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
             <div className="row">
               <div className="col-12 text-end">
                 <button
-                  className={`btn btn-primary mb-2 w-100 ${
-                    visible ? "d-none" : ""
-                  }`}
+                  className={`btn bg-alotrade text-white mb-2 w-100 ${visible ? "d-none" : ""
+                    }`}
                   onClick={changeVisible}
                 >
                   Malumot
                 </button>
                 <button
-                  className={`btn btn-primary mb-2 w-100 ${
-                    visible ? "" : "d-none"
-                  }`}
+                  className={`btn bg-alotrade text-white mb-2 w-100 ${visible ? "" : "d-none"
+                    }`}
                   onClick={changeVisible}
                 >
                   Malumot

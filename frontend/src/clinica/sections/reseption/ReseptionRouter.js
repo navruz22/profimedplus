@@ -3,6 +3,10 @@ import { Redirect, Route, Switch } from "react-router-dom";
 import { OfflineClients } from "./offlineclients/OfflineClients";
 import { StatsionarClients } from "./statsionarclients/StatsionarClients";
 import { OnlineClients } from "./onlineclients/OnlineClients";
+import { OfflineClients as CashierOffline } from "../cashier/offlineclients/OfflineClients";
+import { StatsionarClients as CashierStatsionar } from "../cashier/statsionarclients/StatsionarClients";
+import { DiscountClients } from "../cashier/discountclients/DiscountClients";
+import { DebtClients } from "../cashier/debtclients/DebtClients";
 
 export const ReseptionRouter = () => {
   return (
@@ -16,6 +20,18 @@ export const ReseptionRouter = () => {
         </Route>
         <Route path="/alo24/online">
           <OnlineClients />
+        </Route>
+        <Route path="/alo24/cashier">
+          <CashierOffline />
+        </Route>
+        <Route path="/alo24/cashier_statsionar">
+          <CashierStatsionar />
+        </Route>
+        <Route path="/alo24/cashier_discount">
+          <DiscountClients />
+        </Route>
+        <Route path="/alo24/cashier_debt">
+          <DebtClients />
         </Route>
         <Redirect to="/alo24" />
       </Switch>

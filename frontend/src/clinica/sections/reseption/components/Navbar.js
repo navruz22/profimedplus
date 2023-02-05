@@ -1,8 +1,8 @@
-import React, {useCallback, useContext, useEffect, useState} from "react";
-import {Link, useHistory} from "react-router-dom";
-import {AuthContext} from "../../../context/AuthContext";
-import {useHttp} from "../../../hooks/http.hook";
-import {useToast} from "@chakra-ui/react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
+import { Link, useHistory } from "react-router-dom";
+import { AuthContext } from "../../../context/AuthContext";
+import { useHttp } from "../../../hooks/http.hook";
+import { useToast } from "@chakra-ui/react";
 
 export const Navbar = () => {
     const history = useHistory();
@@ -31,7 +31,7 @@ export const Navbar = () => {
     //====================================================================
     //====================================================================
 
-    const {request} = useHttp();
+    const { request } = useHttp();
     const auth = useContext(AuthContext);
 
     const user = auth.user;
@@ -82,96 +82,167 @@ export const Navbar = () => {
                         aria-expanded="false"
                         aria-label="Toggle navigation"
                     >
-            <span className="navbar-toggler-icon">
-              <i/>
-              <i/>
-              <i/>
-            </span>
+                        <span className="navbar-toggler-icon">
+                            <i />
+                            <i />
+                            <i />
+                        </span>
                     </button>
                     <div
-                        className="collapse navbar-collapse  justify-content-between"
+                        className="bg-slate-100 collapse navbar-collapse  justify-content-between"
                         id="royalHospitalsNavbar"
                     >
                         <ul className="navbar-nav">
                             <li className="nav-item mr-4 px-2">
-                <span className="logo" style={{fontSize: "26pt"}}>
-                  Alo24
-                </span>
+                                <span className="logo" style={{ fontSize: "26pt" }}>
+                                    Alo24
+                                </span>
                             </li>
                             <li className="nav-item">
                                 <Link
-                                    className={`nav-link ${
-                                        activePage === "/alo24" || activePage === "/" ? "active-page" : ""
-                                    }`}
+                                    className={`nav-link ${activePage === "/alo24" || activePage === "/" ? "active-page" : ""
+                                        }`}
                                     onClick={() => {
                                         setActivePage('/alo24')
                                     }}
                                     to="/alo24"
+                                    style={{ background: activePage === "/alo24" || activePage === "/" ? '#00c2cb' : '' }}
                                 >
-                                    <i className="icon-devices_other nav-icon"/>
+                                    <i className="icon-devices_other nav-icon" />
                                     Kunduzgi
                                 </Link>
                             </li>
                             <li className="nav-item">
                                 <Link
-                                    className={`nav-link ${
-                                        activePage === "/alo24/statsionar"
-                                            ? "active-page"
-                                            : ""
-                                    }`}
+                                    className={`nav-link ${activePage === "/alo24/statsionar"
+                                        ? "active-page"
+                                        : ""
+                                        }`}
                                     onClick={() => {
                                         setActivePage('/alo24/statsionar')
                                     }}
                                     to="/alo24/statsionar"
+                                    style={{ background: activePage === "/alo24/statsionar" ? '#00c2cb' : '' }}
                                 >
-                                    <i className="icon-devices_other nav-icon"/>
+                                    <i className="icon-devices_other nav-icon" />
                                     Statsionar
                                 </Link>
                             </li>
                             <li className="nav-item">
                                 <Link
-                                    className={`nav-link ${
-                                        activePage === "/alo24/online"
-                                            ? "active-page"
-                                            : ""
-                                    }`}
+                                    className={`nav-link ${activePage === "/alo24/online"
+                                        ? "active-page"
+                                        : ""
+                                        }`}
                                     onClick={() => {
                                         setActivePage('/alo24/online')
                                     }}
                                     to="/alo24/online"
+                                    style={{ background: activePage === "/alo24/online" ? '#00c2cb' : '' }}
                                 >
-                                    <i className="icon-devices_other nav-icon"/>
+                                    <i className="icon-devices_other nav-icon" />
                                     Online
                                 </Link>
+                            </li>
+                            <li className="nav-item dropdown">
+                                <Link
+                                    role="button"
+                                    data-toggle="dropdown"
+                                    aria-haspopup="true"
+                                    aria-expanded="false"
+                                    className={`nav-link ${activePage === "/alo24/cashier" ||
+                                        activePage === "/alo24/cashier_statsionar" ||
+                                        activePage === "/alo24/cashier_discount" ||
+                                        activePage === "/alo24/cashier_debt"
+                                        ? "active-page"
+                                        : ""
+                                        }`}
+                                    style={{
+                                        background: activePage === "/alo24/cashier" ||
+                                            activePage === "/alo24/cashier_statsionar" ||
+                                            activePage === "/alo24/cashier_discount" ||
+                                            activePage === "/alo24/cashier_debt" ? '#00c2cb' : ''
+                                    }}
+                                    to="#"
+                                >
+                                    <i className="icon-users nav-icon" />
+                                    Kassa
+                                </Link>
+                                <ul className="dropdown-menu" aria-labelledby="doctoRs">
+                                    <li>
+                                        <Link
+                                            className="sub-nav-link"
+                                            to="/alo24/cashier"
+                                            role="button"
+                                            aria-haspopup="true"
+                                            aria-expanded="false"
+                                        >
+                                            Kunduzgi
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link
+                                            className="sub-nav-link"
+                                            to="/alo24/cashier_statsionar"
+                                            role="button"
+                                            aria-haspopup="true"
+                                            aria-expanded="false"
+                                        >
+                                            Statsionar
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link
+                                            className="sub-nav-link"
+                                            to="/alo24/cashier_discount"
+                                            role="button"
+                                            aria-haspopup="true"
+                                            aria-expanded="false"
+                                        >
+                                            Chegirma
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link
+                                            className="sub-nav-link"
+                                            to="/alo24/cashier_debt"
+                                            role="button"
+                                            aria-haspopup="true"
+                                            aria-expanded="false"
+                                        >
+                                            Qarz
+                                        </Link>
+                                    </li>
+                                </ul>
                             </li>
                         </ul>
                         <ul className="header-actions py-1 mr-2">
                             <li className="dropdown">
-                <span
-                    id="userSettings"
-                    className="user-settings"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                >
-                  <span className="user-name">
-                    {user.firstname} {user.lastname}
-                  </span>
-                  <span className="avatar md">
-                    {baseUrl ? (
-                        <img
-                            className="circle d-inline"
-                            src={
-                                baseUrl && `${baseUrl}/api/upload/file/${user.image}`
-                            }
-                            alt={user.firstname + user.lastname}
-                        />
-                    ) : (
-                        user.firstname + user.lastname
-                    )}
+                                <span
+                                    id="userSettings"
+                                    className="user-settings"
+                                    data-toggle="dropdown"
+                                    aria-haspopup="true"
+                                >
+                                    <span className="user-name">
+                                        {user.firstname} {user.lastname}
+                                    </span>
+                                    <span className="avatar md">
+                                        {baseUrl ? (
+                                            <img
+                                                className="circle d-inline"
+                                                src={
+                                                    baseUrl && `${baseUrl}/api/upload/file/${user.image}`
+                                                }
+                                                alt={user.firstname + user.lastname}
+                                            />
+                                        ) : (
+                                            user.firstname + user.lastname
+                                        )}
 
-                      <span className="status busy"/>
-                  </span>
-                </span>
+                                        <span className="status busy" />
+                                    </span>
+                                </span>
                                 <div
                                     className="dropdown-menu dropdown-menu-right"
                                     aria-labelledby="userSettings"
@@ -196,7 +267,7 @@ export const Navbar = () => {
                                                 history.push("/");
                                             }}
                                         >
-                                            <i className="icon-log-out1"/> Chiqish
+                                            <i className="icon-log-out1" /> Chiqish
                                         </button>
                                     </div>
                                 </div>
@@ -206,7 +277,7 @@ export const Navbar = () => {
                 </nav>
             </div>
             <div className="main-container">
-                <div className="page-header">
+                <div className="bg-alotrade page-header">
                     <ol className="breadcrumb">
                         <li className="breadcrumb-item active">{window.location.href}</li>
                     </ol>

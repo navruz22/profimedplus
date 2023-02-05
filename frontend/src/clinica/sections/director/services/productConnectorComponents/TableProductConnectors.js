@@ -26,8 +26,8 @@ export const TableProductConnectors = ({
   loading
 }) => {
   return (
-    <div className="table-container">
-      <div className="table-container">
+    <div className="border-0 table-container">
+      <div className="border-0 table-container">
         <div className="table-responsive">
           <table className="table m-0">
             <thead className="bg-white">
@@ -102,12 +102,12 @@ export const TableProductConnectors = ({
                       Loading...
                     </button>
                       :
-                    <button
-                      onClick={() => setModal1(true)}
-                      className="btn btn-danger py-0 px-3 pt-1"
-                    >
-                      <span className="icon-trash-2"></span>
-                    </button>
+                      <button
+                        onClick={() => setModal1(true)}
+                        className="btn btn-danger py-0 px-3 pt-1"
+                      >
+                        <span className="icon-trash-2"></span>
+                      </button>
                     }
                   </Tooltip>
                 </th>
@@ -115,8 +115,8 @@ export const TableProductConnectors = ({
             </thead>
             <thead>
               <tr>
-                <th className="border-right">№</th>
-                <th className="border-right">
+                <th className="border-right bg-alotrade text-[16px]">№</th>
+                <th className="border-right bg-alotrade text-[16px]">
                   Xizmt nomi
                   <div className="btn-group-vertical ml-2">
                     <Sort
@@ -126,7 +126,7 @@ export const TableProductConnectors = ({
                     />
                   </div>
                 </th>
-                <th className="border-right">
+                <th className="border-right bg-alotrade text-[16px]">
                   Mahsulot nomi
                   <Sort
                     data={currentProductConnectors}
@@ -134,7 +134,7 @@ export const TableProductConnectors = ({
                     property={"product"}
                   />
                 </th>
-                <th className="border-right">
+                <th className="border-right bg-alotrade text-[16px]">
                   Soni
                   <Sort
                     data={currentProductConnectors}
@@ -142,31 +142,31 @@ export const TableProductConnectors = ({
                     property={"pieces"}
                   />
                 </th>
-                <th className="text-center">O'chirish</th>
+                <th className="text-center bg-alotrade text-[16px]">O'chirish</th>
               </tr>
             </thead>
             <tbody>
               {currentProductConnectors.map((productConnector, key) => {
                 return (
                   <tr key={key}>
-                    <td className="border-right font-weight-bold">
+                    <td className="border-right text-[16px] font-weight-bold">
                       {currentPage * countPage + key + 1}
                     </td>
-                    <td className="border-right">
+                    <td className="border-right text-[16px]">
                       {productConnector.service.name}
                     </td>
-                    <td className="border-right">
+                    <td className="border-right text-[16px]">
                       {productConnector.product.name}
                     </td>
-                    <td className="border-right">{productConnector.pieces}</td>
-                    <td className="text-center">
+                    <td className="border-right text-[16px]">{productConnector.pieces}</td>
+                    <td className="text-center text-[16px]">
                       <button
                         onClick={() => {
                           setRemove(productConnector);
                           setModal(true);
                         }}
                         type="button"
-                        className="btn btn-secondary py-1 px-2"
+                        className="bg-red-400 text-white font-semibold py-1 px-2"
                         style={{ fontSize: "75%" }}
                       >
                         O'chirish

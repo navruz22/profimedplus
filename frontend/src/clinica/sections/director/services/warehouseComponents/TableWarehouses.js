@@ -32,8 +32,8 @@ export const TableWarehouses = ({
     document.getElementsByTagName("select")[0].selectedIndex = index + 1;
   };
   return (
-    <div className="table-container">
-      <div className="table-container">
+    <div className="border-0 table-container">
+      <div className="border-0 table-container">
         <div className="table-responsive">
           <table className="table m-0">
             <thead className="bg-white">
@@ -101,12 +101,12 @@ export const TableWarehouses = ({
                       Loading...
                     </button>
                       :
-                    <button
-                      onClick={() => setModal1(true)}
-                      className="btn btn-danger py-0 px-3 pt-1"
-                    >
-                      <span className="icon-trash-2"></span>
-                    </button>
+                      <button
+                        onClick={() => setModal1(true)}
+                        className="btn btn-danger py-0 px-3 pt-1"
+                      >
+                        <span className="icon-trash-2"></span>
+                      </button>
                     }
                   </Tooltip>
                 </th>
@@ -114,8 +114,8 @@ export const TableWarehouses = ({
             </thead>
             <thead>
               <tr>
-                <th className="border-right">№</th>
-                <th className="border-right">
+                <th className="border-right bg-alotrade text-[16px]">№</th>
+                <th className="border-right bg-alotrade text-[16px]">
                   Mahsulot
                   <div className="btn-group-vertical ml-2">
                     <FontAwesomeIcon
@@ -123,8 +123,8 @@ export const TableWarehouses = ({
                         setCurrentWarehouses(
                           [...currentWarehouses].sort((a, b) =>
                             a.product &&
-                            b.product &&
-                            a.product.name > b.product.name
+                              b.product &&
+                              a.product.name > b.product.name
                               ? 1
                               : -1
                           )
@@ -140,8 +140,8 @@ export const TableWarehouses = ({
                         setCurrentWarehouses(
                           [...currentWarehouses].sort((a, b) =>
                             a.product &&
-                            b.product &&
-                            b.product.name > a.product.name
+                              b.product &&
+                              b.product.name > a.product.name
                               ? 1
                               : -1
                           )
@@ -150,7 +150,7 @@ export const TableWarehouses = ({
                     />
                   </div>
                 </th>
-                <th className="border-right">
+                <th className="border-right bg-alotrade text-[16px]">
                   Soni
                   <Sort
                     data={currentWarehouses}
@@ -158,7 +158,7 @@ export const TableWarehouses = ({
                     property={"total"}
                   />
                 </th>
-                <th className="border-right">
+                <th className="border-right bg-alotrade text-[16px]">
                   Narxi
                   <Sort
                     data={currentWarehouses}
@@ -166,7 +166,7 @@ export const TableWarehouses = ({
                     property={"price"}
                   />
                 </th>
-                <th className="border-right">
+                <th className="border-right bg-alotrade text-[16px]">
                   Keltirilgan vaqti
                   <Sort
                     data={currentWarehouses}
@@ -174,50 +174,50 @@ export const TableWarehouses = ({
                     property={"dateofreciept"}
                   />
                 </th>
-                <th className="border-right text-center">Tahrirlash</th>
-                <th className="text-center">O'chirish</th>
+                <th className="border-right bg-alotrade text-[16px] text-center">Tahrirlash</th>
+                <th className="text-center bg-alotrade text-[16px]">O'chirish</th>
               </tr>
             </thead>
             <tbody>
               {currentWarehouses && currentWarehouses.map((warehouse, key) => {
                 return (
                   <tr key={key}>
-                    <td className="border-right font-weight-bold">
+                    <td className="border-right font-weight-bold text-[16px]">
                       {currentPage * countPage + key + 1}
                     </td>
-                    <td className="border-right">
+                    <td className="border-right text-[16px]">
                       {warehouse.product && warehouse.product.name}
                     </td>
-                    <td className="border-right">{warehouse.total}</td>
-                    <td className="border-right">{warehouse.price}</td>
-                    <td className="border-right">
+                    <td className="border-right text-[16px]">{warehouse.total}</td>
+                    <td className="border-right text-[16px]">{warehouse.price}</td>
+                    <td className="border-right text-[16px]">
                       {warehouse.dateofreciept.day}.
                       {warehouse.dateofreciept.month < 9
                         ? "0" + (warehouse.dateofreciept.month + 1)
                         : warehouse.dateofreciept.month + 1}
                       .{warehouse.dateofreciept.year}
                     </td>
-                    <td className="border-right text-center">
+                    <td className="border-right text-[16px] text-center">
                       <button
                         id={`btn${key}`}
                         onClick={(e) => {
                           edit(e, warehouse);
                         }}
                         type="button"
-                        className="btn btn-success py-1 px-2"
+                        className="bg-alotrade rounded text-white font-semibold py-1 px-2"
                         style={{ fontSize: "75%" }}
                       >
                         Tahrirlash
                       </button>
                     </td>
-                    <td className="text-center">
+                    <td className="text-center text-[16px]">
                       <button
                         onClick={() => {
                           setRemove(warehouse);
                           setModal(true);
                         }}
                         type="button"
-                        className="btn btn-secondary py-1 px-2"
+                        className="bg-red-400 rounded text-white font-semibold py-1 px-2"
                         style={{ fontSize: "75%" }}
                       >
                         O'chirish

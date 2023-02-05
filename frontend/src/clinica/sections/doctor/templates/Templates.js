@@ -1,12 +1,12 @@
-import React, {useCallback, useContext, useEffect, useState} from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import RegisterTemplate from "./RegisterTemplate";
-import {Modal} from "./../components/Modal";
-import {useToast} from "@chakra-ui/react";
-import {useHttp} from "../../../hooks/http.hook";
-import {AuthContext} from "../../../context/AuthContext";
-import {ExcelCols} from "./uploadExcel/ExcelCols";
+import { Modal } from "./../components/Modal";
+import { useToast } from "@chakra-ui/react";
+import { useHttp } from "../../../hooks/http.hook";
+import { AuthContext } from "../../../context/AuthContext";
+import { ExcelCols } from "./uploadExcel/ExcelCols";
 import TableTemplate from "./TableTemplate";
-import {checkTemplates} from "./uploadExcel/checkData";
+import { checkTemplates } from "./uploadExcel/checkData";
 
 const Templates = () => {
     //====================================================================
@@ -60,7 +60,7 @@ const Templates = () => {
 
     //====================================================================
     //====================================================================
-    const {request, loading} = useHttp()
+    const { request, loading } = useHttp()
     const auth = useContext(AuthContext)
 
     const [templates, setTemplates] = useState([])
@@ -71,7 +71,7 @@ const Templates = () => {
             const data = await request(
                 `/api/doctor/template/getall`,
                 'POST',
-                {clinica: auth.clinica._id, doctor: auth.user._id},
+                { clinica: auth.clinica._id, doctor: auth.user._id },
                 {
                     Authorization: `Bearer ${auth.token}`,
                 },
@@ -103,8 +103,8 @@ const Templates = () => {
     const [imports, setImports] = useState([])
     const [changeImports, setChangeImports] = useState([])
     const sections = [
-        {name: 'Shablon nomi', value: 'name'},
-        {name: "Shablon", value: 'template'}
+        { name: 'Shablon nomi', value: 'name' },
+        { name: "Shablon", value: 'template' }
     ]
     //====================================================================
     //====================================================================
@@ -151,7 +151,7 @@ const Templates = () => {
             const data = await request(
                 `/api/doctor/template/create`,
                 'POST',
-                {template: {...template, clinica: auth.clinica._id, doctor: auth.user._id}},
+                { template: { ...template, clinica: auth.clinica._id, doctor: auth.user._id } },
                 {
                     Authorization: `Bearer ${auth.token}`,
                 },
@@ -178,7 +178,7 @@ const Templates = () => {
             const data = await request(
                 `/api/doctor/template/createall`,
                 'POST',
-                {templates: [...changeImports], clinica: auth.clinica._id, doctor: auth.user._id},
+                { templates: [...changeImports], clinica: auth.clinica._id, doctor: auth.user._id },
                 {
                     Authorization: `Bearer ${auth.token}`,
                 },
@@ -207,7 +207,7 @@ const Templates = () => {
             const data = await request(
                 `/api/doctor/template/delete`,
                 'POST',
-                {template: {...remove}},
+                { template: { ...remove } },
                 {
                     Authorization: `Bearer ${auth.token}`,
                 },
@@ -277,52 +277,56 @@ const Templates = () => {
     //====================================================================
 
     return (
-        <div className="container">
-            <RegisterTemplate
-                template={template}
-                setTemplate={setTemplate}
-                createHandler={createHandler}
-            />
-
-            <TableTemplate
-                setTemplate={setTemplate}
-                templates={templates}
-                currentTemplates={currentTemplates}
-                setModal={setModal}
-                setCurrentTemplates={setCurrentTemplates}
-                setModal2={setModal2}
-                countPage={countPage}
-                currentPage={currentPage}
-                setCurrentPage={setCurrentPage}
-                setRemove={setRemove}
-                loading={loading}
-                setImports={setImports}
-                setPageSize={setPageSize}
-                searchName={searchName}
-                searchTemplate={searchTemplate}
-            />
-
-            <Modal
-                modal={modal2}
-                setModal={setModal2}
-                handler={checkUploadData}
-                text={
-                    <ExcelCols
-                        createdData={changeImports}
-                        setData={setChangeImports}
-                        data={imports}
-                        sections={sections}
+        <div className="bg-slate-100 content-wrapper px-lg-5 px-3">
+            <div className="row gutters">
+                <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <RegisterTemplate
+                        template={template}
+                        setTemplate={setTemplate}
+                        createHandler={createHandler}
                     />
-                }
-            />
 
-            <Modal
-                modal={modal}
-                setModal={setModal}
-                handler={deleteHandler}
-                text=" shablonini ochirishni tasdiqlaysizmi?"
-                basic={remove && remove.name}
-            />
+                    <TableTemplate
+                        setTemplate={setTemplate}
+                        templates={templates}
+                        currentTemplates={currentTemplates}
+                        setModal={setModal}
+                        setCurrentTemplates={setCurrentTemplates}
+                        setModal2={setModal2}
+                        countPage={countPage}
+                        currentPage={currentPage}
+                        setCurrentPage={setCurrentPage}
+                        setRemove={setRemove}
+                        loading={loading}
+                        setImports={setImports}
+                        setPageSize={setPageSize}
+                        searchName={searchName}
+                        searchTemplate={searchTemplate}
+                    />
+
+                    <Modal
+                        modal={modal2}
+                        setModal={setModal2}
+                        handler={checkUploadData}
+                        text={
+                            <ExcelCols
+                                createdData={changeImports}
+                                setData={setChangeImports}
+                                data={imports}
+                                sections={sections}
+                            />
+                        }
+                    />
+
+                    <Modal
+                        modal={modal}
+                        setModal={setModal}
+                        handler={deleteHandler}
+                        text=" shablonini ochirishni tasdiqlaysizmi?"
+                        basic={remove && remove.name}
+                    />
+                </div>
+            </div>
         </div>
     );
 };

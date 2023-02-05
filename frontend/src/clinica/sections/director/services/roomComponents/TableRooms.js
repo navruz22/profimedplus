@@ -25,8 +25,8 @@ export const TableRooms = ({
   loading
 }) => {
   return (
-    <div className="table-container">
-      <div className="table-container">
+    <div className="border-0 table-container">
+      <div className="border-0 table-container">
         <div className="table-responsive">
           <table className="table m-0">
             <thead className="bg-white">
@@ -99,18 +99,18 @@ export const TableRooms = ({
                     label="Barcha xonalarni o'chirish"
                     bg="red.500"
                   >
-                    {loading ? 
-                    <button className="btn btn-danger" disabled>
-                      <span class="spinner-border spinner-border-sm"></span>
-                      Loading...
-                    </button>
+                    {loading ?
+                      <button className="btn btn-danger" disabled>
+                        <span class="spinner-border spinner-border-sm"></span>
+                        Loading...
+                      </button>
                       :
-                    <button
-                      onClick={() => setModal1(true)}
-                      className="btn btn-danger py-0 px-3 pt-1"
-                    >
-                      <span className="icon-trash-2"></span>
-                    </button>
+                      <button
+                        onClick={() => setModal1(true)}
+                        className="btn btn-danger py-0 px-3 pt-1"
+                      >
+                        <span className="icon-trash-2"></span>
+                      </button>
                     }
                   </Tooltip>
                 </th>
@@ -118,8 +118,8 @@ export const TableRooms = ({
             </thead>
             <thead>
               <tr>
-                <th className="border-right">№</th>
-                <th className="border-right">
+                <th className="border-right bg-alotrade text-[16px]">№</th>
+                <th className="border-right bg-alotrade text-[16px]">
                   Xona turi
                   <Sort
                     data={currentRooms}
@@ -127,7 +127,7 @@ export const TableRooms = ({
                     property={"type"}
                   />
                 </th>
-                <th className="border-right">
+                <th className="border-right bg-alotrade text-[16px]">
                   Xona raqami
                   <Sort
                     data={currentRooms}
@@ -135,7 +135,7 @@ export const TableRooms = ({
                     property={"number"}
                   />
                 </th>
-                <th className="border-right">
+                <th className="border-right bg-alotrade text-[16px]">
                   O'rin raqami
                   <Sort
                     data={currentRooms}
@@ -143,7 +143,7 @@ export const TableRooms = ({
                     property={"place"}
                   />
                 </th>
-                <th className="border-right">
+                <th className="border-right bg-alotrade text-[16px]">
                   Narxi
                   <Sort
                     data={currentRooms}
@@ -151,7 +151,7 @@ export const TableRooms = ({
                     property={"price"}
                   />
                 </th>
-                <th className="border-right">
+                <th className="border-right bg-alotrade text-[16px]">
                   Holati
                   <Sort
                     data={currentRooms}
@@ -159,22 +159,22 @@ export const TableRooms = ({
                     property={"position"}
                   />
                 </th>
-                <th className="border-right text-center">Tahrirlash</th>
-                <th className="text-center">O'chirish</th>
+                <th className="border-right text-center bg-alotrade text-[16px]">Tahrirlash</th>
+                <th className="text-center bg-alotrade text-[16px]">O'chirish</th>
               </tr>
             </thead>
             <tbody>
               {currentRooms.map((room, key) => {
                 return (
                   <tr key={key}>
-                    <td className="border-right font-weight-bold">
+                    <td className="border-right font-weight-bold text-[16px]">
                       {currentPage * countPage + key + 1}
                     </td>
-                    <td className="border-right">{room.type}</td>
-                    <td className="border-right">{room.number}</td>
-                    <td className="border-right">{room.place}</td>
-                    <td className="border-right">{room.price}</td>
-                    <td className="border-right text-center">
+                    <td className="border-right text-[16px]">{room.type}</td>
+                    <td className="border-right text-[16px]">{room.number}</td>
+                    <td className="border-right text-[16px]">{room.place}</td>
+                    <td className="border-right text-[16px]">{room.price}</td>
+                    <td className="border-right text-[16px] text-center">
                       {room.position ? (
                         <FontAwesomeIcon
                           style={{ fontSize: "18pt" }}
@@ -189,24 +189,24 @@ export const TableRooms = ({
                         />
                       )}
                     </td>
-                    <td className="border-right text-center">
+                    <td className="border-right text-center text-[16px]">
                       <button
                         onClick={() => setRoom(room)}
                         type="button"
-                        className="btn btn-success py-1 px-2"
+                        className="bg-alotrade text-white font-semibold rounded py-1 px-2"
                         style={{ fontSize: "75%" }}
                       >
                         Tahrirlash
                       </button>
                     </td>
-                    <td className="text-center">
+                    <td className="text-center text-[16px]">
                       <button
                         onClick={() => {
                           setRemove(room);
                           setModal(true);
                         }}
                         type="button"
-                        className="btn btn-secondary py-1 px-2"
+                        className="bg-red-400 text-white font-semibold rounded py-1 px-2"
                         style={{ fontSize: "75%" }}
                       >
                         O'chirish

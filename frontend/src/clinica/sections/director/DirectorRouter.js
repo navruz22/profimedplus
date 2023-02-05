@@ -1,6 +1,8 @@
 import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import { Advers } from "./adver/Advers";
+import OfflineClients from "./clients/OfflineClients";
+import StatsionarClients from "./clients/StatsionarClients";
 import { EditDirector } from "./editDirector/EditDirector";
 import { EditDirectorPassword } from "./editDirector/EditDirectorPassword";
 import { Departments } from "./services/Departments";
@@ -14,7 +16,7 @@ import { Users } from "./users/Users";
 
 export const DirectorRouter = () => {
   return (
-    <div>
+    <div className="bg-slate-100">
       <Switch>
         {/* Services */}
         <Route path="/alo24" exact>
@@ -46,6 +48,12 @@ export const DirectorRouter = () => {
         </Route>
         <Route path="/alo24/productconnector">
           <ProductConnectors />
+        </Route>
+        <Route path="/alo24/offlineclients">
+          <OfflineClients />
+        </Route>
+        <Route path="/alo24/statsionarclients">
+          <StatsionarClients />
         </Route>
 
         {/* Users */}

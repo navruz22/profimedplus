@@ -13,16 +13,16 @@ export const InputProductConnector = ({
   loading
 }) => {
   return (
-    <div className="table-container">
+    <div className="border-0 table-container">
       <div className="table-responsive">
         <table className="table m-0">
           <thead>
             <tr>
-              <th>Bo'lim nomi</th>
-              <th>Xizmat nomi</th>
-              <th>Mahsulot nomi</th>
-              <th>Soni</th>
-              <th>Saqlash</th>
+              <th className="bg-alotrade text-[16px]">Bo'lim nomi</th>
+              <th className="bg-alotrade text-[16px]">Xizmat nomi</th>
+              <th className="bg-alotrade text-[16px]">Mahsulot nomi</th>
+              <th className="bg-alotrade text-[16px]">Soni</th>
+              <th className="bg-alotrade text-[16px]">Saqlash</th>
             </tr>
           </thead>
           <tbody>
@@ -116,12 +116,12 @@ export const InputProductConnector = ({
                   Loading...
                 </button>
                   :
-                <button
-                  onClick={saveHandler}
-                  className="btn btn-info py-1 px-4"
-                >
-                  Saqlash
-                </button>
+                  <button
+                    onClick={saveHandler}
+                    className="btn btn-info py-1 px-4"
+                  >
+                    Saqlash
+                  </button>
                 }
               </td>
             </tr>

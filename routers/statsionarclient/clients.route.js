@@ -1,8 +1,8 @@
-const {Product} = require('../../models/Warehouse/Product')
-const {Clinica} = require('../../models/DirectorAndClinica/Clinica')
-const {Service} = require('../../models/Services/Service')
-const {Room} = require('../../models/Rooms/Room')
-const {ProductConnector} = require('../../models/Warehouse/ProductConnector')
+const { Product } = require('../../models/Warehouse/Product')
+const { Clinica } = require('../../models/DirectorAndClinica/Clinica')
+const { Service } = require('../../models/Services/Service')
+const { Room } = require('../../models/Rooms/Room')
+const { ProductConnector } = require('../../models/Warehouse/ProductConnector')
 const {
     StatsionarClient,
     validateStatsionarClient,
@@ -31,8 +31,8 @@ const {
 const {
     StatsionarDaily,
 } = require('../../models/StatsionarClient/StatsionarDaily')
-const {TableColumn} = require("../../models/Services/TableColumn");
-const {ServiceTable} = require("../../models/Services/ServiceTable");
+const { TableColumn } = require("../../models/Services/TableColumn");
+const { ServiceTable } = require("../../models/Services/ServiceTable");
 // register
 module.exports.register = async (req, res) => {
     try {
@@ -66,14 +66,14 @@ module.exports.register = async (req, res) => {
         // CreateClient
         const id =
             'S' +
-            ((await StatsionarClient.find({clinica: client.clinica})).length +
+            ((await StatsionarClient.find({ clinica: client.clinica })).length +
                 10001)
 
         const fullname = client.lastname + ' ' + client.firstname
 
         delete client._id
 
-        const newclient = new StatsionarClient({...client, id, fullname})
+        const newclient = new StatsionarClient({ ...client, id, fullname })
         await newclient.save()
 
         //=========================================================
@@ -84,7 +84,7 @@ module.exports.register = async (req, res) => {
                 (
                     await StatsionarDaily.find({
                         clinica: connector.clinica,
-                        probirka: {$ne: 0},
+                        probirka: { $ne: 0 },
                         createdAt: {
                             $gte: new Date(new Date().setUTCDate(0, 0, 0, 0)),
                         },
@@ -117,7 +117,7 @@ module.exports.register = async (req, res) => {
         // CreateServices
         let totalprice = 0
         for (const service of services) {
-            const {error} = validateStatsionarService(service)
+            const { error } = validateStatsionarService(service)
 
             if (error) {
                 return res.status(400).json({
@@ -156,7 +156,7 @@ module.exports.register = async (req, res) => {
                 },
                 client: newclient._id,
                 connector: newconnector._id,
-                column: {...serv.column},
+                column: { ...serv.column },
                 tables: [...JSON.parse(JSON.stringify(serv.tables))]
             })
 
@@ -170,7 +170,7 @@ module.exports.register = async (req, res) => {
 
         // CreateProducts
         for (const product of products) {
-            const {error} = validateStatsionarProduct(product)
+            const { error } = validateStatsionarProduct(product)
 
             if (error) {
                 return res.status(400).json({
@@ -245,7 +245,7 @@ module.exports.register = async (req, res) => {
 
         res.status(201).send(response)
     } catch (error) {
-        res.status(501).json({error: 'Serverda xatolik yuz berdi...'})
+        res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
     }
 }
 
@@ -278,7 +278,7 @@ module.exports.add = async (req, res) => {
                 (
                     await StatsionarDaily.find({
                         clinica: client.clinica,
-                        probirka: {$ne: 0},
+                        probirka: { $ne: 0 },
                         createdAt: {
                             $gte: new Date(new Date().setUTCDate(0, 0, 0, 0)),
                         },
@@ -304,7 +304,7 @@ module.exports.add = async (req, res) => {
         // CreateServices
         let totalprice = 0
         for (const service of services) {
-            const {error} = validateStatsionarService(service)
+            const { error } = validateStatsionarService(service)
 
             if (error) {
                 return res.status(400).json({
@@ -343,7 +343,7 @@ module.exports.add = async (req, res) => {
                 },
                 client: client._id,
                 connector: updateStatsionarConnector._id,
-                column: {...serv.column},
+                column: { ...serv.column },
                 tables: [...JSON.parse(JSON.stringify(serv.tables))]
             })
 
@@ -358,7 +358,7 @@ module.exports.add = async (req, res) => {
 
         // CreateProducts
         for (const product of products) {
-            const {error} = validateStatsionarProduct(product)
+            const { error } = validateStatsionarProduct(product)
 
             if (error) {
                 return res.status(400).json({
@@ -470,16 +470,16 @@ module.exports.add = async (req, res) => {
 
         await newdaily.save()
 
-        res.status(201).send({message: "Xizmatlar ro'yxatga olindi"})
+        res.status(201).send({ message: "Xizmatlar ro'yxatga olindi" })
     } catch (error) {
-        res.status(501).json({error: 'Serverda xatolik yuz berdi...'})
+        res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
     }
 }
 
 //Clients getall
 module.exports.getAll = async (req, res) => {
     try {
-        const {clinica, beginDay, endDay} = req.body
+        const { clinica, beginDay, endDay } = req.body
 
         const clinic = await Clinica.findById(clinica)
 
@@ -503,18 +503,18 @@ module.exports.getAll = async (req, res) => {
             .populate("clinica")
             .populate("reseption")
             .populate("room")
-            .sort({_id: -1})
+            .sort({ _id: -1 })
 
         res.status(200).send(connectors)
     } catch (error) {
-        res.status(501).json({error: 'Serverda xatolik yuz berdi...'})
+        res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
     }
 }
 
 //Clients getall
 module.exports.getAllReseption = async (req, res) => {
     try {
-        const {clinica, beginDay, endDay} = req.body
+        const { clinica, beginDay, endDay } = req.body
 
         const clinic = await Clinica.findById(clinica)
 
@@ -537,21 +537,21 @@ module.exports.getAllReseption = async (req, res) => {
             .populate("products", 'product pieces createdAt')
             .populate("doctor", 'firstname lastname')
             .populate("room", '')
-            .sort({_id: -1})
+            .sort({ _id: -1 })
         res.status(200).send(connectors)
     } catch (error) {
-        res.status(501).json({error: 'Serverda xatolik yuz berdi...'})
+        res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
     }
 }
 
 // Update client
 module.exports.update = async (req, res) => {
     try {
-        const {client, connector, counteragent, adver, room} = req.body
+        const { client, connector, counteragent, adver, room } = req.body
         if (!client) {
             return res
                 .status(404)
-                .send({message: "Foydalanuvchi ma'lumotlari topilmadi"})
+                .send({ message: "Foydalanuvchi ma'lumotlari topilmadi" })
         }
 
         const update = await StatsionarClient.findByIdAndUpdate(client._id, client)
@@ -638,6 +638,6 @@ module.exports.update = async (req, res) => {
         }
         res.status(200).send(update)
     } catch (error) {
-        res.status(501).json({error: 'Serverda xatolik yuz berdi...'})
+        res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
     }
 }

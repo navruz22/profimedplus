@@ -346,11 +346,11 @@ export const RegisterClient = ({
                   <table className="table">
                     <thead>
                       <tr>
-                        <th className="border py-1">№</th>
-                        <th className="border py-1">Nomi</th>
-                        <th className="border py-1">Narxi</th>
-                        <th className="border py-1">Soni</th>
-                        <th className="border py-1">Xizmat vaqti</th>
+                        <th className="border py-1 bg-alotrade">№</th>
+                        <th className="border py-1 bg-alotrade">Nomi</th>
+                        <th className="border py-1 bg-alotrade">Narxi</th>
+                        <th className="border py-1 bg-alotrade">Soni</th>
+                        <th className="border py-1 bg-alotrade">Xizmat vaqti</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -456,12 +456,12 @@ export const RegisterClient = ({
                 <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                   <div className="text-right">
                     {loading ? (
-                      <button className="btn btn-primary" disabled>
+                      <button className="bg-alotrade text-white py-2 px-3 rounded" disabled>
                         <span className="spinner-border spinner-border-sm"></span>
                         Loading...
                       </button>
                     ) : (
-                      <button onClick={checkData} className="btn btn-primary">
+                      <button onClick={checkData} className="bg-alotrade text-white py-2 px-3 rounded">
                         Saqlash
                       </button>
                     )}

@@ -1,5 +1,5 @@
-import React, {useCallback, useEffect, useState} from "react";
-import {DatePickers} from "./DatePickers";
+import React, { useCallback, useEffect, useState } from "react";
+import { DatePickers } from "./DatePickers";
 import "react-datepicker/dist/react-datepicker.css";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
@@ -7,37 +7,37 @@ import makeAnimated from "react-select/animated";
 const animatedComponents = makeAnimated();
 
 export const RegisterClient = ({
-                                   changeRoom,
-                                   changeDoctor,
-                                   selectedServices,
-                                   selectedProducts,
-                                   updateData,
-                                   checkData,
-                                   setNewServices,
-                                   setNewProducts,
-                                   newproducts,
-                                   newservices,
-                                   changeProduct,
-                                   changeService,
-                                   changeCounterAgent,
-                                   changeAdver,
-                                   setClient,
-                                   client,
-                                   changeClientData,
-                                   changeClientBorn,
-                                   departments,
-                                   counterdoctors,
-                                   advers,
-                                   products,
-                                   loading,
-                                   doctors,
-                                   rooms,
-                                   room,
-                                   setRoom,
-                                   connector,
-                                   setConnector,
-                                   changeDiagnos,
-                               }) => {
+    changeRoom,
+    changeDoctor,
+    selectedServices,
+    selectedProducts,
+    updateData,
+    checkData,
+    setNewServices,
+    setNewProducts,
+    newproducts,
+    newservices,
+    changeProduct,
+    changeService,
+    changeCounterAgent,
+    changeAdver,
+    setClient,
+    client,
+    changeClientData,
+    changeClientBorn,
+    departments,
+    counterdoctors,
+    advers,
+    products,
+    loading,
+    doctors,
+    rooms,
+    room,
+    setRoom,
+    connector,
+    setConnector,
+    changeDiagnos,
+}) => {
     const [services, setServices] = useState([]);
     const getServices = useCallback(
         (e) => {
@@ -136,7 +136,7 @@ export const RegisterClient = ({
                                     <label htmlFor="education">Tug'ilgan sanasi</label>
                                     <DatePickers
                                         changeDate={changeClientBorn}
-                                        style={{maxWidth: "120px"}}
+                                        style={{ maxWidth: "120px" }}
                                     />
                                 </div>
                                 <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
@@ -144,12 +144,12 @@ export const RegisterClient = ({
                                         <label htmlFor="addreSs">Telefon raqami</label>
                                         <div className="input-group input-group-sm mb-3">
                                             <div className="input-group-prepend">
-                        <span
-                            className="input-group-text"
-                            id="inputGroup-sizing-sm"
-                        >
-                          +998
-                        </span>
+                                                <span
+                                                    className="input-group-text"
+                                                    id="inputGroup-sizing-sm"
+                                                >
+                                                    +998
+                                                </span>
                                             </div>
                                             <input
                                                 defaultValue={client.phone}
@@ -173,7 +173,7 @@ export const RegisterClient = ({
                                                             : false
                                                     }
                                                     onChange={(e) => {
-                                                        setClient({...client, gender: "man"});
+                                                        setClient({ ...client, gender: "man" });
                                                     }}
                                                     type="radio"
                                                     id="customRadioInline1"
@@ -193,7 +193,7 @@ export const RegisterClient = ({
                                                         client.gender === "woman" ? true : false
                                                     }
                                                     onChange={(e) => {
-                                                        setClient({...client, gender: "woman"});
+                                                        setClient({ ...client, gender: "woman" });
                                                     }}
                                                     type="radio"
                                                     id="customRadioInline2"
@@ -265,7 +265,7 @@ export const RegisterClient = ({
                                 <div className="col-sm-6 col-12">
                                     <label>Qabul sanasi</label>
                                     <DatePickers
-                                        changeDate={(date) => setRoom({...room, beginday: date})}
+                                        changeDate={(date) => setRoom({ ...room, beginday: date })}
                                     />
                                 </div>
                                 <div className="col-sm-6 col-12">
@@ -410,110 +410,110 @@ export const RegisterClient = ({
                                 <div className="col-12">
                                     <table className="table">
                                         <thead>
-                                        <tr>
-                                            <th className="border py-1">№</th>
-                                            <th className="border py-1">Nomi</th>
-                                            <th className="border py-1">Narxi</th>
-                                            <th className="border py-1">Soni</th>
-                                        </tr>
+                                            <tr>
+                                                <th className="border py-1 bg-alotrade">№</th>
+                                                <th className="border py-1 bg-alotrade">Nomi</th>
+                                                <th className="border py-1 bg-alotrade">Narxi</th>
+                                                <th className="border py-1 bg-alotrade">Soni</th>
+                                            </tr>
                                         </thead>
                                         <tbody>
-                                        {newservices &&
-                                            newservices.map((service, index) => {
-                                                return (
-                                                    <tr key={index}>
-                                                        <td className="py-1">{index + 1}</td>
-                                                        <td className="py-1">{service.service.name}</td>
-                                                        <td className="text-right py-1">
-                                                            {service.service.price * service.pieces}
-                                                        </td>
-                                                        <td className="text-right py-1">
-                                                            <input
-                                                                onChange={(e) =>
-                                                                    setNewServices(
-                                                                        Object.values({
-                                                                            ...newservices,
-                                                                            [index]: {
-                                                                                ...newservices[index],
-                                                                                pieces: e.target.value,
-                                                                            },
-                                                                        })
-                                                                    )
-                                                                }
-                                                                className="text-right outline-none"
-                                                                style={{maxWidth: "50px", outline: "none"}}
-                                                                defaultValue={service.pieces}
-                                                                type="number"
-                                                            />
-                                                        </td>
-                                                    </tr>
-                                                );
-                                            })}
-                                        <tr className="border"></tr>
-                                        {newproducts &&
-                                            newproducts.map((product, index) => {
-                                                return (
-                                                    <tr key={index}>
-                                                        <td className="py-1">{index + 1}</td>
-                                                        <td className="py-1">{product.product.name}</td>
-                                                        <td className="text-right py-1">
-                                                            {product.product.price * product.pieces}
-                                                        </td>
-                                                        <td className="text-right py-1">
-                                                            <input
-                                                                onChange={(e) =>
-                                                                    setNewProducts(
-                                                                        Object.values({
-                                                                            ...newproducts,
-                                                                            [index]: {
-                                                                                ...newproducts[index],
-                                                                                pieces: e.target.value,
-                                                                            },
-                                                                        })
-                                                                    )
-                                                                }
-                                                                className="text-right outline-none"
-                                                                style={{maxWidth: "50px", outline: "none"}}
-                                                                defaultValue={product.pieces}
-                                                                type="number"
-                                                            />
-                                                        </td>
-                                                    </tr>
-                                                );
-                                            })}
+                                            {newservices &&
+                                                newservices.map((service, index) => {
+                                                    return (
+                                                        <tr key={index}>
+                                                            <td className="py-1">{index + 1}</td>
+                                                            <td className="py-1">{service.service.name}</td>
+                                                            <td className="text-right py-1">
+                                                                {service.service.price * service.pieces}
+                                                            </td>
+                                                            <td className="text-right py-1">
+                                                                <input
+                                                                    onChange={(e) =>
+                                                                        setNewServices(
+                                                                            Object.values({
+                                                                                ...newservices,
+                                                                                [index]: {
+                                                                                    ...newservices[index],
+                                                                                    pieces: e.target.value,
+                                                                                },
+                                                                            })
+                                                                        )
+                                                                    }
+                                                                    className="text-right outline-none"
+                                                                    style={{ maxWidth: "50px", outline: "none" }}
+                                                                    defaultValue={service.pieces}
+                                                                    type="number"
+                                                                />
+                                                            </td>
+                                                        </tr>
+                                                    );
+                                                })}
+                                            <tr className="border"></tr>
+                                            {newproducts &&
+                                                newproducts.map((product, index) => {
+                                                    return (
+                                                        <tr key={index}>
+                                                            <td className="py-1">{index + 1}</td>
+                                                            <td className="py-1">{product.product.name}</td>
+                                                            <td className="text-right py-1">
+                                                                {product.product.price * product.pieces}
+                                                            </td>
+                                                            <td className="text-right py-1">
+                                                                <input
+                                                                    onChange={(e) =>
+                                                                        setNewProducts(
+                                                                            Object.values({
+                                                                                ...newproducts,
+                                                                                [index]: {
+                                                                                    ...newproducts[index],
+                                                                                    pieces: e.target.value,
+                                                                                },
+                                                                            })
+                                                                        )
+                                                                    }
+                                                                    className="text-right outline-none"
+                                                                    style={{ maxWidth: "50px", outline: "none" }}
+                                                                    defaultValue={product.pieces}
+                                                                    type="number"
+                                                                />
+                                                            </td>
+                                                        </tr>
+                                                    );
+                                                })}
                                         </tbody>
                                         <tfoot>
-                                        <tr>
-                                            <th className="text-right" colSpan={2}>
-                                                Jami:
-                                            </th>
-                                            <th colSpan={2}>
-                                                {newservices.reduce((summa, service) => {
+                                            <tr>
+                                                <th className="text-right" colSpan={2}>
+                                                    Jami:
+                                                </th>
+                                                <th colSpan={2}>
+                                                    {newservices.reduce((summa, service) => {
                                                         return (
                                                             summa +
                                                             service.service.price * parseInt(service.pieces)
                                                         );
                                                     }, 0) +
-                                                    newproducts.reduce((summa, product) => {
-                                                        return (
-                                                            summa +
-                                                            product.product.price * parseInt(product.pieces)
-                                                        );
-                                                    }, 0)}
-                                            </th>
-                                        </tr>
+                                                        newproducts.reduce((summa, product) => {
+                                                            return (
+                                                                summa +
+                                                                product.product.price * parseInt(product.pieces)
+                                                            );
+                                                        }, 0)}
+                                                </th>
+                                            </tr>
                                         </tfoot>
                                     </table>
                                 </div>
                                 <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                     <div className="text-right">
                                         {loading ? (
-                                            <button className="btn btn-primary" disabled>
+                                            <button className="bg-alotrade text-white rounded py-2 px-3" disabled>
                                                 <span className="spinner-border spinner-border-sm"></span>
                                                 Loading...
                                             </button>
                                         ) : (
-                                            <button onClick={checkData} className="btn btn-primary">
+                                            <button onClick={checkData} className="bg-alotrade text-white rounded py-2 px-3">
                                                 Saqlash
                                             </button>
                                         )}

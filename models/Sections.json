@@ -20,6 +20,11 @@
     "value": "Shifokor"
   },
   {
+    "type": "Laborotory",
+    "label": "Laborotoriya",
+    "value": "Laborotoriya"
+  },
+  {
     "type": "CounterDoctor",
     "label": "Yo'naltiruvchi shifokor",
     "value": "Yo'naltiruvchi shifokor"

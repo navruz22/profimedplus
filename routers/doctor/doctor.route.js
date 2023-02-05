@@ -1,4 +1,4 @@
-const {Router} = require('express')
+const { Router } = require('express')
 const router = Router()
 const auth = require('../../middleware/auth.middleware')
 
@@ -46,6 +46,10 @@ router.post('/table/table', auth, (req, res) => {
     require('./tables').table(req, res)
 })
 
+router.post('/table/update', auth, (req, res) => {
+    require('./tables').updateTable(req, res)
+})
+
 router.post('/table/tabledelete', auth, (req, res) => {
     require('./tables').tabledelete(req, res)
 })
@@ -66,4 +70,10 @@ router.post('/clients/gettemplates', auth, (req, res) => {
 router.post('/clients/updateservice', auth, (req, res) => {
     require('./getclients.route').gettemplates(req, res)
 })
+
+router.post('/clients/adopt', auth, (req, res) => {
+    require('./getclients.route').adoptClient(req, res);
+})
+
+
 module.exports = router

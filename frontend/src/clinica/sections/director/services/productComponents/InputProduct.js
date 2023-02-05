@@ -10,16 +10,16 @@ export const InputProduct = ({
 }) => {
   const si = ["dona", "kg", "g", "l", "ml", "pachka"]
   return (
-    <div className="table-container">
+    <div className="border-0 shadow-lg table-container">
       <div className="table-responsive">
         <table className="table m-0">
           <thead>
             <tr>
-              <th>Mahsulot nomi</th>
-              <th>O'lchov birligi</th>
-              <th>Sotuv narxi</th>
-              <th>Soni</th>
-              <th>Saqlash</th>
+              <th className="bg-alotrade text-[16px]">Mahsulot nomi</th>
+              <th className="bg-alotrade text-[16px]">O'lchov birligi</th>
+              <th className="bg-alotrade text-[16px]">Sotuv narxi</th>
+              <th className="bg-alotrade text-[16px]">Soni</th>
+              <th className="bg-alotrade text-[16px]">Saqlash</th>
             </tr>
           </thead>
           <tbody>
@@ -96,12 +96,12 @@ export const InputProduct = ({
                   Loading...
                 </button>
                   :
-                <button
-                  onClick={saveHandler}
-                  className="btn btn-info py-1 px-4"
-                >
-                  Saqlash
-                </button>
+                  <button
+                    onClick={saveHandler}
+                    className="btn btn-info py-1 px-4"
+                  >
+                    Saqlash
+                  </button>
                 }
               </td>
             </tr>

@@ -1,11 +1,11 @@
-import {useToast} from '@chakra-ui/react'
-import React, {useCallback, useContext, useEffect, useState} from 'react'
-import {AuthContext} from '../../../context/AuthContext'
-import {useHttp} from '../../../hooks/http.hook'
-import {Modal} from "../components/Modal";
-import {RegisterClient} from './clientComponents/RegisterClient'
-import {TableClients} from './clientComponents/TableClients'
-import {checkData} from './checkData/checkData'
+import { useToast } from '@chakra-ui/react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
+import { AuthContext } from '../../../context/AuthContext'
+import { useHttp } from '../../../hooks/http.hook'
+import { Modal } from "../components/Modal";
+import { RegisterClient } from './clientComponents/RegisterClient'
+import { TableClients } from './clientComponents/TableClients'
+import { checkData } from './checkData/checkData'
 // import {
 //   checkClientData,
 //   checkProductsData,
@@ -73,7 +73,7 @@ export const OfflineClients = () => {
 
     //====================================================================
     //====================================================================
-    const {request, loading} = useHttp()
+    const { request, loading } = useHttp()
     const auth = useContext(AuthContext)
 
     //====================================================================
@@ -91,7 +91,7 @@ export const OfflineClients = () => {
                 const data = await request(
                     `/api/cashier/offline/getall`,
                     'POST',
-                    {clinica: auth && auth.clinica._id, beginDay, endDay},
+                    { clinica: auth && auth.clinica._id, beginDay, endDay },
                     {
                         Authorization: `Bearer ${auth.token}`,
                     },
@@ -267,7 +267,7 @@ export const OfflineClients = () => {
         setProducts(prods)
 
         setClient(JSON.parse(JSON.stringify(connector.client)))
-        setConnector({...connector})
+        setConnector({ ...connector })
 
         let payments = connector.payments.reduce((summa, payment) => {
             return summa + payment.payment
@@ -285,23 +285,24 @@ export const OfflineClients = () => {
             cash: 0,
             transfer: 0,
             debt: 0,
-            services:[...services],
-            products:[...products]
+            services: [...services],
+            products: [...products]
         })
         setTotalPayment(total)
 
-        if(connector.discount){
+        if (connector.discount) {
             setDiscount(connector.discount)
-        }else{
-        setDiscount({
-            total: total,
-            discount: 0,
-            clinica: connector.clinica,
-            client: connector.client._id,
-            connector: connector._id,
-        })}
+        } else {
+            setDiscount({
+                total: total,
+                discount: 0,
+                clinica: connector.clinica,
+                client: connector.client._id,
+                connector: connector._id,
+            })
+        }
     }, [])
-    
+
     const changeService = (e, index) => {
         let servs = [...services]
         let prods = [...products]
@@ -347,15 +348,15 @@ export const OfflineClients = () => {
             clinica: connector.clinica,
             client: connector.client._id,
             connector: connector._id,
-            services:[...servicess],
-            products:[...productss]
+            services: [...servicess],
+            products: [...productss]
         })
 
         setTotalPayment(total)
         setDiscount({
             total: total,
             discount: 0,
-            procient:0,
+            procient: 0,
             clinica: connector.clinica,
             client: connector.client._id,
             connector: connector._id
@@ -407,15 +408,15 @@ export const OfflineClients = () => {
             clinica: connector.clinica,
             client: connector.client._id,
             connector: connector._id,
-            services:[...servicess],
-            products:[...productss]
+            services: [...servicess],
+            products: [...productss]
         })
 
         setTotalPayment(total)
         setDiscount({
             total: total,
             discount: 0,
-            procient:0,
+            procient: 0,
             clinica: connector.clinica,
             client: connector.client._id,
             connector: connector._id
@@ -465,7 +466,8 @@ export const OfflineClients = () => {
                 discount: parseInt((total * disc) / 100),
                 services: [...servs]
             })
-            setPayment({...payment,
+            setPayment({
+                ...payment,
                 total: totalpayment,
                 debt: 0,
                 card: 0,
@@ -482,7 +484,8 @@ export const OfflineClients = () => {
                 total,
                 services: [...servs]
             })
-            setPayment({...payment,
+            setPayment({
+                ...payment,
                 total: totalpayment,
                 debt: 0,
                 card: 0,
@@ -500,7 +503,7 @@ export const OfflineClients = () => {
             delete s.comment
             setDiscount(s)
         } else {
-            setDiscount({...discount, comment: e.target.value})
+            setDiscount({ ...discount, comment: e.target.value })
         }
     }
 
@@ -518,7 +521,8 @@ export const OfflineClients = () => {
                 status: 'error',
             })
         }
-        setPayment({...payment,
+        setPayment({
+            ...payment,
             total: totalpayment,
             card: 0,
             cash: 0,
@@ -540,8 +544,8 @@ export const OfflineClients = () => {
 
         switch (e.target.name) {
             case 'cash':
-                if ((totalpayment - payments < m + payment.card + payment.transfer + discount.discount 
-                    && m > 0) ||(totalpayment - payments > m + payment.card + payment.transfer + discount.discount 
+                if ((totalpayment - payments < m + payment.card + payment.transfer + discount.discount
+                    && m > 0) || (totalpayment - payments > m + payment.card + payment.transfer + discount.discount
                         && m < 0)) {
                     return notify({
                         title:
@@ -558,7 +562,7 @@ export const OfflineClients = () => {
                 })
             case 'card':
                 if ((totalpayment - payments < m + payment.cash + payment.transfer + discount.discount && m > 0) ||
-                (totalpayment - payments > m + payment.cash + payment.transfer + discount.discount && m < 0)) {
+                    (totalpayment - payments > m + payment.cash + payment.transfer + discount.discount && m < 0)) {
                     return notify({
                         title:
                             "Diqqat! to'lov summasi umumiy to'lov summasidan oshmasligi kerak!",
@@ -570,13 +574,13 @@ export const OfflineClients = () => {
                     ...payment,
                     [e.target.name]: m,
                     payment: m + payment.cash + payment.transfer,
-                    debt: totalpayment - (payments  + discount.discount + m + payment.cash + payment.transfer)
+                    debt: totalpayment - (payments + discount.discount + m + payment.cash + payment.transfer)
                 })
             case 'transfer':
-                if ((totalpayment - payments  < m + payment.card + payment.cash + discount.discount
+                if ((totalpayment - payments < m + payment.card + payment.cash + discount.discount
                     && m > 0)
                     ||
-                    (totalpayment - payments  > m + payment.card + payment.cash + discount.discount
+                    (totalpayment - payments > m + payment.card + payment.cash + discount.discount
                         && m < 0)) {
                     return notify({
                         title:
@@ -589,7 +593,7 @@ export const OfflineClients = () => {
                     ...payment,
                     [e.target.name]: m,
                     payment: m + payment.card + payment.cash,
-                    debt: totalpayment - (payments  + discount.discount + m + payment.card + payment.cash)
+                    debt: totalpayment - (payments + discount.discount + m + payment.card + payment.cash)
                 })
             default:
         }
@@ -636,14 +640,14 @@ export const OfflineClients = () => {
         setModal(true)
     }
 
-    const createHandler = useCallback(async () => {
+    const createHandler = async () => {
         try {
             const data = await request(
                 `/api/cashier/offline/payment`,
                 'POST',
                 {
-                    payment: {...payment},
-                    discount: {...discount},
+                    payment: { ...payment },
+                    discount: { ...discount },
                     services: [...services],
                     products: [...products],
                 },
@@ -660,6 +664,7 @@ export const OfflineClients = () => {
                 status: 'success',
             })
             setAll()
+            getConnectors(beginDay, endDay)
         } catch (error) {
             notify({
                 title: error,
@@ -667,7 +672,7 @@ export const OfflineClients = () => {
                 status: 'error',
             })
         }
-    }, [auth, payment, discount, request, services, products, notify, setAll])
+    }
 
     //====================================================================
     //====================================================================
@@ -689,23 +694,21 @@ export const OfflineClients = () => {
     //====================================================================
     return (
         <div>
-            <div className="content-wrapper px-lg-5 px-3">
+            <div className="bg-slate-100 content-wrapper px-lg-5 px-3">
                 <div className="row gutters">
                     <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div className="row">
                             <div className="col-12 text-end">
                                 <button
-                                    className={`btn btn-primary mb-2 w-100 ${
-                                        visible ? 'd-none' : ''
-                                    }`}
+                                    className={`btn bg-alotrade text-white mb-2 w-100 ${visible ? 'd-none' : ''
+                                        }`}
                                     onClick={changeVisible}
                                 >
                                     Malumot
                                 </button>
                                 <button
-                                    className={`btn btn-primary mb-2 w-100 ${
-                                        visible ? '' : 'd-none'
-                                    }`}
+                                    className={`btn bg-alotrade text-white mb-2 w-100 ${visible ? '' : 'd-none'
+                                        }`}
                                     onClick={changeVisible}
                                 >
                                     Malumot
@@ -786,46 +789,46 @@ export const OfflineClients = () => {
                     <div className="card-body">
                         <table className="table table-sm">
                             <tfoot>
-                            <tr>
-                                <th className="text-right" colSpan={2}>
-                                    Jami to'lov:
-                                </th>
-                                <th className="text-left" colSpan={4}>
-                                    {totalpayment}
-                                </th>
-                            </tr>
-                            <tr>
-                                <th className="text-right" colSpan={2}>
-                                    Chegirma:
-                                </th>
-                                <th className="text-left" colSpan={4}>
-                                    { discount.discount}
-                                </th>
-                            </tr>
-                            <tr>
-                                <th className="text-right" colSpan={2}>
-                                    To'langan:
-                                </th>
-                                <th className="text-left" colSpan={4}>
-                                    {payments}
-                                </th>
-                            </tr>
-                            <tr>
-                                <th className="text-right" colSpan={2}>
-                                    Qarz:
-                                </th>
-                                <th className="text-left" colSpan={4}>
-                                    {payment.debt}
-                                </th>
-                            </tr>
-                            <tr>
-                                <th className="text-right" colSpan={2}>
-                                    To'lanayotgan:
-                                </th>
-                                <th className="text-left" colSpan={4}>
-                                    {payment.payment}
-                                </th>
-                            </tr>
+                                <tr>
+                                    <th className="text-right" colSpan={2}>
+                                        Jami to'lov:
+                                    </th>
+                                    <th className="text-left" colSpan={4}>
+                                        {totalpayment}
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th className="text-right" colSpan={2}>
+                                        Chegirma:
+                                    </th>
+                                    <th className="text-left" colSpan={4}>
+                                        {discount.discount}
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th className="text-right" colSpan={2}>
+                                        To'langan:
+                                    </th>
+                                    <th className="text-left" colSpan={4}>
+                                        {payments}
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th className="text-right" colSpan={2}>
+                                        Qarz:
+                                    </th>
+                                    <th className="text-left" colSpan={4}>
+                                        {payment.debt}
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th className="text-right" colSpan={2}>
+                                        To'lanayotgan:
+                                    </th>
+                                    <th className="text-left" colSpan={4}>
+                                        {payment.payment}
+                                    </th>
+                                </tr>
                             </tfoot>
                         </table>
                     </div>

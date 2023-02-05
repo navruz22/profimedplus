@@ -6,10 +6,14 @@ import { AuthContext } from '../../../context/AuthContext'
 import { checkDepartment } from './checkData'
 import { Modal } from './modal/Modal'
 import { Sort } from './serviceComponents/Sort'
+import { useHistory } from 'react-router-dom'
 
 export const Departments = () => {
   //====================================================================
   //====================================================================
+
+  const history = useHistory()
+
   const [modal, setModal] = useState(false)
   const [modal1, setModal1] = useState(false)
   const [remove, setRemove] = useState()
@@ -271,18 +275,18 @@ export const Departments = () => {
   return (
     <>
       {loading ? <Loader /> : ''}
-      <div className="content-wrapper px-lg-5 px-3">
+      <div className="bg-slate-100 content-wrapper px-lg-5 px-3">
         <div className="row gutters">
           <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-            <div className="table-container">
+            <div className="bg-alotrade shadow-lg table-container border-0">
               <div className="table-responsive">
                 <table className="table m-0">
                   <thead>
                     <tr>
-                      <th className="w-25">Bo'lim nomi</th>
-                      <th className="w-25">Probirka</th>
-                      <th className="w-25">Saqlash</th>
-                      <th className="w-25">Bo'limlarni o'chirish</th>
+                      <th className="w-25 bg-alotrade text-[16px]">Bo'lim nomi</th>
+                      <th className="w-25 bg-alotrade text-[16px]">Probirka</th>
+                      <th className="w-25 bg-alotrade text-[16px]">Saqlash</th>
+                      <th className="w-25 bg-alotrade text-[16px]">Bo'limlarni o'chirish</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -352,13 +356,13 @@ export const Departments = () => {
                 </table>
               </div>
             </div>
-            <div className="table-container">
+            <div className="border-0 shadow-lg table-container">
               <div className="table-responsive">
                 <table className="table m-0">
                   <thead>
                     <tr>
-                      <th className="">№</th>
-                      <th className="w-25">
+                      <th className="bg-alotrade text-[16px]">№</th>
+                      <th className="w-25 bg-alotrade text-[16px]">
                         Nomi{'  '}
                         <Sort
                           data={departments}
@@ -366,7 +370,15 @@ export const Departments = () => {
                           property={'name'}
                         />
                       </th>
-                      <th className="w-25">
+                      <th className="w-25 bg-alotrade text-[16px]">
+                        Barcha xizmat turlari{' '}
+                        <Sort
+                          data={departments}
+                          setData={setDepartments}
+                          property={'name'}
+                        />
+                      </th>
+                      <th className="w-25 bg-alotrade text-[16px]">
                         Probirka{' '}
                         <Sort
                           data={departments}
@@ -374,8 +386,8 @@ export const Departments = () => {
                           property={'probirka'}
                         />
                       </th>
-                      <th className="w-25">Tahrirlash</th>
-                      <th className="w-25">O'chirish</th>
+                      <th className="w-25 bg-alotrade text-[16px]">Tahrirlash</th>
+                      <th className="w-25 bg-alotrade text-[16px]">O'chirish</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -383,14 +395,23 @@ export const Departments = () => {
                       departments.map((d, key) => {
                         return (
                           <tr key={key}>
-                            <td className="font-weight-bold">{key + 1}</td>
-                            <td>{d.name}</td>
-                            <td>{d.probirka ? 'Probirka' : ''}</td>
+                            <td className="font-weight-bold text-[16px]">{key + 1}</td>
+                            <td className='text-[16px]'>{d.name}</td>
+                            <td>
+                              <button
+                                onClick={() => history.push('/alo24/servicetypes', {
+                                  department: d._id
+                                })}
+                                className='text-[16px] bg-green-400 text-white font-semibold py-1 px-2'>
+                                Xizmat turlari
+                              </button>
+                            </td>
+                            <td className='text-[16px]'>{d.probirka ? 'Probirka' : ''}</td>
                             <td>
                               <button
                                 onClick={() => setDepartment(d)}
                                 type="button"
-                                className="btn btn-success py-1 px-2"
+                                className="text-[16px] bg-alotrade text-white font-semibold py-1 px-2"
                                 style={{ fontSize: '75%' }}
                               >
                                 Tahrirlash
@@ -403,7 +424,7 @@ export const Departments = () => {
                                   setModal(true)
                                 }}
                                 type="button"
-                                className="btn btn-secondary py-1 px-2"
+                                className="text-[16px] text-white font-semibold bg-red-400 py-1 px-2"
                                 style={{ fontSize: '75%' }}
                               >
                                 O'chirish

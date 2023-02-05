@@ -1,8 +1,8 @@
-import React from 'react'
-import { FormControl } from '@chakra-ui/react'
-import { FileUpload } from './fileUpLoad/FileUpload'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faRecycle } from '@fortawesome/free-solid-svg-icons'
+import React from "react";
+import { FormControl } from "@chakra-ui/react";
+import { FileUpload } from "./fileUpLoad/FileUpload";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRecycle } from "@fortawesome/free-solid-svg-icons";
 export const RegistorUser = ({
   auth,
   counteragents,
@@ -17,7 +17,7 @@ export const RegistorUser = ({
   sections,
   departments,
   createHandler,
-  loading
+  loading,
 }) => {
   return (
     <div>
@@ -132,12 +132,12 @@ export const RegistorUser = ({
                     <label htmlFor="addreSs">Xodimning mustaxasisligi</label>
                     <select
                       onChange={(e) => {
-                        setUser({ ...user, type: e.target.value })
+                        setUser({ ...user, type: e.target.value });
                       }}
                       className="form-control form-control-sm selectpicker"
                       id="select"
                       placeholder="Bo'limni tanlang"
-                      style={{ minWidth: '70px' }}
+                      style={{ minWidth: "70px" }}
                     >
                       <option>Mutaxassisligi</option>
                       {sections &&
@@ -146,23 +146,24 @@ export const RegistorUser = ({
                             <option key={index} value={section.type}>
                               {section.value}
                             </option>
-                          )
+                          );
                         })}
                     </select>
                   </div>
                 </div>
-                {user.type && user.type === 'Doctor' ? (
+                {(user.type && user.type === "Doctor") ||
+                (user.type && user.type === "Laborotory") ? (
                   <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                     <div className="form-group">
                       <label htmlFor="addreSs">Shifokorning ixtisosligi</label>
                       <select
                         onChange={(e) => {
-                          setUser({ ...user, specialty: e.target.value })
+                          setUser({ ...user, specialty: e.target.value });
                         }}
                         className="form-control form-control-sm selectpicker"
                         id="select"
                         placeholder="Bo'limni tanlang"
-                        style={{ minWidth: '70px' }}
+                        style={{ minWidth: "70px" }}
                       >
                         <option>Ixtisosligi</option>
                         {departments &&
@@ -171,46 +172,46 @@ export const RegistorUser = ({
                               <option key={index} value={department._id}>
                                 {department.name}
                               </option>
-                            )
+                            );
                           })}
                       </select>
                     </div>
                   </div>
                 ) : (
-                  ''
+                  ""
                 )}
-                {user.type && user.type === 'CounterDoctor' ? (
+                {user.type && user.type === "CounterDoctor" ? (
                   <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                     <div className="form-group">
                       <label htmlFor="addreSs">Kounteragentni tanlang</label>
                       <select
                         onChange={(e) => {
-                          setUser({ ...user, user: e.target.value })
+                          setUser({ ...user, user: e.target.value });
                         }}
                         className="form-control form-control-sm selectpicker"
                         id="select"
                         placeholder="Bo'limni tanlang"
-                        style={{ minWidth: '70px' }}
+                        style={{ minWidth: "70px" }}
                       >
                         <option>Kontragentlar</option>
                         {counteragents &&
                           counteragents.map((counteragent, index) => {
-                            if (counteragent.type === 'CounterAgent') {
+                            if (counteragent.type === "CounterAgent") {
                               return (
                                 <option key={index} value={counteragent._id}>
                                   {counteragent.lastname +
-                                    ' ' +
+                                    " " +
                                     counteragent.firstname}
                                 </option>
-                              )
+                              );
                             }
-                            return ""
+                            return "";
                           })}
                       </select>
                     </div>
                   </div>
                 ) : (
-                  ''
+                  ""
                 )}
                 <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                   <div className="form-group">
@@ -242,35 +243,37 @@ export const RegistorUser = ({
                 </div>
                 <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                   <div>
-                    {loading ? <button className='btn btn-success' disabled>
-                      <span class="spinner-border spinner-border-sm"></span>
-                      Loading...
-                    </button>
-                      :
-                    <button
-                      className="btn btn-success"
-                      onClick={() =>
-                        setUser({
-                          type: null,
-                          clinica: auth.clinica._id,
-                        })
-                      }
-                    >
-                      <FontAwesomeIcon icon={faRecycle} />
-                    </button>
-                    }
-                    {loading ? <button className='btn btn-primary' disabled>
-                      <span class="spinner-border spinner-border-sm"></span>
-                      Loading...
-                    </button>
-                      :
-                    <button
-                      className="btn btn-primary float-right"
-                      onClick={createHandler}
-                    >
-                      Yaratish
-                    </button>
-                    }
+                    {loading ? (
+                      <button className="btn btn-success" disabled>
+                        <span class="spinner-border spinner-border-sm"></span>
+                        Loading...
+                      </button>
+                    ) : (
+                      <button
+                        className="btn btn-success"
+                        onClick={() =>
+                          setUser({
+                            type: null,
+                            clinica: auth.clinica._id,
+                          })
+                        }
+                      >
+                        <FontAwesomeIcon icon={faRecycle} />
+                      </button>
+                    )}
+                    {loading ? (
+                      <button className="btn btn-primary" disabled>
+                        <span class="spinner-border spinner-border-sm"></span>
+                        Loading...
+                      </button>
+                    ) : (
+                      <button
+                        className="btn btn-primary float-right"
+                        onClick={createHandler}
+                      >
+                        Yaratish
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>
@@ -280,5 +283,5 @@ export const RegistorUser = ({
       </div>
       {/* Row end */}
     </div>
-  )
-}
+  );
+};

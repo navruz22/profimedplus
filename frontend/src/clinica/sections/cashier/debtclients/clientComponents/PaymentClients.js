@@ -21,10 +21,10 @@ export const PaymentClients = ({
               <table className="table">
                 <thead>
                   <tr>
-                    <th scope="col" className="border py-1">
+                    <th scope="col" className="border py-1 bg-alotrade">
                       #
                     </th>
-                    <th scope="col" className="border py-1">
+                    <th scope="col" className="border py-1 bg-alotrade">
                       Malumot
                     </th>
                   </tr>
@@ -86,13 +86,13 @@ export const PaymentClients = ({
               </div>
               <div className="text-right">
                 {loading ? (
-                  <button className="btn btn-success" disabled>
+                  <button className="bg-alotrade text-white py-2 px-3" disabled>
                     <span className="spinner-border spinner-border-sm"></span>
                     Loading...
                   </button>
                 ) : (
                   <button
-                    className="btn btn-primary py-0"
+                    className="bg-alotrade text-white py-2 px-3 font-semibold"
                     onClick={checkPayCount}
                   >
                     To'lov qilish

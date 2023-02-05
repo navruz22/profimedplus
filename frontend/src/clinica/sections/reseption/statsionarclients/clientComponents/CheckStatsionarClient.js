@@ -1,6 +1,7 @@
 import React from "react";
 
 const CheckStatsionarClient = ({ connector, qr }) => {
+  console.log(connector);
   return (
     <div className="container p-3">
       <div className="row">
@@ -271,15 +272,29 @@ const CheckStatsionarClient = ({ connector, qr }) => {
                   <td className="text-right border py-1 text-bold">
                     {connector.room &&
                       Math.round(
-                        (Date.now(connector.room.beginday) /
-                          (1000 * 60 * 60 * 24)) %
-                          24
+                        Math.abs(
+                          (new Date(connector.room.beginday).getTime()
+                            -
+                            new Date().getTime())
+                          /
+                          (24 * 60 * 60 * 1000)
+                        )
                       )}
                   </td>
                   <td className="text-right border py-1 text-bold">
                     {connector.room && connector.room.room.price}
                   </td>
-                  <td className="text-right border py-1">Umumiy narxi</td>
+                  <td className="text-right border py-1">{connector.room &&
+                    Math.round(
+                      Math.abs(
+                        (new Date(connector.room.beginday).getTime()
+                          -
+                          new Date().getTime())
+                        /
+                        (24 * 60 * 60 * 1000)
+                      )
+                    ) * connector.room.room.price
+                  }</td>
                   <td className="text-right border py-1 text-bold">
                     {connector.room &&
                       new Date(connector.room.beginday).toLocaleDateString()}

@@ -392,13 +392,13 @@ export const Users = () => {
       <div className="row">
         <div className="col-12 text-end">
           <button
-            className={`btn btn-primary mb-2 w-100 ${visible ? 'd-none' : ''}`}
+            className={`bg-alotrade border-0 btn text-white mb-2 w-100 ${visible ? 'd-none' : ''}`}
             onClick={changeVisible}
           >
             Registratsiya
           </button>
           <button
-            className={`btn btn-primary mb-2 w-100 ${visible ? '' : 'd-none'}`}
+            className={`bg-alotrade border-0 btn text-white mb-2 w-100 ${visible ? '' : 'd-none'}`}
             onClick={changeVisible}
           >
             Registratsiya
@@ -426,8 +426,8 @@ export const Users = () => {
 
       <div className="row gutters">
         <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-          <div className="table-container">
-            <div className="table-container">
+          <div className="border-0 table-container">
+            <div className="border-0 table-container">
               <div className="table-responsive">
                 <table className="table m-0">
                   <thead className="bg-white">
@@ -453,7 +453,7 @@ export const Users = () => {
                           onChange={sortType}
                           style={{ minWidth: '50px' }}
                         >
-                          <option value="all">Barchasi xizmat turi</option>
+                          <option value="all">Barchasi foydalanuvchilar</option>
                           {sections.map((section, index) => {
                             return (
                               <option value={section.type} key={index}>
@@ -486,8 +486,8 @@ export const Users = () => {
                   </thead>
                   <thead>
                     <tr>
-                      <th className="border-right">№</th>
-                      <th className="border-right">
+                      <th className="border-right bg-alotrade text-[16px]">№</th>
+                      <th className="border-right bg-alotrade text-[16px]">
                         Xizmat turi
                         <div className="btn-group-vertical ml-2">
                           {/* <FontAwesomeIcon
@@ -514,7 +514,7 @@ export const Users = () => {
                     /> */}
                         </div>
                       </th>
-                      <th className="border-right">
+                      <th className="border-right bg-alotrade text-[16px]">
                         Ixtisosligi
                         {/* <Sort
                     data={currentUsers}
@@ -522,7 +522,7 @@ export const Users = () => {
                     property={"serveicetype"}
                   /> */}
                       </th>
-                      <th className="border-right">
+                      <th className="border-right bg-alotrade text-[16px]">
                         F.I.Sh
                         <Sort
                           data={currentUsers}
@@ -530,7 +530,7 @@ export const Users = () => {
                           property={'lastname'}
                         />
                       </th>
-                      <th className="border-right">
+                      <th className="border-right bg-alotrade text-[16px]">
                         Tel
                         {/* <Sort
                     data={currentUsers}
@@ -538,18 +538,18 @@ export const Users = () => {
                     property={"shortname"}
                   /> */}
                       </th>
-                      <th className="border-right text-center">Tahrirlash</th>
-                      <th className="text-center">O'chirish</th>
+                      <th className="border-right bg-alotrade text-[16px] text-center">Tahrirlash</th>
+                      <th className="text-center bg-alotrade text-[16px]">O'chirish</th>
                     </tr>
                   </thead>
                   <tbody>
                     {currentUsers.map((user, key) => {
                       return (
                         <tr key={key}>
-                          <td className="border-right font-weight-bold">
+                          <td className="border-right text-[16px] font-weight-bold">
                             {key + 1}
                           </td>
-                          <td className="border-right">
+                          <td className="border-right text-[16px]">
                             {sections.map((section) => {
                               if (section.type === user.type) {
                                 return section.value
@@ -557,20 +557,20 @@ export const Users = () => {
                               return ''
                             })}
                           </td>
-                          <td className="border-right">
+                          <td className="border-right text-[16px]">
                             {user.specialty && user.specialty.name}
                           </td>
-                          <td className="border-right">
+                          <td className="border-right text-[16px]">
                             {user.lastname +
                               ' ' +
                               user.firstname +
                               ' ' +
                               (user.fathername && user.fathername)}
                           </td>
-                          <td className="border-right">
+                          <td className="border-right text-[16px]">
                             {'+998' + user.phone}
                           </td>
-                          <td className="border-right text-center">
+                          <td className="border-right text-[16px] text-center">
                             {loading ? (
                               <button className="btn btn-success" disabled>
                                 <span class="spinner-border spinner-border-sm"></span>
@@ -583,14 +583,14 @@ export const Users = () => {
                                   setVisible(true)
                                 }}
                                 type="button"
-                                className="btn btn-success py-1 px-2"
+                                className="bg-alotrade rounded text-white font-semibold py-1 px-2"
                                 style={{ fontSize: '75%' }}
                               >
                                 Tahrirlash
                               </button>
                             )}
                           </td>
-                          <td className="text-center">
+                          <td className="text-center text-[16px]">
                             {loading ? (
                               <button className="btn btn-secondary" disabled>
                                 <span class="spinner-border spinner-border-sm"></span>
@@ -603,7 +603,7 @@ export const Users = () => {
                                   setModal(true)
                                 }}
                                 type="button"
-                                className="btn btn-secondary py-1 px-2"
+                                className="bg-red-400 rounded text-white font-semibold py-1 px-2"
                                 style={{ fontSize: '75%' }}
                               >
                                 O'chirish

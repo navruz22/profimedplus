@@ -8,10 +8,15 @@ import { Modal } from './modal/Modal'
 import { Sort } from './serviceComponents/Sort'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleUp, faAngleDown } from '@fortawesome/free-solid-svg-icons'
+import { useHistory, useLocation } from 'react-router-dom'
 
 export const ServiceType = () => {
   //====================================================================
   //====================================================================
+
+  const location = useLocation()
+  const history = useHistory()
+
   const [modal, setModal] = useState(false)
   const [modal1, setModal1] = useState(false)
   const [remove, setRemove] = useState()
@@ -86,6 +91,7 @@ export const ServiceType = () => {
   //====================================================================
   //====================================================================
   const [servicetypes, setServiceTypes] = useState()
+  const [serviceTypeStorage, setServiceTypeStorage] = useState([]);
 
   const getServiceType = useCallback(async () => {
     try {
@@ -97,7 +103,12 @@ export const ServiceType = () => {
           Authorization: `Bearer ${auth.token}`,
         },
       )
-      setServiceTypes(data)
+      setServiceTypeStorage(data)
+      if (location?.state?.department) {
+        setServiceTypes([...data].filter(type => type.department._id === location?.state?.department))
+      } else {
+        setServiceTypes(data);
+      }
     } catch (error) {
       notify({
         title: error,
@@ -269,7 +280,13 @@ export const ServiceType = () => {
   //====================================================================
 
   const checkHandler = (e) => {
-    setServiceType({ ...servicetype, department: e.target.value })
+    const value = e.target.value;
+    if (value === 'none') {
+      setServiceTypes(serviceTypeStorage);
+    } else {
+      setServiceTypes([...serviceTypeStorage].filter((type) => type.department._id === value));
+    }
+    setServiceType({ ...servicetype, department: value })
   }
 
   const inputHandler = (e) => {
@@ -295,18 +312,18 @@ export const ServiceType = () => {
   return (
     <>
       {loading ? <Loader /> : ''}
-      <div className="content-wrapper px-lg-5 px-3">
+      <div className="bg-slate-100 content-wrapper px-lg-5 px-3">
         <div className="row gutters">
           <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-            <div className="table-container">
+            <div className="border-0 table-container">
               <div className="table-responsive">
                 <table className="table m-0">
                   <thead>
                     <tr>
-                      <th className="w-25">Bo'lim nomi</th>
-                      <th className="w-25">Xizmat turi</th>
-                      <th className="w-25">Saqlash</th>
-                      <th className="w-25">Barcha xizmatlarni o'chirish</th>
+                      <th className="w-25 bg-alotrade text-[16px]">Bo'lim nomi</th>
+                      <th className="w-25 bg-alotrade text-[16px]">Xizmat turi</th>
+                      <th className="w-25 bg-alotrade text-[16px]">Saqlash</th>
+                      <th className="w-25 bg-alotrade text-[16px]">Barcha xizmatlarni o'chirish</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -314,11 +331,11 @@ export const ServiceType = () => {
                       <td>
                         <select
                           style={{ minWidth: '70px', maxWidth: '200px' }}
-                          className="form-control form-control-sm selectpicker"
+                          className="text-[16px] form-control form-control-sm selectpicker"
                           placeholder="Bo'limni tanlang"
                           onChange={checkHandler}
                         >
-                          <option>Bo'limni tanlang</option>
+                          <option value={'none'}>Bo'limni tanlang</option>
                           {departments &&
                             departments.map((department, index) => {
                               return (
@@ -337,7 +354,7 @@ export const ServiceType = () => {
                           onKeyUp={keyPressed}
                           onChange={inputHandler}
                           type="text"
-                          className="form-control w-75 py-0"
+                          className="text-[16px] form-control w-75 py-0"
                           id="name"
                           placeholder="Xizmat nomini kiriting"
                         />
@@ -351,7 +368,7 @@ export const ServiceType = () => {
                         ) : (
                           <button
                             onClick={saveHandler}
-                            className="btn btn-info py-1 px-4"
+                            className="text-[16px] btn btn-info py-1 px-4"
                           >
                             Saqlash
                           </button>
@@ -366,7 +383,7 @@ export const ServiceType = () => {
                         ) : (
                           <button
                             onClick={() => setModal1(true)}
-                            className="btn btn-danger py-0 px-4 pt-1"
+                            className="text-[16px] btn btn-danger py-0 px-4 pt-1"
                           >
                             <span className="icon-trash-2"></span>
                           </button>
@@ -377,13 +394,13 @@ export const ServiceType = () => {
                 </table>
               </div>
             </div>
-            <div className="table-container">
+            <div className="border-0 table-container">
               <div className="table-responsive">
                 <table className="table m-0">
                   <thead>
                     <tr>
-                      <th>№</th>
-                      <th className="w-25">
+                      <th className='text-[16px] bg-alotrade '>№</th>
+                      <th className="text-[16px] bg-alotrade w-25">
                         Bo'limi{'  '}
                         <div className="btn-group-vertical ml-2">
                           <FontAwesomeIcon
@@ -414,7 +431,7 @@ export const ServiceType = () => {
                           />
                         </div>
                       </th>
-                      <th className="w-25">
+                      <th className="text-[16px] bg-alotrade w-25">
                         Xizmat turi{' '}
                         <Sort
                           data={servicetypes}
@@ -422,8 +439,9 @@ export const ServiceType = () => {
                           property={'name'}
                         />
                       </th>
-                      <th className="w-25">Tahrirlash</th>
-                      <th className="w-25">O'chirish</th>
+                      <th className="text-[16px] bg-alotrade w-25">Barcha xizmatlar</th>
+                      <th className="text-[16px] bg-alotrade w-25">Tahrirlash</th>
+                      <th className="text-[16px] bg-alotrade w-25">O'chirish</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -431,10 +449,19 @@ export const ServiceType = () => {
                       servicetypes.map((s, key) => {
                         return (
                           <tr key={key}>
-                            <td className="font-weight-bold">{key + 1}</td>
-                            <td>{s.department.name}</td>
-                            <td>{s.name}</td>
+                            <td className="font-weight-bold text-[16px]">{key + 1}</td>
+                            <td className='text-[16px]'>{s.department.name}</td>
+                            <td className='text-[16px]'>{s.name}</td>
                             <td>
+                              <button
+                                onClick={() => history.push('/alo24/services', {
+                                  servicetype: s._id
+                                })}
+                                className='text-[16px] bg-green-400 text-white font-semibold py-1 px-2'>
+                                Xizmatlar
+                              </button>
+                            </td>
+                            <td className='text-[16px]'>
                               <button
                                 onClick={() => {
                                   const index = departments.findIndex(
@@ -446,20 +473,20 @@ export const ServiceType = () => {
                                   setServiceType(s)
                                 }}
                                 type="button"
-                                className="btn btn-success py-1 px-2"
+                                className="text-[16px] rounded bg-alotrade text-white py-1 px-2"
                                 style={{ fontSize: '75%' }}
                               >
                                 Tahrirlash
                               </button>
                             </td>
-                            <td>
+                            <td className='text-[16px]'>
                               <button
                                 onClick={() => {
                                   setRemove(s)
                                   setModal(true)
                                 }}
                                 type="button"
-                                className="btn btn-secondary py-1 px-2"
+                                className="text-[16px] rounded bg-red-400 text-white py-1 px-2"
                                 style={{ fontSize: '75%' }}
                               >
                                 O'chirish

@@ -1,10 +1,10 @@
-const {Schema, model, Types} = require('mongoose')
+const { Schema, model, Types } = require('mongoose')
 const Joi = require('joi')
 
 const connector = new Schema(
     {
-        clinica: {type: Schema.Types.ObjectId, ref: 'Clinica', required: true},
-        isArchive: {type: Boolean, default: false},
+        clinica: { type: Schema.Types.ObjectId, ref: 'Clinica', required: true },
+        isArchive: { type: Boolean, default: false },
         client: {
             type: Schema.Types.ObjectId,
             ref: 'OfflineClient',
@@ -17,12 +17,12 @@ const connector = new Schema(
                 required: true,
             },
         ],
-        products: [{type: Schema.Types.ObjectId, ref: 'OfflineProduct'}],
-        probirka: {type: Number, default: 0},
-        accept: {type: Boolean, default: false},
-        totalprice: {type: Number},
-        payments: [{type: Schema.Types.ObjectId, ref: 'OfflinePayment'}],
-        discount: {type: Schema.Types.ObjectId, ref: 'OfflineDiscount'},
+        products: [{ type: Schema.Types.ObjectId, ref: 'OfflineProduct' }],
+        probirka: { type: Number, default: 0 },
+        accept: { type: Boolean, default: false },
+        totalprice: { type: Number },
+        payments: [{ type: Schema.Types.ObjectId, ref: 'OfflinePayment' }],
+        discount: { type: Schema.Types.ObjectId, ref: 'OfflineDiscount' },
     },
     {
         timestamps: true,

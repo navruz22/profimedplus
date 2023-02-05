@@ -41,10 +41,10 @@ export const RegisterClient = ({
                             <table className="table">
                                 <thead>
                                     <tr>
-                                        <th scope="col" className="border py-1">
+                                        <th scope="col" className="border py-1 bg-alotrade">
                                             #
                                         </th>
-                                        <th scope="col" className="border py-1">
+                                        <th scope="col" className="border py-1 bg-alotrade">
                                             First
                                         </th>
                                     </tr>
@@ -96,12 +96,12 @@ export const RegisterClient = ({
                                     <table className="table table-sm">
                                         <thead>
                                             <tr>
-                                                <th className="border py-1">№</th>
-                                                <th className="border py-1">Nomi</th>
-                                                <th className="border py-1">Narxi</th>
-                                                <th className="border py-1">Soni</th>
-                                                <th className="border py-1">To'lov</th>
-                                                <th className="border py-1">Izoh</th>
+                                                <th className="border py-1 bg-alotrade">№</th>
+                                                <th className="border py-1 bg-alotrade">Nomi</th>
+                                                <th className="border py-1 bg-alotrade">Narxi</th>
+                                                <th className="border py-1 bg-alotrade">Soni</th>
+                                                <th className="border py-1 bg-alotrade">To'lov</th>
+                                                <th className="border py-1 bg-alotrade">Izoh</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -267,7 +267,7 @@ export const RegisterClient = ({
                                         <div className="input-group input-group-sm mb-3">
                                             <div className="input-group-prepend w-25">
                                                 <span
-                                                    className="w-100 input-group-text bg-primary text-white font-weight-bold"
+                                                    className="w-100 input-group-text bg-alotrade text-white font-weight-bold"
                                                     id="inputGroup-sizing-sm"
                                                     style={{ fontSize: "9pt" }}>
                                                     Chegirma
@@ -294,7 +294,7 @@ export const RegisterClient = ({
                                         <div className="input-group input-group-sm">
                                             <div className="input-group-prepend w-25">
                                                 <label
-                                                    className="w-100 input-group-text bg-primary text-white font-weight-bold"
+                                                    className="w-100 input-group-text bg-alotrade text-white font-weight-bold"
                                                     htmlFor="inputGroupSelect01"
                                                     style={{ fontSize: "9pt" }}
                                                 >
@@ -316,7 +316,7 @@ export const RegisterClient = ({
                                         <div className="input-group input-group-sm mb-3">
                                             <div className="input-group-prepend w-25">
                                                 <span
-                                                    className="w-100 input-group-text bg-primary text-white font-weight-bold"
+                                                    className="w-100 input-group-text bg-alotrade text-white font-weight-bold"
                                                     id="inputGroup-sizing-sm"
                                                     style={{ fontSize: "9pt" }}>
                                                     Qarz
@@ -335,7 +335,7 @@ export const RegisterClient = ({
                                         <div className="input-group input-group-sm">
                                             <div className="input-group-prepend w-25">
                                                 <span
-                                                    className="w-100 input-group-text bg-primary text-white font-weight-bold"
+                                                    className="w-100 input-group-text bg-alotrade text-white font-weight-bold"
                                                     id="inputGroup-sizing-sm"
                                                     style={{ fontSize: "9pt" }}>
                                                     Izoh
@@ -364,7 +364,7 @@ export const RegisterClient = ({
                                                 })
                                             }}
                                             type="button"
-                                            className={`btn btn-sm py-1 text-white  ${payment.type === "cash" ? "bg-amber-500" : "bg-teal-500"}`}
+                                            className={`btn btn-sm py-1 text-white  ${payment.type === "cash" ? "bg-amber-500" : "bg-alotrade"}`}
                                         >
                                             Naqt
                                         </button>
@@ -380,7 +380,7 @@ export const RegisterClient = ({
                                                 })
                                             }}
                                             type="button"
-                                            className={`btn btn-sm py-1 text-white ${payment.type === "card" ? "bg-amber-500" : "bg-teal-500"}`}
+                                            className={`btn btn-sm py-1 text-white ${payment.type === "card" ? "bg-amber-500" : "bg-alotrade"}`}
                                         >
                                             Plastik
                                         </button>
@@ -389,14 +389,14 @@ export const RegisterClient = ({
                                                 setPayment({
                                                     ...payment,
                                                     type: "transfer",
-                                                    payment:totalpayment - payments - discount.discount - payment.debt,
+                                                    payment: totalpayment - payments - discount.discount - payment.debt,
                                                     cash: 0,
                                                     card: 0,
                                                     transfer: totalpayment - payments - discount.discount - payment.debt
                                                 })
                                             }}
                                             type="button"
-                                            className={`btn btn-sm py-1 text-white ${payment.type === "transfer" ? "bg-amber-500" : "bg-teal-500"}`}
+                                            className={`btn btn-sm py-1 text-white ${payment.type === "transfer" ? "bg-amber-500" : "bg-alotrade"}`}
                                         >
                                             O'tkazma
                                         </button>
@@ -411,7 +411,7 @@ export const RegisterClient = ({
                                                 })
                                             }}
                                             type="button"
-                                            className={`btn btn-sm py-1 text-white ${payment.type === "mixed" ? "bg-amber-500" : "bg-teal-500"}`}
+                                            className={`btn btn-sm py-1 text-white ${payment.type === "mixed" ? "bg-amber-500" : "bg-alotrade"}`}
                                         >
                                             Aralash
                                         </button>
@@ -478,7 +478,7 @@ export const RegisterClient = ({
                             </div>
                         </div>
                         <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
-                            <div className="text-right">
+                            {totalpayment - payments - discount.discount - payment.debt !== 0 && <div className="text-right">
                                 {loading ? (
                                     <button className="btn btn-warning" disabled>
                                         <span className="spinner-border spinner-border-sm"></span>
@@ -489,7 +489,7 @@ export const RegisterClient = ({
                                         Qabul qilish
                                     </button>
                                 )}
-                            </div>
+                            </div>}
                         </div>
                     </div>
                 </div>
