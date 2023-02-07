@@ -51,7 +51,7 @@
       "react-hooks"
     ]
   },
-  "proxy": "http://localhost:9900",
+  "proxy": "http://alo-med.uz",
   "browserslist": {
     "production": [
       ">0.2%",
