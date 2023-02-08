@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const router = Router();
-const sections = require("../../models/Sections");
+const sections = require("../../models/Sections.json");
 
 router.get("/", async (req, res) => {
   try {

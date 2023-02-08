@@ -77,6 +77,7 @@ export const Login = () => {
   const getSections = useCallback(async () => {
     try {
       const data = await request("/api/sections", "GET", null);
+
       setSections(data);
     } catch (error) {
       notify({
