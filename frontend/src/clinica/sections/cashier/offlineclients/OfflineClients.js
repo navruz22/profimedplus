@@ -11,7 +11,7 @@ import { checkData } from './checkData/checkData'
 //   checkProductsData,
 //   checkServicesData,
 // } from "./checkData/checkData";
-// import { CheckModal } from "../components/ModalCheck";
+import { CheckModal } from "../components/ModalCheck";
 
 export const OfflineClients = () => {
     const [beginDay, setBeginDay] = useState(
@@ -50,7 +50,7 @@ export const OfflineClients = () => {
 
     //====================================================================
     //====================================================================
-
+    const [check, setCheck] = useState({});
     //====================================================================
     //====================================================================
     const toast = useToast()
@@ -113,6 +113,21 @@ export const OfflineClients = () => {
     )
     //====================================================================
     //====================================================================+
+
+    const [baseUrl, setBaseurl] = useState();
+
+    const getBaseUrl = useCallback(async () => {
+        try {
+            const data = await request(`/api/baseurl`, "GET", null);
+            setBaseurl(data);
+        } catch (error) {
+            notify({
+                title: error,
+                description: "",
+                status: "error",
+            });
+        }
+    }, [request, notify]);
 
     //====================================================================
     //====================================================================
@@ -687,8 +702,9 @@ export const OfflineClients = () => {
         if (auth.clinica && !t) {
             setT(1)
             getConnectors(beginDay, endDay)
+            getBaseUrl()
         }
-    }, [auth, getConnectors, t, beginDay, endDay])
+    }, [auth, getConnectors, getBaseUrl, t, beginDay, endDay])
 
     //====================================================================
     //====================================================================
@@ -746,7 +762,7 @@ export const OfflineClients = () => {
                             setVisible={setVisible}
                             modal1={modal1}
                             setModal1={setModal1}
-                            // setCheck={setCheck}
+                            setCheck={setCheck}
                             changeStart={changeStart}
                             changeEnd={changeEnd}
                             searchPhone={searchPhone}
@@ -771,12 +787,12 @@ export const OfflineClients = () => {
                 </div>
             </div>
 
-            {/* <CheckModal
-        baseUrl={baseUrl}
-        connector={check}
-        modal={modal1}
-        setModal={setModal1}
-      /> */}
+            <CheckModal
+                baseUrl={baseUrl}
+                connector={check}
+                modal={modal1}
+                setModal={setModal1}
+            />
 
             <Modal
                 modal={modal}

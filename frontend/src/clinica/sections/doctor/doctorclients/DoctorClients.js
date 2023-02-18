@@ -224,6 +224,7 @@ export const DoctorClients = () => {
             connector={printBody.connector}
             client={printBody.client}
             sections={printBody.services}
+            clinica={auth && auth.clinica}
           />
         </div>
       </div>

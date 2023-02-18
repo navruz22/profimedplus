@@ -25,31 +25,6 @@ export const Check = ({ connector, qr }) => {
                       </strong>{' '}
                       {connector.clinica && connector.clinica.address}
                     </li>
-                    <li style={{ fontSize: '11pt', fontFamily: 'times' }}>
-                      <strong style={{ fontSize: '11pt', fontFamily: 'times' }}>
-                        Bank:{' '}
-                      </strong>{' '}
-                      {connector.clinica && connector.clinica.bank}
-                    </li>
-                    <li style={{ fontSize: '11pt', fontFamily: 'times' }}>
-                      {' '}
-                      <strong style={{ fontSize: '11pt', fontFamily: 'times' }}>
-                        MFO:{' '}
-                      </strong>{' '}
-                      {connector.clinica && connector.clinica.mfo}
-                    </li>
-                    <li style={{ textAlign: '', fontSize: '11pt' }}>
-                      <strong style={{ fontSize: '11pt', fontFamily: 'times' }}>
-                        INN:
-                      </strong>{' '}
-                      {connector.clinica && connector.clinica.inn}
-                    </li>
-                    <li style={{ textAlign: '', fontSize: '11pt' }}>
-                      <strong style={{ fontSize: '11pt', fontFamily: 'times' }}>
-                        Hisob raqam:{' '}
-                      </strong>{' '}
-                      {connector.clinica && connector.clinica.bankNumber}
-                    </li>
                     <li style={{ textAlign: '', fontSize: '11pt' }}>
                       <strong style={{ fontSize: '11pt', fontFamily: 'times' }}>
                         Telefon raqam:{' '}
@@ -71,6 +46,24 @@ export const Check = ({ connector, qr }) => {
                         connector.clinica.phone3}
                       <br />
                     </li>
+                    <li style={{ textAlign: '', fontSize: '11pt' }}>
+                      {connector.probirka && connector.probirka ? (
+                        <h6
+                          className="d-inline-block"
+                          style={{ fontSize: '27pt', fontFamily: 'times' }}
+                        >
+                          NAMUNA: {connector.probirka}
+                        </h6>
+                      ) : (
+                        ''
+                      )}
+                      <div className="ml-3 fs-5">
+                        {connector &&
+                          new Date(connector.createdAt).toLocaleDateString() +
+                          ' ' +
+                          new Date(connector.createdAt).toLocaleTimeString()}
+                      </div>
+                    </li>
                   </ul>
                 </td>
                 <td className="text-center">
@@ -80,23 +73,6 @@ export const Check = ({ connector, qr }) => {
                     src={connector.clinica && connector.clinica.image}
                     alt="logo"
                   />
-                  <br />
-                  {connector.probirka && connector.probirka ? (
-                    <h6
-                      className="d-inline-block"
-                      style={{ fontSize: '27pt', fontFamily: 'times' }}
-                    >
-                      NAMUNA: {connector.probirka}
-                    </h6>
-                  ) : (
-                    ''
-                  )}
-                  <div className="ml-3 fs-5">
-                    {connector &&
-                      new Date(connector.createdAt).toLocaleDateString() +
-                        ' ' +
-                        new Date(connector.createdAt).toLocaleTimeString()}
-                  </div>
                 </td>
                 <td className="text-right">
                   <img
@@ -276,12 +252,12 @@ export const Check = ({ connector, qr }) => {
                             service.service.price * parseInt(service.pieces)
                           )
                         }, 0) +
-                          connector.products.reduce((summ, product) => {
-                            return (
-                              summ +
-                              product.product.price * parseInt(product.pieces)
-                            )
-                          }, 0)}
+                        connector.products.reduce((summ, product) => {
+                          return (
+                            summ +
+                            product.product.price * parseInt(product.pieces)
+                          )
+                        }, 0)}
                     </td>
                   </tr>
                 </tfoot>
@@ -316,31 +292,6 @@ export const Check = ({ connector, qr }) => {
                       </strong>{' '}
                       {connector.clinica && connector.clinica.address}
                     </li>
-                    <li style={{ fontSize: '11pt', fontFamily: 'times' }}>
-                      <strong style={{ fontSize: '11pt', fontFamily: 'times' }}>
-                        Bank:{' '}
-                      </strong>{' '}
-                      {connector.clinica && connector.clinica.bank}
-                    </li>
-                    <li style={{ fontSize: '11pt', fontFamily: 'times' }}>
-                      {' '}
-                      <strong style={{ fontSize: '11pt', fontFamily: 'times' }}>
-                        MFO:{' '}
-                      </strong>{' '}
-                      {connector.clinica && connector.clinica.mfo}
-                    </li>
-                    <li style={{ textAlign: '', fontSize: '11pt' }}>
-                      <strong style={{ fontSize: '11pt', fontFamily: 'times' }}>
-                        INN:
-                      </strong>{' '}
-                      {connector.clinica && connector.clinica.inn}
-                    </li>
-                    <li style={{ textAlign: '', fontSize: '11pt' }}>
-                      <strong style={{ fontSize: '11pt', fontFamily: 'times' }}>
-                        Hisob raqam:{' '}
-                      </strong>{' '}
-                      {connector.clinica && connector.clinica.bankNumber}
-                    </li>
                     <li style={{ textAlign: '', fontSize: '11pt' }}>
                       <strong style={{ fontSize: '11pt', fontFamily: 'times' }}>
                         Telefon raqam:{' '}
@@ -362,6 +313,24 @@ export const Check = ({ connector, qr }) => {
                         connector.clinica.phone3}
                       <br />
                     </li>
+                    <li style={{ textAlign: '', fontSize: '11pt' }}>
+                      {connector.probirka && connector.probirka ? (
+                        <h6
+                          className="d-inline-block"
+                          style={{ fontSize: '27pt', fontFamily: 'times' }}
+                        >
+                          NAMUNA: {connector.probirka}
+                        </h6>
+                      ) : (
+                        ''
+                      )}
+                      <div className="ml-3 fs-5">
+                        {connector &&
+                          new Date(connector.createdAt).toLocaleDateString() +
+                          ' ' +
+                          new Date(connector.createdAt).toLocaleTimeString()}
+                      </div>
+                    </li>
                   </ul>
                 </td>
                 <td className="text-center">
@@ -371,23 +340,6 @@ export const Check = ({ connector, qr }) => {
                     src={connector.clinica && connector.clinica.image}
                     alt="logo"
                   />
-                  <br />
-                  {connector.probirka && connector.probirka ? (
-                    <h6
-                      className="d-inline-block"
-                      style={{ fontSize: '27pt', fontFamily: 'times' }}
-                    >
-                      NAMUNA: {connector.probirka}
-                    </h6>
-                  ) : (
-                    ''
-                  )}
-                  <div className="ml-3 fs-5">
-                    {connector &&
-                      new Date(connector.createdAt).toLocaleDateString() +
-                        ' ' +
-                        new Date(connector.createdAt).toLocaleTimeString()}
-                  </div>
                 </td>
                 <td className="text-right">
                   <img
@@ -567,12 +519,12 @@ export const Check = ({ connector, qr }) => {
                             service.service.price * parseInt(service.pieces)
                           )
                         }, 0) +
-                          connector.products.reduce((summ, product) => {
-                            return (
-                              summ +
-                              product.product.price * parseInt(product.pieces)
-                            )
-                          }, 0)}
+                        connector.products.reduce((summ, product) => {
+                          return (
+                            summ +
+                            product.product.price * parseInt(product.pieces)
+                          )
+                        }, 0)}
                     </td>
                   </tr>
                 </tfoot>

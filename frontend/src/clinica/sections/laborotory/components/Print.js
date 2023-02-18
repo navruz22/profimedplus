@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 const Print = ({ client, connector, sections }) => {
 
     const [printSections, setPrintSections] = useState([])
-
+    console.log(sections);
     useEffect(() => {
         setPrintSections([...sections].map(section =>
             ({ ...section, services: section.services.filter(s => s.accept) })).filter(el => el.services.length > 0))

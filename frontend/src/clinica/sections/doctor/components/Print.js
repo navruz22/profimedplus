@@ -1,10 +1,11 @@
 import React from 'react'
 
-const Print = ({ client, connector, sections }) => {
+const Print = ({ client, connector, sections, clinica }) => {
+    console.log(clinica);
     return (
         <div className="px-2 bg-white">
             <div>
-                <div className="row" style={{ fontSize: "10pt" }}>
+                {/* <div className="row" style={{ fontSize: "10pt" }}>
                     <div
                         className="col-4"
                         style={{ border: "1px solid", textAlign: "center" }}
@@ -36,17 +37,19 @@ const Print = ({ client, connector, sections }) => {
                             bilan tasdiqlangan
                         </p>
                     </div>
-                </div>
-                <div className="row" style={{ fontSize: "20pt" }}>
-                    <div className="col-6 pt-2" style={{ textAlign: "center" }}>
+                </div> */}
+                <div className="flex justify-around" style={{ fontSize: "20pt" }}>
+                    <div className="" style={{ textAlign: "center" }}>
                         <p className="pt-3" style={{ fontFamily: "-moz-initial" }}>
-                            "GEMO-TEST" <br />
-                            MARKAZIY LABORATORIYA
+                            {clinica.name}
                         </p>
                     </div>
-                    <div className="col-6" style={{ textAlign: "center" }}>
+                    <div className="" style={{ textAlign: "center" }}>
+                        <img src={clinica?.image} alt="logo" />
+                    </div>
+                    <div className="" style={{ textAlign: "center" }}>
                         <p className="text-end m-0">
-                            {/* <img width="120" src={qr && qr} alt="QR" /> */}
+                            <img width="120" src={'https://chart.googleapis.com/chart?cht=qr&chl=%2B998992234244&chs=180x180&choe=UTF-8&chld=L|2'} alt="QR" />
                         </p>
                     </div>
                 </div>
@@ -204,7 +207,7 @@ const Print = ({ client, connector, sections }) => {
                         </table>
                     </div>
                 </div>
-                <div className="row mt-3" style={{ backgroundColor: "#C0C0C0" }}>
+                {/* <div className="row mt-3" style={{ backgroundColor: "#C0C0C0" }}>
                     <div className="col-4">
                         <p className="px-2 m-0">"GEMO-TEST" х/к</p>
                     </div>
@@ -214,7 +217,7 @@ const Print = ({ client, connector, sections }) => {
                             RU
                         </p>
                     </div>
-                </div>
+                </div> */}
             </div>
             <div className="row pt-4 w-full">
                 {sections.length > 0 &&
