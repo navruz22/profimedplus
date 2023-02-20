@@ -50,10 +50,6 @@ const AdoptionTemplate = () => {
   // const [client, setClient] = useState();
   // const [connector, setConnector] = useState();
   const [sections, setSections] = useState([]);
-  const [tablesections, setTableSections] = useState();
-  const [tablecolumns, setTableColumns] = useState();
-  const [sectionFiles, setSectionFiles] = useState();
-  const [templates, setTemplates] = useState();
 
   const [baseUrl, setBaseUrl] = useState()
 
@@ -102,7 +98,7 @@ const AdoptionTemplate = () => {
     auth,
     notify
   ])
-
+  console.log(services);
   const uploadFile = async (e, serviceid) => {
     const files = e.target.files[0]
     const data = new FormData()
@@ -110,9 +106,13 @@ const AdoptionTemplate = () => {
     const res = await fetch('/api/upload', { method: 'POST', body: data })
     const file = await res.json()
     setSections([...sections].map(section => {
-      if (section._id === serviceid) {
-        section.files.push(`${baseUrl}/api/upload/file/${file.filename}`)
-      }
+      const ser = section.services.map((s) => {
+        if (s._id === serviceid) {
+          s.files.push(`${baseUrl}/api/upload/file/${file.filename}`)
+        }
+        return s;
+      })
+      section.services = ser;
       return section;
     }))
     notify({
@@ -124,7 +124,6 @@ const AdoptionTemplate = () => {
   }
 
   const saveService = async () => {
-    console.log('work');
     const sendData = [...sections].reduce((prev, section) => {
       prev.push(...section.services)
       return prev;
@@ -175,7 +174,6 @@ const AdoptionTemplate = () => {
   }
 
   const handleCheckAllAccept = (ind) => {
-    console.log('work');
     const filtered = sections.map((section, index) => {
       if (index === ind) {
         let newServices = [];
@@ -206,14 +204,13 @@ const AdoptionTemplate = () => {
     })
     setSections(filtered)
   }
-  console.log(sections);
+
   const handleChangeTables = (e, sectionind, serviceid, tableind, prop) => {
     const newSections = [...sections].map((section, index) => {
       if (index === sectionind) {
         const newServices = section.services.map((service) => {
           if (service._id === serviceid) {
             const newTables = service.tables.map((table, ind) => {
-              console.log(table);
               if (ind === tableind) {
                 table[`${prop}`] = e.target.value;
               }
@@ -244,37 +241,51 @@ const AdoptionTemplate = () => {
         })
         serviceIdArr.push(check);
       } else {
-        const index = serviceTypes.findIndex(el => el.servicetypeid === check)
-        serviceTypes[index].services.push(service)
-        serviceTypes[index].column = service.column
+        const checkCols = Object.keys(service.column).filter(el => el.includes('col')).length;
+        const index = serviceTypes.findIndex(el =>
+          el.servicetypeid === check
+          && Object.keys(el.column).filter(el => el.includes('col')).length === checkCols)
+        console.log(serviceTypes);
+        console.log(index);
+        if (index >= 0) {
+          serviceTypes[index].services.push(service)
+          serviceTypes[index].column = service.column
+        } else {
+          serviceTypes.push({
+            servicetypeid: check,
+            servicetypename: service.serviceid.servicetype.name,
+            services: [service],
+            column: service.column
+          })
+        }
       }
     }
-    const servicesByCol = [];
-    for (const service of serviceTypes) {
-      let col3 = [];
-      let col4 = [];
-      let col5 = []
-      let obj = {
-        servicetypeid: service.servicetypeid,
-        servicetypename: service.servicetypename,
-      }
-      for (const s of service.services) {
-        const checkCols = Object.keys(s.column).filter(el => el.includes('col')).length
-        checkCols === 3 && col3.push(s)
-        checkCols === 4 && col4.push(s)
-        checkCols === 5 && col5.push(s)
-      }
-      if (col3.length > 0) {
-        servicesByCol.push({ ...obj, services: col3, column: col3[0].column })
-      }
-      if (col4.length > 0) {
-        servicesByCol.push({ ...obj, services: col4, column: col4[0].column })
-      }
-      if (col5.length > 0) {
-        servicesByCol.push({ ...obj, services: col5, column: col5[0].column })
-      }
-    }
-    setSections(servicesByCol);
+    // const servicesByCol = [];
+    // for (const service of serviceTypes) {
+    //   let col3 = [];
+    //   let col4 = [];
+    //   let col5 = []
+    //   let obj = {
+    //     servicetypeid: service.servicetypeid,
+    //     servicetypename: service.servicetypename,
+    //   }
+    //   for (const s of service.services) {
+    //     const checkCols = Object.keys(s?.column).filter(el => el.includes('col')).length;
+    //     checkCols === 3 && col3.push(s)
+    //     checkCols === 4 && col4.push(s)
+    //     checkCols === 5 && col5.push(s)
+    //   }
+    //   if (col3.length > 0) {
+    //     servicesByCol.push({ ...obj, services: col3, column: col3[0].column })
+    //   }
+    //   if (col4.length > 0) {
+    //     servicesByCol.push({ ...obj, services: col4, column: col4[0].column })
+    //   }
+    //   if (col5.length > 0) {
+    //     servicesByCol.push({ ...obj, services: col5, column: col5[0].column })
+    //   }
+    // }
+    setSections(serviceTypes);
   }, [services]);
 
   useEffect(() => {
@@ -283,6 +294,8 @@ const AdoptionTemplate = () => {
     getBaseUrl()
     // }
   }, [getServices, getBaseUrl]);
+
+
 
   return (
     <>
@@ -293,7 +306,7 @@ const AdoptionTemplate = () => {
           style={{ fontFamily: "times" }}
         >
           <Print
-            doctor={auth.doctor}
+            auth={auth}
             connector={connector}
             client={client}
             sections={sections}
@@ -302,7 +315,7 @@ const AdoptionTemplate = () => {
       </div>
       <div className="container p-4 bg-white" style={{ fontFamily: "times" }}>
         <div className="px-4">
-          <div className="row" style={{ fontSize: "10pt" }}>
+          {/* <div className="row" style={{ fontSize: "10pt" }}>
             <div
               className="col-4"
               style={{ border: "1px solid", textAlign: "center" }}
@@ -334,12 +347,11 @@ const AdoptionTemplate = () => {
                 bilan tasdiqlangan
               </p>
             </div>
-          </div>
+          </div> */}
           <div className="row" style={{ fontSize: "20pt" }}>
             <div className="col-6 pt-2" style={{ textAlign: "center" }}>
               <p className="pt-3" style={{ fontFamily: "-moz-initial" }}>
-                "GEMO-TEST" <br />
-                MARKAZIY LABORATORIYA
+                {auth?.clinica?.name}
               </p>
             </div>
             <div className="col-6" style={{ textAlign: "center" }}>
@@ -502,17 +514,6 @@ const AdoptionTemplate = () => {
               </table>
             </div>
           </div>
-          <div className="row mt-3" style={{ backgroundColor: "#C0C0C0" }}>
-            <div className="col-4">
-              <p className="px-2 m-0">"GEMO-TEST" х/к</p>
-            </div>
-            <div className="col-8">
-              <p className="px-2 m-0 text-end pr-5">
-                Xizmatlar litsenziyalangan. LITSENZIYA №21830906 03.09.2020. SSV
-                RU
-              </p>
-            </div>
-          </div>
         </div>
         <div className="row pt-4 w-full">
           {sections.length > 0 &&
@@ -527,10 +528,10 @@ const AdoptionTemplate = () => {
                   <thead>
                     <tr>
                       <th className="border-2 bg-gray-400 border-black px-[10px] py-[2px] text-center">{section?.column?.col1}</th>
-                      {section.column.col2 && <th className="border-2 bg-gray-400 border-black px-[10px] py-[2px] text-center">{section?.column?.col2}</th>}
-                      {section.column.col3 && <th className="border-2 bg-gray-400 border-black px-[10px] py-[2px] text-center">{section?.column?.col3}</th>}
-                      {section.column.col4 && <th className="border-2 bg-gray-400 border-black px-[10px] py-[2px] text-center">{section?.column?.col4}</th>}
-                      {section.column.col5 && <th className="border-2 bg-gray-400 border-black px-[10px] py-[2px] text-center">{section?.column?.col5}</th>}
+                      {section?.column?.col2 && <th className="border-2 bg-gray-400 border-black px-[10px] py-[2px] text-center">{section?.column?.col2}</th>}
+                      {section?.column?.col3 && <th className="border-2 bg-gray-400 border-black px-[10px] py-[2px] text-center">{section?.column?.col3}</th>}
+                      {section?.column?.col4 && <th className="border-2 bg-gray-400 border-black px-[10px] py-[2px] text-center">{section?.column?.col4}</th>}
+                      {section?.column?.col5 && <th className="border-2 bg-gray-400 border-black px-[10px] py-[2px] text-center">{section?.column?.col5}</th>}
                       <th className="border-2 bg-gray-400 border-black  py-[2px]">
                         <div className="custom-control custom-checkbox text-center">
                           <input
@@ -539,7 +540,6 @@ const AdoptionTemplate = () => {
                             className="custom-control-input border border-dager"
                             id={`section${index}`}
                             onChange={() => handleCheckAllAccept(index)}
-
                           />
                           <label className="custom-control-label"
                             htmlFor={`section${index}`}></label>
@@ -550,7 +550,7 @@ const AdoptionTemplate = () => {
                   <tbody>
                     {section?.services.map((service, ind) => {
                       return <>
-                        {service.tables.map((table, key) => (
+                        {service.tables.length > 0 && service.tables.map((table, key, tabless) => (
                           <tr key={key} >
                             <td className="border-2 border-black p-[10px]"> <textarea rows={2}
                               className={"w-full border-none outline-none"}
@@ -588,7 +588,7 @@ const AdoptionTemplate = () => {
                               >
                                 {table?.col5}
                               </textarea></td>}
-                            <td rowSpan={service.tables.length} className="border-2 border-black p-[10px]">
+                            <td rowSpan={tabless.length} className={`${key > 0 ? 'hidden' : ''} border-2 border-black p-[10px]`}>
                               <div className="custom-control custom-checkbox text-center">
                                 <input
                                   checked={service.accept}

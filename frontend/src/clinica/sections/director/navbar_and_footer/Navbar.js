@@ -396,30 +396,19 @@ export const Navbar = ({ baseUrl }) => {
                 </ul>
               </li>
               <li className="nav-item dropdown">
-                <span
-                  className="nav-link dropdown-toggle"
-                  to="#"
-                  id="tablesDropdown"
+                <Link
+                  className={`nav-link ${activePage === "/alo24/mainreport"
+                    ? "active-page"
+                    : ""
+                    }`}
+                  to="/alo24/mainreport"
                   role="button"
-                  data-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
+                  style={{ background: activePage === '/alo24/mainreport' ? "#00c2cb" : "" }}
+                  onClick={() => setActivePage('/alo24/mainreport')}
                 >
-                  <i className="icon-border_all nav-icon" />
+                  <i className="icon-book-open nav-icon" />
                   Hisob bo'limi
-                </span>
-                <ul className="dropdown-menu" aria-labelledby="tablesDropdown">
-                  <li>
-                    <Link className="dropdown-item" to="bs-tables.html">
-                      Bootstrap Tables
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className="dropdown-item" to="data-tables.html">
-                      Data Tables
-                    </Link>
-                  </li>
-                </ul>
+                </Link>
               </li>
               <li className="nav-item dropdown">
                 <Link

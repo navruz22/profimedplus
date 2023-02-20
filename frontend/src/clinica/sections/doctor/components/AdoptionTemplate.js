@@ -1,6 +1,5 @@
 import { useToast } from "@chakra-ui/react";
 import {
-
   faSave,
   faTrash,
   faTrashAlt,
@@ -50,9 +49,9 @@ const AdoptionTemplate = () => {
   // const [client, setClient] = useState();
   // const [connector, setConnector] = useState();
   const [sections, setSections] = useState([]);
-  const [tablesections, setTableSections] = useState();
-  const [tablecolumns, setTableColumns] = useState();
-  const [sectionFiles, setSectionFiles] = useState();
+  // const [tablesections, setTableSections] = useState();
+  // const [tablecolumns, setTableColumns] = useState();
+  // const [sectionFiles, setSectionFiles] = useState();
   const [templates, setTemplates] = useState();
 
   const [baseUrl, setBaseUrl] = useState()
@@ -226,7 +225,7 @@ const AdoptionTemplate = () => {
       </div>
       <div className="container p-4 bg-white" style={{ fontFamily: "times" }}>
         <div className="px-4">
-          <div className="row" style={{ fontSize: "10pt" }}>
+          {/* <div className="row" style={{ fontSize: "10pt" }}>
             <div
               className="col-4"
               style={{ border: "1px solid", textAlign: "center" }}
@@ -258,12 +257,11 @@ const AdoptionTemplate = () => {
                 bilan tasdiqlangan
               </p>
             </div>
-          </div>
+          </div> */}
           <div className="row" style={{ fontSize: "20pt" }}>
             <div className="col-6 pt-2" style={{ textAlign: "center" }}>
               <p className="pt-3" style={{ fontFamily: "-moz-initial" }}>
-                "GEMO-TEST" <br />
-                MARKAZIY LABORATORIYA
+                {auth?.clinica?.name}
               </p>
             </div>
             <div className="col-6" style={{ textAlign: "center" }}>
@@ -426,7 +424,7 @@ const AdoptionTemplate = () => {
               </table>
             </div>
           </div>
-          <div className="row mt-3" style={{ backgroundColor: "#C0C0C0" }}>
+          {/* <div className="row mt-3" style={{ backgroundColor: "#C0C0C0" }}>
             <div className="col-4">
               <p className="px-2 m-0">"GEMO-TEST" х/к</p>
             </div>
@@ -435,8 +433,8 @@ const AdoptionTemplate = () => {
                 Xizmatlar litsenziyalangan. LITSENZIYA №21830906 03.09.2020. SSV
                 RU
               </p>
-            </div>
-          </div>
+            </div> 
+          </div> */}
         </div>
         <div className="row pt-4 w-full">
           {sections.length > 0 &&

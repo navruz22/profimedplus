@@ -245,7 +245,7 @@ export const Users = () => {
           Authorization: `Bearer ${auth.token}`,
         },
       )
-      console.log(data)
+
       localStorage.setItem(
         'user',
         JSON.stringify({

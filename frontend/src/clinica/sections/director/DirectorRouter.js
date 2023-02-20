@@ -5,6 +5,7 @@ import OfflineClients from "./clients/OfflineClients";
 import StatsionarClients from "./clients/StatsionarClients";
 import { EditDirector } from "./editDirector/EditDirector";
 import { EditDirectorPassword } from "./editDirector/EditDirectorPassword";
+import MainReport from "./report/MainReport";
 import { Departments } from "./services/Departments";
 import { ProductConnectors } from "./services/ProductConnector";
 import { Products } from "./services/Products";
@@ -55,7 +56,9 @@ export const DirectorRouter = () => {
         <Route path="/alo24/statsionarclients">
           <StatsionarClients />
         </Route>
-
+        <Route path="/alo24/mainreport">
+          <MainReport />
+        </Route>
         {/* Users */}
         <Route path="/alo24/users">
           <Users />

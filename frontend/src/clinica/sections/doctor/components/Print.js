@@ -1,7 +1,6 @@
 import React from 'react'
 
 const Print = ({ client, connector, sections, clinica }) => {
-    console.log(clinica);
     return (
         <div className="px-2 bg-white">
             <div>
@@ -41,7 +40,7 @@ const Print = ({ client, connector, sections, clinica }) => {
                 <div className="flex justify-around" style={{ fontSize: "20pt" }}>
                     <div className="" style={{ textAlign: "center" }}>
                         <p className="pt-3" style={{ fontFamily: "-moz-initial" }}>
-                            {clinica.name}
+                            {clinica?.name}
                         </p>
                     </div>
                     <div className="" style={{ textAlign: "center" }}>

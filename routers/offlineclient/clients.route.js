@@ -26,6 +26,7 @@ const { StatsionarRoom } = require("../../models/StatsionarClient/StatsionarRoom
 const { Room } = require("../../models/Rooms/Room");
 const { TableColumn } = require("../../models/Services/TableColumn");
 const { ServiceTable } = require("../../models/Services/ServiceTable");
+const { ServiceType } = require("../../models/Services/ServiceType");
 require('../../models/Cashier/OfflinePayment')
 
 // register
@@ -469,19 +470,31 @@ module.exports.getAll = async (req, res) => {
 
         const connectors = await OfflineConnector.find({
             clinica,
-            // createdAt: {
-            //     $gte: beginDay,
-            //     $lt: endDay,
-            // },
+            createdAt: {
+                $gte: beginDay,
+                $lt: endDay,
+            },
         })
             .sort({ createdAt: -1 })
             .populate('client', '-createdAt -updatedAt -isArchive -__v')
             .populate('payments')
-            .populate('services')
+            .populate({
+                path: 'services',
+                select: "-updatedAt -isArchive -__v",
+                populate: {
+                    path: "serviceid",
+                    select: "servicetype",
+                    populate: {
+                        path: "servicetype",
+                        select: "name"
+                    }
+                }
+            })
             .populate('products')
 
         res.status(200).send(connectors)
     } catch (error) {
+        console.log(error);
         res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
     }
 }

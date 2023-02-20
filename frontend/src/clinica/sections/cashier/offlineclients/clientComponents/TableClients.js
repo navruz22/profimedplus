@@ -4,6 +4,7 @@ import { faAngleDown, faAngleUp, faMoneyBill, faPrint } from "@fortawesome/free-
 import { Sort } from "./Sort";
 import { Pagination } from "../../components/Pagination";
 import { DatePickers } from "./DatePickers";
+import { useLocation } from "react-router-dom";
 
 
 export const TableClients = ({
@@ -33,6 +34,8 @@ export const TableClients = ({
     setProducts,
 }) => {
 
+    const location = useLocation()
+
     const getTotalprice = (connector) => {
         let servicesTotal = connector.services.reduce((prev, s) => s.payment && prev + (s.service.price * s.pieces), 0)
         let productsTotal = connector.products.length > 0 && connector.products.reduce((prev, el) => prev + el.payment && (el.product.price * el.pieces), 0) || 0
@@ -48,8 +51,6 @@ export const TableClients = ({
         const total = getTotalprice(connector)
         const debt = getDebt(connector);
         const payments = connector.payments.reduce((prev, el) => prev + el.payment, 0)
-        console.log(total);
-        console.log(payments);
         if (debt) {
             return "bg-red-400"
         }
@@ -247,6 +248,14 @@ export const TableClients = ({
                                         property={"createdAt"}
                                     />
                                 </th>
+                                {location.pathname.includes('alo24/mainreport') && <th className="border py-1 bg-alotrade text-[16px]">
+                                    Qarz
+                                    <Sort
+                                        data={currentConnectors}
+                                        setData={setCurrentConnectors}
+                                        property={"createdAt"}
+                                    />
+                                </th>}
                                 <th className="border py-1 bg-alotrade text-[16px]">
                                     Qabul ailish
                                     <div className="btn-group-vertical ml-2">
@@ -302,6 +311,9 @@ export const TableClients = ({
                                         <td className="border py-1 text-[16px] text-right">
                                             {getDebt(connector)}
                                         </td>
+                                        {location.pathname.includes('alo24/mainreport') && <td className="border py-1 text-[16px] text-right">
+                                            {connector.payments.reduce((prev, el) => prev + el.debt, 0)}
+                                        </td>}
                                         <td className="border py-1 text-[16px] text-center">
                                             {loading ? (
                                                 <button className="btn btn-success" disabled>
