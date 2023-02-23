@@ -396,19 +396,58 @@ export const Navbar = ({ baseUrl }) => {
                 </ul>
               </li>
               <li className="nav-item dropdown">
-                <Link
-                  className={`nav-link ${activePage === "/alo24/mainreport"
+                <span
+                  to="#"
+                  id="formsDropdown"
+                  role="button"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                  className={`nav-link ${activePage === "/alo24/mainreport" ||
+                    activePage === "/alo24/statsionarreport"
                     ? "active-page"
                     : ""
                     }`}
-                  to="/alo24/mainreport"
-                  role="button"
-                  style={{ background: activePage === '/alo24/mainreport' ? "#00c2cb" : "" }}
-                  onClick={() => setActivePage('/alo24/mainreport')}
+                  style={{
+                    background: activePage === "/alo24/mainreport" ||
+                      activePage === "/alo24/statsionarreport"
+                      ? "#00c2cb"
+                      : ""
+                  }}
                 >
                   <i className="icon-book-open nav-icon" />
                   Hisob bo'limi
-                </Link>
+                </span>
+                <ul className="dropdown-menu" aria-labelledby="uiElementsDropdown">
+                  <li>
+                    <Link className="dropdown-item" to="/alo24/mainreport"
+                      onClick={() => setActivePage('/alo24/mainreport')}
+                    >
+                      Kunduzgi
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="dropdown-item" to="/alo24/statsionarreport"
+                      onClick={() => setActivePage('/alo24/statsionarreport')}
+                    >
+                      Statsionar
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="dropdown-item" to="/alo24/discountreport"
+                      onClick={() => setActivePage('/alo24/discountreport')}
+                    >
+                      Chegirmalar
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="dropdown-item" to="/alo24/debtreport"
+                      onClick={() => setActivePage('/alo24/debtreport')}
+                    >
+                      Qarzlar
+                    </Link>
+                  </li>
+                </ul>
               </li>
               <li className="nav-item dropdown">
                 <Link

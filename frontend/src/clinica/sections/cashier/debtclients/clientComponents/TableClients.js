@@ -9,6 +9,7 @@ import { Sort } from "./Sort";
 import { Pagination } from "../../components/Pagination";
 import { DatePickers } from "./DatePickers";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
+import { useLocation } from "react-router-dom";
 
 export const TableClients = ({
   changeStart,
@@ -26,6 +27,7 @@ export const TableClients = ({
   sortDebts,
   getPayment,
 }) => {
+  const location = useLocation()
   return (
     <div className="border-0 shadow-lg table-container">
       <div className="border-0 table-container">
@@ -46,7 +48,7 @@ export const TableClients = ({
                     <option value={100}>100</option>
                   </select>
                 </th>
-                <th>
+                <th className="flex gap-4">
                   <input
                     onChange={searchFullname}
                     style={{ maxWidth: "100px", minWidth: "100px" }}
@@ -54,8 +56,6 @@ export const TableClients = ({
                     className="w-100 form-control form-control-sm selectpicker"
                     placeholder="F.I.O"
                   />
-                </th>
-                <th>
                   <input
                     onChange={searchId}
                     style={{ maxWidth: "60px" }}
@@ -235,7 +235,7 @@ export const TableClients = ({
                     property={"debt"}
                   />
                 </th>
-                <th className="border bg-alotrade text-[16px] py-1">
+                {!location.pathname.includes('alo24/debtreport') && <th className="border bg-alotrade text-[16px] py-1">
                   Qabul
                   <div className="btn-group-vertical ml-2">
                     <Sort
@@ -244,7 +244,7 @@ export const TableClients = ({
                       property={"counterAgentProcient"}
                     />
                   </div>
-                </th>
+                </th>}
               </tr>
             </thead>
             <tbody>
@@ -273,7 +273,7 @@ export const TableClients = ({
                       {connector.total}
                     </td>
                     <td className="border py-1 text-right text-[16px]">{connector.debt}</td>
-                    <td className="border py-1 text-center text-[16px]">
+                    {!location.pathname.includes('alo24/debtreport') && <td className="border py-1 text-center text-[16px]">
                       {loading ? (
                         <button className="btn btn-success" disabled>
                           <span className="spinner-border spinner-border-sm"></span>
@@ -287,7 +287,7 @@ export const TableClients = ({
                           <FontAwesomeIcon icon={faPenAlt} />
                         </button>
                       )}
-                    </td>
+                    </td>}
                   </tr>
                 );
               })}

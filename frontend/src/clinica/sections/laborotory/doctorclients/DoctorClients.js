@@ -179,6 +179,24 @@ export const DoctorClients = () => {
 
   //====================================================================
   //====================================================================
+
+  const [baseUrl, setBaseurl] = useState();
+
+  const getBaseUrl = useCallback(async () => {
+    try {
+      const data = await request(`/api/baseurl`, "GET", null);
+      setBaseurl(data.baseUrl);
+    } catch (error) {
+      notify({
+        title: error,
+        description: "",
+        status: "error",
+      });
+    }
+  }, [request, notify]);
+
+  //====================================================================
+  //====================================================================
   // useEffect
 
   const [t, setT] = useState(0);
@@ -187,10 +205,9 @@ export const DoctorClients = () => {
     if (auth.clinica && !t) {
       setT(1);
       getDoctorClients(beginDay, endDay);
+      getBaseUrl()
     }
-  }, [auth, beginDay, t, endDay, getDoctorClients]);
-
-
+  }, [auth, beginDay, t, endDay, getDoctorClients, getBaseUrl]);
 
   const componentRef = useRef()
   const print = useReactToPrint({
@@ -221,10 +238,12 @@ export const DoctorClients = () => {
           style={{ fontFamily: "times" }}
         >
           <Print
+            baseUrl={baseUrl}
             doctor={auth.doctor}
             connector={printBody.connector}
             client={printBody.client}
             sections={printBody.services}
+            clinica={auth && auth.clinica}
           />
         </div>
       </div>

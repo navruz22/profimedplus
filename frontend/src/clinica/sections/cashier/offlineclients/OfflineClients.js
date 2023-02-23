@@ -119,7 +119,7 @@ export const OfflineClients = () => {
     const getBaseUrl = useCallback(async () => {
         try {
             const data = await request(`/api/baseurl`, "GET", null);
-            setBaseurl(data);
+            setBaseurl(data.baseUrl);
         } catch (error) {
             notify({
                 title: error,
@@ -782,6 +782,7 @@ export const OfflineClients = () => {
                             setPageSize={setPageSize}
                             // setModal2={setModal2}
                             loading={loading}
+                            searchStorage={searchStorage}
                         />
                     </div>
                 </div>
@@ -790,6 +791,7 @@ export const OfflineClients = () => {
             <CheckModal
                 baseUrl={baseUrl}
                 connector={check}
+                clinica={auth && auth.clinica}
                 modal={modal1}
                 setModal={setModal1}
             />

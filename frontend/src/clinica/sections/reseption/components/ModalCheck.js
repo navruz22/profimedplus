@@ -3,7 +3,7 @@ import { Check } from '../offlineclients/clientComponents/Check'
 import QRCode from 'qrcode'
 import { useReactToPrint } from 'react-to-print'
 
-export const CheckModal = ({ modal, connector, setModal, baseUrl }) => {
+export const CheckModal = ({ modal, connector, setModal, baseUrl, clinica }) => {
   const [qr, setQr] = useState()
 
   const componentRef = useRef()
@@ -43,7 +43,7 @@ export const CheckModal = ({ modal, connector, setModal, baseUrl }) => {
           </div>
           <div className="modal-body overflow-scroll">
             <div ref={componentRef}>
-              <Check connector={connector} qr={qr} />
+              <Check clinica={clinica} baseUrl={baseUrl} connector={connector} qr={qr} />
             </div>
           </div>
           <div className="modal-footer custom">

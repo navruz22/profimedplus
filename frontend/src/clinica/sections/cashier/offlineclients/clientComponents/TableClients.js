@@ -4,7 +4,6 @@ import { faAngleDown, faAngleUp, faMoneyBill, faPrint } from "@fortawesome/free-
 import { Sort } from "./Sort";
 import { Pagination } from "../../components/Pagination";
 import { DatePickers } from "./DatePickers";
-import { useLocation } from "react-router-dom";
 
 
 export const TableClients = ({
@@ -32,12 +31,11 @@ export const TableClients = ({
     loading,
     setServices,
     setProducts,
+    searchStorage
 }) => {
 
-    const location = useLocation()
-
     const getTotalprice = (connector) => {
-        let servicesTotal = connector.services.reduce((prev, s) => s.payment && prev + (s.service.price * s.pieces), 0)
+        let servicesTotal = connector.services.reduce((prev, s) => s.service && prev + (s.service.price * s.pieces), 0)
         let productsTotal = connector.products.length > 0 && connector.products.reduce((prev, el) => prev + el.payment && (el.product.price * el.pieces), 0) || 0
         return servicesTotal + productsTotal - (connector?.discount?.discount || 0)
     }
@@ -248,16 +246,16 @@ export const TableClients = ({
                                         property={"createdAt"}
                                     />
                                 </th>
-                                {location.pathname.includes('alo24/mainreport') && <th className="border py-1 bg-alotrade text-[16px]">
+                                <th className="border py-1 bg-alotrade text-[16px]">
                                     Qarz
                                     <Sort
                                         data={currentConnectors}
                                         setData={setCurrentConnectors}
                                         property={"createdAt"}
                                     />
-                                </th>}
+                                </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                    Qabul ailish
+                                    Qabul qilish
                                     <div className="btn-group-vertical ml-2">
                                         <Sort
                                             data={currentConnectors}
@@ -267,7 +265,7 @@ export const TableClients = ({
                                     </div>
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                    Check
+                                    Chek
                                     <div className="btn-group-vertical ml-2">
                                         <Sort
                                             data={currentConnectors}
@@ -309,11 +307,11 @@ export const TableClients = ({
                                             {connector.payments.reduce((prev, el) => prev + el.payment, 0)}
                                         </td>
                                         <td className="border py-1 text-[16px] text-right">
+                                            {(connector?.discount?.discount || 0)}
+                                        </td>
+                                        <td className="border py-1 text-[16px] text-right">
                                             {getDebt(connector)}
                                         </td>
-                                        {location.pathname.includes('alo24/mainreport') && <td className="border py-1 text-[16px] text-right">
-                                            {connector.payments.reduce((prev, el) => prev + el.debt, 0)}
-                                        </td>}
                                         <td className="border py-1 text-[16px] text-center">
                                             {loading ? (
                                                 <button className="btn btn-success" disabled>

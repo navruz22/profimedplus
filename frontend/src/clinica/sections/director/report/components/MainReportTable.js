@@ -1,13 +1,10 @@
-import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown, faAngleUp, faMoneyBill, faPrint } from "@fortawesome/free-solid-svg-icons";
-import { Sort } from "./Sort";
-import { Pagination } from "../../components/Pagination";
-import { DatePickers } from "./DatePickers";
-import { useLocation } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Pagination } from "../../../cashier/components/Pagination";
+import { DatePickers } from "../../../cashier/offlineclients/clientComponents/DatePickers";
+import { Sort } from "../../../cashier/offlineclients/clientComponents/Sort";
 
-
-export const TableClients = ({
+export const MainReportTable = ({
     changeClient,
     baseUrl,
     setVisible,
@@ -32,12 +29,35 @@ export const TableClients = ({
     loading,
     setServices,
     setProducts,
+    searchStorage
 }) => {
 
-    const location = useLocation()
+    const getTotalprice = (connector) => {
+        let servicesTotal = connector.services.reduce((prev, s) => s.service && prev + (s.service.price * s.pieces), 0)
+        let productsTotal = connector.products.length > 0 && connector.products.reduce((prev, el) => prev + el.payment && (el.product.price * el.pieces), 0) || 0
+        return servicesTotal + productsTotal - (connector?.discount?.discount || 0)
+    }
+
+    const getDebt = (connector) => {
+        const debt = getTotalprice(connector) - connector.payments.reduce((prev, el) => prev + el.payment, 0)
+        return debt
+    }
+
+    const setPosition = (connector) => {
+        const total = getTotalprice(connector)
+        const debt = getDebt(connector);
+        const payments = connector.payments.reduce((prev, el) => prev + el.payment, 0)
+        if (debt) {
+            return "bg-red-400"
+        }
+        if (total > 0 && payments > 0 && total === payments) {
+            return 'bg-green-400'
+        }
+        return "bg-orange-400"
+    }
 
     return (
-        <div className="border-0 shadow-lg table-container">
+        <div className="border-0 table-container">
             <div className="border-0 table-container">
                 <div className="table-responsive">
                     <table className="table m-0 table-sm">
@@ -74,7 +94,7 @@ export const TableClients = ({
                                         placeholder="Tel"
                                     />
                                 </th>
-                                <th className="flex gap-4">
+                                <th>
                                     <input
                                         onChange={searchId}
                                         style={{ maxWidth: "60px" }}
@@ -82,6 +102,8 @@ export const TableClients = ({
                                         className="form-control form-control-sm selectpicker"
                                         placeholder="ID"
                                     />
+                                </th>
+                                <th>
                                     <input
                                         onChange={searchProbirka}
                                         style={{ maxWidth: "50px" }}
@@ -188,7 +210,7 @@ export const TableClients = ({
                                     />
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                    To'langan
+                                    Naqt
                                     <div className="btn-group-vertical ml-2">
                                         <FontAwesomeIcon
                                             onClick={() =>
@@ -215,6 +237,30 @@ export const TableClients = ({
                                     </div>
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
+                                    Plastik
+                                    <Sort
+                                        data={currentConnectors}
+                                        setData={setCurrentConnectors}
+                                        property={"createdAt"}
+                                    />
+                                </th>
+                                <th className="border py-1 bg-alotrade text-[16px]">
+                                    O'tkazma
+                                    <Sort
+                                        data={currentConnectors}
+                                        setData={setCurrentConnectors}
+                                        property={"createdAt"}
+                                    />
+                                </th>
+                                <th className="border py-1 bg-alotrade text-[16px]">
+                                    Qarz
+                                    <Sort
+                                        data={currentConnectors}
+                                        setData={setCurrentConnectors}
+                                        property={"createdAt"}
+                                    />
+                                </th>
+                                <th className="border py-1 bg-alotrade text-[16px]">
                                     Chegirma
                                     <Sort
                                         data={currentConnectors}
@@ -222,16 +268,6 @@ export const TableClients = ({
                                         property={"createdAt"}
                                     />
                                 </th>
-                                {!location.pathname.includes('alo24/statsionarreport') && <th className="border py-1 bg-alotrade text-[16px]">
-                                    Qabul ailish
-                                    <div className="btn-group-vertical ml-2">
-                                        <Sort
-                                            data={currentConnectors}
-                                            setData={setCurrentConnectors}
-                                            property={"counterAgentProcient"}
-                                        />
-                                    </div>
-                                </th>}
                                 <th className="border py-1 bg-alotrade text-[16px]">
                                     Check
                                     <div className="btn-group-vertical ml-2">
@@ -249,53 +285,44 @@ export const TableClients = ({
                                 return (
                                     <tr key={key}>
                                         <td
-                                            className="border py-1 font-weight-bold text-right"
+                                            className={`${setPosition(connector)} border py-1 font-weight-bold text-right text-[16px]`}
                                             style={{ maxWidth: "30px !important" }}
                                         >
                                             {currentPage * countPage + key + 1}
                                         </td>
-                                        <td className="border py-1 font-weight-bold">
+                                        <td className="border py-1 text-[16px] font-weight-bold">
                                             {connector.client.lastname +
                                                 " " +
                                                 connector.client.firstname}
                                         </td>
-                                        <td className="border py-1 text-right">
+                                        <td className="border py-1 text-[16px] text-right">
                                             +998{connector.client.phone}
                                         </td>
-                                        <td className="border py-1 text-right">
+                                        <td className="border py-1 text-[16px] text-right">
                                             {connector.client.id}
                                         </td>
-                                        <td className="border py-1 text-right">
+                                        <td className="border py-1 text-[16px] text-right">
                                             {connector.probirka}
                                         </td>
-                                        <td className="border py-1 text-right">
-                                            {/*{connector.totalprice}*/}
+                                        <td className="border py-1 text-[16px] text-right">
+                                            {getTotalprice(connector)}
                                         </td>
-                                        <td className="border py-1 text-right">
-                                            {/*{connector.payments}*/}
+                                        <td className="border py-1 text-[16px] text-right">
+                                            {connector.payments.reduce((prev, el) => prev + el.cash, 0)}
                                         </td>
-                                        <td className="border py-1 text-right">
-                                            {/*{connector.discount}*/}
+                                        <td className="border py-1 text-[16px] text-right">
+                                            {connector.payments.reduce((prev, el) => prev + el.card, 0)}
                                         </td>
-                                        {!location.pathname.includes('alo24/statsionarreport') && <td className="border py-1 text-center">
-                                            {loading ? (
-                                                <button className="btn btn-success" disabled>
-                                                    <span className="spinner-border spinner-border-sm"></span>
-                                                    Loading...
-                                                </button>
-                                            ) : (
-                                                <button
-                                                    className="btn btn-success py-0"
-                                                    onClick={() => {
-                                                        changeClient(connector, key)
-                                                        setVisible(true);
-                                                    }}
-                                                >
-                                                    <FontAwesomeIcon icon={faMoneyBill} />
-                                                </button>
-                                            )}
-                                        </td>}
-                                        <td className="border py-1 text-center">
+                                        <td className="border py-1 text-[16px] text-right">
+                                            {connector.payments.reduce((prev, el) => prev + el.transfer, 0)}
+                                        </td>
+                                        <td className="border py-1 text-[16px] text-right">
+                                            {getDebt(connector)}
+                                        </td>
+                                        <td className="border py-1 text-[16px] text-right">
+                                            {(connector?.discount?.discount || 0)}
+                                        </td>
+                                        <td className="border py-1 text-[16px] text-center">
                                             {loading ? (
                                                 <button className="btn btn-success" disabled>
                                                     <span className="spinner-border spinner-border-sm"></span>
@@ -316,6 +343,48 @@ export const TableClients = ({
                                     </tr>
                                 );
                             })}
+                            <tr>
+                                <td
+                                    colSpan={3}
+                                    className={`py-1 font-weight-bold text-left text-[16px]`}
+                                >
+                                    Qoldiq: {searchStorage.reduce((prev, connector) => {
+                                        let payments = connector.payments.reduce((prev, el) => prev + el.payment, 0)
+                                        let debts = connector.payments.reduce((prev, el) => prev + el.debt, 0)
+                                        let discounts = (connector?.discount?.discount || 0)
+                                        return prev + (payments - discounts - debts)
+                                    }, 0)}
+                                </td>
+                                <td className="py-1 text-[16px] text-right">
+                                </td>
+                                <td className="py-1 text-[16px] text-right">
+                                </td>
+                                <td className="py-1 text-[16px] text-right">
+                                </td>
+                                <td className="border py-1 text-[16px] font-bold text-right">
+                                    {searchStorage.reduce((prev, el) => {
+                                        return prev + el.payments.reduce((prev, el) => prev + el.cash, 0)
+                                    }, 0)}
+                                </td>
+                                <td className="border py-1 text-[16px] font-bold text-right">
+                                    {searchStorage.reduce((prev, el) => {
+                                        return prev + el.payments.reduce((prev, el) => prev + el.card, 0)
+                                    }, 0)}
+                                </td>
+                                <td className="border py-1 text-[16px] font-bold text-right">
+                                    {searchStorage.reduce((prev, el) => {
+                                        return prev + el.payments.reduce((prev, el) => prev + el.transfer, 0)
+                                    }, 0)}
+                                </td>
+                                <td className="border py-1 text-[16px] font-bold text-right">
+                                    {searchStorage.reduce((prev, el) => {
+                                        return prev + el.payments.reduce((prev, el) => prev + el.debt, 0)
+                                    }, 0)}
+                                </td>
+                                <td className="border py-1 text-[16px] font-bold text-right">
+                                    {searchStorage.reduce((prev, el) => prev + (el?.discount?.discount || 0), 0)}
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

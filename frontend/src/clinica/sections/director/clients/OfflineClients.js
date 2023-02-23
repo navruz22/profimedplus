@@ -6,7 +6,6 @@ import { useReactToPrint } from 'react-to-print'
 import { AuthContext } from '../../../context/AuthContext'
 import { useHttp } from '../../../hooks/http.hook'
 import Print from './components/Print'
-import { Sort } from '../adver/Sort'
 import { Pagination } from '../components/Pagination'
 import { DatePickers } from '../../reseption/offlineclients/clientComponents/DatePickers'
 
@@ -18,7 +17,6 @@ const OfflineClients = () => {
     //=================================================
     //=================================================
     // AUTH
-    const [load, setLoad] = useState(false)
 
     const { request, loading } = useHttp()
 
@@ -97,6 +95,24 @@ const OfflineClients = () => {
     //=================================================
     //=================================================
 
+    const [baseUrl, setBaseUrl] = useState()
+
+    const getBaseUrl = useCallback(async () => {
+        try {
+            const data = await request('/api/baseurl', 'GET', null)
+            setBaseUrl(data.baseUrl)
+        } catch (error) {
+            notify({
+                title: error,
+                description: '',
+                status: 'error',
+            })
+        }
+    }, [request, notify])
+
+    //=================================================
+    //=================================================
+
     const componentRef = useRef()
     const print = useReactToPrint({
         content: () => componentRef.current,
@@ -154,8 +170,9 @@ const OfflineClients = () => {
         if (!t) {
             setT(1)
             getConnectors(beginDay, endDay)
+            getBaseUrl()
         }
-    }, [getConnectors])
+    }, [getConnectors, getBaseUrl, beginDay, endDay])
 
     //=================================================
     //=================================================
@@ -170,7 +187,11 @@ const OfflineClients = () => {
                 >
                     <Print
                         doctor={auth.doctor}
-                        clientConnector={printBody}
+                        sections={printBody.services}
+                        baseUrl={baseUrl}
+                        client={printBody.client}
+                        clinica={auth && auth.clinica}
+                        connector={printBody}
                     />
                 </div>
             </div>

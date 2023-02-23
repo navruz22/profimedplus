@@ -179,6 +179,24 @@ export const DoctorClients = () => {
 
   //====================================================================
   //====================================================================
+
+  const [baseUrl, setBaseurl] = useState();
+
+  const getBaseUrl = useCallback(async () => {
+    try {
+      const data = await request(`/api/baseurl`, "GET", null);
+      setBaseurl(data);
+    } catch (error) {
+      notify({
+        title: error,
+        description: "",
+        status: "error",
+      });
+    }
+  }, [request, notify]);
+
+  //====================================================================
+  //====================================================================
   // useEffect
 
   const [t, setT] = useState(0);
@@ -187,6 +205,7 @@ export const DoctorClients = () => {
     if (auth.clinica && !t) {
       setT(1);
       getDoctorClients(beginDay, endDay);
+      getBaseUrl()
     }
   }, [auth, beginDay, t, endDay, getDoctorClients]);
 
@@ -225,6 +244,7 @@ export const DoctorClients = () => {
             client={printBody.client}
             sections={printBody.services}
             clinica={auth && auth.clinica}
+            baseUrl={baseUrl}
           />
         </div>
       </div>

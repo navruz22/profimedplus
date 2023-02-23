@@ -1,4 +1,4 @@
-const {Router} = require('express')
+const { Router } = require('express')
 const router = Router()
 const auth = require('../../middleware/auth.middleware')
 
@@ -16,6 +16,10 @@ router.post('/offline/discounts', auth, (req, res) => {
 
 router.post('/offline/debts', auth, (req, res) => {
     require('./debts.route').offline(req, res)
+})
+
+router.post('/offline/debt/payment', auth, (req, res) => {
+    require('./debts.route').payment(req, res)
 })
 
 router.post('/statsionar/getall', auth, (req, res) => {

@@ -387,7 +387,7 @@ export const OfflineClients = () => {
     const getBaseUrl = useCallback(async () => {
         try {
             const data = await request(`/api/baseurl`, "GET", null);
-            setBaseurl(data);
+            setBaseurl(data.baseUrl);
         } catch (error) {
             notify({
                 title: error,
@@ -757,6 +757,7 @@ export const OfflineClients = () => {
             </div>
 
             <CheckModal
+                clinica={auth && auth.clinica}
                 baseUrl={baseUrl}
                 connector={check}
                 modal={modal1}

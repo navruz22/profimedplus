@@ -1,6 +1,7 @@
 import React from 'react'
 
-export const Check = ({ connector, qr }) => {
+export const Check = ({ baseUrl, clinica, connector, qr }) => {
+  console.log(connector);
   return (
     <div>
       <div className="container px-5">
@@ -67,12 +68,14 @@ export const Check = ({ connector, qr }) => {
                   </ul>
                 </td>
                 <td className="text-center">
-                  <img
-                    className="mr-3"
-                    width="200"
-                    src={connector.clinica && connector.clinica.image}
-                    alt="logo"
-                  />
+                  <div className='w-full text-center'>
+                    <img
+                      className='mx-auto'
+                      width="200"
+                      src={baseUrl + '/api/upload/file/' + clinica?.image}
+                      alt="logo"
+                    />
+                  </div>
                 </td>
                 <td className="text-right">
                   <img
@@ -235,33 +238,37 @@ export const Check = ({ connector, qr }) => {
                       )
                     })}
                 </tbody>
-                <tfoot>
-                  <tr>
-                    <td
-                      colSpan={4}
-                      className="text-right font-weight-bold border border"
-                    >
-                      Jami:
-                    </td>
-                    <td className="text-right border font-weight-bold">
-                      {connector.products &&
-                        connector.services &&
-                        connector.services.reduce((summ, service) => {
-                          return (
-                            summ +
-                            service.service.price * parseInt(service.pieces)
-                          )
-                        }, 0) +
-                        connector.products.reduce((summ, product) => {
-                          return (
-                            summ +
-                            product.product.price * parseInt(product.pieces)
-                          )
-                        }, 0)}
-                    </td>
-                  </tr>
-                </tfoot>
               </table>
+              <div className='my-4 flex justify-between items-center'>
+                <div
+                  className="text-right text-[16px] font-weight-bold"
+                >
+                  Jami: {' '}
+                  {connector.products &&
+                    connector.services &&
+                    connector.services.reduce((summ, service) => {
+                      return (
+                        summ +
+                        service.service.price * parseInt(service.pieces)
+                      )
+                    }, 0) +
+                    connector.products.reduce((summ, product) => {
+                      return (
+                        summ +
+                        product.product.price * parseInt(product.pieces)
+                      )
+                    }, 0)}
+                </div>
+                <div className="text-right text-[16px] font-weight-bold">
+                  Chegirma: {connector?.discount?.discount || 0}
+                </div>
+                <div className="text-right text-[16px] font-weight-bold">
+                  Qarz: {connector && connector.payments && connector.payments.reduce((prev, el) => prev + el.debt, 0) || 0}
+                </div>
+                <div colSpan={2} className="text-right text-[16px] font-weight-bold">
+                  To'langan: {connector && connector.payments && connector.payments.reduce((prev, el) => prev + el.payment, 0) || 0}
+                </div>
+              </div>
               <div className=" fs-5" style={{ fontFamily: 'Times' }}>
                 Mijoz imzosi: ________________
               </div>
@@ -334,12 +341,14 @@ export const Check = ({ connector, qr }) => {
                   </ul>
                 </td>
                 <td className="text-center">
-                  <img
-                    className="mr-3"
-                    width="200"
-                    src={connector.clinica && connector.clinica.image}
-                    alt="logo"
-                  />
+                  <div className='w-full text-center'>
+                    <img
+                      className='mx-auto'
+                      width="200"
+                      src={baseUrl + '/api/upload/file/' + clinica?.image}
+                      alt="logo"
+                    />
+                  </div>
                 </td>
                 <td className="text-right">
                   <img
@@ -502,33 +511,37 @@ export const Check = ({ connector, qr }) => {
                       )
                     })}
                 </tbody>
-                <tfoot>
-                  <tr>
-                    <td
-                      colSpan={4}
-                      className="text-right font-weight-bold border border"
-                    >
-                      Jami:
-                    </td>
-                    <td className="text-right border font-weight-bold">
-                      {connector.products &&
-                        connector.services &&
-                        connector.services.reduce((summ, service) => {
-                          return (
-                            summ +
-                            service.service.price * parseInt(service.pieces)
-                          )
-                        }, 0) +
-                        connector.products.reduce((summ, product) => {
-                          return (
-                            summ +
-                            product.product.price * parseInt(product.pieces)
-                          )
-                        }, 0)}
-                    </td>
-                  </tr>
-                </tfoot>
               </table>
+              <div className='my-4 flex justify-between items-center'>
+                <div
+                  className="text-right text-[16px] font-weight-bold"
+                >
+                  Jami: {' '}
+                  {connector.products &&
+                    connector.services &&
+                    connector.services.reduce((summ, service) => {
+                      return (
+                        summ +
+                        service.service.price * parseInt(service.pieces)
+                      )
+                    }, 0) +
+                    connector.products.reduce((summ, product) => {
+                      return (
+                        summ +
+                        product.product.price * parseInt(product.pieces)
+                      )
+                    }, 0)}
+                </div>
+                <div className="text-right text-[16px] font-weight-bold">
+                  Chegirma: {connector?.discount?.discount || 0}
+                </div>
+                <div className="text-right text-[16px] font-weight-bold">
+                  Qarz: {connector && connector.payments && connector.payments.reduce((prev, el) => prev + el.debt, 0) || 0}
+                </div>
+                <div colSpan={2} className="text-right text-[16px] font-weight-bold">
+                  To'langan: {connector && connector.payments && connector.payments.reduce((prev, el) => prev + el.payment, 0) || 0}
+                </div>
+              </div>
               <div className=" fs-5" style={{ fontFamily: 'Times' }}>
                 Mijoz imzosi: ________________
               </div>

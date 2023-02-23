@@ -1,15 +1,10 @@
 import { useToast } from "@chakra-ui/react";
 import {
-
-  faSave,
-  faTrash,
-  faTrashAlt,
-  faUpload,
+  faTrash
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
-import Select from "react-select";
 import { AuthContext } from "../../../context/AuthContext";
 import { useHttp } from "../../../hooks/http.hook";
 import Print from "./Print";
@@ -19,7 +14,7 @@ const AdoptionTemplate = () => {
   // const clientId = useParams().clientid
   // const connectorId = useParams().connectorid
 
-  const { request, loading } = useHttp();
+  const { request } = useHttp();
   const auth = useContext(AuthContext);
 
   const toast = useToast();
@@ -66,39 +61,39 @@ const AdoptionTemplate = () => {
     }
   }, [request, notify])
 
-  const [tablesSelect, setTablesSelect] = useState([])
+  // const [tablesSelect, setTablesSelect] = useState([])
 
-  const getServices = useCallback(async () => {
-    try {
-      const data = await request(
-        `/api/doctor/table/services`,
-        'POST',
-        { clinica: auth.clinica._id, doctor: auth.user },
-        {
-          Authorization: `Bearer ${auth.token}`,
-        },
-      )
-      setTablesSelect([...data].map(service => {
-        return {
-          label: service.name,
-          value: service._id,
-          column: service.column,
-          tables: service.tables,
-        }
-      }))
-    } catch (error) {
-      notify({
-        title: error,
-        description: '',
-        status: 'error',
-      })
-    }
-  }, [
-    request,
-    auth,
-    notify
-  ])
-  console.log(services);
+  // const getServices = useCallback(async () => {
+  //   try {
+  //     const data = await request(
+  //       `/api/doctor/table/services`,
+  //       'POST',
+  //       { clinica: auth.clinica._id, doctor: auth.user },
+  //       {
+  //         Authorization: `Bearer ${auth.token}`,
+  //       },
+  //     )
+  //     setTablesSelect([...data].map(service => {
+  //       return {
+  //         label: service.name,
+  //         value: service._id,
+  //         column: service.column,
+  //         tables: service.tables,
+  //       }
+  //     }))
+  //   } catch (error) {
+  //     notify({
+  //       title: error,
+  //       description: '',
+  //       status: 'error',
+  //     })
+  //   }
+  // }, [
+  //   request,
+  //   auth,
+  //   notify
+  // ])
+
   const uploadFile = async (e, serviceid) => {
     const files = e.target.files[0]
     const data = new FormData()
@@ -163,16 +158,6 @@ const AdoptionTemplate = () => {
     }))
   }
 
-  function handleUpload(url) {
-    // url of cdn backed file returned
-
-  }
-
-  function handleMultipleUpload(files) {
-    // Array of file objects returned
-
-  }
-
   const handleCheckAllAccept = (ind) => {
     const filtered = sections.map((section, index) => {
       if (index === ind) {
@@ -226,6 +211,9 @@ const AdoptionTemplate = () => {
     });
     setSections(newSections);
   };
+
+  //===========================================================
+  //===========================================================
 
   useEffect(() => {
     const serviceTypes = []
@@ -290,13 +278,13 @@ const AdoptionTemplate = () => {
 
   useEffect(() => {
     // if (!t) {
-    getServices()
+    // getServices()
     getBaseUrl()
     // }
-  }, [getServices, getBaseUrl]);
+  }, [getBaseUrl]);
 
 
-
+  console.log(sections);
   return (
     <>
       <div className="d-none">
@@ -306,14 +294,15 @@ const AdoptionTemplate = () => {
           style={{ fontFamily: "times" }}
         >
           <Print
-            auth={auth}
+            baseUrl={baseUrl}
+            clinica={auth && auth.clinica}
             connector={connector}
             client={client}
             sections={sections}
           />
         </div>
       </div>
-      <div className="container p-4 bg-white" style={{ fontFamily: "times" }}>
+      <div className="container p-4 bg-white text-center" style={{ fontFamily: "times" }}>
         <div className="px-4">
           {/* <div className="row" style={{ fontSize: "10pt" }}>
             <div
@@ -350,9 +339,9 @@ const AdoptionTemplate = () => {
           </div> */}
           <div className="row" style={{ fontSize: "20pt" }}>
             <div className="col-6 pt-2" style={{ textAlign: "center" }}>
-              <p className="pt-3" style={{ fontFamily: "-moz-initial" }}>
+              <pre className="pt-3" style={{ fontFamily: "-moz-initial" }}>
                 {auth?.clinica?.name}
-              </p>
+              </pre>
             </div>
             <div className="col-6" style={{ textAlign: "center" }}>
               <p className="text-end m-0">
@@ -386,6 +375,7 @@ const AdoptionTemplate = () => {
                       width: "33%",
                       backgroundColor: "white",
                       border: "1px solid #000",
+                      fontSize: "20px",
                     }}
                   >
                     <h4>
@@ -515,24 +505,24 @@ const AdoptionTemplate = () => {
             </div>
           </div>
         </div>
-        <div className="row pt-4 w-full">
+        <div className="pt-4 w-full text-center">
           {sections.length > 0 &&
             sections.map((section, index) => (
-              <div key={index} className={"w-full mb-4"}>
+              <div key={index} className={"w-full mb-4 text-center"}>
                 <div className="w-full flex justify-center items-center mb-4">
                   <h2 className="block text-[18px] font-bold">
                     {section?.servicetypename}
                   </h2>
                 </div>
-                <table className="w-full">
+                <table className="w-full text-center">
                   <thead>
                     <tr>
-                      <th className="border-2 bg-gray-400 border-black px-[10px] py-[2px] text-center">{section?.column?.col1}</th>
-                      {section?.column?.col2 && <th className="border-2 bg-gray-400 border-black px-[10px] py-[2px] text-center">{section?.column?.col2}</th>}
-                      {section?.column?.col3 && <th className="border-2 bg-gray-400 border-black px-[10px] py-[2px] text-center">{section?.column?.col3}</th>}
-                      {section?.column?.col4 && <th className="border-2 bg-gray-400 border-black px-[10px] py-[2px] text-center">{section?.column?.col4}</th>}
-                      {section?.column?.col5 && <th className="border-2 bg-gray-400 border-black px-[10px] py-[2px] text-center">{section?.column?.col5}</th>}
-                      <th className="border-2 bg-gray-400 border-black  py-[2px]">
+                      <th className="border-2 bg-gray-400 border-black px-[10px] text-center">{section?.column?.col1}</th>
+                      {section?.column?.col2 && <th className="border-2 bg-gray-400 border-black px-[10px] text-center">{section?.column?.col2}</th>}
+                      {section?.column?.col3 && <th className="border-2 bg-gray-400 border-black px-[10px] py-[7px] text-center">{section?.column?.col3}</th>}
+                      {section?.column?.col4 && <th className="border-2 bg-gray-400 border-black px-[10px] text-center">{section?.column?.col4}</th>}
+                      {section?.column?.col5 && <th className="border-2 bg-gray-400 border-black px-[10px] text-center">{section?.column?.col5}</th>}
+                      <th className="border-2 bg-gray-400 border-black  p">
                         <div className="custom-control custom-checkbox text-center">
                           <input
                             checked={section.services.filter(s => s.accept).length === section.services.length}
@@ -558,17 +548,43 @@ const AdoptionTemplate = () => {
                             >
                               {table?.col1}
                             </textarea> </td>
-                            <td className="border-2 border-black p-[10px]">
+                            <td className="border-2 border-black p-[10px] text-center">
                               <textarea rows={2}
-                                className={"w-full border-none outline-none"}
+                                className={"w-full border-none outline-none text-center focus:outline-2 focus:outline-emerald-600"}
                                 onChange={(e) => handleChangeTables(e, index, service._id, key, "col2")}
+                                onKeyDown={
+                                  (e) => {
+                                    if (e.key === "ArrowDown") {
+                                      if (key === service.tables.length - 1 && ind !== section.services.length - 1 && index !== sections.length - 1) {
+                                        document.getElementById(`result${index}-${ind + 1}-${0}`).focus()
+                                      } else if (index !== sections.length - 1 && ind === section.services.length - 1 && key === service.tables.length - 1) {
+                                        document.getElementById(`result${index + 1}-${0}-${0}`).focus()
+                                      } else if (index === sections.length - 1 && ind === section.services.length - 1 && key === service.tables.length - 1) {
+                                        document.getElementById(`result${0}-${0}-${0}`).focus()
+                                      } else {
+                                        document.getElementById(`result${index}-${ind}-${key + 1}`).focus()
+                                      }
+                                    }
+                                    if (e.key === "ArrowUp") {
+                                      if (key === 0 && ind === 0 && index === 0) {
+                                        document.getElementById(`result${sections.length - 1}-${sections[sections.length - 1].services.length - 1}-${sections[sections.length - 1].services[sections[sections.length - 1].services.length - 1].tables.length - 1}`).focus()
+                                      } else if (key === 0 && ind !== 0 && index === 0) {
+                                        document.getElementById(`result${index}-${ind - 1}-${sections[index].services[ind - 1].tables.length - 1}`).focus()
+                                      } else if (key === 0 && ind !== 0 && index !== 0) {
+                                        document.getElementById(`result${index - 1}-${sections[index - 1].services[services.length - 1]}-${sections[index - 1].services[services.length - 1].tables.length - 1}`).focus()
+                                      } else {
+                                        document.getElementById(`result${index}-${ind}-${key - 1}`).focus()
+                                      }
+                                    }
+                                  }}
+                                id={`result${index}-${ind}-${key}`}
                               >
                                 {table?.col2}
                               </textarea>
                             </td>
                             <td className="border-2 border-black p-[10px]">
                               <textarea rows={2}
-                                className={"w-full border-none outline-none"}
+                                className={"w-full border-none outline-none text-center"}
                                 onChange={(e) => handleChangeTables(e, index, service._id, key, "col3")}
                               >
                                 {table?.col3}
@@ -576,14 +592,14 @@ const AdoptionTemplate = () => {
                             </td>
                             {table?.col4 && <td className="border-2 border-black p-[10px]">
                               <textarea rows={2}
-                                className={"w-full border-none outline-none"}
+                                className={"w-full border-none outline-none text-center"}
                                 onChange={(e) => handleChangeTables(e, index, service._id, key, "col4")}
                               >
                                 {table?.col4}
                               </textarea></td>}
                             {table?.col5 && <td className="border-2 border-black p-[10px]">
                               <textarea rows={2}
-                                className={"w-full border-none outline-none"}
+                                className={"w-full border-none outline-none text-center"}
                                 onChange={(e) => handleChangeTables(e, index, service._id, key, "col5")}
                               >
                                 {table?.col5}

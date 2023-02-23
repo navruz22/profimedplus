@@ -59,7 +59,7 @@ export const checkService = (service) => {
       description: "Iltimos xizmat turini tanlang.",
       status: "error",
     };
-  
+
   if (!service.name)
     return {
       title: "Diqqat! Xizmat nomi kiritilmagan.",
@@ -78,6 +78,8 @@ export const checkService = (service) => {
 
 export const checkUploadServices = (departments, clinica, services, servicetypes) => {
   let k = 0;
+  console.log(clinica);
+  console.log(services);
   for (const service of services) {
     k++;
     if (clinica.name !== service.clinica) {
@@ -97,8 +99,8 @@ export const checkUploadServices = (departments, clinica, services, servicetypes
         status: "error",
       };
     }
-console.log(service);
-console.log(servicetypes);
+    console.log(service);
+    console.log(servicetypes);
     const s = servicetypes.find(
       (servicetype) => servicetype.name === service.servicetype
     );
@@ -387,7 +389,7 @@ export const checkUploadWarehouses = (clinica, warehouses) => {
 };
 
 // Bog'lanishni tekshirish
-export const checkProductConnector = ( productConnector) => {
+export const checkProductConnector = (productConnector) => {
   if (!productConnector.product) {
     return {
       title: `Diqqat! Mahsulot nomi tanlanmagan.`,
@@ -419,7 +421,7 @@ export const checkUploadProductConnectors = (clinica, productConnectors) => {
   let k = 0;
   for (const productConnector of productConnectors) {
     k++;
-    if (productConnector.clinica ) {
+    if (productConnector.clinica) {
       return {
         title: `Diqqat! ${k}-qatorda klinika nomi kiritilmagan.`,
         description: "Iltimos mahsulot nomini kiriting.",
@@ -434,7 +436,7 @@ export const checkUploadProductConnectors = (clinica, productConnectors) => {
         status: "error",
       };
     }
-    
+
     if (!productConnector.product) {
       return {
         title: `Diqqat! ${k}-qatorda mahsulot nomi kiritilmagan.`,

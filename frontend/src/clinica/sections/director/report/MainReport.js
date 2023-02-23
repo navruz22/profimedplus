@@ -6,6 +6,7 @@ import { Modal } from '../../cashier/components/Modal'
 import { CheckModal } from '../../cashier/components/ModalCheck'
 import { checkData } from '../../cashier/offlineclients/checkData/checkData'
 import { TableClients } from '../../cashier/offlineclients/clientComponents/TableClients'
+import { MainReportTable } from './components/MainReportTable'
 
 
 const MainReport = () => {
@@ -114,7 +115,7 @@ const MainReport = () => {
   const getBaseUrl = useCallback(async () => {
     try {
       const data = await request(`/api/baseurl`, "GET", null);
-      setBaseurl(data);
+      setBaseurl(data.baseUrl);
     } catch (error) {
       notify({
         title: error,
@@ -337,7 +338,7 @@ const MainReport = () => {
       <div className="bg-slate-100 content-wrapper px-lg-5 px-3">
         <div className="row gutters">
           <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-            <TableClients
+            <MainReportTable
               setVisible={setVisible}
               modal1={modal1}
               setModal1={setModal1}
@@ -350,6 +351,7 @@ const MainReport = () => {
               searchFullname={searchFullname}
               searchId={searchId}
               connectors={connectors}
+              searchStorage={searchStorage}
               searchProbirka={searchProbirka}
               setConnectors={setConnectors}
               setCurrentPage={setCurrentPage}
@@ -365,6 +367,13 @@ const MainReport = () => {
           </div>
         </div>
       </div>
+      <CheckModal
+        baseUrl={baseUrl}
+        connector={check}
+        clinica={auth && auth.clinica}
+        modal={modal1}
+        setModal={setModal1}
+      />
     </div>
   )
 }

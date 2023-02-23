@@ -215,6 +215,7 @@ export const DebtClients = () => {
 
   const [payment, setPayment] = useState({});
   const [payCount, setPayCount] = useState("");
+  const [debt, setDebt] = useState(0)
 
   const checkPayCount = () => {
     if (!payCount) {
@@ -245,6 +246,7 @@ export const DebtClients = () => {
     setPayment(connector);
     setPayCount(connector.debt);
     setVisible(true);
+    setDebt(connector.debt)
   };
 
   console.log(payment);
@@ -295,7 +297,6 @@ export const DebtClients = () => {
   //CreateHandler
 
   const sortPostPayment = () => {
-    setPayment({ ...payment, debt: +payment.debt - +payCount });
     if (payment.client.id[0] === "S") {
       return postStatsionarDebts();
     } else {
@@ -306,7 +307,7 @@ export const DebtClients = () => {
   const postOfflineDebts = useCallback(async () => {
     try {
       const data = await request(
-        `/api/cashier/offline/payment`,
+        `/api/cashier/offline/debt/payment`,
         "POST",
         {
           payment: {
@@ -418,7 +419,16 @@ export const DebtClients = () => {
                 payment={payment}
                 client={client}
                 payCount={payCount}
-                setPayCount={setPayCount}
+                setPayCount={(e) => {
+                  setPayCount(e)
+                  let obj = {
+                    ...payment,
+                    debt: +debt - +e,
+                    payment: +e
+                  }
+                  obj[`${payment.type}`] = +e
+                  setPayment(obj)
+                }}
                 checkPayCount={checkPayCount}
                 loading={loading}
               />

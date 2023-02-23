@@ -1,59 +1,103 @@
 import React, { useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom';
+import QRcode from "../../../../qrcode.png"
 
-const Print = ({ auth, client, connector, sections }) => {
+const Print = ({ client, connector, sections, baseUrl, clinica }) => {
+
+    const location = useLocation()
 
     const [printSections, setPrintSections] = useState([])
-    console.log(sections);
+
     useEffect(() => {
-        setPrintSections([...sections].map(section =>
-            ({ ...section, services: section.services.filter(s => s.accept) })).filter(el => el.services.length > 0))
-    }, [sections])
+        if (location.pathname.includes('alo24/adoption')) {
+            setPrintSections([...sections].map(section =>
+                ({ ...section, services: section.services.filter(s => s.accept) })).filter(el => el.services.length > 0))
+        } else {
+            const serviceTypes = []
+            const serviceIdArr = []
+            for (const service of sections) {
+                const check = service.serviceid.servicetype._id;
+                if (!serviceIdArr.includes(check)) {
+                    serviceTypes.push({
+                        servicetypeid: check,
+                        servicetypename: service.serviceid.servicetype.name,
+                        services: [service],
+                        column: service.column
+                    })
+                    serviceIdArr.push(check);
+                } else {
+                    const checkCols = Object.keys(service.column).filter(el => el.includes('col')).length;
+                    const index = serviceTypes.findIndex(el =>
+                        el.servicetypeid === check
+                        && Object.keys(el.column).filter(el => el.includes('col')).length === checkCols)
+                    console.log(serviceTypes);
+                    console.log(index);
+                    if (index >= 0) {
+                        serviceTypes[index].services.push(service)
+                        serviceTypes[index].column = service.column
+                    } else {
+                        serviceTypes.push({
+                            servicetypeid: check,
+                            servicetypename: service.serviceid.servicetype.name,
+                            services: [service],
+                            column: service.column
+                        })
+                    }
+                }
+            }
+            setPrintSections([...serviceTypes].map(section =>
+                ({ ...section, services: section.services.filter(s => s.accept) })).filter(el => el.services.length > 0))
+        }
+    }, [sections, location])
 
     return (
         <div className="px-2 bg-white">
             <div>
                 {/* <div className="row" style={{ fontSize: "10pt" }}>
-                    <div
-                        className="col-4"
-                        style={{ border: "1px solid", textAlign: "center" }}
-                    >
-                        <p className="pt-2">
-                            O'zbekiston Respublikasi Sog'liqni Saqlash Vazirligi
-                        </p>
+                        <div
+                            className="col-4"
+                            style={{ border: "1px solid", textAlign: "center" }}
+                        >
+                            <p className="pt-2">
+                                O'zbekiston Respublikasi Sog'liqni Saqlash Vazirligi
+                            </p>
+                        </div>
+                        <div
+                            className="col-4"
+                            style={{
+                                border: "1px solid",
+                                textAlign: "center",
+                                borderLeft: "none",
+                            }}
+                        >
+                            <p className="pt-2">IFUD: 86900</p>
+                        </div>
+                        <div
+                            className="col-4"
+                            style={{
+                                border: "1px solid",
+                                textAlign: "center",
+                                borderLeft: "none",
+                            }}
+                        >
+                            <p style={{ margin: "0" }}>
+                                O'zbekiston Respublikasi SSV 31.12.2020y dagi №363 buyrug'i
+                                bilan tasdiqlangan
+                            </p>
+                        </div>
+                    </div> */}
+                <div className="flex justify-between items-center" style={{ fontSize: "20pt", marginBottom: "30px" }}>
+                    <div>
+                        <pre className="text-center border-none outline-none" style={{ fontFamily: "-moz-initial" }}>
+                            {clinica?.name}
+                        </pre>
                     </div>
-                    <div
-                        className="col-4"
-                        style={{
-                            border: "1px solid",
-                            textAlign: "center",
-                            borderLeft: "none",
-                        }}
-                    >
-                        <p className="pt-2">IFUD: 86900</p>
+                    <div style={{ maxWidth: "150px", marginRight: "60px", textAlign: "center" }}>
+                        <img src={baseUrl + '/api/upload/file/' + clinica?.image} alt="logo" />
                     </div>
-                    <div
-                        className="col-4"
-                        style={{
-                            border: "1px solid",
-                            textAlign: "center",
-                            borderLeft: "none",
-                        }}
-                    >
-                        <p style={{ margin: "0" }}>
-                            O'zbekiston Respublikasi SSV 31.12.2020y dagi №363 buyrug'i
-                            bilan tasdiqlangan
-                        </p>
-                    </div>
-                </div> */}
-                <div className="row" style={{ fontSize: "20pt" }}>
-                    <div className="col-6 pt-2" style={{ textAlign: "center" }}>
-                        <p className="pt-3" style={{ fontFamily: "-moz-initial" }}>
-                            {auth?.clinica?.name}
-                        </p>
-                    </div>
-                    <div className="col-6" style={{ textAlign: "center" }}>
+                    <div className="" style={{ textAlign: "center" }}>
                         <p className="text-end m-0">
-                            {/* <img width="120" src={qr && qr} alt="QR" /> */}
+                            <img width="120" src={QRcode} alt="QR" />
                         </p>
                     </div>
                 </div>
@@ -212,55 +256,55 @@ const Print = ({ auth, client, connector, sections }) => {
                     </div>
                 </div>
             </div>
-            <div className="row pt-4 w-full">
+            <div className="pt-4 w-full text-center">
                 {printSections.length > 0 &&
                     printSections.map((section, index) => (
-                        <div key={index} className={"w-full"}>
+                        <div key={index} className={"w-full text-center mb-4"}>
                             <div className="w-full flex justify-center items-center mb-4">
                                 <h2 className="block text-[18px] font-bold">
                                     {section?.servicetypename}
                                 </h2>
                             </div>
-                            <table className="w-full">
+                            <table className="w-full text-center">
                                 <thead>
                                     <tr>
-                                        <th className="border border-black px-[10px] py-1 text-center">{section?.column?.col1}</th>
-                                        {section.column.col2 && <th className="border border-black px-[10px] py-1 text-center">{section?.column?.col2}</th>}
-                                        {section.column.col3 && <th className="border border-black px-[10px] py-1 text-center">{section?.column?.col3}</th>}
-                                        {section.column.col4 && <th className="border border-black px-[10px] py-1 text-center">{section?.column?.col4}</th>}
-                                        {section.column.col5 && <th className="border border-black px-[10px] py-1 text-center">{section?.column?.col5}</th>}
+                                        <th className="border-[1px] border-black bg-gray-400 px-[12px] py-1 text-center">{section?.column?.col1}</th>
+                                        {section?.column?.col2 && <th className="border-[1px] border-black bg-gray-400 px-[12px] py-1 text-center">{section?.column?.col2}</th>}
+                                        {section?.column?.col3 && <th className="border-[1px] border-black bg-gray-400 px-[12px] py-1 text-center">{section?.column?.col3}</th>}
+                                        {section?.column?.col4 && <th className="border-[1px] border-black bg-gray-400 px-[12px] py-1 text-center">{section?.column?.col4}</th>}
+                                        {section?.column?.col5 && <th className="border-[1px] border-black bg-gray-400 px-[12px] py-1 text-center">{section?.column?.col5}</th>}
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {section?.services.map((service, ind) => {
                                         return service.accept && service.tables.map((table, key) => (
                                             <tr key={key} >
-                                                <td className="border border-black p-[10px]"> <pre
-                                                    className="border-none outline-none"
+                                                <td className="border-[1px] border-black p-[12px]"> <pre
+                                                    className="border-none outline-none text-left"
                                                 >
                                                     {table?.col1}
                                                 </pre> </td>
-                                                <td className="border border-black p-[10px]">
+                                                <td className="border-[1px] border-black p-[12px]">
                                                     <pre
                                                         className="border-none outline-none"
                                                     >
                                                         {table?.col2}
                                                     </pre>
                                                 </td>
-                                                <td className="border border-black p-[10px]">
+                                                <td className="border-[1px] border-black p-[12px]">
                                                     <pre
                                                         className="border-none outline-none"
                                                     >
                                                         {table?.col3}
                                                     </pre>
                                                 </td>
-                                                {table?.col4 && <td className="border border-black p-[10px]">
+                                                {table?.col4 && <td className="border-[1px] border-black p-[12px]">
                                                     <pre
                                                         className="border-none outline-none"
                                                     >
                                                         {table?.col4}
                                                     </pre></td>}
-                                                {table?.col5 && <td className="border border-black p-[10px]">
+                                                {table?.col5 && <td className="border-[1px] border-black p-[12px]">
                                                     <pre
                                                         className="border-none outline-none"
                                                     >
@@ -271,19 +315,18 @@ const Print = ({ auth, client, connector, sections }) => {
                                     })}
                                 </tbody>
                             </table>
-                            <div>
-                                <div className="">
-                                    {section.services.map(service => service.files.map((file) => <div className="w-[400px]">
-                                        <img src={file} alt='file' />
-                                    </div>))}
-                                </div>
-                            </div>
                         </div>
                     ))}
+                {printSections.map((section => <div className='py-[20px]'>
+                    <div className="">
+                        {section.services.map(service => service.files.map((file) => <div className="w-[400px]">
+                            <img src={file} alt='file' />
+                        </div>))}
+                    </div>
+                </div>))}
             </div>
         </div>
-
-    );
+    )
 }
 
 export default Print

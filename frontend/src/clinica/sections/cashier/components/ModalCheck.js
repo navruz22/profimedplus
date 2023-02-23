@@ -3,7 +3,7 @@ import { Check } from '../offlineclients/clientComponents/Check'
 import QRCode from 'qrcode'
 import { useReactToPrint } from 'react-to-print'
 
-export const CheckModal = ({ modal, connector, setModal, baseUrl }) => {
+export const CheckModal = ({ clinica, modal, connector, setModal, baseUrl }) => {
   const [qr, setQr] = useState()
 
   const componentRef = useRef()
@@ -30,7 +30,7 @@ export const CheckModal = ({ modal, connector, setModal, baseUrl }) => {
       style={{ display: 'block' }}
       aria-modal="true"
     >
-      <div className="" role="document">
+      <div className="min-h-screen" role="document">
         <div className="modal-content">
           <div className="modal-header">
             <h5
@@ -41,12 +41,12 @@ export const CheckModal = ({ modal, connector, setModal, baseUrl }) => {
               Qabul cheki!
             </h5>
           </div>
-          <div className="modal-body overflow-scroll">
+          <div className="modal-body overflow-y-scroll">
             <div ref={componentRef}>
-              <Check connector={connector} qr={qr} />
+              <Check baseUrl={baseUrl} clinica={clinica} connector={connector} qr={qr} />
             </div>
           </div>
-          <div className="modal-footer custom">
+          <div className="modal-footer custom bg-white" style={{ transform: "translateY(-50px)" }}>
             <div className="left-side">
               <button
                 className="btn btn-link danger w-100"

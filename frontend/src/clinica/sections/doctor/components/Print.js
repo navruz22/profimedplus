@@ -1,6 +1,7 @@
 import React from 'react'
 
-const Print = ({ client, connector, sections, clinica }) => {
+const Print = ({ client, connector, sections, clinica, baseUrl }) => {
+
     return (
         <div className="px-2 bg-white">
             <div>
@@ -37,14 +38,14 @@ const Print = ({ client, connector, sections, clinica }) => {
                         </p>
                     </div>
                 </div> */}
-                <div className="flex justify-around" style={{ fontSize: "20pt" }}>
+                <div className="flex justify-around" style={{ fontSize: "20pt", marginBottom: "20px" }}>
                     <div className="" style={{ textAlign: "center" }}>
                         <p className="pt-3" style={{ fontFamily: "-moz-initial" }}>
                             {clinica?.name}
                         </p>
                     </div>
-                    <div className="" style={{ textAlign: "center" }}>
-                        <img src={clinica?.image} alt="logo" />
+                    <div className="" style={{ maxWidth: "150px", textAlign: "center" }}>
+                        <img src={baseUrl && baseUrl.baseUrl + '/api/upload/file/' + clinica?.image} alt="logo" />
                     </div>
                     <div className="" style={{ textAlign: "center" }}>
                         <p className="text-end m-0">

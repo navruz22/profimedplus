@@ -1,6 +1,7 @@
 import React from 'react'
 
-export const Check = ({ connector, qr }) => {
+export const Check = ({ connector, qr, clinica, baseUrl }) => {
+  console.log(baseUrl);
   return (
     <div>
       <div className="container px-5">
@@ -69,7 +70,7 @@ export const Check = ({ connector, qr }) => {
                   <img
                     className="mr-3"
                     width="200"
-                    src={connector.clinica && connector.clinica.image}
+                    src={baseUrl + '/api/upload/file/' + clinica?.image}
                     alt="logo"
                   />
                 </td>
