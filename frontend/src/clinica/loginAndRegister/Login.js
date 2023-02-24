@@ -101,9 +101,8 @@ export const Login = () => {
         const data = await request(`/api/director/login`, "POST", { ...user });
         auth.login(data.token, data.userId, data.user, data.clinica);
         notify({
-          title: `Xush kelibsiz ${
-            data.user.firstname + " " + data.user.lastname
-          }!`,
+          title: `Xush kelibsiz ${data.user.firstname + " " + data.user.lastname
+            }!`,
           description: "Kirish muvaffaqqiyatli amalga oshirildi",
           status: "success",
         });
@@ -111,9 +110,8 @@ export const Login = () => {
         const data = await request(`/api/user/login`, "POST", { ...user });
         auth.login(data.token, data.userId, data.user, data.clinica);
         notify({
-          title: `Xush kelibsiz ${
-            data.user.firstname + " " + data.user.lastname
-          }!`,
+          title: `Xush kelibsiz ${data.user.firstname + " " + data.user.lastname
+            }!`,
           description: "Kirish muvaffaqqiyatli amalga oshirildi",
           status: "success",
         });
@@ -157,11 +155,11 @@ export const Login = () => {
 
   return (
     <>
-      <div className="bg-lock-screen gradient">
-        <div className="wrapper ">
+      <div className="bg-white h-screen gradient">
+        <div className="wrapper">
           <Translate />
           <div className="authentication-lock-screen d-flex align-items-center justify-content-center">
-            <div className="card shadow-none bg-transparent">
+            <div className="bg-[#00c2cb] w-[400px] h-[400px] mt-[100px] rounded-full card shadow-2xl shadow-green-500">
               <div className="card-body p-md-5 text-center">
                 <div className="text-white" style={{ fontSize: "2rem" }}>
                   {hour}
@@ -194,8 +192,8 @@ export const Login = () => {
                   />
                 </div>
                 <div className="d-grid">
-                  <button onClick={loginHandler} className="btn btn-white">
-                    {t("login_button")}
+                  <button onClick={loginHandler} className="w-[200px] border-2 border-white tracking-wide bg-green-500 py-2 text-center rounded-lg font-bold text-white">
+                    KIRISH
                   </button>
                 </div>
               </div>

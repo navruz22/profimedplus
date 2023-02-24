@@ -269,6 +269,14 @@ export const MainReportTable = ({
                                     />
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
+                                    Qarzdan to'lov
+                                    <Sort
+                                        data={currentConnectors}
+                                        setData={setCurrentConnectors}
+                                        property={"createdAt"}
+                                    />
+                                </th>
+                                <th className="border py-1 bg-alotrade text-[16px]">
                                     Check
                                     <div className="btn-group-vertical ml-2">
                                         <Sort
@@ -320,6 +328,14 @@ export const MainReportTable = ({
                                             {getDebt(connector)}
                                         </td>
                                         <td className="border py-1 text-[16px] text-right">
+                                            {connector.payments.reduce((prev, el) => {
+                                                if (el.isPayDebt) {
+                                                    prev += el.payment;
+                                                }
+                                                return prev;
+                                            }, 0)}
+                                        </td>
+                                        <td className="border py-1 text-[16px] text-right">
                                             {(connector?.discount?.discount || 0)}
                                         </td>
                                         <td className="border py-1 text-[16px] text-center">
@@ -345,7 +361,7 @@ export const MainReportTable = ({
                             })}
                             <tr>
                                 <td
-                                    colSpan={3}
+                                    colSpan={2}
                                     className={`py-1 font-weight-bold text-left text-[16px]`}
                                 >
                                     Qoldiq: {searchStorage.reduce((prev, connector) => {
@@ -383,6 +399,16 @@ export const MainReportTable = ({
                                 </td>
                                 <td className="border py-1 text-[16px] font-bold text-right">
                                     {searchStorage.reduce((prev, el) => prev + (el?.discount?.discount || 0), 0)}
+                                </td>
+                                <td className="border py-1 text-[16px] font-bold text-right">
+                                    {searchStorage.reduce((prev, el) => {
+                                        return prev + el.payments.reduce((prev, el) => {
+                                            if (el.isPayDebt) {
+                                                prev += el.payment;
+                                            }
+                                            return prev;
+                                        }, 0)
+                                    }, 0)}
                                 </td>
                             </tr>
                         </tbody>

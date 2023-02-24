@@ -88,7 +88,7 @@ export const Navbar = () => {
                         </span>
                     </button>
                     <div
-                        className="bg-slate-100 collapse navbar-collapse  justify-content-between"
+                        className="bg-[#00c2cb] collapse navbar-collapse  justify-content-between"
                         id="royalHospitalsNavbar"
                     >
                         <ul className="navbar-nav">
@@ -105,7 +105,7 @@ export const Navbar = () => {
                                         setActivePage('/alo24')
                                     }}
                                     to="/alo24"
-                                    style={{ background: activePage === "/alo24" || activePage === "/" ? "#00c2cb" : "" }}
+                                    style={{ background: activePage === "/alo24" || activePage === "/" ? "#F97316" : "" }}
                                 >
                                     <i className="icon-devices_other nav-icon" />
                                     Kunduzgi
@@ -121,7 +121,7 @@ export const Navbar = () => {
                                         setActivePage('/alo24/statsionar')
                                     }}
                                     to="/alo24/statsionar"
-                                    style={{ background: activePage === "/alo24/statsionar" ? "#00c2cb" : "" }}
+                                    style={{ background: activePage === "/alo24/statsionar" ? "#F97316" : "" }}
                                 >
                                     <i className="icon-devices_other nav-icon" />
                                     Statsionar
@@ -137,7 +137,7 @@ export const Navbar = () => {
                                         setActivePage('/alo24/discount')
                                     }}
                                     to="/alo24/discount"
-                                    style={{ background: activePage === "/alo24/discount" ? "#00c2cb" : "" }}
+                                    style={{ background: activePage === "/alo24/discount" ? "#F97316" : "" }}
                                 >
                                     <i className="icon-devices_other nav-icon" />
                                     Chegirmalar
@@ -153,7 +153,7 @@ export const Navbar = () => {
                                         setActivePage('/alo24/debt')
                                     }}
                                     to="/alo24/debt"
-                                    style={{ background: activePage === "/alo24/debt" ? "#00c2cb" : "" }}
+                                    style={{ background: activePage === "/alo24/debt" ? "#F97316" : "" }}
                                 >
                                     <i className="icon-devices_other nav-icon" />
                                     Qarizlar
@@ -219,13 +219,6 @@ export const Navbar = () => {
                         </ul>
                     </div>
                 </nav>
-            </div>
-            <div className="main-container">
-                <div className="bg-alotrade page-header">
-                    <ol className="breadcrumb">
-                        <li className="breadcrumb-item active">{window.location.href}</li>
-                    </ol>
-                </div>
             </div>
         </div>
     );

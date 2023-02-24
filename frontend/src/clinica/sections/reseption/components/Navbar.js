@@ -89,10 +89,10 @@ export const Navbar = () => {
                         </span>
                     </button>
                     <div
-                        className="bg-slate-100 collapse navbar-collapse  justify-content-between"
+                        className="bg-[#00c2cb]  collapse navbar-collapse  justify-content-between"
                         id="royalHospitalsNavbar"
                     >
-                        <ul className="navbar-nav">
+                        <ul className="navbar-nav bg-[#00c2cb] ">
                             <li className="nav-item mr-4 px-2">
                                 <span className="logo" style={{ fontSize: "26pt" }}>
                                     Alo24
@@ -106,7 +106,7 @@ export const Navbar = () => {
                                         setActivePage('/alo24')
                                     }}
                                     to="/alo24"
-                                    style={{ background: activePage === "/alo24" || activePage === "/" ? '#00c2cb' : '' }}
+                                    style={{ background: activePage === "/alo24" || activePage === "/" ? '#F97316' : '' }}
                                 >
                                     <i className="icon-devices_other nav-icon" />
                                     Kunduzgi
@@ -122,7 +122,7 @@ export const Navbar = () => {
                                         setActivePage('/alo24/statsionar')
                                     }}
                                     to="/alo24/statsionar"
-                                    style={{ background: activePage === "/alo24/statsionar" ? '#00c2cb' : '' }}
+                                    style={{ background: activePage === "/alo24/statsionar" ? '#F97316' : '' }}
                                 >
                                     <i className="icon-devices_other nav-icon" />
                                     Statsionar
@@ -138,7 +138,7 @@ export const Navbar = () => {
                                         setActivePage('/alo24/online')
                                     }}
                                     to="/alo24/online"
-                                    style={{ background: activePage === "/alo24/online" ? '#00c2cb' : '' }}
+                                    style={{ background: activePage === "/alo24/online" ? '#F97316' : '' }}
                                 >
                                     <i className="icon-devices_other nav-icon" />
                                     Online
@@ -161,7 +161,7 @@ export const Navbar = () => {
                                         background: activePage === "/alo24/cashier" ||
                                             activePage === "/alo24/cashier_statsionar" ||
                                             activePage === "/alo24/cashier_discount" ||
-                                            activePage === "/alo24/cashier_debt" ? '#00c2cb' : ''
+                                            activePage === "/alo24/cashier_debt" ? '#F97316' : ''
                                     }}
                                     to="#"
                                 >
@@ -176,6 +176,9 @@ export const Navbar = () => {
                                             role="button"
                                             aria-haspopup="true"
                                             aria-expanded="false"
+                                            onClick={() => {
+                                                setActivePage('/alo24/cashier')
+                                            }}
                                         >
                                             Kunduzgi
                                         </Link>
@@ -187,6 +190,9 @@ export const Navbar = () => {
                                             role="button"
                                             aria-haspopup="true"
                                             aria-expanded="false"
+                                            onClick={() => {
+                                                setActivePage('/alo24/cashier_statsionar')
+                                            }}
                                         >
                                             Statsionar
                                         </Link>
@@ -198,6 +204,9 @@ export const Navbar = () => {
                                             role="button"
                                             aria-haspopup="true"
                                             aria-expanded="false"
+                                            onClick={() => {
+                                                setActivePage('/alo24/cashier_discount')
+                                            }}
                                         >
                                             Chegirma
                                         </Link>
@@ -209,6 +218,9 @@ export const Navbar = () => {
                                             role="button"
                                             aria-haspopup="true"
                                             aria-expanded="false"
+                                            onClick={() => {
+                                                setActivePage('/alo24/cashier_debt')
+                                            }}
                                         >
                                             Qarz
                                         </Link>
@@ -275,13 +287,6 @@ export const Navbar = () => {
                         </ul>
                     </div>
                 </nav>
-            </div>
-            <div className="main-container">
-                <div className="bg-alotrade page-header">
-                    <ol className="breadcrumb">
-                        <li className="breadcrumb-item active">{window.location.href}</li>
-                    </ol>
-                </div>
             </div>
         </div>
     );

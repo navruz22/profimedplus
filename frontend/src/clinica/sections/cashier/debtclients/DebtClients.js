@@ -232,7 +232,7 @@ export const DebtClients = () => {
         status: "error",
       });
     }
-    if (+payCount > +payment.debt) {
+    if (+payCount > +debt) {
       return notify({
         title: `Diqqat! To'lov summasi qarz dan oshmaslik kerak.`,
         description: `Iltimos To'lovni tug'ri kiriting.`,
@@ -243,7 +243,9 @@ export const DebtClients = () => {
   };
 
   const getPayment = (connector) => {
-    setPayment(connector);
+    let obj = { ...connector, debt: 0, payment: connector.debt, }
+    obj[`${connector.type}`] = connector.debt;
+    setPayment(obj);
     setPayCount(connector.debt);
     setVisible(true);
     setDebt(connector.debt)
@@ -312,6 +314,7 @@ export const DebtClients = () => {
         {
           payment: {
             ...payment,
+            isPayDebt: true,
             clinica: auth && auth.clinica._id,
           },
         },

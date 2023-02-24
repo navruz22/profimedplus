@@ -5,6 +5,7 @@ import OfflineClients from "./clients/OfflineClients";
 import StatsionarClients from "./clients/StatsionarClients";
 import { EditDirector } from "./editDirector/EditDirector";
 import { EditDirectorPassword } from "./editDirector/EditDirectorPassword";
+import { HomePage } from "./homepage/HomePage";
 import { DebtReport } from "./report/DebtReport";
 import { DiscountReport } from "./report/DiscountReport";
 import MainReport from "./report/MainReport";
@@ -24,7 +25,7 @@ export const DirectorRouter = () => {
       <Switch>
         {/* Services */}
         <Route path="/alo24" exact>
-          <h1> Bosh sahifa</h1>
+          <HomePage />
         </Route>
         <Route path="/alo24/editdirector">
           <EditDirector />

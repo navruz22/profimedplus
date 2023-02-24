@@ -255,6 +255,14 @@ export const TableClients = ({
                                     />
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
+                                    Qarzdan to'lov
+                                    <Sort
+                                        data={currentConnectors}
+                                        setData={setCurrentConnectors}
+                                        property={"createdAt"}
+                                    />
+                                </th>
+                                <th className="border py-1 bg-alotrade text-[16px]">
                                     Qabul qilish
                                     <div className="btn-group-vertical ml-2">
                                         <Sort
@@ -311,6 +319,14 @@ export const TableClients = ({
                                         </td>
                                         <td className="border py-1 text-[16px] text-right">
                                             {getDebt(connector)}
+                                        </td>
+                                        <td className="border py-1 text-[16px] text-right">
+                                            {connector.payments.reduce((prev, el) => {
+                                                if (el.isPayDebt) {
+                                                    prev += el.payment;
+                                                }
+                                                return prev;
+                                            }, 0)}
                                         </td>
                                         <td className="border py-1 text-[16px] text-center">
                                             {loading ? (

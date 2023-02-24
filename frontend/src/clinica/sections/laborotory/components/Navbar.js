@@ -90,7 +90,7 @@ export const Navbar = () => {
             </span>
           </button>
           <div
-            className="bg-slate-100 collapse navbar-collapse  justify-content-between"
+            className="bg-[#00c2cb] collapse navbar-collapse  justify-content-between"
             id="royalHospitalsNavbar"
           >
             <ul className="navbar-nav">
@@ -109,7 +109,7 @@ export const Navbar = () => {
                     setActivePage("/alo24");
                   }}
                   to="/alo24"
-                  style={{ background: activePage === "/alo24" || activePage === "/" ? "#00c2cb" : "" }}
+                  style={{ background: activePage === "/alo24" || activePage === "/" ? "#F97316" : "" }}
                 >
                   <i className="icon-devices_other nav-icon" />
                   Mijozlar
@@ -123,7 +123,7 @@ export const Navbar = () => {
                     setActivePage("/alo24/tables");
                   }}
                   to="/alo24/tables"
-                  style={{ background: activePage === "/alo24/tables" ? "#00c2cb" : "" }}
+                  style={{ background: activePage === "/alo24/tables" ? "#F97316" : "" }}
                 >
                   <i className="icon-devices_other nav-icon" />
                   Shablonlar
@@ -137,7 +137,7 @@ export const Navbar = () => {
                     setActivePage("/alo24/conclusion");
                   }}
                   to="/alo24/conclusion"
-                  style={{ background: activePage === "/alo24/conclusion" ? "#00c2cb" : "" }}
+                  style={{ background: activePage === "/alo24/conclusion" ? "#F97316" : "" }}
                 >
                   <i className="icon-devices_other nav-icon" />
                   Jadvallar
@@ -151,7 +151,7 @@ export const Navbar = () => {
                     setActivePage("/alo24/bloodtest");
                   }}
                   to="/alo24/bloodtest"
-                  style={{ background: activePage === "/alo24/bloodtest" ? "#00c2cb" : "" }}
+                  style={{ background: activePage === "/alo24/bloodtest" ? "#F97316" : "" }}
                 >
                   <i className="icon-devices_other nav-icon" />
                   Qon olish
@@ -217,13 +217,6 @@ export const Navbar = () => {
             </ul>
           </div>
         </nav>
-      </div>
-      <div className="main-container">
-        <div className="bg-alotrade page-header">
-          <ol className="breadcrumb">
-            <li className="breadcrumb-item active">{window.location.href}</li>
-          </ol>
-        </div>
       </div>
     </div>
   );

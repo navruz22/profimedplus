@@ -11,41 +11,25 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
               <tr>
                 <td>
                   <ul className="list-unstyled  text-start ml-3 mb-0">
-                    <li
-                      className=""
-                      style={{ fontSize: '11pt', fontFamily: 'times' }}
-                    >
-                      <strong style={{ fontSize: '11pt', fontFamily: 'times' }}>
-                        {' '}
-                        {connector.clinica && connector.clinica.image}
-                      </strong>
+                    <li className='flex items-center mb-2' style={{ fontSize: '11pt', fontFamily: 'times' }}>
+                      <div className='mr-2'>
+                        <strong style={{ fontSize: '11pt', fontFamily: 'times' }}>
+                          Manzil:{' '}
+                        </strong>
+                      </div>
+                      <div>
+                        {clinica && clinica.address}
+                      </div>
                     </li>
-                    <li style={{ fontSize: '11pt', fontFamily: 'times' }}>
-                      <strong style={{ fontSize: '11pt', fontFamily: 'times' }}>
-                        Manzil:{' '}
-                      </strong>{' '}
-                      {connector.clinica && connector.clinica.address}
-                    </li>
-                    <li style={{ textAlign: '', fontSize: '11pt' }}>
-                      <strong style={{ fontSize: '11pt', fontFamily: 'times' }}>
-                        Telefon raqam:{' '}
-                      </strong>
-
-                      {connector.clinica &&
-                        connector.clinica.phone1 &&
-                        '+998' + connector.clinica &&
-                        connector.clinica.phone1}
-                      <br />
-                      {connector.clinica &&
-                        connector.clinica.phone2 &&
-                        '+998' + connector.clinica &&
-                        connector.clinica.phone2}
-                      <br />
-                      {connector.clinica &&
-                        connector.clinica.phone3 &&
-                        '+998' + connector.clinica &&
-                        connector.clinica.phone3}
-                      <br />
+                    <li className='flex items-center' style={{ textAlign: '', fontSize: '11pt' }}>
+                      <div className='mr-2'>
+                        <strong style={{ fontSize: '11pt', fontFamily: 'times' }}>
+                          Telefon raqam:{' '}
+                        </strong>
+                      </div>
+                      <div>
+                        {'+998' + clinica?.phone1}
+                      </div>
                     </li>
                     <li style={{ textAlign: '', fontSize: '11pt' }}>
                       {connector.probirka && connector.probirka ? (
@@ -58,7 +42,7 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                       ) : (
                         ''
                       )}
-                      <div className="ml-3 fs-5">
+                      <div className="ml-3 fs-5 mt-4">
                         {connector &&
                           new Date(connector.createdAt).toLocaleDateString() +
                           ' ' +
@@ -67,7 +51,7 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                     </li>
                   </ul>
                 </td>
-                <td className="text-center">
+                <td className="text-center" style={{ transform: "translateX(-100px)" }}>
                   <div className='w-full text-center'>
                     <img
                       className='mx-auto'
@@ -284,41 +268,25 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
               <tr>
                 <td>
                   <ul className="list-unstyled  text-start ml-3 mb-0">
-                    <li
-                      className=""
-                      style={{ fontSize: '11pt', fontFamily: 'times' }}
-                    >
-                      <strong style={{ fontSize: '11pt', fontFamily: 'times' }}>
-                        {' '}
-                        {connector.clinica && connector.clinica.image}
-                      </strong>
+                    <li className='flex items-center mb-2' style={{ fontSize: '11pt', fontFamily: 'times' }}>
+                      <div className='mr-2'>
+                        <strong style={{ fontSize: '11pt', fontFamily: 'times' }}>
+                          Manzil:{' '}
+                        </strong>
+                      </div>
+                      <div>
+                        {clinica && clinica.address}
+                      </div>
                     </li>
-                    <li style={{ fontSize: '11pt', fontFamily: 'times' }}>
-                      <strong style={{ fontSize: '11pt', fontFamily: 'times' }}>
-                        Manzil:{' '}
-                      </strong>{' '}
-                      {connector.clinica && connector.clinica.address}
-                    </li>
-                    <li style={{ textAlign: '', fontSize: '11pt' }}>
-                      <strong style={{ fontSize: '11pt', fontFamily: 'times' }}>
-                        Telefon raqam:{' '}
-                      </strong>
-
-                      {connector.clinica &&
-                        connector.clinica.phone1 &&
-                        '+998' + connector.clinica &&
-                        connector.clinica.phone1}
-                      <br />
-                      {connector.clinica &&
-                        connector.clinica.phone2 &&
-                        '+998' + connector.clinica &&
-                        connector.clinica.phone2}
-                      <br />
-                      {connector.clinica &&
-                        connector.clinica.phone3 &&
-                        '+998' + connector.clinica &&
-                        connector.clinica.phone3}
-                      <br />
+                    <li className='flex items-center' style={{ textAlign: '', fontSize: '11pt' }}>
+                      <div className='mr-2'>
+                        <strong style={{ fontSize: '11pt', fontFamily: 'times' }}>
+                          Telefon raqam:{' '}
+                        </strong>
+                      </div>
+                      <div>
+                        {'+998' + clinica?.phone1}
+                      </div>
                     </li>
                     <li style={{ textAlign: '', fontSize: '11pt' }}>
                       {connector.probirka && connector.probirka ? (
@@ -331,7 +299,7 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                       ) : (
                         ''
                       )}
-                      <div className="ml-3 fs-5">
+                      <div className="ml-3 fs-5 mt-4">
                         {connector &&
                           new Date(connector.createdAt).toLocaleDateString() +
                           ' ' +
@@ -340,7 +308,7 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                     </li>
                   </ul>
                 </td>
-                <td className="text-center">
+                <td className="text-center" style={{ transform: "translateX(-100px)" }}>
                   <div className='w-full text-center'>
                     <img
                       className='mx-auto'
