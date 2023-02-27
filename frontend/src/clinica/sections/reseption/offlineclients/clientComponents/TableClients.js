@@ -32,86 +32,86 @@ export const TableClients = ({
   currentPage,
   setPageSize,
   loading,
+  getConnectorsByClientBorn
 }) => {
   return (
     <div className="border-0 table-container">
       <div className="border-0 table-container">
         <div className="table-responsive">
+          <div className="bg-white flex gap-6 items-center py-2 px-2">
+            <div>
+              <select
+                className="form-control form-control-sm selectpicker"
+                placeholder="Bo'limni tanlang"
+                onChange={setPageSize}
+                style={{ minWidth: '50px' }}
+              >
+                <option value={10}>10</option>
+                <option value={25}>25</option>
+                <option value={50}>50</option>
+                <option value={100}>100</option>
+              </select>
+            </div>
+            <div>
+              <input
+                onChange={searchFullname}
+                style={{ maxWidth: '100px', minWidth: '100px' }}
+                type="search"
+                className="w-100 form-control form-control-sm selectpicker"
+                placeholder="F.I.O"
+              />
+            </div>
+            <div>
+              <input
+                onChange={searchPhone}
+                style={{ maxWidth: '100px', minWidth: '100px' }}
+                type="search"
+                className="w-100 form-control form-control-sm selectpicker"
+                placeholder="Tel"
+              />
+            </div>
+            <div>
+              <input
+                onChange={searchId}
+                style={{ maxWidth: '80px' }}
+                type="search"
+                className="form-control form-control-sm selectpicker"
+                placeholder="ID"
+              />
+            </div>
+            <div>
+              <input
+                onChange={searchProbirka}
+                style={{ maxWidth: '70px' }}
+                type="search"
+                className="form-control form-control-sm selectpicker"
+                placeholder="Probirka"
+              />
+            </div>
+            <div
+              className="text-center"
+              style={{ maxWidth: '120px', overflow: 'hidden' }}
+            >
+              <DatePickers changeDate={getConnectorsByClientBorn} />
+            </div>
+            <div className="text-center ml-auto ">
+              <Pagination
+                setCurrentDatas={setCurrentConnectors}
+                datas={connectors}
+                setCurrentPage={setCurrentPage}
+                countPage={countPage}
+                totalDatas={connectors.length}
+              />
+            </div>
+            <div
+              className="text-center ml-auto flex gap-2"
+              style={{ overflow: 'hidden' }}
+            >
+              <DatePickers changeDate={changeStart} />
+              <DatePickers changeDate={changeEnd} />
+            </div>
+          </div>
           <table className="table m-0">
-            <thead className="bg-white">
-              <tr>
-                <th>
-                  <select
-                    className="form-control form-control-sm selectpicker"
-                    placeholder="Bo'limni tanlang"
-                    onChange={setPageSize}
-                    style={{ minWidth: '50px' }}
-                  >
-                    <option value={10}>10</option>
-                    <option value={25}>25</option>
-                    <option value={50}>50</option>
-                    <option value={100}>100</option>
-                  </select>
-                </th>
-                <th>
-                  <input
-                    onChange={searchFullname}
-                    style={{ maxWidth: '100px', minWidth: '100px' }}
-                    type="search"
-                    className="w-100 form-control form-control-sm selectpicker"
-                    placeholder="F.I.O"
-                  />
-                </th>
-                <th>
-                  <input
-                    onChange={searchPhone}
-                    style={{ maxWidth: '100px', minWidth: '100px' }}
-                    type="search"
-                    className="w-100 form-control form-control-sm selectpicker"
-                    placeholder="Tel"
-                  />
-                </th>
-                <th>
-                  <input
-                    onChange={searchId}
-                    style={{ maxWidth: '60px' }}
-                    type="search"
-                    className="form-control form-control-sm selectpicker"
-                    placeholder="ID"
-                  />
-                </th>
-                <th>
-                  <input
-                    onChange={searchProbirka}
-                    style={{ maxWidth: '50px' }}
-                    type="search"
-                    className="form-control form-control-sm selectpicker"
-                    placeholder="Probirka"
-                  />
-                </th>
-                <th className="text-center" colSpan={3}>
-                  <Pagination
-                    setCurrentDatas={setCurrentConnectors}
-                    datas={connectors}
-                    setCurrentPage={setCurrentPage}
-                    countPage={countPage}
-                    totalDatas={connectors.length}
-                  />
-                </th>
-                <th
-                  className="text-center"
-                  style={{ maxWidth: '120px', overflow: 'hidden' }}
-                >
-                  <DatePickers changeDate={changeStart} />
-                </th>
-                <th
-                  className="text-center"
-                  style={{ maxWidth: '120px', overflow: 'hidden' }}
-                >
-                  <DatePickers changeDate={changeEnd} />
-                </th>
-              </tr>
-            </thead>
             <thead>
               <tr>
                 <th className="border py-1 bg-alotrade text-[16px]">№</th>

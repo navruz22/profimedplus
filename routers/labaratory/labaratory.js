@@ -25,7 +25,7 @@ module.exports.approve = async (req, res) => {
 
 module.exports.getLabClients = async (req, res) => {
     try {
-        const { clinica, beginDay, endDay, department } = req.body;
+        const { clinica, beginDay, endDay, department, clientborn } = req.body;
 
         const clinic = await Clinica.findById(clinica);
 
@@ -42,30 +42,57 @@ module.exports.getLabClients = async (req, res) => {
             services: [],
         };
 
-        const services = await OfflineService.find({
-            department,
-            createdAt: {
-                $gte: beginDay,
-                $lt: endDay,
-            },
-            clinica,
-        })
-            .select("service serviceid accept column tables turn connector client files")
-            .populate("connector", "probirka createdAt accept")
-            .populate("client", "lastname firstname born id phone address")
-            .populate("service", "price")
-            .populate({
-                path: "serviceid",
-                select: "servicetype",
-                populate: {
-                    path: "servicetype",
-                    select: "name"
-                }
+        let services = null;
+
+        if (clientborn) {
+            services = await OfflineService.find({
+                department,
+                clinica,
             })
-            .populate("templates", "name template")
-            .then(services => {
-                return services.filter(service => service.connector.accept)
+                .select("service serviceid accept column tables turn connector client files")
+                .populate("connector", "probirka createdAt accept")
+                .populate("client", "lastname firstname born id phone address")
+                .populate("service", "price")
+                .populate({
+                    path: "serviceid",
+                    select: "servicetype",
+                    populate: {
+                        path: "servicetype",
+                        select: "name"
+                    }
+                })
+                .populate("templates", "name template")
+                .then(services => {
+                    return services.filter(service => {
+                        return service.connector.accept && new Date(new Date(service.client.born).setUTCHours(0, 0, 0, 0)).toISOString() === new Date(new Date(clientborn).setUTCHours(0, 0, 0, 0)).toISOString()
+                    })
+                })
+        } else {
+            services = await OfflineService.find({
+                department,
+                createdAt: {
+                    $gte: beginDay,
+                    $lt: endDay,
+                },
+                clinica,
             })
+                .select("service serviceid accept column tables turn connector client files")
+                .populate("connector", "probirka createdAt accept")
+                .populate("client", "lastname firstname born id phone address")
+                .populate("service", "price")
+                .populate({
+                    path: "serviceid",
+                    select: "servicetype",
+                    populate: {
+                        path: "servicetype",
+                        select: "name"
+                    }
+                })
+                .populate("templates", "name template")
+                .then(services => {
+                    return services.filter(service => service.connector.accept)
+                })
+        }
 
 
         if (services.length > 0) {

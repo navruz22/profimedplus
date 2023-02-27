@@ -82,13 +82,13 @@ export const checkUploadServices = (departments, clinica, services, servicetypes
   console.log(services);
   for (const service of services) {
     k++;
-    if (clinica.name !== service.clinica) {
-      return {
-        title: `Diqqat! ${k}-xizmatda klinika nomi noto'g'ri ko'rsatilgan.`,
-        description: "Iltimos klinika nomini to'g'ri kiriting.",
-        status: "error",
-      };
-    }
+    // if (clinica.name !== service.clinica) {
+    //   return {
+    //     title: `Diqqat! ${k}-xizmatda klinika nomi noto'g'ri ko'rsatilgan.`,
+    //     description: "Iltimos klinika nomini to'g'ri kiriting.",
+    //     status: "error",
+    //   };
+    // }
     const d = departments.find(
       (department) => department.name === service.department
     );

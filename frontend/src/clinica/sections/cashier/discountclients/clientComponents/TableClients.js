@@ -20,99 +20,99 @@ export const TableClients = ({
   commentSelect,
   sortComment,
   sortDiscounts,
+  getDiscountsByClientBorn
 }) => {
   return (
     <div className="border-0 shadow-lg table-container">
       <div className="border-0 table-container">
         <div className="table-responsive">
+          <div className="bg-white flex gap-6 items-center py-2 px-2">
+            <div>
+              <select
+                className="form-control form-control-sm selectpicker"
+                placeholder="Bo'limni tanlang"
+                onChange={setPageSize}
+                style={{ minWidth: "50px" }}
+              >
+                <option value={10}>10</option>
+                <option value={25}>25</option>
+                <option value={50}>50</option>
+                <option value={100}>100</option>
+              </select>
+            </div>
+            <div>
+              <input
+                onChange={searchFullname}
+                style={{ maxWidth: "100px", minWidth: "100px" }}
+                type="search"
+                className="w-100 form-control form-control-sm selectpicker"
+                placeholder="F.I.O"
+              />
+            </div>
+            <div>
+              <input
+                onChange={searchId}
+                style={{ maxWidth: "60px" }}
+                type="search"
+                className="form-control form-control-sm selectpicker"
+                placeholder="ID"
+              />
+            </div>
+            <div>
+              <DatePickers changeDate={getDiscountsByClientBorn} />
+            </div>
+            <div className="text-center ml-auto">
+              <Pagination
+                setCurrentDatas={setCurrentConnectors}
+                datas={currentConnectors}
+                setCurrentPage={setCurrentPage}
+                countPage={countPage}
+                totalDatas={currentConnectors.length}
+              />
+            </div>
+            <div className="text-center">
+              <select
+                className="form-control form-control-sm selectpicker"
+                onChange={sortDiscounts}
+              >
+                <option value="none">hamma</option>
+                <option value="statsionar">Statsionar</option>
+                <option value="offline">Kunduzgi</option>
+              </select>
+            </div>
+            <div
+              className="flex gap-2"
+              style={{ maxWidth: "200px", overflow: "hidden" }}
+            >
+              <DatePickers changeDate={changeStart} />
+              <DatePickers changeDate={changeEnd} />
+            </div>
+            <div className="text-center">
+              <div className="btn btn-primary">
+                <ReactHTMLTableToExcel
+                  id="reacthtmltoexcel"
+                  table="discount-table"
+                  sheet="Sheet"
+                  buttonText="Excel"
+                  filename="Chegirma"
+                />
+              </div>
+            </div>
+            <div className="text-center">
+              <select
+                className="form-control form-control-sm selectpicker"
+                onChange={sortComment}
+              >
+                <option value="none">hamma</option>
+                {commentSelect.map((item, index) => (
+                  <option key={index} value={item}>
+                    {item}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
           <table className="table m-0" id="discount-table">
-            <thead className="bg-white">
-              <tr>
-                <th>
-                  <select
-                    className="form-control form-control-sm selectpicker"
-                    placeholder="Bo'limni tanlang"
-                    onChange={setPageSize}
-                    style={{ minWidth: "50px" }}
-                  >
-                    <option value={10}>10</option>
-                    <option value={25}>25</option>
-                    <option value={50}>50</option>
-                    <option value={100}>100</option>
-                  </select>
-                </th>
-                <th>
-                  <input
-                    onChange={searchFullname}
-                    style={{ maxWidth: "100px", minWidth: "100px" }}
-                    type="search"
-                    className="w-100 form-control form-control-sm selectpicker"
-                    placeholder="F.I.O"
-                  />
-                </th>
-                <th>
-                  <input
-                    onChange={searchId}
-                    style={{ maxWidth: "60px" }}
-                    type="search"
-                    className="form-control form-control-sm selectpicker"
-                    placeholder="ID"
-                  />
-                </th>
-                <th className="text-center">
-                  <Pagination
-                    setCurrentDatas={setCurrentConnectors}
-                    datas={currentConnectors}
-                    setCurrentPage={setCurrentPage}
-                    countPage={countPage}
-                    totalDatas={currentConnectors.length}
-                  />
-                </th>
-                <th className="text-center">
-                  <select
-                    className="form-control form-control-sm selectpicker"
-                    onChange={sortDiscounts}
-                  >
-                    <option value="none">hamma</option>
-                    <option value="statsionar">Statsionar</option>
-                    <option value="offline">Kunduzgi</option>
-                  </select>
-                </th>
-                <th></th>
-                <th
-                  className="d-flex justify-content-between"
-                  style={{ maxWidth: "200px", overflow: "hidden" }}
-                >
-                  <DatePickers changeDate={changeStart} />
-                  <DatePickers changeDate={changeEnd} />
-                </th>
-                <th className="text-center">
-                  <div className="btn btn-primary">
-                    <ReactHTMLTableToExcel
-                      id="reacthtmltoexcel"
-                      table="discount-table"
-                      sheet="Sheet"
-                      buttonText="Excel"
-                      filename="Chegirma"
-                    />
-                  </div>
-                </th>
-
-                <th className="text-center">
-                  <select
-                    className="form-control form-control-sm selectpicker"
-                    onChange={sortComment}
-                  >
-                    <option value="none">hamma</option>
-                    {commentSelect.map((item, index) => (
-                      <option key={index} value={item}>
-                        {item}
-                      </option>
-                    ))}
-                  </select>
-                </th>
-              </tr>
-            </thead>
             <thead>
               <tr>
                 <th className="border py-1 bg-alotrade text-[14px]">№</th>

@@ -502,7 +502,7 @@ module.exports.getAll = async (req, res) => {
 //Clients getall
 module.exports.getAllReseption = async (req, res) => {
     try {
-        const { clinica, beginDay, endDay } = req.body
+        const { clinica, beginDay, endDay, clientborn } = req.body
 
         const clinic = await Clinica.findById(clinica)
 
@@ -512,20 +512,41 @@ module.exports.getAllReseption = async (req, res) => {
             })
         }
 
-        const connectors = await OfflineConnector.find({
-            clinica,
-            createdAt: {
-                $gte: beginDay,
-                $lt: endDay,
-            },
-        })
-            .select('probirka client services products createdAt totalprice')
-            .populate('client', 'fullname firstname lastname phone id gender born address')
-            .populate('services', '_id service turn pieces')
-            .populate('products', '_id product pieces')
-            .sort({ _id: -1 })
+        let connectors = null;
+
+        if (clientborn) {
+            connectors = await OfflineConnector.find({
+                clinica
+            })
+                .select('probirka client services products createdAt totalprice')
+                .populate('client', 'fullname firstname lastname phone id gender born address')
+                .populate('services', '_id service turn pieces')
+                .populate('products', '_id product pieces')
+                .sort({ _id: -1 })
+                .lean()
+                .then(connectors => {
+                    return connectors.filter(connector => {
+                        return new Date(new Date(connector.client.born).setUTCHours(0, 0, 0, 0)).toISOString() === new Date(new Date(clientborn).setUTCHours(0, 0, 0, 0)).toISOString()
+                    });
+                })
+        } else {
+            connectors = await OfflineConnector.find({
+                clinica,
+                createdAt: {
+                    $gte: beginDay,
+                    $lt: endDay,
+                },
+            })
+                .select('probirka client services products createdAt totalprice')
+                .populate('client', 'fullname firstname lastname phone id gender born address')
+                .populate('services', '_id service turn pieces')
+                .populate('products', '_id product pieces')
+                .sort({ _id: -1 })
+        }
+
         res.status(200).send(connectors)
     } catch (error) {
+        console.log(error);
         res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
     }
 }

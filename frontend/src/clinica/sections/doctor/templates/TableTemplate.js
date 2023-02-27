@@ -2,6 +2,7 @@ import React from 'react';
 import { Pagination } from "../../director/components/Pagination";
 import { ExcelUpload } from "./uploadExcel/ExcelUpload";
 import { Sort } from "./../components/Sort";
+import parse from "html-react-parser"
 
 const TableTemplate = ({
     setTemplate,
@@ -106,8 +107,8 @@ const TableTemplate = ({
                                             {currentPage * countPage + key + 1}
                                         </td>
                                         <td className="border-right text-[16px] font-bold text-teal-600">{template.name}</td>
-                                        <td className="border-right text-[16px]">
-                                            {template.template}
+                                        <td className="border-right text-[16px] overflow-auto h-[150px]">
+                                            {parse(template.template)}
                                         </td>
                                         <td className="border-right text-[16px] text-center">
                                             <button

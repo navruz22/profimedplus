@@ -125,7 +125,7 @@ module.exports.payment = async (req, res) => {
 //Clients getall
 module.exports.getAll = async (req, res) => {
     try {
-        const { clinica, beginDay, endDay } = req.body;
+        const { clinica, beginDay, endDay, clientborn } = req.body;
         const clinic = await Clinica.findById(clinica);
 
         if (!clinic) {
@@ -134,19 +134,39 @@ module.exports.getAll = async (req, res) => {
             });
         }
 
-        const connectors = await OfflineConnector.find({
-            clinica,
-            createdAt: {
-                $gte: beginDay,
-                $lt: endDay,
-            },
-        })
-            .populate("client", "-createdAt -updatedAt -isArchive -__v")
-            .populate("services")
-            .populate("products")
-            .populate("payments")
-            .populate("discount")
-            .sort({ _id: -1 });
+        let connectors = null;
+
+        if (clientborn) {
+            connectors = await OfflineConnector.find({
+                clinica
+            })
+                .populate("client", "-createdAt -updatedAt -isArchive -__v")
+                .populate("services")
+                .populate("products")
+                .populate("payments")
+                .populate("discount")
+                .sort({ _id: -1 })
+                .lean()
+                .then(connectors => {
+                    return connectors.filter(connector => {
+                        return new Date(new Date(connector.client.born).setUTCHours(0, 0, 0, 0)).toISOString() === new Date(new Date(clientborn).setUTCHours(0, 0, 0, 0)).toISOString()
+                    });
+                })
+        } else {
+            connectors = await OfflineConnector.find({
+                clinica,
+                createdAt: {
+                    $gte: beginDay,
+                    $lt: endDay,
+                },
+            })
+                .populate("client", "-createdAt -updatedAt -isArchive -__v")
+                .populate("services")
+                .populate("products")
+                .populate("payments")
+                .populate("discount")
+                .sort({ _id: -1 });
+        }
 
         res.status(200).send(connectors);
     } catch (error) {

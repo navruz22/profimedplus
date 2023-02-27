@@ -108,7 +108,32 @@ export const OfflineClients = () => {
         [request, auth, notify, indexFirstConnector, indexLastConnector]
     );
     //====================================================================
-    //====================================================================+
+    //====================================================================
+
+    const getConnectorsByClientBorn = async (e) => {
+        try {
+            const data = await request(
+                `/api/offlineclient/client/getallreseption`,
+                "POST",
+                { clinica: auth && auth.clinica._id, clientborn: new Date(new Date(e)) },
+                {
+                    Authorization: `Bearer ${auth.token}`,
+                }
+            );
+            console.log(data)
+            setConnectors(data);
+            setSearchStrorage(data);
+            setCurrentConnectors(
+                data.slice(indexFirstConnector, indexLastConnector)
+            );
+        } catch (error) {
+            notify({
+                title: error,
+                description: "",
+                status: "error",
+            });
+        }
+    }
 
     //====================================================================
     //====================================================================
@@ -644,7 +669,7 @@ export const OfflineClients = () => {
 
         setEndDay(date);
         getConnectors(beginDay, date);
-    };
+    }
 
     //====================================================================
     //====================================================================
@@ -730,6 +755,7 @@ export const OfflineClients = () => {
                             modal1={modal1}
                             setModal1={setModal1}
                             setCheck={setCheck}
+                            getConnectorsByClientBorn={getConnectorsByClientBorn}
                             changeStart={changeStart}
                             changeEnd={changeEnd}
                             searchPhone={searchPhone}

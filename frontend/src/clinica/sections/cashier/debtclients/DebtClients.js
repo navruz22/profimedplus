@@ -146,6 +146,35 @@ export const DebtClients = () => {
   //====================================================================
   //====================================================================
 
+  const getDebtsByClientBorn = async (e) => {
+    try {
+      const data = await request(
+        `/api/cashier/offline/debts`,
+        "POST",
+        { clinica: auth && auth.clinica._id, clientborn: new Date(new Date(e)) },
+        {
+          Authorization: `Bearer ${auth.token}`,
+        }
+      );
+      const data2 = await request(
+        ` /api/cashier/statsionar/debts`,
+        "POST",
+        { clinica: auth && auth.clinica._id, clientborn: new Date(new Date(e)) },
+        {
+          Authorization: `Bearer ${auth.token}`,
+        }
+      );
+      setOfflineDebts(data);
+      setStatsionarDebts(data2);
+    } catch (error) {
+      notify({
+        title: error,
+        description: "",
+        status: "error",
+      });
+    }
+  }
+
   //====================================================================
   //====================================================================
   // SEARCH
@@ -457,6 +486,7 @@ export const DebtClients = () => {
               setPayment={setPayment}
               sortDebts={sortDebts}
               getPayment={getPayment}
+              getDebtsByClientBorn={getDebtsByClientBorn}
             />
           </div>
         </div>

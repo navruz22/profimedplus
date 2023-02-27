@@ -26,88 +26,85 @@ export const TableClients = ({
   loading,
   sortDebts,
   getPayment,
+  getDebtsByClientBorn
 }) => {
   const location = useLocation()
   return (
     <div className="border-0 shadow-lg table-container">
       <div className="border-0 table-container">
         <div className="table-responsive">
+          <div className="bg-white flex gap-6 items-center py-2 px-2">
+            <div>
+              <select
+                className="form-control form-control-sm selectpicker"
+                placeholder="Bo'limni tanlang"
+                onChange={setPageSize}
+                style={{ minWidth: "50px" }}
+              >
+                <option value={10}>10</option>
+                <option value={25}>25</option>
+                <option value={50}>50</option>
+                <option value={100}>100</option>
+              </select>
+            </div>
+            <div className="flex gap-4">
+              <input
+                onChange={searchFullname}
+                style={{ maxWidth: "100px", minWidth: "100px" }}
+                type="search"
+                className="w-100 form-control form-control-sm selectpicker"
+                placeholder="F.I.O"
+              />
+              <input
+                onChange={searchId}
+                style={{ maxWidth: "60px" }}
+                type="search"
+                className="form-control form-control-sm selectpicker"
+                placeholder="ID"
+              />
+            </div>
+            <div className="text-center">
+              <select
+                className="form-control form-control-sm selectpicker"
+                onChange={sortDebts}
+              >
+                <option value="none">hamma</option>
+                <option value="statsionar">Statsionar</option>
+                <option value="offline">Kunduzgi</option>
+              </select>
+            </div>
+            <div>
+              <DatePickers changeDate={getDebtsByClientBorn} />
+            </div>
+            <div className="text-center ml-auto">
+              <Pagination
+                setCurrentDatas={setCurrentConnectors}
+                datas={connectors}
+                setCurrentPage={setCurrentPage}
+                countPage={countPage}
+                totalDatas={connectors.length}
+              />
+            </div>
+            <div
+              className="text-center flex gap-2"
+              style={{ maxWidth: "200px", overflow: "hidden" }}
+            >
+              <DatePickers changeDate={changeStart} />
+              <DatePickers changeDate={changeEnd} />
+            </div>
+            <div className="texte-center">
+              <div className="btn btn-primary">
+                <ReactHTMLTableToExcel
+                  id="reacthtmltoexcel"
+                  table="discount-table"
+                  sheet="Sheet"
+                  buttonText="Excel"
+                  filename="Chegirma"
+                />
+              </div>
+            </div>
+          </div>
           <table className="table m-0" id="discount-table">
-            <thead className="bg-white">
-              <tr>
-                <th>
-                  <select
-                    className="form-control form-control-sm selectpicker"
-                    placeholder="Bo'limni tanlang"
-                    onChange={setPageSize}
-                    style={{ minWidth: "50px" }}
-                  >
-                    <option value={10}>10</option>
-                    <option value={25}>25</option>
-                    <option value={50}>50</option>
-                    <option value={100}>100</option>
-                  </select>
-                </th>
-                <th className="flex gap-4">
-                  <input
-                    onChange={searchFullname}
-                    style={{ maxWidth: "100px", minWidth: "100px" }}
-                    type="search"
-                    className="w-100 form-control form-control-sm selectpicker"
-                    placeholder="F.I.O"
-                  />
-                  <input
-                    onChange={searchId}
-                    style={{ maxWidth: "60px" }}
-                    type="search"
-                    className="form-control form-control-sm selectpicker"
-                    placeholder="ID"
-                  />
-                </th>
-                <th className="text-center">
-                  <select
-                    className="form-control form-control-sm selectpicker"
-                    onChange={sortDebts}
-                  >
-                    <option value="none">hamma</option>
-                    <option value="statsionar">Statsionar</option>
-                    <option value="offline">Kunduzgi</option>
-                  </select>
-                </th>
-                <th className="text-center">
-                  <Pagination
-                    setCurrentDatas={setCurrentConnectors}
-                    datas={connectors}
-                    setCurrentPage={setCurrentPage}
-                    countPage={countPage}
-                    totalDatas={connectors.length}
-                  />
-                </th>
-                <th
-                  className="text-center"
-                  style={{ maxWidth: "200px", overflow: "hidden" }}
-                >
-                  <DatePickers changeDate={changeStart} />
-                </th>
-                <th
-                  className="text-center"
-                  style={{ maxWidth: "200px", overflow: "hidden" }}
-                >
-                  <DatePickers changeDate={changeEnd} />
-                </th>
-                <th className="texte-center">
-                  <div className="btn btn-primary">
-                    <ReactHTMLTableToExcel
-                      id="reacthtmltoexcel"
-                      table="discount-table"
-                      sheet="Sheet"
-                      buttonText="Excel"
-                      filename="Chegirma"
-                    />
-                  </div>
-                </th>
-              </tr>
-            </thead>
             <thead>
               <tr>
                 <th className="border bg-alotrade text-[16px] py-1">№</th>

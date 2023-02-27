@@ -153,6 +153,41 @@ export const DiscountClients = () => {
     [request, auth, notify]
   );
 
+  //=============================================
+  //=============================================
+
+  const getDiscountsByClientBorn = async (e) => {
+    try {
+      const data = await request(
+        ` /api/cashier/offline/discounts`,
+        "POST",
+        { clinica: auth && auth.clinica._id, clientborn: new Date(new Date(e)) },
+        {
+          Authorization: `Bearer ${auth.token}`,
+        }
+      );
+      const data2 = await request(
+        ` /api/cashier/statsionar/discounts`,
+        "POST",
+        { clinica: auth && auth.clinica._id, clientborn: new Date(new Date(e)) },
+        {
+          Authorization: `Bearer ${auth.token}`,
+        }
+      );
+      setOfflineDiscounts(data);
+      setStatsionarDiscounts(data2);
+    } catch (error) {
+      notify({
+        title: error,
+        description: "",
+        status: "error",
+      });
+    }
+  }
+
+  //=============================================
+  //=============================================
+
   useEffect(() => {
     let discounts;
     if (offlineDiscounts.length > 0 || statsionarDiscounts.length > 0) {
@@ -388,6 +423,7 @@ export const DiscountClients = () => {
               sortComment={sortComment}
               commentSelect={commentSelect}
               sortDiscounts={sortDiscounts}
+              getDiscountsByClientBorn={getDiscountsByClientBorn}
             />
           </div>
         </div>

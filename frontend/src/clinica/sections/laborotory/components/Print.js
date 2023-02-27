@@ -268,43 +268,43 @@ const Print = ({ client, connector, sections, baseUrl, clinica }) => {
                             <table className="w-full text-center">
                                 <thead>
                                     <tr>
-                                        <th className="border-[1px] border-black bg-gray-400 px-[12px] py-1 text-center">{section?.column?.col1}</th>
-                                        {section?.column?.col2 && <th className="border-[1px] border-black bg-gray-400 px-[12px] py-1 text-center">{section?.column?.col2}</th>}
-                                        {section?.column?.col3 && <th className="border-[1px] border-black bg-gray-400 px-[12px] py-1 text-center">{section?.column?.col3}</th>}
-                                        {section?.column?.col4 && <th className="border-[1px] border-black bg-gray-400 px-[12px] py-1 text-center">{section?.column?.col4}</th>}
-                                        {section?.column?.col5 && <th className="border-[1px] border-black bg-gray-400 px-[12px] py-1 text-center">{section?.column?.col5}</th>}
+                                        <th className="col-span-1 border-[1px] border-black bg-gray-400 px-[12px] py-1 text-center">{section?.column?.col1}</th>
+                                        {section?.column?.col2 && <th className="col-span-1 border-[1px] border-black bg-gray-400 px-[12px] py-1 text-center">{section?.column?.col2}</th>}
+                                        {section?.column?.col3 && <th className="col-span-1 border-[1px] border-black bg-gray-400 px-[12px] py-1 text-center">{section?.column?.col3}</th>}
+                                        {section?.column?.col4 && <th className="col-span-1 border-[1px] border-black bg-gray-400 px-[12px] py-1 text-center">{section?.column?.col4}</th>}
+                                        {section?.column?.col5 && <th className="col-span-1 border-[1px] border-black bg-gray-400 px-[12px] py-1 text-center">{section?.column?.col5}</th>}
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {section?.services.map((service, ind) => {
                                         return service.accept && service.tables.map((table, key) => (
                                             <tr key={key} >
-                                                <td className="border-[1px] border-black p-[12px]"> <pre
+                                                <td className={`border-[1px] border-black p-[12px]`}> <pre
                                                     className="border-none outline-none text-left"
                                                 >
                                                     {table?.col1}
                                                 </pre> </td>
-                                                <td className="border-[1px] border-black p-[12px]">
+                                                <td className={`border-[1px] border-black p-[12px]`}>
                                                     <pre
                                                         className="border-none outline-none"
                                                     >
                                                         {table?.col2}
                                                     </pre>
                                                 </td>
-                                                <td className="border-[1px] border-black p-[12px]">
+                                                <td className={`border-[1px] border-black p-[12px]`}>
                                                     <pre
                                                         className="border-none outline-none"
                                                     >
                                                         {table?.col3}
                                                     </pre>
                                                 </td>
-                                                {table?.col4 && <td className="border-[1px] border-black p-[12px]">
+                                                {table?.col4 && <td className={`border-[1px] border-black p-[12px]`}>
                                                     <pre
                                                         className="border-none outline-none"
                                                     >
                                                         {table?.col4}
                                                     </pre></td>}
-                                                {table?.col5 && <td className="border-[1px] border-black p-[12px]">
+                                                {table?.col5 && <td className={`border-[1px] border-black p-[12px]`}>
                                                     <pre
                                                         className="border-none outline-none"
                                                     >

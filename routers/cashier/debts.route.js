@@ -13,7 +13,7 @@ const { OfflineProduct } = require("../../models/OfflineClient/OfflineProduct");
 // GET Offline discounts
 module.exports.offline = async (req, res) => {
     try {
-        const { clinica, beginDay, endDay } = req.body
+        const { clinica, beginDay, endDay, clientborn } = req.body
         const clinic = await Clinica.findById(clinica)
 
         if (!clinic) {
@@ -21,18 +21,38 @@ module.exports.offline = async (req, res) => {
                 message: "Diqqat! Klinika ma'lumotlari topilmadi.",
             })
         }
-        const debts = await OfflinePayment.find({
-            clinica,
-            debt: { $gt: 0 },
-            createdAt: {
-                $gte: beginDay,
-                $lt: endDay,
-            },
-        })
-            .select('-isArchive -updatedAt -__v')
-            .populate('client', 'fullname born phone id')
-            .sort({ _id: -1 })
-            .lean()
+
+        let debts = null;
+
+        if (clientborn) {
+            debts = await OfflinePayment.find({
+                clinica,
+                debt: { $gt: 0 }
+            })
+                .select('-isArchive -updatedAt -__v')
+                .populate('client', 'fullname born phone id')
+                .sort({ _id: -1 })
+                .lean()
+                .then(connectors => {
+                    return connectors.filter(connector => {
+                        return new Date(new Date(connector.client.born).setUTCHours(0, 0, 0, 0)).toISOString() === new Date(new Date(clientborn).setUTCHours(0, 0, 0, 0)).toISOString()
+                    });
+                })
+        } else {
+            debts = await OfflinePayment.find({
+                clinica,
+                debt: { $gt: 0 },
+                createdAt: {
+                    $gte: beginDay,
+                    $lt: endDay,
+                },
+            })
+                .select('-isArchive -updatedAt -__v')
+                .populate('client', 'fullname born phone id')
+                .sort({ _id: -1 })
+                .lean()
+        }
+
         res.status(200).send(debts)
     } catch (error) {
         console.log(error);
@@ -43,7 +63,7 @@ module.exports.offline = async (req, res) => {
 // GET Statsionar discounts
 module.exports.statsionar = async (req, res) => {
     try {
-        const { clinica, beginDay, endDay } = req.body
+        const { clinica, beginDay, endDay, clientborn } = req.body
         const clinic = await Clinica.findById(clinica)
 
         if (!clinic) {
@@ -51,17 +71,39 @@ module.exports.statsionar = async (req, res) => {
                 message: "Diqqat! Klinika ma'lumotlari topilmadi.",
             })
         }
-        const debts = await StatsionarPayment.find({
-            clinica,
-            debt: { $gt: 0 },
-            createdAt: {
-                $gte: beginDay,
-                $lt: endDay,
-            },
-        })
-            .select('total debt comment')
-            .populate('client', 'fullname born phone id')
-            .sort({ _id: -1 })
+
+        let debts = null;
+
+        if (clientborn) {
+            debts = await StatsionarPayment.find({
+                clinica,
+                debt: { $gt: 0 }
+            })
+                .select('-isArchive -updatedAt -__v')
+                .populate('client', 'fullname born phone id')
+                .sort({ _id: -1 })
+                .lean()
+                .then(connectors => {
+                    return connectors.filter(connector => {
+                        return new Date(new Date(connector.client.born).setUTCHours(0, 0, 0, 0)).toISOString() === new Date(new Date(clientborn).setUTCHours(0, 0, 0, 0)).toISOString()
+                    });
+                })
+        } else {
+            debts = await StatsionarPayment.find({
+                clinica,
+                debt: { $gt: 0 },
+                createdAt: {
+                    $gte: beginDay,
+                    $lt: endDay,
+                },
+            })
+                .select('-isArchive -updatedAt -__v')
+                .populate('client', 'fullname born phone id')
+                .sort({ _id: -1 })
+                .lean()
+        }
+
+
         res.status(200).send(debts)
     } catch (error) {
         res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })

@@ -112,7 +112,34 @@ export const OfflineClients = () => {
         [request, auth, notify, indexFirstConnector, indexLastConnector],
     )
     //====================================================================
-    //====================================================================+
+    //====================================================================
+
+    const getConnectorsByClientBorn = async (e) => {
+        try {
+            const data = await request(
+                `/api/cashier/offline/getall`,
+                'POST',
+                { clinica: auth && auth.clinica._id, clientborn: new Date(new Date(e)) },
+                {
+                    Authorization: `Bearer ${auth.token}`,
+                },
+            )
+            setConnectors(data)
+            setSearchStrorage(data)
+            setCurrentConnectors(
+                data.slice(indexFirstConnector, indexLastConnector),
+            )
+        } catch (error) {
+            notify({
+                title: error,
+                description: '',
+                status: 'error',
+            })
+        }
+    }
+
+    //====================================================================
+    //====================================================================
 
     const [baseUrl, setBaseurl] = useState();
 
@@ -783,6 +810,7 @@ export const OfflineClients = () => {
                             // setModal2={setModal2}
                             loading={loading}
                             searchStorage={searchStorage}
+                            getConnectorsByClientBorn={getConnectorsByClientBorn}
                         />
                     </div>
                 </div>

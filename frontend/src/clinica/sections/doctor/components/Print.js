@@ -1,7 +1,8 @@
 import React from 'react'
+import parse from "html-react-parser"
 
 const Print = ({ client, connector, sections, clinica, baseUrl }) => {
-
+    console.log(sections);
     return (
         <div className="px-2 bg-white">
             <div>
@@ -234,11 +235,9 @@ const Print = ({ client, connector, sections, clinica, baseUrl }) => {
                                         key={index}
                                         className="w-full mb-2"
                                     >
-                                        <pre
-                                            className='border-none font-semibold text-[18px]'
-                                        >
-                                            {template?.template}
-                                        </pre>
+
+                                        {parse(template.template)}
+
                                     </div>
                                 ))}
                             <div>

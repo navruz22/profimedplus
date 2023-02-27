@@ -13,6 +13,11 @@ import { AuthContext } from "../../../context/AuthContext";
 import { useHttp } from "../../../hooks/http.hook";
 import Print from "./Print";
 import { useReactToPrint } from 'react-to-print'
+import { ContentState, EditorState } from "draft-js";
+import htmlToDraft from "html-to-draftjs";
+import { convertToHTML } from "draft-convert";
+import { Editor } from "react-draft-wysiwyg";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 const AdoptionTemplate = () => {
   // const clientId = useParams().clientid
@@ -52,6 +57,9 @@ const AdoptionTemplate = () => {
   // const [tablesections, setTableSections] = useState();
   // const [tablecolumns, setTableColumns] = useState();
   // const [sectionFiles, setSectionFiles] = useState();
+  const [editorState, setEditorState] = useState(
+    () => EditorState.createEmpty()
+  );
   const [templates, setTemplates] = useState();
 
   const [baseUrl, setBaseUrl] = useState()
@@ -176,15 +184,23 @@ const AdoptionTemplate = () => {
       return section;
     });
     setSections(newSections);
+
+    const blocksFromHtml = htmlToDraft(`<p>${template.template}</p>`);
+    const { contentBlocks, entityMap } = blocksFromHtml;
+    const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
+    const editorState = EditorState.createWithContent(contentState);
+    setEditorState(editorState);
   };
 
   const handleChangeTemplate = (e, index, serviceid) => {
+    let html = convertToHTML(e.getCurrentContent());
+    setEditorState(e)
     const newSections = [...sections].map((section) => {
       if (section._id === serviceid) {
         const newTemplates = section.templates.map((template, ind) => {
           console.log(template);
           if (ind === index) {
-            template.template = e.target.value;
+            template.template = html;
           }
           return template;
         });
@@ -463,7 +479,7 @@ const AdoptionTemplate = () => {
                         {template?.name}
                       </div>
                       <div className="">
-                        <textarea
+                        {/* <textarea
                           rows={7}
                           className={"w-full border-none outline-none"}
                           onChange={(e) =>
@@ -471,7 +487,17 @@ const AdoptionTemplate = () => {
                           }
                         >
                           {template?.template}
-                        </textarea>
+                        </textarea> */}
+                        <Editor
+                          editorState={editorState}
+                          toolbarClassName="toolbarClassName"
+                          wrapperClassName="wrapperClassName"
+                          editorClassName="editorClassName"
+                          onEditorStateChange={(e) =>
+                            handleChangeTemplate(e, index, section._id)
+                          }
+                          editorStyle={{ overflowY: "scroll", minHeight: "150px", maxHeight: "400px" }}
+                        />
                       </div>
                     </div>
                   ))}

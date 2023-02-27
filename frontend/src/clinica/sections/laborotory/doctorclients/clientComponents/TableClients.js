@@ -6,7 +6,6 @@ import {
   faPenAlt,
   faPrint,
 } from "@fortawesome/free-solid-svg-icons";
-import { Sort } from "./Sort";
 import { Pagination } from "../../components/Pagination";
 import { DatePickers } from "./DatePickers";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
@@ -25,7 +24,8 @@ export const TableClients = ({
   currentPage,
   setPageSize,
   loading,
-  handlePrint
+  handlePrint,
+  getDoctorClientsByClientBorn
 }) => {
 
   const history = useHistory()
@@ -33,69 +33,70 @@ export const TableClients = ({
   return (
     <div className="shadow-lg border-alotrade table-container">
       <div className="table-responsive">
+        <div className="bg-white flex gap-6 items-center py-2 px-2">
+          <div>
+            <select
+              className="form-control form-control-sm selectpicker text-[16px]"
+              placeholder="Bo'limni tanlang"
+              onChange={setPageSize}
+              style={{ minWidth: "50px" }}
+            >
+              <option value={10}>10</option>
+              <option value={25}>25</option>
+              <option value={50}>50</option>
+              <option value={100}>100</option>
+            </select>
+          </div>
+          <div>
+            <input
+              onChange={searchFullname}
+              style={{ maxWidth: "100px", minWidth: "100px" }}
+              type="search"
+              className="w-100 form-control form-control-sm selectpicker text-[16px]"
+              placeholder="F.I.O"
+            />
+          </div>
+          <div>
+            <input
+              onChange={searchId}
+              style={{ maxWidth: "60px" }}
+              type="search"
+              className="form-control form-control-sm selectpicker text-[16px]"
+              placeholder="ID"
+            />
+          </div>
+          <div>
+            <DatePickers changeDate={getDoctorClientsByClientBorn} />
+          </div>
+          <div className="text-center ml-auto">
+            <Pagination
+              setCurrentDatas={setCurrentDoctorClients}
+              datas={doctorClients}
+              setCurrentPage={setCurrentPage}
+              countPage={countPage}
+              totalDatas={doctorClients.length}
+            />
+          </div>
+          <div
+            className="flex items-center gap-2 justify-center ml-auto"
+            style={{ maxWidth: "200px", overflow: "hidden" }}
+          >
+            <DatePickers changeDate={changeStart} />
+            <DatePickers changeDate={changeEnd} />
+          </div>
+          <div className="texte-center">
+            <div className="btn bg-green-500 text-white font-bold">
+              <ReactHTMLTableToExcel
+                id="reacthtmltoexcel"
+                table="discount-table"
+                sheet="Sheet"
+                buttonText="Excel"
+                filename="Chegirma"
+              />
+            </div>
+          </div>
+        </div>
         <table className="table m-0" id="discount-table">
-          <thead className="bg-white">
-            <tr>
-              <th>
-                <select
-                  className="form-control form-control-sm selectpicker text-[16px]"
-                  placeholder="Bo'limni tanlang"
-                  onChange={setPageSize}
-                  style={{ minWidth: "50px" }}
-                >
-                  <option value={10}>10</option>
-                  <option value={25}>25</option>
-                  <option value={50}>50</option>
-                  <option value={100}>100</option>
-                </select>
-              </th>
-              <th>
-                <input
-                  onChange={searchFullname}
-                  style={{ maxWidth: "100px", minWidth: "100px" }}
-                  type="search"
-                  className="w-100 form-control form-control-sm selectpicker text-[16px]"
-                  placeholder="F.I.O"
-                />
-              </th>
-              <th>
-                <input
-                  onChange={searchId}
-                  style={{ maxWidth: "60px" }}
-                  type="search"
-                  className="form-control form-control-sm selectpicker text-[16px]"
-                  placeholder="ID"
-                />
-              </th>
-              <th className="text-center">
-                <Pagination
-                  setCurrentDatas={setCurrentDoctorClients}
-                  datas={doctorClients}
-                  setCurrentPage={setCurrentPage}
-                  countPage={countPage}
-                  totalDatas={doctorClients.length}
-                />
-              </th>
-              <th
-                className="flex items-center gap-2 justify-center"
-                style={{ maxWidth: "200px", overflow: "hidden" }}
-              >
-                <DatePickers changeDate={changeStart} />
-                <DatePickers changeDate={changeEnd} />
-              </th>
-              <th className="texte-center">
-                <div className="btn bg-green-500 text-white font-bold">
-                  <ReactHTMLTableToExcel
-                    id="reacthtmltoexcel"
-                    table="discount-table"
-                    sheet="Sheet"
-                    buttonText="Excel"
-                    filename="Chegirma"
-                  />
-                </div>
-              </th>
-            </tr>
-          </thead>
           <thead>
             <tr>
               <th className="border bg-alotrade py-1 text-[14px]">№</th>

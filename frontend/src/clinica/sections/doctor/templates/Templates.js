@@ -7,6 +7,9 @@ import { AuthContext } from "../../../context/AuthContext";
 import { ExcelCols } from "./uploadExcel/ExcelCols";
 import TableTemplate from "./TableTemplate";
 import { checkTemplates } from "./uploadExcel/checkData";
+import { ContentState, EditorState } from 'draft-js';
+import { convertToHTML } from 'draft-convert';
+import htmlToDraft from 'html-to-draftjs';
 
 const Templates = () => {
     //====================================================================
@@ -57,6 +60,25 @@ const Templates = () => {
     )
     //====================================================================
     //====================================================================
+
+    const [editorState, setEditorState] = useState(
+        () => EditorState.createEmpty()
+    );
+
+    const onChange = (e) => {
+        let html = convertToHTML(e.getCurrentContent());
+        setEditorState(e)
+        setTemplate({ ...template, template: html })
+    }
+
+    const htmlToDraftBlocks = (html) => {
+        console.log(html);
+        const blocksFromHtml = htmlToDraft(`<p>${html}</p>`);
+        const { contentBlocks, entityMap } = blocksFromHtml;
+        const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
+        const editorState = EditorState.createWithContent(contentState);
+        setEditorState(editorState);
+    }
 
     //====================================================================
     //====================================================================
@@ -284,10 +306,16 @@ const Templates = () => {
                         template={template}
                         setTemplate={setTemplate}
                         createHandler={createHandler}
+                        editorState={editorState}
+                        onChange={onChange}
                     />
 
                     <TableTemplate
-                        setTemplate={setTemplate}
+                        setTemplate={(e) => {
+                            setTemplate(e)
+                            console.log(e);
+                            htmlToDraftBlocks(e.template)
+                        }}
                         templates={templates}
                         currentTemplates={currentTemplates}
                         setModal={setModal}

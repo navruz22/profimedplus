@@ -116,6 +116,38 @@ export const DoctorClients = () => {
 
   //===================================================================
   //===================================================================
+
+  const getDoctorClientsByClientBorn = async (e) => {
+    try {
+      const data = await request(
+        `/api/labaratory/clients/get`,
+        "POST",
+        {
+          clinica: auth && auth.clinica._id,
+          department: auth?.user?.specialty,
+          clientborn: new Date(new Date(e))
+        },
+        {
+          Authorization: `Bearer ${auth.token}`,
+        }
+      );
+      const currentData = data[0].services.length > 0 ? data : []
+      setDoctorClients(currentData);
+      setSearchStorage(currentData);
+      setCurrentDoctorClients(
+        currentData.slice(indexFirstConnector, indexLastConnector)
+      );
+    } catch (error) {
+      notify({
+        title: error,
+        description: "",
+        status: "error",
+      });
+    }
+  }
+
+  //===================================================================
+  //===================================================================
   // Searching
 
   const searchFullname = useCallback(
@@ -264,6 +296,7 @@ export const DoctorClients = () => {
               setPageSize={setPageSize}
               loading={loading}
               handlePrint={handlePrint}
+              getDoctorClientsByClientBorn={getDoctorClientsByClientBorn}
             />
           </div>
         </div>
