@@ -28,6 +28,7 @@ module.exports.registerAll = async (req, res) => {
         doctorProcient,
         counterAgentProcient,
         counterDoctorProcient,
+        serviceroom
       } = s;
 
       const clinic = await Clinica.findOne({ name: clinica });
@@ -82,6 +83,7 @@ module.exports.registerAll = async (req, res) => {
         doctorProcient,
         counterAgentProcient,
         counterDoctorProcient,
+        serviceroom
       });
 
       if (Servicetype) {
@@ -141,6 +143,7 @@ module.exports.register = async (req, res) => {
       doctorProcient,
       counterAgentProcient,
       counterDoctorProcient,
+      serviceroom
     } = req.body;
 
     const service = await Service.findOne({
@@ -188,6 +191,7 @@ module.exports.register = async (req, res) => {
       doctorProcient,
       counterAgentProcient,
       counterDoctorProcient,
+      serviceroom
     });
 
     if (Servicetype) {
@@ -533,7 +537,7 @@ module.exports.deleteAll = async (req, res) => {
       for (const productconnector of service.productconnectors) {
         const del = await ProductConnector.findByIdAndDelete(productconnector);
       }
-      
+
       all.push(del);
     }
 

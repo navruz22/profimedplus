@@ -91,6 +91,7 @@ export const Services = () => {
         { name: 'Xizmat nomi', value: 'name' },
         { name: 'Qisqartma nomi', value: 'shortname' },
         { name: 'Narxi', value: 'price' },
+        { name: 'Xizmat xonasi', value: 'serviceroom' },
         { name: 'Shifokor ulushi', value: 'doctorProcient' },
         { name: 'Kontragent ulushi', value: 'counterAgentProcient' },
         { name: "Yo'naltiruvchi shifokor ulushi", value: 'counterDoctorProcient' },

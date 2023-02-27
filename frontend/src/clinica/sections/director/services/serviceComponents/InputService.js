@@ -20,6 +20,7 @@ export const InputService = ({
               <th className="bg-alotrade text-[14px]">Xizmat turi</th>
               <th className="bg-alotrade text-[14px]">Xizmat nomi</th>
               <th className="bg-alotrade text-[14px]">Qisqartma nomi</th>
+              <th className="bg-alotrade text-[14px]">Xizmat xonasi</th>
               <th className="bg-alotrade text-[14px]">Narxi</th>
               <th className="bg-alotrade text-[14px]">Doktor ulushi</th>
               <th className="bg-alotrade text-[14px]">Kounteragent ulushi</th>
@@ -112,6 +113,19 @@ export const InputService = ({
                   style={{ minWidth: "70px" }}
                   name="shortname"
                   value={service.shortname && service.shortname}
+                  onKeyUp={keyPressed}
+                  onChange={inputHandler}
+                  type="text"
+                  className="form-control w-75"
+                  id="shortname"
+                  placeholder="Qisqartma nomini kiriting"
+                />
+              </td>
+              <td>
+                <input
+                  style={{ minWidth: "70px" }}
+                  name="serviceroom"
+                  value={service.serviceroom && service.serviceroom}
                   onKeyUp={keyPressed}
                   onChange={inputHandler}
                   type="text"

@@ -78,9 +78,8 @@ export const checkService = (service) => {
 
 export const checkUploadServices = (departments, clinica, services, servicetypes) => {
   let k = 0;
-  console.log(clinica);
-  console.log(services);
   for (const service of services) {
+    console.log(service);
     k++;
     // if (clinica.name !== service.clinica) {
     //   return {
@@ -99,11 +98,11 @@ export const checkUploadServices = (departments, clinica, services, servicetypes
         status: "error",
       };
     }
-    console.log(service);
-    console.log(servicetypes);
+
     const s = servicetypes.find(
       (servicetype) => servicetype.name === service.servicetype
     );
+    console.log(service.servicetype);
     if (!s) {
       return {
         title: `Diqqat! ${k}-xizmatda  xizmat turi ko'rsatilmagan.`,
@@ -112,7 +111,7 @@ export const checkUploadServices = (departments, clinica, services, servicetypes
       };
     }
 
-    if (typeof service.price !== "number") {
+    if (typeof Number(service.price) !== "number") {
       return {
         title: `Diqqat! ${k}-xizmatda xizmat narxi noto'g'ri kiritilmagan.`,
         description:
@@ -154,6 +153,7 @@ export const checkUploadServices = (departments, clinica, services, servicetypes
       };
     }
   }
+  console.log('work');
   return false;
 };
 

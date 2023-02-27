@@ -197,6 +197,14 @@ export const TableServices = ({
                   />
                 </th>
                 <th className="border-right text-[12px] bg-alotrade">
+                  Xizmat xonasi
+                  <Sort
+                    data={currentServices}
+                    setData={setCurrentServices}
+                    property={"shortname"}
+                  />
+                </th>
+                <th className="border-right text-[12px] bg-alotrade">
                   Narxi
                   <Sort
                     data={currentServices}
@@ -247,6 +255,7 @@ export const TableServices = ({
                     </td>
                     <td className="border-right text-[16px]">{service.name}</td>
                     <td className="border-right text-[16px]">{service.shortname}</td>
+                    <td className="border-right text-[16px]">{service?.serviceroom}</td>
                     <td className="border-right text-[16px]">{service.price}</td>
                     <td className="border-right text-[16px]">{service.doctorProcient}</td>
                     <td className="border-right text-[16px]">
