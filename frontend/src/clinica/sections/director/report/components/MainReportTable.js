@@ -328,15 +328,15 @@ export const MainReportTable = ({
                                             {getDebt(connector)}
                                         </td>
                                         <td className="border py-1 text-[16px] text-right">
+                                            {(connector?.discount?.discount || 0)}
+                                        </td>
+                                        <td className="border py-1 text-[16px] text-right">
                                             {connector.payments.reduce((prev, el) => {
                                                 if (el.isPayDebt) {
                                                     prev += el.payment;
                                                 }
                                                 return prev;
                                             }, 0)}
-                                        </td>
-                                        <td className="border py-1 text-[16px] text-right">
-                                            {(connector?.discount?.discount || 0)}
                                         </td>
                                         <td className="border py-1 text-[16px] text-center">
                                             {loading ? (
@@ -361,7 +361,7 @@ export const MainReportTable = ({
                             })}
                             <tr>
                                 <td
-                                    colSpan={2}
+                                    colSpan={3}
                                     className={`py-1 font-weight-bold text-left text-[16px]`}
                                 >
                                     Qoldiq: {searchStorage.reduce((prev, connector) => {

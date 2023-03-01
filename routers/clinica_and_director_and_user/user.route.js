@@ -36,6 +36,12 @@ module.exports.register = async (req, res) => {
       }
       const update = await User.findByIdAndUpdate(_id, req.body);
 
+      if (type === 'Doctor' || type === 'Laborotory') {
+        const department = await Department.findById(specialty)
+        department.doctor = _id;
+        await department.save();
+      }
+
       return res.status(201).send({
         message: "Foydalanuvchi ma'lumotlari muvaffaqqiyatli o'zgartirildi!",
       });
@@ -96,6 +102,12 @@ module.exports.register = async (req, res) => {
     });
     await newUser.save();
 
+    if (type === 'Doctor' || type === 'Laborotory') {
+      const department = await Department.findById(specialty)
+      department.doctor = newUser._id;
+      await department.save();
+    }
+
     if (user) {
       const counteragent = await User.findByIdAndUpdate(user, {
         $push: {
@@ -108,6 +120,7 @@ module.exports.register = async (req, res) => {
       .status(201)
       .send({ message: "Foydalanuvchi muvaffaqqiyatli yaratildi!" });
   } catch (error) {
+    console.log(error);
     res.status(501).json({ error: "Serverda xatolik yuz berdi..." });
   }
 };

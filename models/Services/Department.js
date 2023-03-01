@@ -8,7 +8,7 @@ const department = new Schema(
     clinica: { type: Schema.Types.ObjectId, ref: "Clinica", required: true },
     services: [{ type: Schema.Types.ObjectId, ref: "Service" }],
     servicetypes: [{ type: Schema.Types.ObjectId, ref: "ServiceType" }],
-    doctors: [{ type: Schema.Types.ObjectId, ref: "Doctor" }],
+    doctor: { type: Schema.Types.ObjectId, ref: "User" },
     isArchive: { type: Boolean, default: false },
   },
   {

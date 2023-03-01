@@ -8,6 +8,8 @@ import { EditDirectorPassword } from "./editDirector/EditDirectorPassword";
 import { HomePage } from "./homepage/HomePage";
 import { DebtReport } from "./report/DebtReport";
 import { DiscountReport } from "./report/DiscountReport";
+import DoctorProcient from "./report/DoctorProcient";
+import DoctorServices from "./report/DoctorServices";
 import MainReport from "./report/MainReport";
 import { StatsionarReport } from "./report/StatsionarReport";
 import { Departments } from "./services/Departments";
@@ -71,6 +73,12 @@ export const DirectorRouter = () => {
         </Route>
         <Route path="/alo24/debtreport">
           <DebtReport />
+        </Route>
+        <Route path="/alo24/doctor_procient">
+          <DoctorProcient />
+        </Route>
+        <Route path="/alo24/doctor_procient_services">
+          <DoctorServices />
         </Route>
         {/* Users */}
         <Route path="/alo24/users">

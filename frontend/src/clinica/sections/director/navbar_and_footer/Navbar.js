@@ -372,6 +372,13 @@ export const Navbar = ({ baseUrl }) => {
                     Qarzlar
                   </Link>
                 </li>
+                <li>
+                  <Link className="dropdown-item" to="/alo24/doctor_procient"
+                    onClick={() => setActivePage('/alo24/doctor_procient')}
+                  >
+                    Shifokor ulushi
+                  </Link>
+                </li>
               </ul>
             </li>
             <li className="nav-item dropdown">

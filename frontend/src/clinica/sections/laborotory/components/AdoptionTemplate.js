@@ -229,6 +229,7 @@ const AdoptionTemplate = () => {
         })
         serviceIdArr.push(check);
       } else {
+        console.log(service);
         const checkCols = Object.keys(service.column).filter(el => el.includes('col')).length;
         const index = serviceTypes.findIndex(el =>
           el.servicetypeid === check
