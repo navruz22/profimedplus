@@ -264,14 +264,17 @@ export const OfflineClients = () => {
     const getCounterDoctors = useCallback(async () => {
         try {
             const data = await request(
-                `/api/user/gettype`,
+                `/api/offlineclient/client/counter_doctors/get`,
                 "POST",
-                { clinica: auth.clinica._id, type: "CounterDoctor" },
+                { clinica: auth.clinica._id, },
                 {
                     Authorization: `Bearer ${auth.token}`,
                 }
             );
-            setCounterDoctors(data);
+            setCounterDoctors([...data].map(item => ({
+                value: item._id,
+                label: item.firstname + ' ' + item.lastname,
+            })));
         } catch (error) {
             notify({
                 title: error,
@@ -281,24 +284,13 @@ export const OfflineClients = () => {
         }
     }, [request, auth, notify]);
 
-    const [counteragent, setCounterAgent] = useState({
-        clinica: auth.clinica && auth.clinica._id,
-        reseption: auth.user && auth.user._id,
-    });
+    const [counterdoctor, setCounterDoctor] = useState('');
 
-    const changeCounterAgent = (e) => {
-        if (e.target.value === "delete") {
-            let s = { ...counteragent };
-            delete s.counterdoctor;
-            delete s.counteragent;
-            setCounterAgent(s);
+    const changeCounterDoctor = (e) => {
+        if (e.value === "delete") {
+            setCounterDoctor('')
         } else {
-            setCounterAgent({
-                ...counteragent,
-                counterdoctor: JSON.parse(e.target.value)._id,
-                counteragent: JSON.parse(e.target.value).user,
-                clinica: auth.clinica._id,
-            });
+            setCounterDoctor(e.value);
         }
     };
     //====================================================================
@@ -463,10 +455,7 @@ export const OfflineClients = () => {
             clinica: auth.clinica && auth.clinica._id,
             reseption: auth.user && auth.user._id,
         });
-        setCounterAgent({
-            clinica: auth.clinica && auth.clinica._id,
-            reseption: auth.user && auth.user._id,
-        });
+        setCounterDoctor('');
         setNewProducts([]);
         setServices([]);
         setSelectedProducts([]);
@@ -504,7 +493,7 @@ export const OfflineClients = () => {
                     connector: { ...connector, clinica: auth.clinica._id },
                     services: [...services],
                     products: [...newproducts],
-                    counteragent: { ...counteragent, clinica: auth.clinica._id },
+                    counterdoctor: counterdoctor,
                     adver: { ...adver, clinica: auth.clinica._id },
                 },
                 {
@@ -543,7 +532,7 @@ export const OfflineClients = () => {
         connectors,
         clearDatas,
         adver,
-        counteragent,
+        counterdoctor,
     ]);
 
     const updateHandler = useCallback(async () => {
@@ -557,7 +546,7 @@ export const OfflineClients = () => {
                 {
                     client: { ...client, clinica: auth.clinica._id },
                     connector: { ...connector, clinica: auth.clinica._id },
-                    counteragent: { ...counteragent, clinica: auth.clinica._id },
+                    counterdoctor: counterdoctor,
                     adver: { ...adver, clinica: auth.clinica._id },
                 },
                 {
@@ -584,7 +573,7 @@ export const OfflineClients = () => {
         auth,
         client,
         adver,
-        counteragent,
+        counterdoctor,
         connector,
         notify,
         request,
@@ -604,7 +593,7 @@ export const OfflineClients = () => {
                     connector: { ...connector, clinica: auth.clinica._id },
                     services: [...services],
                     products: [...newproducts],
-                    counteragent: { ...counteragent, clinica: auth.clinica._id },
+                    counterdoctor: counterdoctor,
                     adver: { ...adver, clinica: auth.clinica._id },
                 },
                 {
@@ -636,7 +625,7 @@ export const OfflineClients = () => {
         newproducts,
         connector,
         adver,
-        counteragent,
+        counterdoctor,
         beginDay,
         endDay,
         notify,
@@ -647,6 +636,7 @@ export const OfflineClients = () => {
 
     //====================================================================
     //====================================================================
+
 
     //====================================================================
     //====================================================================
@@ -738,7 +728,7 @@ export const OfflineClients = () => {
                                 changeProduct={changeProduct}
                                 changeService={changeService}
                                 changeAdver={changeAdver}
-                                changeCounterAgent={changeCounterAgent}
+                                changeCounterDoctor={changeCounterDoctor}
                                 client={client}
                                 setClient={setClient}
                                 changeClientData={changeClientData}

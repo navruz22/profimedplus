@@ -40,4 +40,5 @@ module.exports.routers = (app) => {
     app.use('/api/labaratory', require('./labaratory/labaratory.route'))
     app.use('/api', require('./charts/charts.route'))
     app.use('/api', require('./doctor_procient/doctor_procient_route'))
+    app.use('/api', require('./counter_agent/counter_agent.route'))
 };

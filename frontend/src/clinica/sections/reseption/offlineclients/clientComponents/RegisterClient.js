@@ -17,7 +17,7 @@ export const RegisterClient = ({
     newservices,
     changeProduct,
     changeService,
-    changeCounterAgent,
+    changeCounterDoctor,
     changeAdver,
     setClient,
     client,
@@ -224,8 +224,22 @@ export const RegisterClient = ({
                                 <div className="col-sm-6 col-12">
                                     <div className="form-group">
                                         <label htmlFor="biO">Kontragent</label>
-                                        <select
-                                            onChange={changeCounterAgent}
+                                        <Select
+                                            onChange={changeCounterDoctor}
+                                            // styles={CustomStyle}
+                                            // value={value}
+                                            options={[{
+                                                label: "Hammasi",
+                                                value: "delete"
+                                            }, ...counterdoctors]}
+                                            // isDisabled={isDisabled}
+                                            // placeholder={placeholder}
+                                            components={{
+                                                IndicatorSeparator: () => null,
+                                            }}
+                                        />
+                                        {/* <select
+                                            onChange={changeCounterDoctor}
                                             className="form-control form-control-sm selectpicker"
                                             placeholder="Kontragentlarni tanlash"
                                         >
@@ -234,7 +248,7 @@ export const RegisterClient = ({
                                                 return (
                                                     <option
                                                         key={index}
-                                                        value={JSON.stringify(counterdoctor)}
+                                                        value={counterdoctor._id}
                                                         id={counterdoctor.user}
                                                     >
                                                         {counterdoctor.lastname +
@@ -243,7 +257,7 @@ export const RegisterClient = ({
                                                     </option>
                                                 )
                                             })}
-                                        </select>
+                                        </select> */}
                                     </div>
                                 </div>
                                 <div className="col-sm-6 col-12">

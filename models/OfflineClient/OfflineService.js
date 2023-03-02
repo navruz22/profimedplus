@@ -34,6 +34,7 @@ const service = new Schema(
     comment: { type: String },
     column: { type: Object },
     tables: { type: Array },
+    counterdoctor: { type: Schema.Types.ObjectId, ref: "CounterDoctor" },
     files: [{ type: String }],
   },
   {
@@ -61,6 +62,7 @@ function validateOfflineService(clientservice) {
     comment: Joi.string(),
     column: Joi.object(),
     tables: Joi.array(),
+    counterdoctor: Joi.string()
   });
 
   return schema.validate(clientservice);

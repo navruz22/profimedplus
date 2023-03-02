@@ -27,6 +27,7 @@ const { Room } = require("../../models/Rooms/Room");
 const { TableColumn } = require("../../models/Services/TableColumn");
 const { ServiceTable } = require("../../models/Services/ServiceTable");
 const { ServiceType } = require("../../models/Services/ServiceType");
+const { CounterDoctor } = require('../../models/CounterDoctor/CounterDoctor')
 require('../../models/Cashier/OfflinePayment')
 
 // register
@@ -37,7 +38,7 @@ module.exports.register = async (req, res) => {
             connector,
             services,
             products,
-            counteragent,
+            counterdoctor,
             adver,
         } = req.body
         //=========================================================
@@ -172,6 +173,7 @@ module.exports.register = async (req, res) => {
                     counterAgentProcient: serv.counterAgentProcient,
                     counterDoctorProcient: serv.counterDoctorProcient
                 },
+                counterdoctor: counterdoctor,
                 client: newclient._id,
                 connector: newconnector._id,
                 turn,
@@ -217,16 +219,6 @@ module.exports.register = async (req, res) => {
         newconnector.totalprice = totalprice
         await newconnector.save()
 
-        if (counteragent.counterdoctor) {
-            const newcounteragent = new OfflineCounteragent({
-                client: newclient._id.toString(),
-                connector: newconnector._id.toString(),
-                services: [...newconnector.services],
-                ...counteragent,
-            })
-            await newcounteragent.save()
-        }
-
         if (adver.adver) {
             const newadver = new OfflineAdver({
                 client: newclient._id,
@@ -255,7 +247,7 @@ module.exports.add = async (req, res) => {
             connector,
             services,
             products,
-            counteragent,
+            counterdoctor,
             adver,
         } = req.body
 
@@ -367,6 +359,7 @@ module.exports.add = async (req, res) => {
                     counterAgentProcient: serv.counterAgentProcient,
                     counterDoctorProcient: serv.counterDoctorProcient
                 },
+                counterdoctor: counterdoctor,
                 client: client._id,
                 connector: updateOfflineConnector._id,
                 turn,
@@ -824,5 +817,29 @@ module.exports.addConnector = async (req, res) => {
     } catch (error) {
         console.log(error);
         res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
+    }
+}
+
+
+//
+module.exports.getCounterDoctors = async (req, res) => {
+    try {
+        const { clinica } = req.body;
+        console.log('work');
+        const clinic = await Clinica.findById(clinica);
+        if (!clinic) {
+            return res.status(400).json({
+                message: "Diqqat! Klinika ma'lumotlari topilmadi.",
+            });
+        }
+
+        const counterDoctors = await CounterDoctor.find({ clinica })
+            .select('-__v -isArchive -updatedAt')
+            .lean()
+
+        res.status(200).json(counterDoctors)
+    } catch (error) {
+        console.log(error);
+        res.status(501).json({ error: "Serverda xatolik yuz berdi..." });
     }
 }

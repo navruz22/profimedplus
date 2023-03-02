@@ -3,6 +3,8 @@ import { Redirect, Route, Switch } from "react-router-dom";
 import { Advers } from "./adver/Advers";
 import OfflineClients from "./clients/OfflineClients";
 import StatsionarClients from "./clients/StatsionarClients";
+import CounterAgent from "./counteragent/CounterAgent";
+import CounterAgentInfo from "./counteragent/CounterAgentInfo";
 import { EditDirector } from "./editDirector/EditDirector";
 import { EditDirectorPassword } from "./editDirector/EditDirectorPassword";
 import { HomePage } from "./homepage/HomePage";
@@ -79,6 +81,12 @@ export const DirectorRouter = () => {
         </Route>
         <Route path="/alo24/doctor_procient_services">
           <DoctorServices />
+        </Route>
+        <Route path="/alo24/counteragent">
+          <CounterAgent />
+        </Route>
+        <Route path="/alo24/counteragent_info">
+          <CounterAgentInfo />
         </Route>
         {/* Users */}
         <Route path="/alo24/users">

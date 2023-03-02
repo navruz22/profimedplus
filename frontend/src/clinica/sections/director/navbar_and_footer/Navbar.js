@@ -379,6 +379,13 @@ export const Navbar = ({ baseUrl }) => {
                     Shifokor ulushi
                   </Link>
                 </li>
+                <li>
+                  <Link className="dropdown-item" to="/alo24/counteragent"
+                    onClick={() => setActivePage('/alo24/counteragent')}
+                  >
+                    Kontragent
+                  </Link>
+                </li>
               </ul>
             </li>
             <li className="nav-item dropdown">

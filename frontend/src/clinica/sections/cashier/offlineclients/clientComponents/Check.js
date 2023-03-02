@@ -28,7 +28,7 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                         </strong>
                       </div>
                       <div>
-                        {'+998' + clinica?.phone1}
+                        {clinica?.phone1}
                       </div>
                     </li>
                     <li style={{ textAlign: '', fontSize: '11pt' }}>

@@ -1,4 +1,4 @@
-const {Router} = require('express')
+const { Router } = require('express')
 const router = Router()
 const auth = require('../../middleware/auth.middleware')
 
@@ -24,6 +24,10 @@ router.put('/client/update', auth, (req, res) => {
 
 router.put('/client/end', auth, (req, res) => {
     require('./clients.route').end(req, res)
+})
+
+router.post('/client/counter_doctors/get', auth, (req, res) => {
+    require('./clients.route').getCounterDoctors(req, res);
 })
 
 module.exports = router
