@@ -211,6 +211,18 @@ const AdoptionTemplate = () => {
     setSections(newSections);
   };
 
+  const handleDeleteTemplate = (index, serviceid) => {
+    const newSections = [...sections].map((section) => {
+      if (section._id === serviceid) {
+        const newTemplates = section.templates.filter((_, ind) => ind !== index);
+        section.templates = newTemplates;
+      }
+      return section;
+    });
+    setSections(newSections);
+  }
+
+  console.log(sections);
   useEffect(() => {
     setSections(services);
   }, [services]);
@@ -475,8 +487,17 @@ const AdoptionTemplate = () => {
                       key={index}
                       className="p-[10px] w-full border border-black"
                     >
-                      <div className="text-[18px] font-bold">
-                        {template?.name}
+                      <div className="flex justify-between items-center py-2 px-4">
+                        <div className="text-[18px] font-bold">
+                          {template?.name}
+                        </div>
+                        <div className="flex justify-between items-center">
+                          <FontAwesomeIcon
+                            onClick={() => handleDeleteTemplate(index, section._id)}
+                            icon={faTrash}
+                            style={{ cursor: "pointer", fontSize: '18px', color: 'red' }}
+                          />
+                        </div>
                       </div>
                       <div className="">
                         {/* <textarea
@@ -497,6 +518,7 @@ const AdoptionTemplate = () => {
                             handleChangeTemplate(e, index, section._id)
                           }
                           editorStyle={{ overflowY: "scroll", minHeight: "150px", maxHeight: "400px" }}
+
                         />
                       </div>
                     </div>

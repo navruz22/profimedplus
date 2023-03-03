@@ -8,6 +8,18 @@ const Print = ({ client, connector, sections, baseUrl, clinica }) => {
 
     const [printSections, setPrintSections] = useState([])
 
+    const getWidth = (table) => {
+        if (table.col5) {
+            return `${1280 / 5}px`
+        }
+        if (!table.col5 && table.col4) {
+            return `${1280 / 4}px`
+        }
+        if (table.col3 && !table.col4) {
+            return `${1280 / 3}px`
+        }
+    }
+
     useEffect(() => {
         if (location.pathname.includes('alo24/adoption')) {
             setPrintSections([...sections].map(section =>
@@ -49,6 +61,7 @@ const Print = ({ client, connector, sections, baseUrl, clinica }) => {
                 ({ ...section, services: section.services.filter(s => s.accept) })).filter(el => el.services.length > 0))
         }
     }, [sections, location])
+
 
     return (
         <div className="px-2 bg-white">
@@ -268,44 +281,49 @@ const Print = ({ client, connector, sections, baseUrl, clinica }) => {
                             <table className="w-full text-center">
                                 <thead>
                                     <tr>
-                                        <th className="col-span-1 border-[1px] border-black bg-gray-400 px-[12px] py-1 text-center">{section?.column?.col1}</th>
-                                        {section?.column?.col2 && <th className="col-span-1 border-[1px] border-black bg-gray-400 px-[12px] py-1 text-center">{section?.column?.col2}</th>}
-                                        {section?.column?.col3 && <th className="col-span-1 border-[1px] border-black bg-gray-400 px-[12px] py-1 text-center">{section?.column?.col3}</th>}
-                                        {section?.column?.col4 && <th className="col-span-1 border-[1px] border-black bg-gray-400 px-[12px] py-1 text-center">{section?.column?.col4}</th>}
-                                        {section?.column?.col5 && <th className="col-span-1 border-[1px] border-black bg-gray-400 px-[12px] py-1 text-center">{section?.column?.col5}</th>}
+                                        <th className="border-[1px] border-black bg-gray-400 px-[12px] py-1 text-center">{section?.column?.col1}</th>
+                                        {section?.column?.col2 && <th className="border-[1px] border-black bg-gray-400 px-[12px] py-1 text-center">{section?.column?.col2}</th>}
+                                        {section?.column?.col3 && <th className="border-[1px] border-black bg-gray-400 px-[12px] py-1 text-center">{section?.column?.col3}</th>}
+                                        {section?.column?.col4 && <th className="border-[1px] border-black bg-gray-400 px-[12px] py-1 text-center">{section?.column?.col4}</th>}
+                                        {section?.column?.col5 && <th className="border-[1px] border-black bg-gray-400 px-[12px] py-1 text-center">{section?.column?.col5}</th>}
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {section?.services.map((service, ind) => {
                                         return service.accept && service.tables.map((table, key) => (
                                             <tr key={key} >
-                                                <td className={`border-[1px] border-black p-[12px]`}> <pre
+                                                <td className={`border-[1px] border-black py-1 px-[12px]`}> <pre
+                                                    style={{ width: getWidth(table) }}
                                                     className="border-none outline-none text-left"
                                                 >
                                                     {table?.col1}
                                                 </pre> </td>
-                                                <td className={`border-[1px] border-black p-[12px]`}>
+                                                <td className={`border-[1px] border-black py-1 px-[12px]`}>
                                                     <pre
+                                                        style={{ width: getWidth(table) }}
                                                         className="border-none outline-none"
                                                     >
                                                         {table?.col2}
                                                     </pre>
                                                 </td>
-                                                <td className={`border-[1px] border-black p-[12px]`}>
+                                                <td className={`border-[1px] border-black py-1 px-[12px]`}>
                                                     <pre
+                                                        style={{ width: getWidth(table) }}
                                                         className="border-none outline-none"
                                                     >
                                                         {table?.col3}
                                                     </pre>
                                                 </td>
-                                                {table?.col4 && <td className={`border-[1px] border-black p-[12px]`}>
+                                                {table?.col4 && <td className={`border-[1px] border-black py-1 px-[12px]`}>
                                                     <pre
+                                                        style={{ width: getWidth(table) }}
                                                         className="border-none outline-none"
                                                     >
                                                         {table?.col4}
                                                     </pre></td>}
-                                                {table?.col5 && <td className={`border-[1px] border-black p-[12px]`}>
+                                                {table?.col5 && <td className={`border-[1px] border-black py-1 px-[12px]`}>
                                                     <pre
+                                                        style={{ width: getWidth(table) }}
                                                         className="border-none outline-none"
                                                     >
                                                         {table?.col5}

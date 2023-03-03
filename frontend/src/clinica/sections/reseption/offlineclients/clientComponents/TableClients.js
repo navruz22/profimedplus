@@ -32,7 +32,8 @@ export const TableClients = ({
   currentPage,
   setPageSize,
   loading,
-  getConnectorsByClientBorn
+  getConnectorsByClientBorn,
+  setClientDate
 }) => {
   return (
     <div className="border-0 table-container">
@@ -287,7 +288,8 @@ export const TableClients = ({
                         <button
                           className="btn btn-success py-0"
                           onClick={() => {
-                            setClient(connector.client)
+                            setClient({ ...connector.client })
+                            setClientDate(connector.client.born.slice(0, 10))
                             setConnector({
                               ...connector,
                               _id: connector._id,

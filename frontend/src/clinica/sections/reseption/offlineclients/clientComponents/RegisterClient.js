@@ -28,6 +28,7 @@ export const RegisterClient = ({
     advers,
     products,
     loading,
+    clientDate,
 }) => {
 
     const [services, setServices] = useState([])
@@ -135,6 +136,7 @@ export const RegisterClient = ({
                                         className="form-control inp"
                                         placeholder=""
                                         style={{ color: '#999' }}
+                                        value={clientDate}
                                     />
                                 </div>
                                 <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
@@ -223,7 +225,7 @@ export const RegisterClient = ({
                                 </div>
                                 <div className="col-sm-6 col-12">
                                     <div className="form-group">
-                                        <label htmlFor="biO">Kontragent</label>
+                                        <label htmlFor="biO">Yullanma</label>
                                         <Select
                                             onChange={changeCounterDoctor}
                                             // styles={CustomStyle}

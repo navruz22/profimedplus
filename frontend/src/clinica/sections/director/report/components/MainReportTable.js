@@ -366,9 +366,7 @@ export const MainReportTable = ({
                                 >
                                     Qoldiq: {searchStorage.reduce((prev, connector) => {
                                         let payments = connector.payments.reduce((prev, el) => prev + el.payment, 0)
-                                        let debts = connector.payments.reduce((prev, el) => prev + el.debt, 0)
-                                        let discounts = (connector?.discount?.discount || 0)
-                                        return prev + (payments - discounts - debts)
+                                        return prev + payments
                                     }, 0)}
                                 </td>
                                 <td className="py-1 text-[16px] text-right">

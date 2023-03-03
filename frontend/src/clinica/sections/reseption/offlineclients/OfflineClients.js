@@ -284,11 +284,11 @@ export const OfflineClients = () => {
         }
     }, [request, auth, notify]);
 
-    const [counterdoctor, setCounterDoctor] = useState('');
+    const [counterdoctor, setCounterDoctor] = useState(null);
 
     const changeCounterDoctor = (e) => {
         if (e.value === "delete") {
-            setCounterDoctor('')
+            setCounterDoctor(null)
         } else {
             setCounterDoctor(e.value);
         }
@@ -421,9 +421,12 @@ export const OfflineClients = () => {
     //====================================================================
     // CLIENT
 
+    const [clientDate, setClientDate] = useState(new Date().toISOString().slice(0, 10))
+
     const [client, setClient] = useState({
         clinica: auth.clinica && auth.clinica._id,
         reseption: auth.user && auth.user._id,
+        born: new Date()
     });
 
     const changeClientData = (e) => {
@@ -433,6 +436,7 @@ export const OfflineClients = () => {
     console.log(client);
 
     const changeClientBorn = (e) => {
+        setClientDate(e.target.value);
         setClient({ ...client, born: new Date(e.target.value) });
     };
     //====================================================================
@@ -455,11 +459,12 @@ export const OfflineClients = () => {
             clinica: auth.clinica && auth.clinica._id,
             reseption: auth.user && auth.user._id,
         });
-        setCounterDoctor('');
+        setCounterDoctor(null);
         setNewProducts([]);
         setServices([]);
         setSelectedProducts([]);
         setSelectedServices([]);
+        setClientDate(new Date().toISOString().slice(0, 10))
     }, [auth]);
 
     const checkData = () => {
@@ -738,6 +743,8 @@ export const OfflineClients = () => {
                                 advers={advers}
                                 products={products}
                                 loading={loading}
+                                clientDate={clientDate}
+                                setClientDate={setClientDate}
                             />
                         </div>
                         <TableClients
@@ -767,6 +774,7 @@ export const OfflineClients = () => {
                             setPageSize={setPageSize}
                             // setModal2={setModal2}
                             loading={loading}
+                            setClientDate={setClientDate}
                         />
                     </div>
                 </div>

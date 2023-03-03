@@ -405,7 +405,6 @@ const CounterAgentInfo = () => {
                                                 </td>
                                                 <td className="border py-1 text-left font-weight-bold text-[16px]">
                                                 </td>
-
                                                 <td className="border py-1 text-left text-[16px]">
                                                 </td>
                                                 <td className="border py-1 text-left text-[16px]">
