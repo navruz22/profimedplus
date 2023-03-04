@@ -163,6 +163,7 @@ const Tables = () => {
             tables.push(data)
             setService({ ...service, tables: [...tables] })
             setNewTable({})
+            getServices()
         } catch (error) {
             notify({
                 title: error,
@@ -188,6 +189,7 @@ const Tables = () => {
                 status: 'success',
             })
             localStorage.setItem("data", data)
+            getServices()
         } catch (error) {
             notify({
                 title: error,
@@ -221,6 +223,7 @@ const Tables = () => {
             tables.push(...data)
             setService({ ...service, tables: [...tables] })
             setModal2(false)
+            getServices()
         } catch (error) {
             notify({
                 title: error,
@@ -253,6 +256,7 @@ const Tables = () => {
                 status: 'success',
             })
             setService({ ...service, column: data })
+            getServices()
         } catch (error) {
             notify({
                 title: error,
@@ -410,12 +414,15 @@ const Tables = () => {
     return (
         <div className="container">
             <div className={visible ? 'd-block mt-4' : 'd-none'}>
-                <div className='w-full flex justify-between items-center mb-2'>
+                <div className='w-full flex justify-between items-center mb-2 py-2'>
                     <button
                         onClick={() => setVisible(false)}
                         className={visible ? "w-[150px] rounded bg-orange-400 hover:bg-teal-900  text-white font-bold py-1" : 'd-none'}>
                         Oynani yopish
                     </button>
+                    <div className='font-bold text-[18px]'>
+                        {service?.name || ""}
+                    </div>
                     <div className='flex items-center gap-2'>
                         <ExcelUpload setData={setImports} setModal={setModal2} loading={loading} />
                         <button className='py-2 px-4 rounded bg-alotrade text-white font-semibold' onClick={() => {
@@ -447,7 +454,7 @@ const Tables = () => {
                 </div>
             </div>
 
-            <div className='mt-4'>
+            <div className='mt-4 py-4'>
                 <TableServices
                     setVisible={setVisible}
                     searchServiceType={searchServiceType}

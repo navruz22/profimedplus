@@ -119,7 +119,7 @@ export const OfflineClients = () => {
             const data = await request(
                 `/api/cashier/offline/getall`,
                 'POST',
-                { clinica: auth && auth.clinica._id, clientborn: new Date(new Date(e)) },
+                { clinica: auth && auth.clinica._id, clientborn: new Date(e.target.value) },
                 {
                     Authorization: `Bearer ${auth.token}`,
                 },

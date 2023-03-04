@@ -1,8 +1,8 @@
 import React from 'react'
 import parse from "html-react-parser"
 
-const Print = ({ client, connector, sections, clinica, baseUrl }) => {
-    console.log(sections);
+const Print = ({ client, connector, sections, clinica, baseUrl, doctor }) => {
+    console.log(clinica);
     return (
         <div className="px-2 bg-white">
             <div>
@@ -41,12 +41,12 @@ const Print = ({ client, connector, sections, clinica, baseUrl }) => {
                 </div> */}
                 <div className="flex justify-around" style={{ fontSize: "20pt", marginBottom: "20px" }}>
                     <div className="" style={{ textAlign: "center" }}>
-                        <p className="pt-3" style={{ fontFamily: "-moz-initial" }}>
+                        <p className="pt-3 text-center" style={{ fontFamily: "-moz-initial" }}>
                             {clinica?.name}
                         </p>
                     </div>
                     <div className="" style={{ maxWidth: "150px", textAlign: "center" }}>
-                        <img src={baseUrl && baseUrl.baseUrl + '/api/upload/file/' + clinica?.image} alt="logo" />
+                        <img src={baseUrl && baseUrl + '/api/upload/file/' + clinica?.image} alt="logo" />
                     </div>
                     <div className="" style={{ textAlign: "center" }}>
                         <p className="text-end m-0">
@@ -249,6 +249,11 @@ const Print = ({ client, connector, sections, clinica, baseUrl }) => {
                             </div>
                         </div>
                     ))}
+            </div>
+            <div className='mt-[50px] text-center'>
+                <div>
+                    ___________________<span className='font-bold'>{doctor?.lastname} {doctor?.firstname[0].toUpperCase()}</span>.
+                </div>
             </div>
         </div>
 

@@ -7,6 +7,7 @@ const doctor = new Schema(
         counter_agent: { type: Schema.Types.ObjectId, ref: 'User' },
         clinica: { type: Schema.Types.ObjectId, ref: 'Clinica' },
         clinica_name: { type: String, required: true },
+        phone: { type: String, required: true },
         isArchive: { type: Boolean, default: false },
     },
     {

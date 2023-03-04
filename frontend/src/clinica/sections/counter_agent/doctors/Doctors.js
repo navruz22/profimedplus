@@ -60,78 +60,6 @@ const Doctors = () => {
     //====================================================
     //====================================================
 
-    const [doctor, setDoctor] = useState({
-        lastname: "",
-        firstname: "",
-        clinica_name: "",
-        clinica: auth?.clinica?._id,
-        counter_agent: auth?.user?._id,
-    })
-
-    const changeDoctorData = (e) => {
-        setDoctor({ ...doctor, [e.target.name]: e.target.value });
-    }
-
-    //==============================================================
-    //==============================================================
-
-    const createHandler = async () => {
-        try {
-            const data = await request(
-                `/api/counter_agent/doctor/create`,
-                "POST",
-                { ...doctor },
-                {
-                    Authorization: `Bearer ${auth.token}`,
-                }
-            );
-            notify({
-                title: `${data.firstname} ${data.lastname} yunaltiruvchi shifokor yaratildi!`,
-                description: "",
-                status: "success",
-            });
-            setDoctor({
-                lastname: "",
-                firstname: "",
-                clinica_name: "",
-                clinica: auth?.clinica?._id,
-                counter_agent: auth?.user?._id,
-            })
-            getDoctorsList()
-        } catch (error) {
-            notify({
-                title: error,
-                description: "",
-                status: "error",
-            });
-        }
-    }
-
-    const checkData = () => {
-        if (!doctor.firstname) {
-            return notify({
-                title: "Shifokorni nomi terilmagan!",
-                description: "",
-                status: "error"
-            })
-        }
-        if (!doctor.lastname) {
-            return notify({
-                title: "Shifokorni familiyasi terilmagan!",
-                description: "",
-                status: "error"
-            })
-        }
-        if (!doctor.clinica_name) {
-            return notify({
-                title: "Shifokorni klinikasi terilmagan!",
-                description: "",
-                status: "error"
-            })
-        }
-        createHandler();
-    }
-
     //==============================================================
     //==============================================================
 
@@ -158,8 +86,8 @@ const Doctors = () => {
             setCounterdoctors(
                 data.slice(indexFirstConnector, indexLastConnector)
             );
-            console.log(data);
         } catch (error) {
+            console.log(error);
             notify({
                 title: error,
                 description: "",
@@ -277,32 +205,6 @@ const Doctors = () => {
             <div className="bg-slate-100 content-wrapper px-lg-5 px-3">
                 <div className="row gutters">
                     <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                        <div className="row">
-                            <div className="col-12 text-end">
-                                <button
-                                    className={`btn bg-alotrade text-white mb-2 w-100 ${visible ? "d-none" : ""
-                                        }`}
-                                    onClick={changeVisible}
-                                >
-                                    Registratsiya
-                                </button>
-                                <button
-                                    className={`btn bg-alotrade text-white mb-2 w-100 ${visible ? "" : "d-none"
-                                        }`}
-                                    onClick={changeVisible}
-                                >
-                                    Registratsiya
-                                </button>
-                            </div>
-                        </div>
-                        <div className={` ${visible ? "" : "d-none"}`}>
-                            <RegisterDoctor
-                                loading={loading}
-                                changeDoctorData={changeDoctorData}
-                                doctor={doctor}
-                                checkData={checkData}
-                            />
-                        </div>
                         <Table
                             changeStart={changeStart}
                             changeEnd={changeEnd}

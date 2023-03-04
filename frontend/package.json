@@ -5,6 +5,10 @@
   "dependencies": {
     "@chakra-ui/icons": "^1.1.7",
     "@chakra-ui/react": "^1.8.6",
+    "@ckeditor/ckeditor5-build-classic": "^36.0.1",
+    "@ckeditor/ckeditor5-build-decoupled-document": "^36.0.1",
+    "@ckeditor/ckeditor5-paste-from-office": "^36.0.1",
+    "@ckeditor/ckeditor5-react": "^5.1.0",
     "@emotion/react": "^11.8.2",
     "@emotion/styled": "^11.8.1",
     "@fortawesome/fontawesome-svg-core": "^6.1.0",

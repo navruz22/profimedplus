@@ -117,7 +117,14 @@ export const TableClients = ({
                             className="text-center"
                             style={{ maxWidth: '120px', overflow: 'hidden' }}
                         >
-                            <DatePickers changeDate={getConnectorsByClientBorn} />
+                            <input
+                                type="date"
+                                name="born"
+                                className="form-control inp"
+                                placeholder=""
+                                style={{ color: '#999' }}
+                                onKeyDown={(e) => e.key === 'Enter' && getConnectorsByClientBorn(e)}
+                            />
                         </div>
                         <div className="text-center ml-auto ">
                             <Pagination

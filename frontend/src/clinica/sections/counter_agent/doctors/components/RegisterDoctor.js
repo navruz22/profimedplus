@@ -52,6 +52,28 @@ const RegisterDoctor = ({ doctor, changeDoctorData, loading, checkData }) => {
                                     />
                                 </div>
                             </div>
+                            <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div className="form-group">
+                                    <label htmlFor="addreSs">Telefon raqami</label>
+                                    <div className="input-group input-group-sm mb-3">
+                                        <div className="input-group-prepend">
+                                            <span
+                                                className="input-group-text"
+                                                id="inputGroup-sizing-sm"
+                                            >
+                                                +998
+                                            </span>
+                                        </div>
+                                        <input
+                                            defaultValue={doctor?.clinica_name}
+                                            onChange={changeDoctorData}
+                                            type="number"
+                                            className="form-control"
+                                            name="phone"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

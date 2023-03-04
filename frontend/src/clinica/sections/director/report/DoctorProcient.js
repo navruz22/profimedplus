@@ -5,9 +5,17 @@ import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom';
 import { AuthContext } from '../../../context/AuthContext';
 import { useHttp } from '../../../hooks/http.hook';
+import { DatePickers } from '../../reseption/offlineclients/clientComponents/DatePickers';
 import { Pagination } from '../components/Pagination';
 
 const DoctorProcient = () => {
+
+    const [beginDay, setBeginDay] = useState(
+        new Date(new Date().setUTCHours(0, 0, 0, 0))
+    );
+    const [endDay, setEndDay] = useState(
+        new Date(new Date().setDate(new Date().getDate() + 1))
+    );
 
 
     //======================================================
@@ -54,12 +62,12 @@ const DoctorProcient = () => {
     const [searchStorage, setSearchStrorage] = useState([])
 
     const getDoctorCleitns = useCallback(
-        async () => {
+        async (beginDay, endDay) => {
             try {
                 const data = await request(
                     `/api/doctor_procient/doctor/get`,
                     "POST",
-                    { clinica: auth && auth.clinica._id },
+                    { clinica: auth && auth.clinica._id, beginDay, endDay },
                     {
                         Authorization: `Bearer ${auth.token}`,
                     }
@@ -83,14 +91,34 @@ const DoctorProcient = () => {
     //=======================================================
     //=======================================================
 
-    const setPageSize = useCallback(
+    const changeStart = (e) => {
+        setBeginDay(new Date(new Date(e).setUTCHours(0, 0, 0, 0)));
+        getDoctorCleitns(new Date(new Date(e).setUTCHours(0, 0, 0, 0)), endDay);
+    };
+
+    const changeEnd = (e) => {
+        const date = new Date(
+            new Date(new Date().setDate(new Date(e).getDate() + 1)).setUTCHours(
+                0,
+                0,
+                0,
+                0
+            )
+        );
+
+        setEndDay(date);
+        getDoctorCleitns(beginDay, date);
+    }
+
+    //=======================================================
+    //=======================================================
+
+    const setPageSize =
         (e) => {
             setCurrentPage(0)
             setCountPage(e.target.value)
-            setCurrentDoctors(doctors.slice(0, countPage))
-        },
-        [countPage, doctors],
-    )
+            setCurrentDoctors(doctors.slice(0, e.target.value))
+        }
 
     const searchFullname =
         (e) => {
@@ -109,9 +137,14 @@ const DoctorProcient = () => {
     //=======================================================
     //=======================================================
 
+    const [t, setT] = useState(0);
+
     useEffect(() => {
-        getDoctorCleitns()
-    }, [getDoctorCleitns])
+        if (auth.clinica && !t) {
+            setT(1)
+            getDoctorCleitns(beginDay, endDay)
+        }
+    }, [getDoctorCleitns, auth, t, beginDay, endDay])
 
     return (
         <div className="bg-slate-100 content-wrapper px-lg-5 px-3">
@@ -142,6 +175,13 @@ const DoctorProcient = () => {
                                             className="w-100 form-control form-control-sm selectpicker"
                                             placeholder="F.I.O"
                                         />
+                                    </div>
+                                    <div
+                                        className="text-center ml-auto flex gap-2"
+                                        style={{ overflow: 'hidden' }}
+                                    >
+                                        <DatePickers changeDate={changeStart} />
+                                        <DatePickers changeDate={changeEnd} />
                                     </div>
                                     <div className="text-center ml-auto mr-4">
                                         <Pagination

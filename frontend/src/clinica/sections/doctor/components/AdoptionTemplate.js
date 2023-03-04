@@ -13,11 +13,8 @@ import { AuthContext } from "../../../context/AuthContext";
 import { useHttp } from "../../../hooks/http.hook";
 import Print from "./Print";
 import { useReactToPrint } from 'react-to-print'
-import { ContentState, EditorState } from "draft-js";
-import htmlToDraft from "html-to-draftjs";
-import { convertToHTML } from "draft-convert";
-import { Editor } from "react-draft-wysiwyg";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import DecoupledEditor from "@ckeditor/ckeditor5-build-decoupled-document";
 
 const AdoptionTemplate = () => {
   // const clientId = useParams().clientid
@@ -51,15 +48,7 @@ const AdoptionTemplate = () => {
     state: { client, connector, services },
   } = useLocation();
 
-  // const [client, setClient] = useState();
-  // const [connector, setConnector] = useState();
   const [sections, setSections] = useState([]);
-  // const [tablesections, setTableSections] = useState();
-  // const [tablecolumns, setTableColumns] = useState();
-  // const [sectionFiles, setSectionFiles] = useState();
-  const [editorState, setEditorState] = useState(
-    () => EditorState.createEmpty()
-  );
   const [templates, setTemplates] = useState();
 
   const [baseUrl, setBaseUrl] = useState()
@@ -163,15 +152,6 @@ const AdoptionTemplate = () => {
     }))
   }
 
-  function handleUpload(url) {
-    // url of cdn backed file returned
-    console.log(url);
-  }
-
-  function handleMultipleUpload(files) {
-    // Array of file objects returned
-    console.log(files);
-  }
 
   const handleAddTemplate = (template, serviceid) => {
     const newSections = sections.map((section) => {
@@ -184,23 +164,14 @@ const AdoptionTemplate = () => {
       return section;
     });
     setSections(newSections);
-
-    const blocksFromHtml = htmlToDraft(`<p>${template.template}</p>`);
-    const { contentBlocks, entityMap } = blocksFromHtml;
-    const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
-    const editorState = EditorState.createWithContent(contentState);
-    setEditorState(editorState);
   };
 
   const handleChangeTemplate = (e, index, serviceid) => {
-    let html = convertToHTML(e.getCurrentContent());
-    setEditorState(e)
     const newSections = [...sections].map((section) => {
       if (section._id === serviceid) {
         const newTemplates = section.templates.map((template, ind) => {
-          console.log(template);
           if (ind === index) {
-            template.template = html;
+            template.template = e;
           }
           return template;
         });
@@ -244,10 +215,12 @@ const AdoptionTemplate = () => {
           style={{ fontFamily: "times" }}
         >
           <Print
-            doctor={auth.doctor}
+            doctor={auth.user}
             connector={connector}
             client={client}
             sections={sections}
+            clinica={auth && auth.clinica}
+            baseUrl={baseUrl}
           />
         </div>
       </div>
@@ -509,16 +482,26 @@ const AdoptionTemplate = () => {
                         >
                           {template?.template}
                         </textarea> */}
-                        <Editor
-                          editorState={editorState}
-                          toolbarClassName="toolbarClassName"
-                          wrapperClassName="wrapperClassName"
-                          editorClassName="editorClassName"
-                          onEditorStateChange={(e) =>
-                            handleChangeTemplate(e, index, section._id)
-                          }
-                          editorStyle={{ overflowY: "scroll", minHeight: "150px", maxHeight: "400px" }}
+                        <CKEditor
+                          editor={DecoupledEditor}
+                          data={template?.template}
+                          onChange={(event, editor) => {
+                            const data = editor.getData();
+                            handleChangeTemplate(data, index, section._id)
+                          }}
+                          onReady={editor => {
+                            editor.ui.getEditableElement().parentElement.insertBefore(
+                              editor.ui.view.toolbar.element,
+                              editor.ui.getEditableElement()
+                            );
 
+                            this.editor = editor;
+                          }}
+                          onError={(error, { willEditorRestart }) => {
+                            if (willEditorRestart) {
+                              this.editor.ui.view.toolbar.element.remove();
+                            }
+                          }}
                         />
                       </div>
                     </div>

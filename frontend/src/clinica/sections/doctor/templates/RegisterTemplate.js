@@ -1,16 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
-import { Editor } from "react-draft-wysiwyg";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import { ContentState, convertToRaw, EditorState } from 'draft-js';
-import draftToHtml from "draftjs-to-html"
-import { convertToHTML } from 'draft-convert';
-import htmlToDraft from 'html-to-draftjs';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
 
-const RegisterTemplate = ({ setTemplate, template, createHandler, onChange, editorState }) => {
-    console.log(template);
-
+const RegisterTemplate = ({ setTemplate, template, createHandler, templateText, setTemplateText }) => {
     return (
         <div className="my-4 shadow-lg">
             <div className="w-full text-sm border border-collapse">
@@ -21,7 +15,7 @@ const RegisterTemplate = ({ setTemplate, template, createHandler, onChange, edit
                         </div>
                         <div className='bg-alotrade text-center py-1'>
                             <input
-                                value={template.name}
+                                value={template?.name}
                                 placeholder="Shablon nomi kiritish"
                                 className="w-[200px] border outline-0 rounded-sm p-1"
                                 onChange={(e) => {
@@ -36,13 +30,26 @@ const RegisterTemplate = ({ setTemplate, template, createHandler, onChange, edit
                             <p className='text-center text-[18px] font-bold text-white'>Shablon</p>
                         </div>
                         <div className='text-center py-1 px-4 bg-white'>
-                            <Editor
-                                editorState={editorState}
-                                toolbarClassName="toolbarClassName"
-                                wrapperClassName="wrapperClassName"
-                                editorClassName="editorClassName"
-                                onEditorStateChange={onChange}
-                                editorStyle={{ overflowY: "scroll", minHeight: "150px", maxHeight: "400px" }}
+                            <CKEditor
+                                editor={DecoupledEditor}
+                                data={templateText}
+                                onChange={(event, editor) => {
+                                    const data = editor.getData();
+                                    setTemplateText(data);
+                                }}
+                                onReady={editor => {
+                                    editor.ui.getEditableElement().parentElement.insertBefore(
+                                        editor.ui.view.toolbar.element,
+                                        editor.ui.getEditableElement()
+                                    );
+
+                                    this.editor = editor;
+                                }}
+                                onError={(error, { willEditorRestart }) => {
+                                    if (willEditorRestart) {
+                                        this.editor.ui.view.toolbar.element.remove();
+                                    }
+                                }}
                             />
                         </div>
                     </div>

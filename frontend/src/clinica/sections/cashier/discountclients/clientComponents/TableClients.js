@@ -59,7 +59,14 @@ export const TableClients = ({
               />
             </div>
             <div>
-              <DatePickers changeDate={getDiscountsByClientBorn} />
+              <input
+                type="date"
+                name="born"
+                className="form-control inp"
+                placeholder=""
+                style={{ color: '#999' }}
+                onKeyDown={(e) => e.key === 'Enter' && getDiscountsByClientBorn(e)}
+              />
             </div>
             <div className="text-center ml-auto">
               <Pagination

@@ -167,6 +167,7 @@ const TableServices = ({
                                             onClick={() => {
                                                 setVisible(true)
                                                 setService(service)
+                                                window.scrollTo({ top: 0, behavior: 'smooth' });
                                             }}
                                         >
                                             <FontAwesomeIcon className='text-[14px]' icon={faPen} />

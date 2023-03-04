@@ -91,7 +91,6 @@ export const OfflineClients = () => {
                         Authorization: `Bearer ${auth.token}`,
                     }
                 );
-                console.log(data)
                 setConnectors(data);
                 setSearchStrorage(data);
                 setCurrentConnectors(
@@ -115,12 +114,11 @@ export const OfflineClients = () => {
             const data = await request(
                 `/api/offlineclient/client/getallreseption`,
                 "POST",
-                { clinica: auth && auth.clinica._id, clientborn: new Date(new Date(e)) },
+                { clinica: auth && auth.clinica._id, clientborn: new Date(e.target.value) },
                 {
                     Authorization: `Bearer ${auth.token}`,
                 }
             );
-            console.log(data)
             setConnectors(data);
             setSearchStrorage(data);
             setCurrentConnectors(
@@ -433,7 +431,7 @@ export const OfflineClients = () => {
         setClient({ ...client, [e.target.name]: e.target.value });
     };
 
-    console.log(client);
+
 
     const changeClientBorn = (e) => {
         setClientDate(e.target.value);

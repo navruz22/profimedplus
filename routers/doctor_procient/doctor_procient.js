@@ -9,7 +9,7 @@ require('../../models/OfflineClient/OfflineClient')
 
 module.exports.getDocotors = async (req, res) => {
     try {
-        const { clinica } = req.body;
+        const { clinica, beginDay, endDay } = req.body;
 
         const clinic = await Clinica.findById(clinica);
 
@@ -34,7 +34,13 @@ module.exports.getDocotors = async (req, res) => {
 
 
         for (const doctor of doctors) {
-            const offlineservices = await OfflineService.find({ clinica, department: doctor.specialty._id })
+            const offlineservices = await OfflineService.find({
+                clinica, department: doctor.specialty._id,
+                createdAt: {
+                    $gte: beginDay,
+                    $lte: endDay
+                }
+            })
                 .select('service pieces')
                 .lean()
 
@@ -62,7 +68,7 @@ module.exports.getDocotors = async (req, res) => {
 
 module.exports.get = async (req, res) => {
     try {
-        const { clinica, department } = req.body;
+        const { clinica, department, beginDay, endDay } = req.body;
 
         const clinic = await Clinica.findById(clinica);
 
@@ -72,7 +78,12 @@ module.exports.get = async (req, res) => {
             });
         }
 
-        const offlineservices = await OfflineService.find({ clinica, department })
+        const offlineservices = await OfflineService.find({
+            clinica, department, createdAt: {
+                $gte: beginDay,
+                $lte: endDay
+            }
+        })
             .select('service pieces department')
             .populate('client', 'firstname lastname')
             .populate({

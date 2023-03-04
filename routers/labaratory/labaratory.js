@@ -186,6 +186,10 @@ module.exports.getClientsForResult = async (req, res) => {
 
         const services = await OfflineService.find({
             clinica,
+            // createdAt: {
+            //     $gte: new Date(new Date().setUTCHours(0, 0, 0, 0)),
+            //     $lte: new Date(new Date().setDate(new Date().getDate() + 1))
+            // }
         })
             .select("service serviceid accept column tables turn connector client files")
             .populate("connector", "probirka createdAt accept")

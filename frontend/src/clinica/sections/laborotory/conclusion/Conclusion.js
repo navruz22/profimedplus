@@ -101,12 +101,21 @@ export const Conclusion = () => {
 
   const sortData = (currentData, colservices) => {
     const data = []
+
     if (currentData.length > 0) {
       for (const client of currentData) {
         let services = []
         for (const column of colservices) {
           let currentService = [...client.services].filter(service => service.service._id === column._id)
-          services.push(...currentService)
+
+          if (currentService.length > 0) {
+            services.push(...currentService)
+          } else {
+            services.push({
+              tables: [],
+              service: []
+            })
+          }
         }
         data.push({ ...client, services })
       }
@@ -149,9 +158,12 @@ export const Conclusion = () => {
 
   const handleConclusion = async () => {
     const send = serviceClients.reduce((prev, el) => {
-      prev.push(...el.services)
+      console.log(el.services);
+      let service = el.services.filter(item => item.tables.length > 0)
+      prev.push(...service);
       return prev;
     }, [])
+    console.log(send);
     try {
       const data = await request(
         `/api/labaratory/conclusion/save`,
@@ -174,6 +186,30 @@ export const Conclusion = () => {
         description: "",
         status: "error",
       });
+    }
+  }
+
+  // ======================================
+  // ======================================
+
+  const addTrow = (servicelength) => {
+
+    if ((servicesColumn.length - servicelength) > 0) {
+      let ind = 0;
+      while (ind < (servicesColumn.length - servicelength)) {
+        ind += 1;
+        return <td className="border py-1 text-right text-[16px]"></td>
+      }
+    }
+  }
+
+  const isDone = (services) => {
+    const done = services.filter(service => service.tables.length > 0)
+      .filter(service => !service.tables[0].col2)
+    if (done.length > 0) {
+      return 'bg-red-600'
+    } else {
+      return ""
     }
   }
 
@@ -222,7 +258,7 @@ export const Conclusion = () => {
                 {serviceClients.map((service, ind) => (
                   <tr key={ind}>
                     <td
-                      className="border py-1 font-weight-bold text-right text-[16px]"
+                      className={`${isDone(service.services)} border py-1 font-weight-bold text-right text-[16px]`}
                       style={{ maxWidth: "30px !important" }}
                     >
                       {ind + 1}
@@ -244,6 +280,7 @@ export const Conclusion = () => {
                       </div> : ""}
                     </td>
                     )}
+                    {addTrow(service.services.length)}
                   </tr>
                 ))}
               </tbody>

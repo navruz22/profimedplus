@@ -7,9 +7,6 @@ import { AuthContext } from "../../../context/AuthContext";
 import { ExcelCols } from "./uploadExcel/ExcelCols";
 import TableTemplate from "./TableTemplate";
 import { checkTemplates } from "./uploadExcel/checkData";
-import { ContentState, EditorState } from 'draft-js';
-import { convertToHTML } from 'draft-convert';
-import htmlToDraft from 'html-to-draftjs';
 
 const Templates = () => {
     //====================================================================
@@ -61,25 +58,6 @@ const Templates = () => {
     //====================================================================
     //====================================================================
 
-    const [editorState, setEditorState] = useState(
-        () => EditorState.createEmpty()
-    );
-
-    const onChange = (e) => {
-        let html = convertToHTML(e.getCurrentContent());
-        setEditorState(e)
-        setTemplate({ ...template, template: html })
-    }
-
-    const htmlToDraftBlocks = (html) => {
-        console.log(html);
-        const blocksFromHtml = htmlToDraft(`<p>${html}</p>`);
-        const { contentBlocks, entityMap } = blocksFromHtml;
-        const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
-        const editorState = EditorState.createWithContent(contentState);
-        setEditorState(editorState);
-    }
-
     //====================================================================
     //====================================================================
     const { request, loading } = useHttp()
@@ -87,6 +65,8 @@ const Templates = () => {
 
     const [templates, setTemplates] = useState([])
     const [template, setTemplate] = useState({})
+
+    const [templateText, setTemplateText] = useState('')
 
     const getTemplates = useCallback(async () => {
         try {
@@ -154,7 +134,7 @@ const Templates = () => {
         createAllHandler()
     }
 
-    const createHandler = useCallback(async () => {
+    const createHandler = async () => {
         if (!template.name) {
             return notify({
                 title: "Diqqat! Shablon nomini kiriting.",
@@ -162,7 +142,7 @@ const Templates = () => {
                 status: 'error',
             })
         }
-        if (!template.template) {
+        if (!templateText) {
             return notify({
                 title: "Diqqat! Shablonni kiriting.",
                 description: '',
@@ -173,7 +153,7 @@ const Templates = () => {
             const data = await request(
                 `/api/doctor/template/create`,
                 'POST',
-                { template: { ...template, clinica: auth.clinica._id, doctor: auth.user._id } },
+                { template: { ...template, template: templateText, clinica: auth.clinica._id, doctor: auth.user._id } },
                 {
                     Authorization: `Bearer ${auth.token}`,
                 },
@@ -185,6 +165,7 @@ const Templates = () => {
             })
             getTemplates()
             setTemplate({})
+            setTemplateText('')
             clearInputs()
         } catch (error) {
             notify({
@@ -193,7 +174,7 @@ const Templates = () => {
                 status: 'error',
             })
         }
-    }, [auth, request, getTemplates, template, notify, clearInputs])
+    }
 
     const createAllHandler = useCallback(async () => {
         try {
@@ -212,7 +193,6 @@ const Templates = () => {
                 status: 'success',
             })
             getTemplates()
-            setTemplate({})
             clearInputs()
             setModal2(false)
         } catch (error) {
@@ -283,6 +263,7 @@ const Templates = () => {
     //====================================================================
     //====================================================================
 
+    console.log(template);
 
     //====================================================================
     //====================================================================
@@ -306,15 +287,14 @@ const Templates = () => {
                         template={template}
                         setTemplate={setTemplate}
                         createHandler={createHandler}
-                        editorState={editorState}
-                        onChange={onChange}
+                        templateText={templateText}
+                        setTemplateText={setTemplateText}
                     />
 
                     <TableTemplate
                         setTemplate={(e) => {
                             setTemplate(e)
-                            console.log(e);
-                            htmlToDraftBlocks(e.template)
+                            setTemplateText(e.template)
                         }}
                         templates={templates}
                         currentTemplates={currentTemplates}

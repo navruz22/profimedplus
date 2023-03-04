@@ -5,9 +5,17 @@ import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom';
 import { AuthContext } from '../../../context/AuthContext';
 import { useHttp } from '../../../hooks/http.hook';
+import { DatePickers } from '../../reseption/offlineclients/clientComponents/DatePickers';
 import { Pagination } from '../components/Pagination';
 
 const DoctorServices = () => {
+
+    const [beginDay, setBeginDay] = useState(
+        new Date(new Date().setUTCHours(0, 0, 0, 0))
+    );
+    const [endDay, setEndDay] = useState(
+        new Date(new Date().setDate(new Date().getDate() + 1))
+    );
 
     //======================================================
     //======================================================
@@ -54,12 +62,12 @@ const DoctorServices = () => {
     const [searchStorage, setSearchStrorage] = useState([])
 
     const getDoctorServices = useCallback(
-        async () => {
+        async (beginDay, endDay) => {
             try {
                 const data = await request(
                     `/api/doctor_procient/get`,
                     "POST",
-                    { clinica: auth && auth.clinica._id, department: state?.doctor?.specialty?._id },
+                    { clinica: auth && auth.clinica._id, department: state?.doctor?.specialty?._id, beginDay, endDay },
                     {
                         Authorization: `Bearer ${auth.token}`,
                     }
@@ -84,14 +92,34 @@ const DoctorServices = () => {
     //=======================================================
     //=======================================================
 
-    const setPageSize = useCallback(
+    const changeStart = (e) => {
+        setBeginDay(new Date(new Date(e).setUTCHours(0, 0, 0, 0)));
+        getDoctorServices(new Date(new Date(e).setUTCHours(0, 0, 0, 0)), endDay);
+    };
+
+    const changeEnd = (e) => {
+        const date = new Date(
+            new Date(new Date().setDate(new Date(e).getDate() + 1)).setUTCHours(
+                0,
+                0,
+                0,
+                0
+            )
+        );
+
+        setEndDay(date);
+        getDoctorServices(beginDay, date);
+    }
+
+    //=======================================================
+    //=======================================================
+
+    const setPageSize =
         (e) => {
             setCurrentPage(0)
             setCountPage(e.target.value)
-            setCurrentServices(services.slice(0, countPage))
-        },
-        [countPage, services],
-    )
+            setCurrentServices(services.slice(0, e.target.value))
+        }
 
     const searchFullname =
         (e) => {
@@ -110,9 +138,14 @@ const DoctorServices = () => {
     //=======================================================
     //=======================================================
 
+    const [t, setT] = useState(0);
+
     useEffect(() => {
-        getDoctorServices()
-    }, [getDoctorServices])
+        if (auth.clinica && !t) {
+            setT(1)
+            getDoctorServices(beginDay, endDay)
+        }
+    }, [getDoctorServices, auth, t, beginDay, endDay])
 
     return (
         <div className="bg-slate-100 content-wrapper px-lg-5 px-3">
@@ -143,6 +176,13 @@ const DoctorServices = () => {
                                             className="w-100 form-control form-control-sm selectpicker"
                                             placeholder="F.I.O"
                                         />
+                                    </div>
+                                    <div
+                                        className="text-center ml-auto flex gap-2"
+                                        style={{ overflow: 'hidden' }}
+                                    >
+                                        <DatePickers changeDate={changeStart} />
+                                        <DatePickers changeDate={changeEnd} />
                                     </div>
                                     <div className="text-center ml-auto mr-4">
                                         <Pagination

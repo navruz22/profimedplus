@@ -7,7 +7,7 @@ const { User } = require("../../models/Users");
 
 module.exports.create = async (req, res) => {
     try {
-        const { clinica, firstname, lastname, counter_agent, clinica_name } = req.body;
+        const { _id, clinica, firstname, lastname, counter_agent, clinica_name, phone } = req.body;
 
         const clinic = await Clinica.findById(clinica);
         if (!clinic) {
@@ -16,16 +16,29 @@ module.exports.create = async (req, res) => {
             });
         }
 
-        const counterDoctor = new CounterDoctor({
-            firstname,
-            lastname,
-            clinica,
-            clinica_name,
-            counter_agent
-        })
-        await counterDoctor.save()
+        if (_id) {
+            await CounterDoctor.findByIdAndUpdate(_id, {
+                firstname: firstname, lastname: lastname, clinica_name: clinica_name, phone: phone
+            })
 
-        res.status(200).json(counterDoctor)
+            const counterDoctor = await CounterDoctor.findByIdAndUpdate(_id)
+                .lean()
+
+            return res.status(200).json(counterDoctor)
+
+        } else {
+            const counterDoctor = new CounterDoctor({
+                firstname,
+                lastname,
+                clinica,
+                clinica_name,
+                counter_agent,
+                phone
+            })
+            await counterDoctor.save()
+
+            return res.status(200).json(counterDoctor)
+        }
 
     } catch (error) {
         console.log(error);

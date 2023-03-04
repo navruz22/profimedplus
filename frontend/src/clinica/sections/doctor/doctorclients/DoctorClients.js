@@ -145,14 +145,12 @@ export const DoctorClients = () => {
   //===================================================================
   //===================================================================
 
-  const setPageSize = useCallback(
+  const setPageSize =
     (e) => {
       setCurrentPage(0);
       setCountPage(e.target.value);
-      setCurrentDoctorClients(doctorClients.slice(0, countPage));
-    },
-    [countPage, doctorClients]
-  );
+      setCurrentDoctorClients(searchStorage.slice(0, e.target.value));
+    }
 
   //====================================================================
   //====================================================================
@@ -185,7 +183,7 @@ export const DoctorClients = () => {
   const getBaseUrl = useCallback(async () => {
     try {
       const data = await request(`/api/baseurl`, "GET", null);
-      setBaseurl(data);
+      setBaseurl(data.baseUrl);
     } catch (error) {
       notify({
         title: error,
@@ -239,7 +237,7 @@ export const DoctorClients = () => {
           style={{ fontFamily: "times" }}
         >
           <Print
-            doctor={auth.doctor}
+            doctor={auth.user}
             connector={printBody.connector}
             client={printBody.client}
             sections={printBody.services}

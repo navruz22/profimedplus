@@ -115,6 +115,7 @@ const TableTemplate = ({
                                                 id={`btn${key}`}
                                                 onClick={() => {
                                                     setTemplate(template);
+                                                    window.scrollTo({ top: 0, behavior: 'smooth' });
                                                 }}
                                                 type="button"
                                                 className="py-1 px-2 bg-alotrade font-semibold text-white rounded"
