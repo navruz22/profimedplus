@@ -2,6 +2,8 @@ const {
   Clinica,
   validateClinica,
 } = require('../../models/DirectorAndClinica/Clinica')
+const { Director } = require('../../models/DirectorAndClinica/Director')
+const { User } = require('../../models/Users')
 
 module.exports.register = async (req, res) => {
   try {
@@ -80,6 +82,51 @@ module.exports.getClinica = async (req, res) => {
 
     res.status(200).send(clinica)
   } catch (error) {
+    res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
+  }
+}
+
+module.exports.getClinicaList = async (req, res) => {
+  try {
+
+    const clinicas = await Clinica.find()
+      .lean()
+
+    for (const clinica of clinicas) {
+      const director = await Director.findOne({
+        clinica: clinica._id
+      }).lean()
+
+      clinica.director = director;
+    }
+
+    res.status(200).json(clinicas)
+
+  } catch (error) {
+    console.log(error);
+    res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
+  }
+}
+
+module.exports.update = async (req, res) => {
+  try {
+    const clinica = req.body;
+
+    const clinic = await Clinica.findById(clinica._id);
+    if (!clinic) {
+      return res.status(400).json({
+        message:
+          "Diqqat! Foydalanuvchi ro'yxatga olinayotgan klinika dasturda ro'yxatga olinmagan.",
+      });
+    }
+
+    await Clinica.findByIdAndUpdate(clinica._id, { ...clinica })
+
+    const resdata = await Clinica.findById(clinica._id);
+
+    res.send(resdata)
+  } catch (error) {
+    console.log(error);
     res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
   }
 }

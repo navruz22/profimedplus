@@ -12,6 +12,10 @@ router.get('/clinica', (req, res) => {
   require('./clinica.route').getClinica(req, res)
 })
 
+router.put('/clinica/update', (req, res) => {
+  require('./clinica.route').update(req, res);
+})
+
 //========================================================
 //Director
 router.post('/director/register', (req, res) => {
@@ -44,7 +48,7 @@ router.post('/user/login', (req, res) => {
   require('./user.route').login(req, res)
 })
 
-router.post('/user/gettype', auth,(req, res) => {
+router.post('/user/gettype', auth, (req, res) => {
   require('./user.route').getUserType(req, res)
 })
 
@@ -55,5 +59,21 @@ router.post('/user/getall', auth, (req, res) => {
 router.post('/user/remove', auth, (req, res) => {
   require('./user.route').removeUser(req, res)
 })
+
+
+// Admin
+router.post('/admin/register', (req, res) => {
+  require('./admin').register(req, res);
+})
+
+router.post('/admin/login', (req, res) => {
+  require('./admin').login(req, res);
+})
+
+router.get('/admin/clinica_list/get', (req, res) => {
+  require('./clinica.route').getClinicaList(req, res)
+})
+
+
 
 module.exports = router

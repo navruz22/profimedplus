@@ -29,7 +29,7 @@ const styleGreen = {
   height: "32px",
 };
 
-export const ClinicaRegister = () => {
+export const ClinicaRegister = ({ onFinishCreate, onFinishUpdate, clinicaData }) => {
   //====================================================================
   //====================================================================
   const toast = useToast();
@@ -84,7 +84,7 @@ export const ClinicaRegister = () => {
   });
   //====================================================================
   //====================================================================
-
+  console.log(clinica);
   //====================================================================
   //====================================================================
   const handleImage = async (e) => {
@@ -137,7 +137,15 @@ export const ClinicaRegister = () => {
   const changeHandler = (e) => {
     setClinica({ ...clinica, [e.target.name]: e.target.value });
   };
-  const history = useHistory();
+
+  const onHandler = () => {
+    if (clinica._id) {
+      updatedHandler()
+    } else {
+      createHandler()
+    }
+  }
+
   const createHandler = async () => {
     if (checkClinicaData(clinica)) {
       return notify(checkClinicaData(clinica));
@@ -158,7 +166,37 @@ export const ClinicaRegister = () => {
         description: "",
         status: "success",
       });
-      history.push("/newdirector");
+      onFinishCreate()
+    } catch (error) {
+      notify({
+        title: error,
+        description: "",
+        status: "error",
+      });
+    }
+  };
+
+  const updatedHandler = async () => {
+    if (checkClinicaData(clinica)) {
+      return notify(checkClinicaData(clinica));
+    }
+    try {
+      const data = await request("/api/clinica/update", "PUT", {
+        ...clinica,
+      });
+      localStorage.setItem(
+        storageName,
+        JSON.stringify({
+          clinica: data,
+        })
+      );
+      notify({
+        title:
+          "Tabriklaymiz! Klinikangiz malumotlari o'zgarildi!",
+        description: "",
+        status: "success",
+      });
+      onFinishUpdate()
     } catch (error) {
       notify({
         title: error,
@@ -174,7 +212,7 @@ export const ClinicaRegister = () => {
   //====================================================================
   const keyPressed = (e) => {
     if (e.key === "Enter") {
-      return createHandler();
+      return onHandler();
     }
   };
   //====================================================================
@@ -185,6 +223,10 @@ export const ClinicaRegister = () => {
   useEffect(() => {
     getBaseUrl();
   }, [getBaseUrl]);
+
+  useEffect(() => {
+    setClinica(clinicaData)
+  }, [clinicaData]);
   //====================================================================
   //====================================================================
 
@@ -195,7 +237,7 @@ export const ClinicaRegister = () => {
   return (
     <>
       <div className="page-content container-fluid">
-        <div className="row mt-5">
+        <div className="row">
           <div className="col-xl-7 mx-auto">
             <div className="card " style={{ borderTop: "4px solid #38B2AC " }}>
               <div className="card-body p-5">
@@ -230,6 +272,7 @@ export const ClinicaRegister = () => {
                               ? styleGreen
                               : styleDefault
                           }
+                          defaultValue={clinica.name && clinica.name}
                           onChange={changeHandler}
                           name="name"
                         />
@@ -248,11 +291,12 @@ export const ClinicaRegister = () => {
                           size="sm"
                           style={
                             clinica.organitionName &&
-                            clinica.organitionName.length > 0
+                              clinica.organitionName.length > 0
                               ? styleGreen
                               : styleDefault
                           }
                           name="organitionName"
+                          defaultValue={clinica.organitionName && clinica.organitionName}
                           onChange={changeHandler}
                         />
                       </FormControl>
@@ -273,6 +317,7 @@ export const ClinicaRegister = () => {
                               ? styleGreen
                               : styleDefault
                           }
+                          defaultValue={clinica.address && clinica.address}
                           name="address"
                           onChange={changeHandler}
                         />
@@ -291,10 +336,11 @@ export const ClinicaRegister = () => {
                           size="sm"
                           style={
                             clinica.orientation &&
-                            clinica.orientation.length > 0
+                              clinica.orientation.length > 0
                               ? styleGreen
                               : styleDefault
                           }
+                          defaultValue={clinica.orientation && clinica.orientation}
                           name="orientation"
                           onChange={changeHandler}
                         />
@@ -326,6 +372,7 @@ export const ClinicaRegister = () => {
                                 ? styleGreen
                                 : styleDefault
                             }
+                            defaultValue={clinica.phone1 && clinica.phone1}
                             name="phone1"
                             onChange={changeHandler}
                           />
@@ -358,6 +405,7 @@ export const ClinicaRegister = () => {
                                 ? styleGreen
                                 : styleDefault
                             }
+                            defaultValue={clinica.phone2 && clinica.phone2}
                             name="phone2"
                             onChange={changeHandler}
                           />
@@ -390,6 +438,7 @@ export const ClinicaRegister = () => {
                                 ? styleGreen
                                 : styleDefault
                             }
+                            defaultValue={clinica.phone3 && clinica.phone3}
                             name="phone3"
                             onChange={changeHandler}
                           />
@@ -414,6 +463,7 @@ export const ClinicaRegister = () => {
                               ? styleGreen
                               : styleDefault
                           }
+                          defaultValue={clinica.bank && clinica.bank}
                           name="bank"
                           onChange={changeHandler}
                         />
@@ -436,6 +486,7 @@ export const ClinicaRegister = () => {
                               ? styleGreen
                               : styleDefault
                           }
+                          defaultValue={clinica.inn && clinica.inn}
                           name="inn"
                           onChange={changeHandler}
                         />
@@ -458,6 +509,7 @@ export const ClinicaRegister = () => {
                               ? styleGreen
                               : styleDefault
                           }
+                          defaultValue={clinica.bankNumber && clinica.bankNumber}
                           name="bankNumber"
                           onChange={changeHandler}
                         />
@@ -489,7 +541,7 @@ export const ClinicaRegister = () => {
                       <Button
                         colorScheme="teal"
                         variant="solid"
-                        onClick={createHandler}
+                        onClick={onHandler}
                       >
                         Registratsiya
                       </Button>

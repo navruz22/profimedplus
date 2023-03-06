@@ -123,7 +123,7 @@ module.exports.login = async (req, res) => {
 // Director UPADATE
 module.exports.update = async (req, res) => {
   try {
-    const { type, clinica } = req.body;
+    const { type, clinica, password } = req.body;
 
     const found = await Director.find({
       clinica,
@@ -135,10 +135,10 @@ module.exports.update = async (req, res) => {
         message: "Diqqat! Foydalanuvchi tizimda ro'yxatga olinmagan.",
       });
     }
-
+    const hash = await bcrypt.hash(password, 8);
     const director = await Director.findByIdAndUpdate(
       req.body._id,
-      req.body
+      { ...req.body, password: hash }
     ).select("-password");
 
     res.send(director);

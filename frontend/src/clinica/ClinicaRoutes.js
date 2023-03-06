@@ -4,6 +4,7 @@ import { Counter } from "./Counter";
 import { ClinicaRegister } from "./loginAndRegister/ClinicaRegister";
 import { DirectorRegistor } from "./loginAndRegister/DirectorRegistor";
 import { Login } from "./loginAndRegister/Login";
+import AdminRoutes from "./admin/AdminRoutes";
 
 export const ClinicaRoutes = (isAuthenticated, user) => {
   return (
@@ -27,6 +28,9 @@ export const ClinicaRoutes = (isAuthenticated, user) => {
       </Route>
       <Route path="/newdirector">
         <DirectorRegistor />
+      </Route>
+      <Route path="/admin">
+        <AdminRoutes isAuthenticated={isAuthenticated} user={user} />
       </Route>
       <Redirect to="/alo24" />
     </Switch>

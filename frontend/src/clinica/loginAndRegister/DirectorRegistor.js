@@ -17,7 +17,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { Loader } from "../loader/Loader";
 
-export const DirectorRegistor = () => {
+export const DirectorRegistor = ({ onFinish, directorData }) => {
   //====================================================================
   //====================================================================
   const toast = useToast();
@@ -42,7 +42,7 @@ export const DirectorRegistor = () => {
   //====================================================================
   const [load, setLoad] = useState(false);
 
-  const { request,  loading } = useHttp();
+  const { request, loading } = useHttp();
 
   const clinica = JSON.parse(localStorage.getItem("clinicaData"));
 
@@ -136,6 +136,14 @@ export const DirectorRegistor = () => {
 
   const history = useHistory();
 
+  const onHandler = () => {
+    if (director?._id) {
+      updateHandler()
+    } else {
+      createHandler()
+    }
+  }
+
   const createHandler = async () => {
     if (checkDirectorData(director)) {
       return notify(checkDirectorData(director));
@@ -151,13 +159,42 @@ export const DirectorRegistor = () => {
         })
       );
       notify({
-        title: `Tabriklaymiz ${
-          director.firstname + " " + director.lastname
-        }! Siz uchun direktor bo'limi ham muvaffaqqiyatli yaratildi.`,
+        title: `Tabriklaymiz ${director.firstname + " " + director.lastname
+          }! Siz uchun direktor bo'limi ham muvaffaqqiyatli yaratildi.`,
         description: "",
         status: "success",
       });
-      history.push("/alo24");
+      onFinish()
+    } catch (error) {
+      notify({
+        title: error,
+        description: "",
+        status: "error",
+      });
+    }
+  };
+
+  const updateHandler = async () => {
+    if (checkDirectorData(director)) {
+      return notify(checkDirectorData(director));
+    }
+    try {
+      const data = await request("/api/director/update", "PUT", {
+        ...director,
+      });
+      localStorage.setItem(
+        "director",
+        JSON.stringify({
+          director: data,
+        })
+      );
+      notify({
+        title: `Tabriklaymiz ${director.firstname + " " + director.lastname
+          }! Siz uchun direktor bo'limi ham muvaffaqqiyatli yaratildi.`,
+        description: "",
+        status: "success",
+      });
+      onFinish()
     } catch (error) {
       notify({
         title: error,
@@ -168,12 +205,12 @@ export const DirectorRegistor = () => {
   };
   //====================================================================
   //====================================================================
-
+  console.log(director);
   //====================================================================
   //====================================================================
   const keyPressed = (e) => {
     if (e.key === "Enter") {
-      return createHandler();
+      return onHandler();
     }
   };
   //====================================================================
@@ -183,7 +220,12 @@ export const DirectorRegistor = () => {
   //====================================================================
   useEffect(() => {
     getBaseUrl();
-  }, [ getBaseUrl]);
+  }, [getBaseUrl]);
+
+  useEffect(() => {
+    setDirector(directorData);
+  }, [directorData])
+
   //====================================================================
   //====================================================================
 
@@ -192,7 +234,7 @@ export const DirectorRegistor = () => {
   }
   return (
     <div className="page-content container-fluid">
-      <div className="row mt-5">
+      <div className="row">
         <div className="col-xl-7 mx-auto">
           <div className="card " style={{ borderTop: "4px solid #38B2AC " }}>
             <div className="card-body p-5">
@@ -223,6 +265,7 @@ export const DirectorRegistor = () => {
                         placeholder="Ismni kiriting"
                         size="sm"
                         style={styled}
+                        value={director.firstname && director.firstname}
                         onChange={changeHandler}
                         name="firstname"
                       />
@@ -241,6 +284,7 @@ export const DirectorRegistor = () => {
                         size="sm"
                         style={{ borderColor: "#eee", boxShadow: "none" }}
                         name="lastname"
+                        value={director.lastname && director.lastname}
                         onChange={changeHandler}
                       />
                     </FormControl>
@@ -257,6 +301,7 @@ export const DirectorRegistor = () => {
                         placeholder="Otasini ismini kiriting"
                         size="sm"
                         style={{ borderColor: "#eee", boxShadow: "none" }}
+                        value={director.fathername && director.fathername}
                         name="fathername"
                         onChange={changeHandler}
                       />
@@ -280,6 +325,7 @@ export const DirectorRegistor = () => {
                           size="sm"
                           type="number"
                           style={{ borderColor: "#eee", boxShadow: "none" }}
+                          value={director.phone && director.phone}
                           name="phone"
                           onChange={changeHandler}
                         />
@@ -344,7 +390,7 @@ export const DirectorRegistor = () => {
                     <Button
                       colorScheme="teal"
                       variant="solid"
-                      onClick={createHandler}
+                      onClick={onHandler}
                     >
                       Registratsiya
                     </Button>
