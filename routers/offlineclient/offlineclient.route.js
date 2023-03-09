@@ -10,6 +10,10 @@ router.post('/client/add', auth, (req, res) => {
     require('./clients.route').add(req, res)
 })
 
+router.post('/client/connector/add', auth, (req, res) => {
+    require('./clients.route').addConnector(req, res);
+})
+
 router.post('/client/getall', auth, (req, res) => {
     require('./clients.route').getAll(req, res)
 })

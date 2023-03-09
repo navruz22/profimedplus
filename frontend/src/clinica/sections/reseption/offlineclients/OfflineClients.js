@@ -135,6 +135,35 @@ export const OfflineClients = () => {
 
     //====================================================================
     //====================================================================
+
+    const [clientId, setClientId] = useState('')
+
+    const getClientsById = async () => {
+        try {
+            const data = await request(
+                `/api/offlineclient/client/getallreseption`,
+                "POST",
+                { clinica: auth && auth.clinica._id, clientId },
+                {
+                    Authorization: `Bearer ${auth.token}`,
+                }
+            );
+            setConnectors(data);
+            setSearchStrorage(data);
+            setCurrentConnectors(
+                data.slice(indexFirstConnector, indexLastConnector)
+            );
+        } catch (error) {
+            notify({
+                title: error,
+                description: "",
+                status: "error",
+            });
+        }
+    }
+
+    //====================================================================
+    //====================================================================
     // SEARCH
     const searchFullname = useCallback(
         (e) => {
@@ -154,6 +183,7 @@ export const OfflineClients = () => {
             const searching = searchStorage.filter((item) =>
                 item.client.id.toString().includes(e.target.value)
             );
+            setClientId(e.target.value);
             setConnectors(searching);
             setCurrentConnectors(searching.slice(0, countPage));
         },
@@ -253,6 +283,8 @@ export const OfflineClients = () => {
 
     //====================================================================
     //====================================================================
+
+    const [isAddConnector, setIsAddConnector] = useState(false);
 
     //====================================================================
     //====================================================================
@@ -463,6 +495,7 @@ export const OfflineClients = () => {
         setSelectedProducts([]);
         setSelectedServices([]);
         setClientDate(new Date().toISOString().slice(0, 10))
+        setIsAddConnector(false);
     }, [auth]);
 
     const checkData = () => {
@@ -637,6 +670,35 @@ export const OfflineClients = () => {
         getConnectors,
     ]);
 
+    const addConnectorHandler = async () => {
+        try {
+            const data = await request(
+                `/api/offlineclient/client/connector/add`,
+                "POST",
+                {
+                    client: { ...client, clinica: auth.clinica._id },
+                    connector: { ...connector, clinica: auth.clinica._id },
+                    services: [...services],
+                    products: [...newproducts],
+                    counterdoctor: counterdoctor,
+                    adver: { ...adver, clinica: auth.clinica._id },
+                },
+                {
+                    Authorization: `Bearer ${auth.token}`,
+                }
+            );
+            getConnectors(beginDay, endDay);
+            clearDatas()
+            setVisible(false);
+        } catch (error) {
+            notify({
+                title: error,
+                description: "",
+                status: "error",
+            });
+        }
+    }
+
     //====================================================================
     //====================================================================
 
@@ -743,6 +805,7 @@ export const OfflineClients = () => {
                                 loading={loading}
                                 clientDate={clientDate}
                                 setClientDate={setClientDate}
+                                setIsAddConnector={setIsAddConnector}
                             />
                         </div>
                         <TableClients
@@ -773,6 +836,8 @@ export const OfflineClients = () => {
                             // setModal2={setModal2}
                             loading={loading}
                             setClientDate={setClientDate}
+                            setIsAddConnector={setIsAddConnector}
+                            getClientsById={getClientsById}
                         />
                     </div>
                 </div>
@@ -790,7 +855,7 @@ export const OfflineClients = () => {
                 modal={modal}
                 text={"ma'lumotlar to'g'ri kiritilganligini tasdiqlaysizmi?"}
                 setModal={setModal}
-                handler={client._id ? addHandler : createHandler}
+                handler={client._id && !isAddConnector ? addHandler : client._id && isAddConnector ? addConnectorHandler : createHandler}
                 basic={client.lastname + " " + client.firstname}
             />
         </div>

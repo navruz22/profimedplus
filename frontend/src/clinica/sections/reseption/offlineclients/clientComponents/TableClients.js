@@ -5,6 +5,7 @@ import {
   faAngleDown,
   faPenAlt,
   faPrint,
+  faPlus,
 } from '@fortawesome/free-solid-svg-icons'
 import { Sort } from './Sort'
 import { Pagination } from '../../components/Pagination'
@@ -33,7 +34,9 @@ export const TableClients = ({
   setPageSize,
   loading,
   getConnectorsByClientBorn,
-  setClientDate
+  setClientDate,
+  setIsAddConnector,
+  getClientsById
 }) => {
   return (
     <div className="border-0 table-container">
@@ -78,6 +81,7 @@ export const TableClients = ({
                 type="search"
                 className="form-control form-control-sm selectpicker"
                 placeholder="ID"
+                onKeyDown={(e) => e.key === 'Enter' && getClientsById()}
               />
             </div>
             <div>
@@ -230,24 +234,13 @@ export const TableClients = ({
                   />
                 </th>
                 <th className="border py-1 bg-alotrade text-[16px]">
+                  Qo'shish
+                </th>
+                <th className="border py-1 bg-alotrade text-[16px]">
                   Tahrirlash
-                  <div className="btn-group-vertical ml-2">
-                    <Sort
-                      data={currentConnectors}
-                      setData={setCurrentConnectors}
-                      property={'counterAgentProcient'}
-                    />
-                  </div>
                 </th>
                 <th className="border py-1 bg-alotrade text-[16px]">
                   Chop etish
-                  <div className="btn-group-vertical ml-2">
-                    <Sort
-                      data={currentConnectors}
-                      setData={setCurrentConnectors}
-                      property={'counterAgentProcient'}
-                    />
-                  </div>
                 </th>
               </tr>
             </thead>
@@ -282,8 +275,28 @@ export const TableClients = ({
                       {connector.services.length}
                     </td>
                     <td className="border py-1 text-right text-[16px]">
-                      {new Date(connector.createdAt).toLocaleDateString()}
+                      {new Date(connector.createdAt).toLocaleDateString()} {' '}
                       {new Date(connector.createdAt).toLocaleTimeString()}
+                    </td>
+                    <td className="border py-1 text-center text-[16px]">
+                      {loading ? (
+                        <button className="btn btn-success" disabled>
+                          <span className="spinner-border spinner-border-sm"></span>
+                          Loading...
+                        </button>
+                      ) : (
+                        <button
+                          className="btn btn-success py-0"
+                          onClick={() => {
+                            setClient({ ...connector.client })
+                            setClientDate(connector.client.born.slice(0, 10))
+                            setIsAddConnector(true);
+                            setVisible(true)
+                          }}
+                        >
+                          <FontAwesomeIcon icon={faPlus} />
+                        </button>
+                      )}
                     </td>
                     <td className="border py-1 text-center text-[16px]">
                       {loading ? (
@@ -302,7 +315,8 @@ export const TableClients = ({
                               _id: connector._id,
                               services: [...connector.services],
                             })
-                            setVisible(true)
+                            setIsAddConnector(false);
+                            setVisible(true);
                           }}
                         >
                           <FontAwesomeIcon icon={faPenAlt} />
