@@ -71,7 +71,7 @@ export const HomePage = () => {
     }
   }, [auth, notify, request])
 
-  console.log(monthlyReport);
+
 
   //=============================================
   //=============================================

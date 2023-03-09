@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { useHttp } from '../hooks/http.hook';
 import { ClinicaRegister } from '../loginAndRegister/ClinicaRegister';
 import { DirectorRegistor } from '../loginAndRegister/DirectorRegistor';
+import { Modal } from '../sections/director/users/modal/Modal';
 import { ClinicasTable } from './components/ClinicasTable';
 
 const RegisterClinica = () => {
@@ -16,6 +17,11 @@ const RegisterClinica = () => {
     const indexLastConnector = (currentPage + 1) * countPage;
     const indexFirstConnector = indexLastConnector - countPage;
 
+    //====================================================================
+    //====================================================================
+
+    const [modal, setModal] = useState(false);
+    const [clinicaId, setClinicaId] = useState(null);
     //====================================================================
     //====================================================================
 
@@ -72,6 +78,33 @@ const RegisterClinica = () => {
             );
             setClinicas(searching.slice(0, countPage));
         }
+
+    //=========================================================
+    //=========================================================
+
+    const deleteHandler = async () => {
+        try {
+            const data = await request(
+                `/api/clinica/delete`,
+                "POST",
+                { clinicaid: clinicaId }
+            );
+            notify({
+                title: data.name,
+                description: " shifoxonani o'chirishni tasdiqlaymiz!",
+                status: "success",
+            });
+            setModal(false);
+            setClinicaId(null);
+            getClinicas()
+        } catch (error) {
+            notify({
+                title: error,
+                description: "",
+                status: "error",
+            });
+        }
+    }
 
     //=========================================================
     //=========================================================
@@ -144,6 +177,8 @@ const RegisterClinica = () => {
                             }} />}
                         </div>
                         <ClinicasTable
+                            setClinicaId={setClinicaId}
+                            setModal={setModal}
                             connectors={searchStorage}
                             countPage={countPage}
                             currentPage={currentPage}
@@ -160,6 +195,13 @@ const RegisterClinica = () => {
                     </div>
                 </div>
             </div>
+            <Modal
+                modal={modal}
+                setModal={setModal}
+                basic={""}
+                text={"Shifoxonani o'chirishni tasdiqlaysizmi?"}
+                handler={deleteHandler}
+            />
         </div>
     );
 }

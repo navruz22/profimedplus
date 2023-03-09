@@ -24,7 +24,7 @@ const DoctorServices = () => {
     const auth = useContext(AuthContext);
 
     const { state } = useLocation()
-    console.log(state);
+
 
     //======================================================
     //======================================================
@@ -72,7 +72,7 @@ const DoctorServices = () => {
                         Authorization: `Bearer ${auth.token}`,
                     }
                 );
-                console.log(data);
+
                 setServices(data)
                 setSearchStrorage(data)
                 setCurrentServices(

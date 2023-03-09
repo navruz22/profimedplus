@@ -25,9 +25,9 @@
     "value": "Laborotoriya"
   },
   {
-    "type": "CounterDoctor",
-    "label": "Yo'naltiruvchi shifokor",
-    "value": "Yo'naltiruvchi shifokor"
+    "type": "Turn",
+    "label": "Navbat",
+    "value": "Navbat"
   },
   {
     "type": "CounterAgent",

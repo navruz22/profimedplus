@@ -42,8 +42,6 @@ const Print = ({ client, connector, sections, baseUrl, clinica }) => {
                     const index = serviceTypes.findIndex(el =>
                         el.servicetypeid === check
                         && Object.keys(el.column).filter(el => el.includes('col')).length === checkCols)
-                    console.log(serviceTypes);
-                    console.log(index);
                     if (index >= 0) {
                         serviceTypes[index].services.push(service)
                         serviceTypes[index].column = service.column

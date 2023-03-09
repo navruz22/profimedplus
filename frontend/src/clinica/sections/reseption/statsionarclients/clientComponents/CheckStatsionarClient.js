@@ -1,7 +1,6 @@
 import React from "react";
 
 const CheckStatsionarClient = ({ connector, qr }) => {
-  console.log(connector);
   return (
     <div className="container p-3">
       <div className="row">

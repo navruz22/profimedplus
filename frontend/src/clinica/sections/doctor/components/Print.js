@@ -2,7 +2,6 @@ import React from 'react'
 import parse from "html-react-parser"
 
 const Print = ({ client, connector, sections, clinica, baseUrl, doctor }) => {
-    console.log(clinica);
     return (
         <div className="px-2 bg-white">
             <div>

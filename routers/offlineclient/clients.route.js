@@ -28,7 +28,9 @@ const { TableColumn } = require("../../models/Services/TableColumn");
 const { ServiceTable } = require("../../models/Services/ServiceTable");
 const { ServiceType } = require("../../models/Services/ServiceType");
 const { CounterDoctor } = require('../../models/CounterDoctor/CounterDoctor')
+const { Department } = require('../../models/Services/Department')
 require('../../models/Cashier/OfflinePayment')
+require('../../models/Users')
 
 // register
 module.exports.register = async (req, res) => {
@@ -400,26 +402,26 @@ module.exports.add = async (req, res) => {
             updateOfflineConnector.products.push(newproduct._id)
         }
 
-        if (counteragent.counterdoctor) {
-            const oldcounteragent = await OfflineCounteragent.findOne({
-                connector: connector._id,
-            })
+        // if (counteragent.counterdoctor) {
+        //     const oldcounteragent = await OfflineCounteragent.findOne({
+        //         connector: connector._id,
+        //     })
 
-            if (oldcounteragent) {
-                oldcounteragent.counteragent = counteragent.counteragent
-                oldcounteragent.counterdoctor = counteragent.counterdoctor
-                oldcounteragent.services = [...updateOfflineConnector.services]
-                await oldcounteragent.save()
-            } else {
-                const newcounteragent = new OfflineCounteragent({
-                    client: client._id.toString(),
-                    connector: updateOfflineConnector._id.toString(),
-                    services: [...updateOfflineConnector.services],
-                    ...counteragent,
-                })
-                await newcounteragent.save()
-            }
-        }
+        //     if (oldcounteragent) {
+        //         oldcounteragent.counteragent = counteragent.counteragent
+        //         oldcounteragent.counterdoctor = counteragent.counterdoctor
+        //         oldcounteragent.services = [...updateOfflineConnector.services]
+        //         await oldcounteragent.save()
+        //     } else {
+        //         const newcounteragent = new OfflineCounteragent({
+        //             client: client._id.toString(),
+        //             connector: updateOfflineConnector._id.toString(),
+        //             services: [...updateOfflineConnector.services],
+        //             ...counteragent,
+        //         })
+        //         await newcounteragent.save()
+        //     }
+        // }
 
         if (adver.adver) {
             const oldadver = await OfflineAdver.findOne({
@@ -445,6 +447,7 @@ module.exports.add = async (req, res) => {
 
         res.status(201).send({ message: "Xizmatlar ro'yxatga olindi" })
     } catch (error) {
+        console.log(error);
         res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
     }
 }
@@ -821,8 +824,6 @@ module.exports.addConnector = async (req, res) => {
     }
 }
 
-
-//
 module.exports.getCounterDoctors = async (req, res) => {
     try {
         const { clinica } = req.body;
@@ -839,6 +840,61 @@ module.exports.getCounterDoctors = async (req, res) => {
             .lean()
 
         res.status(200).json(counterDoctors)
+    } catch (error) {
+        console.log(error);
+        res.status(501).json({ error: "Serverda xatolik yuz berdi..." });
+    }
+}
+
+module.exports.getTurns = async (req, res) => {
+    try {
+        const { clinica } = req.body;
+
+        const clinic = await Clinica.findById(clinica);
+        if (!clinic) {
+            return res.status(400).json({
+                message: "Diqqat! Klinika ma'lumotlari topilmadi.",
+            });
+        }
+
+        const departments = await Department.find({
+            clinica
+        })
+            .select("name room probirka")
+            .populate('doctor', 'firstname lastname')
+            .lean()
+
+        for (const department of departments) {
+            if (department.probirka) {
+                const connectors = await OfflineConnector.find({
+                    clinica,
+                    department: department._id,
+                    accept: true,
+                    createdAt: {
+                        $gte: new Date(new Date().setUTCHours(0, 0, 0, 0)),
+                    }
+                })
+                    .lean()
+
+                department.turn = connectors.length + 1;
+
+            } else {
+                const services = await OfflineService.find({
+                    clinica,
+                    department: department._id,
+                    accept: true,
+                    createdAt: {
+                        $gte: new Date(new Date().setUTCHours(0, 0, 0, 0)),
+                    }
+                })
+                    .sort({ turn: -1 })
+                    .lean()
+
+                department.turn = services[0] && (services[0].turn + 1) || 1;
+            }
+        }
+        res.status(200).json(departments);
+
     } catch (error) {
         console.log(error);
         res.status(501).json({ error: "Serverda xatolik yuz berdi..." });

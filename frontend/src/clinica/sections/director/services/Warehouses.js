@@ -97,7 +97,7 @@ export const Warehouses = () => {
           Authorization: `Bearer ${auth.token}`,
         },
       )
-      // console.log(data);
+
       setWarehouses(data)
       setSearchStrorage(data)
       setCurrentWarehouses(data.slice(indexFirstWarehouse, indexLastWarehouse))
@@ -134,7 +134,7 @@ export const Warehouses = () => {
           Authorization: `Bearer ${auth.token}`,
         },
       )
-      // console.log(data);
+
       setProducts(data)
     } catch (error) {
       notify({

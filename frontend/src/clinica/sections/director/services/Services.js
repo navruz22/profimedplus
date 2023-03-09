@@ -13,7 +13,7 @@ import { useLocation } from 'react-router-dom'
 export const Services = () => {
 
     const location = useLocation()
-    console.log(location);
+
 
     //====================================================================
     //====================================================================

@@ -158,12 +158,10 @@ export const Conclusion = () => {
 
   const handleConclusion = async () => {
     const send = serviceClients.reduce((prev, el) => {
-      console.log(el.services);
       let service = el.services.filter(item => item.tables.length > 0)
       prev.push(...service);
       return prev;
     }, [])
-    console.log(send);
     try {
       const data = await request(
         `/api/labaratory/conclusion/save`,
@@ -219,8 +217,6 @@ export const Conclusion = () => {
   useEffect(() => {
     getServiceTypes()
   }, [getServiceTypes])
-
-  console.log(serviceClients);
 
   return <div className="bg-slate-100 content-wrapper px-lg-5 px-3">
     <div className="flex justify-end mb-2">

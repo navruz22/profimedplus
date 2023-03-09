@@ -7,7 +7,7 @@ import { useHttp } from '../hooks/http.hook';
 import { checkUserData } from '../loginAndRegister/checkData';
 import PasswordInput from '../loginAndRegister/PasswordInput';
 
-export const AdminLogin = () => {
+export const AdminLogin = ({ setIsAuthenticated, setUserData }) => {
     //====================================================================
     //====================================================================
     const toast = useToast();
@@ -105,6 +105,8 @@ export const AdminLogin = () => {
                     user: data.user,
                 }),
             )
+            setUserData(data.user)
+            setIsAuthenticated(!!data.token)
             notify({
                 title: `Xush kelibsiz ${data.user.firstname + " " + data.user.lastname
                     }!`,

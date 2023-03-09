@@ -30,4 +30,8 @@ router.post('/client/counter_doctors/get', auth, (req, res) => {
     require('./clients.route').getCounterDoctors(req, res);
 })
 
+router.post('/client/turns/get', auth, (req, res) => {
+    require('./clients.route').getTurns(req, res);
+})
+
 module.exports = router

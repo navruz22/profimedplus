@@ -18,6 +18,8 @@ export const RegistorUser = ({
   departments,
   createHandler,
   loading,
+  clinicaList,
+  getDepartments
 }) => {
   return (
     <div>
@@ -129,6 +131,32 @@ export const RegistorUser = ({
               <div className="row gutters">
                 <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                   <div className="form-group">
+                    <label htmlFor="addreSs">Shifoxonani tanlang</label>
+                    <select
+                      onChange={(e) => {
+                        getDepartments(e.target.value)
+                        setUser({ ...user, clinica: e.target.value });
+                        console.log(e.target.value);
+                      }}
+                      className="form-control form-control-sm selectpicker"
+                      id="select"
+                      placeholder="Bo'limni tanlang"
+                      style={{ minWidth: "70px" }}
+                    >
+                      <option>Shifoxona</option>
+                      {clinicaList &&
+                        clinicaList.map((section, index) => {
+                          return (
+                            <option key={index} value={section._id}>
+                              {section.name}
+                            </option>
+                          );
+                        })}
+                    </select>
+                  </div>
+                </div>
+                <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                  <div className="form-group">
                     <label htmlFor="addreSs">Xodimning mustaxasisligi</label>
                     <select
                       onChange={(e) => {
@@ -152,7 +180,7 @@ export const RegistorUser = ({
                   </div>
                 </div>
                 {(user.type && user.type === "Doctor") ||
-                (user.type && user.type === "Laborotory") ? (
+                  (user.type && user.type === "Laborotory") ? (
                   <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                     <div className="form-group">
                       <label htmlFor="addreSs">Shifokorning ixtisosligi</label>
@@ -254,7 +282,7 @@ export const RegistorUser = ({
                         onClick={() =>
                           setUser({
                             type: null,
-                            clinica: auth.clinica._id,
+                            clinica: null,
                           })
                         }
                       >

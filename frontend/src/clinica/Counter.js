@@ -5,9 +5,9 @@ import { Cashier } from "./sections/cashier/Cashier";
 import { Doctor } from "./sections/doctor/Doctor";
 import { Laborotory } from "./sections/laborotory/Laborotory";
 import { CounterAgent } from "./sections/counter_agent/CounterAgent";
+import Turns from "./sections/turns/Turns";
 
 export const Counter = ({ section }) => {
-  console.log(section);
   switch (section) {
     case "Director":
       return <Director />;
@@ -21,6 +21,8 @@ export const Counter = ({ section }) => {
       return <Laborotory />;
     case "CounterAgent":
       return <CounterAgent />;
+    case "Turn":
+      return <Turns />;
     default:
       return <h1>Topilmadi</h1>;
   }

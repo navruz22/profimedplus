@@ -4,7 +4,7 @@ import { useToast } from "@chakra-ui/react";
 import { useHttp } from "../../hooks/http.hook";
 import { AuthContext } from "../../context/AuthContext";
 
-export const Navbar = ({ baseUrl }) => {
+export const Navbar = ({ baseUrl, setIsAuthenticated, setUser }) => {
   const history = useHistory();
   //====================================================================
   //====================================================================
@@ -93,6 +93,18 @@ export const Navbar = ({ baseUrl }) => {
                 Shifoxonalar
               </Link>
             </li>
+            <li className="nav-item">
+              <Link
+                className={`nav-link ${activePage === "/admin/users" ? "active-page" : ""
+                  }`}
+                to="/admin/users"
+                onClick={() => setActivePage('/admin/users')}
+                style={{ background: activePage === "/admin/users" || activePage === "/" ? "#F97316" : "" }}
+              >
+                <i className="icon-devices_other nav-icon" />
+                Foydalanuvchilar
+              </Link>
+            </li>
           </ul>
           <ul className="header-actions py-1 mr-2">
             <li className="dropdown">
@@ -106,18 +118,12 @@ export const Navbar = ({ baseUrl }) => {
                   {user.firstname} {user.lastname}
                 </span>
                 <span className="avatar md">
-                  {baseUrl ? (
-                    <img
-                      className="circle d-inline"
-                      src={
-                        baseUrl && `${baseUrl}/api/upload/file/${user.image}`
-                      }
-                      alt={user.firstname + user.lastname}
-                    />
-                  ) : (
-                    user.firstname + user.lastname
-                  )}
-
+                  <img
+                    className="circle d-inline"
+                    src={
+                      baseUrl && `${baseUrl}/api/upload/file/${user.image}`
+                    }
+                  />
                   <span className="status busy" />
                 </span>
               </span>
@@ -126,23 +132,11 @@ export const Navbar = ({ baseUrl }) => {
                 aria-labelledby="userSettings"
               >
                 <div className="header-profile-actions">
-                  <div className="header-user-profile">
-                    <div className="header-user">
-                      <img
-                        src={
-                          baseUrl &&
-                          `${baseUrl}/api/upload/file/${user.image}`
-                        }
-                        alt={user.firstname + user.lastname}
-                      />
-                    </div>
-                    {user.firstname} {user.lastname}
-                    <p>Reseption</p>
-                  </div>
                   <button
                     onClick={() => {
-                      auth.logout();
-                      history.push("/");
+                      localStorage.removeItem('AdminData');
+                      setIsAuthenticated(null);
+                      setUser(null);
                     }}
                   >
                     <i className="icon-log-out1" /> Chiqish

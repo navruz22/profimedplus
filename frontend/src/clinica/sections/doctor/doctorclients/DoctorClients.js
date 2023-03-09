@@ -113,7 +113,7 @@ export const DoctorClients = () => {
     },
     [request, auth, notify, indexFirstConnector, indexLastConnector]
   );
-  console.log(doctorClients);
+
   //===================================================================
   //===================================================================
   // Searching

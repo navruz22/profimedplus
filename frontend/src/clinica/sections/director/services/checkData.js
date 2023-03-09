@@ -79,7 +79,7 @@ export const checkService = (service) => {
 export const checkUploadServices = (departments, clinica, services, servicetypes) => {
   let k = 0;
   for (const service of services) {
-    console.log(service);
+
     k++;
     // if (clinica.name !== service.clinica) {
     //   return {
@@ -102,7 +102,7 @@ export const checkUploadServices = (departments, clinica, services, servicetypes
     const s = servicetypes.find(
       (servicetype) => servicetype.name === service.servicetype
     );
-    console.log(service.servicetype);
+
     if (!s) {
       return {
         title: `Diqqat! ${k}-xizmatda  xizmat turi ko'rsatilmagan.`,
@@ -153,7 +153,7 @@ export const checkUploadServices = (departments, clinica, services, servicetypes
       };
     }
   }
-  console.log('work');
+
   return false;
 };
 

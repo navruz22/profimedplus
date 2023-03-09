@@ -9,6 +9,7 @@ const department = new Schema(
     services: [{ type: Schema.Types.ObjectId, ref: "Service" }],
     servicetypes: [{ type: Schema.Types.ObjectId, ref: "ServiceType" }],
     doctor: { type: Schema.Types.ObjectId, ref: "User" },
+    room: { type: Number },
     isArchive: { type: Boolean, default: false },
   },
   {
@@ -19,6 +20,7 @@ const department = new Schema(
 function validateDepartment(department) {
   const schema = Joi.object({
     name: Joi.string().required(),
+    room: Joi.number(),
     probirka: Joi.boolean().required(),
     clinica: Joi.string().required(),
   });

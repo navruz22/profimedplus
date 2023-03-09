@@ -1,9 +1,9 @@
-import React, {useCallback, useContext, useEffect, useState} from 'react';
-import {Modal} from "./../components/Modal";
-import {useToast} from "@chakra-ui/react";
-import {useHttp} from "../../../hooks/http.hook";
-import {AuthContext} from "../../../context/AuthContext";
-import {ExcelCols} from "./uploadExcel/ExcelCols";
+import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { Modal } from "./../components/Modal";
+import { useToast } from "@chakra-ui/react";
+import { useHttp } from "../../../hooks/http.hook";
+import { AuthContext } from "../../../context/AuthContext";
+import { ExcelCols } from "./uploadExcel/ExcelCols";
 import TableServices from "./TableServices";
 import RegisterTables from "./RegisterTables";
 // import {checkServices} from "./uploadExcel/checkData";
@@ -52,7 +52,7 @@ const Tables = () => {
 
     //====================================================================
     //====================================================================
-    const {request, loading} = useHttp()
+    const { request, loading } = useHttp()
     const auth = useContext(AuthContext)
 
     const [services, setServices] = useState([])
@@ -63,7 +63,7 @@ const Tables = () => {
             const data = await request(
                 `/api/doctor/table/services`,
                 'POST',
-                {clinica: auth.clinica._id, doctor: auth.user},
+                { clinica: auth.clinica._id, doctor: auth.user },
                 {
                     Authorization: `Bearer ${auth.token}`,
                 },
@@ -97,8 +97,7 @@ const Tables = () => {
 
 
     const changeNewTable = (e, col) => {
-        console.log(newTable)
-        setNewTable({...newTable, [col]: e.target.value})
+        setNewTable({ ...newTable, [col]: e.target.value })
     }
 
     //====================================================================
@@ -109,11 +108,11 @@ const Tables = () => {
     const [imports, setImports] = useState([])
     const [changeImports, setChangeImports] = useState([])
     const sections = [
-        {name: '1-ustun', value: 'col1'},
-        {name: "2-ustun", value: 'col2'},
-        {name: "3-ustun", value: 'col3'},
-        {name: "4-ustun", value: 'col4'},
-        {name: "5-ustun", value: 'col5'}
+        { name: '1-ustun', value: 'col1' },
+        { name: "2-ustun", value: 'col2' },
+        { name: "3-ustun", value: 'col3' },
+        { name: "4-ustun", value: 'col4' },
+        { name: "5-ustun", value: 'col5' }
     ]
     //====================================================================
     //====================================================================
@@ -159,7 +158,7 @@ const Tables = () => {
             })
             let tables = [...service.tables]
             tables.push(data)
-            setService({...service, tables: [...tables]})
+            setService({ ...service, tables: [...tables] })
             setNewTable({})
         } catch (error) {
             notify({
@@ -175,7 +174,7 @@ const Tables = () => {
             const data = await request(
                 `/api/doctor/table/table`,
                 'POST',
-                {table: {...service.tables[index]}},
+                { table: { ...service.tables[index] } },
                 {
                     Authorization: `Bearer ${auth.token}`,
                 },
@@ -217,7 +216,7 @@ const Tables = () => {
             })
             let tables = [...(service.tables)]
             tables.push(...data)
-            setService({...service, tables: [...tables]})
+            setService({ ...service, tables: [...tables] })
             setModal2(false)
         } catch (error) {
             notify({
@@ -250,7 +249,7 @@ const Tables = () => {
                 description: '',
                 status: 'success',
             })
-            setService({...service, column: data})
+            setService({ ...service, column: data })
         } catch (error) {
             notify({
                 title: error,
@@ -266,7 +265,7 @@ const Tables = () => {
                 `/api/doctor/table/delete`,
                 'POST',
                 {
-                    service: {...service}
+                    service: { ...service }
                 },
                 {
                     Authorization: `Bearer ${auth.token}`,
@@ -293,7 +292,7 @@ const Tables = () => {
                 `/api/doctor/table/tabledelete`,
                 'POST',
                 {
-                    table: {...service.tables[index]}
+                    table: { ...service.tables[index] }
                 },
                 {
                     Authorization: `Bearer ${auth.token}`,
@@ -307,7 +306,7 @@ const Tables = () => {
             localStorage.setItem('data', data)
             let tables = [...service.tables]
             tables.splice(index, 1)
-            setService({...service, tables: [...tables]})
+            setService({ ...service, tables: [...tables] })
         } catch (error) {
             notify({
                 title: error,
@@ -369,7 +368,7 @@ const Tables = () => {
             const data = await request(
                 `/api/doctor/table/serviceupdate`,
                 'POST',
-                {service: {...services[index]}},
+                { service: { ...services[index] } },
                 {
                     Authorization: `Bearer ${auth.token}`,
                 },

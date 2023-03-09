@@ -1,4 +1,4 @@
-const {Router} = require('express')
+const { Router } = require('express')
 const router = Router()
 const auth = require('../../middleware/auth.middleware')
 //========================================================
@@ -11,7 +11,7 @@ router.post('/department/register', auth, (req, res) => {
     require('./department').register(req, res)
 })
 
-router.post('/department/getall', auth, (req, res) => {
+router.post('/department/getall', (req, res) => {
     require('./department').getAll(req, res)
 })
 

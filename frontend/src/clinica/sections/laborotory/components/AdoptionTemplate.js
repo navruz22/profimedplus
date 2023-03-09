@@ -229,13 +229,10 @@ const AdoptionTemplate = () => {
         })
         serviceIdArr.push(check);
       } else {
-        console.log(service);
         const checkCols = Object.keys(service.column).filter(el => el.includes('col')).length;
         const index = serviceTypes.findIndex(el =>
           el.servicetypeid === check
           && Object.keys(el.column).filter(el => el.includes('col')).length === checkCols)
-        console.log(serviceTypes);
-        console.log(index);
         if (index >= 0) {
           serviceTypes[index].services.push(service)
           serviceTypes[index].column = service.column
@@ -284,8 +281,6 @@ const AdoptionTemplate = () => {
     // }
   }, [getBaseUrl]);
 
-
-  console.log(sections);
   return (
     <>
       <div className="d-none">

@@ -284,6 +284,7 @@ export const Departments = () => {
                   <thead>
                     <tr>
                       <th className="w-25 bg-alotrade text-[16px]">Bo'lim nomi</th>
+                      <th className="w-25 bg-alotrade text-[16px]">Bo'lim xonasi</th>
                       <th className="w-25 bg-alotrade text-[16px]">Probirka</th>
                       <th className="w-25 bg-alotrade text-[16px]">Saqlash</th>
                       <th className="w-25 bg-alotrade text-[16px]">Bo'limlarni o'chirish</th>
@@ -301,6 +302,18 @@ export const Departments = () => {
                           className="form-control w-75"
                           id="inputName"
                           placeholder="Bo'lim nomini kiriting"
+                        />
+                      </td>
+                      <td>
+                        <input
+                          style={{ minWidth: '70px' }}
+                          value={department?.room}
+                          onKeyUp={keyPressed}
+                          onChange={(e) => setDepartment({ ...department, room: e.target.value })}
+                          type="text"
+                          className="form-control w-75"
+                          id="inputName"
+                          placeholder="Bo'lim xonasini kiriting"
                         />
                       </td>
                       <td>
@@ -371,6 +384,14 @@ export const Departments = () => {
                         />
                       </th>
                       <th className="w-25 bg-alotrade text-[16px]">
+                        Xonasi{'  '}
+                        <Sort
+                          data={departments}
+                          setData={setDepartments}
+                          property={'room'}
+                        />
+                      </th>
+                      <th className="w-25 bg-alotrade text-[16px]">
                         Barcha xizmat turlari{' '}
                         <Sort
                           data={departments}
@@ -397,6 +418,7 @@ export const Departments = () => {
                           <tr key={key}>
                             <td className="font-weight-bold text-[16px]">{key + 1}</td>
                             <td className='text-[16px]'>{d.name}</td>
+                            <td className='text-[16px]'>{d?.room}</td>
                             <td>
                               <button
                                 onClick={() => history.push('/alo24/servicetypes', {

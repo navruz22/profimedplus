@@ -15,7 +15,9 @@ export const ClinicasTable = ({
     setClinicaData,
     setVisible,
     setDirectorData,
-    setRegisterType
+    setRegisterType,
+    setClinicaId,
+    setModal
 }) => {
     return (
         <div className="border-0 table-container">
@@ -65,6 +67,7 @@ export const ClinicasTable = ({
                                 <th className='border py-1 bg-alotrade text-[16px]'>Yaratilgan vaqti</th>
                                 <th className='border py-1 bg-alotrade text-[16px]'>Sh.X.</th>
                                 <th className='border py-1 bg-alotrade text-[16px]'>Dir-or</th>
+                                <th className='border py-1 bg-alotrade text-[16px]'></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -109,6 +112,19 @@ export const ClinicasTable = ({
                                                 }}
                                             >
                                                 <FontAwesomeIcon icon={faPenAlt} />
+                                            </button>
+                                        </td>
+                                        <td className="border py-1 text-center text-[16px]">
+                                            <button
+                                                onClick={() => {
+                                                    setClinicaId(connector._id)
+                                                    setModal(true)
+                                                }}
+                                                type="button"
+                                                className="bg-red-400 rounded text-white font-semibold py-1 px-2"
+                                                style={{ fontSize: '75%' }}
+                                            >
+                                                O'chirish
                                             </button>
                                         </td>
                                     </tr>

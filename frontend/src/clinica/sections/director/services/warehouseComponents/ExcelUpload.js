@@ -30,10 +30,8 @@ export const ExcelUpload = ({ setData, setModal, loading }) => {
     });
 
     promise.then((d) => {
-
-      console.log(d);
-        setData(d);
-        setModal(true)
+      setData(d);
+      setModal(true)
     });
   };
 
@@ -54,14 +52,14 @@ export const ExcelUpload = ({ setData, setModal, loading }) => {
           Loading...
         </button>
           :
-        <button
-          onClick={() => {
-            document.getElementById("excelLoader").click();
-          }}
-          className="btn btn-success py-0 px-3 pt-1 align-middle"
-        >
-          <FontAwesomeIcon style={{ fontSize: "12pt" }} icon={faFileExcel} />
-        </button>
+          <button
+            onClick={() => {
+              document.getElementById("excelLoader").click();
+            }}
+            className="btn btn-success py-0 px-3 pt-1 align-middle"
+          >
+            <FontAwesomeIcon style={{ fontSize: "12pt" }} icon={faFileExcel} />
+          </button>
         }
       </Tooltip>
     </>

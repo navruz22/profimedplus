@@ -16,6 +16,10 @@ router.put('/clinica/update', (req, res) => {
   require('./clinica.route').update(req, res);
 })
 
+router.post('/clinica/delete', (req, res) => {
+  require('./clinica.route').delete(req, res);
+})
+
 //========================================================
 //Director
 router.post('/director/register', (req, res) => {
@@ -40,7 +44,7 @@ router.put('/director/updatepassword', (req, res) => {
 
 //========================================================
 //User
-router.post('/user/register', auth, (req, res) => {
+router.post('/user/register', (req, res) => {
   require('./user.route').register(req, res)
 })
 
@@ -52,11 +56,11 @@ router.post('/user/gettype', auth, (req, res) => {
   require('./user.route').getUserType(req, res)
 })
 
-router.post('/user/getall', auth, (req, res) => {
+router.post('/user/getall', (req, res) => {
   require('./user.route').getUsers(req, res)
 })
 
-router.post('/user/remove', auth, (req, res) => {
+router.post('/user/remove', (req, res) => {
   require('./user.route').removeUser(req, res)
 })
 

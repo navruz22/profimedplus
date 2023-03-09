@@ -193,7 +193,6 @@ const AdoptionTemplate = () => {
     setSections(newSections);
   }
 
-  console.log(sections);
   useEffect(() => {
     setSections(services);
   }, [services]);

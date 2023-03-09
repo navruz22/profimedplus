@@ -87,7 +87,6 @@ const Doctors = () => {
                 data.slice(indexFirstConnector, indexLastConnector)
             );
         } catch (error) {
-            console.log(error);
             notify({
                 title: error,
                 description: "",
