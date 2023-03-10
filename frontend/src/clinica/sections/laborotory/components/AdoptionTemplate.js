@@ -216,62 +216,41 @@ const AdoptionTemplate = () => {
   //===========================================================
 
   useEffect(() => {
-    const serviceTypes = []
-    const serviceIdArr = []
-    for (const service of services) {
-      const check = service.serviceid.servicetype._id;
-      if (!serviceIdArr.includes(check)) {
-        serviceTypes.push({
-          servicetypeid: check,
-          servicetypename: service.serviceid.servicetype.name,
-          services: [service],
-          column: service.column
-        })
-        serviceIdArr.push(check);
-      } else {
-        const checkCols = Object.keys(service.column).filter(el => el.includes('col')).length;
-        const index = serviceTypes.findIndex(el =>
-          el.servicetypeid === check
-          && Object.keys(el.column).filter(el => el.includes('col')).length === checkCols)
-        if (index >= 0) {
-          serviceTypes[index].services.push(service)
-          serviceTypes[index].column = service.column
-        } else {
+    const isStart = services.length > 0 && services.some(service => Object.keys(service.column).some(el => el.includes('col')))
+    console.log(isStart);
+    if (isStart) {
+      const serviceTypes = []
+      const serviceIdArr = []
+      for (const service of services) {
+        const check = service.serviceid.servicetype._id;
+        if (!serviceIdArr.includes(check)) {
           serviceTypes.push({
             servicetypeid: check,
             servicetypename: service.serviceid.servicetype.name,
             services: [service],
             column: service.column
           })
+          serviceIdArr.push(check);
+        } else {
+          const checkCols = Object.keys(service.column).filter(el => el.includes('col')).length;
+          const index = serviceTypes.findIndex(el =>
+            el.servicetypeid === check
+            && Object.keys(el.column).filter(el => el.includes('col')).length === checkCols)
+          if (index >= 0) {
+            serviceTypes[index].services.push(service)
+            serviceTypes[index].column = service.column
+          } else {
+            serviceTypes.push({
+              servicetypeid: check,
+              servicetypename: service.serviceid.servicetype.name,
+              services: [service],
+              column: service.column
+            })
+          }
         }
       }
+      setSections(serviceTypes);
     }
-    // const servicesByCol = [];
-    // for (const service of serviceTypes) {
-    //   let col3 = [];
-    //   let col4 = [];
-    //   let col5 = []
-    //   let obj = {
-    //     servicetypeid: service.servicetypeid,
-    //     servicetypename: service.servicetypename,
-    //   }
-    //   for (const s of service.services) {
-    //     const checkCols = Object.keys(s?.column).filter(el => el.includes('col')).length;
-    //     checkCols === 3 && col3.push(s)
-    //     checkCols === 4 && col4.push(s)
-    //     checkCols === 5 && col5.push(s)
-    //   }
-    //   if (col3.length > 0) {
-    //     servicesByCol.push({ ...obj, services: col3, column: col3[0].column })
-    //   }
-    //   if (col4.length > 0) {
-    //     servicesByCol.push({ ...obj, services: col4, column: col4[0].column })
-    //   }
-    //   if (col5.length > 0) {
-    //     servicesByCol.push({ ...obj, services: col5, column: col5[0].column })
-    //   }
-    // }
-    setSections(serviceTypes);
   }, [services]);
 
   useEffect(() => {

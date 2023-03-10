@@ -39,7 +39,7 @@ export const MainReportTable = ({
     }
 
     const getDebt = (connector) => {
-        const debt = getTotalprice(connector) - connector.payments.reduce((prev, el) => prev + el.payment, 0)
+        const debt = connector?.payments.length > 0 ? getTotalprice(connector) - connector.payments.reduce((prev, el) => prev + el.payment, 0) : 0;
         return debt
     }
 
@@ -373,7 +373,10 @@ export const MainReportTable = ({
                                 </td>
                                 <td className="py-1 text-[16px] text-right">
                                 </td>
-                                <td className="py-1 text-[16px] text-right">
+                                <td className="border py-1 text-[16px] text-right font-bold">
+                                    {searchStorage.reduce((prev, el) => {
+                                        return prev + getTotalprice(el)
+                                    }, 0)}
                                 </td>
                                 <td className="border py-1 text-[16px] font-bold text-right">
                                     {searchStorage.reduce((prev, el) => {

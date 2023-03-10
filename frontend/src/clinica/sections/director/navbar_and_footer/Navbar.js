@@ -230,7 +230,7 @@ export const Navbar = ({ baseUrl }) => {
                 </li>
               </ul>
             </li>
-            <li className="nav-item dropdown">
+            {/* <li className="nav-item dropdown">
               <Link
                 className={`nav-link ${activePage === "/alo24/users"
                   ? "active-page"
@@ -244,7 +244,7 @@ export const Navbar = ({ baseUrl }) => {
                 <i className="icon-book-open nav-icon" />
                 Foydalanuvchilar
               </Link>
-            </li>
+            </li> */}
             <li className="nav-item dropdown">
               <span
                 to="#"

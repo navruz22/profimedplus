@@ -2,11 +2,23 @@ const { TableColumn, validateTableColumn } = require("../../models/Services/Tabl
 const { Service } = require("../../models/Services/Service");
 const { ServiceTable, validateServiceTable } = require("../../models/Services/ServiceTable");
 const { ObjectId } = require("mongodb");
+const { OfflineService } = require("../../models/OfflineClient/OfflineService");
 module.exports.column = async (req, res) => {
     try {
         const { column } = req.body
         if (column._id) {
             const update = await TableColumn.findByIdAndUpdate(column._id, { ...column })
+
+            const offlineservices = await OfflineService.find({
+                serviceid: column.service,
+                accept: false
+            })
+
+            for (const s of offlineservices) {
+                s.column = { ...column }
+                await s.save()
+            }
+
             return res.status(200).send(column)
         } else {
             const newColumn = new TableColumn({ ...column })
@@ -15,6 +27,17 @@ module.exports.column = async (req, res) => {
             const update = await Service.findByIdAndUpdate(column.service, {
                 column: newColumn._id
             })
+
+            const offlineservices = await OfflineService.find({
+                serviceid: column.service,
+                accept: false
+            })
+
+            for (const s of offlineservices) {
+                s.column = { ...newColumn }
+                await s.save()
+            }
+
             return res.status(200).send(newColumn)
 
         }
@@ -50,6 +73,7 @@ module.exports.table = async (req, res) => {
         const { table } = req.body
         if (table._id) {
             const update = await ServiceTable.findByIdAndUpdate(table._id, { ...table })
+
             return res.status(200).send(update)
         } else {
             const newTable = new ServiceTable({ ...table })
@@ -59,6 +83,7 @@ module.exports.table = async (req, res) => {
                     tables: new ObjectId(newTable._id),
                 }
             })
+
             return res.status(200).send(newTable)
 
         }
@@ -70,12 +95,22 @@ module.exports.table = async (req, res) => {
 
 module.exports.updateTable = async (req, res) => {
     try {
-        const { tables } = req.body;
+        const { tables, service } = req.body;
 
         const responseData = [];
         for (const table of tables) {
             const update = await ServiceTable.findByIdAndUpdate(table._id, { ...table })
             responseData.push(update)
+        }
+
+        const offlineservices = await OfflineService.find({
+            serviceid: service,
+            accept: false
+        })
+
+        for (const s of offlineservices) {
+            s.tables = [...tables]
+            await s.save()
         }
 
         res.status(200).json(responseData);
@@ -119,6 +154,17 @@ module.exports.createall = async (req, res) => {
             })
             tabless.push(newTable)
         }
+
+        const offlineservices = await OfflineService.find({
+            serviceid: service,
+            accept: false
+        })
+
+        for (const s of offlineservices) {
+            s.tables = [...tables]
+            await s.save()
+        }
+
 
         return res.status(200).send(tabless)
 

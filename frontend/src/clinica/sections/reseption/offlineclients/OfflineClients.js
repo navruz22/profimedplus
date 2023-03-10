@@ -689,7 +689,7 @@ export const OfflineClients = () => {
             );
             getConnectors(beginDay, endDay);
             clearDatas()
-            setVisible(false);
+            setModal(false);
         } catch (error) {
             notify({
                 title: error,

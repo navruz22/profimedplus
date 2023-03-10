@@ -42,7 +42,7 @@ export const TableClients = ({
     }
 
     const getDebt = (connector) => {
-        const debt = getTotalprice(connector) - connector.payments.reduce((prev, el) => prev + el.payment, 0)
+        const debt = connector?.payments.length > 0 ? getTotalprice(connector) - connector.payments.reduce((prev, el) => prev + el.payment, 0) : 0;
         return debt
     }
 

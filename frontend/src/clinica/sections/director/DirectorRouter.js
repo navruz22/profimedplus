@@ -89,9 +89,9 @@ export const DirectorRouter = () => {
           <CounterAgentInfo />
         </Route>
         {/* Users */}
-        <Route path="/alo24/users">
+        {/* <Route path="/alo24/users">
           <Users />
-        </Route>
+        </Route> */}
         <Route path="/alo24/adver">
           <Advers />
         </Route>

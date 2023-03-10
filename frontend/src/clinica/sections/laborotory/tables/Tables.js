@@ -136,7 +136,7 @@ const Tables = () => {
     //====================================================================
     //====================================================================
     // Handlers
-
+    console.log(service);
     const createHandler = useCallback(async () => {
         try {
             const data = await request(
@@ -178,7 +178,7 @@ const Tables = () => {
             const data = await request(
                 `/api/doctor/table/update`,
                 'POST',
-                { tables: service.tables },
+                { tables: service.tables, service: service._id },
                 {
                     Authorization: `Bearer ${auth.token}`,
                 },

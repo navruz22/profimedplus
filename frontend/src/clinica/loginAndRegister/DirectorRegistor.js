@@ -17,7 +17,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { Loader } from "../loader/Loader";
 
-export const DirectorRegistor = ({ onFinish, directorData }) => {
+export const DirectorRegistor = ({ onFinishCreate, directorData }) => {
   //====================================================================
   //====================================================================
   const toast = useToast();
@@ -44,15 +44,13 @@ export const DirectorRegistor = ({ onFinish, directorData }) => {
 
   const { request, loading } = useHttp();
 
-  const clinica = JSON.parse(localStorage.getItem("clinicaData"));
 
   const [director, setDirector] = useState({
-    clinica: clinica.clinica._id,
     image: null,
   });
   //====================================================================
   //====================================================================
-
+  console.log(director);
   //====================================================================
   //====================================================================
   const [baseUrl, setBaseUrl] = useState();
@@ -152,6 +150,7 @@ export const DirectorRegistor = ({ onFinish, directorData }) => {
       const data = await request("/api/director/register", "POST", {
         ...director,
       });
+      localStorage.removeItem('clinicaData')
       localStorage.setItem(
         "director",
         JSON.stringify({
@@ -159,12 +158,12 @@ export const DirectorRegistor = ({ onFinish, directorData }) => {
         })
       );
       notify({
-        title: `Tabriklaymiz ${director.firstname + " " + director.lastname
+        title: `Tabriklaymiz ${data?.user?.firstname + " " + director?.user?.lastname
           }! Siz uchun direktor bo'limi ham muvaffaqqiyatli yaratildi.`,
         description: "",
         status: "success",
       });
-      onFinish()
+      onFinishCreate()
     } catch (error) {
       notify({
         title: error,
@@ -194,7 +193,7 @@ export const DirectorRegistor = ({ onFinish, directorData }) => {
         description: "",
         status: "success",
       });
-      onFinish()
+      onFinishCreate()
     } catch (error) {
       notify({
         title: error,
@@ -225,6 +224,13 @@ export const DirectorRegistor = ({ onFinish, directorData }) => {
   useEffect(() => {
     setDirector(directorData);
   }, [directorData])
+
+  useEffect(() => {
+    const clinica = JSON.parse(localStorage.getItem("clinicaData"));
+    if (clinica?.clinica?._id) {
+      setDirector({ ...director, clinica: clinica?.clinica?._id })
+    }
+  }, [])
 
   //====================================================================
   //====================================================================
