@@ -229,7 +229,7 @@ const AdoptionTemplate = () => {
         })
         serviceIdArr.push(check);
       } else {
-        if (service.column && service.column.length > 0 && service.tables && service.tables.length > 0) {
+        if (service.column && service.tables && service.tables.length > 0) {
           const checkCols = Object.keys(service.column).filter(el => el.includes('col')).length;
           const index = serviceTypes.findIndex(el =>
             el.servicetypeid === check
