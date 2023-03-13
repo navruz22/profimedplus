@@ -3,6 +3,10 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../context/AuthContext";
 import { useHttp } from "../../../hooks/http.hook";
 import { TableClients } from "../../cashier/discountclients/clientComponents/TableClients";
+import Select from 'react-select'
+import makeAnimated from 'react-select/animated'
+
+const animatedComponents = makeAnimated()
 
 
 export const DiscountReport = () => {
@@ -71,6 +75,12 @@ export const DiscountReport = () => {
     //====================================================================
     //====================================================================
 
+    const [clinicaDataSelect, setClinicaDataSelect] = useState({
+        value: auth?.clinica?._id,
+        label: auth?.clinica?.name,
+    });
+    const [clinicaValue, setClinicaValue] = useState(auth?.clinica?._id)
+
     //====================================================================
     //====================================================================
     // getConnectors
@@ -109,12 +119,12 @@ export const DiscountReport = () => {
     };
 
     const getOfflineDiscounts = useCallback(
-        async (beginDay, endDay) => {
+        async (beginDay, endDay, clinica) => {
             try {
                 const data = await request(
                     ` /api/cashier/offline/discounts`,
                     "POST",
-                    { clinica: auth && auth.clinica._id, beginDay, endDay },
+                    { clinica: clinica, beginDay, endDay },
                     {
                         Authorization: `Bearer ${auth.token}`,
                     }
@@ -132,12 +142,12 @@ export const DiscountReport = () => {
     );
 
     const getStatsionarDiscounts = useCallback(
-        async (beginDay, endDay) => {
+        async (beginDay, endDay, clinica) => {
             try {
                 const data = await request(
                     ` /api/cashier/statsionar/discounts`,
                     "POST",
-                    { clinica: auth && auth.clinica._id, beginDay, endDay },
+                    { clinica: clinica, beginDay, endDay },
                     {
                         Authorization: `Bearer ${auth.token}`,
                     }
@@ -285,10 +295,12 @@ export const DiscountReport = () => {
 
     const changeStart = (e) => {
         setBeginDay(new Date(new Date(e).setUTCHours(0, 0, 0, 0)));
-        getOfflineDiscounts(new Date(new Date(e).setUTCHours(0, 0, 0, 0)), endDay);
+        getOfflineDiscounts(new Date(new Date(e).setUTCHours(0, 0, 0, 0)), endDay,
+            clinicaValue);
         getStatsionarDiscounts(
             new Date(new Date(e).setUTCHours(0, 0, 0, 0)),
-            endDay
+            endDay,
+            clinicaValue
         );
     };
 
@@ -303,8 +315,8 @@ export const DiscountReport = () => {
         );
 
         setEndDay(date);
-        getOfflineDiscounts(beginDay, date);
-        getStatsionarDiscounts(beginDay, date);
+        getOfflineDiscounts(beginDay, date, clinicaValue);
+        getStatsionarDiscounts(beginDay, date, clinicaValue);
     };
 
     //===================================================================
@@ -351,10 +363,10 @@ export const DiscountReport = () => {
     const [t, setT] = useState(0);
 
     useEffect(() => {
-        if (auth.clinica && !t) {
+        if (!t) {
             setT(1);
-            getOfflineDiscounts(beginDay, endDay);
-            getStatsionarDiscounts(beginDay, endDay);
+            getOfflineDiscounts(beginDay, endDay, clinicaValue);
+            getStatsionarDiscounts(beginDay, endDay, clinicaValue);
         }
     }, [
         auth,
@@ -365,7 +377,7 @@ export const DiscountReport = () => {
         // getProducts,
         // getCounterDoctors,
         // getDepartments,
-        // getBaseUrl,
+        clinicaValue,
         beginDay,
         endDay,
     ]);
@@ -375,6 +387,33 @@ export const DiscountReport = () => {
             <div className="bg-slate-100 content-wrapper px-lg-5 px-3">
                 <div className="row gutters">
                     <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        {auth?.clinica?.mainclinica && auth?.clinica?.filials.length > 0 && <div className="w-[300px] mb-2">
+                            <Select
+                                value={clinicaDataSelect}
+                                onChange={(e) => {
+                                    setClinicaDataSelect(e)
+                                    setClinicaValue(e.value);
+                                    getOfflineDiscounts(beginDay, endDay, e.value);
+                                    getStatsionarDiscounts(beginDay, endDay, e.value);
+                                }}
+                                components={animatedComponents}
+                                options={[
+                                    {
+                                        value: auth?.clinica?._id,
+                                        label: auth?.clinica?.name,
+                                    },
+                                    ...[...auth?.clinica?.filials].map(el => ({
+                                        value: el._id,
+                                        label: el.name
+                                    }))]}
+                                theme={(theme) => ({
+                                    ...theme,
+                                    borderRadius: 0,
+                                    padding: 0,
+                                    height: 0,
+                                })}
+                            />
+                        </div>}
                         <TableClients
                             currentConnectors={currentConnectors}
                             setCurrentConnectors={setCurrentConnectors}

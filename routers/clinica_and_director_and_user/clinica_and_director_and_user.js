@@ -20,6 +20,18 @@ router.post('/clinica/delete', (req, res) => {
   require('./clinica.route').delete(req, res);
 })
 
+router.post('/clinica/filials/create', (req, res) => {
+  require('./clinica.route').filialsCreate(req, res);
+})
+
+router.get('/clinica/mainclinica/get', (req, res) => {
+  require('./clinica.route').getMainClinicas(req, res)
+})
+
+router.get('/clinica/getall', (req, res) => {
+  require('./clinica.route').getAllClinicaForFilail(req, res);
+})
+
 //========================================================
 //Director
 router.post('/director/register', (req, res) => {

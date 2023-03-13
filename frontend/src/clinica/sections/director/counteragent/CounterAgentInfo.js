@@ -16,7 +16,7 @@ const CounterAgentInfo = () => {
     //===================================================================
 
     const location = useLocation()
-
+    console.log(location);
     //===================================================================
     //===================================================================
 
@@ -93,7 +93,7 @@ const CounterAgentInfo = () => {
                     `/api/counter_agent/doctors_services/get`,
                     "POST",
                     {
-                        clinica: auth && auth.clinica._id,
+                        clinica: location?.state?.connector?.clinica,
                         counter_agent: location?.state?.connector?._id,
                         beginDay,
                         endDay,
@@ -155,7 +155,7 @@ const CounterAgentInfo = () => {
                 `/api/counter_agent/counterdoctorall/get`,
                 "POST",
                 {
-                    clinica: auth && auth.clinica._id,
+                    clinica: location?.state?.connector?.clinica,
                     counter_agent: location?.state?.connector?._id,
                 },
                 {

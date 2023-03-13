@@ -2,7 +2,10 @@ import { useToast } from "@chakra-ui/react";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../context/AuthContext";
 import { useHttp } from "../../../hooks/http.hook";
-import Select from "react-select";
+import Select from 'react-select'
+import makeAnimated from 'react-select/animated'
+
+const animatedComponents = makeAnimated()
 
 export const Conclusion = () => {
 
@@ -34,20 +37,27 @@ export const Conclusion = () => {
   //====================================================================
   //====================================================================
 
+  const [clinicaDataSelect, setClinicaDataSelect] = useState({
+    value: auth?.user?.clinica?._id,
+    label: auth?.user?.clinica?.name,
+    ...auth.user.clinica
+  });
+  const [clinicaValue, setClinicaValue] = useState(auth?.user?.clinica?._id)
+
   //====================================================================
   //====================================================================
 
+  const [serviceType, setServiceType] = useState(null)
   const [serviceTypes, setServiceTypes] = useState([]);
   const [servicesColumn, setServicesColumn] = useState([])
   const getServiceTypes = useCallback(
-    async () => {
+    async (clinica) => {
       try {
         const data = await request(
           `/api/labaratory/servicetype/get`,
           "POST",
           {
-            clinica: auth && auth.clinica._id,
-            department: auth?.user?.specialty,
+            clinica: clinica,
           },
           {
             Authorization: `Bearer ${auth.token}`,
@@ -81,7 +91,7 @@ export const Conclusion = () => {
           `/api/labaratory/clients/result`,
           "POST",
           {
-            clinica: auth && auth.clinica._id,
+            clinica: clinicaValue,
             servicetype
           },
           {
@@ -126,6 +136,7 @@ export const Conclusion = () => {
   const handleChangeServiceType = (e) => {
     setServicesColumn(e.services)
     getClientsServices(e.value, e.services)
+    setServiceType(e);
   }
 
   const handleChangeServiceClient = (e, index, serviceid) => {
@@ -214,14 +225,49 @@ export const Conclusion = () => {
   // ======================================
   // ======================================
 
+  const [t, setT] = useState(0);
   useEffect(() => {
-    getServiceTypes()
-  }, [getServiceTypes])
+    if (!t) {
+      setT(1);
+      getServiceTypes(clinicaValue)
+    }
+  }, [getServiceTypes, t])
 
   return <div className="bg-slate-100 content-wrapper px-lg-5 px-3">
-    <div className="flex justify-end mb-2">
+    <div className="flex justify-between mb-2">
+      {auth?.user?.clinica?.mainclinica && auth?.user?.clinica?.filials.length > 0 && <div className="w-[300px] mb-2">
+        <Select
+          value={clinicaDataSelect}
+          onChange={(e) => {
+            setClinicaDataSelect(e)
+            setClinicaValue(e.value);
+            getServiceTypes(e.value);
+            setServiceClietns([]);
+            setServiceType(null)
+          }}
+          components={animatedComponents}
+          options={[
+            {
+              value: auth?.user?.clinica?._id,
+              label: auth?.user?.clinica?.name,
+              ...auth.user.clinica
+            },
+            ...[...auth?.user?.clinica?.filials].map(el => ({
+              value: el._id,
+              label: el.name,
+              ...el
+            }))]}
+          theme={(theme) => ({
+            ...theme,
+            borderRadius: 0,
+            padding: 0,
+            height: 0,
+          })}
+        />
+      </div>}
       <div className="w-[300px]">
         <Select
+          value={serviceType}
           options={serviceTypes}
           onChange={e => handleChangeServiceType(e)}
         />

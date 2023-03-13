@@ -7,6 +7,10 @@ import { AuthContext } from '../../../context/AuthContext';
 import { useHttp } from '../../../hooks/http.hook';
 import { DatePickers } from '../../reseption/offlineclients/clientComponents/DatePickers';
 import { Pagination } from '../components/Pagination';
+import Select from 'react-select'
+import makeAnimated from 'react-select/animated'
+
+const animatedComponents = makeAnimated()
 
 const DoctorProcient = () => {
 
@@ -25,6 +29,15 @@ const DoctorProcient = () => {
     const auth = useContext(AuthContext);
 
     const history = useHistory()
+
+    //======================================================
+    //======================================================
+
+    const [clinicaDataSelect, setClinicaDataSelect] = useState({
+        value: auth?.clinica?._id,
+        label: auth?.clinica?.name,
+    });
+    const [clinicaValue, setClinicaValue] = useState(auth?.clinica?._id)
 
     //======================================================
     //======================================================
@@ -62,12 +75,12 @@ const DoctorProcient = () => {
     const [searchStorage, setSearchStrorage] = useState([])
 
     const getDoctorCleitns = useCallback(
-        async (beginDay, endDay) => {
+        async (beginDay, endDay, clinica) => {
             try {
                 const data = await request(
                     `/api/doctor_procient/doctor/get`,
                     "POST",
-                    { clinica: auth && auth.clinica._id, beginDay, endDay },
+                    { clinica: clinica, beginDay, endDay },
                     {
                         Authorization: `Bearer ${auth.token}`,
                     }
@@ -93,7 +106,7 @@ const DoctorProcient = () => {
 
     const changeStart = (e) => {
         setBeginDay(new Date(new Date(e).setUTCHours(0, 0, 0, 0)));
-        getDoctorCleitns(new Date(new Date(e).setUTCHours(0, 0, 0, 0)), endDay);
+        getDoctorCleitns(new Date(new Date(e).setUTCHours(0, 0, 0, 0)), endDay, clinicaValue);
     };
 
     const changeEnd = (e) => {
@@ -107,7 +120,7 @@ const DoctorProcient = () => {
         );
 
         setEndDay(date);
-        getDoctorCleitns(beginDay, date);
+        getDoctorCleitns(beginDay, date, clinicaValue);
     }
 
     //=======================================================
@@ -140,16 +153,42 @@ const DoctorProcient = () => {
     const [t, setT] = useState(0);
 
     useEffect(() => {
-        if (auth.clinica && !t) {
+        if (!t) {
             setT(1)
-            getDoctorCleitns(beginDay, endDay)
+            getDoctorCleitns(beginDay, endDay, clinicaValue)
         }
-    }, [getDoctorCleitns, auth, t, beginDay, endDay])
+    }, [getDoctorCleitns, t, beginDay, endDay, clinicaValue])
 
     return (
         <div className="bg-slate-100 content-wrapper px-lg-5 px-3">
             <div className="row gutters">
                 <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    {auth?.clinica?.mainclinica && auth?.clinica?.filials.length > 0 && <div className="w-[300px] mb-2">
+                        <Select
+                            value={clinicaDataSelect}
+                            onChange={(e) => {
+                                setClinicaDataSelect(e)
+                                setClinicaValue(e.value);
+                                getDoctorCleitns(beginDay, endDay, e.value);
+                            }}
+                            components={animatedComponents}
+                            options={[
+                                {
+                                    value: auth?.clinica?._id,
+                                    label: auth?.clinica?.name,
+                                },
+                                ...[...auth?.clinica?.filials].map(el => ({
+                                    value: el._id,
+                                    label: el.name
+                                }))]}
+                            theme={(theme) => ({
+                                ...theme,
+                                borderRadius: 0,
+                                padding: 0,
+                                height: 0,
+                            })}
+                        />
+                    </div>}
                     <div className="border-0 table-container">
                         <div className="border-0 table-container">
                             <div className="table-responsive">

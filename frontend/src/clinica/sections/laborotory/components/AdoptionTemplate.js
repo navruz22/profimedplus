@@ -216,22 +216,20 @@ const AdoptionTemplate = () => {
   //===========================================================
 
   useEffect(() => {
-    const isStart = services.length > 0 && services.some(service => Object.keys(service.column).some(el => el.includes('col')))
-    console.log(isStart);
-    if (isStart) {
-      const serviceTypes = []
-      const serviceIdArr = []
-      for (const service of services) {
-        const check = service.serviceid.servicetype._id;
-        if (!serviceIdArr.includes(check)) {
-          serviceTypes.push({
-            servicetypeid: check,
-            servicetypename: service.serviceid.servicetype.name,
-            services: [service],
-            column: service.column
-          })
-          serviceIdArr.push(check);
-        } else {
+    const serviceTypes = []
+    const serviceIdArr = []
+    for (const service of services) {
+      const check = service.serviceid.servicetype._id;
+      if (!serviceIdArr.includes(check)) {
+        serviceTypes.push({
+          servicetypeid: check,
+          servicetypename: service.serviceid.servicetype.name,
+          services: [service],
+          column: service.column
+        })
+        serviceIdArr.push(check);
+      } else {
+        if (service.column && service.column.length > 0 && service.tables && service.tables.length > 0) {
           const checkCols = Object.keys(service.column).filter(el => el.includes('col')).length;
           const index = serviceTypes.findIndex(el =>
             el.servicetypeid === check
@@ -247,12 +245,19 @@ const AdoptionTemplate = () => {
               column: service.column
             })
           }
+        } else {
+          serviceTypes.push({
+            servicetypeid: check,
+            servicetypename: service.serviceid.servicetype.name,
+            services: [service],
+          })
         }
       }
-      setSections(serviceTypes);
     }
-  }, [services]);
+    setSections(serviceTypes);
 
+  }, [services]);
+  console.log(sections);
   useEffect(() => {
     // if (!t) {
     // getServices()
@@ -270,7 +275,7 @@ const AdoptionTemplate = () => {
         >
           <Print
             baseUrl={baseUrl}
-            clinica={auth && auth.clinica}
+            clinica={connector?.clinica}
             connector={connector}
             client={client}
             sections={sections}
@@ -315,7 +320,7 @@ const AdoptionTemplate = () => {
           <div className="row" style={{ fontSize: "20pt" }}>
             <div className="col-6 pt-2" style={{ textAlign: "center" }}>
               <pre className="pt-3" style={{ fontFamily: "-moz-initial" }}>
-                {auth?.clinica?.name}
+                {connector?.clinica?.name}
               </pre>
             </div>
             <div className="col-6" style={{ textAlign: "center" }}>
@@ -482,124 +487,126 @@ const AdoptionTemplate = () => {
         </div>
         <div className="pt-4 w-full text-center">
           {sections.length > 0 &&
-            sections.map((section, index) => (
-              <div key={index} className={"w-full mb-4 text-center"}>
-                <div className="w-full flex justify-center items-center mb-4">
-                  <h2 className="block text-[18px] font-bold">
-                    {section?.servicetypename}
-                  </h2>
+            sections.map((section, index) => {
+              if (section.services.filter(serv => serv.column && serv.tables.length > 0).length > 0) {
+                return <div key={index} className={"w-full mb-4 text-center"}>
+                  <div className="w-full flex justify-center items-center mb-4">
+                    <h2 className="block text-[18px] font-bold">
+                      {section?.servicetypename}
+                    </h2>
+                  </div>
+                  <table className="w-full text-center">
+                    <thead>
+                      <tr>
+                        <th className="border-2 bg-gray-400 border-black px-[10px] text-center">{section?.column?.col1}</th>
+                        {section?.column?.col2 && <th className="border-2 bg-gray-400 border-black px-[10px] text-center">{section?.column?.col2}</th>}
+                        {section?.column?.col3 && <th className="border-2 bg-gray-400 border-black px-[10px] py-[7px] text-center">{section?.column?.col3}</th>}
+                        {section?.column?.col4 && <th className="border-2 bg-gray-400 border-black px-[10px] text-center">{section?.column?.col4}</th>}
+                        {section?.column?.col5 && <th className="border-2 bg-gray-400 border-black px-[10px] text-center">{section?.column?.col5}</th>}
+                        <th className="border-2 bg-gray-400 border-black  p">
+                          <div className="custom-control custom-checkbox text-center">
+                            <input
+                              checked={section.services.filter(s => s.accept).length === section.services.length}
+                              type="checkbox"
+                              className="custom-control-input border border-dager"
+                              id={`section${index}`}
+                              onChange={() => handleCheckAllAccept(index)}
+                            />
+                            <label className="custom-control-label"
+                              htmlFor={`section${index}`}></label>
+                          </div>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {section?.services.map((service, ind) => {
+                        return <>
+                          {service.tables.length > 0 && service.tables.map((table, key, tabless) => (
+                            <tr key={key} >
+                              <td className="border-2 border-black p-[10px]"> <textarea rows={2}
+                                className={"w-full border-none outline-none"}
+                                onChange={(e) => handleChangeTables(e, index, service._id, key, "col1")}
+                              >
+                                {table?.col1}
+                              </textarea> </td>
+                              <td className="border-2 border-black p-[10px] text-center">
+                                <textarea rows={2}
+                                  className={"w-full border-none outline-none text-center focus:outline-2 focus:outline-emerald-600"}
+                                  onChange={(e) => handleChangeTables(e, index, service._id, key, "col2")}
+                                  onKeyDown={
+                                    (e) => {
+                                      if (e.key === "ArrowDown") {
+                                        if (key === service.tables.length - 1 && ind !== section.services.length - 1 && index !== sections.length - 1) {
+                                          document.getElementById(`result${index}-${ind + 1}-${0}`).focus()
+                                        } else if (index !== sections.length - 1 && ind === section.services.length - 1 && key === service.tables.length - 1) {
+                                          document.getElementById(`result${index + 1}-${0}-${0}`).focus()
+                                        } else if (index === sections.length - 1 && ind === section.services.length - 1 && key === service.tables.length - 1) {
+                                          document.getElementById(`result${0}-${0}-${0}`).focus()
+                                        } else {
+                                          document.getElementById(`result${index}-${ind}-${key + 1}`).focus()
+                                        }
+                                      }
+                                      if (e.key === "ArrowUp") {
+                                        if (key === 0 && ind === 0 && index === 0) {
+                                          document.getElementById(`result${sections.length - 1}-${sections[sections.length - 1].services.length - 1}-${sections[sections.length - 1].services[sections[sections.length - 1].services.length - 1].tables.length - 1}`).focus()
+                                        } else if (key === 0 && ind !== 0 && index === 0) {
+                                          document.getElementById(`result${index}-${ind - 1}-${sections[index].services[ind - 1].tables.length - 1}`).focus()
+                                        } else if (key === 0 && ind !== 0 && index !== 0) {
+                                          document.getElementById(`result${index - 1}-${sections[index - 1].services[services.length - 1]}-${sections[index - 1].services[services.length - 1].tables.length - 1}`).focus()
+                                        } else {
+                                          document.getElementById(`result${index}-${ind}-${key - 1}`).focus()
+                                        }
+                                      }
+                                    }}
+                                  id={`result${index}-${ind}-${key}`}
+                                >
+                                  {table?.col2}
+                                </textarea>
+                              </td>
+                              <td className="border-2 border-black p-[10px]">
+                                <textarea rows={2}
+                                  className={"w-full border-none outline-none text-center"}
+                                  onChange={(e) => handleChangeTables(e, index, service._id, key, "col3")}
+                                >
+                                  {table?.col3}
+                                </textarea>
+                              </td>
+                              {table?.col4 && <td className="border-2 border-black p-[10px]">
+                                <textarea rows={2}
+                                  className={"w-full border-none outline-none text-center"}
+                                  onChange={(e) => handleChangeTables(e, index, service._id, key, "col4")}
+                                >
+                                  {table?.col4}
+                                </textarea></td>}
+                              {table?.col5 && <td className="border-2 border-black p-[10px]">
+                                <textarea rows={2}
+                                  className={"w-full border-none outline-none text-center"}
+                                  onChange={(e) => handleChangeTables(e, index, service._id, key, "col5")}
+                                >
+                                  {table?.col5}
+                                </textarea></td>}
+                              <td rowSpan={tabless.length} className={`${key > 0 ? 'hidden' : ''} border-2 border-black p-[10px]`}>
+                                <div className="custom-control custom-checkbox text-center">
+                                  <input
+                                    checked={service.accept}
+                                    type="checkbox"
+                                    className="custom-control-input border border-dager"
+                                    id={`service${service._id}`}
+                                    onChange={() => handleCheckAccept(index, service._id)}
+                                  />
+                                  <label className="custom-control-label"
+                                    htmlFor={`service${service._id}`}></label>
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
+                        </>
+                      })}
+                    </tbody>
+                  </table>
                 </div>
-                <table className="w-full text-center">
-                  <thead>
-                    <tr>
-                      <th className="border-2 bg-gray-400 border-black px-[10px] text-center">{section?.column?.col1}</th>
-                      {section?.column?.col2 && <th className="border-2 bg-gray-400 border-black px-[10px] text-center">{section?.column?.col2}</th>}
-                      {section?.column?.col3 && <th className="border-2 bg-gray-400 border-black px-[10px] py-[7px] text-center">{section?.column?.col3}</th>}
-                      {section?.column?.col4 && <th className="border-2 bg-gray-400 border-black px-[10px] text-center">{section?.column?.col4}</th>}
-                      {section?.column?.col5 && <th className="border-2 bg-gray-400 border-black px-[10px] text-center">{section?.column?.col5}</th>}
-                      <th className="border-2 bg-gray-400 border-black  p">
-                        <div className="custom-control custom-checkbox text-center">
-                          <input
-                            checked={section.services.filter(s => s.accept).length === section.services.length}
-                            type="checkbox"
-                            className="custom-control-input border border-dager"
-                            id={`section${index}`}
-                            onChange={() => handleCheckAllAccept(index)}
-                          />
-                          <label className="custom-control-label"
-                            htmlFor={`section${index}`}></label>
-                        </div>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {section?.services.map((service, ind) => {
-                      return <>
-                        {service.tables.length > 0 && service.tables.map((table, key, tabless) => (
-                          <tr key={key} >
-                            <td className="border-2 border-black p-[10px]"> <textarea rows={2}
-                              className={"w-full border-none outline-none"}
-                              onChange={(e) => handleChangeTables(e, index, service._id, key, "col1")}
-                            >
-                              {table?.col1}
-                            </textarea> </td>
-                            <td className="border-2 border-black p-[10px] text-center">
-                              <textarea rows={2}
-                                className={"w-full border-none outline-none text-center focus:outline-2 focus:outline-emerald-600"}
-                                onChange={(e) => handleChangeTables(e, index, service._id, key, "col2")}
-                                onKeyDown={
-                                  (e) => {
-                                    if (e.key === "ArrowDown") {
-                                      if (key === service.tables.length - 1 && ind !== section.services.length - 1 && index !== sections.length - 1) {
-                                        document.getElementById(`result${index}-${ind + 1}-${0}`).focus()
-                                      } else if (index !== sections.length - 1 && ind === section.services.length - 1 && key === service.tables.length - 1) {
-                                        document.getElementById(`result${index + 1}-${0}-${0}`).focus()
-                                      } else if (index === sections.length - 1 && ind === section.services.length - 1 && key === service.tables.length - 1) {
-                                        document.getElementById(`result${0}-${0}-${0}`).focus()
-                                      } else {
-                                        document.getElementById(`result${index}-${ind}-${key + 1}`).focus()
-                                      }
-                                    }
-                                    if (e.key === "ArrowUp") {
-                                      if (key === 0 && ind === 0 && index === 0) {
-                                        document.getElementById(`result${sections.length - 1}-${sections[sections.length - 1].services.length - 1}-${sections[sections.length - 1].services[sections[sections.length - 1].services.length - 1].tables.length - 1}`).focus()
-                                      } else if (key === 0 && ind !== 0 && index === 0) {
-                                        document.getElementById(`result${index}-${ind - 1}-${sections[index].services[ind - 1].tables.length - 1}`).focus()
-                                      } else if (key === 0 && ind !== 0 && index !== 0) {
-                                        document.getElementById(`result${index - 1}-${sections[index - 1].services[services.length - 1]}-${sections[index - 1].services[services.length - 1].tables.length - 1}`).focus()
-                                      } else {
-                                        document.getElementById(`result${index}-${ind}-${key - 1}`).focus()
-                                      }
-                                    }
-                                  }}
-                                id={`result${index}-${ind}-${key}`}
-                              >
-                                {table?.col2}
-                              </textarea>
-                            </td>
-                            <td className="border-2 border-black p-[10px]">
-                              <textarea rows={2}
-                                className={"w-full border-none outline-none text-center"}
-                                onChange={(e) => handleChangeTables(e, index, service._id, key, "col3")}
-                              >
-                                {table?.col3}
-                              </textarea>
-                            </td>
-                            {table?.col4 && <td className="border-2 border-black p-[10px]">
-                              <textarea rows={2}
-                                className={"w-full border-none outline-none text-center"}
-                                onChange={(e) => handleChangeTables(e, index, service._id, key, "col4")}
-                              >
-                                {table?.col4}
-                              </textarea></td>}
-                            {table?.col5 && <td className="border-2 border-black p-[10px]">
-                              <textarea rows={2}
-                                className={"w-full border-none outline-none text-center"}
-                                onChange={(e) => handleChangeTables(e, index, service._id, key, "col5")}
-                              >
-                                {table?.col5}
-                              </textarea></td>}
-                            <td rowSpan={tabless.length} className={`${key > 0 ? 'hidden' : ''} border-2 border-black p-[10px]`}>
-                              <div className="custom-control custom-checkbox text-center">
-                                <input
-                                  checked={service.accept}
-                                  type="checkbox"
-                                  className="custom-control-input border border-dager"
-                                  id={`service${service._id}`}
-                                  onChange={() => handleCheckAccept(index, service._id)}
-                                />
-                                <label className="custom-control-label"
-                                  htmlFor={`service${service._id}`}></label>
-                              </div>
-                            </td>
-                          </tr>
-                        ))}
-                      </>
-                    })}
-                  </tbody>
-                </table>
-              </div>
-            ))}
+              }
+            })}
         </div>
         {sections.length > 0 && sections.map((section) => section.services.map((service, ind) => (
           <div

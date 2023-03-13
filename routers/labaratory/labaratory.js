@@ -6,6 +6,7 @@ const { OfflineClient } = require("../../models/OfflineClient/OfflineClient");
 const { Template } = require("../../models/Templates/Template");
 const { ServiceType } = require("../../models/Services/ServiceType");
 require('../../models/Services/ServiceType')
+require('../../models/Services/Department')
 
 
 module.exports.approve = async (req, res) => {
@@ -25,7 +26,7 @@ module.exports.approve = async (req, res) => {
 
 module.exports.getLabClients = async (req, res) => {
     try {
-        const { clinica, beginDay, endDay, department, clientborn } = req.body;
+        const { clinica, beginDay, endDay, clientborn } = req.body;
 
         const clinic = await Clinica.findById(clinica);
 
@@ -46,11 +47,17 @@ module.exports.getLabClients = async (req, res) => {
 
         if (clientborn) {
             services = await OfflineService.find({
-                department,
                 clinica,
             })
-                .select("service serviceid accept column tables turn connector client files")
-                .populate("connector", "probirka createdAt accept")
+                .select("service serviceid accept column tables turn connector client files department")
+                .populate({
+                    path: "connector",
+                    select: "probirka createdAt accept clinica",
+                    populate: {
+                        path: "clinica",
+                        select: "name phone1 image"
+                    }
+                })
                 .populate("client", "lastname firstname born id phone address")
                 .populate("service", "price")
                 .populate({
@@ -61,25 +68,33 @@ module.exports.getLabClients = async (req, res) => {
                         select: "name"
                     }
                 })
+                .populate('department', 'probirka')
                 .populate("templates", "name template")
                 .then(services => {
                     return services.filter(service => {
                         return service.connector.accept && new Date(new Date(service.client.born).setUTCHours(0, 0, 0, 0)).toISOString() === new Date(new Date(clientborn).setUTCHours(0, 0, 0, 0)).toISOString()
+                            && service.department.probirka
                     })
                 })
         } else {
             services = await OfflineService.find({
-                department,
                 createdAt: {
                     $gte: beginDay,
                     $lt: endDay,
                 },
                 clinica,
             })
-                .select("service serviceid accept column tables turn connector client files")
-                .populate("connector", "probirka createdAt accept")
+                .select("service serviceid accept column tables turn connector client files department")
                 .populate("client", "lastname firstname born id phone address")
                 .populate("service", "price")
+                .populate({
+                    path: "connector",
+                    select: "probirka createdAt accept clinica",
+                    populate: {
+                        path: "clinica",
+                        select: "name phone1 image"
+                    }
+                })
                 .populate({
                     path: "serviceid",
                     select: "servicetype",
@@ -88,9 +103,10 @@ module.exports.getLabClients = async (req, res) => {
                         select: "name"
                     }
                 })
+                .populate('department', 'probirka')
                 .populate("templates", "name template")
                 .then(services => {
-                    return services.filter(service => service.connector.accept)
+                    return services.filter(service => service.connector.accept && service.department.probirka)
                 })
         }
 
@@ -148,7 +164,7 @@ module.exports.adoptLabClient = async (req, res) => {
 
 module.exports.getServicesType = async (req, res) => {
     try {
-        const { department, clinica } = req.body;
+        const { clinica } = req.body;
 
         const clinic = await Clinica.findById(clinica);
 
@@ -160,9 +176,11 @@ module.exports.getServicesType = async (req, res) => {
 
         const servicetypes = await ServiceType.find({
             clinica,
-            department
         }).select('-__v -updatedAt -isArchive')
             .populate('services', "-__v -updatedAt -isArchive")
+            .populate('department', 'probirka')
+            .lean()
+            .then(servicetypes => servicetypes.filter(s => s.department.probirka))
 
         res.status(200).json(servicetypes)
 
@@ -186,10 +204,10 @@ module.exports.getClientsForResult = async (req, res) => {
 
         const services = await OfflineService.find({
             clinica,
-            // createdAt: {
-            //     $gte: new Date(new Date().setUTCHours(0, 0, 0, 0)),
-            //     $lte: new Date(new Date().setDate(new Date().getDate() + 1))
-            // }
+            createdAt: {
+                $gte: new Date(new Date().setUTCHours(0, 0, 0, 0)),
+                $lte: new Date(new Date().setDate(new Date().getDate() + 1))
+            }
         })
             .select("service serviceid accept column tables turn connector client files")
             .populate("connector", "probirka createdAt accept")

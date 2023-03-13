@@ -140,7 +140,15 @@ module.exports.login = async (req, res) => {
     const users = await User.find({
       type,
       isArchive: false,
-    }).populate("clinica");
+    }).populate({
+      path: 'clinica',
+      select: "-__v -isArchive -updatedAt",
+      populate: {
+        path: "filials",
+        select: 'name phone1 image'
+      }
+    });
+
     let user = null;
 
     for (const d of users) {

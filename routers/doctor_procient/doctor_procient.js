@@ -68,18 +68,10 @@ module.exports.getDocotors = async (req, res) => {
 
 module.exports.get = async (req, res) => {
     try {
-        const { clinica, department, beginDay, endDay } = req.body;
-
-        const clinic = await Clinica.findById(clinica);
-
-        if (!clinic) {
-            return res.status(400).json({
-                message: "Diqqat! Klinika ma'lumotlari topilmadi.",
-            });
-        }
+        const { department, beginDay, endDay } = req.body;
 
         const offlineservices = await OfflineService.find({
-            clinica, department, createdAt: {
+            department, createdAt: {
                 $gte: beginDay,
                 $lte: endDay
             }

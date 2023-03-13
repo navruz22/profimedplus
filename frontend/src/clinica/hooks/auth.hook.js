@@ -11,7 +11,7 @@ export const useAuth = () => {
     setUserId(id)
     setUser(user)
     setClinica(clinica)
-
+    console.log(clinica);
     localStorage.setItem(
       storageName,
       JSON.stringify({

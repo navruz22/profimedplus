@@ -105,6 +105,18 @@ export const Navbar = ({ baseUrl, setIsAuthenticated, setUser }) => {
                 Foydalanuvchilar
               </Link>
             </li>
+            <li className="nav-item">
+              <Link
+                className={`nav-link ${activePage === "/admin/filials" ? "active-page" : ""
+                  }`}
+                to="/admin/filials"
+                onClick={() => setActivePage('/admin/filials')}
+                style={{ background: activePage === "/admin/filials" || activePage === "/" ? "#F97316" : "" }}
+              >
+                <i className="icon-devices_other nav-icon" />
+                Filiallar
+              </Link>
+            </li>
           </ul>
           <ul className="header-actions py-1 mr-2">
             <li className="dropdown">

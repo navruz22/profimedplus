@@ -3,6 +3,10 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../context/AuthContext";
 import { useHttp } from "../../../hooks/http.hook";
 import { TableClients } from "../../cashier/debtclients/clientComponents/TableClients";
+import Select from 'react-select'
+import makeAnimated from 'react-select/animated'
+
+const animatedComponents = makeAnimated()
 
 export const DebtReport = () => {
     const [beginDay, setBeginDay] = useState(
@@ -70,6 +74,12 @@ export const DebtReport = () => {
     //====================================================================
     //====================================================================
 
+    const [clinicaDataSelect, setClinicaDataSelect] = useState({
+        value: auth?.clinica?._id,
+        label: auth?.clinica?.name,
+    });
+    const [clinicaValue, setClinicaValue] = useState(auth?.clinica?._id)
+
     //====================================================================
     //====================================================================
 
@@ -83,12 +93,12 @@ export const DebtReport = () => {
     const [debts, setDebts] = useState([]);
 
     const getOfflineDebts = useCallback(
-        async (beginDay, endDay) => {
+        async (beginDay, endDay, clinica) => {
             try {
                 const data = await request(
                     `/api/cashier/offline/debts`,
                     "POST",
-                    { clinica: auth && auth.clinica._id, beginDay, endDay },
+                    { clinica: clinica, beginDay, endDay },
                     {
                         Authorization: `Bearer ${auth.token}`,
                     }
@@ -106,12 +116,12 @@ export const DebtReport = () => {
     );
 
     const getStatsionarDebts = useCallback(
-        async (beginDay, endDay) => {
+        async (beginDay, endDay, clinica) => {
             try {
                 const data = await request(
                     `/api/cashier/statsionar/debts`,
                     "POST",
-                    { clinica: auth && auth.clinica._id, beginDay, endDay },
+                    { clinica: clinica, beginDay, endDay },
                     {
                         Authorization: `Bearer ${auth.token}`,
                     }
@@ -222,8 +232,8 @@ export const DebtReport = () => {
 
     const changeStart = (e) => {
         setBeginDay(new Date(new Date(e).setUTCHours(0, 0, 0, 0)));
-        getOfflineDebts(new Date(new Date(e).setUTCHours(0, 0, 0, 0)), endDay);
-        getStatsionarDebts(new Date(new Date(e).setUTCHours(0, 0, 0, 0)), endDay);
+        getOfflineDebts(new Date(new Date(e).setUTCHours(0, 0, 0, 0)), endDay, clinicaValue);
+        getStatsionarDebts(new Date(new Date(e).setUTCHours(0, 0, 0, 0)), endDay, clinicaValue);
     };
 
     const changeEnd = (e) => {
@@ -237,8 +247,8 @@ export const DebtReport = () => {
         );
 
         setEndDay(date);
-        getOfflineDebts(beginDay, date);
-        getStatsionarDebts(beginDay, date);
+        getOfflineDebts(beginDay, date, clinicaValue);
+        getStatsionarDebts(beginDay, date, clinicaValue);
     };
 
     //===================================================================
@@ -251,12 +261,12 @@ export const DebtReport = () => {
     const [t, setT] = useState(0);
 
     useEffect(() => {
-        if (auth.clinica && !t) {
+        if (!t) {
             setT(1);
-            getOfflineDebts(beginDay, endDay);
-            getStatsionarDebts(beginDay, endDay);
+            getOfflineDebts(beginDay, endDay, clinicaValue);
+            getStatsionarDebts(beginDay, endDay, clinicaValue);
         }
-    }, [auth, getOfflineDebts, getStatsionarDebts, t, beginDay, endDay]);
+    }, [getOfflineDebts, getStatsionarDebts, t, beginDay, endDay, clinicaValue]);
 
     //====================================================================
     //====================================================================
@@ -265,6 +275,33 @@ export const DebtReport = () => {
             <div className="bg-slate-100 content-wrapper px-lg-5 px-3">
                 <div className="row gutters">
                     <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        {auth?.clinica?.mainclinica && auth?.clinica?.filials.length > 0 && <div className="w-[300px] mb-2">
+                            <Select
+                                value={clinicaDataSelect}
+                                onChange={(e) => {
+                                    setClinicaDataSelect(e)
+                                    setClinicaValue(e.value);
+                                    getOfflineDebts(beginDay, endDay, e.value);
+                                    getStatsionarDebts(beginDay, endDay, e.value);
+                                }}
+                                components={animatedComponents}
+                                options={[
+                                    {
+                                        value: auth?.clinica?._id,
+                                        label: auth?.clinica?.name,
+                                    },
+                                    ...[...auth?.clinica?.filials].map(el => ({
+                                        value: el._id,
+                                        label: el.name
+                                    }))]}
+                                theme={(theme) => ({
+                                    ...theme,
+                                    borderRadius: 0,
+                                    padding: 0,
+                                    height: 0,
+                                })}
+                            />
+                        </div>}
                         <TableClients
                             setVisible={setVisible}
                             changeStart={changeStart}

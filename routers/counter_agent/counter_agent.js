@@ -153,7 +153,7 @@ module.exports.getCounterAgents = async (req, res) => {
             clinica,
             type: 'CounterAgent'
         })
-            .select('firstname lastname')
+            .select('firstname lastname clinica')
             .lean()
 
         for (const counteragent of counteragents) {

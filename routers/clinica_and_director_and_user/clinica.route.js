@@ -229,3 +229,84 @@ module.exports.delete = async (req, res) => {
     res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
   }
 }
+
+
+
+module.exports.getMainClinicas = async (req, res) => {
+  try {
+
+    const filials = await Clinica.find({
+      mainclinica: true,
+    })
+      .select('-__v -isArchive -updatedAt')
+      .populate('filials', 'name phone1')
+      .lean()
+
+    res.status(200).json(filials)
+
+  } catch (error) {
+    console.log(error);
+    res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
+  }
+}
+
+module.exports.getAllClinicaForFilail = async (req, res) => {
+  try {
+    const clinicas = await Clinica.find({
+    })
+      .select('-__v -isArchive -updatedAt')
+      .lean()
+      .then(clinicas => clinicas.filter(clinica => !clinica.mainclinica && !clinica.isFilial));
+
+    res.status(200).json(clinicas)
+
+  } catch (error) {
+    console.log(error);
+    res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
+  }
+}
+
+module.exports.filialsCreate = async (req, res) => {
+  try {
+    const { mainclinica, filials } = req.body;
+
+    const clinic = await Clinica.findById(mainclinica)
+    if (!clinic) {
+      return res.status(400).json({
+        message:
+          "Diqqat! Bosh klinika topilmadi!",
+      })
+    }
+
+    for (const filial of filials) {
+      const checkFilial = await Clinica.findById(filial)
+      if (!checkFilial) {
+        return res.status(400).json({
+          message:
+            "Diqqat! Klinika filiallarida xato yuz berdi!.",
+        })
+      }
+    }
+
+    const mainClinica = await Clinica.findById(mainclinica);
+    mainClinica.mainclinica = true;
+    mainClinica.isFilial = false;
+    mainClinica.filials = filials
+    await mainClinica.save();
+
+    for (const filial of filials) {
+      const clinicaFilial = await Clinica.findById(filial)
+      clinicaFilial.isFilial = true;
+      clinicaFilial.mainclinica = false;
+      clinicaFilial.filials = [];
+
+      await clinicaFilial.save()
+    }
+
+    res.status(200).json({ message: "Filiallar bog'landi!" });
+
+  } catch (error) {
+    console.log(error);
+    res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
+  }
+}

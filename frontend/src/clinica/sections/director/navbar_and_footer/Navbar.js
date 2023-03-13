@@ -230,7 +230,7 @@ export const Navbar = ({ baseUrl }) => {
                 </li>
               </ul>
             </li>
-            {/* <li className="nav-item dropdown">
+            <li className="nav-item dropdown">
               <Link
                 className={`nav-link ${activePage === "/alo24/users"
                   ? "active-page"
@@ -244,7 +244,7 @@ export const Navbar = ({ baseUrl }) => {
                 <i className="icon-book-open nav-icon" />
                 Foydalanuvchilar
               </Link>
-            </li> */}
+            </li>
             <li className="nav-item dropdown">
               <span
                 to="#"
@@ -329,13 +329,21 @@ export const Navbar = ({ baseUrl }) => {
                 aria-haspopup="true"
                 aria-expanded="false"
                 className={`nav-link ${activePage === "/alo24/mainreport" ||
-                  activePage === "/alo24/statsionarreport"
+                  activePage === "/alo24/statsionarreport" ||
+                  activePage === "/alo24/discountreport" ||
+                  activePage === "/alo24/debtreport" ||
+                  activePage === "/alo24/counteragent" ||
+                  activePage === "/alo24/doctor_procient"
                   ? "active-page"
                   : ""
                   }`}
                 style={{
                   background: activePage === "/alo24/mainreport" ||
-                    activePage === "/alo24/statsionarreport"
+                    activePage === "/alo24/statsionarreport" ||
+                    activePage === "/alo24/discountreport" ||
+                    activePage === "/alo24/debtreport" ||
+                    activePage === "/alo24/counteragent" ||
+                    activePage === "/alo24/doctor_procient"
                     ? "#F97316"
                     : ""
                 }}

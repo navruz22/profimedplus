@@ -389,7 +389,7 @@ export const Users = () => {
   }
   return (
     <div className="content-wrapper px-lg-5 px-3">
-      <div className="row">
+      {/* <div className="row">
         <div className="col-12 text-end">
           <button
             className={`bg-alotrade border-0 btn text-white mb-2 w-100 ${visible ? 'd-none' : ''}`}
@@ -422,7 +422,7 @@ export const Users = () => {
           createHandler={createHandler}
           loading={loading}
         />
-      </div>
+      </div> */}
 
       <div className="row gutters">
         <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -538,8 +538,8 @@ export const Users = () => {
                     property={"shortname"}
                   /> */}
                       </th>
-                      <th className="border-right bg-alotrade text-[16px] text-center">Tahrirlash</th>
-                      <th className="text-center bg-alotrade text-[16px]">O'chirish</th>
+                      {/* <th className="border-right bg-alotrade text-[16px] text-center">Tahrirlash</th>
+                      <th className="text-center bg-alotrade text-[16px]">O'chirish</th> */}
                     </tr>
                   </thead>
                   <tbody>
@@ -570,7 +570,7 @@ export const Users = () => {
                           <td className="border-right text-[16px]">
                             {'+998' + user.phone}
                           </td>
-                          <td className="border-right text-[16px] text-center">
+                          {/* <td className="border-right text-[16px] text-center">
                             {loading ? (
                               <button className="btn btn-success" disabled>
                                 <span class="spinner-border spinner-border-sm"></span>
@@ -609,7 +609,7 @@ export const Users = () => {
                                 O'chirish
                               </button>
                             )}
-                          </td>
+                          </td> */}
                         </tr>
                       )
                     })}

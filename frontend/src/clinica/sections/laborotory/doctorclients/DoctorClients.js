@@ -5,6 +5,10 @@ import { AuthContext } from "../../../context/AuthContext";
 import { useHttp } from "../../../hooks/http.hook";
 import Print from "../components/Print";
 import { TableClients } from "./clientComponents/TableClients";
+import Select from 'react-select'
+import makeAnimated from 'react-select/animated'
+
+const animatedComponents = makeAnimated()
 
 export const DoctorClients = () => {
   const [beginDay, setBeginDay] = useState(
@@ -67,9 +71,16 @@ export const DoctorClients = () => {
   //====================================================================
   const { request, loading } = useHttp();
   const auth = useContext(AuthContext);
+  console.log(auth);
+  //====================================================================
+  //====================================================================
 
-  //====================================================================
-  //====================================================================
+  const [clinicaDataSelect, setClinicaDataSelect] = useState({
+    value: auth?.user?.clinica?._id,
+    label: auth?.user?.clinica?.name,
+    ...auth.user.clinica
+  });
+  const [clinicaValue, setClinicaValue] = useState(auth?.user?.clinica?._id)
 
   //====================================================================
   //====================================================================
@@ -82,16 +93,15 @@ export const DoctorClients = () => {
   const [currentDoctorClients, setCurrentDoctorClients] = useState([]);
 
   const getDoctorClients = useCallback(
-    async (beginDay, endDay) => {
+    async (beginDay, endDay, clinica) => {
       try {
         const data = await request(
           `/api/labaratory/clients/get`,
           "POST",
           {
-            clinica: auth && auth.clinica._id,
+            clinica: clinica,
             beginDay,
             endDay,
-            department: auth?.user?.specialty,
           },
           {
             Authorization: `Bearer ${auth.token}`,
@@ -124,7 +134,6 @@ export const DoctorClients = () => {
         "POST",
         {
           clinica: auth && auth.clinica._id,
-          department: auth?.user?.specialty,
           clientborn: new Date(new Date(e))
         },
         {
@@ -192,7 +201,7 @@ export const DoctorClients = () => {
 
   const changeStart = (e) => {
     setBeginDay(new Date(new Date(e).setUTCHours(0, 0, 0, 0)));
-    getDoctorClients(new Date(new Date(e).setUTCHours(0, 0, 0, 0)), endDay);
+    getDoctorClients(new Date(new Date(e).setUTCHours(0, 0, 0, 0)), endDay, clinicaValue);
   };
 
   const changeEnd = (e) => {
@@ -206,7 +215,7 @@ export const DoctorClients = () => {
     );
 
     setEndDay(date);
-    getDoctorClients(beginDay, date);
+    getDoctorClients(beginDay, date, clinicaValue);
   };
 
   //====================================================================
@@ -236,7 +245,7 @@ export const DoctorClients = () => {
   useEffect(() => {
     if (auth.clinica && !t) {
       setT(1);
-      getDoctorClients(beginDay, endDay);
+      getDoctorClients(beginDay, endDay, clinicaValue);
       getBaseUrl()
     }
   }, [auth, beginDay, t, endDay, getDoctorClients, getBaseUrl]);
@@ -275,13 +284,41 @@ export const DoctorClients = () => {
             connector={printBody.connector}
             client={printBody.client}
             sections={printBody.services}
-            clinica={auth && auth.clinica}
+            clinica={clinicaDataSelect}
           />
         </div>
       </div>
       <div className="bg-slate-100 content-wrapper px-lg-5 px-3">
         <div className="row gutters">
           <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            {auth?.user?.clinica?.mainclinica && auth?.user?.clinica?.filials.length > 0 && <div className="w-[300px] mb-2">
+              <Select
+                value={clinicaDataSelect}
+                onChange={(e) => {
+                  setClinicaDataSelect(e)
+                  setClinicaValue(e.value);
+                  getDoctorClients(beginDay, endDay, e.value);
+                }}
+                components={animatedComponents}
+                options={[
+                  {
+                    value: auth?.user?.clinica?._id,
+                    label: auth?.user?.clinica?.name,
+                    ...auth.user.clinica
+                  },
+                  ...[...auth?.user?.clinica?.filials].map(el => ({
+                    value: el._id,
+                    label: el.name,
+                    ...el
+                  }))]}
+                theme={(theme) => ({
+                  ...theme,
+                  borderRadius: 0,
+                  padding: 0,
+                  height: 0,
+                })}
+              />
+            </div>}
             <TableClients
               changeStart={changeStart}
               changeEnd={changeEnd}

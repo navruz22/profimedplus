@@ -3,7 +3,6 @@ import { useLocation } from 'react-router-dom';
 import QRcode from "../../../../qrcode.png"
 
 const Print = ({ client, connector, sections, baseUrl, clinica }) => {
-
     const location = useLocation()
 
     const [printSections, setPrintSections] = useState([])

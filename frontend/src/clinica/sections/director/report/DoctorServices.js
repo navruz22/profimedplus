@@ -25,7 +25,7 @@ const DoctorServices = () => {
 
     const { state } = useLocation()
 
-
+    console.log(state);
     //======================================================
     //======================================================
     // Pagination
@@ -67,7 +67,7 @@ const DoctorServices = () => {
                 const data = await request(
                     `/api/doctor_procient/get`,
                     "POST",
-                    { clinica: auth && auth.clinica._id, department: state?.doctor?.specialty?._id, beginDay, endDay },
+                    { department: state?.doctor?.specialty?._id, beginDay, endDay },
                     {
                         Authorization: `Bearer ${auth.token}`,
                     }

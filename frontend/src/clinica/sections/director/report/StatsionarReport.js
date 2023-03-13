@@ -3,6 +3,10 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../context/AuthContext";
 import { useHttp } from "../../../hooks/http.hook";
 import { TableClients } from "../../cashier/statsionarclients/clientComponents/TableClients";
+import Select from 'react-select'
+import makeAnimated from 'react-select/animated'
+
+const animatedComponents = makeAnimated()
 
 export const StatsionarReport = () => {
     const [beginDay, setBeginDay] = useState(
@@ -70,6 +74,12 @@ export const StatsionarReport = () => {
     //====================================================================
     //====================================================================
 
+    const [clinicaDataSelect, setClinicaDataSelect] = useState({
+        value: auth?.clinica?._id,
+        label: auth?.clinica?.name,
+    });
+    const [clinicaValue, setClinicaValue] = useState(auth?.clinica?._id)
+
     //====================================================================
     //====================================================================
     // getConnectors
@@ -77,12 +87,12 @@ export const StatsionarReport = () => {
     const [searchStorage, setSearchStrorage] = useState([])
 
     const getConnectors = useCallback(
-        async (beginDay, endDay) => {
+        async (beginDay, endDay, clinica) => {
             try {
                 const data = await request(
                     `/api/cashier/statsionar/getall`,
                     'POST',
-                    { clinica: auth && auth.clinica._id, beginDay, endDay },
+                    { clinica: clinica, beginDay, endDay },
                     {
                         Authorization: `Bearer ${auth.token}`,
                     },
@@ -100,7 +110,7 @@ export const StatsionarReport = () => {
                 })
             }
         },
-        [request, auth, notify, indexFirstConnector, indexLastConnector],
+        [request, notify, indexFirstConnector, indexLastConnector],
     )
     //====================================================================
     //====================================================================+
@@ -176,7 +186,7 @@ export const StatsionarReport = () => {
 
     const changeStart = (e) => {
         setBeginDay(new Date(new Date(e).setUTCHours(0, 0, 0, 0)))
-        getConnectors(new Date(new Date(e).setUTCHours(0, 0, 0, 0)), endDay)
+        getConnectors(new Date(new Date(e).setUTCHours(0, 0, 0, 0)), endDay, clinicaValue)
     }
 
     const changeEnd = (e) => {
@@ -190,7 +200,7 @@ export const StatsionarReport = () => {
         )
 
         setEndDay(date)
-        getConnectors(beginDay, date)
+        getConnectors(beginDay, date, clinicaValue)
     }
 
     //====================================================================
@@ -203,11 +213,11 @@ export const StatsionarReport = () => {
     const [t, setT] = useState(0)
 
     useEffect(() => {
-        if (auth.clinica && !t) {
+        if (!t) {
             setT(1)
-            getConnectors(beginDay, endDay)
+            getConnectors(beginDay, endDay, clinicaValue)
         }
-    }, [auth, getConnectors, t, beginDay, endDay])
+    }, [getConnectors, t, beginDay, endDay])
 
     //====================================================================
     //====================================================================
@@ -216,6 +226,32 @@ export const StatsionarReport = () => {
             <div className="bg-slate-100 content-wrapper px-lg-5 px-3">
                 <div className="row gutters">
                     <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        {auth?.clinica?.mainclinica && auth?.clinica?.filials.length > 0 && <div className="w-[300px] mb-2">
+                            <Select
+                                value={clinicaDataSelect}
+                                onChange={(e) => {
+                                    setClinicaDataSelect(e)
+                                    setClinicaValue(e.value);
+                                    getConnectors(beginDay, endDay, e.value);
+                                }}
+                                components={animatedComponents}
+                                options={[
+                                    {
+                                        value: auth?.clinica?._id,
+                                        label: auth?.clinica?.name,
+                                    },
+                                    ...[...auth?.clinica?.filials].map(el => ({
+                                        value: el._id,
+                                        label: el.name
+                                    }))]}
+                                theme={(theme) => ({
+                                    ...theme,
+                                    borderRadius: 0,
+                                    padding: 0,
+                                    height: 0,
+                                })}
+                            />
+                        </div>}
                         <TableClients
                             setVisible={setVisible}
                             modal1={modal1}

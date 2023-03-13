@@ -7,6 +7,10 @@ import { CheckModal } from '../../cashier/components/ModalCheck'
 import { checkData } from '../../cashier/offlineclients/checkData/checkData'
 import { TableClients } from '../../cashier/offlineclients/clientComponents/TableClients'
 import { MainReportTable } from './components/MainReportTable'
+import Select from 'react-select'
+import makeAnimated from 'react-select/animated'
+
+const animatedComponents = makeAnimated()
 
 
 const MainReport = () => {
@@ -71,23 +75,29 @@ const MainReport = () => {
   //====================================================================
   const { request, loading } = useHttp()
   const auth = useContext(AuthContext)
-
+  console.log(auth);
   //====================================================================
   //====================================================================
 
+  const [clinicaDataSelect, setClinicaDataSelect] = useState({
+    value: auth?.clinica?._id,
+    label: auth?.clinica?.name,
+  });
+  const [clinicaValue, setClinicaValue] = useState(auth?.clinica?._id)
+
   //====================================================================
   //====================================================================
-  // getConnectors
+  // getConnectors 
   const [connectors, setConnectors] = useState([])
   const [searchStorage, setSearchStrorage] = useState([])
 
   const getConnectors = useCallback(
-    async (beginDay, endDay) => {
+    async (beginDay, endDay, clinica) => {
       try {
         const data = await request(
           `/api/cashier/offline/getall`,
           'POST',
-          { clinica: auth && auth.clinica._id, beginDay, endDay },
+          { clinica: clinica, beginDay, endDay },
           {
             Authorization: `Bearer ${auth.token}`,
           },
@@ -209,7 +219,7 @@ const MainReport = () => {
 
   const changeStart = (e) => {
     setBeginDay(new Date(new Date(e).setUTCHours(0, 0, 0, 0)))
-    getConnectors(new Date(new Date(e).setUTCHours(0, 0, 0, 0)), endDay)
+    getConnectors(new Date(new Date(e).setUTCHours(0, 0, 0, 0)), endDay, clinicaValue)
   }
 
   const changeEnd = (e) => {
@@ -223,7 +233,7 @@ const MainReport = () => {
     )
 
     setEndDay(date)
-    getConnectors(beginDay, date)
+    getConnectors(beginDay, date, clinicaValue)
   }
 
   //====================================================================
@@ -326,7 +336,7 @@ const MainReport = () => {
   useEffect(() => {
     if (auth.clinica && !t) {
       setT(1)
-      getConnectors(beginDay, endDay)
+      getConnectors(beginDay, endDay, clinicaValue)
       getBaseUrl()
     }
   }, [auth, getConnectors, getBaseUrl, t, beginDay, endDay])
@@ -338,6 +348,32 @@ const MainReport = () => {
       <div className="bg-slate-100 content-wrapper px-lg-5 px-3">
         <div className="row gutters">
           <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            {auth?.clinica?.mainclinica && auth?.clinica?.filials.length > 0 && <div className="w-[300px] mb-2">
+              <Select
+                value={clinicaDataSelect}
+                onChange={(e) => {
+                  setClinicaDataSelect(e)
+                  setClinicaValue(e.value);
+                  getConnectors(beginDay, endDay, e.value);
+                }}
+                components={animatedComponents}
+                options={[
+                  {
+                    value: auth?.clinica?._id,
+                    label: auth?.clinica?.name,
+                  },
+                  ...[...auth?.clinica?.filials].map(el => ({
+                    value: el._id,
+                    label: el.name
+                  }))]}
+                theme={(theme) => ({
+                  ...theme,
+                  borderRadius: 0,
+                  padding: 0,
+                  height: 0,
+                })}
+              />
+            </div>}
             <MainReportTable
               setVisible={setVisible}
               modal1={modal1}
