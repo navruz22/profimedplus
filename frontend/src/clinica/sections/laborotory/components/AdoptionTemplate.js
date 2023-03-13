@@ -232,7 +232,7 @@ const AdoptionTemplate = () => {
         if (service.column && service.tables && service.tables.length > 0) {
           const checkCols = Object.keys(service.column).filter(el => el.includes('col')).length;
           const index = serviceTypes.findIndex(el =>
-            el.servicetypeid === check
+            el.column && el.servicetypeid === check
             && Object.keys(el.column).filter(el => el.includes('col')).length === checkCols)
           if (index >= 0) {
             serviceTypes[index].services.push(service)
