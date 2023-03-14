@@ -33,4 +33,14 @@ router.delete("/adver/deleteall", auth, (req, res) => {
 });
 
 
+//=======================================================
+
+router.post('/adver/clients_statistics/get', auth, (req, res) => {
+  require('./statistics').getStatistics(req, res);
+})
+
+router.post('/adver/adver_statistics/get', auth, (req, res) => {
+  require('./statistics').getAdverStatistics(req, res);
+})
+
 module.exports = router

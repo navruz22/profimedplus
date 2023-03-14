@@ -1,13 +1,16 @@
 import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import { Advers } from "./adver/Advers";
+import AdverChart from "./adver_chart/AdverChart";
 import OfflineClients from "./clients/OfflineClients";
 import StatsionarClients from "./clients/StatsionarClients";
 import CounterAgent from "./counteragent/CounterAgent";
 import CounterAgentInfo from "./counteragent/CounterAgentInfo";
+import CounterDoctors from "./counter_doctors/CounterDoctors";
 import { EditDirector } from "./editDirector/EditDirector";
 import { EditDirectorPassword } from "./editDirector/EditDirectorPassword";
 import { HomePage } from "./homepage/HomePage";
+import PopularServices from "./popularservices/PopularServices";
 import { DebtReport } from "./report/DebtReport";
 import { DiscountReport } from "./report/DiscountReport";
 import DoctorProcient from "./report/DoctorProcient";
@@ -92,8 +95,17 @@ export const DirectorRouter = () => {
         <Route path="/alo24/users">
           <Users />
         </Route>
-        <Route path="/alo24/adver">
+        <Route path="/alo24/advers">
           <Advers />
+        </Route>
+        <Route path="/alo24/adver">
+          <AdverChart />
+        </Route>
+        <Route path="/alo24/counter_doctors">
+          <CounterDoctors />
+        </Route>
+        <Route path="/alo24/popular_services">
+          <PopularServices />
         </Route>
         <Redirect to="/alo24" />
       </Switch>

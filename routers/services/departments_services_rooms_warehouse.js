@@ -69,6 +69,10 @@ router.delete('/service/deletealldepartment', auth, (req, res) => {
     require('./service').deleteAllDepartment(req, res)
 })
 
+router.post('/service/popular/get', auth, (req, res) => {
+    require('./popularservices').get(req, res);
+})
+
 //========================================================
 // SERVICETYPE
 router.post('/servicetype/registerall', auth, (req, res) => {

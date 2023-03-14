@@ -123,14 +123,25 @@ module.exports.getDcotors = async (req, res) => {
             });
         }
 
-        const counterDoctors = await CounterDoctor.find({
-            clinica,
-            counter_agent
-        })
-            .select('-__v -isArchive -updatedAt')
-            .lean()
+        if (counter_agent) {
+            const counterDoctors = await CounterDoctor.find({
+                clinica,
+                counter_agent
+            })
+                .select('-__v -isArchive -updatedAt')
+                .lean()
 
-        res.status(200).json(counterDoctors)
+            return res.status(200).json(counterDoctors)
+        } else {
+            const counterDoctors = await CounterDoctor.find({
+                clinica,
+            })
+                .select('-__v -isArchive -updatedAt')
+                .populate('counter_agent', 'firstname lastname')
+                .lean()
+
+            return res.status(200).json(counterDoctors)
+        }
 
     } catch (error) {
         console.log(error);

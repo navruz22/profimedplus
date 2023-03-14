@@ -15,6 +15,7 @@ const offlineadver = new Schema(
       ref: 'OfflineConnector',
       required: true,
     },
+    adver: { type: Schema.Types.ObjectId, ref: "Adver", required: true },
     refuse: { type: Boolean, default: false },
     reseption: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   },

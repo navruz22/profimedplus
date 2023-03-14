@@ -286,39 +286,18 @@ export const Navbar = ({ baseUrl }) => {
               </ul>
             </li>
             <li className="nav-item dropdown">
-              <span
-                className={`nav-link dropdown-toggle ${window.location.pathname === "/alo24/adver"
+              <Link
+                className={`nav-link ${activePage === "/alo24/adver"
                   ? "active-page"
                   : ""
                   }`}
-                style={{
-                  background: activePage === "/alo24/adver" ||
-                    activePage === "/alo24/adver"
-                    ? "#F97316"
-                    : ""
-                }}
-                to="#"
-                id="uiElementsDropdown"
+                to="/alo24/adver"
                 role="button"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
+                style={{ background: activePage === '/alo24/adver' ? "#F97316" : "" }}
+                onClick={() => setActivePage('/alo24/adver')}
               >
-                <i className="icon-image nav-icon" />
                 Marketing
-              </span>
-              <ul
-                className="dropdown-menu"
-                aria-labelledby="uiElementsDropdown"
-              >
-                <li>
-                  <Link className="dropdown-item"
-                    onClick={() => setActivePage('/alo24/adver')}
-                    to="/alo24/adver">
-                    Reklamalar
-                  </Link>
-                </li>
-              </ul>
+              </Link>
             </li>
             <li className="nav-item dropdown">
               <span
