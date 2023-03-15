@@ -2,6 +2,7 @@ import { useToast } from '@chakra-ui/react'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../../../context/AuthContext'
 import { useHttp } from '../../../hooks/http.hook'
+import DailyCircle from '../components/DailyCircle'
 import LineChart from '../components/LineChart'
 
 export const HomePage = () => {
@@ -71,6 +72,41 @@ export const HomePage = () => {
     }
   }, [auth, notify, request])
 
+  //=============================================
+  //=============================================
+
+  const [dailyReport, setDailyReport] = useState({
+    clients: 0,
+    services: 0,
+    payments: 0,
+    expense: 0
+  })
+
+  const getDailyReport = useCallback(async () => {
+    try {
+      const data = await request(
+        `/api/offline/daily/get`,
+        'POST',
+        { clinica: auth && auth.clinica._id },
+        {
+          Authorization: `Bearer ${auth.token}`,
+        },
+      )
+      console.log('work');
+      setDailyReport({
+        clients: data.clients,
+        services: data.services,
+        payments: data.payments,
+        expense: 0
+      });
+    } catch (error) {
+      notify({
+        title: error,
+        description: '',
+        status: 'error',
+      })
+    }
+  }, [auth, notify, request])
 
 
   //=============================================
@@ -82,8 +118,9 @@ export const HomePage = () => {
     if (!t) {
       setT(1)
       getMonthlyReport()
+      getDailyReport()
     }
-  }, [t, getMonthlyReport])
+  }, [t, getMonthlyReport, getDailyReport]);
 
   return (
     <section
@@ -91,6 +128,27 @@ export const HomePage = () => {
         'pl-[2.5rem] py-[1.25rem] pr-[2.5rem] flex flex-col gap-[5rem] overflow-y-auto overflow-x-hidden'
       }
     >
+      <div className={'flex items-center justify-around gap-[3.1rem]'}>
+        <DailyCircle
+          text={dailyReport.clients}
+          label={'Mijozlar soni'}
+        />
+        <DailyCircle
+          nth={1}
+          text={dailyReport.services}
+          label={"Ko'rsatilgan xizmatlar"}
+        />
+        <DailyCircle
+          nth={2}
+          text={dailyReport.payments}
+          label={'Tushumlar'}
+        />
+        <DailyCircle
+          nth={3}
+          text={dailyReport.expense}
+          label={'Xarajatlar'}
+        />
+      </div>
       <div className={'h-[25rem]'}>
         <LineChart
           label={[

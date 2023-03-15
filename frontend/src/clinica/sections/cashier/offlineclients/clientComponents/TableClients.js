@@ -36,13 +36,13 @@ export const TableClients = ({
 }) => {
 
     const getTotalprice = (connector) => {
-        let servicesTotal = connector.services.reduce((prev, s) => s.service && prev + (s.service.price * s.pieces), 0)
-        let productsTotal = connector.products.length > 0 && connector.products.reduce((prev, el) => prev + el.payment && (el.product.price * el.pieces), 0) || 0
-        return servicesTotal + productsTotal - (connector?.discount?.discount || 0)
+        let servicesTotal = connector.services.reduce((prev, s) => s.service && s.refuse === false && prev + (s.service.price * s.pieces), 0)
+        let productsTotal = connector.products.length > 0 && connector.products.reduce((prev, el) => prev + (el.refuse === false && (el.payment && (el.product.price * el.pieces)) || 0), 0) || 0
+        return servicesTotal + productsTotal
     }
 
     const getDebt = (connector) => {
-        const debt = connector?.payments.length > 0 ? getTotalprice(connector) - connector.payments.reduce((prev, el) => prev + el.payment, 0) : 0;
+        const debt = connector?.payments.length > 0 ? (getTotalprice(connector) - (connector?.discount?.discount || 0)) - connector.payments.reduce((prev, el) => prev + el.payment, 0) : 0;
         return debt
     }
 
@@ -53,7 +53,7 @@ export const TableClients = ({
         if (debt) {
             return "bg-red-400"
         }
-        if (total > 0 && payments > 0 && total === payments) {
+        if (total > 0 && payments > 0 && (total - (connector?.discount?.discount || 0)) === payments) {
             return 'bg-green-400'
         }
         return "bg-orange-400"
@@ -270,6 +270,14 @@ export const TableClients = ({
                                     />
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
+                                    Qaytarilgan summa
+                                    <Sort
+                                        data={currentConnectors}
+                                        setData={setCurrentConnectors}
+                                        property={"createdAt"}
+                                    />
+                                </th>
+                                <th className="border py-1 bg-alotrade text-[16px]">
                                     Qabul qilish
                                     <div className="btn-group-vertical ml-2">
                                         <Sort
@@ -279,6 +287,7 @@ export const TableClients = ({
                                         />
                                     </div>
                                 </th>
+
                                 <th className="border py-1 bg-alotrade text-[16px]">
                                     Chek
                                     <div className="btn-group-vertical ml-2">
@@ -334,6 +343,10 @@ export const TableClients = ({
                                                 }
                                                 return prev;
                                             }, 0)}
+                                        </td>
+                                        <td className="border py-1 text-[16px] text-right">
+                                            {(connector.services.reduce((prev, el) => prev + (el.refuse && el.service.price || 0), 0) +
+                                                connector.products.reduce((prev, el) => prev + (el.refuse && el.product.price || 0), 0))}
                                         </td>
                                         <td className="border py-1 text-[16px] text-center">
                                             {loading ? (

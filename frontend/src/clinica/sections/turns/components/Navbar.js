@@ -3,6 +3,7 @@ import { Link, useHistory } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthContext";
 import { useHttp } from "../../../hooks/http.hook";
 import { useToast } from "@chakra-ui/react";
+import AloLogo from "../../../../clinica_logo.jpg"
 
 export const Navbar = () => {
     const history = useHistory();
@@ -92,11 +93,9 @@ export const Navbar = () => {
                         className="bg-[#00c2cb]  collapse navbar-collapse  justify-content-between"
                         id="royalHospitalsNavbar"
                     >
-                        <ul className="navbar-nav bg-[#00c2cb] ">
-                            <li className="nav-item mr-4 px-2">
-                                <span className="logo" style={{ fontSize: "26pt" }}>
-                                    Alo24
-                                </span>
+                        <ul className="navbar-nav bg-[#00c2cb] py-2">
+                            <li className="nav-item px-2">
+                                <img src={AloLogo} alt="logo" className="w-[100px]" />
                             </li>
                         </ul>
                         <ul className="header-actions py-1 mr-2">

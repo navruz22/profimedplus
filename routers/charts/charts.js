@@ -2,6 +2,8 @@ const {
     OfflineConnector,
 } = require("../../models/OfflineClient/OfflineConnector");
 const { OfflinePayment } = require("../../models/Cashier/OfflinePayment");
+const { OfflineClient } = require("../../models/OfflineClient/OfflineClient");
+const { OfflineService } = require("../../models/OfflineClient/OfflineService");
 
 module.exports.getMonthly = async (req, res) => {
     try {
@@ -49,3 +51,54 @@ module.exports.getMonthly = async (req, res) => {
         res.status(501).json({ error: "Serverda xatolik yuz berdi...", description: error.message });
     }
 };
+
+module.exports.getDaily = async (req, res) => {
+    try {
+        const { clinica } = req.body;
+
+        const clients = await OfflineClient.find({
+            clinica,
+            createdAt: {
+                $gte: new Date(
+                    new Date().setHours(0, 0, 0, 0)
+                ),
+                $lte: new Date()
+            }
+        })
+            .lean()
+
+        const services = await OfflineService.find({
+            clinica,
+            createdAt: {
+                $gte: new Date(
+                    new Date().setHours(0, 0, 0, 0)
+                ),
+                $lte: new Date()
+            }
+        })
+            .lean()
+
+        const payments = await OfflinePayment.find({
+            clinica,
+            createdAt: {
+                $gte: new Date(
+                    new Date().setHours(0, 0, 0, 0)
+                ),
+                $lte: new Date()
+            }
+        })
+            .lean()
+
+        const dailypayments = payments.reduce((prev, el) => prev + el.payment, 0);
+
+        res.status(200).json({
+            clients: clients.length,
+            services: services.length,
+            payments: dailypayments
+        })
+
+    } catch (error) {
+        console.log(error);
+        res.status(501).json({ error: "Serverda xatolik yuz berdi...", description: error.message });
+    }
+}

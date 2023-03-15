@@ -8,6 +8,8 @@ const room = new Schema(
     price: { type: Number, required: true },
     place: { type: Number, required: true },
     position: { type: Boolean, default: false },
+    doctorProcient: { type: Number },
+    nurseProcient: { type: Number },
     isArchive: { type: Boolean, default: false },
     clinica: { type: Schema.Types.ObjectId, ref: "Clinica", required: true },
   },
@@ -24,6 +26,8 @@ function validateRoom(room) {
     place: Joi.number().required(),
     position: Joi.boolean(),
     clinica: Joi.string().required(),
+    doctorProcient: Joi.number(),
+    nurseProcient: Joi.number()
   });
 
   return schema.validate(room);

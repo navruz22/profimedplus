@@ -65,7 +65,7 @@ module.exports.register = async (req, res) => {
       })
     }
 
-    const { type, number, price, position, clinica, place } = req.body
+    const { type, number, price, position, clinica, place, doctorProcient, nurseProcient } = req.body
 
     const clinic = await Clinica.findById(clinica)
 
@@ -95,6 +95,8 @@ module.exports.register = async (req, res) => {
       position,
       clinica,
       place,
+      doctorProcient,
+      nurseProcient
     })
     await newRoom.save()
 

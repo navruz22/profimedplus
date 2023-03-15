@@ -164,6 +164,7 @@ const CounterDoctors = () => {
                                                 <th className='border py-1 bg-alotrade text-[16px]'>Agent</th>
                                                 <th className='border py-1 bg-alotrade text-[16px]'>Shifokor</th>
                                                 <th className='border py-1 bg-alotrade text-[16px]'>Shifoxona</th>
+                                                <th className='border py-1 bg-alotrade text-[16px]'>Telefon raqami</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -188,6 +189,9 @@ const CounterDoctors = () => {
                                                         </td>
                                                         <td className="border py-1 text-left font-weight-bold text-[16px]">
                                                             {connector?.clinica_name}
+                                                        </td>
+                                                        <td className="border py-1 text-right font-weight-bold text-[16px]">
+                                                            {connector?.phone && "+998" + connector?.phone}
                                                         </td>
                                                     </tr>
                                                 );

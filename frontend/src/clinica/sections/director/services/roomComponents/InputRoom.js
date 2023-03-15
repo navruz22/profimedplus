@@ -16,6 +16,8 @@ export const InputRoom = ({
               <th className="bg-alotrade text-[16px]">Xona turi</th>
               <th className="bg-alotrade text-[16px]">Xona raqami</th>
               <th className="bg-alotrade text-[16px]">O'rin raqami</th>
+              <th className="bg-alotrade text-[16px]">Hamshira ulushi</th>
+              <th className="bg-alotrade text-[16px]">Shifokor ulushi</th>
               <th className="bg-alotrade text-[16px]">Narxi</th>
               <th className="bg-alotrade text-[16px]">Saqlash</th>
             </tr>
@@ -71,6 +73,32 @@ export const InputRoom = ({
                   type="number"
                   className="form-control w-75"
                   id="price"
+                  placeholder="Narxini kiriting"
+                />
+              </td>
+              <td>
+                <input
+                  style={{ minWidth: "70px" }}
+                  name="doctorProcient"
+                  value={room?.doctorProcient}
+                  onKeyUp={keyPressed}
+                  onChange={inputHandler}
+                  type="number"
+                  className="form-control w-75"
+                  id="doctorProcient"
+                  placeholder="Narxini kiriting"
+                />
+              </td>
+              <td>
+                <input
+                  style={{ minWidth: "70px" }}
+                  name="nurseProcient"
+                  value={room?.nurseProcient}
+                  onKeyUp={keyPressed}
+                  onChange={inputHandler}
+                  type="number"
+                  className="form-control w-75"
+                  id="nurseProcient"
                   placeholder="Narxini kiriting"
                 />
               </td>

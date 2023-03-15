@@ -98,16 +98,16 @@ const Print = ({ client, connector, sections, baseUrl, clinica }) => {
                     </div> */}
                 <div className="flex justify-between items-center" style={{ fontSize: "20pt", marginBottom: "30px" }}>
                     <div>
-                        <pre className="text-center border-none outline-none" style={{ fontFamily: "-moz-initial" }}>
+                        <pre className="text-center border-none outline-none font-bold text-[40px]" style={{ fontFamily: "-moz-initial" }}>
                             {clinica?.name}
                         </pre>
                     </div>
-                    <div style={{ maxWidth: "150px", marginRight: "60px", textAlign: "center" }}>
+                    <div style={{ maxWidth: "250px", marginRight: "60px", textAlign: "center" }}>
                         <img src={baseUrl + '/api/upload/file/' + clinica?.image} alt="logo" />
                     </div>
                     <div className="" style={{ textAlign: "center" }}>
                         <p className="text-end m-0">
-                            <img width="120" src={QRcode} alt="QR" />
+                            <img width="150" src={QRcode} alt="QR" />
                         </p>
                     </div>
                 </div>
@@ -122,7 +122,7 @@ const Print = ({ client, connector, sections, baseUrl, clinica }) => {
                         >
                             <tr style={{ textAlign: "center" }}>
                                 <td
-                                    className="p-0"
+                                    className="p-0 text-[25px] font-bold"
                                     style={{
                                         width: "33%",
                                         backgroundColor: "white",
@@ -132,26 +132,26 @@ const Print = ({ client, connector, sections, baseUrl, clinica }) => {
                                     Mijozning F.I.SH
                                 </td>
                                 <td
-                                    className="p-0"
+                                    className="p-0 text-[25px] font-bold"
                                     style={{
                                         width: "33%",
                                         backgroundColor: "white",
                                         border: "1px solid #000",
                                     }}
                                 >
-                                    <h4>
+                                    <h4 className='text-[25px] font-bold'>
                                         {client && client.lastname + " " + client.firstname}
                                     </h4>
                                 </td>
                                 <td rowSpan="2" colSpan={2} style={{ width: "33%" }}>
-                                    <p className="fw-bold fs-5 m-0">
+                                    <p className="font-bold fs-5 m-0 text-[25px]">
                                         TAHLIL <br /> NATIJALARI
                                     </p>
                                 </td>
                             </tr>
                             <tr style={{ textAlign: "center" }}>
                                 <td
-                                    className="p-0"
+                                    className="p-0 text-[25px] font-bold"
                                     style={{
                                         width: "33%",
                                         backgroundColor: "white",
@@ -161,7 +161,7 @@ const Print = ({ client, connector, sections, baseUrl, clinica }) => {
                                     Tug'ilgan yili
                                 </td>
                                 <td
-                                    className="p-0"
+                                    className="p-0 text-[25px] font-bold"
                                     style={{
                                         width: "33%",
                                         backgroundColor: "white",
@@ -174,7 +174,7 @@ const Print = ({ client, connector, sections, baseUrl, clinica }) => {
                             </tr>
                             <tr style={{ textAlign: "center" }}>
                                 <td
-                                    className="p-0"
+                                    className="p-0 text-[25px] font-bold"
                                     style={{
                                         width: "33%",
                                         backgroundColor: "white",
@@ -184,19 +184,18 @@ const Print = ({ client, connector, sections, baseUrl, clinica }) => {
                                     Kelgan sanasi
                                 </td>
                                 <td
-                                    className="p-0"
+                                    className="p-0 text-[25px] font-bold"
                                     style={{
                                         width: "33%",
                                         backgroundColor: "white",
                                         border: "1px solid #000",
-                                        fontSize: "20px",
                                     }}
                                 >
                                     {connector &&
                                         new Date(connector.createdAt).toLocaleDateString()}
                                 </td>
                                 <td
-                                    className="p-0 fw-bold"
+                                    className="p-0 font-bold text-[25px]"
                                     style={{
                                         width: "100px",
                                         backgroundColor: "white",
@@ -206,12 +205,11 @@ const Print = ({ client, connector, sections, baseUrl, clinica }) => {
                                     Namuna
                                 </td>
                                 <td
-                                    className="p-0"
+                                    className="p-0 text-[25px] font-bold"
                                     style={{
                                         width: "100px",
                                         backgroundColor: "white",
                                         border: "1px solid #000",
-                                        fontSize: "20px",
                                     }}
                                 >
                                     {connector && connector.probirka}
@@ -220,7 +218,7 @@ const Print = ({ client, connector, sections, baseUrl, clinica }) => {
 
                             <tr style={{ textAlign: "center" }}>
                                 <td
-                                    className="p-0"
+                                    className="p-0 text-[25px] font-bold"
                                     style={{
                                         width: "33%",
                                         backgroundColor: "white",
@@ -230,7 +228,7 @@ const Print = ({ client, connector, sections, baseUrl, clinica }) => {
                                     Manzil
                                 </td>
                                 <td
-                                    className="p-0"
+                                    className="p-0 text-[25px] font-bold"
                                     style={{
                                         width: "33%",
                                         backgroundColor: "white",
@@ -241,7 +239,7 @@ const Print = ({ client, connector, sections, baseUrl, clinica }) => {
                                     {client && client.address}
                                 </td>
                                 <td
-                                    className="p-0 fw-bold"
+                                    className="p-0 text-[25px] font-bold"
                                     style={{
                                         width: "200px",
                                         backgroundColor: "white",
@@ -251,12 +249,11 @@ const Print = ({ client, connector, sections, baseUrl, clinica }) => {
                                     ID
                                 </td>
                                 <td
-                                    className="p-0"
+                                    className="p-0 text-[25px] font-bold"
                                     style={{
                                         width: "200px",
                                         backgroundColor: "white",
                                         border: "1px solid #000",
-                                        fontSize: "20px",
                                     }}
                                 >
                                     {client && client.id}
@@ -266,36 +263,36 @@ const Print = ({ client, connector, sections, baseUrl, clinica }) => {
                     </div>
                 </div>
             </div>
-            <div className="pt-4 w-full text-center">
+            <div className="pt-2 w-full text-center">
                 {printSections.length > 0 &&
                     printSections.map((section, index) => (
                         <div key={index} className={"w-full text-center mb-4"}>
                             <div className="w-full flex justify-center items-center mb-4">
-                                <h2 className="block text-[18px] font-bold">
+                                <h2 className="block text-[24px] font-bold">
                                     {section?.servicetypename}
                                 </h2>
                             </div>
                             <table className="w-full text-center">
                                 <thead>
                                     <tr>
-                                        <th className="border-[1px] border-black bg-gray-400 px-[12px] py-1 text-center">{section?.column?.col1}</th>
-                                        {section?.column?.col2 && <th className="border-[1px] border-black bg-gray-400 px-[12px] py-1 text-center">{section?.column?.col2}</th>}
-                                        {section?.column?.col3 && <th className="border-[1px] border-black bg-gray-400 px-[12px] py-1 text-center">{section?.column?.col3}</th>}
-                                        {section?.column?.col4 && <th className="border-[1px] border-black bg-gray-400 px-[12px] py-1 text-center">{section?.column?.col4}</th>}
-                                        {section?.column?.col5 && <th className="border-[1px] border-black bg-gray-400 px-[12px] py-1 text-center">{section?.column?.col5}</th>}
+                                        <th className="border-[1px] border-black bg-gray-400 text-[20px] px-[12px] py-1 text-center">{section?.column?.col1}</th>
+                                        {section?.column?.col2 && <th className="text-[20px] border-[1px] border-black bg-gray-400 px-[12px] py-1 text-center">{section?.column?.col2}</th>}
+                                        {section?.column?.col3 && <th className="text-[20px] border-[1px] border-black bg-gray-400 px-[12px] py-1 text-center">{section?.column?.col3}</th>}
+                                        {section?.column?.col4 && <th className="text-[20px] border-[1px] border-black bg-gray-400 px-[12px] py-1 text-center">{section?.column?.col4}</th>}
+                                        {section?.column?.col5 && <th className="text-[20px] border-[1px] border-black bg-gray-400 px-[12px] py-1 text-center">{section?.column?.col5}</th>}
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {section?.services.map((service, ind) => {
                                         return service.accept && service.tables.map((table, key) => (
                                             <tr key={key} >
-                                                <td className={`border-[1px] border-black py-1 px-[12px]`}> <pre
+                                                <td className={`border-[1px] text-[20px] border-black py-1 px-[12px]`}> <pre
                                                     style={{ width: getWidth(table) }}
                                                     className="border-none outline-none text-left"
                                                 >
                                                     {table?.col1}
                                                 </pre> </td>
-                                                <td className={`border-[1px] border-black py-1 px-[12px]`}>
+                                                <td className={`border-[1px] text-[20px] border-black py-1 px-[12px]`}>
                                                     <pre
                                                         style={{ width: getWidth(table) }}
                                                         className="border-none outline-none"
@@ -303,7 +300,7 @@ const Print = ({ client, connector, sections, baseUrl, clinica }) => {
                                                         {table?.col2}
                                                     </pre>
                                                 </td>
-                                                <td className={`border-[1px] border-black py-1 px-[12px]`}>
+                                                <td className={`border-[1px] text-[20px] border-black py-1 px-[12px]`}>
                                                     <pre
                                                         style={{ width: getWidth(table) }}
                                                         className="border-none outline-none"
@@ -311,14 +308,14 @@ const Print = ({ client, connector, sections, baseUrl, clinica }) => {
                                                         {table?.col3}
                                                     </pre>
                                                 </td>
-                                                {table?.col4 && <td className={`border-[1px] border-black py-1 px-[12px]`}>
+                                                {table?.col4 && <td className={`border-[1px] text-[20px] border-black py-1 px-[12px]`}>
                                                     <pre
                                                         style={{ width: getWidth(table) }}
                                                         className="border-none outline-none"
                                                     >
                                                         {table?.col4}
                                                     </pre></td>}
-                                                {table?.col5 && <td className={`border-[1px] border-black py-1 px-[12px]`}>
+                                                {table?.col5 && <td className={`border-[1px] text-[20px] border-black py-1 px-[12px]`}>
                                                     <pre
                                                         style={{ width: getWidth(table) }}
                                                         className="border-none outline-none"

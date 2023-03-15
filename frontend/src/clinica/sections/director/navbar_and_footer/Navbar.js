@@ -3,8 +3,9 @@ import { Link, useHistory } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthContext";
 import { useHttp } from "../../../hooks/http.hook";
 import { useToast } from "@chakra-ui/react";
+import AloLogo from "../../../../clinica_logo.jpg"
 
-export const Navbar = ({ baseUrl }) => {
+export const Navbar = () => {
   const history = useHistory();
   //====================================================================
   //====================================================================
@@ -60,13 +61,37 @@ export const Navbar = ({ baseUrl }) => {
   //====================================================================
   //====================================================================
 
+  const [baseUrl, setBaseUrl] = useState();
+
+  const getBaseUrl = useCallback(async () => {
+    try {
+      const data = await request("/api/baseurl", "GET", null);
+      setBaseUrl(data.baseUrl);
+    } catch (error) {
+      notify({
+        title: error,
+        description: "",
+        status: "error",
+      });
+    }
+  }, [request, notify]);
+
+  //====================================================================
+  //====================================================================
+
   const [activePage, setActivePage] = useState(window.location.pathname)
 
   //====================================================================
   //====================================================================
+
+  const [t, setT] = useState(0)
   useEffect(() => {
-    getDirector();
-  }, [getDirector]);
+    if (!t) {
+      setT(1)
+      getDirector();
+      getBaseUrl()
+    }
+  }, [getDirector, getBaseUrl, t]);
   //====================================================================
   //====================================================================
 
@@ -93,10 +118,8 @@ export const Navbar = ({ baseUrl }) => {
           id="royalHospitalsNavbar"
         >
           <ul className="bg-[#00c2cb]  navbar-nav">
-            <li className="nav-item mr-4 px-2">
-              <span className="logo" style={{ fontSize: "26pt" }}>
-                Alo24
-              </span>
+            <li className="nav-item  px-2">
+              <img src={AloLogo} alt="logo" className="w-[100px]" />
             </li>
             <li className="nav-item">
               <Link

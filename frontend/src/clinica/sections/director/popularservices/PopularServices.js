@@ -10,7 +10,7 @@ const PopularServices = () => {
 
     const [beginDay, setBeginDay] = useState(
         new Date(
-            new Date().setMonth(new Date().getMonth() - 1)
+            new Date().setHours(0, 0, 0, 0)
         )
     );
     const [endDay, setEndDay] = useState(

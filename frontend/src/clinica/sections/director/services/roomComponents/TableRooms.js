@@ -152,6 +152,22 @@ export const TableRooms = ({
                   />
                 </th>
                 <th className="border-right bg-alotrade text-[16px]">
+                  Shifokor ulushi
+                  <Sort
+                    data={currentRooms}
+                    setData={setCurrentRooms}
+                    property={"doctorProcient"}
+                  />
+                </th>
+                <th className="border-right bg-alotrade text-[16px]">
+                  Hamshira ulushi
+                  <Sort
+                    data={currentRooms}
+                    setData={setCurrentRooms}
+                    property={"nurseProcient"}
+                  />
+                </th>
+                <th className="border-right bg-alotrade text-[16px]">
                   Holati
                   <Sort
                     data={currentRooms}
@@ -174,6 +190,8 @@ export const TableRooms = ({
                     <td className="border-right text-[16px]">{room.number}</td>
                     <td className="border-right text-[16px]">{room.place}</td>
                     <td className="border-right text-[16px]">{room.price}</td>
+                    <td className="border-right text-[16px]">{room?.doctorProcient}</td>
+                    <td className="border-right text-[16px]">{room?.nurseProcient}</td>
                     <td className="border-right text-[16px] text-center">
                       {room.position ? (
                         <FontAwesomeIcon

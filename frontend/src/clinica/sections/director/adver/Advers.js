@@ -257,14 +257,14 @@ export const Advers = () => {
       <div className="content-wrapper px-lg-5 px-3">
         <div className="row gutters">
           <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-            <div className="table-container">
+            <div className="border-0 table-container">
               <div className="table-responsive">
                 <table className="table m-0">
                   <thead>
                     <tr>
-                      <th className="w-25">Reklama nomi</th>
-                      <th className="w-25">Saqlash</th>
-                      <th className="w-25">Reklamalarni o'chirish</th>
+                      <th className="bg-alotrade text-[14px]">Bo'lim nomi</th>
+                      <th className="bg-alotrade text-[14px]">Xizmat turi</th>
+                      <th className="bg-alotrade text-[14px]">Xizmat nomi</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -287,12 +287,12 @@ export const Advers = () => {
                           Loading...
                         </button>
                           :
-                        <button
-                          onClick={saveHandler}
-                          className="btn btn-info py-1 px-4"
-                        >
-                          Saqlash
-                        </button>
+                          <button
+                            onClick={saveHandler}
+                            className="btn btn-info py-1 px-4"
+                          >
+                            Saqlash
+                          </button>
                         }
                       </td>
                       <td>
@@ -301,12 +301,12 @@ export const Advers = () => {
                           Loading...
                         </button>
                           :
-                        <button
-                          onClick={() => setModal1(true)}
-                          className="btn btn-danger py-0 px-4 pt-1"
-                        >
-                          <span className="icon-trash-2"></span>
-                        </button>
+                          <button
+                            onClick={() => setModal1(true)}
+                            className="btn btn-danger py-0 px-4 pt-1"
+                          >
+                            <span className="icon-trash-2"></span>
+                          </button>
                         }
                       </td>
                     </tr>
@@ -314,71 +314,62 @@ export const Advers = () => {
                 </table>
               </div>
             </div>
-            <div className="table-container">
-              <div className="table-responsive">
-                <table className="table m-0 table-bordered table-sm">
-                  <thead>
-                    <tr>
-                      <th scope='col' className="">№</th>
-                      <th scope='col' className="w-25">
-                        Nomi{'  '}
-                        <Sort
-                          data={advers}
-                          setData={setAdvers}
-                          property={'name'}
-                        />
-                      </th>
-                      <th scope='col' className="w-25">Tahrirlash</th>
-                      <th scope='col' className="w-25">O'chirish</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {advers &&
-                      advers.map((d, key) => {
-                        return (
-                          <tr key={key}>
-                            <td className="font-weight-bold border ">{key + 1}</td>
-                            <td className='border'>{d.name}</td>
-                            <td className='border'>
-                              {loading ? <button className='btn btn-success' disabled>
-                                <span class="spinner-border spinner-border-sm"></span>
-                                Loading...
-                              </button>
-                                :
-                              <button
-                                onClick={() => setAdver(d)}
-                                type="button"
-                                className="btn btn-success py-1 px-2"
-                                style={{ fontSize: '75%' }}
-                              >
-                                Tahrirlash
-                              </button>
-                              }
-                            </td>
-                            <td className='border'>
-                              {loading ? <button className='btn btn-secondary' disabled>
-                              <span class="spinner-border spinner-border-sm"></span>
-                                Loading...
-                              </button>
-                                :
-                              <button
-                                onClick={() => {
-                                  setRemove(d)
-                                  setModal(true)
-                                }}
-                                type="button"
-                                className="btn btn-secondary py-1 px-2"
-                                style={{ fontSize: '75%' }}
-                              >
-                                O'chirish
-                              </button>
-                              }
-                            </td>
-                          </tr>
-                        )
-                      })}
-                  </tbody>
-                </table>
+            <div className="border-0 table-container">
+              <div className="border-0 table-container">
+                <div className="table-responsive">
+                  <table className="table m-0">
+                    <thead>
+                      <tr>
+                        <th className="border-right  text-[12px] bg-alotrade">№</th>
+                        <th className="border-right  text-[12px] bg-alotrade">
+                          Nomi{'  '}
+                          <Sort
+                            data={advers}
+                            setData={setAdvers}
+                            property={'name'}
+                          />
+                        </th>
+                        <th className="border-right text-center text-[12px] bg-alotrade">Tahrirlash</th>
+                        <th className="text-center text-[12px] bg-alotrade">O'chirish</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {advers &&
+                        advers.map((d, key) => {
+                          return (
+                            <tr key={key}>
+                              <td className="border-right text-[16px] font-weight-bold">{key + 1}</td>
+                              <td className='border-right text-[16px]'>{d.name}</td>
+                              <td className='border-right text-center'>
+                                <button
+                                  onClick={() => setAdver(d)}
+                                  id={`btn${key}`}
+                                  type="button"
+                                  className="text-white font-semibold bg-alotrade rounded py-1 px-2"
+                                  style={{ fontSize: "75%" }}
+                                >
+                                  Tahrirlash
+                                </button>
+                              </td>
+                              <td className='border-right text-center'>
+                                <button
+                                  onClick={() => {
+                                    setRemove(d)
+                                    setModal(true)
+                                  }}
+                                  type="button"
+                                  className="text-white font-semibold bg-red-400 rounded-lg py-1 px-2"
+                                  style={{ fontSize: "75%" }}
+                                >
+                                  O'chirish
+                                </button>
+                              </td>
+                            </tr>
+                          )
+                        })}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>
