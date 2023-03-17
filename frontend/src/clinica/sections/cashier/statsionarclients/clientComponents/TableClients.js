@@ -36,83 +36,124 @@ export const TableClients = ({
 
     const location = useLocation()
 
+    const getTotalprice = (connector) => {
+        const days = Math.round(
+            Math.abs(
+                ((connector.room.endday ? new Date(connector.room.endday).getTime() : new Date().getTime())
+                    -
+                    new Date(connector.room.beginday).getTime())
+                /
+                (24 * 60 * 60 * 1000)
+            )
+        ) * connector.room.room.price;
+        let servicesTotal = connector.services.reduce((prev, s) => s.service && s.refuse === false && prev + (s.service.price * s.pieces), 0)
+        let productsTotal = connector.products.length > 0 && connector.products.reduce((prev, el) => prev + (el.refuse === false && (el.payment && (el.product.price * el.pieces)) || 0), 0) || 0
+        return servicesTotal + productsTotal + days;
+    }
+
+    const getDebt = (connector) => {
+        const debt = connector?.payments.length > 0 ? (getTotalprice(connector) - (connector?.discount?.discount || 0)) - connector.payments.reduce((prev, el) => prev + el.payment, 0) : 0;
+        return debt
+    }
+
+    const setPosition = (connector) => {
+        const total = getTotalprice(connector)
+        const debt = getDebt(connector);
+        const payments = connector.payments.reduce((prev, el) => prev + el.payment, 0)
+        if (debt) {
+            return "bg-red-400"
+        }
+        if (total > 0 && payments > 0 && (total - (connector?.discount?.discount || 0)) === payments) {
+            return 'bg-green-400'
+        }
+        return "bg-orange-400"
+    }
+
     return (
-        <div className="border-0 shadow-lg table-container">
+        <div className="border-0 table-container">
             <div className="border-0 table-container">
                 <div className="table-responsive">
+                    <div className="bg-white flex gap-6 items-center py-2 px-2">
+                        <div>
+                            <select
+                                className="form-control form-control-sm selectpicker"
+                                placeholder="Bo'limni tanlang"
+                                onChange={setPageSize}
+                                style={{ minWidth: '50px' }}
+                            >
+                                <option value={10}>10</option>
+                                <option value={25}>25</option>
+                                <option value={50}>50</option>
+                                <option value={100}>100</option>
+                            </select>
+                        </div>
+                        <div>
+                            <input
+                                onChange={searchFullname}
+                                style={{ maxWidth: '100px', minWidth: '100px' }}
+                                type="search"
+                                className="w-100 form-control form-control-sm selectpicker"
+                                placeholder="F.I.O"
+                            />
+                        </div>
+                        <div>
+                            <input
+                                onChange={searchPhone}
+                                style={{ maxWidth: '100px', minWidth: '100px' }}
+                                type="search"
+                                className="w-100 form-control form-control-sm selectpicker"
+                                placeholder="Tel"
+                            />
+                        </div>
+                        <div>
+                            <input
+                                onChange={searchId}
+                                style={{ maxWidth: '80px' }}
+                                type="search"
+                                className="form-control form-control-sm selectpicker"
+                                placeholder="ID"
+                            />
+                        </div>
+                        <div>
+                            <input
+                                onChange={searchProbirka}
+                                style={{ maxWidth: '70px' }}
+                                type="search"
+                                className="form-control form-control-sm selectpicker"
+                                placeholder="Probirka"
+                            />
+                        </div>
+                        {/* <div
+                            className="text-center"
+                            style={{ maxWidth: '120px', overflow: 'hidden' }}
+                        >
+                            <input
+                                type="date"
+                                name="born"
+                                className="form-control inp"
+                                placeholder=""
+                                style={{ color: '#999' }}
+                                onKeyDown={(e) => e.key === 'Enter' && getConnectorsByClientBorn(e)}
+                            />
+                        </div> */}
+                        <div className="text-center ml-auto ">
+                            <Pagination
+                                setCurrentDatas={setCurrentConnectors}
+                                datas={connectors}
+                                setCurrentPage={setCurrentPage}
+                                countPage={countPage}
+                                totalDatas={connectors.length}
+                            />
+                        </div>
+                        <div
+                            className="text-center ml-auto flex gap-2"
+                            style={{ overflow: 'hidden' }}
+                        >
+                            <DatePickers changeDate={changeStart} />
+                            <DatePickers changeDate={changeEnd} />
+                        </div>
+                    </div>
                     <table className="table m-0 table-sm">
-                        <thead className="bg-white">
-                            <tr>
-                                <th>
-                                    <select
-                                        className="form-control form-control-sm selectpicker"
-                                        placeholder="Bo'limni tanlang"
-                                        onChange={setPageSize}
-                                        style={{ minWidth: "50px" }}
-                                    >
-                                        <option value={10}>10</option>
-                                        <option value={25}>25</option>
-                                        <option value={50}>50</option>
-                                        <option value={100}>100</option>
-                                    </select>
-                                </th>
-                                <th>
-                                    <input
-                                        onChange={searchFullname}
-                                        style={{ maxWidth: "100px", minWidth: "100px" }}
-                                        type="search"
-                                        className="w-100 form-control form-control-sm selectpicker"
-                                        placeholder="F.I.O"
-                                    />
-                                </th>
-                                <th>
-                                    <input
-                                        onChange={searchPhone}
-                                        style={{ maxWidth: "100px", minWidth: "100px" }}
-                                        type="search"
-                                        className="w-100 form-control form-control-sm selectpicker"
-                                        placeholder="Tel"
-                                    />
-                                </th>
-                                <th className="flex gap-4">
-                                    <input
-                                        onChange={searchId}
-                                        style={{ maxWidth: "60px" }}
-                                        type="search"
-                                        className="form-control form-control-sm selectpicker"
-                                        placeholder="ID"
-                                    />
-                                    <input
-                                        onChange={searchProbirka}
-                                        style={{ maxWidth: "50px" }}
-                                        type="search"
-                                        className="form-control form-control-sm selectpicker"
-                                        placeholder="Probirka"
-                                    />
-                                </th>
-                                <th className="text-center" colSpan={3}>
-                                    <Pagination
-                                        setCurrentDatas={setCurrentConnectors}
-                                        datas={connectors}
-                                        setCurrentPage={setCurrentPage}
-                                        countPage={countPage}
-                                        totalDatas={connectors.length}
-                                    />
-                                </th>
-                                <th
-                                    className="text-center"
-                                    style={{ maxWidth: "120px", overflow: "hidden" }}
-                                >
-                                    <DatePickers changeDate={changeStart} />
-                                </th>
-                                <th
-                                    className="text-center"
-                                    style={{ maxWidth: "120px", overflow: "hidden" }}
-                                >
-                                    <DatePickers changeDate={changeEnd} />
-                                </th>
-                            </tr>
-                        </thead>
                         <thead>
                             <tr>
                                 <th className="border py-1 bg-alotrade text-[16px]">№</th>
@@ -222,8 +263,16 @@ export const TableClients = ({
                                         property={"createdAt"}
                                     />
                                 </th>
-                                {!location.pathname.includes('alo24/statsionarreport') && <th className="border py-1 bg-alotrade text-[16px]">
-                                    Qabul ailish
+                                <th className="border py-1 bg-alotrade text-[16px]">
+                                    Qarz
+                                    <Sort
+                                        data={currentConnectors}
+                                        setData={setCurrentConnectors}
+                                        property={"createdAt"}
+                                    />
+                                </th>
+                                {!location.pathname.includes('/alo24/statsionarreport') && <th className="border py-1 bg-alotrade text-[16px]">
+                                    Qabul qilish
                                     <div className="btn-group-vertical ml-2">
                                         <Sort
                                             data={currentConnectors}
@@ -232,8 +281,9 @@ export const TableClients = ({
                                         />
                                     </div>
                                 </th>}
+
                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                    Check
+                                    Chek
                                     <div className="btn-group-vertical ml-2">
                                         <Sort
                                             data={currentConnectors}
@@ -249,35 +299,38 @@ export const TableClients = ({
                                 return (
                                     <tr key={key}>
                                         <td
-                                            className="border py-1 font-weight-bold text-right"
+                                            className={`${setPosition(connector)} border py-1 font-weight-bold text-right text-[16px]`}
                                             style={{ maxWidth: "30px !important" }}
                                         >
                                             {currentPage * countPage + key + 1}
                                         </td>
-                                        <td className="border py-1 font-weight-bold">
+                                        <td className="border py-1 text-[16px] font-weight-bold">
                                             {connector.client.lastname +
                                                 " " +
                                                 connector.client.firstname}
                                         </td>
-                                        <td className="border py-1 text-right">
+                                        <td className="border py-1 text-[16px] text-right">
                                             +998{connector.client.phone}
                                         </td>
-                                        <td className="border py-1 text-right">
+                                        <td className="border py-1 text-[16px] text-right">
                                             {connector.client.id}
                                         </td>
-                                        <td className="border py-1 text-right">
+                                        <td className="border py-1 text-[16px] text-right">
                                             {connector.probirka}
                                         </td>
-                                        <td className="border py-1 text-right">
-                                            {/*{connector.totalprice}*/}
+                                        <td className="border py-1 text-[16px] text-right">
+                                            {getTotalprice(connector)}
                                         </td>
-                                        <td className="border py-1 text-right">
-                                            {/*{connector.payments}*/}
+                                        <td className="border py-1 text-[16px] text-right">
+                                            {connector.payments.reduce((prev, el) => prev + el.payment, 0)}
                                         </td>
-                                        <td className="border py-1 text-right">
-                                            {/*{connector.discount}*/}
+                                        <td className="border py-1 text-[16px] text-right">
+                                            {(connector?.discount?.discount || 0)}
                                         </td>
-                                        {!location.pathname.includes('alo24/statsionarreport') && <td className="border py-1 text-center">
+                                        <td className="border py-1 text-[16px] text-right">
+                                            {getDebt(connector)}
+                                        </td>
+                                        {!location.pathname.includes('/alo24/statsionarreport') && <td className="border py-1 text-[16px] text-center">
                                             {loading ? (
                                                 <button className="btn btn-success" disabled>
                                                     <span className="spinner-border spinner-border-sm"></span>
@@ -295,7 +348,7 @@ export const TableClients = ({
                                                 </button>
                                             )}
                                         </td>}
-                                        <td className="border py-1 text-center">
+                                        <td className="border py-1 text-[16px] text-center">
                                             {loading ? (
                                                 <button className="btn btn-success" disabled>
                                                     <span className="spinner-border spinner-border-sm"></span>

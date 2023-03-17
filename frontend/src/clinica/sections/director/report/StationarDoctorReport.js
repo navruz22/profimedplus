@@ -1,19 +1,14 @@
 import { useToast } from '@chakra-ui/react';
-import { faAngleDown, faAngleUp, faPrint } from '@fortawesome/free-solid-svg-icons';
+import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useCallback, useContext, useEffect, useState } from 'react'
-import { useHistory } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { AuthContext } from '../../../context/AuthContext';
 import { useHttp } from '../../../hooks/http.hook';
 import { DatePickers } from '../../reseption/offlineclients/clientComponents/DatePickers';
 import { Pagination } from '../components/Pagination';
-import Select from 'react-select'
-import makeAnimated from 'react-select/animated'
 
-const animatedComponents = makeAnimated()
-
-const DoctorProcient = () => {
-
+const StationarDoctorReport = () => {
     const [beginDay, setBeginDay] = useState(
         new Date(new Date().setUTCHours(0, 0, 0, 0))
     );
@@ -21,24 +16,15 @@ const DoctorProcient = () => {
         new Date(new Date().setDate(new Date().getDate() + 1))
     );
 
-
     //======================================================
     //======================================================
 
     const { request, loading } = useHttp();
     const auth = useContext(AuthContext);
 
-    const history = useHistory()
+    const { state } = useLocation()
 
-    //======================================================
-    //======================================================
-
-    const [clinicaDataSelect, setClinicaDataSelect] = useState({
-        value: auth?.clinica?._id,
-        label: auth?.clinica?.name,
-    });
-    const [clinicaValue, setClinicaValue] = useState(auth?.clinica?._id)
-
+    console.log(state);
     //======================================================
     //======================================================
     // Pagination
@@ -70,24 +56,25 @@ const DoctorProcient = () => {
     //======================================================
     //======================================================
 
-    const [doctors, setDoctors] = useState([])
-    const [currentDoctors, setCurrentDoctors] = useState([])
+    const [services, setServices] = useState([])
+    const [currentServices, setCurrentServices] = useState([])
     const [searchStorage, setSearchStrorage] = useState([])
 
-    const getDoctorCleitns = useCallback(
-        async (beginDay, endDay, clinica) => {
+    const getDoctorServices = useCallback(
+        async () => {
             try {
                 const data = await request(
-                    `/api/doctor_procient/doctor/get`,
+                    `/api/doctor_procient/statsionar/doctor/get`,
                     "POST",
-                    { clinica: clinica, beginDay, endDay },
+                    { doctor: state?.doctor?._id },
                     {
                         Authorization: `Bearer ${auth.token}`,
                     }
                 );
-                setDoctors(data)
+
+                setServices(data)
                 setSearchStrorage(data)
-                setCurrentDoctors(
+                setCurrentServices(
                     data.slice(indexFirstConnector, indexLastConnector),
                 )
             } catch (error) {
@@ -101,77 +88,8 @@ const DoctorProcient = () => {
         [request, auth, notify]
     );
 
-
-    const [statsionarDoctors, setStatsionarDoctors] = useState([])
-
-    const getStatsionar = useCallback(
-        async (beginDay, endDay, clinica) => {
-            try {
-                const data = await request(
-                    `/api/doctor_procient/statsionar/get`,
-                    "POST",
-                    { clinica: clinica, beginDay, endDay },
-                    {
-                        Authorization: `Bearer ${auth.token}`,
-                    }
-                );
-                setStatsionarDoctors(data);
-            } catch (error) {
-                notify({
-                    title: error,
-                    description: "",
-                    status: "error",
-                });
-            }
-        },
-        [request, auth, notify]
-    );
-
     //=======================================================
     //=======================================================
-
-
-
-    //=======================================================
-    //=======================================================
-
-    const changeStart = (e) => {
-        setBeginDay(new Date(new Date(e).setUTCHours(0, 0, 0, 0)));
-        getDoctorCleitns(new Date(new Date(e).setUTCHours(0, 0, 0, 0)), endDay, clinicaValue);
-        getStatsionar(beginDay, endDay, clinicaValue)
-    };
-
-    const changeEnd = (e) => {
-        const date = new Date(
-            new Date(new Date().setDate(new Date(e).getDate() + 1)).setUTCHours(
-                0,
-                0,
-                0,
-                0
-            )
-        );
-
-        setEndDay(date);
-        getDoctorCleitns(beginDay, date, clinicaValue);
-        getStatsionar(beginDay, endDay, clinicaValue)
-    }
-
-    //=======================================================
-    //=======================================================
-
-    const [type, setType] = useState('offline')
-
-    const changeType = (e) => {
-        if (e.target.value === 'offline') {
-            setSearchStrorage(doctors);
-            setType('offline')
-            setCurrentDoctors([...doctors].slice(indexFirstConnector, indexLastConnector));
-        } else {
-            setType('statsionar')
-            setSearchStrorage(statsionarDoctors);
-            setCurrentDoctors([...statsionarDoctors].slice(indexFirstConnector, indexLastConnector));
-        }
-    }
 
     //=======================================================
     //=======================================================
@@ -180,7 +98,7 @@ const DoctorProcient = () => {
         (e) => {
             setCurrentPage(0)
             setCountPage(e.target.value)
-            setCurrentDoctors(doctors.slice(0, e.target.value))
+            setCurrentServices(services.slice(0, e.target.value))
         }
 
     const searchFullname =
@@ -193,8 +111,8 @@ const DoctorProcient = () => {
                     .toLowerCase()
                     .includes(e.target.value.toLowerCase())
             )
-            setDoctors(searching)
-            setCurrentDoctors(searching.slice(0, countPage))
+            setServices(searching)
+            setCurrentServices(searching.slice(0, countPage))
         }
 
     //=======================================================
@@ -203,43 +121,16 @@ const DoctorProcient = () => {
     const [t, setT] = useState(0);
 
     useEffect(() => {
-        if (!t) {
+        if (auth.clinica && !t) {
             setT(1)
-            getDoctorCleitns(beginDay, endDay, clinicaValue)
-            getStatsionar(beginDay, endDay, clinicaValue)
+            getDoctorServices()
         }
-    }, [getDoctorCleitns, t, beginDay, endDay, clinicaValue])
+    }, [getDoctorServices, auth, t])
 
     return (
         <div className="bg-slate-100 content-wrapper px-lg-5 px-3">
             <div className="row gutters">
                 <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                    {auth?.clinica?.mainclinica && auth?.clinica?.filials.length > 0 && <div className="w-[300px] mb-2">
-                        <Select
-                            value={clinicaDataSelect}
-                            onChange={(e) => {
-                                setClinicaDataSelect(e)
-                                setClinicaValue(e.value);
-                                getDoctorCleitns(beginDay, endDay, e.value);
-                            }}
-                            components={animatedComponents}
-                            options={[
-                                {
-                                    value: auth?.clinica?._id,
-                                    label: auth?.clinica?.name,
-                                },
-                                ...[...auth?.clinica?.filials].map(el => ({
-                                    value: el._id,
-                                    label: el.name
-                                }))]}
-                            theme={(theme) => ({
-                                ...theme,
-                                borderRadius: 0,
-                                padding: 0,
-                                height: 0,
-                            })}
-                        />
-                    </div>}
                     <div className="border-0 table-container">
                         <div className="border-0 table-container">
                             <div className="table-responsive">
@@ -266,31 +157,13 @@ const DoctorProcient = () => {
                                             placeholder="F.I.O"
                                         />
                                     </div>
-                                    <div>
-                                        <select
-                                            className="form-control form-control-sm selectpicker"
-                                            placeholder="Turini tanlang"
-                                            onChange={changeType}
-                                            style={{ minWidth: "50px" }}
-                                        >
-                                            <option value='offline'>Kunduzgi</option>
-                                            <option value='statsionar'>Statsionar</option>
-                                        </select>
-                                    </div>
-                                    <div
-                                        className="text-center ml-auto flex gap-2"
-                                        style={{ overflow: 'hidden' }}
-                                    >
-                                        <DatePickers changeDate={changeStart} />
-                                        <DatePickers changeDate={changeEnd} />
-                                    </div>
                                     <div className="text-center ml-auto mr-4">
                                         <Pagination
-                                            setCurrentDatas={setCurrentDoctors}
-                                            datas={doctors}
+                                            setCurrentDatas={setCurrentServices}
+                                            datas={services}
                                             setCurrentPage={setCurrentPage}
                                             countPage={countPage}
-                                            totalDatas={doctors.length}
+                                            totalDatas={services.length}
                                         />
                                     </div>
                                 </div>
@@ -299,12 +172,12 @@ const DoctorProcient = () => {
                                         <tr>
                                             <th className="border py-1 bg-alotrade text-[16px]">№</th>
                                             <th className="border py-1 bg-alotrade text-[16px]">
-                                                F.I.O
+                                                Mijoz
                                                 <div className="btn-group-vertical ml-2">
                                                     <FontAwesomeIcon
                                                         onClick={() =>
-                                                            setCurrentDoctors(
-                                                                [...currentDoctors].sort((a, b) =>
+                                                            setCurrentServices(
+                                                                [...currentServices].sort((a, b) =>
                                                                     a.client.fullname > b.client.fullname ? 1 : -1
                                                                 )
                                                             )
@@ -316,8 +189,8 @@ const DoctorProcient = () => {
                                                         icon={faAngleDown}
                                                         style={{ cursor: "pointer" }}
                                                         onClick={() =>
-                                                            setCurrentDoctors(
-                                                                [...currentDoctors].sort((a, b) =>
+                                                            setCurrentServices(
+                                                                [...currentServices].sort((a, b) =>
                                                                     b.client.fullname > a.client.fullname ? 1 : -1
                                                                 )
                                                             )
@@ -326,12 +199,12 @@ const DoctorProcient = () => {
                                                 </div>
                                             </th>
                                             <th className="border py-1 bg-alotrade text-[16px]">
-                                                Bo'lim
+                                                Xona
                                                 <div className="btn-group-vertical ml-2">
                                                     <FontAwesomeIcon
                                                         onClick={() =>
-                                                            setCurrentDoctors(
-                                                                [...currentDoctors].sort((a, b) =>
+                                                            setCurrentServices(
+                                                                [...currentServices].sort((a, b) =>
                                                                     a.client.fullname > b.client.fullname ? 1 : -1
                                                                 )
                                                             )
@@ -343,8 +216,8 @@ const DoctorProcient = () => {
                                                         icon={faAngleDown}
                                                         style={{ cursor: "pointer" }}
                                                         onClick={() =>
-                                                            setCurrentDoctors(
-                                                                [...currentDoctors].sort((a, b) =>
+                                                            setCurrentServices(
+                                                                [...currentServices].sort((a, b) =>
                                                                     b.client.fullname > a.client.fullname ? 1 : -1
                                                                 )
                                                             )
@@ -353,12 +226,12 @@ const DoctorProcient = () => {
                                                 </div>
                                             </th>
                                             <th className="border py-1 bg-alotrade text-[16px]">
-                                                Umumiy summa
+                                                Kuni
                                                 <div className="btn-group-vertical ml-2">
                                                     <FontAwesomeIcon
                                                         onClick={() =>
-                                                            setCurrentDoctors(
-                                                                [...currentDoctors].sort((a, b) =>
+                                                            setCurrentServices(
+                                                                [...currentServices].sort((a, b) =>
                                                                     a.client.fullname > b.client.fullname ? 1 : -1
                                                                 )
                                                             )
@@ -370,8 +243,35 @@ const DoctorProcient = () => {
                                                         icon={faAngleDown}
                                                         style={{ cursor: "pointer" }}
                                                         onClick={() =>
-                                                            setCurrentDoctors(
-                                                                [...currentDoctors].sort((a, b) =>
+                                                            setCurrentServices(
+                                                                [...currentServices].sort((a, b) =>
+                                                                    b.client.fullname > a.client.fullname ? 1 : -1
+                                                                )
+                                                            )
+                                                        }
+                                                    />
+                                                </div>
+                                            </th>
+                                            <th className="border py-1 bg-alotrade text-[16px]">
+                                                Umumiy narxi
+                                                <div className="btn-group-vertical ml-2">
+                                                    <FontAwesomeIcon
+                                                        onClick={() =>
+                                                            setCurrentServices(
+                                                                [...currentServices].sort((a, b) =>
+                                                                    a.client.fullname > b.client.fullname ? 1 : -1
+                                                                )
+                                                            )
+                                                        }
+                                                        icon={faAngleUp}
+                                                        style={{ cursor: "pointer" }}
+                                                    />
+                                                    <FontAwesomeIcon
+                                                        icon={faAngleDown}
+                                                        style={{ cursor: "pointer" }}
+                                                        onClick={() =>
+                                                            setCurrentServices(
+                                                                [...currentServices].sort((a, b) =>
                                                                     b.client.fullname > a.client.fullname ? 1 : -1
                                                                 )
                                                             )
@@ -384,8 +284,8 @@ const DoctorProcient = () => {
                                                 <div className="btn-group-vertical ml-2">
                                                     <FontAwesomeIcon
                                                         onClick={() =>
-                                                            setCurrentDoctors(
-                                                                [...currentDoctors].sort((a, b) =>
+                                                            setCurrentServices(
+                                                                [...currentServices].sort((a, b) =>
                                                                     a.client.fullname > b.client.fullname ? 1 : -1
                                                                 )
                                                             )
@@ -397,8 +297,8 @@ const DoctorProcient = () => {
                                                         icon={faAngleDown}
                                                         style={{ cursor: "pointer" }}
                                                         onClick={() =>
-                                                            setCurrentDoctors(
-                                                                [...currentDoctors].sort((a, b) =>
+                                                            setCurrentServices(
+                                                                [...currentServices].sort((a, b) =>
                                                                     b.client.fullname > a.client.fullname ? 1 : -1
                                                                 )
                                                             )
@@ -406,11 +306,10 @@ const DoctorProcient = () => {
                                                     />
                                                 </div>
                                             </th>
-                                            <th className="border py-1 bg-alotrade text-[16px]"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {currentDoctors.map((doctor, key) => {
+                                        {currentServices.map((service, key) => {
                                             return (
                                                 <tr key={key}>
                                                     <td
@@ -420,49 +319,43 @@ const DoctorProcient = () => {
                                                         {currentPage * countPage + key + 1}
                                                     </td>
                                                     <td className="border py-1 text-[16px] font-weight-bold">
-                                                        {doctor.lastname +
+                                                        {service.client.lastname +
                                                             " " +
-                                                            doctor.firstname}
+                                                            service.client.firstname}
                                                     </td>
                                                     <td className="border py-1 text-[16px] text-center">
-                                                        {doctor?.specialty?.name}
+                                                        {service?.room?.room?.type} {service?.room?.room?.number}
                                                     </td>
                                                     <td className="border py-1 text-[16px] text-right">
-                                                        {doctor.total}
+                                                        {service?.days}
                                                     </td>
                                                     <td className="border py-1 text-[16px] text-right">
-                                                        {doctor.profit}
+                                                        {service?.total}
                                                     </td>
-                                                    <td className="border py-1 text-[16px] text-center">
-                                                        {loading ? (
-                                                            <button className="btn btn-success" disabled>
-                                                                <span class="spinner-border spinner-border-sm"></span>
-                                                                Loading...
-                                                            </button>
-                                                        ) : (
-                                                            <button
-                                                                onClick={() => {
-                                                                    if (type === 'offline') {
-                                                                        history.push('/alo24/doctor_procient_services', {
-                                                                            doctor
-                                                                        })
-                                                                    } else {
-                                                                        history.push('/alo24/doctor_procient_statsionar', {
-                                                                            doctor
-                                                                        })
-                                                                    }
-                                                                }}
-                                                                type="button"
-                                                                className="bg-alotrade rounded text-white font-semibold py-1 px-2"
-                                                                style={{ fontSize: '75%' }}
-                                                            >
-                                                                Batafsil
-                                                            </button>
-                                                        )}
+                                                    <td className="border py-1 text-[16px] text-right">
+                                                        {service?.profit}
                                                     </td>
                                                 </tr>
                                             );
                                         })}
+                                        <tr>
+                                            <td
+                                                className={`border py-1 font-weight-bold text-right text-[16px]`}
+                                                style={{ maxWidth: "30px !important" }}
+                                            >
+                                            </td>
+                                            <td className="border py-1 text-[16px] font-weight-bold">
+                                            </td>
+                                            <td className="border py-1 text-[16px] text-center">
+                                            </td>
+                                            <td className="border py-1 text-[16px] text-right">
+                                            </td>
+                                            <td className="border py-1 text-[16px] text-right">
+                                            </td>
+                                            <td className="border py-1 text-[16px] text-right font-bold">
+                                                {searchStorage.reduce((prev, el) => prev + el.profit, 0)}
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -474,4 +367,4 @@ const DoctorProcient = () => {
     )
 }
 
-export default DoctorProcient
+export default StationarDoctorReport

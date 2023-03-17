@@ -16,6 +16,7 @@ import { DiscountReport } from "./report/DiscountReport";
 import DoctorProcient from "./report/DoctorProcient";
 import DoctorServices from "./report/DoctorServices";
 import MainReport from "./report/MainReport";
+import StationarDoctorReport from "./report/StationarDoctorReport";
 import { StatsionarReport } from "./report/StatsionarReport";
 import { Departments } from "./services/Departments";
 import { ProductConnectors } from "./services/ProductConnector";
@@ -84,6 +85,9 @@ export const DirectorRouter = () => {
         </Route>
         <Route path="/alo24/doctor_procient_services">
           <DoctorServices />
+        </Route>
+        <Route path="/alo24/doctor_procient_statsionar">
+          <StationarDoctorReport />
         </Route>
         <Route path="/alo24/counteragent">
           <CounterAgent />

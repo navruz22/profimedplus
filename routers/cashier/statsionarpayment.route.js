@@ -185,7 +185,7 @@ module.exports.getAll = async (req, res) => {
                 $lt: endDay,
             },
         })
-            .populate('client', '-createdAt -updatedAt -isArchive -__v')
+            .populate('client', '-updatedAt -isArchive -__v')
             .populate('services')
             .populate('products')
             .populate('room')
