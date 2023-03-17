@@ -571,14 +571,14 @@ const AdoptionTemplate = () => {
                                   {table?.col3}
                                 </textarea>
                               </td>
-                              {table?.col4 && <td className="border-2 border-black p-[10px]">
+                              {section?.column?.col4 && <td className="border-2 border-black p-[10px]">
                                 <textarea rows={2}
                                   className={"w-full border-none outline-none text-center"}
                                   onChange={(e) => handleChangeTables(e, index, service._id, key, "col4")}
                                 >
                                   {table?.col4}
                                 </textarea></td>}
-                              {table?.col5 && <td className="border-2 border-black p-[10px]">
+                              {section?.column?.col5 && <td className="border-2 border-black p-[10px]">
                                 <textarea rows={2}
                                   className={"w-full border-none outline-none text-center"}
                                   onChange={(e) => handleChangeTables(e, index, service._id, key, "col5")}

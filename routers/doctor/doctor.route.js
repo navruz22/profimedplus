@@ -76,4 +76,10 @@ router.post('/clients/adopt', auth, (req, res) => {
 })
 
 
+// 
+router.post('/table/correct', auth, (req, res) => {
+    require('./tables').correctTables(req, res);
+})
+
+
 module.exports = router

@@ -7,7 +7,8 @@ module.exports.column = async (req, res) => {
     try {
         const { column } = req.body
         if (column._id) {
-            const update = await TableColumn.findByIdAndUpdate(column._id, { ...column })
+
+            const update = await TableColumn.findByIdAndUpdate(column._id, { ...column });
 
             const offlineservices = await OfflineService.find({
                 serviceid: column.service,
@@ -43,6 +44,7 @@ module.exports.column = async (req, res) => {
         }
 
     } catch (error) {
+        console.log(error);
         res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
     }
 }
@@ -72,6 +74,7 @@ module.exports.table = async (req, res) => {
     try {
         const { table } = req.body
         if (table._id) {
+
             const update = await ServiceTable.findByIdAndUpdate(table._id, { ...table })
 
             return res.status(200).send(update)
@@ -169,6 +172,47 @@ module.exports.createall = async (req, res) => {
         return res.status(200).send(tabless)
 
     } catch (error) {
+        res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
+    }
+}
+
+
+module.exports.correctTables = async (req, res) => {
+    try {
+        const { clinica } = req.body;
+
+        const services = await Service.find({
+            clinica: clinica,
+        })
+            .populate('department')
+            .lean()
+            .then(services => services.filter(service => service.department.probirka))
+
+        for (const service of services) {
+            if (service.column) {
+                const column = await TableColumn.findById(service.column)
+                    .lean();
+
+                const columns = Object.keys(column).filter(col => col.includes('col'))
+
+                const tables = await ServiceTable.find({ service: service._id }).lean()
+
+                for (const col of columns) {
+                    for (const table of tables) {
+                        const tableOne = await ServiceTable.findById(table._id);
+                        if (!tableOne[col]) {
+                            tableOne[col] = '';
+                        }
+                        await tableOne.save()
+                    }
+                }
+            }
+        }
+
+        res.status(200).json({ message: "Shablonlar yangilandi!" })
+
+    } catch (error) {
+        console.log(error);
         res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
     }
 }

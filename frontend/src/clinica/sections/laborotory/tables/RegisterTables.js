@@ -26,7 +26,15 @@ const RegisterTables = ({
     const changeCols = (e, col) => {
         let column = { ...service.column }
         column[col] = e.target.value
-        setService({ ...service, column: column })
+
+        const newTables = [...service.tables].map(t => {
+            if (!t[col]) {
+                t[col] = ""
+            }
+            return t;
+        })
+
+        setService({ ...service, tables: [...newTables], column: column })
     }
     return (
         <div className="overflow-x-scroll">
@@ -211,7 +219,7 @@ const RegisterTables = ({
                                     <textarea
                                         className="w-full h-full outline-0 px-2 m-0"
                                         type="text"
-                                        value={table.col4}
+                                        value={table.col4 || ''}
                                         onChange={(e) => {
                                             changeTables(e, index, 'col4')
                                         }}
@@ -222,7 +230,7 @@ const RegisterTables = ({
                                     <textarea
                                         className="w-full h-full outline-0 px-2 m-0"
                                         type="text"
-                                        value={table.col5}
+                                        value={table.col5 || ''}
                                         onChange={(e) => {
                                             changeTables(e, index, 'col5')
                                         }}

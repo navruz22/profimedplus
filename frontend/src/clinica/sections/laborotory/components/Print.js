@@ -308,14 +308,14 @@ const Print = ({ client, connector, sections, baseUrl, clinica }) => {
                                                         {table?.col3}
                                                     </pre>
                                                 </td>
-                                                {table?.col4 && <td className={`border-[1px] text-[20px] border-black py-1 px-[12px]`}>
+                                                {section?.column?.col4 && <td className={`border-[1px] text-[20px] border-black py-1 px-[12px]`}>
                                                     <pre
                                                         style={{ width: getWidth(table) }}
                                                         className="border-none outline-none"
                                                     >
                                                         {table?.col4}
                                                     </pre></td>}
-                                                {table?.col5 && <td className={`border-[1px] text-[20px] border-black py-1 px-[12px]`}>
+                                                {section?.column?.col5 && <td className={`border-[1px] text-[20px] border-black py-1 px-[12px]`}>
                                                     <pre
                                                         style={{ width: getWidth(table) }}
                                                         className="border-none outline-none"
