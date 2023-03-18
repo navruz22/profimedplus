@@ -1,5 +1,7 @@
 import React from 'react'
 import parse from "html-react-parser"
+import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser'
+import './Print.css'
 
 const Print = ({ client, connector, sections, clinica, baseUrl, doctor }) => {
     return (
@@ -232,10 +234,10 @@ const Print = ({ client, connector, sections, clinica, baseUrl, doctor }) => {
                                 section.templates.map((template, index) => (
                                     <div
                                         key={index}
-                                        className="w-full mb-2"
+                                        className="w-full mb-2 print"
                                     >
 
-                                        {parse(template.template)}
+                                        {ReactHtmlParser(template.template)}
 
                                     </div>
                                 ))}

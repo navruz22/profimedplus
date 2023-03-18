@@ -6,6 +6,12 @@ import { useHttp } from "../../../hooks/http.hook";
 import AdoptionTemplate from "../components/AdoptionTemplate";
 import Print from "../components/Print";
 import { TableClients } from "./clientComponents/TableClients";
+import Select from 'react-select'
+import makeAnimated from 'react-select/animated'
+import { checkClientData, checkProductsData, checkServicesData } from "../../reseption/offlineclients/checkData/checkData";
+import { Modal } from "../../reseption/components/Modal";
+
+const animatedComponents = makeAnimated()
 
 export const DoctorClients = () => {
   const [beginDay, setBeginDay] = useState(
@@ -16,8 +22,7 @@ export const DoctorClients = () => {
   );
   //====================================================================
   //====================================================================
-  // MODAL
-  const [modal, setModal] = useState(false);
+
 
   //====================================================================
   //====================================================================
@@ -114,6 +119,70 @@ export const DoctorClients = () => {
     [request, auth, notify, indexFirstConnector, indexLastConnector]
   );
 
+  //============================================================
+  //============================================================
+
+  //===================================================================
+  //===================================================================
+
+  const [modal, setModal] = useState(false);
+
+  const checkData = () => {
+    if (checkServicesData(newservices && newservices)) {
+      return notify(checkServicesData(newservices));
+    }
+
+    if (checkProductsData(newproducts)) {
+      return notify(checkProductsData(newproducts));
+    }
+    setModal(true);
+  };
+
+  //===================================================================
+  //===================================================================
+
+  const [client, setClient] = useState({})
+  const [connector, setConnector] = useState({})
+
+  const addServices =
+    async () => {
+      try {
+        const data = await request(
+          `/api/doctor/clients/service/add`,
+          "POST",
+          {
+            client: { ...client, clinica: auth.clinica._id },
+            connector: { ...connector, clinica: auth.clinica._id },
+            services: [...newservices],
+            products: [...newproducts],
+            clinica: auth && auth.clinica._id
+          },
+          {
+            Authorization: `Bearer ${auth.token}`,
+          }
+        );
+        notify({
+          title: data.message,
+          description: "",
+          status: "error",
+        });
+        setSelectedServices(null);
+        setConnector({})
+        setClient({})
+        setModal(false);
+        getDoctorClients(beginDay, endDay)
+        setNewProducts([])
+        setNewServices([])
+        setVisible(false);
+      } catch (error) {
+        notify({
+          title: error,
+          description: "",
+          status: "error",
+        });
+      }
+    }
+
   //===================================================================
   //===================================================================
   // Searching
@@ -195,6 +264,90 @@ export const DoctorClients = () => {
 
   //====================================================================
   //====================================================================
+
+  // DEPARTMENTS
+  const [departments, setDepartments] = useState([]);
+
+  const getDepartments = useCallback(async () => {
+    try {
+      const data = await request(
+        `/api/services/department/reseption`,
+        "POST",
+        { clinica: auth.clinica._id },
+        {
+          Authorization: `Bearer ${auth.token}`,
+        }
+      );
+      setDepartments(data);
+    } catch (error) {
+      notify({
+        title: error,
+        description: "",
+        status: "error",
+      });
+    }
+  }, [request, auth, notify]);
+
+  //====================================================================
+  //====================================================================
+
+  //====================================================================
+  //====================================================================
+  // PRODUCTS
+  const [products, setProducts] = useState([]);
+
+  const getProducts = useCallback(async () => {
+    try {
+      const data = await request(
+        `/api/services/product/getallreseption`,
+        "POST",
+        { clinica: auth.clinica._id },
+        {
+          Authorization: `Bearer ${auth.token}`,
+        }
+      );
+
+      let s = [];
+      data.map((product) => {
+        return s.push({
+          label: product.name,
+          value: product._id,
+          product: product,
+        });
+      });
+      setProducts(s);
+    } catch (error) {
+      notify({
+        title: error,
+        description: "",
+        status: "error",
+      });
+    }
+  }, [request, auth, notify]);
+
+  const [newproducts, setNewProducts] = useState([]);
+  const [selectedProducts, setSelectedProducts] = useState([]);
+
+  const changeProduct = (newproducts) => {
+    let s = [];
+    newproducts.map((product) => {
+      return s.push({
+        clinica: auth.clinica._id,
+        reseption: auth.user._id,
+        productid: product.product._id,
+        product: product.product,
+        pieces: 1,
+      });
+    });
+    setNewProducts(s);
+    setSelectedProducts(newproducts);
+  };
+
+  //====================================================================
+  //====================================================================
+
+  //====================================================================
+  //====================================================================
   // useEffect
 
   const [t, setT] = useState(0);
@@ -203,9 +356,11 @@ export const DoctorClients = () => {
     if (auth.clinica && !t) {
       setT(1);
       getDoctorClients(beginDay, endDay);
+      getDepartments()
       getBaseUrl()
+      getProducts()
     }
-  }, [auth, beginDay, t, endDay, getDoctorClients]);
+  }, [auth, beginDay, t, endDay, getDoctorClients, getDepartments, getProducts]);
 
 
   const componentRef = useRef()
@@ -224,6 +379,76 @@ export const DoctorClients = () => {
       print()
     }, 1000)
   }
+
+  //=====================================================================
+  //=====================================================================
+
+  const [newservices, setNewServices] = useState([]);
+  const [selectedServices, setSelectedServices] = useState([]);
+
+  const changeService = (services) => {
+    let s = [];
+    services.map((service) => {
+      if (service.department.probirka) {
+        setConnector({ ...connector, probirka: 1, clinica: auth.clinica._id });
+      }
+      return s.push({
+        clinica: auth.clinica._id,
+        reseption: auth.user._id,
+        serviceid: service.service._id,
+        service: service.service,
+        department: service.department._id,
+        pieces: 1,
+      });
+    });
+    setNewServices(s);
+    setSelectedServices(services);
+  };
+
+  //=================================================================
+  //=================================================================
+  const [services, setServices] = useState([])
+
+  const getServices = useCallback(
+    (e) => {
+      var s = []
+      if (e === 'all') {
+        departments.map((department) => {
+          return department.services.map((service) => {
+            return s.push({
+              label: service.name,
+              value: service._id,
+              service: service,
+              department: department,
+            })
+          })
+        })
+      } else {
+        departments.map((department) => {
+          if (e === department._id) {
+            department.services.map((service) => {
+              s.push({
+                label: service.name,
+                value: service._id,
+                service: service,
+                department: department,
+              })
+              return ''
+            })
+          }
+          return ''
+        })
+      }
+      setServices(s)
+    },
+    [departments],
+  )
+
+  useEffect(() => {
+    if (departments) {
+      getServices('all')
+    }
+  }, [departments, getServices])
 
   //=====================================================================
   //=====================================================================
@@ -259,7 +484,188 @@ export const DoctorClients = () => {
                 </button>
               </div>
             </div>
-            <div className={` ${visible ? "bg-white" : "d-none"}`}></div>
+            <div className={` ${visible ? "bg-white" : "d-none"}`}>
+              <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                <div className="card">
+                  <div className="card-header">
+                    <div className="card-title">Xizmatlar bilan ishlash</div>
+                  </div>
+                  <div className="card-body">
+                    <div className="row gutters">
+                      <div className="col-12">
+                        <div className="form-group">
+                          <label htmlFor="fullName">Bo'limlar</label>
+                          <select
+                            className="form-control form-control-sm selectpicker"
+                            placeholder="Reklamalarni tanlash"
+                            onChange={(event) => getServices(event.target.value)}
+                          >
+                            <option value="all"> Barcha bo'limlar</option>
+                            {departments.map((department, index) => {
+                              return (
+                                <option key={index} value={department._id}>
+                                  {department.name}
+                                </option>
+                              )
+                            })}
+                          </select>
+                        </div>
+                      </div>
+                      <div className="col-12">
+                        <div className="form-group">
+                          <label htmlFor="inputEmail">Xizmatlar</label>
+                          <Select
+                            value={selectedServices}
+                            onChange={changeService}
+                            closeMenuOnSelect={false}
+                            components={animatedComponents}
+                            options={services}
+                            theme={(theme) => ({
+                              ...theme,
+                              borderRadius: 0,
+                              padding: 0,
+                              height: 0,
+                            })}
+                            isMulti
+                          />
+                        </div>
+                      </div>
+                      <div className="col-12">
+                        <div className="form-group">
+                          <label htmlFor="inputEmail">Mahsulotlar</label>
+                          <Select
+                            value={selectedProducts}
+                            onChange={changeProduct}
+                            closeMenuOnSelect={false}
+                            components={animatedComponents}
+                            options={products}
+                            theme={(theme) => ({
+                              ...theme,
+                              borderRadius: 0,
+                              padding: 0,
+                              height: 0,
+                            })}
+                            isMulti
+                          />
+                        </div>
+                      </div>
+                      <div className="col-12">
+                        <table className="table">
+                          <thead>
+                            <tr>
+                              <th className="border bg-alotrade py-1">№</th>
+                              <th className="border bg-alotrade py-1">Nomi</th>
+                              <th className="border bg-alotrade py-1">Narxi</th>
+                              <th className="border bg-alotrade py-1">Soni</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {newservices &&
+                              newservices.map((service, index) => {
+                                return (
+                                  <tr key={index}>
+                                    <td className="py-1">{index + 1}</td>
+                                    <td className="py-1">{service.service.name}</td>
+                                    <td className="text-right py-1">
+                                      {service.service.price * service.pieces}
+                                    </td>
+                                    <td className="text-right py-1">
+                                      <input
+                                        onChange={(e) =>
+                                          setNewServices(
+                                            Object.values({
+                                              ...newservices,
+                                              [index]: {
+                                                ...newservices[index],
+                                                pieces: e.target.value,
+                                              },
+                                            }),
+                                          )
+                                        }
+                                        className="text-right outline-none"
+                                        style={{ maxWidth: '50px', outline: 'none' }}
+                                        defaultValue={service.pieces}
+                                        type="number"
+                                      />
+                                    </td>
+                                  </tr>
+                                )
+                              })}
+                            <tr className="border"></tr>
+                            {newproducts &&
+                              newproducts.map((product, index) => {
+                                return (
+                                  <tr key={index}>
+                                    <td className="py-1">{index + 1}</td>
+                                    <td className="py-1">{product.product.name}</td>
+                                    <td className="text-right py-1">
+                                      {product.product.price * product.pieces}
+                                    </td>
+                                    <td className="text-right py-1">
+                                      <input
+                                        onChange={(e) =>
+                                          setNewProducts(
+                                            Object.values({
+                                              ...newproducts,
+                                              [index]: {
+                                                ...newproducts[index],
+                                                pieces: e.target.value,
+                                              },
+                                            }),
+                                          )
+                                        }
+                                        className="text-right outline-none"
+                                        style={{ maxWidth: '50px', outline: 'none' }}
+                                        defaultValue={product.pieces}
+                                        type="number"
+                                      />
+                                    </td>
+                                  </tr>
+                                )
+                              })}
+                          </tbody>
+                          <tfoot>
+                            <tr>
+                              <th className="text-right" colSpan={2}>
+                                Jami:
+                              </th>
+                              <th colSpan={2}>
+                                {newservices.reduce((summa, service) => {
+                                  return (
+                                    summa +
+                                    service.service.price * parseInt(service.pieces)
+                                  )
+                                }, 0) +
+                                  newproducts.reduce((summa, product) => {
+                                    return (
+                                      summa +
+                                      product.product.price * parseInt(product.pieces)
+                                    )
+                                  }, 0)}
+                              </th>
+                            </tr>
+                          </tfoot>
+                        </table>
+                      </div>
+                      <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div className="text-right">
+                          {loading ? (
+                            <button className="bg-alotrade rounded text-white py-2 px-3" disabled>
+                              <span className="spinner-border spinner-border-sm"></span>
+                              Loading...
+                            </button>
+                          ) : (
+                            <button onClick={checkData} className="bg-alotrade rounded text-white py-2 px-3">
+                              Saqlash
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
             <TableClients
               changeStart={changeStart}
               changeEnd={changeEnd}
@@ -274,10 +680,20 @@ export const DoctorClients = () => {
               setPageSize={setPageSize}
               loading={loading}
               handlePrint={handlePrint}
+              setClient={setClient}
+              setConnector={setConnector}
+              setVisible={setVisible}
             />
           </div>
         </div>
       </div>
+      <Modal
+        modal={modal}
+        text={"ma'lumotlar to'g'ri kiritilganligini tasdiqlaysizmi?"}
+        setModal={setModal}
+        handler={addServices}
+        basic={client.lastname + " " + client.firstname}
+      />
     </>
   );
 };

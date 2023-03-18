@@ -5,6 +5,7 @@ import {
   faAngleDown,
   faPenAlt,
   faPrint,
+  faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import { Sort } from "./Sort";
 import { Pagination } from "../../components/Pagination";
@@ -26,6 +27,9 @@ export const TableClients = ({
   setPageSize,
   handlePrint,
   loading,
+  setClient,
+  setConnector,
+  setVisible
 }) => {
   const history = useHistory();
   return (
@@ -250,7 +254,7 @@ export const TableClients = ({
                             htmlFor={`product${key}`}></label>
                         </div>
                       </td>
-                      <td className="border text-[16px] py-1 text-center">
+                      <td className="border text-[16px] py-1 text-center flex gap-[4px] items-center">
                         {loading ? (
                           <button className="btn btn-success" disabled>
                             <span className="spinner-border spinner-border-sm"></span>
@@ -267,6 +271,23 @@ export const TableClients = ({
                           </button>
                         )}
                         {loading ? (
+                          <button className="btn btn-success" disabled>
+                            <span className="spinner-border spinner-border-sm"></span>
+                            Loading...
+                          </button>
+                        ) : (
+                          <button
+                            onClick={() => {
+                              setClient(connector.client)
+                              setConnector(connector.connector)
+                              setVisible(true)
+                            }}
+                            className="btn btn-success py-0"
+                          >
+                            <FontAwesomeIcon icon={faPlus} />
+                          </button>
+                        )}
+                        {loading ? (
                           <button className="ml-2 btn btn-success" disabled>
                             <span className="spinner-border spinner-border-sm"></span>
                             Loading...
@@ -276,7 +297,7 @@ export const TableClients = ({
                             onClick={() =>
                               handlePrint(connector)
                             }
-                            className="ml-2 btn btn-success py-0"
+                            className="btn btn-success py-0"
                           >
                             <FontAwesomeIcon icon={faPrint} />
                           </button>

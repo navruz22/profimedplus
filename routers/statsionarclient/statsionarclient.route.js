@@ -1,4 +1,4 @@
-const {Router} = require('express')
+const { Router } = require('express')
 const router = Router()
 const auth = require('../../middleware/auth.middleware')
 
@@ -20,6 +20,11 @@ router.post('/client/getallreseption', auth, (req, res) => {
 
 router.put('/client/update', auth, (req, res) => {
     require('./clients.route').update(req, res)
+})
+
+
+router.post('/nurse_procient/get', auth, (req, res) => {
+    require('./clients.route').getNurseProcient(req, res);
 })
 
 module.exports = router

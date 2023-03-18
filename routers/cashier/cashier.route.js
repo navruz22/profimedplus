@@ -48,4 +48,26 @@ router.post('/statsionar/debts', auth, (req, res) => {
     require('./debts.route').statsionar(req, res)
 })
 
+
+//============================================================
+
+router.post('/expense/create', auth, (req, res) => {
+    require('./expense').create(req, res)
+})
+
+router.put('/expense/update', auth, (req, res) => {
+    require('./expense').update(req, res);
+})
+
+router.post('/expense/get', auth, (req, res) => {
+    require('./expense').get(req, res);
+})
+
+router.post('/expense/delete', auth, (req, res) => {
+    require('./expense').delete(req, res);
+})
+
+//============================================================
+
+
 module.exports = router

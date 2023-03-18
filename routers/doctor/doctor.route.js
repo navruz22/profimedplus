@@ -67,12 +67,16 @@ router.post('/clients/gettemplates', auth, (req, res) => {
     require('./getclients.route').gettemplates(req, res)
 })
 
-router.post('/clients/updateservice', auth, (req, res) => {
-    require('./getclients.route').gettemplates(req, res)
+router.post('/clients/service/add', auth, (req, res) => {
+    require('./getclients.route').addservices(req, res)
 })
 
 router.post('/clients/adopt', auth, (req, res) => {
     require('./getclients.route').adoptClient(req, res);
+})
+
+router.post('/clients/services/get', auth, (req, res) => {
+    require('./getclients.route').getServices(req, res);
 })
 
 

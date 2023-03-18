@@ -4,8 +4,13 @@ const {
   OfflineConnector,
 } = require("../../models/OfflineClient/OfflineConnector");
 const { Clinica } = require("../../models/DirectorAndClinica/Clinica");
-const { OfflineService } = require("../../models/OfflineClient/OfflineService");
+const { OfflineService, validateOfflineService } = require("../../models/OfflineClient/OfflineService");
 const { Template } = require("../../models/Templates/Template");
+const { ProductConnector } = require("../../models/Warehouse/ProductConnector");
+const { Product } = require("../../models/Warehouse/Product");
+const { TableColumn } = require("../../models/Services/TableColumn");
+const { ServiceTable } = require("../../models/Services/ServiceTable");
+const { ServiceType } = require("../../models/Services/ServiceType");
 
 //Clients getall
 module.exports.getAll = async (req, res) => {
@@ -98,9 +103,9 @@ module.exports.gettemplates = async (req, res) => {
   }
 };
 
-module.exports.updateservices = async (req, res) => {
+module.exports.addservices = async (req, res) => {
   try {
-    const { clinica, services } = req.body;
+    const { clinica, services, connector, client } = req.body;
 
     const clinic = await Clinica.findById(clinica);
 
@@ -110,16 +115,139 @@ module.exports.updateservices = async (req, res) => {
       });
     }
 
-    let updates = [];
+    const updateOfflineConnector = await OfflineConnector.findById(
+      connector._id,
+    )
+
+    let totalprice = 0
     for (const service of services) {
-      const update = await OfflineService(service._id, service);
-      updates.push(update);
+      const { error } = validateOfflineService(service)
+
+      if (error) {
+        return res.status(400).json({
+          error: error.message,
+        })
+      }
+
+      //=========================================================
+      // Product decrement
+      const productconnectors = await ProductConnector.find({
+        clinica: client.clinica,
+        service: service.serviceid,
+      })
+
+      for (const productconnector of productconnectors) {
+        const product = await Product.findById(productconnector.product)
+        product.total = product.total - productconnector.pieces * service.pieces
+        await product.save()
+      }
+
+      //=========================================================
+      // TURN
+      var turn = 0
+      const clientservice = await OfflineService.findOne({
+        clinica: service.clinica,
+        client: client._id,
+        department: service.department,
+        createdAt: {
+          $gte: new Date(new Date().setUTCHours(0, 0, 0, 0)),
+        },
+      })
+
+      if (clientservice) {
+        turn = clientservice.turn
+      } else {
+        let turns = await OfflineService.find({
+          clinica: service.clinica,
+          department: service.department,
+          createdAt: {
+            $gte: new Date(new Date().setUTCHours(0, 0, 0, 0)),
+          },
+        })
+          .sort({ client: 1 })
+          .select('client')
+
+        turns.map((t, i) => {
+          if (i === 0) {
+            turn++
+          } else {
+            if (turns[i - 1].client.toString() !== t.client.toString()) {
+              turn++
+            }
+          }
+        })
+
+        turn++
+      }
+
+      //=========================================================
+      //=========================================================
+      // Create Service
+      const serv = await Service.findById(service.serviceid)
+        .populate('column', 'col1 col2 col3 col4 col5')
+        .populate('tables', 'col1 col2 col3 col4 col5')
+      const newservice = new OfflineService({
+        ...service,
+        service: {
+          _id: serv._id,
+          name: serv.name,
+          price: serv.price,
+          shortname: serv.shortname,
+          doctorProcient: serv.doctorProcient,
+          counterAgentProcient: serv.counterAgentProcient,
+          counterDoctorProcient: serv.counterDoctorProcient
+        },
+        client: client._id,
+        connector: updateOfflineConnector._id,
+        turn,
+        column: { ...serv.column },
+        tables: [...JSON.parse(JSON.stringify(serv.tables))]
+      })
+      await newservice.save()
+
+      totalprice += service.service.price
+
+      updateOfflineConnector.services.push(newservice._id)
     }
-    res.status(200).send(updates);
+
+    updateOfflineConnector.totalprice =
+      updateOfflineConnector.totalprice + totalprice
+    await updateOfflineConnector.save()
+
+    res.status(200).send({ message: "Xizmatlar ro'yxatga olindi" });
   } catch (error) {
+    console.log(error);
     res.status(501).json({ error: "Serverda xatolik yuz berdi..." });
   }
 };
+
+module.exports.getServices = async (req, res) => {
+  try {
+    const { clinica, department } = req.body;
+
+    const clinic = await Clinica.findById(clinica);
+
+    if (!clinic) {
+      return res.status(400).json({
+        message: "Diqqat! Klinika ma'lumotlari topilmadi.",
+      });
+    }
+
+
+    const services = await Service.find({
+      clinica,
+      department,
+    })
+      .select('-__v -updatedAt -isArchive')
+      .lean()
+
+    res.status(200).json(services)
+
+  } catch (error) {
+    console.log(error);
+    res.status(501).json({ error: "Serverda xatolik yuz berdi..." });
+  }
+}
 
 module.exports.adoptClient = async (req, res) => {
   try {

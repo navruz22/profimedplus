@@ -335,7 +335,8 @@ export const Navbar = () => {
                   activePage === "/alo24/discountreport" ||
                   activePage === "/alo24/debtreport" ||
                   activePage === "/alo24/counteragent" ||
-                  activePage === "/alo24/doctor_procient"
+                  activePage === "/alo24/doctor_procient" ||
+                  activePage === "/alo24/nurse_profit"
                   ? "active-page"
                   : ""
                   }`}
@@ -345,7 +346,8 @@ export const Navbar = () => {
                     activePage === "/alo24/discountreport" ||
                     activePage === "/alo24/debtreport" ||
                     activePage === "/alo24/counteragent" ||
-                    activePage === "/alo24/doctor_procient"
+                    activePage === "/alo24/doctor_procient" ||
+                    activePage === "/alo24/nurse_profit"
                     ? "#F97316"
                     : ""
                 }}
@@ -387,6 +389,13 @@ export const Navbar = () => {
                     onClick={() => setActivePage('/alo24/doctor_procient')}
                   >
                     Shifokor ulushi
+                  </Link>
+                </li>
+                <li>
+                  <Link className="dropdown-item" to="/alo24/nurse_profit"
+                    onClick={() => setActivePage('/alo24/nurse_profit')}
+                  >
+                    Xamshira ulushi
                   </Link>
                 </li>
                 <li>
