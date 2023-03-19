@@ -29,7 +29,8 @@ export const MainReportTable = ({
     loading,
     setServices,
     setProducts,
-    searchStorage
+    searchStorage,
+    expenseTotal
 }) => {
 
     const getTotalprice = (connector) => {
@@ -374,16 +375,17 @@ export const MainReportTable = ({
                             <tr>
                                 <td
                                     colSpan={3}
-                                    className={`py-1 font-weight-bold text-left text-[16px]`}
+                                    className={`py-1 font-weight-bold text-[16px]`}
                                 >
-                                    Qoldiq: {searchStorage.reduce((prev, connector) => {
-                                        let payments = connector.payments.reduce((prev, el) => prev + el.payment, 0)
-                                        return prev + payments
-                                    }, 0)}
-                                </td>
-                                <td className="py-1 text-[16px] text-right">
-                                </td>
-                                <td className="py-1 text-[16px] text-right">
+                                    <div className="flex justify-between">
+                                        <div>Qoldiq: {searchStorage.reduce((prev, connector) => {
+                                            let payments = connector.payments.reduce((prev, el) => prev + el.payment, 0)
+                                            return prev + payments
+                                        }, 0) - expenseTotal}</div>
+                                        <div>
+                                            Xarajat: {expenseTotal}
+                                        </div>
+                                    </div>
                                 </td>
                                 <td className="border py-1 text-[16px] text-right font-bold">
                                     {searchStorage.reduce((prev, el) => {

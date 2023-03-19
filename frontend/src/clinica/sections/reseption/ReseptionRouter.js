@@ -7,6 +7,7 @@ import { OfflineClients as CashierOffline } from "../cashier/offlineclients/Offl
 import { StatsionarClients as CashierStatsionar } from "../cashier/statsionarclients/StatsionarClients";
 import { DiscountClients } from "../cashier/discountclients/DiscountClients";
 import { DebtClients } from "../cashier/debtclients/DebtClients";
+import Expense from "../cashier/expense/Expense";
 
 export const ReseptionRouter = () => {
   return (
@@ -32,6 +33,9 @@ export const ReseptionRouter = () => {
         </Route>
         <Route path="/alo24/cashier_debt">
           <DebtClients />
+        </Route>
+        <Route path="/alo24/cashier_expense">
+          <Expense />
         </Route>
         <Redirect to="/alo24" />
       </Switch>

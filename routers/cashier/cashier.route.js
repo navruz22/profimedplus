@@ -67,6 +67,10 @@ router.post('/expense/delete', auth, (req, res) => {
     require('./expense').delete(req, res);
 })
 
+router.post('/expense/total/get', auth, (req, res) => {
+    require('./expense').getTotal(req, res);
+})
+
 //============================================================
 
 

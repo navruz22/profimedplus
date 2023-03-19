@@ -97,7 +97,7 @@ export const HomePage = () => {
         clients: data.clients,
         services: data.services,
         payments: data.payments,
-        expense: 0
+        expense: data.expense
       });
     } catch (error) {
       notify({

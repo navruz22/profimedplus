@@ -152,6 +152,7 @@ export const Navbar = () => {
                                     className={`nav-link ${activePage === "/alo24/cashier" ||
                                         activePage === "/alo24/cashier_statsionar" ||
                                         activePage === "/alo24/cashier_discount" ||
+                                        activePage === "/alo24/cashier_expense" ||
                                         activePage === "/alo24/cashier_debt"
                                         ? "active-page"
                                         : ""
@@ -160,6 +161,7 @@ export const Navbar = () => {
                                         background: activePage === "/alo24/cashier" ||
                                             activePage === "/alo24/cashier_statsionar" ||
                                             activePage === "/alo24/cashier_discount" ||
+                                            activePage === "/alo24/cashier_expense" ||
                                             activePage === "/alo24/cashier_debt" ? '#F97316' : ''
                                     }}
                                     to="#"
@@ -222,6 +224,20 @@ export const Navbar = () => {
                                             }}
                                         >
                                             Qarz
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link
+                                            className="sub-nav-link"
+                                            to="/alo24/cashier_expense"
+                                            role="button"
+                                            aria-haspopup="true"
+                                            aria-expanded="false"
+                                            onClick={() => {
+                                                setActivePage('/alo24/cashier_expense')
+                                            }}
+                                        >
+                                            Xarajat
                                         </Link>
                                     </li>
                                 </ul>

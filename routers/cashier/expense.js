@@ -90,3 +90,25 @@ module.exports.delete = async (req, res) => {
         res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
     }
 }
+
+module.exports.getTotal = async (req, res) => {
+    try {
+        const { clinica, beginDay, endDay } = req.body;
+
+        const expenses = await Expense.find({
+            clinica,
+            createdAt: {
+                $gte: beginDay,
+                $lte: endDay
+            }
+        })
+            .lean()
+
+        const total = expenses.reduce((prev, el) => prev + el.total, 0);
+
+        res.status(200).json({ total });
+    } catch (error) {
+        console.log(error);
+        res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
+    }
+}

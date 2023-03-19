@@ -234,7 +234,7 @@ const Print = ({ client, connector, sections, clinica, baseUrl, doctor }) => {
                                 section.templates.map((template, index) => (
                                     <div
                                         key={index}
-                                        className="w-full mb-2 print"
+                                        className="w-full mb-2 print_word"
                                     >
 
                                         {ReactHtmlParser(template.template)}

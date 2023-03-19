@@ -4,6 +4,7 @@ const {
 const { OfflinePayment } = require("../../models/Cashier/OfflinePayment");
 const { OfflineClient } = require("../../models/OfflineClient/OfflineClient");
 const { OfflineService } = require("../../models/OfflineClient/OfflineService");
+const { Expense } = require("../../models/Cashier/Expense");
 
 module.exports.getMonthly = async (req, res) => {
     try {
@@ -91,10 +92,25 @@ module.exports.getDaily = async (req, res) => {
 
         const dailypayments = payments.reduce((prev, el) => prev + el.payment, 0);
 
+
+        const expenses = await Expense.find({
+            clinica,
+            createdAt: {
+                $gte: new Date(
+                    new Date().setHours(0, 0, 0, 0)
+                ),
+                $lte: new Date()
+            }
+        })
+            .lean()
+
+        const expense = expenses.reduce((prev, el) => prev + el.total, 0);
+
         res.status(200).json({
             clients: clients.length,
             services: services.length,
-            payments: dailypayments
+            payments: dailypayments,
+            expense
         })
 
     } catch (error) {

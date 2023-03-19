@@ -118,7 +118,32 @@ const MainReport = () => {
     [request, auth, notify, indexFirstConnector, indexLastConnector],
   )
   //====================================================================
-  //====================================================================+
+  //====================================================================
+
+  const [expenseTotal, setExpenseTotal] = useState(0)
+
+  const getExpenseTotal = useCallback(async (beginDay, endDay, clinica) => {
+    try {
+      const data = await request(
+        `/api/cashier/expense/total/get`,
+        'POST',
+        { clinica: clinica, beginDay, endDay },
+        {
+          Authorization: `Bearer ${auth.token}`,
+        },
+      )
+      setExpenseTotal(data.total);
+    } catch (error) {
+      notify({
+        title: error,
+        description: '',
+        status: 'error',
+      })
+    }
+  }, [request, auth, notify])
+
+  //====================================================================
+  //====================================================================
 
   const [baseUrl, setBaseurl] = useState();
 
@@ -220,6 +245,7 @@ const MainReport = () => {
   const changeStart = (e) => {
     setBeginDay(new Date(new Date(e).setUTCHours(0, 0, 0, 0)))
     getConnectors(new Date(new Date(e).setUTCHours(0, 0, 0, 0)), endDay, clinicaValue)
+    getExpenseTotal(new Date(new Date(e).setUTCHours(0, 0, 0, 0)), endDay, clinicaValue)
   }
 
   const changeEnd = (e) => {
@@ -234,6 +260,7 @@ const MainReport = () => {
 
     setEndDay(date)
     getConnectors(beginDay, date, clinicaValue)
+    getExpenseTotal(beginDay, date, clinicaValue)
   }
 
   //====================================================================
@@ -337,6 +364,7 @@ const MainReport = () => {
     if (auth.clinica && !t) {
       setT(1)
       getConnectors(beginDay, endDay, clinicaValue)
+      getExpenseTotal(beginDay, endDay, clinicaValue)
       getBaseUrl()
     }
   }, [auth, getConnectors, getBaseUrl, t, beginDay, endDay])
@@ -355,6 +383,7 @@ const MainReport = () => {
                   setClinicaDataSelect(e)
                   setClinicaValue(e.value);
                   getConnectors(beginDay, endDay, e.value);
+                  getExpenseTotal(beginDay, endDay, e.value);
                 }}
                 components={animatedComponents}
                 options={[
@@ -399,6 +428,7 @@ const MainReport = () => {
               setPageSize={setPageSize}
               // setModal2={setModal2}
               loading={loading}
+              expenseTotal={expenseTotal}
             />
           </div>
         </div>
