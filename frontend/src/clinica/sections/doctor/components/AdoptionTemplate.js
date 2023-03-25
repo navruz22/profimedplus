@@ -16,6 +16,20 @@ import { useReactToPrint } from 'react-to-print'
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import DecoupledEditor from "@ckeditor/ckeditor5-build-decoupled-document";
 
+import { useEditor, EditorContent } from '@tiptap/react'
+import StarterKit from '@tiptap/starter-kit'
+import Underline from "@tiptap/extension-underline";
+import Document from '@tiptap/extension-document'
+import Gapcursor from '@tiptap/extension-gapcursor'
+import Paragraph from '@tiptap/extension-paragraph'
+import Table from '@tiptap/extension-table'
+import TableCell from '@tiptap/extension-table-cell'
+import TableHeader from '@tiptap/extension-table-header'
+import TableRow from '@tiptap/extension-table-row'
+import Text from '@tiptap/extension-text'
+import TextAlign from '@tiptap/extension-text-align'
+import TextEditor from "./TextEditor";
+
 const AdoptionTemplate = () => {
   // const clientId = useParams().clientid
   // const connectorId = useParams().connectorid
@@ -192,7 +206,7 @@ const AdoptionTemplate = () => {
     });
     setSections(newSections);
   }
-
+  console.log(sections);
   useEffect(() => {
     setSections(services);
   }, [services]);
@@ -472,36 +486,7 @@ const AdoptionTemplate = () => {
                         </div>
                       </div>
                       <div className="">
-                        {/* <textarea
-                          rows={7}
-                          className={"w-full border-none outline-none"}
-                          onChange={(e) =>
-                            handleChangeTemplate(e, index, section._id)
-                          }
-                        >
-                          {template?.template}
-                        </textarea> */}
-                        <CKEditor
-                          editor={DecoupledEditor}
-                          data={template?.template}
-                          onChange={(event, editor) => {
-                            const data = editor.getData();
-                            handleChangeTemplate(data, index, section._id)
-                          }}
-                          onReady={editor => {
-                            editor.ui.getEditableElement().parentElement.insertBefore(
-                              editor.ui.view.toolbar.element,
-                              editor.ui.getEditableElement()
-                            );
-
-                            this.editor = editor;
-                          }}
-                          onError={(error, { willEditorRestart }) => {
-                            if (willEditorRestart) {
-                              this.editor.ui.view.toolbar.element.remove();
-                            }
-                          }}
-                        />
+                        <TextEditor value={template?.template} onChange={(data) => handleChangeTemplate(data, index, section._id)} />
                       </div>
                     </div>
                   ))}

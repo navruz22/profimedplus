@@ -1,5 +1,6 @@
 import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
+import Expense from "../cashier/expense/Expense";
 import { Advers } from "./adver/Advers";
 import AdverChart from "./adver_chart/AdverChart";
 import OfflineClients from "./clients/OfflineClients";
@@ -114,6 +115,9 @@ export const DirectorRouter = () => {
         </Route>
         <Route path="/alo24/popular_services">
           <PopularServices />
+        </Route>
+        <Route path="/alo24/expense">
+          <Expense />
         </Route>
         <Redirect to="/alo24" />
       </Switch>

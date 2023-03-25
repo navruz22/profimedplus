@@ -388,6 +388,10 @@ export const MainReportTable = ({
                                     </div>
                                 </td>
                                 <td className="border py-1 text-[16px] text-right font-bold">
+                                </td>
+                                <td className="border py-1 text-[16px] text-right font-bold">
+                                </td>
+                                <td className="border py-1 text-[16px] text-right font-bold">
                                     {searchStorage.reduce((prev, el) => {
                                         return prev + getTotalprice(el)
                                     }, 0)}

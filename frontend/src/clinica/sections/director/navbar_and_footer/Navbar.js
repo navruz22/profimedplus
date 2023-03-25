@@ -336,7 +336,8 @@ export const Navbar = () => {
                   activePage === "/alo24/debtreport" ||
                   activePage === "/alo24/counteragent" ||
                   activePage === "/alo24/doctor_procient" ||
-                  activePage === "/alo24/nurse_profit"
+                  activePage === "/alo24/nurse_profit" ||
+                  activePage === "/alo24/expense"
                   ? "active-page"
                   : ""
                   }`}
@@ -347,7 +348,8 @@ export const Navbar = () => {
                     activePage === "/alo24/debtreport" ||
                     activePage === "/alo24/counteragent" ||
                     activePage === "/alo24/doctor_procient" ||
-                    activePage === "/alo24/nurse_profit"
+                    activePage === "/alo24/nurse_profit" ||
+                    activePage === "/alo24/expense"
                     ? "#F97316"
                     : ""
                 }}
@@ -403,6 +405,13 @@ export const Navbar = () => {
                     onClick={() => setActivePage('/alo24/counteragent')}
                   >
                     Kontragent
+                  </Link>
+                </li>
+                <li>
+                  <Link className="dropdown-item" to="/alo24/expense"
+                    onClick={() => setActivePage('/alo24/expense')}
+                  >
+                    Xarajatlar
                   </Link>
                 </li>
               </ul>

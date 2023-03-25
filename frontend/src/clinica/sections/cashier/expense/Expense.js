@@ -571,6 +571,25 @@ const Expense = () => {
                                                 </tr>
                                             );
                                         })}
+                                        <tr>
+                                            <td
+                                                className="border py-1 font-weight-bold text-[16px]"
+                                                style={{ maxWidth: "30px !important" }}
+                                            >
+                                            </td>
+                                            <td className="border py-1 text-right font-weight-bold text-[16px]">
+                                                {searchStorage.reduce((prev, el) => prev + el.total, 0)}
+                                            </td>
+                                            <td className="border py-1 text-left text-[16px]"></td>
+                                            <td className="border py-1 text-left text-[16px]"></td>
+                                            <td className="border py-1 text-right text-[16px]"></td>
+                                            <td className="border py-1 text-center text-[16px]">
+
+                                            </td>
+                                            <td className="border py-1 text-center text-[16px]">
+
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>

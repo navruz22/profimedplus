@@ -8,6 +8,19 @@ import { ExcelCols } from "./uploadExcel/ExcelCols";
 import TableTemplate from "./TableTemplate";
 import { checkTemplates } from "./uploadExcel/checkData";
 
+import { useEditor } from '@tiptap/react'
+import StarterKit from '@tiptap/starter-kit'
+import Underline from "@tiptap/extension-underline";
+import Document from '@tiptap/extension-document'
+import Gapcursor from '@tiptap/extension-gapcursor'
+import Paragraph from '@tiptap/extension-paragraph'
+import Table from '@tiptap/extension-table'
+import TableCell from '@tiptap/extension-table-cell'
+import TableHeader from '@tiptap/extension-table-header'
+import TableRow from '@tiptap/extension-table-row'
+import Text from '@tiptap/extension-text'
+import TextAlign from '@tiptap/extension-text-align'
+
 const Templates = () => {
     //====================================================================
     //====================================================================
@@ -263,6 +276,30 @@ const Templates = () => {
     //====================================================================
     //====================================================================
 
+    const editor = useEditor({
+        extensions: [
+            StarterKit,
+            Document,
+            Paragraph,
+            Text,
+            Gapcursor,
+            Table.configure({
+                resizable: true,
+            }),
+            TableRow,
+            TableHeader,
+            TableCell,
+            TextAlign.configure({
+                types: ['heading', 'paragraph'],
+            }),
+        ],
+        content: '',
+        onUpdate: ({ editor }) => {
+            const html = editor.getHTML();
+            setTemplateText(html);
+        },
+    })
+
     //====================================================================
     //====================================================================
     // useEffect
@@ -287,12 +324,16 @@ const Templates = () => {
                         createHandler={createHandler}
                         templateText={templateText}
                         setTemplateText={setTemplateText}
+                        editor={editor}
                     />
 
                     <TableTemplate
                         setTemplate={(e) => {
                             setTemplate(e)
                             setTemplateText(e.template)
+                            if (editor) {
+                                editor.commands.setContent(e.template);
+                            }
                         }}
                         templates={templates}
                         currentTemplates={currentTemplates}
