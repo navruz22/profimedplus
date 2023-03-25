@@ -1,11 +1,12 @@
 import React from 'react'
 import parse from "html-react-parser"
 import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser'
+import './Print.css'
 
 
 const Print = ({ client, connector, sections, clinica, baseUrl, doctor }) => {
     return (
-        <div className="px-2 bg-white">
+        <div className="bg-white">
             <div>
                 {/* <div className="row" style={{ fontSize: "10pt" }}>
                     <div
@@ -234,7 +235,7 @@ const Print = ({ client, connector, sections, clinica, baseUrl, doctor }) => {
                                 section.templates.map((template, index) => (
                                     <div
                                         key={index}
-                                        className="w-full mb-2 print_word"
+                                        className="w-full text-[20px] mb-2 print_word"
                                     >
 
                                         {ReactHtmlParser(template.template)}

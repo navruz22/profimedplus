@@ -58,11 +58,11 @@
 }
 
 .ProseMirror {
-  padding: 1rem;
+  padding: 1.5cm;
 }
 
-.ProseMirror p {
-  font-size: 40px;
+.ProseMirror {
+  font-size: 18px;
 }
 
 .tableWrapper {

@@ -12,8 +12,9 @@ import {
     FaRedo,
     FaStrikethrough,
     FaUnderline,
-    FaUndo,
+    FaUndo
 } from "react-icons/fa";
+import { BsTextCenter, BsTextLeft, BsTextRight } from "react-icons/bs"
 import './style.css'
 
 
@@ -115,33 +116,33 @@ const RegisterTemplate = ({ setTemplate, template, createHandler, editor }) => {
                                         <FaRedo />
                                     </button>
                                 </div>
-                            </div>
-                            <div className='flex gap-2 mt-2'>
-                                <button
-                                    onClick={() => editor.chain().focus().setTextAlign('left').run()}
-                                    className="bg-slate-200 rounded-g p-2"
-                                >
-                                    left
-                                </button>
-                                <button
-                                    onClick={() => editor.chain().focus().setTextAlign('center').run()}
-                                    className="bg-slate-200 rounded-g p-2"
-                                >
-                                    center
-                                </button>
-                                <button
-                                    onClick={() => editor.chain().focus().setTextAlign('right').run()}
-                                    className="bg-slate-200 rounded-g p-2"
-                                >
-                                    right
-                                </button>
-                                <button
+                                <div className='flex gap-2'>
+                                    <button
+                                        onClick={() => editor.chain().focus().setTextAlign('left').run()}
+                                        className="bg-slate-200 rounded-g p-2"
+                                    >
+                                        <BsTextLeft />
+                                    </button>
+                                    <button
+                                        onClick={() => editor.chain().focus().setTextAlign('center').run()}
+                                        className="bg-slate-200 rounded-g p-2"
+                                    >
+                                        <BsTextCenter />
+                                    </button>
+                                    <button
+                                        onClick={() => editor.chain().focus().setTextAlign('right').run()}
+                                        className="bg-slate-200 rounded-g p-2"
+                                    >
+                                        <BsTextRight />
+                                    </button>
+                                    <button
                                     onClick={() => editor.chain().focus().setTextAlign('justify').run()}
                                     className="bg-slate-200 rounded-g p-2"
                                 >
                                     justify
                                 </button>
                                 <button className="bg-slate-200 rounded-g p-2" onClick={() => editor.chain().focus().unsetTextAlign().run()}>unsetTextAlign</button>
+                                </div>
                             </div>
                             <div className='flex gap-2 flex-wrap mt-2'>
                                 <button className="bg-slate-200 rounded-g p-2"
@@ -183,7 +184,7 @@ const RegisterTemplate = ({ setTemplate, template, createHandler, editor }) => {
                                 </button>
                             </div>
                         </div>
-                        <div className='bg-white'>
+                        <div className='bg-white w-[21cm]'>
                             <EditorContent editor={editor} />
                         </div>
                     </div>

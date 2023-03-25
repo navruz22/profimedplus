@@ -23,6 +23,7 @@ import {
     FaUnderline,
     FaUndo,
 } from "react-icons/fa";
+import { BsTextCenter, BsTextLeft, BsTextRight } from 'react-icons/bs';
 
 
 const TextEditor = ({ value, onChange }) => {
@@ -82,15 +83,7 @@ const TextEditor = ({ value, onChange }) => {
                     </button>
                     <button
                         onClick={() =>
-                            editor.chain().focus().toggleHeading({ level: 2 }).run()
-                        }
-                        className="bg-slate-200 rounded-g p-2"
-                    >
-                        <FaHeading />
-                    </button>
-                    <button
-                        onClick={() =>
-                            editor.chain().focus().toggleHeading({ level: 3 }).run()
+                            editor.chain().focus().toggleHeading({ level: 6 }).run()
                         }
                         className="bg-slate-200 rounded-g p-2"
                     >
@@ -122,6 +115,33 @@ const TextEditor = ({ value, onChange }) => {
                     <button className="bg-slate-200 rounded-g p-2" onClick={() => editor.chain().focus().redo().run()}>
                         <FaRedo />
                     </button>
+                </div>
+                <div className='flex gap-2'>
+                    <button
+                        onClick={() => editor.chain().focus().setTextAlign('left').run()}
+                        className="bg-slate-200 rounded-g p-2"
+                    >
+                        <BsTextLeft />
+                    </button>
+                    <button
+                        onClick={() => editor.chain().focus().setTextAlign('center').run()}
+                        className="bg-slate-200 rounded-g p-2"
+                    >
+                        <BsTextCenter />
+                    </button>
+                    <button
+                        onClick={() => editor.chain().focus().setTextAlign('right').run()}
+                        className="bg-slate-200 rounded-g p-2"
+                    >
+                        <BsTextRight />
+                    </button>
+                    {/* <button
+                                    onClick={() => editor.chain().focus().setTextAlign('justify').run()}
+                                    className="bg-slate-200 rounded-g p-2"
+                                >
+                                    justify
+                                </button>
+                                <button className="bg-slate-200 rounded-g p-2" onClick={() => editor.chain().focus().unsetTextAlign().run()}>unsetTextAlign</button> */}
                 </div>
             </div>
             <div className='flex gap-2 mt-2'>
@@ -191,7 +211,11 @@ const TextEditor = ({ value, onChange }) => {
                 </button>
             </div>
         </div>
-        <EditorContent editor={editor} />
+        <div className='flex justify-center'>
+            <div className='w-[28cm]'>
+                <EditorContent editor={editor} />
+            </div>
+        </div>
     </div>
 }
 

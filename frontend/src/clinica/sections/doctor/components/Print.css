@@ -1,3 +1,6 @@
-figure td {
-  border: 1px solid black !important;
+.print_word table  th {
+  border: 1px solid black
+}
+.print_word table  td {
+  border: 1px solid black
 }

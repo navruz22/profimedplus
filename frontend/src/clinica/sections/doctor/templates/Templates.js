@@ -20,6 +20,7 @@ import TableHeader from '@tiptap/extension-table-header'
 import TableRow from '@tiptap/extension-table-row'
 import Text from '@tiptap/extension-text'
 import TextAlign from '@tiptap/extension-text-align'
+import TextStyle from "@tiptap/extension-text-style"
 
 const Templates = () => {
     //====================================================================
@@ -292,6 +293,7 @@ const Templates = () => {
             TextAlign.configure({
                 types: ['heading', 'paragraph'],
             }),
+            TextStyle
         ],
         content: '',
         onUpdate: ({ editor }) => {

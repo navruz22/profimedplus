@@ -224,7 +224,7 @@ const AdoptionTemplate = () => {
       <div className="d-none">
         <div
           ref={componentRef}
-          className="container p-4"
+          className="p-[2cm]"
           style={{ fontFamily: "times" }}
         >
           <Print
