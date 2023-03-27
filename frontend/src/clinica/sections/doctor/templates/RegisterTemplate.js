@@ -135,13 +135,6 @@ const RegisterTemplate = ({ setTemplate, template, createHandler, editor }) => {
                                     >
                                         <BsTextRight />
                                     </button>
-                                    <button
-                                    onClick={() => editor.chain().focus().setTextAlign('justify').run()}
-                                    className="bg-slate-200 rounded-g p-2"
-                                >
-                                    justify
-                                </button>
-                                <button className="bg-slate-200 rounded-g p-2" onClick={() => editor.chain().focus().unsetTextAlign().run()}>unsetTextAlign</button>
                                 </div>
                             </div>
                             <div className='flex gap-2 flex-wrap mt-2'>
@@ -184,8 +177,10 @@ const RegisterTemplate = ({ setTemplate, template, createHandler, editor }) => {
                                 </button>
                             </div>
                         </div>
-                        <div className='bg-white w-[21cm]'>
-                            <EditorContent editor={editor} />
+                        <div className='flex justify-center'>
+                            <div className='bg-white w-[28cm]'>
+                                <EditorContent editor={editor} />
+                            </div>
                         </div>
                     </div>
                     <div className="border border-collapse py-2 bg-white px-2 text-right">

@@ -166,7 +166,11 @@ const TableServices = ({
                                             style={{ fontSize: "75%" }}
                                             onClick={() => {
                                                 setVisible(true)
-                                                setService(service)
+                                                if (!service.column) {
+                                                    setService({...service, column: {col1: 'Наименование', col2: 'Результат', col3: 'Норма'}})
+                                                } else {
+                                                    setService(service)
+                                                }
                                                 window.scrollTo({ top: 0, behavior: 'smooth' });
                                             }}
                                         >

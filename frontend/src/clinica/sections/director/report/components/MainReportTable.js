@@ -74,7 +74,7 @@ export const MainReportTable = ({
                                         <option value={10}>10</option>
                                         <option value={25}>25</option>
                                         <option value={50}>50</option>
-                                        <option value={100}>100</option>
+                                        <option value={'all'}>Barchasi</option>
                                     </select>
                                 </th>
                                 <th>
@@ -211,6 +211,14 @@ export const MainReportTable = ({
                                     />
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
+                                    To'langan
+                                    <Sort
+                                        data={currentConnectors}
+                                        setData={setCurrentConnectors}
+                                        property={"totalprice"}
+                                    />
+                                </th>
+                                <th className="border py-1 bg-alotrade text-[16px]">
                                     Naqt
                                     <div className="btn-group-vertical ml-2">
                                         <FontAwesomeIcon
@@ -325,6 +333,9 @@ export const MainReportTable = ({
                                             {getTotalprice(connector)}
                                         </td>
                                         <td className="border py-1 text-[16px] text-right">
+                                            {connector.payments.reduce((prev, el) => prev + el.payment, 0)}
+                                        </td>
+                                        <td className="border py-1 text-[16px] text-right">
                                             {connector.payments.reduce((prev, el) => prev + el.cash, 0)}
                                         </td>
                                         <td className="border py-1 text-[16px] text-right">
@@ -394,6 +405,11 @@ export const MainReportTable = ({
                                 <td className="border py-1 text-[16px] text-right font-bold">
                                     {searchStorage.reduce((prev, el) => {
                                         return prev + getTotalprice(el)
+                                    }, 0)}
+                                </td>
+                                <td className="border py-1 text-[16px] font-bold text-right">
+                                    {searchStorage.reduce((prev, el) => {
+                                        return prev + el.payments.reduce((prev, el) => prev + el.payment, 0)
                                     }, 0)}
                                 </td>
                                 <td className="border py-1 text-[16px] font-bold text-right">
