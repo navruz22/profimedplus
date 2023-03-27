@@ -3,6 +3,9 @@ const { Service } = require("../../models/Services/Service");
 const { ServiceTable, validateServiceTable } = require("../../models/Services/ServiceTable");
 const { ObjectId } = require("mongodb");
 const { OfflineService } = require("../../models/OfflineClient/OfflineService");
+const { Clinica } = require("../../models/DirectorAndClinica/Clinica");
+const { User } = require("../../models/Users");
+require('../../models/Services/Department')
 module.exports.column = async (req, res) => {
     try {
         const { column } = req.body
@@ -210,6 +213,77 @@ module.exports.correctTables = async (req, res) => {
         }
 
         res.status(200).json({ message: "Shablonlar yangilandi!" })
+
+    } catch (error) {
+        console.log(error);
+        res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
+    }
+}
+
+
+module.exports.transferTables = async (req, res) => {
+    try {
+        const {clinica, filialClinica } = req.body;
+
+        const checkMainClinica = await Clinica.findById(clinica);
+        const checkFilialClinica = await Clinica.findById(filialClinica);
+        if (!checkMainClinica && !checkFilialClinica) {
+            return res.status(400).json({
+                message: "Diqqat! Klinika ma'lumotlari topilmadi.",
+            });
+        }
+
+        const services = await Service.find({clinica})
+        .populate('department', 'probirka')
+        .populate('tables', '-_id -service -clinica -doctor -createdAt -updatedAt -__v')
+        .populate('column', '-_id -service -clinica -doctor -createdAt -updatedAt -__v')
+        .lean()
+        .then(services => services.filter(service => service.department.probirka))
+
+        for (const service of services) {
+            const filialService = await Service.findOne({
+                name: service.name,
+                clinica: filialClinica
+            })
+            if (filialService) {
+                const filialDoctor = await User.findOne({clinica: filialClinica, type: "Laborotory"})
+
+                if (!service.column && service.tables.length > 0) {
+                    return res.status(401).json({message: `${service.name} xizmatta ustun kiritilmagan!`})
+                }
+
+                if (service.column) {
+                    const newColumn = new TableColumn({
+                        ...service.column,
+                        service: filialService._id,
+                        clinica: filialClinica,
+                        doctor: filialDoctor._id
+                    })
+                    await newColumn.save()
+                    filialService.column = newColumn;
+                } 
+
+                for (const maintable of service.tables) {
+                    const newTable = new ServiceTable({
+                        ...maintable,
+                        service: filialService._id,
+                        clinica: filialClinica,
+                        doctor: filialDoctor._id
+                    })
+                    await newTable.save()
+                    
+                    if (filialService.tables) {
+                        filialService.tables.push(newTable._id)
+                    } else {
+                        filialService.tables = [newTable._id];
+                    }
+                }
+                
+                await filialService.save()
+            }
+        }
+
+        res.status(200).json({message: "Shablonlar o'tkazildi!"})
 
     } catch (error) {
         console.log(error);

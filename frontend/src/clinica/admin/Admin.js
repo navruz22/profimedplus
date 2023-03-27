@@ -3,6 +3,7 @@ import { Route, Switch } from 'react-router-dom'
 import { Navbar } from './components/Navbar'
 import Filials from './Filials'
 import RegisterClinica from './RegisterClinica'
+import TransferLabTables from './TransferLabTables'
 import Users from './Users'
 
 const Admin = ({ setIsAuthenticated, setUser }) => {
@@ -18,6 +19,9 @@ const Admin = ({ setIsAuthenticated, setUser }) => {
                 </Route>
                 <Route path="/admin/filials">
                     <Filials />
+                </Route>
+                <Route path="/admin/transfer_tables">
+                    <TransferLabTables />
                 </Route>
             </Switch>
         </>

@@ -65,7 +65,7 @@ const Filials = () => {
         setSelectedFilial(e)
         setFilialValues([...e].map(el => el.value))
     }
-    console.log(filialValues);
+
     //====================================================================
     //====================================================================
 

@@ -86,4 +86,10 @@ router.post('/table/correct', auth, (req, res) => {
 })
 
 
+//Filial transfer
+router.post('/table/filialtransfer', (req, res) => {
+    require('./tables').transferTables(req, res);
+})
+
+
 module.exports = router

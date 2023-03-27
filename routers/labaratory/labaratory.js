@@ -277,3 +277,4 @@ module.exports.saveConclusion = async (req, res) => {
         res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
     }
 }
+

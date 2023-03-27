@@ -117,6 +117,18 @@ export const Navbar = ({ baseUrl, setIsAuthenticated, setUser }) => {
                 Filiallar
               </Link>
             </li>
+            <li className="nav-item">
+              <Link
+                className={`nav-link ${activePage === "/admin/transfer_tables" ? "active-page" : ""
+                  }`}
+                to="/admin/transfer_tables"
+                onClick={() => setActivePage('/admin/transfer_tables')}
+                style={{ background: activePage === "/admin/transfer_tables" || activePage === "/" ? "#F97316" : "" }}
+              >
+                <i className="icon-devices_other nav-icon" />
+                Shablon almashnuv
+              </Link>
+            </li>
           </ul>
           <ul className="header-actions py-1 mr-2">
             <li className="dropdown">
