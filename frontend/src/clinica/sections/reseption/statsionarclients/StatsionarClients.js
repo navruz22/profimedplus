@@ -13,6 +13,7 @@ import {
     checkServicesData,
 } from "./checkData/checkData";
 import { CheckModalStatsionar } from "../components/ModalCheckStatsionar";
+import { useLocation } from "react-router-dom";
 
 export const StatsionarClients = () => {
     const [beginDay, setBeginDay] = useState(
@@ -53,6 +54,8 @@ export const StatsionarClients = () => {
 
     //====================================================================
     //====================================================================
+
+    const state = useLocation().state
 
     //====================================================================
     //====================================================================
@@ -856,7 +859,7 @@ export const StatsionarClients = () => {
 
     //=================================================================
     //=================================================================
-
+    console.log(connector);
     //=================================================================
     //=================================================================
     const [postRoomBody, setPostRoomBody] = useState({});
@@ -893,6 +896,13 @@ export const StatsionarClients = () => {
 
     //=================================================================
     //=================================================================
+
+    useEffect(() => {
+        if (state?.client) {
+            setClient({...client, ...state.client})
+            setVisible(true)
+        }
+    })
 
     //=================================================================
     //=================================================================

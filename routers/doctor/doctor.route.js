@@ -63,6 +63,10 @@ router.post('/clients/getclients', auth, (req, res) => {
     require('./getclients.route').getAll(req, res)
 })
 
+router.post('/clients/statsionarclients/get', auth, (req, res) => {
+    require('./getclients.route').getStatsionarAll(req, res)
+})
+
 router.post('/clients/gettemplates', auth, (req, res) => {
     require('./getclients.route').gettemplates(req, res)
 })

@@ -80,6 +80,8 @@ export const DoctorClients = () => {
   //====================================================================
   //====================================================================
 
+    const [clientsType, setClientsType] = useState('offline')
+
   //====================================================================
   //====================================================================
   // getConnectors
@@ -92,6 +94,39 @@ export const DoctorClients = () => {
       try {
         const data = await request(
           `/api/doctor/clients/getclients`,
+          "POST",
+          {
+            clinica: auth && auth.clinica._id,
+            beginDay,
+            endDay,
+            department: auth?.user?.specialty,
+          },
+          {
+            Authorization: `Bearer ${auth.token}`,
+          }
+        );
+        setDoctorClients(data);
+        setSearchStorage(data);
+        setCurrentDoctorClients(
+          data.slice(indexFirstConnector, indexLastConnector)
+        );
+      } catch (error) {
+        notify({
+          title: error,
+          description: "",
+          status: "error",
+        });
+      }
+    },
+    [request, auth, notify, indexFirstConnector, indexLastConnector]
+  );
+
+
+  const getStatsionarClients = useCallback(
+    async (beginDay, endDay) => {
+      try {
+        const data = await request(
+          `/api/doctor/clients/statsionarclients/get`,
           "POST",
           {
             clinica: auth && auth.clinica._id,
@@ -227,7 +262,11 @@ export const DoctorClients = () => {
 
   const changeStart = (e) => {
     setBeginDay(new Date(new Date(e).setUTCHours(0, 0, 0, 0)));
-    getDoctorClients(new Date(new Date(e).setUTCHours(0, 0, 0, 0)), endDay);
+    if (clientsType === 'offline') {
+      getDoctorClients(new Date(new Date(e).setUTCHours(0, 0, 0, 0)), endDay)
+    } else {
+      getStatsionarClients(new Date(new Date(e).setUTCHours(0, 0, 0, 0)), endDay)
+    }
   };
 
   const changeEnd = (e) => {
@@ -241,7 +280,11 @@ export const DoctorClients = () => {
     );
 
     setEndDay(date);
-    getDoctorClients(beginDay, date);
+    if (clientsType === 'offline') {
+      getDoctorClients(beginDay, date)
+    } else {
+      getStatsionarClients(beginDay, date)
+    }
   };
 
   //====================================================================
@@ -443,6 +486,16 @@ export const DoctorClients = () => {
     },
     [departments],
   )
+
+  const changeClientsType = (e) => {
+    if (e.target.value === 'offline') {
+      getDoctorClients(beginDay, endDay)
+    }
+    if (e.target.value === 'statsionar') {
+      getStatsionarClients(beginDay, endDay)
+    }
+    setClientsType(e.target.value)
+  }
 
   useEffect(() => {
     if (departments) {
@@ -683,6 +736,8 @@ export const DoctorClients = () => {
               setClient={setClient}
               setConnector={setConnector}
               setVisible={setVisible}
+              clientsType={clientsType}
+              changeClientsType={changeClientsType}
             />
           </div>
         </div>

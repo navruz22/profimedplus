@@ -10,6 +10,7 @@ import {
 import { Sort } from './Sort'
 import { Pagination } from '../../components/Pagination'
 import { DatePickers } from './DatePickers'
+import { useHistory } from 'react-router-dom'
 
 export const TableClients = ({
   baseUrl,
@@ -38,6 +39,9 @@ export const TableClients = ({
   setIsAddConnector,
   getClientsById
 }) => {
+
+  const history = useHistory()
+
   return (
     <div className="border-0 table-container">
       <div className="border-0 table-container">
@@ -277,6 +281,23 @@ export const TableClients = ({
                     <td className="border py-1 text-right text-[16px]">
                       {new Date(connector.createdAt).toLocaleDateString()} {' '}
                       {new Date(connector.createdAt).toLocaleTimeString()}
+                    </td>
+                    <td className="border py-1 text-center text-[16px]">
+                      {loading ? (
+                        <button className="btn btn-success" disabled>
+                          <span className="spinner-border spinner-border-sm"></span>
+                          Loading...
+                        </button>
+                      ) : (
+                        <button
+                          className="btn btn-success py-0"
+                          onClick={() => {
+                            history.push('alo24/statsionar', {client: {...connector.client, _id: null}})
+                          }}
+                        >
+                          Statsionar
+                        </button>
+                      )}
                     </td>
                     <td className="border py-1 text-center text-[16px]">
                       {loading ? (

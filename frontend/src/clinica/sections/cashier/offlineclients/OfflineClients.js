@@ -71,6 +71,8 @@ export const OfflineClients = () => {
     //====================================================================
     //====================================================================
 
+    const [isActive, setIsActive] = useState(true)
+
     //====================================================================
     //====================================================================
     const { request, loading } = useHttp()
@@ -683,6 +685,7 @@ export const OfflineClients = () => {
     }
 
     const createHandler = async () => {
+        setIsActive(false)
         try {
             const data = await request(
                 `/api/cashier/offline/payment`,
@@ -707,18 +710,22 @@ export const OfflineClients = () => {
             })
             setAll()
             getConnectors(beginDay, endDay)
+            setTimeout(() => {
+                setIsActive(true)
+            }, 1000)
         } catch (error) {
             notify({
                 title: error,
                 description: '',
                 status: 'error',
             })
+            setIsActive(true)
         }
     }
 
     //====================================================================
     //====================================================================
-
+    
     //====================================================================
     //====================================================================
     // useEffect
@@ -880,7 +887,7 @@ export const OfflineClients = () => {
                     </div>
                 </div>}
                 setModal={setModal}
-                handler={createHandler}
+                handler={() => isActive && createHandler()}
                 basic={"Mijoz " + client.lastname + " " + client.firstname}
             />
         </div>

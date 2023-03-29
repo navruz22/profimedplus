@@ -11,6 +11,9 @@ const { Product } = require("../../models/Warehouse/Product");
 const { TableColumn } = require("../../models/Services/TableColumn");
 const { ServiceTable } = require("../../models/Services/ServiceTable");
 const { ServiceType } = require("../../models/Services/ServiceType");
+const { StatsionarService } = require("../../models/StatsionarClient/StatsionarService");
+require('../../models/StatsionarClient/StatsionarConnector')
+require('../../models/StatsionarClient/StatsionarClient')
 
 //Clients getall
 module.exports.getAll = async (req, res) => {
@@ -33,6 +36,87 @@ module.exports.getAll = async (req, res) => {
     };
 
     const services = await OfflineService.find({
+      createdAt: {
+        $gte: beginDay,
+        $lt: endDay,
+      },
+      clinica,
+    })
+    .select("service serviceid accept column tables turn connector client files department")
+    .populate("client", "lastname firstname born id phone address")
+    .populate("service", "price")
+    .populate({
+        path: "connector",
+        select: "probirka createdAt accept clinica",
+        populate: {
+            path: "clinica",
+            select: "name phone1 image"
+        }
+    })
+    .populate({
+        path: "serviceid",
+        select: "servicetype",
+        populate: {
+            path: "servicetype",
+            select: "name"
+        }
+    })
+    .populate('department', 'probirka')
+    .populate("templates", "name template")
+
+
+    if (services.length > 0) {
+      for (const i in services) {
+        if (i == 0) {
+          client.client = services[i].client;
+          client.connector = services[i].connector;
+          client.services.push(services[i]);
+        } else {
+          if (services[i - 1].client._id === services[i].client._id) {
+            client.services.push(services[i]);
+          } else {
+            clients.push(client);
+            client = {
+              client: {},
+              connector: {},
+              services: [],
+            };
+            client.client = services[i].client;
+            client.connector = services[i].connector;
+            client.services.push(services[i]);
+          }
+        }
+      }
+    }
+
+    clients.push(client);
+    res.status(200).send(clients);
+  } catch (error) {
+    console.log(error);
+    res.status(501).json({ error: "Serverda xatolik yuz berdi..." });
+  }
+};
+
+module.exports.getStatsionarAll = async (req, res) => {
+  try {
+    const { clinica, beginDay, endDay, department } = req.body;
+
+    const clinic = await Clinica.findById(clinica);
+
+    if (!clinic) {
+      return res.status(400).json({
+        message: "Diqqat! Klinika ma'lumotlari topilmadi.",
+      });
+    }
+
+    let clients = [];
+    let client = {
+      client: {},
+      connector: {},
+      services: [],
+    };
+
+    const services = await StatsionarService.find({
       department,
       createdAt: {
         $gte: beginDay,
@@ -40,11 +124,27 @@ module.exports.getAll = async (req, res) => {
       },
       clinica,
     })
-      .select("service serviceid accept column tables turn connector client files")
-      .populate("connector", "probirka createdAt accept")
-      .populate("client", "lastname firstname born id phone address")
-      .populate("service", "price")
-      .populate("templates", "name template")
+    .select("service serviceid accept column tables turn connector client files department")
+    .populate("client", "lastname firstname born id phone address")
+    .populate("service", "price")
+    .populate({
+        path: "connector",
+        select: "probirka createdAt accept clinica",
+        populate: {
+            path: "clinica",
+            select: "name phone1 image"
+        }
+    })
+    .populate({
+        path: "serviceid",
+        select: "servicetype",
+        populate: {
+            path: "servicetype",
+            select: "name"
+        }
+    })
+    .populate('department', 'probirka')
+    .populate("templates", "name template")
 
 
     if (services.length > 0) {

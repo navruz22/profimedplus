@@ -478,7 +478,7 @@ export const RegisterClient = ({
                             </div>
                         </div>
                         <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
-                            {totalpayment - payments - discount.discount - payment.debt !== 0 && <div className="text-right">
+                             <div className="text-right">
                                 {loading ? (
                                     <button className="btn btn-warning" disabled>
                                         <span className="spinner-border spinner-border-sm"></span>
@@ -489,7 +489,7 @@ export const RegisterClient = ({
                                         Qabul qilish
                                     </button>
                                 )}
-                            </div>}
+                            </div>
                         </div>
                     </div>
                 </div>

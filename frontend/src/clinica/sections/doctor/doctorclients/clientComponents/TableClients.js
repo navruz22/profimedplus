@@ -12,6 +12,10 @@ import { Pagination } from "../../components/Pagination";
 import { DatePickers } from "./DatePickers";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import { useHistory } from "react-router-dom";
+import Select from "react-select";
+import makeAnimated from 'react-select/animated'
+
+const animatedComponents = makeAnimated()
 
 export const TableClients = ({
   changeStart,
@@ -29,7 +33,9 @@ export const TableClients = ({
   loading,
   setClient,
   setConnector,
-  setVisible
+  setVisible,
+  clientsType,
+  changeClientsType
 }) => {
   const history = useHistory();
   return (
@@ -99,6 +105,19 @@ export const TableClients = ({
                       filename="Chegirma"
                     />
                   </div>
+                </th>
+                <th
+                  className="text-center"
+                  style={{ maxWidth: "200px" }}
+                >
+                  <select
+                    className="form-control form-control-sm selectpicker"
+                    placeholder="Mijozalar"
+                    onChange={changeClientsType}
+                  >
+                    <option value="offline">Kunduzgi</option>
+                    <option value="statsionar">Statsionar</option>
+                  </select>
                 </th>
               </tr>
             </thead>
