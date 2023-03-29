@@ -231,7 +231,7 @@ const Print = ({ client, connector, sections, clinica, baseUrl, doctor }) => {
                                     {section?.service?.name}
                                 </h2>
                             </div>
-                            {section.templates.length > 0 &&
+                            {section.templates && section.templates.length > 0 &&
                                 section.templates.map((template, index) => (
                                     <div
                                         key={index}
@@ -244,7 +244,7 @@ const Print = ({ client, connector, sections, clinica, baseUrl, doctor }) => {
                                 ))}
                             <div>
                                 <div className="mt-2">
-                                    {section.files.map((file) => <div className="w-full">
+                                    {section.files && section.files.length > 0 && section.files.map((file) => <div className="w-full">
                                         <img src={file} alt='file' />
                                     </div>)}
                                 </div>

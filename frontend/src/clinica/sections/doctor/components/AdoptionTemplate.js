@@ -186,7 +186,7 @@ const DoctorTemplate = ({ client, connector, services }) => {
     });
     setSections(newSections);
   }
-
+  console.log(services);
   useEffect(() => {
     setSections([...services].filter(service => service.department.probirka == false));
   }, [services]);
@@ -447,7 +447,7 @@ const DoctorTemplate = ({ client, connector, services }) => {
                     {section?.service?.name}
                   </h2>
                 </div>
-                {section.templates.length > 0 &&
+                {section.templates && section.templates.length > 0 &&
                   section.templates.map((template, index) => (
                     <div
                       key={index}
@@ -481,7 +481,7 @@ const DoctorTemplate = ({ client, connector, services }) => {
                     />
                   </div>
                   <div className="">
-                    {section.files.map((file) => <div className="w-[400px]">
+                    {section.files && section.files.lenght > 0 && section.files.map((file) => <div className="w-[400px]">
                       <img src={file} alt='file' />
                       <div className="px-4 pt-2">
                         <button className="" onClick={() => deleteFile(file, section._id)} >

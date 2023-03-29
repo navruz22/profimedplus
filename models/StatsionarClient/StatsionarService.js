@@ -24,7 +24,7 @@ const service = new Schema(
             ref: 'Department',
             required: true,
         },
-        templates: {type: String},
+        templates: [{ type: Object }],
         refuse: {type: Boolean, default: false},
         accept: {type: Boolean, default: false},
         reseption: {type: Schema.Types.ObjectId, ref: 'User', required: true},

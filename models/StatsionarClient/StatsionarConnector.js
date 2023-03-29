@@ -47,7 +47,7 @@ const connector = new Schema(
 function validateStatsionarConnector(connector) {
     const schema = Joi.object({
         clinica: Joi.string().required(),
-        client: Joi.string(),
+        client: Joi.string().optional(),
         doctor: Joi.string(),
         services: Joi.string(),
         products: Joi.string(),

@@ -569,8 +569,14 @@ export const StatsionarClients = () => {
         setClient({ ...client, [e.target.name]: e.target.value });
     };
 
+    // ===================================================================
+    // ===================================================================
+
+    const [clientDate, setClientDate] = useState(new Date().toISOString().slice(0, 10))
+
     const changeClientBorn = (e) => {
-        setClient({ ...client, born: e });
+        setClientDate(e.target.value);
+        setClient({ ...client, born: new Date(e.target.value) });
     };
     //====================================================================
     //====================================================================
@@ -656,6 +662,7 @@ export const StatsionarClients = () => {
                     counteragent: { ...counteragent, clinica: auth.clinica._id },
                     adver: { ...adver, clinica: auth.clinica._id },
                     room: { ...room },
+                    offlineclient: state?.client._id
                 },
                 {
                     Authorization: `Bearer ${auth.token}`,
@@ -710,7 +717,7 @@ export const StatsionarClients = () => {
                     connector: { ...connector, clinica: auth.clinica._id },
                     counteragent: { ...counteragent, clinica: auth.clinica._id },
                     adver: { ...adver, clinica: auth.clinica._id },
-                    room: { ...room },
+                    room: { ...room }
                 },
                 {
                     Authorization: `Bearer ${auth.token}`,
@@ -859,7 +866,7 @@ export const StatsionarClients = () => {
 
     //=================================================================
     //=================================================================
-    console.log(connector);
+    
     //=================================================================
     //=================================================================
     const [postRoomBody, setPostRoomBody] = useState({});
@@ -899,10 +906,32 @@ export const StatsionarClients = () => {
 
     useEffect(() => {
         if (state?.client) {
-            setClient({...client, ...state.client})
+            let clientData = {...state.client}
+            delete clientData._id
+            let connector = {...state.connector}
+            let services = [...state.services]
+            setClient({...client, ...clientData})
             setVisible(true)
+            setClientDate(clientData.born.slice(0, 10))
+            setConnector({...connector, reseption: auth.user && auth.user._id,})
+              let s = [];
+              services.map((service) => {
+                return s.push({
+                    clinica: auth.clinica._id,
+                    reseption: auth.user._id,
+                    serviceid: service.service._id,
+                    service: service.service,
+                    department: service.department,
+                    pieces: 1,
+                });
+            });
+            setServices(s)
+            setSelectedServices([...services].map(item => ({
+                label: item.service.name,
+                value: item.service._id
+            })));
         }
-    })
+    }, [state])
 
     //=================================================================
     //=================================================================
@@ -961,6 +990,7 @@ export const StatsionarClients = () => {
                                 connector={connector}
                                 setConnector={setConnector}
                                 changeDiagnos={changeDiagnos}
+                                clientDate={clientDate}
                             />
                         </div>
                         <TableClients

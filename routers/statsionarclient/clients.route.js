@@ -33,6 +33,7 @@ const {
 } = require('../../models/StatsionarClient/StatsionarDaily')
 const { TableColumn } = require("../../models/Services/TableColumn");
 const { ServiceTable } = require("../../models/Services/ServiceTable");
+const { OfflineService } = require('../../models/OfflineClient/OfflineService')
 // register
 module.exports.register = async (req, res) => {
     try {
@@ -44,16 +45,17 @@ module.exports.register = async (req, res) => {
             counteragent,
             adver,
             room,
+            offlineclient
         } = req.body
 
         //=========================================================
         // CheckData
-        const checkClient = validateStatsionarClient(client).error
-        if (checkClient) {
-            return res.status(400).json({
-                error: error.message,
-            })
-        }
+        // const checkClient = validateStatsionarClient(client).error
+        // if (checkClient) {
+        //     return res.status(400).json({
+        //         error: error.message,
+        //     })
+        // }
 
         const checkStatsionarConnector = validateStatsionarConnector(connector)
             .error
@@ -64,14 +66,18 @@ module.exports.register = async (req, res) => {
         }
         //=========================================================
         // CreateClient
-        const id =
-            'S' +
-            ((await StatsionarClient.find({ clinica: client.clinica })).length +
-                10001)
-
-        const fullname = client.lastname + ' ' + client.firstname
-
+        let id = ''
         delete client._id
+        if (client && client.id) {
+            id = 'S' + client.id
+        } else {
+            id =
+                'S' +
+                ((await StatsionarClient.find({ clinica: client.clinica })).length +
+                    10001)
+        }
+
+        let fullname = client.lastname + ' ' + client.firstname
 
         const newclient = new StatsionarClient({ ...client, id, fullname })
         await newclient.save()
@@ -91,7 +97,7 @@ module.exports.register = async (req, res) => {
                     })
                 ).length + 1
         }
-
+     
         const newconnector = new StatsionarConnector({
             ...connector,
             client: newclient._id,
@@ -237,6 +243,12 @@ module.exports.register = async (req, res) => {
         newdaily.products = [...newconnector.products]
         await newdaily.save()
 
+        // if (offlineclient) {
+        //     const offlineservices = await OfflineService.find({
+                
+        //     })
+        // }
+
         const response = await StatsionarConnector.findById(newconnector._id)
             .populate('client')
             .populate('services')
@@ -245,6 +257,7 @@ module.exports.register = async (req, res) => {
 
         res.status(201).send(response)
     } catch (error) {
+        console.log(error);
         res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
     }
 }
@@ -475,6 +488,7 @@ module.exports.add = async (req, res) => {
         res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
     }
 }
+
 
 //Clients getall
 module.exports.getAll = async (req, res) => {

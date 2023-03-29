@@ -76,14 +76,6 @@ export const checkConnectorData = (connector, client) => {
             status: "error",
         };
     }
-
-    if (!connector.diagnosis) {
-        return {
-            title: "Diqqat! Mijozga tashxis qo'yilmagan.",
-            description: "Iltimos mijoz tashxisini kiriting.",
-            status: "error",
-        };
-    }
     return false;
 };
 
