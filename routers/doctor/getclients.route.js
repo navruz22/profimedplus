@@ -63,6 +63,7 @@ module.exports.getAll = async (req, res) => {
     })
     .populate('department', 'probirka')
     .populate("templates", "name template")
+    .then(services => services.filter(service => (String(service.department._id) === String(department) || service.department.probirka)))
 
 
     if (services.length > 0) {

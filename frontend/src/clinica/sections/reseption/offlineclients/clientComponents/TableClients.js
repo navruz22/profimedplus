@@ -238,6 +238,9 @@ export const TableClients = ({
                   />
                 </th>
                 <th className="border py-1 bg-alotrade text-[16px]">
+                  
+                </th>
+                <th className="border py-1 bg-alotrade text-[16px]">
                   Qo'shish
                 </th>
                 <th className="border py-1 bg-alotrade text-[16px]">
