@@ -95,5 +95,10 @@ router.post('/table/filialtransfer', (req, res) => {
     require('./tables').transferTables(req, res);
 })
 
+//Conclusion
+router.post('/conclusion/client_info/get', (req, res) => {
+    require('./conclusion').getClientInfo(req, res);
+})
+
 
 module.exports = router

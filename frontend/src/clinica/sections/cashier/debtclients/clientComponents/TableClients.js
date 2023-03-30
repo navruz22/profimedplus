@@ -239,6 +239,16 @@ export const TableClients = ({
                     property={"debt"}
                   />
                 </th>
+                <th className="border bg-alotrade text-[16px] py-1">
+                  Izoh
+                  <div className="btn-group-vertical ml-2">
+                    <Sort
+                      data={currentConnectors}
+                      setData={setCurrentConnectors}
+                      property={"counterAgentProcient"}
+                    />
+                  </div>
+                </th>
                 {!location.pathname.includes('alo24/debtreport') && <th className="border bg-alotrade text-[16px] py-1">
                   Qabul
                   <div className="btn-group-vertical ml-2">
@@ -277,6 +287,7 @@ export const TableClients = ({
                       {connector.total}
                     </td>
                     <td className="border py-1 text-right text-[16px]">{connector.debt}</td>
+                    <td className="border py-1 text-right text-[16px]">{connector?.comment}</td>
                     {!location.pathname.includes('alo24/debtreport') && <td className="border py-1 text-center text-[16px]">
                       {loading ? (
                         <button className="btn btn-success" disabled>

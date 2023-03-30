@@ -319,7 +319,7 @@ export const TableClients = ({
                         connector.doctor.firstname}
                     </td>
                     <td className="border py-1 text-right text-[16px]">
-                      {new Date(connector.room.beginday).toLocaleDateString()}{" "}
+                      {connector?.room?.beginday && new Date(connector.room.beginday).toLocaleDateString()}{" "}
                     </td>
                     <td className="border py-1 text-center text-[16px]">
                       {loading ? (
@@ -364,7 +364,7 @@ export const TableClients = ({
                       )}
                     </td>
                     <td className="border py-1 text-center text-[16px]">
-                      {connector.room.endday ? (
+                      {connector?.room?.endday ? (
                         "Tugalgan"
                       ) : loading ? (
                         <button className="btn btn-danger" disabled>

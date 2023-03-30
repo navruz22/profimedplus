@@ -14,6 +14,7 @@ const { ServiceType } = require("../../models/Services/ServiceType");
 const { StatsionarService } = require("../../models/StatsionarClient/StatsionarService");
 require('../../models/StatsionarClient/StatsionarConnector')
 require('../../models/StatsionarClient/StatsionarClient')
+require('../../models/Services/Department')
 
 //Clients getall
 module.exports.getAll = async (req, res) => {

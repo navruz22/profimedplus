@@ -34,6 +34,9 @@ const {
 const { TableColumn } = require("../../models/Services/TableColumn");
 const { ServiceTable } = require("../../models/Services/ServiceTable");
 const { OfflineService } = require('../../models/OfflineClient/OfflineService')
+const { OfflineConnector } = require('../../models/OfflineClient/OfflineConnector')
+const { OfflinePayment } = require('../../models/Cashier/OfflinePayment')
+const { OfflineClient } = require('../../models/OfflineClient/OfflineClient')
 // register
 module.exports.register = async (req, res) => {
     try {
@@ -45,8 +48,12 @@ module.exports.register = async (req, res) => {
             counteragent,
             adver,
             room,
-            offlineclient
+            offlineclient,
+            offlineconnector
         } = req.body
+
+        delete client._id
+        delete connector._id
 
         //=========================================================
         // CheckData
@@ -67,7 +74,7 @@ module.exports.register = async (req, res) => {
         //=========================================================
         // CreateClient
         let id = ''
-        delete client._id
+
         if (client && client.id) {
             id = 'S' + client.id
         } else {
@@ -85,7 +92,9 @@ module.exports.register = async (req, res) => {
         //=========================================================
         // CreateStatsionarConnector
         let probirka = 0
-        if (connector.probirka) {
+        if (connector.probirka && offlineconnector) {
+            probirka = connector.probirka
+        } else if (connector.probirka) {
             probirka =
                 (
                     await StatsionarDaily.find({
@@ -96,8 +105,10 @@ module.exports.register = async (req, res) => {
                         },
                     })
                 ).length + 1
+        } else {
+            probirka = 0
         }
-     
+
         const newconnector = new StatsionarConnector({
             ...connector,
             client: newclient._id,
@@ -149,22 +160,44 @@ module.exports.register = async (req, res) => {
             const serv = await Service.findById(service.serviceid)
                 .populate('column', 'col1 col2 col3 col4 col5')
                 .populate('tables', 'col1 col2 col3 col4 col5')
-            const newservice = new StatsionarService({
-                ...service,
-                service: {
-                    _id: serv._id,
-                    name: serv.name,
-                    price: serv.price,
-                    shortname: serv.shortname,
-                    doctorProcient: serv.doctorProcient,
-                    counterAgentProcient: serv.counterAgentProcient,
-                    counterDoctorProcient: serv.counterDoctorProcient
-                },
-                client: newclient._id,
-                connector: newconnector._id,
-                column: { ...serv.column },
-                tables: [...JSON.parse(JSON.stringify(serv.tables))]
-            })
+
+            let newservice = null;
+
+            if (service.tables && service.tables.length > 0 && service.column) {
+                newservice = new StatsionarService({
+                    ...service,
+                    service: {
+                        _id: serv._id,
+                        name: serv.name,
+                        price: serv.price,
+                        shortname: serv.shortname,
+                        doctorProcient: serv.doctorProcient,
+                        counterAgentProcient: serv.counterAgentProcient,
+                        counterDoctorProcient: serv.counterDoctorProcient
+                    },
+                    client: newclient._id,
+                    connector: newconnector._id,
+                    column: service.column,
+                    tables: service.tables
+                })
+            } else {
+                newservice = new StatsionarService({
+                    ...service,
+                    service: {
+                        _id: serv._id,
+                        name: serv.name,
+                        price: serv.price,
+                        shortname: serv.shortname,
+                        doctorProcient: serv.doctorProcient,
+                        counterAgentProcient: serv.counterAgentProcient,
+                        counterDoctorProcient: serv.counterDoctorProcient
+                    },
+                    client: newclient._id,
+                    connector: newconnector._id,
+                    column: { ...serv.column },
+                    tables: [...JSON.parse(JSON.stringify(serv.tables))]
+                })
+            }
 
             await newservice.save()
 
@@ -243,11 +276,27 @@ module.exports.register = async (req, res) => {
         newdaily.products = [...newconnector.products]
         await newdaily.save()
 
-        // if (offlineclient) {
-        //     const offlineservices = await OfflineService.find({
-                
-        //     })
-        // }
+        if (offlineclient && offlineconnector) {
+            const offline_connector = await OfflineConnector.findById(offlineconnector)
+            const offlineservices = await OfflineService.find({
+                connector: offline_connector._id,
+                client: offlineclient
+            })
+                .lean();
+            const offlinepayments = await OfflinePayment.find({
+                connector: offline_connector._id,
+                client: offlineclient
+            })
+                .lean();
+            for (const service of offlineservices) {
+                await OfflineService.findByIdAndDelete(service._id)
+            }
+            for (const payment of offlinepayments) {
+                await OfflinePayment.findByIdAndDelete(payment._id)
+            }
+            await OfflineConnector.findByIdAndDelete(offlineconnector)
+            await OfflineClient.findByIdAndDelete(offlineclient)
+        }
 
         const response = await StatsionarConnector.findById(newconnector._id)
             .populate('client')
@@ -260,6 +309,168 @@ module.exports.register = async (req, res) => {
         console.log(error);
         res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
     }
+}
+
+const offlineToStatsionar = async (connector, client) => {
+
+    const offlineConnector = await OfflineConnector.findById(connector).lean()
+    const offlineclient = await OfflineClient.findById(client._id).lean()
+    const offlineservices = await OfflineService.find({
+        connector: offlineConnector._id
+    }).lean()
+
+    delete offlineConnector._id
+    delete offlineclient._id
+
+    let fullname = client.lastname + ' ' + client.firstname
+
+    const newclient = new StatsionarClient({ ...client, id: 'S' + client.id, fullname })
+    await newclient.save()
+
+    //=========================================================
+    // CreateStatsionarConnector
+    let probirka = 0
+    if (offlineConnector.probirka) {
+        probirka = offlineConnector.probirka;
+    }
+
+    const newconnector = new StatsionarConnector({
+        ...offlineConnector,
+        client: newclient._id,
+    })
+    await newconnector.save()
+
+    const newdaily = new StatsionarDaily({
+        clinica: newconnector.clinica,
+        client: newclient._id,
+        connector: newconnector._id,
+        probirka: 'S' + probirka,
+        reseption: newconnector.reseption,
+    })
+    await newdaily.save()
+
+    newconnector.dailys.push(newdaily._id)
+    await newconnector.save()
+
+    newclient.connectors.push(newconnector._id)
+    await newclient.save()
+
+    //=========================================================
+    // CreateServices
+    let totalprice = 0
+    for (const service of offlineservices) {
+        delete service._id;
+        //=========================================================
+        // Product decrement
+        const productconnectors = await ProductConnector.find({
+            clinica: newclient.clinica,
+            service: service.serviceid,
+        })
+
+        for (const productconnector of productconnectors) {
+            const product = await Product.findById(productconnector.product)
+            product.total = product.total - productconnector.pieces * service.pieces
+            await product.save()
+        }
+
+        //=========================================================
+        // Create Service
+        const serv = await Service.findById(service.serviceid)
+            .populate('column', 'col1 col2 col3 col4 col5')
+            .populate('tables', 'col1 col2 col3 col4 col5')
+        const newservice = new StatsionarService({
+            ...service,
+            service: {
+                _id: serv._id,
+                name: serv.name,
+                price: serv.price,
+                shortname: serv.shortname,
+                doctorProcient: serv.doctorProcient,
+                counterAgentProcient: serv.counterAgentProcient,
+                counterDoctorProcient: serv.counterDoctorProcient
+            },
+            client: newclient._id,
+            connector: newconnector._id,
+            column: { ...serv.column },
+            tables: [...JSON.parse(JSON.stringify(serv.tables))]
+        })
+
+        await newservice.save()
+
+        totalprice += service.service.price * service.pieces
+
+        newconnector.services.push(newservice._id)
+        await newconnector.save()
+    }
+
+    // CreateProducts
+    for (const product of products) {
+        const { error } = validateStatsionarProduct(product)
+
+        if (error) {
+            return res.status(400).json({
+                error: error.message,
+            })
+        }
+
+        const produc = await Product.findById(product.productid)
+        produc.total = produc.total - product.pieces
+        await produc.save()
+
+        const newproduct = new StatsionarProduct({
+            ...product,
+            client: newclient._id,
+            connector: newconnector._id,
+        })
+
+        await newproduct.save()
+        totalprice += product.product.price * product.pieces
+
+        newconnector.products.push(newproduct._id)
+        await newconnector.save()
+    }
+
+    newconnector.totalprice = totalprice
+    await newconnector.save()
+
+    if (counteragent.counterdoctor) {
+        const newcounteragent = new StatsionarCounteragent({
+            client: newclient._id.toString(),
+            connector: newconnector._id.toString(),
+            services: [...newconnector.services],
+            ...counteragent,
+        })
+        await newcounteragent.save()
+    }
+
+    if (adver.adver) {
+        const newadver = new StatsionarAdver({
+            client: newclient._id,
+            connector: newconnector._id,
+            ...adver,
+        })
+
+        await newadver.save()
+    }
+
+    if (room.roomid) {
+        const roomm = await Room.findById(room.roomid)
+        roomm.position = true
+        await roomm.save()
+
+        const newroom = new StatsionarRoom({
+            ...room,
+            connector: newconnector._id,
+            client: newclient._id,
+        })
+        await newroom.save()
+
+        newconnector.room = newroom._id
+        await newconnector.save()
+    }
+    newdaily.services = [...newconnector.services]
+    newdaily.products = [...newconnector.products]
+    await newdaily.save()
 }
 
 module.exports.add = async (req, res) => {

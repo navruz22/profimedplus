@@ -241,6 +241,7 @@ export const RegisterClient = ({
                                             className="form-control form-control-sm selectpicker"
                                             placeholder="Doctors"
                                             onChange={changeDoctor}
+                                            style={{border: connector.doctor && '1px solid blue'}}
                                         >
                                             <option value={"delete"}>Doctors</option>
                                             {doctors.map((doctor, index) => (
@@ -258,6 +259,7 @@ export const RegisterClient = ({
                                             className="form-control form-control-sm selectpicker"
                                             placeholder="Xonalar"
                                             onChange={changeRoom}
+                                            style={{border: room.room && '1px solid blue'}}
                                         >
                                             <option value={"delete"}>Xonalar</option>
                                             {rooms.map((room, index) => (
@@ -275,8 +277,12 @@ export const RegisterClient = ({
                                 </div>
                                 <div className="col-sm-6 col-12">
                                     <label>Qabul sanasi</label>
-                                    <DatePickers
-                                        changeDate={(date) => setRoom({ ...room, beginday: date })}
+                                    <input
+                                        onChange={(e) => setRoom({...room, beginday: new Date(e.target.value)})}
+                                        type="date"
+                                        className="form-control inp"
+                                        placeholder=""
+                                        style={{ color: '#999', border: room.beginday && '1px solid blue' }}
                                     />
                                 </div>
                                 <div className="col-sm-6 col-12">
@@ -323,6 +329,7 @@ export const RegisterClient = ({
                                             onChange={changeAdver}
                                             className="form-control form-control-sm selectpicker"
                                             placeholder="Reklamalarni tanlash"
+                                            style={{border: client.adver && '1px solid blue'}}
                                         >
                                             <option value="delete">Tanlanmagan</option>
                                             {advers.map((adver, index) => {

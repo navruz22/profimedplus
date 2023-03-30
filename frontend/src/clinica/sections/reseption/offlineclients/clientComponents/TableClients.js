@@ -278,8 +278,8 @@ export const TableClients = ({
                     <td className="border py-1 text-right text-[16px]">
                       {connector.totalprice}
                     </td>
-                    <td className="border py-1 text-right text-[16px]">
-                      {connector.services.length}
+                    <td className="border py-1 text-right text-[16px] font-bold">
+                      <span className={`${connector.services.length === connector.services.filter(service => service.accept).length ? 'text-green-400' : "text-red-400"}`}>{connector.services.length}</span> / <span className='text-green-400'>{connector.services.filter(service => service.accept).length}</span>
                     </td>
                     <td className="border py-1 text-right text-[16px]">
                       {new Date(connector.createdAt).toLocaleDateString()} {' '}
@@ -295,7 +295,7 @@ export const TableClients = ({
                         <button
                           className="btn btn-success py-0"
                           onClick={() => {
-                            history.push('alo24/statsionar', {client: {...connector.client}, services: [...connector.services], connector: {probirka: connector?.probirka}})
+                            history.push('alo24/statsionar', {client: {...connector.client}, services: [...connector.services], connector: {_id: connector._id, probirka: connector?.probirka}})
                           }}
                         >
                           Statsionar

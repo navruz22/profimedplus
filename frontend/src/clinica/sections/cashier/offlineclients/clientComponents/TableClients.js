@@ -36,8 +36,17 @@ export const TableClients = ({
 }) => {
 
     const getTotalprice = (connector) => {
-        let servicesTotal = connector.services.reduce((prev, s) => s.service && s.refuse === false && prev + (s.service.price * s.pieces), 0)
-        let productsTotal = connector.products.length > 0 && connector.products.reduce((prev, el) => prev + (el.refuse === false && (el.payment && (el.product.price * el.pieces)) || 0), 0) || 0
+        let servicesTotal = connector.services.reduce((prev, s) => {
+            if (s.refuse === false) {
+                prev += (s.service.price * s.pieces)
+            }
+            return prev;
+        }, 0)
+        let productsTotal = connector.products.reduce((prev, el) => {
+            if (el.refuse === false) {
+                prev += (el.product.price * el.pieces)
+            }
+        }, 0)
         return servicesTotal + productsTotal
     }
 

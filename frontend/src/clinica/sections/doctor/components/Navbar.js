@@ -129,13 +129,13 @@ export const Navbar = () => {
               </li>
               <li className="nav-item">
                 <Link
-                  className={`nav-link ${activePage === "/alo24/conclusion" ? "active-page" : ""
+                  className={`nav-link ${activePage === "/alo24/conclusionclients" ? "active-page" : ""
                     }`}
                   onClick={() => {
-                    setActivePage("/alo24/conclusion");
+                    setActivePage("/alo24/conclusionclients");
                   }}
-                  to="/alo24/conclusion"
-                  style={{ background: activePage === "/alo24/conclusion" ? "#F97316" : "" }}
+                  to="/alo24/conclusionclients"
+                  style={{ background: activePage === "/alo24/conclusionclients" ? "#F97316" : "" }}
                 >
                   <i className="icon-devices_other nav-icon" />
                   Xulosa berish

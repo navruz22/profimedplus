@@ -1,11 +1,11 @@
-const {Schema, model, Types} = require('mongoose')
+const { Schema, model, Types } = require('mongoose')
 const Joi = require('joi')
-const {join} = require("path");
+const { join } = require("path");
 
 const service = new Schema(
     {
-        clinica: {type: Schema.Types.ObjectId, ref: 'Clinica', required: true},
-        isArchive: {type: Boolean, default: false},
+        clinica: { type: Schema.Types.ObjectId, ref: 'Clinica', required: true },
+        isArchive: { type: Boolean, default: false },
         client: {
             type: Schema.Types.ObjectId,
             ref: 'StatsionarClient',
@@ -16,24 +16,24 @@ const service = new Schema(
             ref: 'StatsionarConnector',
             required: true,
         },
-        serviceid: {type: Schema.Types.ObjectId, ref: 'Service', required: true},
-        service: {type: Object},
-        pieces: {type: Number},
+        serviceid: { type: Schema.Types.ObjectId, ref: 'Service', required: true },
+        service: { type: Object },
+        pieces: { type: Number },
         department: {
             type: Schema.Types.ObjectId,
             ref: 'Department',
             required: true,
         },
         templates: [{ type: Object }],
-        refuse: {type: Boolean, default: false},
-        accept: {type: Boolean, default: false},
-        reseption: {type: Schema.Types.ObjectId, ref: 'User', required: true},
-        doctor: {type: Schema.Types.ObjectId, ref: 'User'},
-        turn: {type: Number},
-        comment: {type: String},
-        payment: {type: Boolean, default: true},
-        column: Object,
-        tabled: Array
+        refuse: { type: Boolean, default: false },
+        accept: { type: Boolean, default: false },
+        reseption: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+        doctor: { type: Schema.Types.ObjectId, ref: 'User' },
+        turn: { type: Number },
+        comment: { type: String },
+        payment: { type: Boolean, default: true },
+        column: { type: Object },
+        tables: { type: Array },
     },
     {
         timestamps: true,
@@ -50,7 +50,7 @@ function validateStatsionarService(clientservice) {
         pieces: Joi.number(),
         department: Joi.string().required(),
         table: Joi.string(),
-        templates: Joi.string(),
+        templates: Joi.array(),
         refuse: Joi.boolean(),
         accept: Joi.string(),
         reseption: Joi.string().required(),

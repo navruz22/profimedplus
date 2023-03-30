@@ -662,7 +662,8 @@ export const StatsionarClients = () => {
                     counteragent: { ...counteragent, clinica: auth.clinica._id },
                     adver: { ...adver, clinica: auth.clinica._id },
                     room: { ...room },
-                    offlineclient: state?.client._id
+                    offlineclient: offlineclient,
+                    offlineconnector: offlineconnector
                 },
                 {
                     Authorization: `Bearer ${auth.token}`,
@@ -680,6 +681,8 @@ export const StatsionarClients = () => {
             setModal(false);
             clearDatas();
             setVisible(false);
+            setOfflineclient()
+            setOfflineconnector()
         } catch (error) {
             notify({
                 title: error,
@@ -904,8 +907,14 @@ export const StatsionarClients = () => {
     //=================================================================
     //=================================================================
 
+    const [offlineconnector, setOfflineconnector] = useState()
+    const [offlineclient, setOfflineclient] = useState()
+
     useEffect(() => {
         if (state?.client) {
+            console.log(state);
+            setOfflineclient(state.client._id)
+            setOfflineconnector(state.connector._id)
             let clientData = {...state.client}
             delete clientData._id
             let connector = {...state.connector}
@@ -923,6 +932,9 @@ export const StatsionarClients = () => {
                     service: service.service,
                     department: service.department,
                     pieces: 1,
+                    templates: service.templates,
+                    column: service.column,
+                    tables: service.tables
                 });
             });
             setServices(s)

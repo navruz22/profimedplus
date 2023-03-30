@@ -1,9 +1,10 @@
 import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import { DoctorClients } from "./doctorclients/DoctorClients";
-import { Conclusion } from "./conclusion/Conclusion";
 import Templates from "./templates/Templates";
 import AdoptionTemplate from "./components/AdoptionTemplate";
+import { ConclusionClients } from "./conclusion/ConclusionClients";
+import Conclusion from "./conclusion/Conclusion";
 // import Tables from "./tables/Tables";
 
 export const DoctorRouter = () => {
@@ -18,6 +19,9 @@ export const DoctorRouter = () => {
         </Route>
         <Route path="/alo24/adoption">
           <AdoptionTemplate />
+        </Route>
+        <Route path="/alo24/conclusionclients">
+          <ConclusionClients />
         </Route>
         <Route path="/alo24/conclusion">
           <Conclusion />
