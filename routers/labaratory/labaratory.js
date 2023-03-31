@@ -6,6 +6,7 @@ const { OfflineClient } = require("../../models/OfflineClient/OfflineClient");
 const { Template } = require("../../models/Templates/Template");
 const { ServiceType } = require("../../models/Services/ServiceType");
 const { StatsionarService } = require("../../models/StatsionarClient/StatsionarService");
+const { StatsionarConnector } = require("../../models/StatsionarClient/StatsionarConnector");
 require("../../models/StatsionarClient/StatsionarClient");
 require("../../models/StatsionarClient/StatsionarConnector");
 require('../../models/Services/ServiceType')
@@ -18,8 +19,15 @@ module.exports.approve = async (req, res) => {
         const { connector } = req.body;
 
         const offlineConnector = await OfflineConnector.findById(connector);
-        offlineConnector.accept = true;
-        offlineConnector.save()
+        if (offlineConnector) {
+            offlineConnector.accept = true;
+            offlineConnector.save()
+        } else {
+            const statsionarconnector = await StatsionarConnector.findById(connector);
+            statsionarconnector.accept = true;
+            statsionarconnector.save()
+        }
+        
 
         res.status(200).json({ message: 'Mijoz qon oldi!' })
     } catch (error) {
