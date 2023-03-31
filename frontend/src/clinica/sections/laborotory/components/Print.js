@@ -283,7 +283,7 @@ const Print = ({ client, connector, sections, baseUrl, clinica }) => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {section?.services.map((service, ind) => {
+                                    {section?.services && section?.services.map((service, ind) => {
                                         return service.accept && service.tables.map((table, key) => (
                                             <tr key={key} >
                                                 <td className={`border-[1px] text-[20px] border-black py-1 px-[12px]`}> <pre
@@ -331,7 +331,7 @@ const Print = ({ client, connector, sections, baseUrl, clinica }) => {
                     ))}
                 {printSections.map((section => <div className='py-[20px]'>
                     <div className="">
-                        {section.services.map(service => service.files.map((file) => <div className="w-[400px]">
+                        {section.services.map(service => service.files && service.files.map((file) => <div className="w-[400px]">
                             <img src={file} alt='file' />
                         </div>))}
                     </div>

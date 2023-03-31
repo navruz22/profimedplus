@@ -10,6 +10,9 @@ router.post('/approve', authMiddleware, (req, res) => {
 router.post('/clients/get', authMiddleware, (req, res) => {
     require('./labaratory').getLabClients(req, res);
 })
+router.post('/clientsforapprove/get', authMiddleware, (req, res) => {
+    require('./labaratory').getLabClientsForApprove(req, res);
+})
 
 router.post('/adopt', authMiddleware, (req, res) => {
     require('./labaratory').adoptLabClient(req, res)

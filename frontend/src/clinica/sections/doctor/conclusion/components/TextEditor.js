@@ -212,7 +212,7 @@ const TextEditor = ({ value, onChange }) => {
             </div>
         </div>
         <div className='flex justify-center'>
-            <div className='w-[28cm]'>
+            <div className=''>
                 <EditorContent editor={editor} />
             </div>
         </div>

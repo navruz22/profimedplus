@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthContext";
 import { useHttp } from "../../../hooks/http.hook";
 import ClientCard from "./components/ClientCard";
+import DoctorResult from "./components/DoctorResult";
 
 
 const Conclusion = () => {
@@ -71,18 +72,23 @@ const Conclusion = () => {
         getConnectorInfo()
     }, [getConnectorInfo])
 
+
+    // const saveClientCard = () => {
+    //     const 
+    // }
+
     //====================================================================
     //====================================================================
 
-    return <div className="bg-slate-100 content-wrapper px-lg-5 px-3">
+    return <div className="container p-4 bg-white">
         <div className="flex justify-between items-center">
             <button onClick={() => setType('clientcard')} className="w-[200px] h-[100px] flex items-center justify-center bg-alotrade rounded-lg text-white text-[16px] font-medium text-uppercase">Bemor kartasi</button>
-            <button className="w-[200px] h-[100px] flex items-center justify-center bg-alotrade rounded-lg text-white text-[16px] font-medium text-uppercase">Shifokor kurigi</button>
+            <button onClick={() => setType('doctorresult')} className="w-[200px] h-[100px] flex items-center justify-center bg-alotrade rounded-lg text-white text-[16px] font-medium text-uppercase">Shifokor kurigi</button>
             <button className="w-[200px] h-[100px] flex items-center justify-center bg-alotrade rounded-lg text-white text-[16px] font-medium text-uppercase">Shartnoma bajarishi</button>
             <button className="w-[200px] h-[100px] flex items-center justify-center bg-alotrade rounded-lg text-white text-[16px] font-medium text-uppercase">Xarorat</button>
             <button className="w-[200px] h-[100px] flex items-center justify-center bg-alotrade rounded-lg text-white text-[16px] font-medium text-uppercase">Xulosa</button>
         </div>
-        {type === 'clientcard' && <ClientCard connector={connectorInfo} onChange={(text) => {
+        {type === 'clientcard' && <ClientCard  connector={connectorInfo} onChange={(text) => {
             setConnectorInfo({
                 ...connectorInfo, client: {
                     ...connectorInfo.client,
@@ -90,6 +96,7 @@ const Conclusion = () => {
                 }
             })
         }} />}
+        {type === 'doctorresult' && <DoctorResult connector={connectorInfo} />}
     </div>
 }
 

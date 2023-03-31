@@ -87,13 +87,12 @@ export const BloodTest = () => {
         async (beginDay, endDay) => {
             try {
                 const data = await request(
-                    `/api/doctor/clients/getclients`,
+                    `/api/labaratory/clientsforapprove/get`,
                     "POST",
                     {
                         clinica: auth && auth.clinica._id,
                         beginDay,
                         endDay,
-                        department: auth?.user?.specialty,
                     },
                     {
                         Authorization: `Bearer ${auth.token}`,

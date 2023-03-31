@@ -31,6 +31,7 @@ const client = new Schema(
         ambulance_transport: {type: String},
         start_sickness: {type: String},
         conter_diagnosis: {type: String},
+        clientcard: {type: String}
     },
     {
         timestamps: true,

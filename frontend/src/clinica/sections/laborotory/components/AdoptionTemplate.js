@@ -521,7 +521,7 @@ const AdoptionTemplate = () => {
                     <tbody>
                       {section?.services.map((service, ind) => {
                         return <>
-                          {service.tables.length > 0 && service.tables.map((table, key, tabless) => (
+                          {service.tables && service.tables.length > 0 && service.tables.map((table, key, tabless) => (
                             <tr key={key} >
                               <td className="border-2 border-black p-[10px]"> <textarea rows={2}
                                 className={"w-full border-none outline-none"}
@@ -621,7 +621,7 @@ const AdoptionTemplate = () => {
               />
             </div>
             <div className="">
-              {service.files.map((file) => <div className="w-[400px]">
+              {service.files && service.files.map((file) => <div className="w-[400px]">
                 <img src={file} alt='file' />
                 <div className="px-4 pt-2">
                   <button className="" onClick={() => deleteFile(file, service._id)} >
