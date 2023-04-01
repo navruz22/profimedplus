@@ -59,7 +59,8 @@ const Print = ({ client, connector, sections, baseUrl, clinica }) => {
         }
     }, [sections, location])
 
-
+    console.log(clinica);
+    console.log(baseUrl); 
     return (
         <div className="px-2 bg-white">
             <div>
@@ -97,17 +98,22 @@ const Print = ({ client, connector, sections, baseUrl, clinica }) => {
                         </div>
                     </div> */}
                 <div className="flex justify-between items-center" style={{ fontSize: "20pt", marginBottom: "30px" }}>
-                    <div>
-                        <pre className="text-center border-none outline-none font-bold text-[40px]" style={{ fontFamily: "-moz-initial" }}>
+                    <div className="" style={{ textAlign: "center" }}>
+                        <pre className="pt-3" style={{ fontFamily: "-moz-initial", border: 'none', outline: "none" }}>
                             {clinica?.name}
                         </pre>
                     </div>
-                    <div style={{ maxWidth: "250px", marginRight: "60px", textAlign: "center" }}>
+                    <div style={{ width: "250px", textAlign: "center" }}>
                         <img src={baseUrl + '/api/upload/file/' + clinica?.image} alt="logo" />
                     </div>
                     <div className="" style={{ textAlign: "center" }}>
+                        <pre className="pt-3" style={{ fontFamily: "-moz-initial", border: 'none', outline: "none" }}>
+                            {clinica?.name2}
+                        </pre>
+                    </div>
+                    <div className="" style={{ textAlign: "center" }}>
                         <p className="text-end m-0">
-                            <img width="150" src={QRcode} alt="QR" />
+                            <img width="130" src={QRcode} alt="QR" />
                         </p>
                     </div>
                 </div>
@@ -261,6 +267,10 @@ const Print = ({ client, connector, sections, baseUrl, clinica }) => {
                             </tr>
                         </table>
                     </div>
+                </div>
+                <div className="mt-2 px-2 py-1 bg-gray-400 flex justify-between items-center">
+                    <span className="text-[14px] font-bold">{clinica?.organitionName}</span>
+                    <span className="text-[14px] font-bold">{clinica?.license}</span>
                 </div>
             </div>
             <div className="pt-2 w-full text-center">

@@ -161,7 +161,10 @@ export const DoctorClients = () => {
   const searchFullname = useCallback(
     (e) => {
       const searching = searchStorage.filter((item) =>
-        item.client.fullname
+        item.client.lastname
+          .toLowerCase()
+          .includes(e.target.value.toLowerCase()) ||
+          item.client.firstname
           .toLowerCase()
           .includes(e.target.value.toLowerCase())
       );
@@ -181,6 +184,14 @@ export const DoctorClients = () => {
     },
     [searchStorage, countPage]
   );
+
+  const searchProbirka = (e) => {
+      const searching = searchStorage.filter((item) =>
+        item.connector.probirka.toString().includes(e.target.value)
+      );
+      setDoctorClients(searching);
+      setCurrentDoctorClients(searching.slice(0, countPage));
+    }
 
   //===================================================================
   //===================================================================
@@ -333,6 +344,7 @@ export const DoctorClients = () => {
               loading={loading}
               handlePrint={handlePrint}
               getDoctorClientsByClientBorn={getDoctorClientsByClientBorn}
+              searchProbirka={searchProbirka}
             />
           </div>
         </div>

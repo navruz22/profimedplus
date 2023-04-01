@@ -4,6 +4,8 @@ const Joi = require('joi')
 const clinica = new Schema(
   {
     name: { type: String, required: true },
+    name2: {type: String},
+    site: {type: String},
     organitionName: { type: String },
     image: { type: String, required: true },
     phone1: { type: String, required: true },
@@ -11,6 +13,8 @@ const clinica = new Schema(
     phone3: { type: String },
     bank: { type: String },
     bankNumber: { type: String },
+    license: {type: String},
+    header: {type: String},
     inn: { type: Number },
     mainclinica: { type: Boolean, default: false },
     filials: [{ type: Schema.Types.ObjectId, ref: "Clinica" }],
@@ -42,6 +46,8 @@ function validateClinica(clinica) {
     isFilial: Joi.boolean(),
     address: Joi.string(),
     orientation: Joi.string(),
+    license: Joi.string(),
+    site: Joi.string(),
   })
 
   return schema.validate(clinica)

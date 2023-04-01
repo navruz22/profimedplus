@@ -7,6 +7,7 @@ import {
   InputGroup,
   InputLeftAddon,
   Button,
+  Textarea,
 } from "@chakra-ui/react";
 import { FileUpload } from "./fileUpLoad/FileUpload";
 import { useToast } from "@chakra-ui/react";
@@ -262,8 +263,7 @@ export const ClinicaRegister = ({ onFinishCreate, onFinishUpdate, clinicaData })
                         >
                           Shifoxona nomi
                         </FormLabel>
-                        <Input
-                          onKeyUp={keyPressed}
+                        <Textarea
                           className="is-valid"
                           placeholder="Shifoxona nomini kiriting"
                           size="sm"
@@ -275,6 +275,28 @@ export const ClinicaRegister = ({ onFinishCreate, onFinishUpdate, clinicaData })
                           defaultValue={clinica.name && clinica.name}
                           onChange={changeHandler}
                           name="name"
+                        />
+                      </FormControl>
+                    </div>
+                    <div className="col-md-12">
+                      <FormControl isRequired>
+                        <FormLabel
+                          style={{ color: "#38B2AC", marginTop: "1rem" }}
+                        >
+                          Название клиники
+                        </FormLabel>
+                        <Textarea
+                          className="is-valid"
+                          placeholder="Shifoxona nomini kiriting"
+                          size="sm"
+                          style={
+                            clinica.name2 && clinica.name2.length > 0
+                              ? styleGreen
+                              : styleDefault
+                          }
+                          defaultValue={clinica.name2 && clinica.name2}
+                          onChange={changeHandler}
+                          name="name2"
                         />
                       </FormControl>
                     </div>
@@ -297,6 +319,52 @@ export const ClinicaRegister = ({ onFinishCreate, onFinishUpdate, clinicaData })
                           }
                           name="organitionName"
                           defaultValue={clinica.organitionName && clinica.organitionName}
+                          onChange={changeHandler}
+                        />
+                      </FormControl>
+                    </div>
+                    <div className="col-md-12">
+                      <FormControl>
+                        <FormLabel
+                          style={{ color: "#38B2AC", marginTop: "1rem" }}
+                        >
+                          Litsenziya
+                        </FormLabel>
+                        <Input
+                          onKeyUp={keyPressed}
+                          placeholder="Litsenziya kiriting"
+                          size="sm"
+                          style={
+                            clinica.license &&
+                              clinica.license.length > 0
+                              ? styleGreen
+                              : styleDefault
+                          }
+                          name="license"
+                          defaultValue={clinica.license && clinica.license}
+                          onChange={changeHandler}
+                        />
+                      </FormControl>
+                    </div>
+                    <div className="col-md-12">
+                      <FormControl>
+                        <FormLabel
+                          style={{ color: "#38B2AC", marginTop: "1rem" }}
+                        >
+                          Sayt
+                        </FormLabel>
+                        <Input
+                          onKeyUp={keyPressed}
+                          placeholder="Sayt nomini kiriting"
+                          size="sm"
+                          style={
+                            clinica.site &&
+                              clinica.site.length > 0
+                              ? styleGreen
+                              : styleDefault
+                          }
+                          name="site"
+                          defaultValue={clinica.site && clinica.site}
                           onChange={changeHandler}
                         />
                       </FormControl>

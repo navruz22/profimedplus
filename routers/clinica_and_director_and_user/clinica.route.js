@@ -54,6 +54,9 @@ module.exports.register = async (req, res) => {
     }
     const {
       name,
+      name2,
+      site,
+      licence,
       organitionName,
       image,
       phone1,
@@ -79,6 +82,8 @@ module.exports.register = async (req, res) => {
 
     const newClinica = new Clinica({
       name,
+      name2,
+      licence,
       organitionName,
       image,
       phone1,

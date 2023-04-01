@@ -25,7 +25,8 @@ export const TableClients = ({
   setPageSize,
   loading,
   handlePrint,
-  getDoctorClientsByClientBorn
+  getDoctorClientsByClientBorn,
+  searchProbirka
 }) => {
 
   const history = useHistory()
@@ -63,6 +64,15 @@ export const TableClients = ({
               type="search"
               className="form-control form-control-sm selectpicker text-[16px]"
               placeholder="ID"
+            />
+          </div>
+          <div>
+            <input
+              onChange={searchProbirka}
+              style={{ maxWidth: "60px" }}
+              type="probirka"
+              className="form-control form-control-sm selectpicker text-[16px]"
+              placeholder="Probirka"
             />
           </div>
           <div>

@@ -275,7 +275,7 @@ const AdoptionTemplate = () => {
         >
           <Print
             baseUrl={baseUrl}
-            clinica={connector?.clinica}
+            clinica={auth?.clinica}
             connector={connector}
             client={client}
             sections={sections}
@@ -320,7 +320,12 @@ const AdoptionTemplate = () => {
           <div className="row" style={{ fontSize: "20pt" }}>
             <div className="col-6 pt-2" style={{ textAlign: "center" }}>
               <pre className="pt-3" style={{ fontFamily: "-moz-initial" }}>
-                {connector?.clinica?.name}
+                {auth?.clinica?.name}
+              </pre>
+            </div>
+            <div className="col-6 pt-2" style={{ textAlign: "center" }}>
+              <pre className="pt-3" style={{ fontFamily: "-moz-initial" }}>
+                {auth?.clinica?.name2}
               </pre>
             </div>
             <div className="col-6" style={{ textAlign: "center" }}>
@@ -483,6 +488,10 @@ const AdoptionTemplate = () => {
                 </tr>
               </table>
             </div>
+          </div>
+          <div className="mt-2 px-2 py-1 bg-gray-400 flex justify-between items-center">
+            <span className="text-[14px] font-bold">{auth.clinica?.organitionName}</span>
+            <span className="text-[14px] font-bold">{auth?.clinica?.license}</span>
           </div>
         </div>
         <div className="pt-4 w-full text-center">
