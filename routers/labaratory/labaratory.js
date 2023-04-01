@@ -63,7 +63,7 @@ module.exports.getLabClients = async (req, res) => {
             offline = await OfflineService.find({
                 clinica,
             })
-                .select("service serviceid accept column tables turn connector client files department")
+                .select("service serviceid accept refuse column tables turn connector client files department")
                 .populate({
                     path: "connector",
                     select: "probirka createdAt accept clinica",
@@ -88,13 +88,13 @@ module.exports.getLabClients = async (req, res) => {
                 .then(services => {
                     return services.filter(service => {
                         return service.connector.accept && new Date(new Date(service.client.born).setUTCHours(0, 0, 0, 0)).toISOString() === new Date(new Date(clientborn).setUTCHours(0, 0, 0, 0)).toISOString()
-                            && service.department.probirka
+                            && service.department.probirka && !service.refuse
                     })
                 })
             statsionar = await StatsionarService.find({
                 clinica,
             })
-                .select("service serviceid accept column tables turn connector client files department")
+                .select("service serviceid accept refuse column tables turn connector client files department")
                 .populate({
                     path: "connector",
                     select: "probirka createdAt accept clinica dailys",
@@ -127,7 +127,7 @@ module.exports.getLabClients = async (req, res) => {
                 .then(services => {
                     return services.filter(service => {
                         return service.connector.accept && new Date(new Date(service.client.born).setUTCHours(0, 0, 0, 0)).toISOString() === new Date(new Date(clientborn).setUTCHours(0, 0, 0, 0)).toISOString()
-                            && service.department.probirka
+                            && service.department.probirka && !service.refuse
                     })
                 })
         } else {
@@ -138,7 +138,7 @@ module.exports.getLabClients = async (req, res) => {
                 },
                 clinica,
             })
-                .select("service serviceid accept column tables turn connector client files department")
+                .select("service serviceid accept refuse column tables turn connector client files department")
                 .populate("client", "lastname firstname born id phone address")
                 .populate("service", "price")
                 .populate({
@@ -161,7 +161,7 @@ module.exports.getLabClients = async (req, res) => {
                 .populate("templates", "name template")
                 .lean()
                 .then(services => {
-                    return services.filter(service => service.connector.accept && service.department.probirka)
+                    return services.filter(service => service.connector.accept && service.department.probirka && !service.refuse)
                 })
             statsionar = await StatsionarService.find({
                 createdAt: {
@@ -201,7 +201,7 @@ module.exports.getLabClients = async (req, res) => {
                 .populate("templates", "name template")
                 .lean()
                 .then(services => {
-                    return services.filter(service => service.connector.accept && service.department.probirka)
+                    return services.filter(service => service.connector.accept && service.department.probirka && !service.refuse)
                 })
         }
 

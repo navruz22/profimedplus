@@ -144,6 +144,33 @@ const BloodTestTables = ({
                                 </div>
                             </th>
                             <th className="border text-[14px] bg-alotrade py-1">
+                                Probirka
+                                <div className="btn-group-vertical ml-2">
+                                    <FontAwesomeIcon
+                                        onClick={() =>
+                                            setCurrentDoctorClients(
+                                                [...currentDoctorClients].sort((a, b) =>
+                                                    a.client.id > b.client.id ? 1 : -1
+                                                )
+                                            )
+                                        }
+                                        icon={faAngleUp}
+                                        style={{ cursor: "pointer" }}
+                                    />
+                                    <FontAwesomeIcon
+                                        icon={faAngleDown}
+                                        style={{ cursor: "pointer" }}
+                                        onClick={() =>
+                                            setCurrentDoctorClients(
+                                                [...currentDoctorClients].sort((a, b) =>
+                                                    b.client.id > a.client.id ? 1 : -1
+                                                )
+                                            )
+                                        }
+                                    />
+                                </div>
+                            </th>
+                            <th className="border text-[14px] bg-alotrade py-1">
                                 Telefon raqami
                                 <div className="btn-group-vertical ml-2">
                                     <FontAwesomeIcon
@@ -217,6 +244,9 @@ const BloodTestTables = ({
                                     </td>
                                     <td className="border text-[16px] py-1 text-right">
                                         {connector.client.id}
+                                    </td>
+                                    <td className="border text-[16px] py-1 text-right">
+                                        {connector?.connector?.probirka}
                                     </td>
                                     <td className="border text-[16px] py-1 text-right">
                                         {connector.client.phone}

@@ -279,7 +279,7 @@ export const TableClients = ({
                       {connector.totalprice}
                     </td>
                     <td className="border py-1 text-right text-[16px] font-bold">
-                      <span className={`${connector.services.length === connector.services.filter(service => service.accept).length ? 'text-green-400' : "text-red-400"}`}>{connector.services.length}</span> / <span className='text-green-400'>{connector.services.filter(service => service.accept).length}</span>
+                      <span className={`${connector.services.filter(service => !service.refuse).length === connector.services.filter(service => service.accept).length ? 'text-green-400' : "text-red-400"}`}>{connector.services.filter(service => !service.refuse).length}</span> / <span className='text-green-400'>{connector.services.filter(service => service.accept).length}</span>
                     </td>
                     <td className="border py-1 text-right text-[16px]">
                       {new Date(connector.createdAt).toLocaleDateString()} {' '}

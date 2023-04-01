@@ -925,7 +925,7 @@ export const StatsionarClients = () => {
             setConnector({...connector, reseption: auth.user && auth.user._id,})
               let s = [];
               services.map((service) => {
-                if (service.refuse) {
+                if (!service.refuse) {
                     s.push({
                         clinica: auth.clinica._id,
                         reseption: auth.user._id,
