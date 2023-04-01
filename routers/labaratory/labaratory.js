@@ -425,7 +425,7 @@ module.exports.getClientsForResult = async (req, res) => {
                 $lte: new Date(new Date().setDate(new Date().getDate() + 1))
             }
         })
-            .select("service serviceid accept column tables turn connector client files")
+            .select("service serviceid accept refuse column tables turn connector client files")
             .populate("connector", "probirka createdAt accept")
             .populate("client", "lastname firstname born id phone address")
             .populate({
@@ -434,7 +434,7 @@ module.exports.getClientsForResult = async (req, res) => {
                 match: { servicetype: servicetype }
             })
             .lean()
-            .then(services => services.filter(service => service.serviceid))
+            .then(services => services.filter(service => service.serviceid && !service.refuse))
 
 
         let clients = [];
