@@ -152,8 +152,10 @@ module.exports.getAll = async (req, res) => {
     const servicestypes = await ServiceType.find({
       clinica,
     })
-      .populate("department", "name")
-      .populate("clinica", "name");
+      .populate("department", "name probirka")
+      .populate("clinica", "name")
+      .populate('services')
+      .lean()
 
     res.send(servicestypes);
   } catch (error) {

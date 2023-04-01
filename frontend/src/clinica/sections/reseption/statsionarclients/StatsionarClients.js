@@ -925,20 +925,25 @@ export const StatsionarClients = () => {
             setConnector({...connector, reseption: auth.user && auth.user._id,})
               let s = [];
               services.map((service) => {
-                return s.push({
-                    clinica: auth.clinica._id,
-                    reseption: auth.user._id,
-                    serviceid: service.service._id,
-                    service: service.service,
-                    department: service.department,
-                    pieces: 1,
-                    templates: service.templates,
-                    column: service.column,
-                    tables: service.tables
-                });
+                if (service.refuse) {
+                    s.push({
+                        clinica: auth.clinica._id,
+                        reseption: auth.user._id,
+                        serviceid: service.service._id,
+                        service: service.service,
+                        department: service.department,
+                        pieces: 1,
+                        templates: service.templates,
+                        column: service.column,
+                        tables: service.tables,
+                        accept: service.accept,
+                        refuse: service.refuse
+                    });
+                }
+                return ''
             });
             setServices(s)
-            setSelectedServices([...services].map(item => ({
+            setSelectedServices([...services].map(item => item.refuse && ({
                 label: item.service.name,
                 value: item.service._id
             })));

@@ -326,6 +326,28 @@ export const OfflineClients = () => {
     //====================================================================
     //====================================================================
 
+    const [serviceTypes, setServiceTypes] = useState([])
+
+    const getServiceTypes = useCallback(async () => {
+        try {
+            const data = await request(
+                `/api/services/servicetype/getall`,
+                "POST",
+                { clinica: auth.clinica._id, },
+                {
+                    Authorization: `Bearer ${auth.token}`,
+                }
+            );
+            setServiceTypes(data);
+        } catch (error) {
+            notify({
+                title: error,
+                description: "",
+                status: "error",
+            });
+        }
+    }, [])
+
     //====================================================================
     //====================================================================
     // ADVERS
@@ -736,7 +758,7 @@ export const OfflineClients = () => {
         if (auth.clinica && !t) {
             setT(1);
             getConnectors(beginDay, endDay);
-            getDepartments();
+            getServiceTypes();
             getCounterDoctors();
             getAdvers();
             getProducts();
@@ -749,7 +771,7 @@ export const OfflineClients = () => {
         t,
         getProducts,
         getCounterDoctors,
-        getDepartments,
+        getServiceTypes,
         getBaseUrl,
         beginDay,
         endDay,
@@ -806,6 +828,7 @@ export const OfflineClients = () => {
                                 clientDate={clientDate}
                                 setClientDate={setClientDate}
                                 setIsAddConnector={setIsAddConnector}
+                                servicetypes={serviceTypes}
                             />
                         </div>
                         <TableClients

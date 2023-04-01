@@ -29,33 +29,36 @@ export const RegisterClient = ({
     products,
     loading,
     clientDate,
+    servicetypes
 }) => {
 
     const [services, setServices] = useState([])
 
     const getServices = useCallback(
         (e) => {
-            var s = []
+            let s = []
             if (e === 'all') {
-                departments.map((department) => {
-                    return department.services.map((service) => {
+                servicetypes.map((servicetype) => {
+                    return servicetype.services.map((service) => {
                         return s.push({
                             label: service.name,
                             value: service._id,
                             service: service,
-                            department: department,
+                            servicetype: servicetype,
+                            department: servicetype.department
                         })
                     })
                 })
             } else {
-                departments.map((department) => {
-                    if (e === department._id) {
-                        department.services.map((service) => {
+                servicetypes.map((servicetype) => {
+                    if (e === servicetype._id) {
+                        servicetype.services.map((service) => {
                             s.push({
                                 label: service.name,
                                 value: service._id,
                                 service: service,
-                                department: department,
+                                servicetype: servicetype,
+                                department: servicetype.department
                             })
                             return ''
                         })
@@ -65,14 +68,14 @@ export const RegisterClient = ({
             }
             setServices(s)
         },
-        [departments],
+        [servicetypes],
     )
-
+    
     useEffect(() => {
-        if (departments) {
+        if (servicetypes) {
             getServices('all')
         }
-    }, [departments, getServices])
+    }, [servicetypes, getServices])
     return (
         <>
             {/* Row start */}
@@ -310,17 +313,17 @@ export const RegisterClient = ({
                             <div className="row gutters">
                                 <div className="col-12">
                                     <div className="form-group">
-                                        <label htmlFor="fullName">Bo'limlar</label>
+                                        <label htmlFor="fullName">Turi</label>
                                         <select
                                             className="form-control form-control-sm selectpicker"
                                             placeholder="Reklamalarni tanlash"
                                             onChange={(event) => getServices(event.target.value)}
                                         >
-                                            <option value="all"> Barcha bo'limlar</option>
-                                            {departments.map((department, index) => {
+                                            <option value="all">Xizmat turlari</option>
+                                            {servicetypes.map((servicetype, index) => {
                                                 return (
-                                                    <option key={index} value={department._id}>
-                                                        {department.name}
+                                                    <option key={index} value={servicetype._id}>
+                                                        {servicetype.name}
                                                     </option>
                                                 )
                                             })}
