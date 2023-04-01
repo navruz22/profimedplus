@@ -27,7 +27,7 @@ module.exports.approve = async (req, res) => {
             statsionarconnector.accept = true;
             statsionarconnector.save()
         }
-        
+
 
         res.status(200).json({ message: 'Mijoz qon oldi!' })
     } catch (error) {
@@ -208,30 +208,45 @@ module.exports.getLabClients = async (req, res) => {
         services = [...offline, ...statsionar]
 
         if (services.length > 0) {
-            for (const i in services) {
-                if (i == 0) {
-                    client.client = services[i].client;
-                    client.connector = services[i].connector;
-                    client.services.push(services[i]);
+            // for (const i in services) {
+            //     if (i == 0) {
+            //         client.client = services[i].client;
+            //         client.connector = services[i].connector;
+            //         client.services.push(services[i]);
+            //     } else {
+            //         if (services[i - 1].client._id === services[i].client._id) {
+            //             client.services.push(services[i]);
+            //         } else {
+            //             clients.push(client);
+            //             client = {
+            //                 client: {},
+            //                 connector: {},
+            //                 services: [],
+            //             };
+            //             client.client = services[i].client;
+            //             client.connector = services[i].connector;
+            //             client.services.push(services[i]);
+            //         }
+            //     }
+            // }
+
+            let connectorsId = []
+            for (const service of services) {
+                const check = connectorsId.includes(String(service.connector._id));
+                if (!check) {
+                    clients.push({
+                        client: service.client,
+                        connector: service.connector,
+                        services: [service],
+                    })
+                    connectorsId.push(String(service.connector._id));
                 } else {
-                    if (services[i - 1].client._id === services[i].client._id) {
-                        client.services.push(services[i]);
-                    } else {
-                        clients.push(client);
-                        client = {
-                            client: {},
-                            connector: {},
-                            services: [],
-                        };
-                        client.client = services[i].client;
-                        client.connector = services[i].connector;
-                        client.services.push(services[i]);
-                    }
+                    const index = clients.findIndex(c => String(c.connector._id) === String(service.connector._id))
+                    clients[index].services.push(service)
                 }
             }
         }
 
-        clients.push(client);
         res.status(200).send(clients);
     } catch (error) {
         console.log(error);
@@ -260,71 +275,71 @@ module.exports.getLabClientsForApprove = async (req, res) => {
 
         let services = []
 
-            let offline = await OfflineService.find({
-                createdAt: {
-                    $gte: beginDay,
-                    $lt: endDay,
-                },
-                clinica,
+        let offline = await OfflineService.find({
+            createdAt: {
+                $gte: beginDay,
+                $lt: endDay,
+            },
+            clinica,
+        })
+            .select("service serviceid accept column tables turn connector client files department")
+            .populate("client", "lastname firstname born id phone address")
+            .populate("service", "price")
+            .populate({
+                path: "connector",
+                select: "probirka createdAt accept clinica",
+                populate: {
+                    path: "clinica",
+                    select: "name phone1 image"
+                }
             })
-                .select("service serviceid accept column tables turn connector client files department")
-                .populate("client", "lastname firstname born id phone address")
-                .populate("service", "price")
-                .populate({
-                    path: "connector",
-                    select: "probirka createdAt accept clinica",
-                    populate: {
-                        path: "clinica",
-                        select: "name phone1 image"
-                    }
-                })
-                .populate({
-                    path: "serviceid",
-                    select: "servicetype",
-                    populate: {
-                        path: "servicetype",
-                        select: "name"
-                    }
-                })
-                .populate('department', 'probirka')
-                .populate("templates", "name template")
-                .lean()
-                .then(services => {
-                    return services.filter(service => service.department.probirka)
-                })
-            let statsionar = await StatsionarService.find({
-                createdAt: {
-                    $gte: beginDay,
-                    $lt: endDay,
-                },
-                clinica,
+            .populate({
+                path: "serviceid",
+                select: "servicetype",
+                populate: {
+                    path: "servicetype",
+                    select: "name"
+                }
             })
-                .select("service serviceid accept column tables turn connector client files department")
-                .populate("client", "lastname firstname born id phone address")
-                .populate("service", "price")
-                .populate({
-                    path: "connector",
-                    select: "probirka createdAt accept clinica",
-                    populate: {
-                        path: "clinica",
-                        select: "name phone1 image"
-                    }
-                })
-                .populate({
-                    path: "serviceid",
-                    select: "servicetype",
-                    populate: {
-                        path: "servicetype",
-                        select: "name"
-                    }
-                })
-                .populate('department', 'probirka')
-                .populate("templates", "name template")
-                .lean()
-                .then(services => {
-                    return services.filter(service => service.department.probirka)
-                })
-        
+            .populate('department', 'probirka')
+            .populate("templates", "name template")
+            .lean()
+            .then(services => {
+                return services.filter(service => service.department.probirka)
+            })
+        let statsionar = await StatsionarService.find({
+            createdAt: {
+                $gte: beginDay,
+                $lt: endDay,
+            },
+            clinica,
+        })
+            .select("service serviceid accept column tables turn connector client files department")
+            .populate("client", "lastname firstname born id phone address")
+            .populate("service", "price")
+            .populate({
+                path: "connector",
+                select: "probirka createdAt accept clinica",
+                populate: {
+                    path: "clinica",
+                    select: "name phone1 image"
+                }
+            })
+            .populate({
+                path: "serviceid",
+                select: "servicetype",
+                populate: {
+                    path: "servicetype",
+                    select: "name"
+                }
+            })
+            .populate('department', 'probirka')
+            .populate("templates", "name template")
+            .lean()
+            .then(services => {
+                return services.filter(service => service.department.probirka)
+            })
+
         services = [...offline, ...statsionar]
 
         if (services.length > 0) {
