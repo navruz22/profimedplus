@@ -256,6 +256,32 @@ const AdoptionTemplate = () => {
     }
     setSections(serviceTypes);
 
+    // const servicetypesAll = services.reduce((prev, el) => {
+    //   if (!prev.includes(el.serviceid.servicetype.name)) {
+    //     prev.push(el.serviceid.servicetype.name)
+    //   }
+    //   return prev;
+    // }, [])
+
+    // const servicetypes = [...servicetypesAll].reduce((prev, el) => {
+    //   const servicesall = services.reduce((prev, service) => {
+    //     const servicetype = service.serviceid.servicetype.name
+    //     if (servicetype === el && service.tables.length <= 2) {
+    //       const columns = Object.keys(service.column).filter(c => c.includes('col')).length;
+    //       if (columns === 3) {
+    //         const isExist = prev.some(item => item.servicetype === servicetype);
+    //         if (isExist) {
+              
+    //         }
+    //       }
+    //     }
+    //   }, [])
+    // }, [])
+
+    // for (const service of services) {
+      
+    // }
+
   }, [services]);
   console.log(sections);
   useEffect(() => {
@@ -284,13 +310,13 @@ const AdoptionTemplate = () => {
       </div>
       <div className="container p-4 bg-white text-center" style={{ fontFamily: "times" }}>
         <div className="px-4">
-          {/* <div className="row" style={{ fontSize: "10pt" }}>
+          <div className="row" style={{ fontSize: "10pt" }}>
             <div
               className="col-4"
               style={{ border: "1px solid", textAlign: "center" }}
             >
               <p className="pt-2">
-                O'zbekiston Respublikasi Sog'liqni Saqlash Vazirligi
+                {auth?.clinica?.ifud1}
               </p>
             </div>
             <div
@@ -301,7 +327,7 @@ const AdoptionTemplate = () => {
                 borderLeft: "none",
               }}
             >
-              <p className="pt-2">IFUD: 86900</p>
+              <p className="pt-2">IFUD: {auth?.clinica?.ifud2}</p>
             </div>
             <div
               className="col-4"
@@ -312,11 +338,10 @@ const AdoptionTemplate = () => {
               }}
             >
               <p style={{ margin: "0" }}>
-                O'zbekiston Respublikasi SSV 31.12.2020y dagi №363 buyrug'i
-                bilan tasdiqlangan
+               {auth?.clinica?.ifud3}
               </p>
             </div>
-          </div> */}
+          </div>
           <div className="row" style={{ fontSize: "20pt" }}>
             <div className="col-6 pt-2" style={{ textAlign: "center" }}>
               <pre className="pt-3" style={{ fontFamily: "-moz-initial" }}>

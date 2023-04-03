@@ -75,7 +75,6 @@ const MainReport = () => {
   //====================================================================
   const { request, loading } = useHttp()
   const auth = useContext(AuthContext)
-  console.log(auth);
   //====================================================================
   //====================================================================
 
@@ -213,8 +212,7 @@ const MainReport = () => {
 
   //====================================================================
   //====================================================================
-  const setPageSize = useCallback(
-    (e) => {
+  const setPageSize = (e) => {
       if (e.target.value === 'all') {
         setCurrentPage(0)
         setCountPage(100)
@@ -224,9 +222,7 @@ const MainReport = () => {
         setCountPage(e.target.value)
         setCurrentConnectors(connectors.slice(0, e.target.value))
       }
-    },
-    [countPage, connectors],
-  )
+    }
 
   //====================================================================
   //====================================================================

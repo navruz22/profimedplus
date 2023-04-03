@@ -39,13 +39,13 @@ export const TableClients = ({
     const getTotalprice = (connector) => {
         const days = Math.round(
             Math.abs(
-                ((connector.room.endday ? new Date(connector.room.endday).getTime() : new Date().getTime())
+                ((connector?.room?.endday ? new Date(connector.room.endday).getTime() : new Date().getTime())
                     -
-                    new Date(connector.room.beginday).getTime())
+                    new Date(connector?.room?.beginday).getTime())
                 /
                 (24 * 60 * 60 * 1000)
             )
-        ) * connector.room.room.price;
+        ) * connector?.room?.room?.price;
         let servicesTotal = connector.services.reduce((prev, s) => s.service && s.refuse === false && prev + (s.service.price * s.pieces), 0)
         let productsTotal = connector.products.length > 0 && connector.products.reduce((prev, el) => prev + (el.refuse === false && (el.payment && (el.product.price * el.pieces)) || 0), 0) || 0
         return servicesTotal + productsTotal + days;
@@ -84,7 +84,7 @@ export const TableClients = ({
                                 <option value={10}>10</option>
                                 <option value={25}>25</option>
                                 <option value={50}>50</option>
-                                <option value={100}>100</option>
+                                <option value={'all'}>Barchasi</option>
                             </select>
                         </div>
                         <div>

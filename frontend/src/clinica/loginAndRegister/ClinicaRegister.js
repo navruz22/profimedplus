@@ -520,6 +520,72 @@ export const ClinicaRegister = ({ onFinishCreate, onFinishUpdate, clinicaData })
                         <FormLabel
                           style={{ color: "#38B2AC", marginTop: "1rem" }}
                         >
+                          Ifud1
+                        </FormLabel>
+                        <Textarea
+                          onKeyUp={keyPressed}
+                          placeholder="Ifud1 kiriting"
+                          size="sm"
+                          style={
+                            clinica.ifud1 && clinica.ifud1.length > 0
+                              ? styleGreen
+                              : styleDefault
+                          }
+                          defaultValue={clinica.ifud1 && clinica.ifud1}
+                          name="ifud1"
+                          onChange={changeHandler}
+                        />
+                      </FormControl>
+                    </div>
+                    <div className="col-md-12">
+                      <FormControl>
+                        <FormLabel
+                          style={{ color: "#38B2AC", marginTop: "1rem" }}
+                        >
+                          Ifud2
+                        </FormLabel>
+                        <Textarea
+                          onKeyUp={keyPressed}
+                          placeholder="Ifud2 kiriting"
+                          size="sm"
+                          style={
+                            clinica.ifud2 && clinica.ifud2.length > 0
+                              ? styleGreen
+                              : styleDefault
+                          }
+                          defaultValue={clinica.ifud2 && clinica.ifud2}
+                          name="ifud2"
+                          onChange={changeHandler}
+                        />
+                      </FormControl>
+                    </div>
+                    <div className="col-md-12">
+                      <FormControl>
+                        <FormLabel
+                          style={{ color: "#38B2AC", marginTop: "1rem" }}
+                        >
+                          Ifud3
+                        </FormLabel>
+                        <Textarea
+                          onKeyUp={keyPressed}
+                          placeholder="Ifud3 kiriting"
+                          size="sm"
+                          style={
+                            clinica.ifud3 && clinica.ifud3.length > 0
+                              ? styleGreen
+                              : styleDefault
+                          }
+                          defaultValue={clinica.ifud3 && clinica.ifud3}
+                          name="ifud3"
+                          onChange={changeHandler}
+                        />
+                      </FormControl>
+                    </div>
+                    <div className="col-md-12">
+                      <FormControl>
+                        <FormLabel
+                          style={{ color: "#38B2AC", marginTop: "1rem" }}
+                        >
                           Bank nomi
                         </FormLabel>
                         <Input

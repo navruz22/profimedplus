@@ -15,6 +15,9 @@ const clinica = new Schema(
     bankNumber: { type: String },
     license: {type: String},
     header: {type: String},
+    ifud1: {type: String},
+    ifud2: {type: String},
+    ifud3: {type: String},
     inn: { type: Number },
     mainclinica: { type: Boolean, default: false },
     filials: [{ type: Schema.Types.ObjectId, ref: "Clinica" }],
@@ -48,6 +51,9 @@ function validateClinica(clinica) {
     orientation: Joi.string(),
     license: Joi.string(),
     site: Joi.string(),
+    ifud1: Joi.string(),
+    ifud2: Joi.string(),
+    ifud3: Joi.string(),
   })
 
   return schema.validate(clinica)

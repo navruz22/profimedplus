@@ -59,44 +59,41 @@ const Print = ({ client, connector, sections, baseUrl, clinica }) => {
         }
     }, [sections, location])
 
-    console.log(clinica);
-    console.log(baseUrl); 
     return (
         <div className="px-2 bg-white">
             <div>
-                {/* <div className="row" style={{ fontSize: "10pt" }}>
-                        <div
-                            className="col-4"
-                            style={{ border: "1px solid", textAlign: "center" }}
-                        >
-                            <p className="pt-2">
-                                O'zbekiston Respublikasi Sog'liqni Saqlash Vazirligi
-                            </p>
-                        </div>
-                        <div
-                            className="col-4"
-                            style={{
-                                border: "1px solid",
-                                textAlign: "center",
-                                borderLeft: "none",
-                            }}
-                        >
-                            <p className="pt-2">IFUD: 86900</p>
-                        </div>
-                        <div
-                            className="col-4"
-                            style={{
-                                border: "1px solid",
-                                textAlign: "center",
-                                borderLeft: "none",
-                            }}
-                        >
-                            <p style={{ margin: "0" }}>
-                                O'zbekiston Respublikasi SSV 31.12.2020y dagi №363 buyrug'i
-                                bilan tasdiqlangan
-                            </p>
-                        </div>
-                    </div> */}
+                <div className="row" style={{ fontSize: "10pt" }}>
+                    <div
+                        className="col-4"
+                        style={{ border: "1px solid", textAlign: "center" }}
+                    >
+                        <p className="pt-2">
+                            {clinica?.ifud1}
+                        </p>
+                    </div>
+                    <div
+                        className="col-4"
+                        style={{
+                            border: "1px solid",
+                            textAlign: "center",
+                            borderLeft: "none",
+                        }}
+                    >
+                        <p className="pt-2">IFUD: {clinica?.ifud2}</p>
+                    </div>
+                    <div
+                        className="col-4"
+                        style={{
+                            border: "1px solid",
+                            textAlign: "center",
+                            borderLeft: "none",
+                        }}
+                    >
+                        <p style={{ margin: "0" }}>
+                            {clinica?.ifud3}
+                        </p>
+                    </div>
+                </div>
                 <div className="flex justify-between items-center" style={{ fontSize: "20pt", marginBottom: "30px" }}>
                     <div className="" style={{ textAlign: "center" }}>
                         <pre className="pt-3" style={{ fontFamily: "-moz-initial", border: 'none', outline: "none" }}>

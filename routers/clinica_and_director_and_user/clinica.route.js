@@ -69,6 +69,9 @@ module.exports.register = async (req, res) => {
       orientation,
       director,
       mfo,
+      ifud1,
+      ifud2,
+      ifud3
     } = req.body
 
     const clinica = await Clinica.find({ name })
@@ -96,6 +99,9 @@ module.exports.register = async (req, res) => {
       orientation,
       director,
       mfo,
+      ifud1,
+      ifud2,
+      ifud3
     })
 
     await newClinica.save()

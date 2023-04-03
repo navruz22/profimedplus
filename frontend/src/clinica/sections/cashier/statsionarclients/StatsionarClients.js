@@ -167,14 +167,17 @@ export const StatsionarClients = () => {
 
     //====================================================================
     //====================================================================
-    const setPageSize = useCallback(
-        (e) => {
-            setCurrentPage(0)
-            setCountPage(e.target.value)
-            setCurrentConnectors(connectors.slice(0, countPage))
-        },
-        [countPage, connectors],
-    )
+    const setPageSize = (e) => {
+        if (e.target.value === 'all') {
+          setCurrentPage(0)
+          setCountPage(100)
+          setCurrentConnectors(connectors)
+        } else {
+          setCurrentPage(0)
+          setCountPage(e.target.value)
+          setCurrentConnectors(connectors.slice(0, e.target.value))
+        }
+      }
 
     //====================================================================
     //====================================================================
