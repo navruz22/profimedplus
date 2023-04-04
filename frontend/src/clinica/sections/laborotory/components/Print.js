@@ -21,42 +21,54 @@ const Print = ({ client, connector, sections, baseUrl, clinica }) => {
 
     useEffect(() => {
         if (location.pathname.includes('alo24/adoption')) {
-            setPrintSections([...sections].map(section =>
-                ({ ...section, services: section.services.filter(s => s.accept) })).filter(el => el.services.length > 0))
+            setPrintSections([...sections])
         } else {
-            const serviceTypes = []
-            const serviceIdArr = []
-            for (const service of sections) {
-                const check = service.serviceid.servicetype._id;
-                if (!serviceIdArr.includes(check)) {
-                    serviceTypes.push({
-                        servicetypeid: check,
-                        servicetypename: service.serviceid.servicetype.name,
-                        services: [service],
-                        column: service.column
-                    })
-                    serviceIdArr.push(check);
-                } else {
-                    const checkCols = Object.keys(service.column).filter(el => el.includes('col')).length;
-                    const index = serviceTypes.findIndex(el =>
-                        el.servicetypeid === check
-                        && Object.keys(el.column).filter(el => el.includes('col')).length === checkCols)
-                    if (index >= 0) {
-                        serviceTypes[index].services.push(service)
-                        serviceTypes[index].column = service.column
-                    } else {
-                        serviceTypes.push({
-                            servicetypeid: check,
-                            servicetypename: service.serviceid.servicetype.name,
-                            services: [service],
-                            column: service.column
-                        })
-                    }
+            const servicetypesAll = sections.reduce((prev, el) => {
+                if (!prev.includes(el.serviceid.servicetype.name)) {
+                  prev.push(el.serviceid.servicetype.name)
                 }
+                return prev;
+              }, [])
+          
+              let servicetypes = []
+              for (const type of servicetypesAll) {
+                sections.map((service) => {
+                  if (service.column && service.tables.length > 0) {
+                    if (service.serviceid.servicetype.name === type && service.tables.length <= 2) {
+                      const cols = Object.keys(service.column).filter(c => c.includes('col') && service.column[c]).length;
+                      const isExist = servicetypes.findIndex(i => i.servicetype === type && i.cols === cols)
+                      if (isExist > 0) {
+                        servicetypes[isExist].services.push(service); 
+                      } else {
+                        servicetypes.push({
+                          column: service.column,
+                          servicetype: type,
+                          services: [service],
+                          cols: cols
+                        })
+                      }
+                    }
+                  }
+                  return service;
+                })
+              }
+          
+              const servicesmore = [...servicetypesAll].reduce((prev, el) => {
+                sections.map((service) => {
+                  if (service.serviceid.servicetype.name === el && service.tables.length > 2) {
+                    prev.push({
+                      column: service.column,
+                      servicetype: service.service.name,
+                      services: [service]
+                    })
+                  }
+                  return service;
+                })
+                return prev;
+              }, [])
+          
+              setPrintSections([...servicetypes, ...servicesmore])
             }
-            setPrintSections([...serviceTypes].map(section =>
-                ({ ...section, services: section.services.filter(s => s.accept) })).filter(el => el.services.length > 0))
-        }
     }, [sections, location])
 
     return (
@@ -272,11 +284,11 @@ const Print = ({ client, connector, sections, baseUrl, clinica }) => {
             </div>
             <div className="pt-2 w-full text-center">
                 {printSections.length > 0 &&
-                    printSections.map((section, index) => (
+                    printSections.map((section, index) => section.services.some(s => s.tables.some(t => t.accept)) && (
                         <div key={index} className={"w-full text-center mb-4"}>
                             <div className="w-full flex justify-center items-center mb-4">
                                 <h2 className="block text-[24px] font-bold">
-                                    {section?.servicetypename}
+                                    {section?.servicetype}
                                 </h2>
                             </div>
                             <table className="w-full text-center">
@@ -291,17 +303,17 @@ const Print = ({ client, connector, sections, baseUrl, clinica }) => {
                                 </thead>
                                 <tbody>
                                     {section?.services && section?.services.map((service, ind) => {
-                                        return service.accept && service.tables.map((table, key) => (
+                                        return service.tables.map((table, key) => table.accept && (
                                             <tr key={key} >
                                                 <td className={`border-[1px] text-[20px] border-black py-1 px-[12px]`}> <pre
-                                                    style={{ width: getWidth(table) }}
+                                                    style={{ width: getWidth(table), fontFamily: "sans-serif" }}
                                                     className="border-none outline-none text-left"
                                                 >
                                                     {table?.col1}
                                                 </pre> </td>
                                                 <td className={`border-[1px] text-[20px] border-black py-1 px-[12px]`}>
                                                     <pre
-                                                        style={{ width: getWidth(table) }}
+                                                        style={{ width: getWidth(table), fontFamily: "sans-serif" }}
                                                         className="border-none outline-none"
                                                     >
                                                         {table?.col2}
@@ -309,7 +321,7 @@ const Print = ({ client, connector, sections, baseUrl, clinica }) => {
                                                 </td>
                                                 <td className={`border-[1px] text-[20px] border-black py-1 px-[12px]`}>
                                                     <pre
-                                                        style={{ width: getWidth(table) }}
+                                                        style={{ width: getWidth(table), fontFamily: "sans-serif" }}
                                                         className="border-none outline-none"
                                                     >
                                                         {table?.col3}
@@ -317,14 +329,14 @@ const Print = ({ client, connector, sections, baseUrl, clinica }) => {
                                                 </td>
                                                 {section?.column?.col4 && <td className={`border-[1px] text-[20px] border-black py-1 px-[12px]`}>
                                                     <pre
-                                                        style={{ width: getWidth(table) }}
+                                                        style={{ width: getWidth(table), fontFamily: "sans-serif" }}
                                                         className="border-none outline-none"
                                                     >
                                                         {table?.col4}
                                                     </pre></td>}
                                                 {section?.column?.col5 && <td className={`border-[1px] text-[20px] border-black py-1 px-[12px]`}>
                                                     <pre
-                                                        style={{ width: getWidth(table) }}
+                                                        style={{ width: getWidth(table), fontFamily: "sans-serif" }}
                                                         className="border-none outline-none"
                                                     >
                                                         {table?.col5}

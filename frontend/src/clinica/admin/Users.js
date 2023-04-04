@@ -6,7 +6,7 @@ import { Pagination } from '../sections/director/components/Pagination'
 import { checkUserData } from '../sections/director/users/checkData/checkData'
 import { Sort } from '../sections/director/users/components/Sort'
 import { Modal } from '../sections/director/users/modal/Modal'
-import { RegistorUser } from '../sections/director/users/RegistorUser'
+import { RegistorUser } from './components/RegistorUser'
 
 const Users = () => {
     //====================================================================

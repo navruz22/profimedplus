@@ -42,8 +42,7 @@ const AdoptionTemplate = () => {
     state: { client, connector, services },
   } = useLocation();
 
-  // const [client, setClient] = useState();
-  // const [connector, setConnector] = useState();
+  
   const [sections, setSections] = useState([]);
 
   const [baseUrl, setBaseUrl] = useState()
@@ -162,11 +161,27 @@ const AdoptionTemplate = () => {
     const filtered = sections.map((section, index) => {
       if (index === ind) {
         let newServices = [];
-        const isAllTrue = section.services.filter(s => s.accept).length === section.services.length;
+        const isAllTrue = section.services.filter(s => s.tables.filter(table => table.accept).length === s.tables.length).length === section.services.length;
         if (isAllTrue) {
-          newServices = section.services.map(service => ({ ...service, accept: false }))
+          newServices = section.services.map(service => {
+            const newTables = [...service.tables].map(item => {
+              item.accept = false;
+              return item;
+            })
+            service.tables = newTables;
+            service.accept = false;
+            return service
+          })
         } else {
-          newServices = section.services.map(service => ({ ...service, accept: true }))
+          newServices = section.services.map(service => {
+            const newTables = [...service.tables].map(item => {
+              item.accept = true;
+              return item;
+            })
+            service.tables = newTables;
+            service.accept = true;
+            return service
+          })
         }
         section.services = newServices;
       }
@@ -174,12 +189,19 @@ const AdoptionTemplate = () => {
     })
     setSections(filtered);
   }
-  const handleCheckAccept = (ind, serviceid) => {
+  const handleCheckAccept = (ind, serviceid, tableind) => {
     const filtered = sections.map((section, index) => {
       if (index === ind) {
         let newServices = section.services.map((service) => {
           if (service._id === serviceid) {
-            service.accept = !service.accept
+            let tables = [...service.tables].map((table, i) => {
+              if (i === tableind) {
+                table.accept = table.accept ? false : true;
+              }
+              return table
+            })
+            service.tables = tables;
+            service.accept = !service.accept 
           }
           return service;
         })
@@ -216,71 +238,91 @@ const AdoptionTemplate = () => {
   //===========================================================
 
   useEffect(() => {
-    const serviceTypes = []
-    const serviceIdArr = []
-    for (const service of services) {
-      const check = service.serviceid.servicetype._id;
-      if (!serviceIdArr.includes(check)) {
-        serviceTypes.push({
-          servicetypeid: check,
-          servicetypename: service.serviceid.servicetype.name,
-          services: [service],
-          column: service.column
-        })
-        serviceIdArr.push(check);
-      } else {
-        if (service.column && service.tables && service.tables.length > 0) {
-          const checkCols = Object.keys(service.column).filter(el => el.includes('col')).length;
-          const index = serviceTypes.findIndex(el =>
-            el.column && el.servicetypeid === check
-            && Object.keys(el.column).filter(el => el.includes('col')).length === checkCols)
-          if (index >= 0) {
-            serviceTypes[index].services.push(service)
-            serviceTypes[index].column = service.column
-          } else {
-            serviceTypes.push({
-              servicetypeid: check,
-              servicetypename: service.serviceid.servicetype.name,
-              services: [service],
-              column: service.column
-            })
+    // const serviceTypes = []
+    // const serviceIdArr = []
+    // for (const service of services) {
+    //   const check = service.serviceid.servicetype._id;
+    //   if (!serviceIdArr.includes(check)) {
+    //     serviceTypes.push({
+    //       servicetypeid: check,
+    //       servicetypename: service.serviceid.servicetype.name,
+    //       services: [service],
+    //       column: service.column
+    //     })
+    //     serviceIdArr.push(check);
+    //   } else {
+    //     if (service.column && service.tables && service.tables.length > 0) {
+    //       const checkCols = Object.keys(service.column).filter(el => el.includes('col')).length;
+    //       const index = serviceTypes.findIndex(el =>
+    //         el.column && el.servicetypeid === check
+    //         && Object.keys(el.column).filter(el => el.includes('col')).length === checkCols)
+    //       if (index >= 0) {
+    //         serviceTypes[index].services.push(service)
+    //         serviceTypes[index].column = service.column
+    //       } else {
+    //         serviceTypes.push({
+    //           servicetypeid: check,
+    //           servicetypename: service.serviceid.servicetype.name,
+    //           services: [service],
+    //           column: service.column
+    //         })
+    //       }
+    //     } else {
+    //       serviceTypes.push({
+    //         servicetypeid: check,
+    //         servicetypename: service.serviceid.servicetype.name,
+    //         services: [service],
+    //       })
+    //     }
+    //   }
+    // }
+    // setSections(serviceTypes);
+
+    const servicetypesAll = services.reduce((prev, el) => {
+      if (!prev.includes(el.serviceid.servicetype.name)) {
+        prev.push(el.serviceid.servicetype.name)
+      }
+      return prev;
+    }, [])
+
+    let servicetypes = []
+    for (const type of servicetypesAll) {
+      services.map((service) => {
+        if (service.column && service.tables.length > 0) {
+          if (service.serviceid.servicetype.name === type && service.tables.length <= 2) {
+            const cols = Object.keys(service.column).filter(c => c.includes('col') && service.column[c]).length;
+            const isExist = servicetypes.findIndex(i => i.servicetype === type && i.cols === cols)
+            if (isExist > 0) {
+              servicetypes[isExist].services.push(service); 
+            } else {
+              servicetypes.push({
+                column: service.column,
+                servicetype: type,
+                services: [service],
+                cols: cols
+              })
+            }
           }
-        } else {
-          serviceTypes.push({
-            servicetypeid: check,
-            servicetypename: service.serviceid.servicetype.name,
-            services: [service],
+        }
+        return service;
+      })
+    }
+
+    const servicesmore = [...servicetypesAll].reduce((prev, el) => {
+      services.map((service) => {
+        if (service.serviceid.servicetype.name === el && service.tables.length > 2) {
+          prev.push({
+            column: service.column,
+            servicetype: service.service.name,
+            services: [service]
           })
         }
-      }
-    }
-    setSections(serviceTypes);
+        return service;
+      })
+      return prev;
+    }, [])
 
-    // const servicetypesAll = services.reduce((prev, el) => {
-    //   if (!prev.includes(el.serviceid.servicetype.name)) {
-    //     prev.push(el.serviceid.servicetype.name)
-    //   }
-    //   return prev;
-    // }, [])
-
-    // const servicetypes = [...servicetypesAll].reduce((prev, el) => {
-    //   const servicesall = services.reduce((prev, service) => {
-    //     const servicetype = service.serviceid.servicetype.name
-    //     if (servicetype === el && service.tables.length <= 2) {
-    //       const columns = Object.keys(service.column).filter(c => c.includes('col')).length;
-    //       if (columns === 3) {
-    //         const isExist = prev.some(item => item.servicetype === servicetype);
-    //         if (isExist) {
-              
-    //         }
-    //       }
-    //     }
-    //   }, [])
-    // }, [])
-
-    // for (const service of services) {
-      
-    // }
+    setSections([...servicetypes, ...servicesmore])
 
   }, [services]);
   console.log(sections);
@@ -297,7 +339,6 @@ const AdoptionTemplate = () => {
         <div
           ref={componentRef}
           className="container p-4"
-          style={{ fontFamily: "times" }}
         >
           <Print
             baseUrl={baseUrl}
@@ -526,7 +567,7 @@ const AdoptionTemplate = () => {
                 return <div key={index} className={"w-full mb-4 text-center"}>
                   <div className="w-full flex justify-center items-center mb-4">
                     <h2 className="block text-[18px] font-bold">
-                      {section?.servicetypename}
+                      {section?.servicetype}
                     </h2>
                   </div>
                   <table className="w-full text-center">
@@ -540,7 +581,7 @@ const AdoptionTemplate = () => {
                         <th className="border-2 bg-gray-400 border-black  p">
                           <div className="custom-control custom-checkbox text-center">
                             <input
-                              checked={section.services.filter(s => s.accept).length === section.services.length}
+                              checked={section.services.filter(s => s.tables.filter(t => t.accept).length === s.tables.length).length === section.services.length}
                               type="checkbox"
                               className="custom-control-input border border-dager"
                               id={`section${index}`}
@@ -619,17 +660,17 @@ const AdoptionTemplate = () => {
                                 >
                                   {table?.col5}
                                 </textarea></td>}
-                              <td rowSpan={tabless.length} className={`${key > 0 ? 'hidden' : ''} border-2 border-black p-[10px]`}>
+                              <td className={`border-2 border-black p-[10px]`}>
                                 <div className="custom-control custom-checkbox text-center">
                                   <input
-                                    checked={service.accept}
+                                    checked={table?.accept}
                                     type="checkbox"
                                     className="custom-control-input border border-dager"
-                                    id={`service${service._id}`}
-                                    onChange={() => handleCheckAccept(index, service._id)}
+                                    id={`service${table._id}`}
+                                    onChange={() => handleCheckAccept(index, service._id, key)}
                                   />
                                   <label className="custom-control-label"
-                                    htmlFor={`service${service._id}`}></label>
+                                    htmlFor={`service${table._id}`}></label>
                                 </div>
                               </td>
                             </tr>

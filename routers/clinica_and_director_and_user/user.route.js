@@ -4,16 +4,12 @@ const { Clinica } = require("../../models/DirectorAndClinica/Clinica");
 const { Department } = require("../../models/Services/Department");
 const config = require("config");
 const jwt = require("jsonwebtoken");
+const { Director } = require("../../models/DirectorAndClinica/Director");
 const ObjectId = require("mongodb").ObjectId;
 
 module.exports.register = async (req, res) => {
   try {
-    const { error } = validateUser(req.body);
-    if (error) {
-      return res.status(400).json({
-        error: error.message,
-      });
-    }
+    
 
     const {
       _id,
@@ -28,6 +24,24 @@ module.exports.register = async (req, res) => {
       type,
       user,
     } = req.body;
+
+    if (type === 'Director' && _id) {
+      
+      const hash = await bcrypt.hash(password, 8);
+      const director = await Director.findByIdAndUpdate(
+        _id,
+        { ...req.body, clinica: clinica._id, password: hash }
+      ).select("-password");
+  
+      return res.status(200).json({message: "Director o'zgarildi!"});
+    }
+
+    const { error } = validateUser(req.body);
+    if (error) {
+      return res.status(400).json({
+        error: error.message,
+      });
+    }
 
     if (_id) {
       if (password) {

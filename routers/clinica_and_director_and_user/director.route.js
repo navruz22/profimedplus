@@ -86,7 +86,8 @@ module.exports.login = async (req, res) => {
 
     const directors = await Director.find({
       type,
-    }).populate({
+    })
+    .populate({
       path: 'clinica',
       select: "-__v -isArchive -updatedAt",
       populate: {
