@@ -142,18 +142,11 @@ const DoctorProcient = () => {
     };
 
     const changeEnd = (e) => {
-        const date = new Date(
-            new Date(new Date().setDate(new Date(e).getDate() + 1)).setUTCHours(
-                0,
-                0,
-                0,
-                0
-            )
-        );
+        const date = new Date(new Date(e).setUTCHours(23, 59, 59, 59))
 
         setEndDay(date);
         getDoctorCleitns(beginDay, date, clinicaValue);
-        getStatsionar(beginDay, endDay, clinicaValue)
+        getStatsionar(beginDay, date, clinicaValue)
     }
 
     //=======================================================
