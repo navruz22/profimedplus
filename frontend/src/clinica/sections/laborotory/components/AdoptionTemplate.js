@@ -292,7 +292,7 @@ const AdoptionTemplate = () => {
           if (service.serviceid.servicetype.name === type && service.tables.length <= 2) {
             const cols = Object.keys(service.column).filter(c => c.includes('col') && service.column[c]).length;
             const isExist = servicetypes.findIndex(i => i.servicetype === type && i.cols === cols)
-            if (isExist > 0) {
+            if (isExist >= 0) {
               servicetypes[isExist].services.push(service); 
             } else {
               servicetypes.push({
