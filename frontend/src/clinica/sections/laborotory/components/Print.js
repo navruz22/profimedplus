@@ -108,21 +108,21 @@ const Print = ({ client, connector, sections, baseUrl, clinica }) => {
                 </div>
                 <div className="flex justify-between items-center" style={{ fontSize: "20pt", marginBottom: "30px" }}>
                     <div className="" style={{ textAlign: "center" }}>
-                        <pre className="pt-3" style={{ fontFamily: "-moz-initial", border: 'none', outline: "none" }}>
+                        <pre className="" style={{ fontFamily: "-moz-initial", border: 'none', outline: "none" }}>
                             {clinica?.name}
                         </pre>
                     </div>
-                    <div style={{ width: "250px", textAlign: "center" }}>
-                        <img src={baseUrl + '/api/upload/file/' + clinica?.image} alt="logo" />
+                    <div style={{textAlign: "center" }}>
+                        <img style={{ width: "150px"}}  src={baseUrl + '/api/upload/file/' + clinica?.image} alt="logo" />
                     </div>
                     <div className="" style={{ textAlign: "center" }}>
-                        <pre className="pt-3" style={{ fontFamily: "-moz-initial", border: 'none', outline: "none" }}>
+                        <pre className="" style={{ fontFamily: "-moz-initial", border: 'none', outline: "none" }}>
                             {clinica?.name2}
                         </pre>
                     </div>
                     <div className="" style={{ textAlign: "center" }}>
                         <p className="text-end m-0">
-                            <img width="130" src={QRcode} alt="QR" />
+                            <img width="100" src={QRcode} alt="QR" />
                         </p>
                     </div>
                 </div>
@@ -137,7 +137,7 @@ const Print = ({ client, connector, sections, baseUrl, clinica }) => {
                         >
                             <tr style={{ textAlign: "center" }}>
                                 <td
-                                    className="p-0 text-[25px] font-bold"
+                                    className="p-0"
                                     style={{
                                         width: "33%",
                                         backgroundColor: "white",
@@ -147,26 +147,26 @@ const Print = ({ client, connector, sections, baseUrl, clinica }) => {
                                     Mijozning F.I.SH
                                 </td>
                                 <td
-                                    className="p-0 text-[25px] font-bold"
+                                    className="p-0"
                                     style={{
                                         width: "33%",
                                         backgroundColor: "white",
                                         border: "1px solid #000",
                                     }}
                                 >
-                                    <h4 className='text-[25px] font-bold'>
+                                    <h4>
                                         {client && client.lastname + " " + client.firstname}
                                     </h4>
                                 </td>
                                 <td rowSpan="2" colSpan={2} style={{ width: "33%" }}>
-                                    <p className="font-bold fs-5 m-0 text-[25px]">
+                                    <p className="fw-bold fs-5 m-0">
                                         TAHLIL <br /> NATIJALARI
                                     </p>
                                 </td>
                             </tr>
                             <tr style={{ textAlign: "center" }}>
                                 <td
-                                    className="p-0 text-[25px] font-bold"
+                                    className="p-0"
                                     style={{
                                         width: "33%",
                                         backgroundColor: "white",
@@ -176,7 +176,7 @@ const Print = ({ client, connector, sections, baseUrl, clinica }) => {
                                     Tug'ilgan yili
                                 </td>
                                 <td
-                                    className="p-0 text-[25px] font-bold"
+                                    className="p-0"
                                     style={{
                                         width: "33%",
                                         backgroundColor: "white",
@@ -189,7 +189,7 @@ const Print = ({ client, connector, sections, baseUrl, clinica }) => {
                             </tr>
                             <tr style={{ textAlign: "center" }}>
                                 <td
-                                    className="p-0 text-[25px] font-bold"
+                                    className="p-0"
                                     style={{
                                         width: "33%",
                                         backgroundColor: "white",
@@ -199,18 +199,19 @@ const Print = ({ client, connector, sections, baseUrl, clinica }) => {
                                     Kelgan sanasi
                                 </td>
                                 <td
-                                    className="p-0 text-[25px] font-bold"
+                                    className="p-0"
                                     style={{
                                         width: "33%",
                                         backgroundColor: "white",
                                         border: "1px solid #000",
+                                        fontSize: "20px",
                                     }}
                                 >
                                     {connector &&
                                         new Date(connector.createdAt).toLocaleDateString()}
                                 </td>
                                 <td
-                                    className="p-0 font-bold text-[25px]"
+                                    className="p-0 fw-bold"
                                     style={{
                                         width: "100px",
                                         backgroundColor: "white",
@@ -220,11 +221,12 @@ const Print = ({ client, connector, sections, baseUrl, clinica }) => {
                                     Namuna
                                 </td>
                                 <td
-                                    className="p-0 text-[25px] font-bold"
+                                    className="p-0"
                                     style={{
                                         width: "100px",
                                         backgroundColor: "white",
                                         border: "1px solid #000",
+                                        fontSize: "20px",
                                     }}
                                 >
                                     {connector && connector.probirka}
@@ -233,7 +235,7 @@ const Print = ({ client, connector, sections, baseUrl, clinica }) => {
 
                             <tr style={{ textAlign: "center" }}>
                                 <td
-                                    className="p-0 text-[25px] font-bold"
+                                    className="p-0"
                                     style={{
                                         width: "33%",
                                         backgroundColor: "white",
@@ -243,7 +245,7 @@ const Print = ({ client, connector, sections, baseUrl, clinica }) => {
                                     Manzil
                                 </td>
                                 <td
-                                    className="p-0 text-[25px] font-bold"
+                                    className="p-0"
                                     style={{
                                         width: "33%",
                                         backgroundColor: "white",
@@ -254,7 +256,7 @@ const Print = ({ client, connector, sections, baseUrl, clinica }) => {
                                     {client && client.address}
                                 </td>
                                 <td
-                                    className="p-0 text-[25px] font-bold"
+                                    className="p-0 fw-bold"
                                     style={{
                                         width: "200px",
                                         backgroundColor: "white",
@@ -264,11 +266,12 @@ const Print = ({ client, connector, sections, baseUrl, clinica }) => {
                                     ID
                                 </td>
                                 <td
-                                    className="p-0 text-[25px] font-bold"
+                                    className="p-0"
                                     style={{
                                         width: "200px",
                                         backgroundColor: "white",
                                         border: "1px solid #000",
+                                        fontSize: "20px",
                                     }}
                                 >
                                     {client && client.id}

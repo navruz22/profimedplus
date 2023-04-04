@@ -10,6 +10,7 @@ import { DatePickers } from '../../reseption/offlineclients/clientComponents/Dat
 import { Sort } from '../../reseption/offlineclients/clientComponents/Sort'
 import Select from 'react-select'
 import makeAnimated from 'react-select/animated'
+import ReactHtmlTableToExcel from 'react-html-table-to-excel'
 
 const animatedComponents = makeAnimated()
 
@@ -299,6 +300,17 @@ const CounterAgent = () => {
                                             <DatePickers changeDate={changeStart} />
                                             <DatePickers changeDate={changeEnd} />
                                         </div>
+                                        <div className="text-center">
+                                            <div className="btn btn-primary">
+                                                <ReactHtmlTableToExcel
+                                                    id="reacthtmltoexcel"
+                                                    table="counter_agent-table"
+                                                    sheet="Sheet"
+                                                    buttonText="Excel"
+                                                    filename="Konter agent ulushi"
+                                                />
+                                            </div>
+                                        </div>
                                     </div>
                                     <table className="table m-0 table-sm">
                                         <thead>
@@ -432,6 +444,155 @@ const CounterAgent = () => {
                                                     </tr>
                                                 );
                                             })}
+                                            <tr>
+                                                <td
+                                                    className={`border py-1 font-weight-bold text-right text-[16px]`}
+                                                    style={{ maxWidth: "30px !important" }}
+                                                >
+                                                </td>
+                                                <td className="border py-1 text-[16px] font-weight-bold">
+                                                </td>
+                                                <td className="border py-1 text-[16px] text-right">
+                                                </td>
+                                                <td className="border py-1 text-[16px] text-right">
+                                                </td>
+                                                <td className="border py-1 text-[16px] text-right">
+                                                </td>
+                                                <td className="border py-1 text-[16px] text-right font-bold">
+                                                    {searchStorage.reduce((prev, el) => prev + el?.counteragent_profit, 0)}
+                                                </td>
+                                                <td className="border py-1 text-[16px] text-center">
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <table className="table m-0 table-sm d-none" id='counter_agent-table'>
+                                        <thead>
+                                            <tr>
+                                                <th className="border py-1 bg-alotrade text-[16px]">№</th>
+                                                <th className="border py-1 bg-alotrade text-[16px]">
+                                                    Kontragent
+                                                    <div className="btn-group-vertical ml-2">
+                                                        <FontAwesomeIcon
+                                                            onClick={() =>
+                                                                setCurrentConnectors(
+                                                                    [...currentConnectors].sort((a, b) =>
+                                                                        a.client.fullname > b.client.fullname ? 1 : -1
+                                                                    )
+                                                                )
+                                                            }
+                                                            icon={faAngleUp}
+                                                            style={{ cursor: "pointer" }}
+                                                        />
+                                                        <FontAwesomeIcon
+                                                            icon={faAngleDown}
+                                                            style={{ cursor: "pointer" }}
+                                                            onClick={() =>
+                                                                setCurrentConnectors(
+                                                                    [...currentConnectors].sort((a, b) =>
+                                                                        b.client.fullname > a.client.fullname ? 1 : -1
+                                                                    )
+                                                                )
+                                                            }
+                                                        />
+                                                    </div>
+                                                </th>
+                                                <th className="border py-1 bg-alotrade text-[16px]">
+                                                    Mijozlar
+                                                </th>
+                                                <th className="border py-1 bg-alotrade text-[16px]">
+                                                    Shifokorlar
+                                                    <div className="btn-group-vertical ml-2">
+                                                        <FontAwesomeIcon
+                                                            onClick={() =>
+                                                                setCurrentConnectors(
+                                                                    [...currentConnectors].sort((a, b) =>
+                                                                        a.client.id > b.client.id ? 1 : -1
+                                                                    )
+                                                                )
+                                                            }
+                                                            icon={faAngleUp}
+                                                            style={{ cursor: "pointer" }}
+                                                        />
+                                                        <FontAwesomeIcon
+                                                            icon={faAngleDown}
+                                                            style={{ cursor: "pointer" }}
+                                                            onClick={() =>
+                                                                setCurrentConnectors(
+                                                                    [...currentConnectors].sort((a, b) =>
+                                                                        b.client.id > a.client.id ? 1 : -1
+                                                                    )
+                                                                )
+                                                            }
+                                                        />
+                                                    </div>
+                                                </th>
+                                                <th className="border py-1 bg-alotrade text-[16px]">
+                                                    Umumiy
+                                                    <Sort
+                                                        data={currentConnectors}
+                                                        setData={setCurrentConnectors}
+                                                        property={"probirka"}
+                                                    />
+                                                </th>
+                                                <th className="border py-1 bg-alotrade text-[16px]">
+                                                    Ulushi
+                                                    <Sort
+                                                        data={currentConnectors}
+                                                        setData={setCurrentConnectors}
+                                                        property={"totalprice"}
+                                                    />
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {searchStorage.map((connector, key) => {
+                                                return (
+                                                    <tr key={key}>
+                                                        <td
+                                                            className={`border py-1 font-weight-bold text-right text-[16px]`}
+                                                            style={{ maxWidth: "30px !important" }}
+                                                        >
+                                                            {currentPage * countPage + key + 1}
+                                                        </td>
+                                                        <td className="border py-1 text-[16px] font-weight-bold">
+                                                            {connector.lastname +
+                                                                " " +
+                                                                connector.firstname}
+                                                        </td>
+                                                        <td className="border py-1 text-[16px] text-right">
+                                                            {connector.clients}
+                                                        </td>
+                                                        <td className="border py-1 text-[16px] text-right">
+                                                            {connector.counterdoctors}
+                                                        </td>
+                                                        <td className="border py-1 text-[16px] text-right">
+                                                            {connector.totalprice}
+                                                        </td>
+                                                        <td className="border py-1 text-[16px] text-right">
+                                                            {connector?.counteragent_profit}
+                                                        </td>
+                                                    </tr>
+                                                );
+                                            })}
+                                            <tr>
+                                                <td
+                                                    className={`border py-1 font-weight-bold text-right text-[16px]`}
+                                                    style={{ maxWidth: "30px !important" }}
+                                                >
+                                                </td>
+                                                <td className="border py-1 text-[16px] font-weight-bold">
+                                                </td>
+                                                <td className="border py-1 text-[16px] text-right">
+                                                </td>
+                                                <td className="border py-1 text-[16px] text-right">
+                                                </td>
+                                                <td className="border py-1 text-[16px] text-right">
+                                                </td>
+                                                <td className="border py-1 text-[16px] text-right font-bold">
+                                                    {searchStorage.reduce((prev, el) => prev + el?.counteragent_profit, 0)}
+                                                </td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>

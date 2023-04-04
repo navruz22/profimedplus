@@ -426,7 +426,6 @@ const AdoptionTemplate = () => {
                       width: "33%",
                       backgroundColor: "white",
                       border: "1px solid #000",
-                      fontSize: "20px",
                     }}
                   >
                     <h4>

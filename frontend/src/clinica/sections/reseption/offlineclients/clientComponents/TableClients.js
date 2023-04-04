@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faAngleUp,
@@ -6,6 +6,7 @@ import {
   faPenAlt,
   faPrint,
   faPlus,
+  faSearch,
 } from '@fortawesome/free-solid-svg-icons'
 import { Sort } from './Sort'
 import { Pagination } from '../../components/Pagination'
@@ -41,7 +42,7 @@ export const TableClients = ({
 }) => {
 
   const history = useHistory()
-
+  const [clientBorn, setClientBorn] = useState('')
   return (
     <div className="border-0 table-container">
       <div className="border-0 table-container">
@@ -97,18 +98,22 @@ export const TableClients = ({
                 placeholder="Probirka"
               />
             </div>
-            <div
-              className="text-center"
-              style={{ maxWidth: '120px', overflow: 'hidden' }}
-            >
+            <div className="flex items-center gap-4">
               <input
+                onKeyDown={(e) => e.key === 'Enter' && getConnectorsByClientBorn(e.target.value)}
                 type="date"
                 name="born"
+                onChange={(e) => setClientBorn(e.target.value)}
                 className="form-control inp"
                 placeholder=""
                 style={{ color: '#999' }}
-                onKeyDown={(e) => e.key === 'Enter' && getConnectorsByClientBorn(e)}
               />
+              <button onClick={() => getConnectorsByClientBorn(clientBorn)}>
+                <FontAwesomeIcon
+                  icon={faSearch}
+                  style={{ cursor: "pointer" }}
+                />
+              </button>
             </div>
             <div className="text-center ml-auto ">
               <Pagination
@@ -238,7 +243,7 @@ export const TableClients = ({
                   />
                 </th>
                 <th className="border py-1 bg-alotrade text-[16px]">
-                  
+
                 </th>
                 <th className="border py-1 bg-alotrade text-[16px]">
                   Qo'shish
@@ -295,7 +300,7 @@ export const TableClients = ({
                         <button
                           className="btn btn-success py-0"
                           onClick={() => {
-                            history.push('alo24/statsionar', {client: {...connector.client}, services: [...connector.services], connector: {_id: connector._id, probirka: connector?.probirka}})
+                            history.push('alo24/statsionar', { client: { ...connector.client }, services: [...connector.services], connector: { _id: connector._id, probirka: connector?.probirka } })
                           }}
                         >
                           Statsionar

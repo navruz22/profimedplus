@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAngleUp,
   faAngleDown,
   faPenAlt,
   faPrint,
+  faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 import { Pagination } from "../../components/Pagination";
 import { DatePickers } from "./DatePickers";
@@ -30,7 +31,7 @@ export const TableClients = ({
 }) => {
 
   const history = useHistory()
-
+  const [clientBorn, setClientBorn] = useState('')
   return (
     <div className="shadow-lg border-alotrade table-container">
       <div className="table-responsive">
@@ -75,15 +76,22 @@ export const TableClients = ({
               placeholder="Probirka"
             />
           </div>
-          <div>
+          <div className="flex items-center gap-4">
             <input
               onKeyDown={(e) => e.key === 'Enter' && getDoctorClientsByClientBorn(e.target.value)}
               type="date"
               name="born"
+              onChange={(e) => setClientBorn(e.target.value)}
               className="form-control inp"
               placeholder=""
               style={{ color: '#999' }}
             />
+            <button onClick={() => getDoctorClientsByClientBorn(clientBorn)}>
+              <FontAwesomeIcon
+                icon={faSearch}
+                style={{ cursor: "pointer" }}
+              />
+            </button>
           </div>
           <div className="text-center ml-auto">
             <Pagination

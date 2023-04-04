@@ -4,3 +4,7 @@
 .print_word table  td {
   border: 1px solid black;
 }
+
+.print_word p  {
+  line-height: 120%;
+}

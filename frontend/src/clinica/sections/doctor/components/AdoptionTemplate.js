@@ -204,7 +204,7 @@ const DoctorTemplate = ({ client, connector, services }) => {
       <div className="d-none">
         <div
           ref={componentRef}
-          className="p-[2cm]"
+          className="px-[2cm] py-2"
           style={{ fontFamily: "times" }}
         >
           <Print
@@ -219,44 +219,16 @@ const DoctorTemplate = ({ client, connector, services }) => {
       </div>
       <div className="container p-4 bg-white" style={{ fontFamily: "times" }}>
         <div className="px-4">
-          {/* <div className="row" style={{ fontSize: "10pt" }}>
-            <div
-              className="col-4"
-              style={{ border: "1px solid", textAlign: "center" }}
-            >
-              <p className="pt-2">
-                O'zbekiston Respublikasi Sog'liqni Saqlash Vazirligi
-              </p>
-            </div>
-            <div
-              className="col-4"
-              style={{
-                border: "1px solid",
-                textAlign: "center",
-                borderLeft: "none",
-              }}
-            >
-              <p className="pt-2">IFUD: 86900</p>
-            </div>
-            <div
-              className="col-4"
-              style={{
-                border: "1px solid",
-                textAlign: "center",
-                borderLeft: "none",
-              }}
-            >
-              <p style={{ margin: "0" }}>
-                O'zbekiston Respublikasi SSV 31.12.2020y dagi №363 buyrug'i
-                bilan tasdiqlangan
-              </p>
-            </div>
-          </div> */}
-          <div className="row" style={{ fontSize: "20pt" }}>
+        <div className="row" style={{ fontSize: "20pt" }}>
             <div className="col-6 pt-2" style={{ textAlign: "center" }}>
-              <p className="pt-3" style={{ fontFamily: "-moz-initial" }}>
+              <pre className="pt-3" style={{ fontFamily: "-moz-initial" }}>
                 {auth?.clinica?.name}
-              </p>
+              </pre>
+            </div>
+            <div className="col-6 pt-2" style={{ textAlign: "center" }}>
+              <pre className="pt-3" style={{ fontFamily: "-moz-initial" }}>
+                {auth?.clinica?.name2}
+              </pre>
             </div>
             <div className="col-6" style={{ textAlign: "center" }}>
               <p className="text-end m-0">

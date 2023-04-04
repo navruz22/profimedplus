@@ -103,15 +103,15 @@ export const TableClients = ({
               <div className="btn btn-primary">
                 <ReactHTMLTableToExcel
                   id="reacthtmltoexcel"
-                  table="discount-table"
+                  table="debt-table"
                   sheet="Sheet"
                   buttonText="Excel"
-                  filename="Chegirma"
+                  filename="Qarzlar"
                 />
               </div>
             </div>
           </div>
-          <table className="table m-0" id="discount-table">
+          <table className="table m-0" id="debt-table">
             <thead>
               <tr>
                 <th className="border bg-alotrade text-[16px] py-1">№</th>

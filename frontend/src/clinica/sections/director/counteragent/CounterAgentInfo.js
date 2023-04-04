@@ -9,6 +9,7 @@ import { DatePickers } from '../../reseption/offlineclients/clientComponents/Dat
 import { Sort } from '../adver/Sort'
 import { Pagination } from '../components/Pagination'
 import Select from "react-select"
+import ReactHtmlTableToExcel from 'react-html-table-to-excel'
 
 const CounterAgentInfo = () => {
 
@@ -302,8 +303,19 @@ const CounterAgentInfo = () => {
                                             <DatePickers changeDate={changeStart} />
                                             <DatePickers changeDate={changeEnd} />
                                         </div>
+                                        <div className="text-center">
+                                            <div className="btn btn-primary">
+                                                <ReactHtmlTableToExcel
+                                                    id="reacthtmltoexcel"
+                                                    table="counter_agent_info-table"
+                                                    sheet="Sheet"
+                                                    buttonText="Excel"
+                                                    filename="Konter agent ulushi"
+                                                />
+                                            </div>
+                                        </div>
                                     </div>
-                                    <table className="table m-0 table-sm">
+                                    <table className="table m-0 table-sm" id="counter_agent_info-table">
                                         <thead>
                                             <tr>
                                                 <th className="border py-1 bg-alotrade text-[16px]">№</th>

@@ -28,7 +28,7 @@ export const TableServices = ({
   setModal2,
   loading,
   servicetypesSelect,
-  searchServiceType
+  searchServiceType,
 }) => {
   const edit = (e, service) => {
     setService(service);
@@ -89,6 +89,15 @@ export const TableServices = ({
                       <option value={d._id} key={ind}>{d.name}</option>
                     )}
                   </select>
+                </th>
+                <th className="text-[16px]">
+                  <input
+                    style={{ minWidth: "70px" }}
+                    onChange={searchName}
+                    type="text"
+                    className="form-control w-75"
+                    placeholder="Xizmat nomini kiriting"
+                  />
                 </th>
                 <th colSpan={6} className="text-[16px]">
                   <Pagination
@@ -269,6 +278,7 @@ export const TableServices = ({
                         id={`btn${key}`}
                         onClick={(e) => {
                           edit(e, service);
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
                         }}
                         type="button"
                         className="text-white font-semibold bg-alotrade rounded py-1 px-2"

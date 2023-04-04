@@ -2,6 +2,7 @@ import { useToast } from '@chakra-ui/react';
 import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useCallback, useContext, useEffect, useState } from 'react'
+import ReactHtmlTableToExcel from 'react-html-table-to-excel';
 import { useLocation } from 'react-router-dom';
 import { AuthContext } from '../../../context/AuthContext';
 import { useHttp } from '../../../hooks/http.hook';

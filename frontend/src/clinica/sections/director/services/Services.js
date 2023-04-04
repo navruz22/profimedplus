@@ -426,16 +426,14 @@ export const Services = () => {
         }
     }
 
-    const searchName = useCallback(
+    const searchName = 
         (e) => {
             const searching = searchStorage.filter((item) =>
                 item.name.toLowerCase().includes(e.target.value.toLowerCase()),
             )
             setServices(searching)
             setCurrentServices(searching.slice(0, countPage))
-        },
-        [searchStorage, countPage],
-    )
+        }
     //====================================================================
     //====================================================================
     const setPageSize = useCallback(

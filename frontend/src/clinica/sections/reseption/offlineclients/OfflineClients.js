@@ -114,7 +114,7 @@ export const OfflineClients = () => {
             const data = await request(
                 `/api/offlineclient/client/getallreseption`,
                 "POST",
-                { clinica: auth && auth.clinica._id, clientborn: new Date(e.target.value) },
+                { clinica: auth && auth.clinica._id, clientborn: new Date(e) },
                 {
                     Authorization: `Bearer ${auth.token}`,
                 }

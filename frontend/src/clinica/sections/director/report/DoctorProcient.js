@@ -9,6 +9,7 @@ import { DatePickers } from '../../reseption/offlineclients/clientComponents/Dat
 import { Pagination } from '../components/Pagination';
 import Select from 'react-select'
 import makeAnimated from 'react-select/animated'
+import ReactHtmlTableToExcel from 'react-html-table-to-excel';
 
 const animatedComponents = makeAnimated()
 
@@ -286,6 +287,17 @@ const DoctorProcient = () => {
                                             totalDatas={doctors.length}
                                         />
                                     </div>
+                                    <div className="text-center">
+                                        <div className="btn btn-primary">
+                                            <ReactHtmlTableToExcel
+                                                id="reacthtmltoexcel"
+                                                table="doctor_procient-table"
+                                                sheet="Sheet"
+                                                buttonText="Excel"
+                                                filename="Shifokor ulushi"
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
                                 <table className="table m-0 table-sm">
                                     <thead>
@@ -456,6 +468,195 @@ const DoctorProcient = () => {
                                                 </tr>
                                             );
                                         })}
+                                        <tr>
+                                            <td
+                                                className={`border py-1 font-weight-bold text-right text-[16px]`}
+                                                style={{ maxWidth: "30px !important" }}
+                                            >
+
+                                            </td>
+                                            <td className="border py-1 text-[16px] font-weight-bold">
+
+                                            </td>
+                                            <td className="border py-1 text-[16px] text-center">
+
+                                            </td>
+                                            <td className="border py-1 text-[16px] text-right">
+
+                                            </td>
+                                            <td className="border py-1 text-[16px] text-right">
+                                                {searchStorage.reduce((prev, el) => prev + el.profit, 0)}
+                                            </td>
+                                            <td className="border py-1 text-[16px] text-center">
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table className="table m-0 table-sm d-none" id="doctor_procient-table">
+                                    <thead>
+                                        <tr>
+                                            <th className="border py-1 bg-alotrade text-[16px]">№</th>
+                                            <th className="border py-1 bg-alotrade text-[16px]">
+                                                F.I.O
+                                                <div className="btn-group-vertical ml-2">
+                                                    <FontAwesomeIcon
+                                                        onClick={() =>
+                                                            setCurrentDoctors(
+                                                                [...currentDoctors].sort((a, b) =>
+                                                                    a.client.fullname > b.client.fullname ? 1 : -1
+                                                                )
+                                                            )
+                                                        }
+                                                        icon={faAngleUp}
+                                                        style={{ cursor: "pointer" }}
+                                                    />
+                                                    <FontAwesomeIcon
+                                                        icon={faAngleDown}
+                                                        style={{ cursor: "pointer" }}
+                                                        onClick={() =>
+                                                            setCurrentDoctors(
+                                                                [...currentDoctors].sort((a, b) =>
+                                                                    b.client.fullname > a.client.fullname ? 1 : -1
+                                                                )
+                                                            )
+                                                        }
+                                                    />
+                                                </div>
+                                            </th>
+                                            <th className="border py-1 bg-alotrade text-[16px]">
+                                                Bo'lim
+                                                <div className="btn-group-vertical ml-2">
+                                                    <FontAwesomeIcon
+                                                        onClick={() =>
+                                                            setCurrentDoctors(
+                                                                [...currentDoctors].sort((a, b) =>
+                                                                    a.client.fullname > b.client.fullname ? 1 : -1
+                                                                )
+                                                            )
+                                                        }
+                                                        icon={faAngleUp}
+                                                        style={{ cursor: "pointer" }}
+                                                    />
+                                                    <FontAwesomeIcon
+                                                        icon={faAngleDown}
+                                                        style={{ cursor: "pointer" }}
+                                                        onClick={() =>
+                                                            setCurrentDoctors(
+                                                                [...currentDoctors].sort((a, b) =>
+                                                                    b.client.fullname > a.client.fullname ? 1 : -1
+                                                                )
+                                                            )
+                                                        }
+                                                    />
+                                                </div>
+                                            </th>
+                                            <th className="border py-1 bg-alotrade text-[16px]">
+                                                Umumiy summa
+                                                <div className="btn-group-vertical ml-2">
+                                                    <FontAwesomeIcon
+                                                        onClick={() =>
+                                                            setCurrentDoctors(
+                                                                [...currentDoctors].sort((a, b) =>
+                                                                    a.client.fullname > b.client.fullname ? 1 : -1
+                                                                )
+                                                            )
+                                                        }
+                                                        icon={faAngleUp}
+                                                        style={{ cursor: "pointer" }}
+                                                    />
+                                                    <FontAwesomeIcon
+                                                        icon={faAngleDown}
+                                                        style={{ cursor: "pointer" }}
+                                                        onClick={() =>
+                                                            setCurrentDoctors(
+                                                                [...currentDoctors].sort((a, b) =>
+                                                                    b.client.fullname > a.client.fullname ? 1 : -1
+                                                                )
+                                                            )
+                                                        }
+                                                    />
+                                                </div>
+                                            </th>
+                                            <th className="border py-1 bg-alotrade text-[16px]">
+                                                Shifokor ulushi
+                                                <div className="btn-group-vertical ml-2">
+                                                    <FontAwesomeIcon
+                                                        onClick={() =>
+                                                            setCurrentDoctors(
+                                                                [...currentDoctors].sort((a, b) =>
+                                                                    a.client.fullname > b.client.fullname ? 1 : -1
+                                                                )
+                                                            )
+                                                        }
+                                                        icon={faAngleUp}
+                                                        style={{ cursor: "pointer" }}
+                                                    />
+                                                    <FontAwesomeIcon
+                                                        icon={faAngleDown}
+                                                        style={{ cursor: "pointer" }}
+                                                        onClick={() =>
+                                                            setCurrentDoctors(
+                                                                [...currentDoctors].sort((a, b) =>
+                                                                    b.client.fullname > a.client.fullname ? 1 : -1
+                                                                )
+                                                            )
+                                                        }
+                                                    />
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {searchStorage.map((doctor, key) => {
+                                            return (
+                                                <tr key={key}>
+                                                    <td
+                                                        className={`border py-1 font-weight-bold text-right text-[16px]`}
+                                                        style={{ maxWidth: "30px !important" }}
+                                                    >
+                                                        {currentPage * countPage + key + 1}
+                                                    </td>
+                                                    <td className="border py-1 text-[16px] font-weight-bold">
+                                                        {doctor.lastname +
+                                                            " " +
+                                                            doctor.firstname}
+                                                    </td>
+                                                    <td className="border py-1 text-[16px] text-center">
+                                                        {doctor?.specialty?.name}
+                                                    </td>
+                                                    <td className="border py-1 text-[16px] text-right">
+                                                        {doctor.total}
+                                                    </td>
+                                                    <td className="border py-1 text-[16px] text-right">
+                                                        {doctor.profit}
+                                                    </td>
+                                                </tr>
+                                            );
+                                        })}
+                                        <tr>
+                                            <td
+                                                className={`border py-1 font-weight-bold text-right text-[16px]`}
+                                                style={{ maxWidth: "30px !important" }}
+                                            >
+
+                                            </td>
+                                            <td className="border py-1 text-[16px] font-weight-bold">
+
+                                            </td>
+                                            <td className="border py-1 text-[16px] text-center">
+
+                                            </td>
+                                            <td className="border py-1 text-[16px] text-right">
+
+                                            </td>
+                                            <td className="border py-1 text-[16px] text-right">
+                                                
+                                            </td>
+                                            <td className="border py-1 text-[16px] text-center">
+                                            {searchStorage.reduce((prev, el) => prev + el.profit, 0)}
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>

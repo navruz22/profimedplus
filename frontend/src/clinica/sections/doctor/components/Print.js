@@ -2,57 +2,29 @@ import React from 'react'
 import parse from "html-react-parser"
 import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser'
 import './Print.css'
-
+import QRcode from "../../../../qrcode.png"
 
 const Print = ({ client, connector, sections, clinica, baseUrl, doctor }) => {
     return (
         <div className="bg-white">
             <div>
-                {/* <div className="row" style={{ fontSize: "10pt" }}>
-                    <div
-                        className="col-4"
-                        style={{ border: "1px solid", textAlign: "center" }}
-                    >
-                        <p className="pt-2">
-                            O'zbekiston Respublikasi Sog'liqni Saqlash Vazirligi
-                        </p>
-                    </div>
-                    <div
-                        className="col-4"
-                        style={{
-                            border: "1px solid",
-                            textAlign: "center",
-                            borderLeft: "none",
-                        }}
-                    >
-                        <p className="pt-2">IFUD: 86900</p>
-                    </div>
-                    <div
-                        className="col-4"
-                        style={{
-                            border: "1px solid",
-                            textAlign: "center",
-                            borderLeft: "none",
-                        }}
-                    >
-                        <p style={{ margin: "0" }}>
-                            O'zbekiston Respublikasi SSV 31.12.2020y dagi №363 buyrug'i
-                            bilan tasdiqlangan
-                        </p>
-                    </div>
-                </div> */}
-                <div className="flex justify-around" style={{ fontSize: "20pt", marginBottom: "20px" }}>
+            <div className="flex justify-between items-center" style={{ fontSize: "20pt", marginBottom: "30px" }}>
                     <div className="" style={{ textAlign: "center" }}>
-                        <p className="pt-3 text-center" style={{ fontFamily: "-moz-initial" }}>
+                        <pre className="" style={{ fontFamily: "-moz-initial", border: 'none', outline: "none" }}>
                             {clinica?.name}
-                        </p>
+                        </pre>
                     </div>
-                    <div className="" style={{ maxWidth: "150px", textAlign: "center" }}>
-                        <img src={baseUrl && baseUrl + '/api/upload/file/' + clinica?.image} alt="logo" />
+                    <div style={{textAlign: "center" }}>
+                        <img style={{ width: "150px"}}  src={baseUrl + '/api/upload/file/' + clinica?.image} alt="logo" />
+                    </div>
+                    <div className="" style={{ textAlign: "center" }}>
+                        <pre className="" style={{ fontFamily: "-moz-initial", border: 'none', outline: "none" }}>
+                            {clinica?.name2}
+                        </pre>
                     </div>
                     <div className="" style={{ textAlign: "center" }}>
                         <p className="text-end m-0">
-                            <img width="120" src={'https://chart.googleapis.com/chart?cht=qr&chl=%2B998992234244&chs=180x180&choe=UTF-8&chld=L|2'} alt="QR" />
+                            <img width="100" src={QRcode} alt="QR" />
                         </p>
                     </div>
                 </div>

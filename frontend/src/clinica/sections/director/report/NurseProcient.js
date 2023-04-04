@@ -9,6 +9,7 @@ import { DatePickers } from '../../reseption/offlineclients/clientComponents/Dat
 import { Pagination } from '../components/Pagination';
 import Select from 'react-select'
 import makeAnimated from 'react-select/animated'
+import ReactHtmlTableToExcel from 'react-html-table-to-excel';
 
 const animatedComponents = makeAnimated()
 
@@ -225,8 +226,19 @@ const NurseProcient = () => {
                                             totalDatas={nurseProfit.length}
                                         />
                                     </div>
+                                    <div className="texte-center">
+                                        <div className="btn btn-primary">
+                                            <ReactHtmlTableToExcel
+                                                id="reacthtmltoexcel"
+                                                table="nurseprocient-table"
+                                                sheet="Sheet"
+                                                buttonText="Excel"
+                                                filename="Xamshira ulushi"
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
-                                <table className="table m-0 table-sm">
+                                <table className="table m-0 table-sm" id="nurseprocient-table">
                                     <thead>
                                         <tr>
                                             <th className="border py-1 bg-alotrade text-[16px]">№</th>

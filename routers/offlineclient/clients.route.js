@@ -704,7 +704,7 @@ module.exports.getAllReseption = async (req, res) => {
                 message: "Diqqat! Klinika ma'lumotlari topilmadi.",
             })
         }
-
+       
         let connectors = null;
 
         if (clientborn) {
@@ -715,15 +715,13 @@ module.exports.getAllReseption = async (req, res) => {
                 .populate('client', 'fullname firstname lastname fathername phone id gender born address')
                 .populate('services', '_id service refuse turn pieces department accept column tables templates')
                 .populate('products', '_id product pieces')
-                .sort({ _id: -1 })
                 .lean()
-                .then(connectors => {
-                    return connectors.filter(connector => {
-                        return new Date(new Date(connector.client.born).setUTCHours(0, 0, 0, 0)).toISOString() === new Date(new Date(clientborn).setUTCHours(0, 0, 0, 0)).toISOString()
+                .then(datas => {
+                    return datas.filter(data => {
+                        return new Date(new Date(data.client.born).setUTCHours(0, 0, 0, 0)).toISOString() === new Date(new Date(clientborn).setUTCHours(0, 0, 0, 0)).toISOString()
                     });
                 })
-        }
-        if (clientId) {
+        } else if (clientId) {
             connectors = await OfflineConnector.find({
                 clinica
             })
@@ -750,7 +748,7 @@ module.exports.getAllReseption = async (req, res) => {
                 .populate('products', '_id product pieces')
                 .sort({ _id: -1 })
         }
-
+        
         res.status(200).send(connectors)
     } catch (error) {
         console.log(error);

@@ -2,6 +2,7 @@ import { useToast } from '@chakra-ui/react';
 import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useCallback, useContext, useEffect, useState } from 'react'
+import ReactHtmlTableToExcel from 'react-html-table-to-excel';
 import { useLocation } from 'react-router-dom';
 import { AuthContext } from '../../../context/AuthContext';
 import { useHttp } from '../../../hooks/http.hook';
@@ -186,8 +187,19 @@ const DoctorServices = () => {
                                             totalDatas={services.length}
                                         />
                                     </div>
+                                    <div className="texte-center">
+                                        <div className="btn btn-primary">
+                                            <ReactHtmlTableToExcel
+                                                id="reacthtmltoexcel"
+                                                table="doctor_service-table"
+                                                sheet="Sheet"
+                                                buttonText="Excel"
+                                                filename="Shifokor ulushi"
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
-                                <table className="table m-0 table-sm">
+                                <table className="table m-0 table-sm" id='doctor_service-table'>
                                     <thead>
                                         <tr>
                                             <th className="border py-1 bg-alotrade text-[16px]">№</th>
@@ -358,6 +370,19 @@ const DoctorServices = () => {
                                                 </tr>
                                             );
                                         })}
+                                        <tr>
+                                            <td
+                                                className={`border py-1 font-weight-bold text-right text-[16px]`}
+                                                style={{ maxWidth: "30px !important" }}
+                                            ></td>
+                                            <td className="border py-1 text-[16px] font-weight-bold"></td>
+                                            <td className="border py-1 text-[16px] text-center"></td>
+                                            <td className="border py-1 text-[16px] text-right"></td>
+                                            <td className="border py-1 text-[16px] text-right"></td>
+                                            <td className="border py-1 text-[16px] text-right font-bold">
+                                                {searchStorage.reduce((prev, el) => prev + el?.doctor_profit, 0)}
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
