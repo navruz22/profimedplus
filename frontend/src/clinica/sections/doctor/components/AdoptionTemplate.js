@@ -219,7 +219,7 @@ const DoctorTemplate = ({ client, connector, services }) => {
       </div>
       <div className="container p-4 bg-white" style={{ fontFamily: "times" }}>
         <div className="px-4">
-        <div className="row" style={{ fontSize: "20pt" }}>
+          <div className="row" style={{ fontSize: "20pt" }}>
             <div className="col-6 pt-2" style={{ textAlign: "center" }}>
               <pre className="pt-3" style={{ fontFamily: "-moz-initial" }}>
                 {auth?.clinica?.name}
@@ -625,11 +625,27 @@ const LabTemplate = ({ client, connector, services }) => {
     const filtered = sections.map((section, index) => {
       if (index === ind) {
         let newServices = [];
-        const isAllTrue = section.services.filter(s => s.accept).length === section.services.length;
+        const isAllTrue = section.services.filter(s => s.tables.filter(table => table.accept).length === s.tables.length).length === section.services.length;
         if (isAllTrue) {
-          newServices = section.services.map(service => ({ ...service, accept: false }))
+          newServices = section.services.map(service => {
+            const newTables = [...service.tables].map(item => {
+              item.accept = false;
+              return item;
+            })
+            service.tables = newTables;
+            service.accept = false;
+            return service
+          })
         } else {
-          newServices = section.services.map(service => ({ ...service, accept: true }))
+          newServices = section.services.map(service => {
+            const newTables = [...service.tables].map(item => {
+              item.accept = true;
+              return item;
+            })
+            service.tables = newTables;
+            service.accept = true;
+            return service
+          })
         }
         section.services = newServices;
       }
@@ -637,12 +653,19 @@ const LabTemplate = ({ client, connector, services }) => {
     })
     setSections(filtered);
   }
-  const handleCheckAccept = (ind, serviceid) => {
+  const handleCheckAccept = (ind, serviceid, tableind) => {
     const filtered = sections.map((section, index) => {
       if (index === ind) {
         let newServices = section.services.map((service) => {
           if (service._id === serviceid) {
-            service.accept = !service.accept
+            let tables = [...service.tables].map((table, i) => {
+              if (i === tableind) {
+                table.accept = table.accept ? false : true;
+              }
+              return table
+            })
+            service.tables = tables;
+            service.accept = !service.accept 
           }
           return service;
         })
@@ -679,50 +702,53 @@ const LabTemplate = ({ client, connector, services }) => {
   //===========================================================
 
   useEffect(() => {
-    const serviceTypes = []
-    const serviceIdArr = []
-    for (const service of services) {
-      if (service.tables.length > 0) {
-        const check = service.serviceid.servicetype._id;
-        if (!serviceIdArr.includes(check)) {
-          serviceTypes.push({
-            servicetypeid: check,
-            servicetypename: service.serviceid.servicetype.name,
-            services: [service],
-            column: service.column
-          })
-          serviceIdArr.push(check);
-        } else {
-          if (service.column && service.tables && service.tables.length > 0) {
-            const checkCols = Object.keys(service.column).filter(el => el.includes('col')).length;
-            const index = serviceTypes.findIndex(el =>
-              el.column && el.servicetypeid === check
-              && Object.keys(el.column).filter(el => el.includes('col')).length === checkCols)
-            if (index >= 0) {
-              serviceTypes[index].services.push(service)
-              serviceTypes[index].column = service.column
+    const servicetypesAll = services.reduce((prev, el) => {
+      if (!prev.includes(el.serviceid.servicetype.name)) {
+        prev.push(el.serviceid.servicetype.name)
+      }
+      return prev;
+    }, [])
+    let servicetypes = []
+    for (const type of servicetypesAll) {
+      services.map((service) => {
+        if (service.column && service.tables.length > 0) {
+          if (service.serviceid.servicetype.name === type && service.tables.length <= 2) {
+            const cols = Object.keys(service.column).filter(c => c.includes('col') && service.column[c]).length;
+            const isExist = servicetypes.findIndex(i => i.servicetype === type && i.cols === cols)
+            if (isExist >= 0) {
+              servicetypes[isExist].services.push(service);
             } else {
-              serviceTypes.push({
-                servicetypeid: check,
-                servicetypename: service.serviceid.servicetype.name,
+              servicetypes.push({
+                column: service.column,
+                servicetype: type,
                 services: [service],
-                column: service.column
+                cols: cols
               })
             }
-          } else {
-            serviceTypes.push({
-              servicetypeid: check,
-              servicetypename: service.serviceid.servicetype.name,
-              services: [service],
-            })
           }
         }
-      }
+        return service;
+      })
     }
-    setSections(serviceTypes);
+
+    const servicesmore = [...servicetypesAll].reduce((prev, el) => {
+      services.map((service) => {
+        if (service.serviceid.servicetype.name === el && service.tables.length > 2) {
+          prev.push({
+            column: service.column,
+            servicetype: service.service.name,
+            services: [service]
+          })
+        }
+        return service;
+      })
+      return prev;
+    }, [])
+
+    setSections([...servicetypes, ...servicesmore])
 
   }, [services]);
-
+ 
   useEffect(() => {
     // if (!t) {
     // getServices()
@@ -749,13 +775,13 @@ const LabTemplate = ({ client, connector, services }) => {
       </div>
       <div className="container p-4 bg-white text-center" style={{ fontFamily: "times" }}>
         <div className="px-4">
-          {/* <div className="row" style={{ fontSize: "10pt" }}>
+          {auth?.clinica?.ifud1 && <div className="row" style={{ fontSize: "10pt" }}>
             <div
               className="col-4"
               style={{ border: "1px solid", textAlign: "center" }}
             >
               <p className="pt-2">
-                O'zbekiston Respublikasi Sog'liqni Saqlash Vazirligi
+                {auth?.clinica?.ifud1}
               </p>
             </div>
             <div
@@ -766,7 +792,7 @@ const LabTemplate = ({ client, connector, services }) => {
                 borderLeft: "none",
               }}
             >
-              <p className="pt-2">IFUD: 86900</p>
+              <p className="pt-2">IFUD: {auth?.clinica?.ifud2}</p>
             </div>
             <div
               className="col-4"
@@ -777,15 +803,19 @@ const LabTemplate = ({ client, connector, services }) => {
               }}
             >
               <p style={{ margin: "0" }}>
-                O'zbekiston Respublikasi SSV 31.12.2020y dagi №363 buyrug'i
-                bilan tasdiqlangan
+                {auth?.clinica?.ifud3}
               </p>
             </div>
-          </div> */}
+          </div>}
           <div className="row" style={{ fontSize: "20pt" }}>
             <div className="col-6 pt-2" style={{ textAlign: "center" }}>
               <pre className="pt-3" style={{ fontFamily: "-moz-initial" }}>
-                {connector?.clinica?.name}
+                {auth?.clinica?.name}
+              </pre>
+            </div>
+            <div className="col-6 pt-2" style={{ textAlign: "center" }}>
+              <pre className="pt-3" style={{ fontFamily: "-moz-initial" }}>
+                {auth?.clinica?.name2}
               </pre>
             </div>
             <div className="col-6" style={{ textAlign: "center" }}>
@@ -820,7 +850,6 @@ const LabTemplate = ({ client, connector, services }) => {
                       width: "33%",
                       backgroundColor: "white",
                       border: "1px solid #000",
-                      fontSize: "20px",
                     }}
                   >
                     <h4>
@@ -949,6 +978,10 @@ const LabTemplate = ({ client, connector, services }) => {
               </table>
             </div>
           </div>
+          <div className="mt-2 px-2 py-1 bg-gray-400 flex justify-between items-center">
+            <span className="text-[14px] font-bold">{auth.clinica?.organitionName}</span>
+            <span className="text-[14px] font-bold">{auth?.clinica?.license}</span>
+          </div>
         </div>
         <div className="pt-4 w-full text-center">
           {sections.length > 0 &&
@@ -957,7 +990,7 @@ const LabTemplate = ({ client, connector, services }) => {
                 return <div key={index} className={"w-full mb-4 text-center"}>
                   <div className="w-full flex justify-center items-center mb-4">
                     <h2 className="block text-[18px] font-bold">
-                      {section?.servicetypename}
+                      {section?.servicetype}
                     </h2>
                   </div>
                   <table className="w-full text-center">
@@ -971,7 +1004,7 @@ const LabTemplate = ({ client, connector, services }) => {
                         <th className="border-2 bg-gray-400 border-black  p">
                           <div className="custom-control custom-checkbox text-center">
                             <input
-                              checked={section.services.filter(s => s.accept).length === section.services.length}
+                              checked={section.services.filter(s => s.tables.filter(t => t.accept).length === s.tables.length).length === section.services.length}
                               type="checkbox"
                               className="custom-control-input border border-dager"
                               id={`section${index}`}
@@ -986,7 +1019,7 @@ const LabTemplate = ({ client, connector, services }) => {
                     <tbody>
                       {section?.services.map((service, ind) => {
                         return <>
-                          {service.tables.length > 0 && service.tables.map((table, key, tabless) => (
+                          {service.tables && service.tables.length > 0 && service.tables.map((table, key, tabless) => (
                             <tr key={key} >
                               <td className="border-2 border-black p-[10px]"> <textarea rows={2}
                                 className={"w-full border-none outline-none"}
@@ -1050,17 +1083,17 @@ const LabTemplate = ({ client, connector, services }) => {
                                 >
                                   {table?.col5}
                                 </textarea></td>}
-                              <td rowSpan={tabless.length} className={`${key > 0 ? 'hidden' : ''} border-2 border-black p-[10px]`}>
+                              <td className={`border-2 border-black p-[10px]`}>
                                 <div className="custom-control custom-checkbox text-center">
                                   <input
-                                    checked={service.accept}
+                                    checked={table?.accept}
                                     type="checkbox"
                                     className="custom-control-input border border-dager"
-                                    id={`service${service._id}`}
-                                    onChange={() => handleCheckAccept(index, service._id)}
+                                    id={`service${table._id}`}
+                                    onChange={() => handleCheckAccept(index, service._id, key)}
                                   />
                                   <label className="custom-control-label"
-                                    htmlFor={`service${service._id}`}></label>
+                                    htmlFor={`service${table._id}`}></label>
                                 </div>
                               </td>
                             </tr>
@@ -1073,33 +1106,8 @@ const LabTemplate = ({ client, connector, services }) => {
               }
             })}
         </div>
-        {sections.length > 0 && sections.map((section) => section.services.map((service, ind) => (
-          <div
-            className='mt-4 mb-2' key={ind}>
-            <h2 className="text-[16px] font-bold mb-2">{service.service.name}</h2>
-            <div
-            >
-              <input
-                onChange={(e) => uploadFile(e, service._id)}
-                type="file"
-                className=''
-              />
-            </div>
-            <div className="">
-              {service.files.map((file) => <div className="w-[400px]">
-                <img src={file} alt='file' />
-                <div className="px-4 pt-2">
-                  <button className="" onClick={() => deleteFile(file, service._id)} >
-                    <FontAwesomeIcon fontSize={16} icon={faTrash} />
-                  </button>
-                </div>
-              </div>)}
-            </div>
-          </div>
-        )))}
         <div className="row">
           <div className="col-12 text-center my-4">
-            <button className="btn btn-success px-4 mx-4" onClick={() => saveService()} > Tasdiqlash</button>
             <button className="btn btn-info px-5" onClick={handlePrint} >Chop etish</button>
           </div>
         </div>

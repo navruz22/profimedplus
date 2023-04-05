@@ -46,6 +46,7 @@ export const TableClients = ({
             if (el.refuse === false) {
                 prev += (el.product.price * el.pieces)
             }
+            return prev;
         }, 0)
         return servicesTotal + productsTotal
     }

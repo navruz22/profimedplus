@@ -9,9 +9,11 @@ const { StatsionarService } = require("../../models/StatsionarClient/StatsionarS
 const { StatsionarConnector } = require("../../models/StatsionarClient/StatsionarConnector");
 require("../../models/StatsionarClient/StatsionarClient");
 require("../../models/StatsionarClient/StatsionarConnector");
+require("../../models/Cashier/StatsionarPayment");
 require('../../models/Services/ServiceType')
 require('../../models/StatsionarClient/StatsionarDaily')
 require('../../models/Services/Department')
+require('../../models/Cashier/OfflinePayment')
 
 
 module.exports.approve = async (req, res) => {
@@ -287,7 +289,7 @@ module.exports.getLabClientsForApprove = async (req, res) => {
             .populate("service", "price")
             .populate({
                 path: "connector",
-                select: "probirka createdAt accept clinica",
+                select: "probirka createdAt accept clinica payments",
                 populate: {
                     path: "clinica",
                     select: "name phone1 image"
@@ -319,7 +321,7 @@ module.exports.getLabClientsForApprove = async (req, res) => {
             .populate("service", "price")
             .populate({
                 path: "connector",
-                select: "probirka createdAt accept clinica",
+                select: "probirka createdAt accept clinica payments",
                 populate: {
                     path: "clinica",
                     select: "name phone1 image"
@@ -343,31 +345,26 @@ module.exports.getLabClientsForApprove = async (req, res) => {
         services = [...offline, ...statsionar]
 
         if (services.length > 0) {
-            for (const i in services) {
-                if (i == 0) {
-                    client.client = services[i].client;
-                    client.connector = services[i].connector;
-                    client.services.push(services[i]);
+            let connectorsId = []
+            for (const service of services) {
+                const check = connectorsId.includes(String(service.connector._id));
+                if (!check) {
+                    clients.push({
+                        client: service.client,
+                        connector: service.connector,
+                        services: [service],
+                    })
+                    connectorsId.push(String(service.connector._id));
                 } else {
-                    if (services[i - 1].client._id === services[i].client._id) {
-                        client.services.push(services[i]);
-                    } else {
-                        clients.push(client);
-                        client = {
-                            client: {},
-                            connector: {},
-                            services: [],
-                        };
-                        client.client = services[i].client;
-                        client.connector = services[i].connector;
-                        client.services.push(services[i]);
-                    }
+                    const index = clients.findIndex(c => String(c.connector._id) === String(service.connector._id))
+                    clients[index].services.push(service)
                 }
             }
         }
 
-        clients.push(client);
-        res.status(200).send(clients);
+        const response = clients.filter(client => client.connector.payments.length > 0)
+        
+        res.status(200).send(response);
     } catch (error) {
         console.log(error);
         res.status(501).json({ error: "Serverda xatolik yuz berdi..." });

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAngleUp,
@@ -6,6 +6,7 @@ import {
   faPenAlt,
   faPrint,
   faPlus,
+  faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 import { Sort } from "./Sort";
 import { Pagination } from "../../components/Pagination";
@@ -35,92 +36,109 @@ export const TableClients = ({
   setConnector,
   setVisible,
   clientsType,
-  changeClientsType
+  changeClientsType,
+  getClientsByBorn
 }) => {
   const history = useHistory();
+  const [clientBorn, setClientBorn] = useState('')
   return (
     <div className="border-0 shadow-lg table-container">
       <div className="border-0 table-container">
         <div className="table-responsive">
+          <div className="bg-white flex gap-6 items-center py-2 px-2">
+            <div>
+              <select
+                className="form-control form-control-sm selectpicker"
+                placeholder="Bo'limni tanlang"
+                onChange={setPageSize}
+                style={{ minWidth: "50px" }}
+              >
+                <option value={10}>10</option>
+                <option value={25}>25</option>
+                <option value={50}>50</option>
+                <option value={100}>100</option>
+              </select>
+            </div>
+            <div>
+              <input
+                onChange={searchFullname}
+                style={{ maxWidth: "100px", minWidth: "100px" }}
+                type="search"
+                className="w-100 form-control form-control-sm selectpicker"
+                placeholder="F.I.O"
+              />
+            </div>
+            <div>
+              <input
+                onChange={searchId}
+                style={{ maxWidth: "60px" }}
+                type="search"
+                className="form-control form-control-sm selectpicker"
+                placeholder="ID"
+              />
+            </div>
+            <div className="flex items-center gap-4">
+              <input
+                onKeyDown={(e) => e.key === 'Enter' && getClientsByBorn(e.target.value)}
+                type="date"
+                name="born"
+                onChange={(e) => setClientBorn(e.target.value)}
+                className="form-control inp"
+                placeholder=""
+                style={{ color: '#999' }}
+              />
+              <button onClick={() => getClientsByBorn(clientBorn)}>
+                <FontAwesomeIcon
+                  icon={faSearch}
+                  style={{ cursor: "pointer" }}
+                />
+              </button>
+            </div>
+            <div className="text-center">
+              <Pagination
+                setCurrentDatas={setCurrentDoctorClients}
+                datas={doctorClients}
+                setCurrentPage={setCurrentPage}
+                countPage={countPage}
+                totalDatas={doctorClients.length}
+              />
+            </div>
+            <div
+              className="flex items-center gap-2 justify-center"
+              style={{ maxWidth: "200px", overflow: "hidden" }}
+            >
+              <DatePickers changeDate={changeStart} />
+              <DatePickers changeDate={changeEnd} />
+            </div>
+            <div
+              className="text-center"
+              style={{ maxWidth: "200px", overflow: "hidden" }}
+            >
+              <div className="btn btn-primary">
+                <ReactHTMLTableToExcel
+                  id="reacthtmltoexcel"
+                  table="discount-table"
+                  sheet="Sheet"
+                  buttonText="Excel"
+                  filename="Chegirma"
+                />
+              </div>
+            </div>
+            <div
+              className="text-center"
+              style={{ maxWidth: "200px" }}
+            >
+              <select
+                className="form-control form-control-sm selectpicker"
+                placeholder="Mijozalar"
+                onChange={changeClientsType}
+              >
+                <option value="offline">Kunduzgi</option>
+                <option value="statsionar">Statsionar</option>
+              </select>
+            </div>
+          </div>
           <table className="table m-0" id="discount-table">
-            <thead className="bg-white">
-              <tr>
-                <th>
-                  <select
-                    className="form-control form-control-sm selectpicker"
-                    placeholder="Bo'limni tanlang"
-                    onChange={setPageSize}
-                    style={{ minWidth: "50px" }}
-                  >
-                    <option value={10}>10</option>
-                    <option value={25}>25</option>
-                    <option value={50}>50</option>
-                    <option value={100}>100</option>
-                  </select>
-                </th>
-                <th>
-                  <input
-                    onChange={searchFullname}
-                    style={{ maxWidth: "100px", minWidth: "100px" }}
-                    type="search"
-                    className="w-100 form-control form-control-sm selectpicker"
-                    placeholder="F.I.O"
-                  />
-                </th>
-                <th>
-                  <input
-                    onChange={searchId}
-                    style={{ maxWidth: "60px" }}
-                    type="search"
-                    className="form-control form-control-sm selectpicker"
-                    placeholder="ID"
-                  />
-                </th>
-                <th className="text-center">
-                  <Pagination
-                    setCurrentDatas={setCurrentDoctorClients}
-                    datas={doctorClients}
-                    setCurrentPage={setCurrentPage}
-                    countPage={countPage}
-                    totalDatas={doctorClients.length}
-                  />
-                </th>
-                <th
-                  className="flex items-center gap-2 justify-center"
-                  style={{ maxWidth: "200px", overflow: "hidden" }}
-                >
-                  <DatePickers changeDate={changeStart} />
-                  <DatePickers changeDate={changeEnd} />
-                </th>
-                <th
-                  className="text-center"
-                  style={{ maxWidth: "200px", overflow: "hidden" }}
-                >
-                  <div className="btn btn-primary">
-                    <ReactHTMLTableToExcel
-                      id="reacthtmltoexcel"
-                      table="discount-table"
-                      sheet="Sheet"
-                      buttonText="Excel"
-                      filename="Chegirma"
-                    />
-                  </div>
-                </th>
-                <th
-                  className="text-center"
-                  style={{ maxWidth: "200px" }}
-                >
-                  <select
-                    className="form-control form-control-sm selectpicker"
-                    placeholder="Mijozalar"
-                    onChange={changeClientsType}
-                  >
-                    <option value="offline">Kunduzgi</option>
-                    <option value="statsionar">Statsionar</option>
-                  </select>
-                </th>
-              </tr>
-            </thead>
             <thead>
               <tr>
                 <th className="border bg-alotrade text-[16px] py-1">№</th>

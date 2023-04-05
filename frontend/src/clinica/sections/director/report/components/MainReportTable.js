@@ -45,6 +45,7 @@ export const MainReportTable = ({
             if (el.refuse === false) {
                 prev += (el.product.price * el.pieces)
             }
+            return prev;
         }, 0)
         return servicesTotal + productsTotal
     }

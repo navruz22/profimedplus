@@ -80,7 +80,7 @@ export const DoctorClients = () => {
   //====================================================================
   //====================================================================
 
-    const [clientsType, setClientsType] = useState('offline')
+  const [clientsType, setClientsType] = useState('offline')
 
   //====================================================================
   //====================================================================
@@ -154,8 +154,80 @@ export const DoctorClients = () => {
     [request, auth, notify, indexFirstConnector, indexLastConnector]
   );
 
-  //============================================================
-  //============================================================
+  //===================================================================
+  //===================================================================
+
+  //===================================================================
+  //===================================================================
+  //Get by born date
+
+  const getDoctorClientsByBorn = async (e) => {
+      try {
+        const data = await request(
+          `/api/doctor/clients/getclients`,
+          "POST",
+          {
+            clientborn: new Date(new Date(e)),
+            department: auth?.user?.specialty,
+            clinica: auth && auth.clinica._id,
+          },
+          {
+            Authorization: `Bearer ${auth.token}`,
+          }
+        );
+        setDoctorClients(data);
+        setSearchStorage(data);
+        setCurrentDoctorClients(
+          data.slice(indexFirstConnector, indexLastConnector)
+        );
+      } catch (error) {
+        notify({
+          title: error,
+          description: "",
+          status: "error",
+        });
+      }
+    }
+
+
+  const getStatsionarClientsByBorn = async (e) => {
+      try {
+        const data = await request(
+          `/api/doctor/clients/statsionarclients/get`,
+          "POST",
+          {
+            clientborn: new Date(new Date(e)),
+            department: auth?.user?.specialty,
+            clinica: auth && auth.clinica._id,
+          },
+          {
+            Authorization: `Bearer ${auth.token}`,
+          }
+        );
+        setDoctorClients(data);
+        setSearchStorage(data);
+        setCurrentDoctorClients(
+          data.slice(indexFirstConnector, indexLastConnector)
+        );
+      } catch (error) {
+        notify({
+          title: error,
+          description: "",
+          status: "error",
+        });
+      }
+    }
+
+    const getClientsByBorn = (e) => {
+      if (clientsType === 'offline') {
+        getDoctorClientsByBorn(e)
+      } else {
+        getStatsionarClientsByBorn(e)
+      }
+    }
+
+  //===================================================================
+  //===================================================================
 
   //===================================================================
   //===================================================================
@@ -731,6 +803,7 @@ export const DoctorClients = () => {
               setVisible={setVisible}
               clientsType={clientsType}
               changeClientsType={changeClientsType}
+              getClientsByBorn={getClientsByBorn}
             />
           </div>
         </div>

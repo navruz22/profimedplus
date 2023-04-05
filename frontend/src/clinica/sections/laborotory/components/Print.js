@@ -74,7 +74,7 @@ const Print = ({ client, connector, sections, baseUrl, clinica }) => {
     return (
         <div className="px-2 bg-white">
             <div>
-                <div className="row" style={{ fontSize: "10pt" }}>
+                {clinica?.ifud1 && <div className="row" style={{ fontSize: "10pt" }}>
                     <div
                         className="col-4"
                         style={{ border: "1px solid", textAlign: "center" }}
@@ -105,7 +105,7 @@ const Print = ({ client, connector, sections, baseUrl, clinica }) => {
                             {clinica?.ifud3}
                         </p>
                     </div>
-                </div>
+                </div>}
                 <div className="flex justify-between items-center" style={{ fontSize: "20pt", marginBottom: "30px" }}>
                     <div className="" style={{ textAlign: "center" }}>
                         <pre className="" style={{ fontFamily: "-moz-initial", border: 'none', outline: "none" }}>

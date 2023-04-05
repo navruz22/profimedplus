@@ -351,7 +351,7 @@ const AdoptionTemplate = () => {
       </div>
       <div className="container p-4 bg-white text-center" style={{ fontFamily: "times" }}>
         <div className="px-4">
-          <div className="row" style={{ fontSize: "10pt" }}>
+          {auth?.clinica?.ifud1 && <div className="row" style={{ fontSize: "10pt" }}>
             <div
               className="col-4"
               style={{ border: "1px solid", textAlign: "center" }}
@@ -382,7 +382,7 @@ const AdoptionTemplate = () => {
                {auth?.clinica?.ifud3}
               </p>
             </div>
-          </div>
+          </div>}
           <div className="row" style={{ fontSize: "20pt" }}>
             <div className="col-6 pt-2" style={{ textAlign: "center" }}>
               <pre className="pt-3" style={{ fontFamily: "-moz-initial" }}>
