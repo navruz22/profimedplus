@@ -42,7 +42,7 @@ const AdoptionTemplate = () => {
     state: { client, connector, services },
   } = useLocation();
 
-  
+
   const [sections, setSections] = useState([]);
 
   const [baseUrl, setBaseUrl] = useState()
@@ -147,11 +147,17 @@ const AdoptionTemplate = () => {
     }
   }
 
-  const deleteFile = (file, serviceid) => {
-    setSections([...sections].map(section => {
-      if (section._id === serviceid) {
-        const filterFile = [...section.files].filter(el => el !== file)
-        section.files = filterFile;
+  const deleteFile = (sectionind, file, serviceid) => {
+    setSections([...sections].map((section, ind) => {
+      if (sectionind === ind) {
+        const newServices = [...section.services].map(service => {
+          if (service._id === serviceid) {
+            const filterFile = [...service.files].filter(el => el !== file)
+            service.files = filterFile;
+          }
+          return service
+        })
+        section.services = newServices;
       }
       return section;
     }))
@@ -201,7 +207,7 @@ const AdoptionTemplate = () => {
               return table
             })
             service.tables = tables;
-            service.accept = !service.accept 
+            service.accept = !service.accept
           }
           return service;
         })
@@ -293,7 +299,7 @@ const AdoptionTemplate = () => {
             const cols = Object.keys(service.column).filter(c => c.includes('col') && service.column[c]).length;
             const isExist = servicetypes.findIndex(i => i.servicetype === type && i.cols === cols)
             if (isExist >= 0) {
-              servicetypes[isExist].services.push(service); 
+              servicetypes[isExist].services.push(service);
             } else {
               servicetypes.push({
                 column: service.column,
@@ -379,7 +385,7 @@ const AdoptionTemplate = () => {
               }}
             >
               <p style={{ margin: "0" }}>
-               {auth?.clinica?.ifud3}
+                {auth?.clinica?.ifud3}
               </p>
             </div>
           </div>}
@@ -682,7 +688,7 @@ const AdoptionTemplate = () => {
               }
             })}
         </div>
-        {sections.length > 0 && sections.map((section) => section.services.map((service, ind) => (
+        {sections.length > 0 && sections.map((section, index) => section.services.map((service, ind) => (
           <div
             className='mt-4 mb-2' key={ind}>
             <h2 className="text-[16px] font-bold mb-2">{service.service.name}</h2>
@@ -698,7 +704,7 @@ const AdoptionTemplate = () => {
               {service.files && service.files.map((file) => <div className="w-[400px]">
                 <img src={file} alt='file' />
                 <div className="px-4 pt-2">
-                  <button className="" onClick={() => deleteFile(file, service._id)} >
+                  <button className="" onClick={() => deleteFile(index, file, service._id)} >
                     <FontAwesomeIcon fontSize={16} icon={faTrash} />
                   </button>
                 </div>

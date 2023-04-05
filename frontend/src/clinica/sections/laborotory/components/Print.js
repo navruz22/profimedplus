@@ -7,17 +7,17 @@ const Print = ({ client, connector, sections, baseUrl, clinica }) => {
 
     const [printSections, setPrintSections] = useState([])
 
-    const getWidth = (table) => {
-        if (table.col5) {
-            return `${1280 / 5}px`
-        }
-        if (!table.col5 && table.col4) {
-            return `${1280 / 4}px`
-        }
-        if (table.col3 && !table.col4) {
-            return `${1280 / 3}px`
-        }
-    }
+    // const getWidth = (table) => {
+    //     if (table.col5) {
+    //         return `${1280 / 5}px`
+    //     }
+    //     if (!table.col5 && table.col4) {
+    //         return `${1280 / 4}px`
+    //     }
+    //     if (table.col3 && !table.col4) {
+    //         return `${1280 / 3}px`
+    //     }
+    // }
 
     useEffect(() => {
         if (location.pathname.includes('alo24/adoption')) {
@@ -126,8 +126,8 @@ const Print = ({ client, connector, sections, baseUrl, clinica }) => {
                         </p>
                     </div>
                 </div>
-                <div className="row">
-                    <div className="col-12" style={{ padding: "0" }}>
+                <div className="">
+                    <div className="" style={{ padding: "0" }}>
                         <table
                             style={{
                                 width: "100%",
@@ -154,7 +154,7 @@ const Print = ({ client, connector, sections, baseUrl, clinica }) => {
                                         border: "1px solid #000",
                                     }}
                                 >
-                                    <h4>
+                                    <h4 className='text-[20px]'>
                                         {client && client.lastname + " " + client.firstname}
                                     </h4>
                                 </td>
@@ -285,7 +285,7 @@ const Print = ({ client, connector, sections, baseUrl, clinica }) => {
                     <span className="text-[14px] font-bold">{clinica?.license}</span>
                 </div>
             </div>
-            <div className="pt-2 w-full text-center">
+            <div className="pt-2 w-full text-center mr-6">
                 {printSections.length > 0 &&
                     printSections.map((section, index) => section.services.some(s => s.tables.some(t => t.accept)) && (
                         <div key={index} className={"w-full text-center mb-4"}>
@@ -297,49 +297,49 @@ const Print = ({ client, connector, sections, baseUrl, clinica }) => {
                             <table className="w-full text-center">
                                 <thead>
                                     <tr>
-                                        <th className="border-[1px] border-black bg-gray-400 text-[20px] px-[12px] py-1 text-center">{section?.column?.col1}</th>
-                                        {section?.column?.col2 && <th className="text-[20px] border-[1px] border-black bg-gray-400 px-[12px] py-1 text-center">{section?.column?.col2}</th>}
-                                        {section?.column?.col3 && <th className="text-[20px] border-[1px] border-black bg-gray-400 px-[12px] py-1 text-center">{section?.column?.col3}</th>}
-                                        {section?.column?.col4 && <th className="text-[20px] border-[1px] border-black bg-gray-400 px-[12px] py-1 text-center">{section?.column?.col4}</th>}
-                                        {section?.column?.col5 && <th className="text-[20px] border-[1px] border-black bg-gray-400 px-[12px] py-1 text-center">{section?.column?.col5}</th>}
+                                        <th className="border-[1px] border-black bg-gray-400 text-[18px] px-[12px] py-1 text-center">{section?.column?.col1}</th>
+                                        {section?.column?.col2 && <th className="text-[18px] border-[1px] border-black bg-gray-400 px-[12px] py-1 text-center">{section?.column?.col2}</th>}
+                                        {section?.column?.col3 && <th className="text-[18px] border-[1px] border-black bg-gray-400 px-[12px] py-1 text-center">{section?.column?.col3}</th>}
+                                        {section?.column?.col4 && <th className="text-[18px] border-[1px] border-black bg-gray-400 px-[12px] py-1 text-center">{section?.column?.col4}</th>}
+                                        {section?.column?.col5 && <th className="text-[18px] border-[1px] border-black bg-gray-400 px-[12px] py-1 text-center">{section?.column?.col5}</th>}
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {section?.services && section?.services.map((service, ind) => {
                                         return service.tables.map((table, key) => table.accept && (
                                             <tr key={key} >
-                                                <td className={`border-[1px] text-[20px] border-black py-1 px-[12px]`}> <pre
-                                                    style={{ width: getWidth(table), fontFamily: "sans-serif" }}
+                                                <td className={`border-[1px] text-[16px] border-black py-1 px-[12px]`}> <pre
+                                                    style={{ fontFamily: "sans-serif" }}
                                                     className="border-none outline-none text-left"
                                                 >
                                                     {table?.col1}
                                                 </pre> </td>
-                                                <td className={`border-[1px] text-[20px] border-black py-1 px-[12px]`}>
+                                                <td className={`border-[1px] text-[16px] border-black py-1 px-[12px]`}>
                                                     <pre
-                                                        style={{ width: getWidth(table), fontFamily: "sans-serif" }}
+                                                        style={{fontFamily: "sans-serif" }}
                                                         className="border-none outline-none"
                                                     >
                                                         {table?.col2}
                                                     </pre>
                                                 </td>
-                                                <td className={`border-[1px] text-[20px] border-black py-1 px-[12px]`}>
+                                                <td className={`border-[1px] text-[16px] border-black py-1 px-[12px]`}>
                                                     <pre
-                                                        style={{ width: getWidth(table), fontFamily: "sans-serif" }}
+                                                        style={{ fontFamily: "sans-serif" }}
                                                         className="border-none outline-none"
                                                     >
                                                         {table?.col3}
                                                     </pre>
                                                 </td>
-                                                {section?.column?.col4 && <td className={`border-[1px] text-[20px] border-black py-1 px-[12px]`}>
+                                                {section?.column?.col4 && <td className={`border-[1px] text-[16px] border-black py-1 px-[12px]`}>
                                                     <pre
-                                                        style={{ width: getWidth(table), fontFamily: "sans-serif" }}
+                                                        style={{ fontFamily: "sans-serif" }}
                                                         className="border-none outline-none"
                                                     >
                                                         {table?.col4}
                                                     </pre></td>}
-                                                {section?.column?.col5 && <td className={`border-[1px] text-[20px] border-black py-1 px-[12px]`}>
+                                                {section?.column?.col5 && <td className={`border-[1px] text-[16px] border-black py-1 px-[12px]`}>
                                                     <pre
-                                                        style={{ width: getWidth(table), fontFamily: "sans-serif" }}
+                                                        style={{ fontFamily: "sans-serif" }}
                                                         className="border-none outline-none"
                                                     >
                                                         {table?.col5}
@@ -353,8 +353,8 @@ const Print = ({ client, connector, sections, baseUrl, clinica }) => {
                     ))}
                 {printSections.map((section => <div className='py-[20px]'>
                     <div className="">
-                        {section.services.map(service => service.files && service.files.map((file) => <div className="w-[400px]">
-                            <img src={file} alt='file' />
+                        {section.services.map(service => service.files && service.files.map((file) => <div className="">
+                            <img className='h-[39cm]' src={file} alt='file' />
                         </div>))}
                     </div>
                 </div>))}

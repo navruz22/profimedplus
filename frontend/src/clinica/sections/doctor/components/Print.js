@@ -28,8 +28,8 @@ const Print = ({ client, connector, sections, clinica, baseUrl, doctor }) => {
                         </p>
                     </div>
                 </div>
-                <div className="row">
-                    <div className="col-12" style={{ padding: "0" }}>
+                <div className="">
+                    <div className="" style={{ padding: "0" }}>
                         <table
                             style={{
                                 width: "100%",
@@ -56,7 +56,7 @@ const Print = ({ client, connector, sections, clinica, baseUrl, doctor }) => {
                                         border: "1px solid #000",
                                     }}
                                 >
-                                    <h4>
+                                    <h4 className='text-[20px]'>
                                         {client && client.lastname + " " + client.firstname}
                                     </h4>
                                 </td>
