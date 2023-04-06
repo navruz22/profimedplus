@@ -36,10 +36,6 @@ module.exports.getAll = async (req, res) => {
 
     if (clientborn) {
       connectors = await OfflineConnector.find({
-        createdAt: {
-          $gte: beginDay,
-          $lt: endDay,
-        },
         clinica,
       })
         .select('-__v -updatedAt -isArchive')
@@ -238,10 +234,6 @@ module.exports.getStatsionarAll = async (req, res) => {
 
     if (clientborn) {
       connectors = await StatsionarConnector.find({
-        createdAt: {
-          $gte: beginDay,
-          $lt: endDay,
-        },
         clinica,
       })
         .select('-__v -updatedAt -isArchive')
