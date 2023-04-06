@@ -811,6 +811,8 @@ export const OfflineClients = () => {
                             loading={loading}
                             searchStorage={searchStorage}
                             getConnectorsByClientBorn={getConnectorsByClientBorn}
+                            beginDay={beginDay}
+                            endDay={endDay}
                         />
                     </div>
                 </div>

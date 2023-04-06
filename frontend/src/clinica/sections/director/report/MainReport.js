@@ -424,6 +424,8 @@ const MainReport = () => {
               // setModal2={setModal2}
               loading={loading}
               expenseTotal={expenseTotal}
+              beginDay={beginDay}
+              endDay={endDay}
             />
           </div>
         </div>

@@ -32,7 +32,9 @@ export const TableClients = ({
     setServices,
     setProducts,
     searchStorage,
-    getConnectorsByClientBorn
+    getConnectorsByClientBorn,
+    beginDay,
+    endDay
 }) => {
 
     const getTotalprice = (connector) => {
@@ -340,7 +342,12 @@ export const TableClients = ({
                                             {getTotalprice(connector)}
                                         </td>
                                         <td className="border py-1 text-[16px] text-right">
-                                            {connector.payments.reduce((prev, el) => prev + el.payment, 0)}
+                                            {connector.payments.reduce((prev, el) => {
+                                                if (new Date(el.createdAt) >= new Date(beginDay) && new Date(el.createdAt) <= new Date(endDay)) {
+                                                    prev += el.payment;
+                                                }
+                                                return prev;
+                                            }, 0)}
                                         </td>
                                         <td className="border py-1 text-[16px] text-right">
                                             {(connector?.discount?.discount || 0)}

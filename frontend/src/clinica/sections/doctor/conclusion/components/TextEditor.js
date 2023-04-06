@@ -26,7 +26,7 @@ import {
 import { BsTextCenter, BsTextLeft, BsTextRight } from 'react-icons/bs';
 
 
-const TextEditor = ({ value, onChange }) => {
+const TextEditor = ({ value, onChange, index }) => {
     const editor = useEditor({
         extensions: [
             StarterKit,
@@ -48,7 +48,7 @@ const TextEditor = ({ value, onChange }) => {
         onUpdate: ({ editor }) => {
             const html = editor.getHTML();
             //   handleChangeTemplate(html, index, section._id)
-            onChange(html)
+            onChange(html, index)
         },
     })
 

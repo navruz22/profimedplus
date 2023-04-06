@@ -13,25 +13,25 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                   <ul className="list-unstyled  text-start ml-3 mb-0">
                     <li className='flex items-center mb-2' style={{ fontSize: '11pt', fontFamily: 'times' }}>
                       <div className='mr-2'>
-                        <strong style={{ fontSize: '11pt', fontFamily: 'times' }}>
+                        <strong style={{ color: "black", fontSize: '11pt', fontFamily: 'times' }}>
                           Manzil:{' '}
                         </strong>
                       </div>
-                      <div>
+                      <div style={{color: "black"}}>
                         {clinica && clinica.address}
                       </div>
                     </li>
                     <li className='flex items-center' style={{ textAlign: '', fontSize: '11pt' }}>
                       <div className='mr-2'>
-                        <strong style={{ fontSize: '11pt', fontFamily: 'times' }}>
+                        <strong style={{ color: "black", fontSize: '11pt', fontFamily: 'times' }}>
                           Telefon raqam:{' '}
                         </strong>
                       </div>
-                      <div>
+                      <div style={{color: "black"}}> 
                         {clinica?.phone1}
                       </div>
                     </li>
-                    <li style={{ textAlign: '', fontSize: '11pt' }}>
+                    <li style={{ color: "black", textAlign: '', fontSize: '11pt' }}>
                       {connector.probirka && connector.probirka ? (
                         <h6
                           className="d-inline-block"
@@ -85,7 +85,7 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                 style={{
                   textTransform: 'uppercase',
                   fontFamily: 'times',
-                  fontSize: '14pt',
+                  fontSize: '20px',
                 }}
               >
                 ID: {connector.client && connector.client.id}
@@ -96,7 +96,7 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
             <div className="invoice-from text-center">
               <h6
                 className="d-inline-block"
-                style={{ fontSize: '14pt', fontFamily: 'times' }}
+                style={{ fontSize: '20px', fontFamily: 'times' }}
               >
                 F.I.O: {connector.client && connector.client.lastname}{' '}
                 {connector.client && connector.client.firstname}
@@ -107,7 +107,7 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
             <div className="invoice-from text-center">
               <h6
                 className="d-inline-block"
-                style={{ fontSize: '14pt', fontFamily: 'times' }}
+                style={{ fontSize: '20px', fontFamily: 'times' }}
               >
                 Yil:{' '}
                 {new Date(
@@ -120,7 +120,7 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
             <div className="invoice-from text-right pr-4">
               <h6
                 className="d-inline-block"
-                style={{ fontSize: '14pt', fontFamily: 'times' }}
+                style={{ fontSize: '20px', fontFamily: 'times' }}
               >
                 Tel: +998{connector.client && connector.client.phone}
               </h6>
@@ -134,37 +134,37 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
             >
               <table
                 className="table table-bordered text-dark mt-2"
-                style={{ fontSize: '11pt', fontFamily: 'times' }}
+                style={{ fontSize: '18px', fontFamily: 'times' }}
               >
                 <thead className="text-dark">
                   <tr className="bg-white">
                     <th
                       className="text-center text-black border py-0 "
-                      style={{ fontSize: '11pt', fontFamily: 'times' }}
+                      style={{ fontSize: '18px', fontFamily: 'times' }}
                     >
                       №
                     </th>
                     <th
                       className="text-center text-black border py-0 "
-                      style={{ fontSize: '11pt', fontFamily: 'times' }}
+                      style={{ fontSize: '18px', fontFamily: 'times' }}
                     >
                       Bo'lim
                     </th>
                     <th
                       className="text-center text-black border py-0 "
-                      style={{ fontSize: '11pt', fontFamily: 'times' }}
+                      style={{ fontSize: '18px', fontFamily: 'times' }}
                     >
                       Navbat
                     </th>
                     <th
                       className="text-center text-black border py-0 "
-                      style={{ fontSize: '11pt', fontFamily: 'times' }}
+                      style={{ fontSize: '18px', fontFamily: 'times' }}
                     >
                       Soni
                     </th>
                     <th
                       className="text-center text-black border py-0 "
-                      style={{ fontSize: '11pt', fontFamily: 'times' }}
+                      style={{ fontSize: '18px', fontFamily: 'times' }}
                     >
                       Summasi
                     </th>
@@ -178,7 +178,7 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                           <tr
                             key={index}
                             className="bg-white"
-                            style={{ fontFamily: 'times', fontSize: '12pt' }}
+                            style={{ fontFamily: 'times', fontSize: '18px' }}
                           >
                             <td className="py-0 border text-right font-weight-bold">
                               {index + 1}
@@ -368,25 +368,25 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                   <ul className="list-unstyled  text-start ml-3 mb-0">
                     <li className='flex items-center mb-2' style={{ fontSize: '11pt', fontFamily: 'times' }}>
                       <div className='mr-2'>
-                        <strong style={{ fontSize: '11pt', fontFamily: 'times' }}>
+                        <strong style={{ color: "black", fontSize: '11pt', fontFamily: 'times' }}>
                           Manzil:{' '}
                         </strong>
                       </div>
-                      <div>
+                      <div style={{color: "black"}}>
                         {clinica && clinica.address}
                       </div>
                     </li>
                     <li className='flex items-center' style={{ textAlign: '', fontSize: '11pt' }}>
                       <div className='mr-2'>
-                        <strong style={{ fontSize: '11pt', fontFamily: 'times' }}>
+                        <strong style={{ color: "black", fontSize: '11pt', fontFamily: 'times' }}>
                           Telefon raqam:{' '}
                         </strong>
                       </div>
-                      <div>
-                        {'+998' + clinica?.phone1}
+                      <div style={{color: "black"}}> 
+                        {clinica?.phone1}
                       </div>
                     </li>
-                    <li style={{ textAlign: '', fontSize: '11pt' }}>
+                    <li style={{ color: "black", textAlign: '', fontSize: '11pt' }}>
                       {connector.probirka && connector.probirka ? (
                         <h6
                           className="d-inline-block"
@@ -440,7 +440,7 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                 style={{
                   textTransform: 'uppercase',
                   fontFamily: 'times',
-                  fontSize: '14pt',
+                  fontSize: '20px',
                 }}
               >
                 ID: {connector.client && connector.client.id}
@@ -451,7 +451,7 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
             <div className="invoice-from text-center">
               <h6
                 className="d-inline-block"
-                style={{ fontSize: '14pt', fontFamily: 'times' }}
+                style={{ fontSize: '20px', fontFamily: 'times' }}
               >
                 F.I.O: {connector.client && connector.client.lastname}{' '}
                 {connector.client && connector.client.firstname}
@@ -462,7 +462,7 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
             <div className="invoice-from text-center">
               <h6
                 className="d-inline-block"
-                style={{ fontSize: '14pt', fontFamily: 'times' }}
+                style={{ fontSize: '20px', fontFamily: 'times' }}
               >
                 Yil:{' '}
                 {new Date(
@@ -475,7 +475,7 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
             <div className="invoice-from text-right pr-4">
               <h6
                 className="d-inline-block"
-                style={{ fontSize: '14pt', fontFamily: 'times' }}
+                style={{ fontSize: '20px', fontFamily: 'times' }}
               >
                 Tel: +998{connector.client && connector.client.phone}
               </h6>
@@ -489,37 +489,37 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
             >
               <table
                 className="table table-bordered text-dark mt-2"
-                style={{ fontSize: '11pt', fontFamily: 'times' }}
+                style={{ fontSize: '18px', fontFamily: 'times' }}
               >
                 <thead className="text-dark">
                   <tr className="bg-white">
                     <th
                       className="text-center text-black border py-0 "
-                      style={{ fontSize: '11pt', fontFamily: 'times' }}
+                      style={{ fontSize: '18px', fontFamily: 'times' }}
                     >
                       №
                     </th>
                     <th
                       className="text-center text-black border py-0 "
-                      style={{ fontSize: '11pt', fontFamily: 'times' }}
+                      style={{ fontSize: '18px', fontFamily: 'times' }}
                     >
                       Bo'lim
                     </th>
                     <th
                       className="text-center text-black border py-0 "
-                      style={{ fontSize: '11pt', fontFamily: 'times' }}
+                      style={{ fontSize: '18px', fontFamily: 'times' }}
                     >
                       Navbat
                     </th>
                     <th
                       className="text-center text-black border py-0 "
-                      style={{ fontSize: '11pt', fontFamily: 'times' }}
+                      style={{ fontSize: '18px', fontFamily: 'times' }}
                     >
                       Soni
                     </th>
                     <th
                       className="text-center text-black border py-0 "
-                      style={{ fontSize: '11pt', fontFamily: 'times' }}
+                      style={{ fontSize: '18px', fontFamily: 'times' }}
                     >
                       Summasi
                     </th>
@@ -533,7 +533,7 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                           <tr
                             key={index}
                             className="bg-white"
-                            style={{ fontFamily: 'times', fontSize: '12pt' }}
+                            style={{ fontFamily: 'times', fontSize: '18px' }}
                           >
                             <td className="py-0 border text-right font-weight-bold">
                               {index + 1}
@@ -697,7 +697,7 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                   Chegirma: {connector?.discount?.discount || 0}
                 </div>
                 <div className="text-right text-[16px] font-weight-bold">
-                  Qaytarilgan: {connector && connector.services && connector.products && (connector?.services.reduce((prev, el) => prev + (el.refuse && el.service.price || 0), 0) + connector?.products.reduce((prev, el) => prev + (el.refuse && el.product.price || 0), 0))}
+                  Qaytarilgan: {connector && connector.services && connector.products && (connector.services.reduce((prev, el) => prev + (el.refuse && el.service.price || 0), 0) + connector.products.reduce((prev, el) => prev + (el.refuse && el.product.price || 0), 0))}
                 </div>
                 <div className="text-right text-[16px] font-weight-bold">
                   Qarz: {connector && connector.payments && connector.payments.reduce((prev, el) => prev + el.debt, 0) || 0}

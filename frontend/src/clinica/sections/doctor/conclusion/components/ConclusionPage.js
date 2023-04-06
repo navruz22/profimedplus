@@ -11,8 +11,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 
-const ClientCard = ({ connector, setConnector }) => {
-    console.log(connector?.client?.template);
+const ConclusionPage = ({ connector, onChange, setConnector }) => {
+    console.log(connector?.client?.conclusions);
 
     const componentRef = useRef()
     const handlePrint = useReactToPrint({
@@ -46,11 +46,11 @@ const ClientCard = ({ connector, setConnector }) => {
     //====================================================================
 
     const handleDeleteTemplate = (i) => {
-        const newTemplates = [...connector.client.templates].filter((temp, ind) => ind !== i)
+        const newTemplates = [...connector.client.conclusions].filter((temp, ind) => ind !== i)
         setConnector({
             ...connector, client: {
                 ...connector.client,
-                templates: newTemplates
+                conclusions: newTemplates
             }
         })
     }
@@ -127,7 +127,7 @@ const ClientCard = ({ connector, setConnector }) => {
                     <Select
                         options={temps}
                         onChange={e => {
-                            const newTemp = connector.client.templates ? [...connector.client.templates, {
+                            const newTemp = connector.client.conclusions ? [...connector.client.conclusions, {
                                 name: e.name,
                                 template: e.template
                             }] : [{
@@ -137,7 +137,7 @@ const ClientCard = ({ connector, setConnector }) => {
                             setConnector({
                                 ...connector, client: {
                                     ...connector.client,
-                                    templates: newTemp
+                                    conclusions: newTemp
                                 }
                             })
                         }}
@@ -159,7 +159,7 @@ const ClientCard = ({ connector, setConnector }) => {
                         003- рақамли тиббий хужжат шакли <br />
                     </div>
                 </div>
-                <h1 className="text-center mb-4 text-[18px] font-bold">СТАЦИОНАР БЕМОРНИНГ ТИББИЙ КАРТАСИ №: {connector?.client?.id}</h1>
+                <h1 className="text-center mb-4 text-[18px] font-bold">ТИББИЙ БАЙОННОМАДАН КЎЧИРМА №: {connector?.client?.id}</h1>
                 <div className="col-12" style={{ padding: "0" }}>
                     <table
                         style={{
@@ -333,21 +333,8 @@ const ClientCard = ({ connector, setConnector }) => {
                         </tr>
                     </table>
                 </div>
-                <div className="mb-4 mt-4 text-[16px]">
-                    <p className="font-bold">1. <span className="mr-[20px]">Қон гурухи: {connector?.client?.bloodgroup}</span>  резус мансублиги: {connector?.client?.rezus}</p>
-                    <p className="font-bold">2. Дориларнинг ножўя таЪсири: {connector?.client?.medicineresult}</p>
-                    <p className="font-bold">3. <span className="mr-[30px]">Бўйи: {connector?.client?.height},</span> <span className="mr-[30px]">вазни: {connector?.client?.weight},</span> тана харорати: {connector?.client?.temperature}</p>
-                    <p className="font-bold">4. Қариндошларнинг яшаш жойи ва телефон рақамлари: {connector?.client?.relative_info}</p>
-                    <p className="font-bold">5. Иш жойи, касби, лавозими: {connector?.client?.profession_info}</p>
-                    <p className="font-bold">6. Бемор қаердан юборилган: {connector?.client?.sending_info}</p>
-                    <p className="font-bold">7. Касалхонага шошилинч равишда келтирилган: {connector?.client?.isAmbulance}</p>
-                    <p className="font-bold">8. Қандай транспортда келтирилган: {connector?.client?.ambulance_transport}</p>
-                    <p className="font-bold">9. Касаллик бошлангандан сўнг утган вақт, жарохатдан сўнг: {connector?.client?.start_sickness}</p>
-                    <p className="font-bold">10. Бемор йўлланмасидаги ташҳис: {connector?.client?.conter_diagnosis}</p>
-                    <p className="font-bold">11. Қабулхонада қуйилган ташҳис: {connector?.client?.diagnosis}</p>
-                </div>
                 <div>
-                    {connector.client?.templates && connector.client?.templates.map((t, i) =>
+                    {connector.client?.conclusions && connector.client?.conclusions.map((t, i) =>
                         <div>
                             <div className="flex justify-between items-center py-2 px-4">
                                 <div className="flex justify-between items-center">
@@ -361,7 +348,7 @@ const ClientCard = ({ connector, setConnector }) => {
                             <TextEditor
                                 value={t.template}
                                 onChange={(html, key) => {
-                                    const newTemplates = [...connector.client.templates].map((temp, index) => {
+                                    const newTemplates = [...connector.client.conclusions].map((temp, index) => {
                                         if (index === i) {
                                             temp.template = html
                                         }
@@ -370,7 +357,7 @@ const ClientCard = ({ connector, setConnector }) => {
                                     setConnector({
                                         ...connector, client: {
                                             ...connector.client,
-                                            templates: newTemplates
+                                            conclusions: newTemplates
                                         }
                                     })
                                 }}
@@ -592,7 +579,7 @@ const ClientCard = ({ connector, setConnector }) => {
                         <p className="font-bold">11. Қабулхонада қуйилган ташҳис: {connector?.client?.diagnosis}</p>
                     </div>
                     <div className="print_word">
-                        {connector.client?.templates && connector.client.templates.map(t => ReactHtmlParser(t.template))}
+                        {connector.client?.conclusions && connector.client.conclusions.map(t => ReactHtmlParser(t.template))}
                     </div>
                 </div>
             </div>
@@ -600,5 +587,4 @@ const ClientCard = ({ connector, setConnector }) => {
     )
 }
 
-
-export default ClientCard
+export default ConclusionPage;

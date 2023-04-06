@@ -37,7 +37,7 @@ const Print = ({ client, connector, sections, baseUrl, clinica }) => {
                     if (service.serviceid.servicetype.name === type && service.tables.length <= 2) {
                       const cols = Object.keys(service.column).filter(c => c.includes('col') && service.column[c]).length;
                       const isExist = servicetypes.findIndex(i => i.servicetype === type && i.cols === cols)
-                      if (isExist > 0) {
+                      if (isExist >= 0) {
                         servicetypes[isExist].services.push(service); 
                       } else {
                         servicetypes.push({
@@ -106,7 +106,7 @@ const Print = ({ client, connector, sections, baseUrl, clinica }) => {
                         </p>
                     </div>
                 </div>}
-                <div className="flex justify-between items-center" style={{ fontSize: "20pt", marginBottom: "30px" }}>
+                <div className="flex justify-between items-center" style={{ fontSize: "20pt", marginBottom: "10px" }}>
                     <div className="" style={{ textAlign: "center" }}>
                         <pre className="" style={{ fontFamily: "-moz-initial", border: 'none', outline: "none" }}>
                             {clinica?.name}
@@ -288,9 +288,9 @@ const Print = ({ client, connector, sections, baseUrl, clinica }) => {
             <div className="pt-2 w-full text-center mr-6">
                 {printSections.length > 0 &&
                     printSections.map((section, index) => section.services.some(s => s.tables.some(t => t.accept)) && (
-                        <div key={index} className={"w-full text-center mb-4"}>
-                            <div className="w-full flex justify-center items-center mb-4">
-                                <h2 className="block text-[24px] font-bold">
+                        <div key={index} className={"w-full text-center mb-1"}>
+                            <div className="w-full flex justify-center items-center mb-1">
+                                <h2 className="block text-[20px] font-bold">
                                     {section?.servicetype}
                                 </h2>
                             </div>

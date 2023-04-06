@@ -100,5 +100,22 @@ router.post('/conclusion/client_info/get', (req, res) => {
     require('./conclusion').getClientInfo(req, res);
 })
 
+router.post('/conclusion/client/save', (req, res) => {
+    require('./conclusion').save(req, res)
+})
+
+
+router.post('/conclusion/template/create', (req, res) => {
+    require('./conclusion').createTemp(req, res);
+})
+
+router.post('/conclusion/template/get', (req, res) => {
+    require('./conclusion').getTemps(req, res);
+})
+
+router.post('/conclusion/template/delete', (req, res) => {
+    require('./conclusion').delete(req, res);
+})
+
 
 module.exports = router

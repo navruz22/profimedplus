@@ -31,7 +31,9 @@ export const MainReportTable = ({
     setServices,
     setProducts,
     searchStorage,
-    expenseTotal
+    expenseTotal,
+    beginDay,
+    endDay
 }) => {
 
     const getTotalprice = (connector) => {
@@ -154,669 +156,709 @@ export const MainReportTable = ({
                                 />
                             </div>
                         </div>
-                        </div>
-                        <table className="table m-0 table-sm">
-                            <thead>
-                                <tr>
-                                    <th className="border py-1 bg-alotrade text-[16px]">№</th>
-                                    <th className="border py-1 bg-alotrade text-[16px]">
-                                        F.I.O
-                                        <div className="btn-group-vertical ml-2">
-                                            <FontAwesomeIcon
-                                                onClick={() =>
-                                                    setCurrentConnectors(
-                                                        [...currentConnectors].sort((a, b) =>
-                                                            a.client.fullname > b.client.fullname ? 1 : -1
-                                                        )
-                                                    )
-                                                }
-                                                icon={faAngleUp}
-                                                style={{ cursor: "pointer" }}
-                                            />
-                                            <FontAwesomeIcon
-                                                icon={faAngleDown}
-                                                style={{ cursor: "pointer" }}
-                                                onClick={() =>
-                                                    setCurrentConnectors(
-                                                        [...currentConnectors].sort((a, b) =>
-                                                            b.client.fullname > a.client.fullname ? 1 : -1
-                                                        )
-                                                    )
-                                                }
-                                            />
-                                        </div>
-                                    </th>
-                                    <th className="border py-1 bg-alotrade text-[16px]">Tel</th>
-                                    <th className="border py-1 bg-alotrade text-[16px]">
-                                        ID
-                                        <div className="btn-group-vertical ml-2">
-                                            <FontAwesomeIcon
-                                                onClick={() =>
-                                                    setCurrentConnectors(
-                                                        [...currentConnectors].sort((a, b) =>
-                                                            a.client.id > b.client.id ? 1 : -1
-                                                        )
-                                                    )
-                                                }
-                                                icon={faAngleUp}
-                                                style={{ cursor: "pointer" }}
-                                            />
-                                            <FontAwesomeIcon
-                                                icon={faAngleDown}
-                                                style={{ cursor: "pointer" }}
-                                                onClick={() =>
-                                                    setCurrentConnectors(
-                                                        [...currentConnectors].sort((a, b) =>
-                                                            b.client.id > a.client.id ? 1 : -1
-                                                        )
-                                                    )
-                                                }
-                                            />
-                                        </div>
-                                    </th>
-                                    <th className="border py-1 bg-alotrade text-[16px]">
-                                        Probirka
-                                        <Sort
-                                            data={currentConnectors}
-                                            setData={setCurrentConnectors}
-                                            property={"probirka"}
-                                        />
-                                    </th>
-                                    <th className="border py-1 bg-alotrade text-[16px]">
-                                        To'lov summasi
-                                        <Sort
-                                            data={currentConnectors}
-                                            setData={setCurrentConnectors}
-                                            property={"totalprice"}
-                                        />
-                                    </th>
-                                    <th className="border py-1 bg-alotrade text-[16px]">
-                                        To'langan
-                                        <Sort
-                                            data={currentConnectors}
-                                            setData={setCurrentConnectors}
-                                            property={"totalprice"}
-                                        />
-                                    </th>
-                                    <th className="border py-1 bg-alotrade text-[16px]">
-                                        Naqt
-                                        <div className="btn-group-vertical ml-2">
-                                            <FontAwesomeIcon
-                                                onClick={() =>
-                                                    setCurrentConnectors(
-                                                        [...currentConnectors].sort((a, b) =>
-                                                            a.services.length > b.services.length ? 1 : -1
-                                                        )
-                                                    )
-                                                }
-                                                icon={faAngleUp}
-                                                style={{ cursor: "pointer" }}
-                                            />
-                                            <FontAwesomeIcon
-                                                icon={faAngleDown}
-                                                style={{ cursor: "pointer" }}
-                                                onClick={() =>
-                                                    setCurrentConnectors(
-                                                        [...currentConnectors].sort((a, b) =>
-                                                            b.services.length > a.services.length ? 1 : -1
-                                                        )
-                                                    )
-                                                }
-                                            />
-                                        </div>
-                                    </th>
-                                    <th className="border py-1 bg-alotrade text-[16px]">
-                                        Plastik
-                                        <Sort
-                                            data={currentConnectors}
-                                            setData={setCurrentConnectors}
-                                            property={"createdAt"}
-                                        />
-                                    </th>
-                                    <th className="border py-1 bg-alotrade text-[16px]">
-                                        O'tkazma
-                                        <Sort
-                                            data={currentConnectors}
-                                            setData={setCurrentConnectors}
-                                            property={"createdAt"}
-                                        />
-                                    </th>
-                                    <th className="border py-1 bg-alotrade text-[16px]">
-                                        Qarz
-                                        <Sort
-                                            data={currentConnectors}
-                                            setData={setCurrentConnectors}
-                                            property={"createdAt"}
-                                        />
-                                    </th>
-                                    <th className="border py-1 bg-alotrade text-[16px]">
-                                        Chegirma
-                                        <Sort
-                                            data={currentConnectors}
-                                            setData={setCurrentConnectors}
-                                            property={"createdAt"}
-                                        />
-                                    </th>
-                                    <th className="border py-1 bg-alotrade text-[16px]">
-                                        Qarzdan to'lov
-                                        <Sort
-                                            data={currentConnectors}
-                                            setData={setCurrentConnectors}
-                                            property={"createdAt"}
-                                        />
-                                    </th>
-                                    <th className="border py-1 bg-alotrade text-[16px]">
-                                        Qaytarilgan summa
-                                        <Sort
-                                            data={currentConnectors}
-                                            setData={setCurrentConnectors}
-                                            property={"createdAt"}
-                                        />
-                                    </th>
-                                    <th className="border py-1 bg-alotrade text-[16px]">
-                                        Check
-                                        <div className="btn-group-vertical ml-2">
-                                            <Sort
-                                                data={currentConnectors}
-                                                setData={setCurrentConnectors}
-                                                property={"counterAgentProcient"}
-                                            />
-                                        </div>
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {currentConnectors.map((connector, key) => {
-                                    return (
-                                        <tr key={key}>
-                                            <td
-                                                className={`${setPosition(connector)} border py-1 font-weight-bold text-right text-[16px]`}
-                                                style={{ maxWidth: "30px !important" }}
-                                            >
-                                                {currentPage * countPage + key + 1}
-                                            </td>
-                                            <td className="border py-1 text-[16px] font-weight-bold">
-                                                {connector.client.lastname +
-                                                    " " +
-                                                    connector.client.firstname}
-                                            </td>
-                                            <td className="border py-1 text-[16px] text-right">
-                                                +998{connector.client.phone}
-                                            </td>
-                                            <td className="border py-1 text-[16px] text-right">
-                                                {connector.client.id}
-                                            </td>
-                                            <td className="border py-1 text-[16px] text-right">
-                                                {connector.probirka}
-                                            </td>
-                                            <td className="border py-1 text-[16px] text-right">
-                                                {getTotalprice(connector)}
-                                            </td>
-                                            <td className="border py-1 text-[16px] text-right">
-                                                {connector.payments.reduce((prev, el) => prev + el.payment, 0)}
-                                            </td>
-                                            <td className="border py-1 text-[16px] text-right">
-                                                {connector.payments.reduce((prev, el) => prev + el.cash, 0)}
-                                            </td>
-                                            <td className="border py-1 text-[16px] text-right">
-                                                {connector.payments.reduce((prev, el) => prev + el.card, 0)}
-                                            </td>
-                                            <td className="border py-1 text-[16px] text-right">
-                                                {connector.payments.reduce((prev, el) => prev + el.transfer, 0)}
-                                            </td>
-                                            <td className="border py-1 text-[16px] text-right">
-                                                {getDebt(connector)}
-                                            </td>
-                                            <td className="border py-1 text-[16px] text-right">
-                                                {(connector?.discount?.discount || 0)}
-                                            </td>
-                                            <td className="border py-1 text-[16px] text-right">
-                                                {connector.payments.reduce((prev, el) => {
-                                                    if (el.isPayDebt) {
-                                                        prev += el.payment;
-                                                    }
-                                                    return prev;
-                                                }, 0)}
-                                            </td>
-                                            <td className="border py-1 text-[16px] text-right">
-                                                {(connector.services.reduce((prev, el) => prev + (el.refuse && el.service.price || 0), 0) +
-                                                    connector.products.reduce((prev, el) => prev + (el.refuse && el.product.price || 0), 0))}
-                                            </td>
-                                            <td className="border py-1 text-[16px] text-center">
-                                                {loading ? (
-                                                    <button className="btn btn-success" disabled>
-                                                        <span className="spinner-border spinner-border-sm"></span>
-                                                        Loading...
-                                                    </button>
-                                                ) : (
-                                                    <button
-                                                        className="btn btn-primary py-0"
-                                                        onClick={() => {
-                                                            setCheck(connector);
-                                                            setModal1(true);
-                                                        }}
-                                                    >
-                                                        <FontAwesomeIcon icon={faPrint} />
-                                                    </button>
-                                                )}
-                                            </td>
-                                        </tr>
-                                    );
-                                })}
-                                <tr>
-                                    <td
-                                        colSpan={3}
-                                        className={`py-1 font-weight-bold text-[16px]`}
-                                    >
-                                        <div className="flex justify-between">
-                                            <div>Qoldiq: {searchStorage.reduce((prev, connector) => {
-                                                let payments = connector.payments.reduce((prev, el) => prev + el.payment, 0)
-                                                return prev + payments
-                                            }, 0) - expenseTotal}</div>
-                                            <div>
-                                                Xarajat: {expenseTotal}
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td className="border py-1 text-[16px] text-right font-bold">
-                                    </td>
-                                    <td className="border py-1 text-[16px] text-right font-bold">
-                                    </td>
-                                    <td className="border py-1 text-[16px] text-right font-bold">
-                                        {searchStorage.reduce((prev, el) => {
-                                            return prev + getTotalprice(el)
-                                        }, 0)}
-                                    </td>
-                                    <td className="border py-1 text-[16px] font-bold text-right">
-                                        {searchStorage.reduce((prev, el) => {
-                                            return prev + el.payments.reduce((prev, el) => prev + el.payment, 0)
-                                        }, 0)}
-                                    </td>
-                                    <td className="border py-1 text-[16px] font-bold text-right">
-                                        {searchStorage.reduce((prev, el) => {
-                                            return prev + el.payments.reduce((prev, el) => prev + el.cash, 0)
-                                        }, 0)}
-                                    </td>
-                                    <td className="border py-1 text-[16px] font-bold text-right">
-                                        {searchStorage.reduce((prev, el) => {
-                                            return prev + el.payments.reduce((prev, el) => prev + el.card, 0)
-                                        }, 0)}
-                                    </td>
-                                    <td className="border py-1 text-[16px] font-bold text-right">
-                                        {searchStorage.reduce((prev, el) => {
-                                            return prev + el.payments.reduce((prev, el) => prev + el.transfer, 0)
-                                        }, 0)}
-                                    </td>
-                                    <td className="border py-1 text-[16px] font-bold text-right">
-                                        {searchStorage.reduce((prev, el) => {
-                                            return prev + el.payments.reduce((prev, el) => prev + el.debt, 0)
-                                        }, 0)}
-                                    </td>
-                                    <td className="border py-1 text-[16px] font-bold text-right">
-                                        {searchStorage.reduce((prev, el) => prev + (el?.discount?.discount || 0), 0)}
-                                    </td>
-                                    <td className="border py-1 text-[16px] font-bold text-right">
-                                        {searchStorage.reduce((prev, el) => {
-                                            return prev + el.payments.reduce((prev, el) => {
-                                                if (el.isPayDebt) {
-                                                    prev += el.payment;
-                                                }
-                                                return prev;
-                                            }, 0)
-                                        }, 0)}
-                                    </td>
-                                    <td className="border py-1 text-[16px] font-bold text-right">
-                                        {searchStorage.reduce((prev, el) => {
-                                            return prev + el.services.reduce((prev, el) => {
-                                                if (el.refuse) {
-                                                    prev += el.service.price;
-                                                }
-                                                return prev;
-                                            }, 0)
-                                        }, 0) + searchStorage.reduce((prev, el) => {
-                                            return prev + el.products.reduce((prev, el) => {
-                                                if (el.refuse) {
-                                                    prev += el.product.price;
-                                                }
-                                                return prev;
-                                            }, 0)
-                                        }, 0)}
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <table className="table m-0 table-sm d-none" id="mainreport-table">
-                            <thead>
-                                <tr>
-                                    <th className="border py-1 bg-alotrade text-[16px]">№</th>
-                                    <th className="border py-1 bg-alotrade text-[16px]">
-                                        F.I.O
-                                        <div className="btn-group-vertical ml-2">
-                                            <FontAwesomeIcon
-                                                onClick={() =>
-                                                    setCurrentConnectors(
-                                                        [...currentConnectors].sort((a, b) =>
-                                                            a.client.fullname > b.client.fullname ? 1 : -1
-                                                        )
-                                                    )
-                                                }
-                                                icon={faAngleUp}
-                                                style={{ cursor: "pointer" }}
-                                            />
-                                            <FontAwesomeIcon
-                                                icon={faAngleDown}
-                                                style={{ cursor: "pointer" }}
-                                                onClick={() =>
-                                                    setCurrentConnectors(
-                                                        [...currentConnectors].sort((a, b) =>
-                                                            b.client.fullname > a.client.fullname ? 1 : -1
-                                                        )
-                                                    )
-                                                }
-                                            />
-                                        </div>
-                                    </th>
-                                    <th className="border py-1 bg-alotrade text-[16px]">Tel</th>
-                                    <th className="border py-1 bg-alotrade text-[16px]">
-                                        ID
-                                        <div className="btn-group-vertical ml-2">
-                                            <FontAwesomeIcon
-                                                onClick={() =>
-                                                    setCurrentConnectors(
-                                                        [...currentConnectors].sort((a, b) =>
-                                                            a.client.id > b.client.id ? 1 : -1
-                                                        )
-                                                    )
-                                                }
-                                                icon={faAngleUp}
-                                                style={{ cursor: "pointer" }}
-                                            />
-                                            <FontAwesomeIcon
-                                                icon={faAngleDown}
-                                                style={{ cursor: "pointer" }}
-                                                onClick={() =>
-                                                    setCurrentConnectors(
-                                                        [...currentConnectors].sort((a, b) =>
-                                                            b.client.id > a.client.id ? 1 : -1
-                                                        )
-                                                    )
-                                                }
-                                            />
-                                        </div>
-                                    </th>
-                                    <th className="border py-1 bg-alotrade text-[16px]">
-                                        Probirka
-                                        <Sort
-                                            data={currentConnectors}
-                                            setData={setCurrentConnectors}
-                                            property={"probirka"}
-                                        />
-                                    </th>
-                                    <th className="border py-1 bg-alotrade text-[16px]">
-                                        To'lov summasi
-                                        <Sort
-                                            data={currentConnectors}
-                                            setData={setCurrentConnectors}
-                                            property={"totalprice"}
-                                        />
-                                    </th>
-                                    <th className="border py-1 bg-alotrade text-[16px]">
-                                        To'langan
-                                        <Sort
-                                            data={currentConnectors}
-                                            setData={setCurrentConnectors}
-                                            property={"totalprice"}
-                                        />
-                                    </th>
-                                    <th className="border py-1 bg-alotrade text-[16px]">
-                                        Naqt
-                                        <div className="btn-group-vertical ml-2">
-                                            <FontAwesomeIcon
-                                                onClick={() =>
-                                                    setCurrentConnectors(
-                                                        [...currentConnectors].sort((a, b) =>
-                                                            a.services.length > b.services.length ? 1 : -1
-                                                        )
-                                                    )
-                                                }
-                                                icon={faAngleUp}
-                                                style={{ cursor: "pointer" }}
-                                            />
-                                            <FontAwesomeIcon
-                                                icon={faAngleDown}
-                                                style={{ cursor: "pointer" }}
-                                                onClick={() =>
-                                                    setCurrentConnectors(
-                                                        [...currentConnectors].sort((a, b) =>
-                                                            b.services.length > a.services.length ? 1 : -1
-                                                        )
-                                                    )
-                                                }
-                                            />
-                                        </div>
-                                    </th>
-                                    <th className="border py-1 bg-alotrade text-[16px]">
-                                        Plastik
-                                        <Sort
-                                            data={currentConnectors}
-                                            setData={setCurrentConnectors}
-                                            property={"createdAt"}
-                                        />
-                                    </th>
-                                    <th className="border py-1 bg-alotrade text-[16px]">
-                                        O'tkazma
-                                        <Sort
-                                            data={currentConnectors}
-                                            setData={setCurrentConnectors}
-                                            property={"createdAt"}
-                                        />
-                                    </th>
-                                    <th className="border py-1 bg-alotrade text-[16px]">
-                                        Qarz
-                                        <Sort
-                                            data={currentConnectors}
-                                            setData={setCurrentConnectors}
-                                            property={"createdAt"}
-                                        />
-                                    </th>
-                                    <th className="border py-1 bg-alotrade text-[16px]">
-                                        Chegirma
-                                        <Sort
-                                            data={currentConnectors}
-                                            setData={setCurrentConnectors}
-                                            property={"createdAt"}
-                                        />
-                                    </th>
-                                    <th className="border py-1 bg-alotrade text-[16px]">
-                                        Qarzdan to'lov
-                                        <Sort
-                                            data={currentConnectors}
-                                            setData={setCurrentConnectors}
-                                            property={"createdAt"}
-                                        />
-                                    </th>
-                                    <th className="border py-1 bg-alotrade text-[16px]">
-                                        Qaytarilgan summa
-                                        <Sort
-                                            data={currentConnectors}
-                                            setData={setCurrentConnectors}
-                                            property={"createdAt"}
-                                        />
-                                    </th>
-                                    <th className="border py-1 bg-alotrade text-[16px]">
-                                        Check
-                                        <div className="btn-group-vertical ml-2">
-                                            <Sort
-                                                data={currentConnectors}
-                                                setData={setCurrentConnectors}
-                                                property={"counterAgentProcient"}
-                                            />
-                                        </div>
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {searchStorage.map((connector, key) => {
-                                    return (
-                                        <tr key={key}>
-                                            <td
-                                                className={`${setPosition(connector)} border py-1 font-weight-bold text-right text-[16px]`}
-                                                style={{ maxWidth: "30px !important" }}
-                                            >
-                                                {currentPage * countPage + key + 1}
-                                            </td>
-                                            <td className="border py-1 text-[16px] font-weight-bold">
-                                                {connector.client.lastname +
-                                                    " " +
-                                                    connector.client.firstname}
-                                            </td>
-                                            <td className="border py-1 text-[16px] text-right">
-                                                +998{connector.client.phone}
-                                            </td>
-                                            <td className="border py-1 text-[16px] text-right">
-                                                {connector.client.id}
-                                            </td>
-                                            <td className="border py-1 text-[16px] text-right">
-                                                {connector.probirka}
-                                            </td>
-                                            <td className="border py-1 text-[16px] text-right">
-                                                {getTotalprice(connector)}
-                                            </td>
-                                            <td className="border py-1 text-[16px] text-right">
-                                                {connector.payments.reduce((prev, el) => prev + el.payment, 0)}
-                                            </td>
-                                            <td className="border py-1 text-[16px] text-right">
-                                                {connector.payments.reduce((prev, el) => prev + el.cash, 0)}
-                                            </td>
-                                            <td className="border py-1 text-[16px] text-right">
-                                                {connector.payments.reduce((prev, el) => prev + el.card, 0)}
-                                            </td>
-                                            <td className="border py-1 text-[16px] text-right">
-                                                {connector.payments.reduce((prev, el) => prev + el.transfer, 0)}
-                                            </td>
-                                            <td className="border py-1 text-[16px] text-right">
-                                                {getDebt(connector)}
-                                            </td>
-                                            <td className="border py-1 text-[16px] text-right">
-                                                {(connector?.discount?.discount || 0)}
-                                            </td>
-                                            <td className="border py-1 text-[16px] text-right">
-                                                {connector.payments.reduce((prev, el) => {
-                                                    if (el.isPayDebt) {
-                                                        prev += el.payment;
-                                                    }
-                                                    return prev;
-                                                }, 0)}
-                                            </td>
-                                            <td className="border py-1 text-[16px] text-right">
-                                                {(connector.services.reduce((prev, el) => prev + (el.refuse && el.service.price || 0), 0) +
-                                                    connector.products.reduce((prev, el) => prev + (el.refuse && el.product.price || 0), 0))}
-                                            </td>
-                                            <td className="border py-1 text-[16px] text-center">
-                                                {loading ? (
-                                                    <button className="btn btn-success" disabled>
-                                                        <span className="spinner-border spinner-border-sm"></span>
-                                                        Loading...
-                                                    </button>
-                                                ) : (
-                                                    <button
-                                                        className="btn btn-primary py-0"
-                                                        onClick={() => {
-                                                            setCheck(connector);
-                                                            setModal1(true);
-                                                        }}
-                                                    >
-                                                        <FontAwesomeIcon icon={faPrint} />
-                                                    </button>
-                                                )}
-                                            </td>
-                                        </tr>
-                                    );
-                                })}
-                                <tr>
-                                    <td
-                                        colSpan={3}
-                                        className={`py-1 font-weight-bold text-[16px]`}
-                                    >
-                                        <div className="flex justify-between">
-                                            <div>Qoldiq: {searchStorage.reduce((prev, connector) => {
-                                                let payments = connector.payments.reduce((prev, el) => prev + el.payment, 0)
-                                                return prev + payments
-                                            }, 0) - expenseTotal}</div>
-                                            <div>
-                                                Xarajat: {expenseTotal}
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td className="border py-1 text-[16px] text-right font-bold">
-                                    </td>
-                                    <td className="border py-1 text-[16px] text-right font-bold">
-                                    </td>
-                                    <td className="border py-1 text-[16px] text-right font-bold">
-                                        {searchStorage.reduce((prev, el) => {
-                                            return prev + getTotalprice(el)
-                                        }, 0)}
-                                    </td>
-                                    <td className="border py-1 text-[16px] font-bold text-right">
-                                        {searchStorage.reduce((prev, el) => {
-                                            return prev + el.payments.reduce((prev, el) => prev + el.payment, 0)
-                                        }, 0)}
-                                    </td>
-                                    <td className="border py-1 text-[16px] font-bold text-right">
-                                        {searchStorage.reduce((prev, el) => {
-                                            return prev + el.payments.reduce((prev, el) => prev + el.cash, 0)
-                                        }, 0)}
-                                    </td>
-                                    <td className="border py-1 text-[16px] font-bold text-right">
-                                        {searchStorage.reduce((prev, el) => {
-                                            return prev + el.payments.reduce((prev, el) => prev + el.card, 0)
-                                        }, 0)}
-                                    </td>
-                                    <td className="border py-1 text-[16px] font-bold text-right">
-                                        {searchStorage.reduce((prev, el) => {
-                                            return prev + el.payments.reduce((prev, el) => prev + el.transfer, 0)
-                                        }, 0)}
-                                    </td>
-                                    <td className="border py-1 text-[16px] font-bold text-right">
-                                        {searchStorage.reduce((prev, el) => {
-                                            return prev + el.payments.reduce((prev, el) => prev + el.debt, 0)
-                                        }, 0)}
-                                    </td>
-                                    <td className="border py-1 text-[16px] font-bold text-right">
-                                        {searchStorage.reduce((prev, el) => prev + (el?.discount?.discount || 0), 0)}
-                                    </td>
-                                    <td className="border py-1 text-[16px] font-bold text-right">
-                                        {searchStorage.reduce((prev, el) => {
-                                            return prev + el.payments.reduce((prev, el) => {
-                                                if (el.isPayDebt) {
-                                                    prev += el.payment;
-                                                }
-                                                return prev;
-                                            }, 0)
-                                        }, 0)}
-                                    </td>
-                                    <td className="border py-1 text-[16px] font-bold text-right">
-                                        {searchStorage.reduce((prev, el) => {
-                                            return prev + el.services.reduce((prev, el) => {
-                                                if (el.refuse) {
-                                                    prev += el.service.price;
-                                                }
-                                                return prev;
-                                            }, 0)
-                                        }, 0) + searchStorage.reduce((prev, el) => {
-                                            return prev + el.products.reduce((prev, el) => {
-                                                if (el.refuse) {
-                                                    prev += el.product.price;
-                                                }
-                                                return prev;
-                                            }, 0)
-                                        }, 0)}
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
                     </div>
+                    <table className="table m-0 table-sm">
+                        <thead>
+                            <tr>
+                                <th className="border py-1 bg-alotrade text-[16px]">№</th>
+                                <th className="border py-1 bg-alotrade text-[16px]">
+                                    F.I.O
+                                    <div className="btn-group-vertical ml-2">
+                                        <FontAwesomeIcon
+                                            onClick={() =>
+                                                setCurrentConnectors(
+                                                    [...currentConnectors].sort((a, b) =>
+                                                        a.client.fullname > b.client.fullname ? 1 : -1
+                                                    )
+                                                )
+                                            }
+                                            icon={faAngleUp}
+                                            style={{ cursor: "pointer" }}
+                                        />
+                                        <FontAwesomeIcon
+                                            icon={faAngleDown}
+                                            style={{ cursor: "pointer" }}
+                                            onClick={() =>
+                                                setCurrentConnectors(
+                                                    [...currentConnectors].sort((a, b) =>
+                                                        b.client.fullname > a.client.fullname ? 1 : -1
+                                                    )
+                                                )
+                                            }
+                                        />
+                                    </div>
+                                </th>
+                                <th className="border py-1 bg-alotrade text-[16px]">Tel</th>
+                                <th className="border py-1 bg-alotrade text-[16px]">
+                                    ID
+                                    <div className="btn-group-vertical ml-2">
+                                        <FontAwesomeIcon
+                                            onClick={() =>
+                                                setCurrentConnectors(
+                                                    [...currentConnectors].sort((a, b) =>
+                                                        a.client.id > b.client.id ? 1 : -1
+                                                    )
+                                                )
+                                            }
+                                            icon={faAngleUp}
+                                            style={{ cursor: "pointer" }}
+                                        />
+                                        <FontAwesomeIcon
+                                            icon={faAngleDown}
+                                            style={{ cursor: "pointer" }}
+                                            onClick={() =>
+                                                setCurrentConnectors(
+                                                    [...currentConnectors].sort((a, b) =>
+                                                        b.client.id > a.client.id ? 1 : -1
+                                                    )
+                                                )
+                                            }
+                                        />
+                                    </div>
+                                </th>
+                                <th className="border py-1 bg-alotrade text-[16px]">
+                                    Probirka
+                                    <Sort
+                                        data={currentConnectors}
+                                        setData={setCurrentConnectors}
+                                        property={"probirka"}
+                                    />
+                                </th>
+                                <th className="border py-1 bg-alotrade text-[16px]">
+                                    To'lov summasi
+                                    <Sort
+                                        data={currentConnectors}
+                                        setData={setCurrentConnectors}
+                                        property={"totalprice"}
+                                    />
+                                </th>
+                                <th className="border py-1 bg-alotrade text-[16px]">
+                                    To'langan
+                                    <Sort
+                                        data={currentConnectors}
+                                        setData={setCurrentConnectors}
+                                        property={"totalprice"}
+                                    />
+                                </th>
+                                <th className="border py-1 bg-alotrade text-[16px]">
+                                    Naqt
+                                    <div className="btn-group-vertical ml-2">
+                                        <FontAwesomeIcon
+                                            onClick={() =>
+                                                setCurrentConnectors(
+                                                    [...currentConnectors].sort((a, b) =>
+                                                        a.services.length > b.services.length ? 1 : -1
+                                                    )
+                                                )
+                                            }
+                                            icon={faAngleUp}
+                                            style={{ cursor: "pointer" }}
+                                        />
+                                        <FontAwesomeIcon
+                                            icon={faAngleDown}
+                                            style={{ cursor: "pointer" }}
+                                            onClick={() =>
+                                                setCurrentConnectors(
+                                                    [...currentConnectors].sort((a, b) =>
+                                                        b.services.length > a.services.length ? 1 : -1
+                                                    )
+                                                )
+                                            }
+                                        />
+                                    </div>
+                                </th>
+                                <th className="border py-1 bg-alotrade text-[16px]">
+                                    Plastik
+                                    <Sort
+                                        data={currentConnectors}
+                                        setData={setCurrentConnectors}
+                                        property={"createdAt"}
+                                    />
+                                </th>
+                                <th className="border py-1 bg-alotrade text-[16px]">
+                                    O'tkazma
+                                    <Sort
+                                        data={currentConnectors}
+                                        setData={setCurrentConnectors}
+                                        property={"createdAt"}
+                                    />
+                                </th>
+                                <th className="border py-1 bg-alotrade text-[16px]">
+                                    Qarz
+                                    <Sort
+                                        data={currentConnectors}
+                                        setData={setCurrentConnectors}
+                                        property={"createdAt"}
+                                    />
+                                </th>
+                                <th className="border py-1 bg-alotrade text-[16px]">
+                                    Chegirma
+                                    <Sort
+                                        data={currentConnectors}
+                                        setData={setCurrentConnectors}
+                                        property={"createdAt"}
+                                    />
+                                </th>
+                                <th className="border py-1 bg-alotrade text-[16px]">
+                                    Qarzdan to'lov
+                                    <Sort
+                                        data={currentConnectors}
+                                        setData={setCurrentConnectors}
+                                        property={"createdAt"}
+                                    />
+                                </th>
+                                <th className="border py-1 bg-alotrade text-[16px]">
+                                    Qaytarilgan summa
+                                    <Sort
+                                        data={currentConnectors}
+                                        setData={setCurrentConnectors}
+                                        property={"createdAt"}
+                                    />
+                                </th>
+                                <th className="border py-1 bg-alotrade text-[16px]">
+                                    Check
+                                    <div className="btn-group-vertical ml-2">
+                                        <Sort
+                                            data={currentConnectors}
+                                            setData={setCurrentConnectors}
+                                            property={"counterAgentProcient"}
+                                        />
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {currentConnectors.map((connector, key) => {
+                                return (
+                                    <tr key={key}>
+                                        <td
+                                            className={`${setPosition(connector)} border py-1 font-weight-bold text-right text-[16px]`}
+                                            style={{ maxWidth: "30px !important" }}
+                                        >
+                                            {currentPage * countPage + key + 1}
+                                        </td>
+                                        <td className="border py-1 text-[16px] font-weight-bold">
+                                            {connector.client.lastname +
+                                                " " +
+                                                connector.client.firstname}
+                                        </td>
+                                        <td className="border py-1 text-[16px] text-right">
+                                            +998{connector.client.phone}
+                                        </td>
+                                        <td className="border py-1 text-[16px] text-right">
+                                            {connector.client.id}
+                                        </td>
+                                        <td className="border py-1 text-[16px] text-right">
+                                            {connector.probirka}
+                                        </td>
+                                        <td className="border py-1 text-[16px] text-right">
+                                            {getTotalprice(connector)}
+                                        </td>
+                                        <td className="border py-1 text-[16px] text-right">
+                                            {connector.payments.reduce((prev, el) => {
+                                                if (new Date(el.createdAt) >= new Date(beginDay) && new Date(el.createdAt) <= new Date(endDay)) {
+                                                    prev += el.payment;
+                                                }
+                                                return prev;
+                                            }, 0)}
+                                        </td>
+                                        <td className="border py-1 text-[16px] text-right">
+                                            {connector.payments.reduce((prev, el) => {
+                                                if (new Date(el.createdAt) >= new Date(beginDay) && new Date(el.createdAt) <= new Date(endDay)) {
+                                                    prev += el.cash;
+                                                }
+                                                return prev;
+                                            }, 0)}
+                                        </td>
+                                        <td className="border py-1 text-[16px] text-right">
+                                            {connector.payments.reduce((prev, el) => {
+                                                if (new Date(el.createdAt) >= new Date(beginDay) && new Date(el.createdAt) <= new Date(endDay)) {
+                                                    prev += el.card;
+                                                }
+                                                return prev;
+                                            }, 0)}
+                                        </td>
+                                        <td className="border py-1 text-[16px] text-right">
+                                            {connector.payments.reduce((prev, el) => {
+                                                if (new Date(el.createdAt) >= new Date(beginDay) && new Date(el.createdAt) <= new Date(endDay)) {
+                                                    prev += el.transfer;
+                                                }
+                                                return prev;
+                                            }, 0)}
+                                        </td>
+                                        <td className="border py-1 text-[16px] text-right">
+                                            {getDebt(connector)}
+                                        </td>
+                                        <td className="border py-1 text-[16px] text-right">
+                                            {(connector?.discount?.discount || 0)}
+                                        </td>
+                                        <td className="border py-1 text-[16px] text-right">
+                                            {connector.payments.reduce((prev, el) => {
+                                                if (el.isPayDebt) {
+                                                    prev += el.payment;
+                                                }
+                                                return prev;
+                                            }, 0)}
+                                        </td>
+                                        <td className="border py-1 text-[16px] text-right">
+                                            {(connector.services.reduce((prev, el) => prev + (el.refuse && el.service.price || 0), 0) +
+                                                connector.products.reduce((prev, el) => prev + (el.refuse && el.product.price || 0), 0))}
+                                        </td>
+                                        <td className="border py-1 text-[16px] text-center">
+                                            {loading ? (
+                                                <button className="btn btn-success" disabled>
+                                                    <span className="spinner-border spinner-border-sm"></span>
+                                                    Loading...
+                                                </button>
+                                            ) : (
+                                                <button
+                                                    className="btn btn-primary py-0"
+                                                    onClick={() => {
+                                                        setCheck(connector);
+                                                        setModal1(true);
+                                                    }}
+                                                >
+                                                    <FontAwesomeIcon icon={faPrint} />
+                                                </button>
+                                            )}
+                                        </td>
+                                    </tr>
+                                );
+                            })}
+                            <tr>
+                                <td
+                                    colSpan={3}
+                                    className={`py-1 font-weight-bold text-[16px]`}
+                                >
+                                    <div className="flex justify-between">
+                                        <div>Qoldiq: {searchStorage.reduce((prev, connector) => {
+                                            let payments = connector.payments.reduce((prev, el) => prev + el.payment, 0)
+                                            return prev + payments
+                                        }, 0) - expenseTotal}</div>
+                                        <div>
+                                            Xarajat: {expenseTotal}
+                                        </div>
+                                    </div>
+                                </td>
+                                <td className="border py-1 text-[16px] text-right font-bold">
+                                </td>
+                                <td className="border py-1 text-[16px] text-right font-bold">
+                                </td>
+                                <td className="border py-1 text-[16px] text-right font-bold">
+                                    {searchStorage.reduce((prev, el) => {
+                                        return prev + getTotalprice(el)
+                                    }, 0)}
+                                </td>
+                                <td className="border py-1 text-[16px] font-bold text-right">
+                                    {searchStorage.reduce((prev, el) => {
+                                        return prev + el.payments.reduce((prev, el) => {
+                                            if (new Date(el.createdAt) >= new Date(beginDay) && new Date(el.createdAt) <= new Date(endDay)) {
+                                                prev += el.payment;
+                                            }
+                                            return prev
+                                        }, 0)
+                                    }, 0)}
+                                </td>
+                                <td className="border py-1 text-[16px] font-bold text-right">
+                                    {searchStorage.reduce((prev, el) => {
+                                        return prev + el.payments.reduce((prev, el) => {
+                                            if (new Date(el.createdAt) >= new Date(beginDay) && new Date(el.createdAt) <= new Date(endDay)) {
+                                                prev += el.cash;
+                                            }
+                                            return prev;
+                                        }, 0)
+                                    }, 0)}
+                                </td>
+                                <td className="border py-1 text-[16px] font-bold text-right">
+                                    {searchStorage.reduce((prev, el) => {
+                                        return prev + el.payments.reduce((prev, el) => {
+                                            if (new Date(el.createdAt) >= new Date(beginDay) && new Date(el.createdAt) <= new Date(endDay)) {
+                                                prev += el.card;
+                                            }
+                                            return prev;
+                                        }, 0)
+                                    }, 0)}
+                                </td>
+                                <td className="border py-1 text-[16px] font-bold text-right">
+                                    {searchStorage.reduce((prev, el) => {
+                                        return prev + el.payments.reduce((prev, el) => {
+                                            if (new Date(el.createdAt) >= new Date(beginDay) && new Date(el.createdAt) <= new Date(endDay)) {
+                                                prev += el.transfer;
+                                            }
+                                            return prev;
+                                        }, 0)
+                                    }, 0)}
+                                </td>
+                                <td className="border py-1 text-[16px] font-bold text-right">
+                                    {searchStorage.reduce((prev, el) => {
+                                        return prev + el.payments.reduce((prev, el) => prev + el.debt, 0)
+                                    }, 0)}
+                                </td>
+                                <td className="border py-1 text-[16px] font-bold text-right">
+                                    {searchStorage.reduce((prev, el) => prev + (el?.discount?.discount || 0), 0)}
+                                </td>
+                                <td className="border py-1 text-[16px] font-bold text-right">
+                                    {searchStorage.reduce((prev, el) => {
+                                        return prev + el.payments.reduce((prev, el) => {
+                                            if (el.isPayDebt) {
+                                                prev += el.payment;
+                                            }
+                                            return prev;
+                                        }, 0)
+                                    }, 0)}
+                                </td>
+                                <td className="border py-1 text-[16px] font-bold text-right">
+                                    {searchStorage.reduce((prev, el) => {
+                                        return prev + el.services.reduce((prev, el) => {
+                                            if (el.refuse) {
+                                                prev += el.service.price;
+                                            }
+                                            return prev;
+                                        }, 0)
+                                    }, 0) + searchStorage.reduce((prev, el) => {
+                                        return prev + el.products.reduce((prev, el) => {
+                                            if (el.refuse) {
+                                                prev += el.product.price;
+                                            }
+                                            return prev;
+                                        }, 0)
+                                    }, 0)}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table className="table m-0 table-sm d-none" id="mainreport-table">
+                        <thead>
+                            <tr>
+                                <th className="border py-1 bg-alotrade text-[16px]">№</th>
+                                <th className="border py-1 bg-alotrade text-[16px]">
+                                    F.I.O
+                                    <div className="btn-group-vertical ml-2">
+                                        <FontAwesomeIcon
+                                            onClick={() =>
+                                                setCurrentConnectors(
+                                                    [...currentConnectors].sort((a, b) =>
+                                                        a.client.fullname > b.client.fullname ? 1 : -1
+                                                    )
+                                                )
+                                            }
+                                            icon={faAngleUp}
+                                            style={{ cursor: "pointer" }}
+                                        />
+                                        <FontAwesomeIcon
+                                            icon={faAngleDown}
+                                            style={{ cursor: "pointer" }}
+                                            onClick={() =>
+                                                setCurrentConnectors(
+                                                    [...currentConnectors].sort((a, b) =>
+                                                        b.client.fullname > a.client.fullname ? 1 : -1
+                                                    )
+                                                )
+                                            }
+                                        />
+                                    </div>
+                                </th>
+                                <th className="border py-1 bg-alotrade text-[16px]">Tel</th>
+                                <th className="border py-1 bg-alotrade text-[16px]">
+                                    ID
+                                    <div className="btn-group-vertical ml-2">
+                                        <FontAwesomeIcon
+                                            onClick={() =>
+                                                setCurrentConnectors(
+                                                    [...currentConnectors].sort((a, b) =>
+                                                        a.client.id > b.client.id ? 1 : -1
+                                                    )
+                                                )
+                                            }
+                                            icon={faAngleUp}
+                                            style={{ cursor: "pointer" }}
+                                        />
+                                        <FontAwesomeIcon
+                                            icon={faAngleDown}
+                                            style={{ cursor: "pointer" }}
+                                            onClick={() =>
+                                                setCurrentConnectors(
+                                                    [...currentConnectors].sort((a, b) =>
+                                                        b.client.id > a.client.id ? 1 : -1
+                                                    )
+                                                )
+                                            }
+                                        />
+                                    </div>
+                                </th>
+                                <th className="border py-1 bg-alotrade text-[16px]">
+                                    Probirka
+                                    <Sort
+                                        data={currentConnectors}
+                                        setData={setCurrentConnectors}
+                                        property={"probirka"}
+                                    />
+                                </th>
+                                <th className="border py-1 bg-alotrade text-[16px]">
+                                    To'lov summasi
+                                    <Sort
+                                        data={currentConnectors}
+                                        setData={setCurrentConnectors}
+                                        property={"totalprice"}
+                                    />
+                                </th>
+                                <th className="border py-1 bg-alotrade text-[16px]">
+                                    To'langan
+                                    <Sort
+                                        data={currentConnectors}
+                                        setData={setCurrentConnectors}
+                                        property={"totalprice"}
+                                    />
+                                </th>
+                                <th className="border py-1 bg-alotrade text-[16px]">
+                                    Naqt
+                                    <div className="btn-group-vertical ml-2">
+                                        <FontAwesomeIcon
+                                            onClick={() =>
+                                                setCurrentConnectors(
+                                                    [...currentConnectors].sort((a, b) =>
+                                                        a.services.length > b.services.length ? 1 : -1
+                                                    )
+                                                )
+                                            }
+                                            icon={faAngleUp}
+                                            style={{ cursor: "pointer" }}
+                                        />
+                                        <FontAwesomeIcon
+                                            icon={faAngleDown}
+                                            style={{ cursor: "pointer" }}
+                                            onClick={() =>
+                                                setCurrentConnectors(
+                                                    [...currentConnectors].sort((a, b) =>
+                                                        b.services.length > a.services.length ? 1 : -1
+                                                    )
+                                                )
+                                            }
+                                        />
+                                    </div>
+                                </th>
+                                <th className="border py-1 bg-alotrade text-[16px]">
+                                    Plastik
+                                    <Sort
+                                        data={currentConnectors}
+                                        setData={setCurrentConnectors}
+                                        property={"createdAt"}
+                                    />
+                                </th>
+                                <th className="border py-1 bg-alotrade text-[16px]">
+                                    O'tkazma
+                                    <Sort
+                                        data={currentConnectors}
+                                        setData={setCurrentConnectors}
+                                        property={"createdAt"}
+                                    />
+                                </th>
+                                <th className="border py-1 bg-alotrade text-[16px]">
+                                    Qarz
+                                    <Sort
+                                        data={currentConnectors}
+                                        setData={setCurrentConnectors}
+                                        property={"createdAt"}
+                                    />
+                                </th>
+                                <th className="border py-1 bg-alotrade text-[16px]">
+                                    Chegirma
+                                    <Sort
+                                        data={currentConnectors}
+                                        setData={setCurrentConnectors}
+                                        property={"createdAt"}
+                                    />
+                                </th>
+                                <th className="border py-1 bg-alotrade text-[16px]">
+                                    Qarzdan to'lov
+                                    <Sort
+                                        data={currentConnectors}
+                                        setData={setCurrentConnectors}
+                                        property={"createdAt"}
+                                    />
+                                </th>
+                                <th className="border py-1 bg-alotrade text-[16px]">
+                                    Qaytarilgan summa
+                                    <Sort
+                                        data={currentConnectors}
+                                        setData={setCurrentConnectors}
+                                        property={"createdAt"}
+                                    />
+                                </th>
+                                <th className="border py-1 bg-alotrade text-[16px]">
+                                    Check
+                                    <div className="btn-group-vertical ml-2">
+                                        <Sort
+                                            data={currentConnectors}
+                                            setData={setCurrentConnectors}
+                                            property={"counterAgentProcient"}
+                                        />
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {searchStorage.map((connector, key) => {
+                                return (
+                                    <tr key={key}>
+                                        <td
+                                            className={`${setPosition(connector)} border py-1 font-weight-bold text-right text-[16px]`}
+                                            style={{ maxWidth: "30px !important" }}
+                                        >
+                                            {currentPage * countPage + key + 1}
+                                        </td>
+                                        <td className="border py-1 text-[16px] font-weight-bold">
+                                            {connector.client.lastname +
+                                                " " +
+                                                connector.client.firstname}
+                                        </td>
+                                        <td className="border py-1 text-[16px] text-right">
+                                            +998{connector.client.phone}
+                                        </td>
+                                        <td className="border py-1 text-[16px] text-right">
+                                            {connector.client.id}
+                                        </td>
+                                        <td className="border py-1 text-[16px] text-right">
+                                            {connector.probirka}
+                                        </td>
+                                        <td className="border py-1 text-[16px] text-right">
+                                            {getTotalprice(connector)}
+                                        </td>
+                                        <td className="border py-1 text-[16px] text-right">
+                                            {connector.payments.reduce((prev, el) => prev + el.payment, 0)}
+                                        </td>
+                                        <td className="border py-1 text-[16px] text-right">
+                                            {connector.payments.reduce((prev, el) => prev + el.cash, 0)}
+                                        </td>
+                                        <td className="border py-1 text-[16px] text-right">
+                                            {connector.payments.reduce((prev, el) => prev + el.card, 0)}
+                                        </td>
+                                        <td className="border py-1 text-[16px] text-right">
+                                            {connector.payments.reduce((prev, el) => prev + el.transfer, 0)}
+                                        </td>
+                                        <td className="border py-1 text-[16px] text-right">
+                                            {getDebt(connector)}
+                                        </td>
+                                        <td className="border py-1 text-[16px] text-right">
+                                            {(connector?.discount?.discount || 0)}
+                                        </td>
+                                        <td className="border py-1 text-[16px] text-right">
+                                            {connector.payments.reduce((prev, el) => {
+                                                if (el.isPayDebt) {
+                                                    prev += el.payment;
+                                                }
+                                                return prev;
+                                            }, 0)}
+                                        </td>
+                                        <td className="border py-1 text-[16px] text-right">
+                                            {(connector.services.reduce((prev, el) => prev + (el.refuse && el.service.price || 0), 0) +
+                                                connector.products.reduce((prev, el) => prev + (el.refuse && el.product.price || 0), 0))}
+                                        </td>
+                                        <td className="border py-1 text-[16px] text-center">
+                                            {loading ? (
+                                                <button className="btn btn-success" disabled>
+                                                    <span className="spinner-border spinner-border-sm"></span>
+                                                    Loading...
+                                                </button>
+                                            ) : (
+                                                <button
+                                                    className="btn btn-primary py-0"
+                                                    onClick={() => {
+                                                        setCheck(connector);
+                                                        setModal1(true);
+                                                    }}
+                                                >
+                                                    <FontAwesomeIcon icon={faPrint} />
+                                                </button>
+                                            )}
+                                        </td>
+                                    </tr>
+                                );
+                            })}
+                            <tr>
+                                <td
+                                    colSpan={3}
+                                    className={`py-1 font-weight-bold text-[16px]`}
+                                >
+                                    <div className="flex justify-between">
+                                        <div>Qoldiq: {searchStorage.reduce((prev, connector) => {
+                                            let payments = connector.payments.reduce((prev, el) => prev + el.payment, 0)
+                                            return prev + payments
+                                        }, 0) - expenseTotal}</div>
+                                        <div>
+                                            Xarajat: {expenseTotal}
+                                        </div>
+                                    </div>
+                                </td>
+                                <td className="border py-1 text-[16px] text-right font-bold">
+                                </td>
+                                <td className="border py-1 text-[16px] text-right font-bold">
+                                </td>
+                                <td className="border py-1 text-[16px] text-right font-bold">
+                                    {searchStorage.reduce((prev, el) => {
+                                        return prev + getTotalprice(el)
+                                    }, 0)}
+                                </td>
+                                <td className="border py-1 text-[16px] font-bold text-right">
+                                    {searchStorage.reduce((prev, el) => {
+                                        return prev + el.payments.reduce((prev, el) => prev + el.payment, 0)
+                                    }, 0)}
+                                </td>
+                                <td className="border py-1 text-[16px] font-bold text-right">
+                                    {searchStorage.reduce((prev, el) => {
+                                        return prev + el.payments.reduce((prev, el) => prev + el.cash, 0)
+                                    }, 0)}
+                                </td>
+                                <td className="border py-1 text-[16px] font-bold text-right">
+                                    {searchStorage.reduce((prev, el) => {
+                                        return prev + el.payments.reduce((prev, el) => prev + el.card, 0)
+                                    }, 0)}
+                                </td>
+                                <td className="border py-1 text-[16px] font-bold text-right">
+                                    {searchStorage.reduce((prev, el) => {
+                                        return prev + el.payments.reduce((prev, el) => prev + el.transfer, 0)
+                                    }, 0)}
+                                </td>
+                                <td className="border py-1 text-[16px] font-bold text-right">
+                                    {searchStorage.reduce((prev, el) => {
+                                        return prev + el.payments.reduce((prev, el) => prev + el.debt, 0)
+                                    }, 0)}
+                                </td>
+                                <td className="border py-1 text-[16px] font-bold text-right">
+                                    {searchStorage.reduce((prev, el) => prev + (el?.discount?.discount || 0), 0)}
+                                </td>
+                                <td className="border py-1 text-[16px] font-bold text-right">
+                                    {searchStorage.reduce((prev, el) => {
+                                        return prev + el.payments.reduce((prev, el) => {
+                                            if (el.isPayDebt) {
+                                                prev += el.payment;
+                                            }
+                                            return prev;
+                                        }, 0)
+                                    }, 0)}
+                                </td>
+                                <td className="border py-1 text-[16px] font-bold text-right">
+                                    {searchStorage.reduce((prev, el) => {
+                                        return prev + el.services.reduce((prev, el) => {
+                                            if (el.refuse) {
+                                                prev += el.service.price;
+                                            }
+                                            return prev;
+                                        }, 0)
+                                    }, 0) + searchStorage.reduce((prev, el) => {
+                                        return prev + el.products.reduce((prev, el) => {
+                                            if (el.refuse) {
+                                                prev += el.product.price;
+                                            }
+                                            return prev;
+                                        }, 0)
+                                    }, 0)}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            );
+        </div>
+    );
 };

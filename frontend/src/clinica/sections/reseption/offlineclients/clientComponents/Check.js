@@ -85,7 +85,7 @@ export const Check = ({ connector, qr, clinica, baseUrl }) => {
                 style={{
                   textTransform: 'uppercase',
                   fontFamily: 'times',
-                  fontSize: '14pt',
+                  fontSize: '20px',
                 }}
               >
                 ID: {connector.client && connector.client.id}
@@ -96,7 +96,7 @@ export const Check = ({ connector, qr, clinica, baseUrl }) => {
             <div className="invoice-from text-center">
               <h6
                 className="d-inline-block"
-                style={{ fontSize: '14pt', fontFamily: 'times' }}
+                style={{ fontSize: '20px', fontFamily: 'times' }}
               >
                 F.I.O: {connector.client && connector.client.lastname}{' '}
                 {connector.client && connector.client.firstname}
@@ -107,7 +107,7 @@ export const Check = ({ connector, qr, clinica, baseUrl }) => {
             <div className="invoice-from text-center">
               <h6
                 className="d-inline-block"
-                style={{ fontSize: '14pt', fontFamily: 'times' }}
+                style={{ fontSize: '20px', fontFamily: 'times' }}
               >
                 Yil:{' '}
                 {new Date(
@@ -120,7 +120,7 @@ export const Check = ({ connector, qr, clinica, baseUrl }) => {
             <div className="invoice-from text-right pr-4">
               <h6
                 className="d-inline-block"
-                style={{ fontSize: '14pt', fontFamily: 'times' }}
+                style={{ fontSize: '20px', fontFamily: 'times' }}
               >
                 Tel: +998{connector.client && connector.client.phone}
               </h6>
@@ -134,37 +134,37 @@ export const Check = ({ connector, qr, clinica, baseUrl }) => {
             >
               <table
                 className="table table-bordered text-dark mt-2"
-                style={{ fontSize: '11pt', fontFamily: 'times' }}
+                style={{ fontSize: '16px', fontFamily: 'times' }}
               >
                 <thead className="text-dark">
                   <tr className="bg-white">
                     <th
                       className="text-center text-black border py-0 "
-                      style={{ fontSize: '11pt', fontFamily: 'times' }}
+                      style={{ fontSize: '16px', fontFamily: 'times' }}
                     >
                       №
                     </th>
                     <th
                       className="text-center text-black border py-0 "
-                      style={{ fontSize: '11pt', fontFamily: 'times' }}
+                      style={{ fontSize: '16px', fontFamily: 'times' }}
                     >
                       Bo'lim
                     </th>
                     <th
                       className="text-center text-black border py-0 "
-                      style={{ fontSize: '11pt', fontFamily: 'times' }}
+                      style={{ fontSize: '16px', fontFamily: 'times' }}
                     >
                       Navbat
                     </th>
                     <th
                       className="text-center text-black border py-0 "
-                      style={{ fontSize: '11pt', fontFamily: 'times' }}
+                      style={{ fontSize: '16px', fontFamily: 'times' }}
                     >
                       Soni
                     </th>
                     <th
                       className="text-center text-black border py-0 "
-                      style={{ fontSize: '11pt', fontFamily: 'times' }}
+                      style={{ fontSize: '16px', fontFamily: 'times' }}
                     >
                       Summasi
                     </th>
@@ -177,7 +177,7 @@ export const Check = ({ connector, qr, clinica, baseUrl }) => {
                         <tr
                           key={index}
                           className="bg-white"
-                          style={{ fontFamily: 'times', fontSize: '12pt' }}
+                          style={{ fontFamily: 'times', fontSize: '18px' }}
                         >
                           <td className="py-0 border text-right font-weight-bold">
                             {index + 1}
@@ -281,7 +281,7 @@ export const Check = ({ connector, qr, clinica, baseUrl }) => {
                         </strong>
                       </div>
                       <div>
-                        {'+998' + clinica?.phone1}
+                        {clinica?.phone1}
                       </div>
                     </li>
                     <li style={{ textAlign: '', fontSize: '11pt' }}>
@@ -338,7 +338,7 @@ export const Check = ({ connector, qr, clinica, baseUrl }) => {
                 style={{
                   textTransform: 'uppercase',
                   fontFamily: 'times',
-                  fontSize: '14pt',
+                  fontSize: '20px',
                 }}
               >
                 ID: {connector.client && connector.client.id}
@@ -349,7 +349,7 @@ export const Check = ({ connector, qr, clinica, baseUrl }) => {
             <div className="invoice-from text-center">
               <h6
                 className="d-inline-block"
-                style={{ fontSize: '14pt', fontFamily: 'times' }}
+                style={{ fontSize: '20px', fontFamily: 'times' }}
               >
                 F.I.O: {connector.client && connector.client.lastname}{' '}
                 {connector.client && connector.client.firstname}
@@ -360,7 +360,7 @@ export const Check = ({ connector, qr, clinica, baseUrl }) => {
             <div className="invoice-from text-center">
               <h6
                 className="d-inline-block"
-                style={{ fontSize: '14pt', fontFamily: 'times' }}
+                style={{ fontSize: '20px', fontFamily: 'times' }}
               >
                 Yil:{' '}
                 {new Date(
@@ -373,7 +373,7 @@ export const Check = ({ connector, qr, clinica, baseUrl }) => {
             <div className="invoice-from text-right pr-4">
               <h6
                 className="d-inline-block"
-                style={{ fontSize: '14pt', fontFamily: 'times' }}
+                style={{ fontSize: '20px', fontFamily: 'times' }}
               >
                 Tel: +998{connector.client && connector.client.phone}
               </h6>
@@ -387,37 +387,37 @@ export const Check = ({ connector, qr, clinica, baseUrl }) => {
             >
               <table
                 className="table table-bordered text-dark mt-2"
-                style={{ fontSize: '11pt', fontFamily: 'times' }}
+                style={{ fontSize: '16px', fontFamily: 'times' }}
               >
                 <thead className="text-dark">
                   <tr className="bg-white">
                     <th
                       className="text-center text-black border py-0 "
-                      style={{ fontSize: '11pt', fontFamily: 'times' }}
+                      style={{ fontSize: '16px', fontFamily: 'times' }}
                     >
                       №
                     </th>
                     <th
                       className="text-center text-black border py-0 "
-                      style={{ fontSize: '11pt', fontFamily: 'times' }}
+                      style={{ fontSize: '16px', fontFamily: 'times' }}
                     >
                       Bo'lim
                     </th>
                     <th
                       className="text-center text-black border py-0 "
-                      style={{ fontSize: '11pt', fontFamily: 'times' }}
+                      style={{ fontSize: '16px', fontFamily: 'times' }}
                     >
                       Navbat
                     </th>
                     <th
                       className="text-center text-black border py-0 "
-                      style={{ fontSize: '11pt', fontFamily: 'times' }}
+                      style={{ fontSize: '16px', fontFamily: 'times' }}
                     >
                       Soni
                     </th>
                     <th
                       className="text-center text-black border py-0 "
-                      style={{ fontSize: '11pt', fontFamily: 'times' }}
+                      style={{ fontSize: '16px', fontFamily: 'times' }}
                     >
                       Summasi
                     </th>
@@ -430,7 +430,7 @@ export const Check = ({ connector, qr, clinica, baseUrl }) => {
                         <tr
                           key={index}
                           className="bg-white"
-                          style={{ fontFamily: 'times', fontSize: '12pt' }}
+                          style={{ fontFamily: 'times', fontSize: '18px' }}
                         >
                           <td className="py-0 border text-right font-weight-bold">
                             {index + 1}

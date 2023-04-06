@@ -155,9 +155,9 @@ module.exports.getAll = async (req, res) => {
         } else {
             connectors = await OfflineConnector.find({
                 clinica,
-                createdAt: {
+                updatedAt: {
                     $gte: beginDay,
-                    $lt: endDay,
+                    $lte: endDay,
                 },
             })
                 .populate("client", "-createdAt -updatedAt -isArchive -__v")
@@ -165,7 +165,8 @@ module.exports.getAll = async (req, res) => {
                 .populate("products")
                 .populate("payments")
                 .populate("discount")
-                .sort({ _id: -1 });
+                .sort({ updatedAt: -1 })
+                .lean()
         }
 
         res.status(200).send(connectors);

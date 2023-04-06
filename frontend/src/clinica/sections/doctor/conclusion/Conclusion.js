@@ -4,6 +4,8 @@ import { useLocation } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthContext";
 import { useHttp } from "../../../hooks/http.hook";
 import ClientCard from "./components/ClientCard";
+import ConclusionPage from "./components/ConclusionPage";
+import ConclusionsTemp from "./components/ConclusionsTemp";
 import DoctorResult from "./components/DoctorResult";
 
 
@@ -84,19 +86,14 @@ const Conclusion = () => {
         <div className="flex justify-between items-center">
             <button onClick={() => setType('clientcard')} className="w-[200px] h-[100px] flex items-center justify-center bg-alotrade rounded-lg text-white text-[16px] font-medium text-uppercase">Bemor kartasi</button>
             <button onClick={() => setType('doctorresult')} className="w-[200px] h-[100px] flex items-center justify-center bg-alotrade rounded-lg text-white text-[16px] font-medium text-uppercase">Shifokor kurigi</button>
-            <button className="w-[200px] h-[100px] flex items-center justify-center bg-alotrade rounded-lg text-white text-[16px] font-medium text-uppercase">Shartnoma bajarishi</button>
-            <button className="w-[200px] h-[100px] flex items-center justify-center bg-alotrade rounded-lg text-white text-[16px] font-medium text-uppercase">Xarorat</button>
-            <button className="w-[200px] h-[100px] flex items-center justify-center bg-alotrade rounded-lg text-white text-[16px] font-medium text-uppercase">Xulosa</button>
+            <button onClick={() => setType('conclusion_temp')} className="w-[200px] h-[100px] flex items-center justify-center bg-alotrade rounded-lg text-white text-[16px] font-medium text-uppercase">Shablonlar</button>
+            {/* <button className="w-[200px] h-[100px] flex items-center justify-center bg-alotrade rounded-lg text-white text-[16px] font-medium text-uppercase">Xarorat</button> */}
+            <button onClick={() => setType('conclusion_page')} className="w-[200px] h-[100px] flex items-center justify-center bg-alotrade rounded-lg text-white text-[16px] font-medium text-uppercase">Xulosa</button>
         </div>
-        {type === 'clientcard' && <ClientCard  connector={connectorInfo} onChange={(text) => {
-            setConnectorInfo({
-                ...connectorInfo, client: {
-                    ...connectorInfo.client,
-                    template: text
-                }
-            })
-        }} />}
+        {type === 'clientcard' && <ClientCard  connector={connectorInfo} setConnector={setConnectorInfo}  />}
         {type === 'doctorresult' && <DoctorResult connector={connectorInfo} />}
+        {type === 'conclusion_temp' && <ConclusionsTemp />}
+        {type === 'conclusion_page' && <ConclusionPage connector={connectorInfo} setConnector={setConnectorInfo} />}
     </div>
 }
 

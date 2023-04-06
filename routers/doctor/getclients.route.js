@@ -12,6 +12,7 @@ const { TableColumn } = require("../../models/Services/TableColumn");
 const { ServiceTable } = require("../../models/Services/ServiceTable");
 const { ServiceType } = require("../../models/Services/ServiceType");
 const { StatsionarService } = require("../../models/StatsionarClient/StatsionarService");
+const { StatsionarConnector } = require("../../models/StatsionarClient/StatsionarConnector");
 require('../../models/StatsionarClient/StatsionarConnector')
 require('../../models/StatsionarClient/StatsionarClient')
 require('../../models/Services/Department')
@@ -30,115 +31,185 @@ module.exports.getAll = async (req, res) => {
     }
 
     let clients = [];
-    let client = {
-      client: {},
-      connector: {},
-      services: [],
-    };
 
-
-    let services = []
+    let connectors = []
 
     if (clientborn) {
-      services = await OfflineService.find({
-        clinica,
-      })
-      .select("service serviceid accept refuse column tables turn connector client files department")
-      .populate("client", "lastname firstname born id phone address")
-      .populate("service", "price")
-      .populate({
-          path: "connector",
-          select: "probirka createdAt accept clinica",
-          populate: {
-              path: "clinica",
-              select: "name phone1 image"
-          }
-      })
-      .populate({
-          path: "serviceid",
-          select: "servicetype",
-          populate: {
-              path: "servicetype",
-              select: "name"
-          }
-      })
-      .populate('department', 'probirka')
-      .populate("templates", "name template")
-      .then(services => 
-        services.filter(service => ((String(service.department._id) === String(department) || service.department.probirka)
-         && !service.refuse
-         && new Date(new Date(service.client.born).setUTCHours(0, 0, 0, 0)).toISOString() === new Date(new Date(clientborn).setUTCHours(0, 0, 0, 0)).toISOString())))
-    } else {
-      services = await OfflineService.find({
+      connectors = await OfflineConnector.find({
         createdAt: {
           $gte: beginDay,
           $lt: endDay,
         },
         clinica,
       })
-      .select("service serviceid accept refuse column tables turn connector client files department")
-      .populate("client", "lastname firstname born id phone address")
-      .populate("service", "price")
-      .populate({
-          path: "connector",
-          select: "probirka createdAt accept clinica",
+        .select('-__v -updatedAt -isArchive')
+        .populate('clinica', 'name phone1 image')
+        .populate("client", "lastname firstname born id phone address")
+        .populate({
+          path: "services",
+          select: "service serviceid accept refuse column tables turn connector client files department",
           populate: {
-              path: "clinica",
-              select: "name phone1 image"
+            path: "service",
+            select: "price"
           }
-      })
-      .populate({
-          path: "serviceid",
-          select: "servicetype",
+        })
+        .populate({
+          path: "services",
+          select: "service serviceid accept refuse column tables turn connector client files department",
           populate: {
+            path: "serviceid",
+            select: "servicetype",
+            populate: {
               path: "servicetype",
               select: "name"
+            }
           }
+        })
+        .populate({
+          path: "services",
+          select: "service serviceid accept refuse column tables turn connector client files department",
+          populate: {
+            path: "templates",
+            select: "name template",
+          }
+        })
+        .populate({
+          path: "services",
+          select: "service serviceid accept refuse column tables turn connector client files department",
+          populate: {
+            path: 'department',
+            select: "probirka"
+          }
+        })
+        .lean()
+        .then(connectors => connectors.filter(connector => 
+            connector.services.some(service => String(service.department._id) === String(department)) &&
+            new Date(new Date(connector.client.born).setUTCHours(0, 0, 0, 0)).toISOString() === new Date(new Date(clientborn).setUTCHours(0, 0, 0, 0)).toISOString()
+          ))
+      // services = await OfflineService.find({
+      //   clinica,
+      // })
+      //   .select("service serviceid accept refuse column tables turn connector client files department")
+      //   .populate("client", "lastname firstname born id phone address")
+      //   .populate("service", "price")
+      //   .populate({
+      //     path: "connector",
+      //     select: "probirka createdAt accept clinica",
+      //     populate: {
+      //       path: "clinica",
+      //       select: "name phone1 image"
+      //     }
+      //   })
+      //   .populate({
+      //     path: "serviceid",
+      //     select: "servicetype",
+      //     populate: {
+      //       path: "servicetype",
+      //       select: "name"
+      //     }
+      //   })
+      //   .populate('department', 'probirka')
+      //   .populate("templates", "name template")
+      //   .then(services =>
+      //     services.filter(service => ((String(service.department._id) === String(department) || service.department.probirka)
+      //       && !service.refuse
+      //       && new Date(new Date(service.client.born).setUTCHours(0, 0, 0, 0)).toISOString() === new Date(new Date(clientborn).setUTCHours(0, 0, 0, 0)).toISOString())))
+    } else {
+      connectors = await OfflineConnector.find({
+        createdAt: {
+          $gte: beginDay,
+          $lt: endDay,
+        },
+        clinica,
       })
-      .populate('department', 'probirka')
-      .populate("templates", "name template")
-      .then(services => 
-        services.filter(service => ((String(service.department._id) === String(department) || service.department.probirka)
-         && !service.refuse)))
+        .select('-__v -updatedAt -isArchive')
+        .populate('clinica', 'name phone1 image')
+        .populate("client", "lastname firstname born id phone address")
+        .populate({
+          path: "services",
+          select: "service serviceid accept refuse column tables turn connector client files department",
+          populate: {
+            path: "service",
+            select: "price"
+          }
+        })
+        .populate({
+          path: "services",
+          select: "service serviceid accept refuse column tables turn connector client files department",
+          populate: {
+            path: "serviceid",
+            select: "servicetype",
+            populate: {
+              path: "servicetype",
+              select: "name"
+            }
+          }
+        })
+        .populate({
+          path: "services",
+          select: "service serviceid accept refuse column tables turn connector client files department",
+          populate: {
+            path: "templates",
+            select: "name template",
+          }
+        })
+        .populate({
+          path: "services",
+          select: "service serviceid accept refuse column tables turn connector client files department",
+          populate: {
+            path: 'department',
+            select: "probirka"
+          }
+        })
+        .lean()
+        .then(connectors => connectors.filter(connector => 
+            connector.services.some(service => String(service.department._id) === String(department))
+          ))
+      // services = await OfflineService.find({
+      //   createdAt: {
+      //     $gte: beginDay,
+      //     $lt: endDay,
+      //   },
+      //   clinica,
+      // })
+      //   .select("service serviceid accept refuse column tables turn connector client files department")
+      //   .populate("client", "lastname firstname born id phone address")
+      //   .populate("service", "price")
+      //   .populate({
+      //     path: "connector",
+      //     select: "probirka createdAt accept clinica",
+      //     populate: {
+      //       path: "clinica",
+      //       select: "name phone1 image"
+      //     }
+      //   })
+      //   .populate({
+      //     path: "serviceid",
+      //     select: "servicetype",
+      //     populate: {
+      //       path: "servicetype",
+      //       select: "name"
+      //     }
+      //   })
+      //   .populate('department', 'probirka')
+      //   .populate("templates", "name template")
+      //   .then(services =>
+      //     services.filter(service => ((String(service.department._id) === String(department) || service.department.probirka)
+      //       && !service.refuse)))
     }
 
-    if (services.length > 0) {
-      // for (const i in services) {
-      //     if (i == 0) {
-      //         client.client = services[i].client;
-      //         client.connector = services[i].connector;
-      //         client.services.push(services[i]);
-      //     } else {
-      //         if (services[i - 1].client._id === services[i].client._id) {
-      //             client.services.push(services[i]);
-      //         } else {
-      //             clients.push(client);
-      //             client = {
-      //                 client: {},
-      //                 connector: {},
-      //                 services: [],
-      //             };
-      //             client.client = services[i].client;
-      //             client.connector = services[i].connector;
-      //             client.services.push(services[i]);
-      //         }
-      //     }
-      // }
-
-      let connectorsId = []
-      for (const service of services) {
-          const check = connectorsId.includes(String(service.connector._id));
-          if (!check) {
-              clients.push({
-                  client: service.client,
-                  connector: service.connector,
-                  services: [service],
-              })
-              connectorsId.push(String(service.connector._id));
-          } else {
-              const index = clients.findIndex(c => String(c.connector._id) === String(service.connector._id))
-              clients[index].services.push(service)
-          }
+    if (connectors.length > 0) {
+      for (const connector of connectors) {
+          clients.push({
+            client: connector.client,
+            connector: {
+              clinica: connector.clinica,
+              accept: connector.accept,
+              createdAt: connector.createdAt,
+              probirka: connector.probirka
+            },
+            services: connector.services,
+          })
       }
     }
 
@@ -162,119 +233,186 @@ module.exports.getStatsionarAll = async (req, res) => {
     }
 
     let clients = [];
-    let client = {
-      client: {},
-      connector: {},
-      services: [],
-    };
 
-
-
-    let services = []
+    let connectors = []
 
     if (clientborn) {
-      services = await StatsionarService.find({
-        clinica,
-      })
-      .select("service serviceid accept column tables turn connector client files department")
-      .populate("client", "lastname firstname born id phone address")
-      .populate("service", "price")
-      .populate({
-          path: "connector",
-          select: "probirka createdAt accept clinica",
-          populate: {
-              path: "clinica",
-              select: "name phone1 image"
-          }
-      })
-      .populate({
-          path: "serviceid",
-          select: "servicetype",
-          populate: {
-              path: "servicetype",
-              select: "name"
-          }
-      })
-      .populate('department', 'probirka')
-      .populate("templates", "name template")
-      .then(services => 
-        services.filter(service => ((String(service.department._id) === String(department) || service.department.probirka) 
-        && !service.refuse
-        && new Date(new Date(service.client.born).setUTCHours(0, 0, 0, 0)).toISOString() === new Date(new Date(clientborn).setUTCHours(0, 0, 0, 0)).toISOString())))
-    } else {
-      services = await StatsionarService.find({
-        department,
+      connectors = await StatsionarConnector.find({
         createdAt: {
           $gte: beginDay,
           $lt: endDay,
         },
         clinica,
       })
-      .select("service serviceid accept column tables turn connector client files department")
-      .populate("client", "lastname firstname born id phone address")
-      .populate("service", "price")
-      .populate({
-          path: "connector",
-          select: "probirka createdAt accept clinica",
+        .select('-__v -updatedAt -isArchive')
+        .populate('clinica', 'name phone1 image')
+        .populate("client", "lastname firstname born id phone address")
+        .populate({
+          path: "services",
+          select: "service serviceid accept refuse column tables turn connector client files department",
           populate: {
-              path: "clinica",
-              select: "name phone1 image"
+            path: "service",
+            select: "price"
           }
-      })
-      .populate({
-          path: "serviceid",
-          select: "servicetype",
+        })
+        .populate({
+          path: "services",
+          select: "service serviceid accept refuse column tables turn connector client files department",
           populate: {
+            path: "serviceid",
+            select: "servicetype",
+            populate: {
               path: "servicetype",
               select: "name"
+            }
           }
+        })
+        .populate({
+          path: "services",
+          select: "service serviceid accept refuse column tables turn connector client files department",
+          populate: {
+            path: "templates",
+            select: "name template",
+          }
+        })
+        .populate({
+          path: "services",
+          select: "service serviceid accept refuse column tables turn connector client files department",
+          populate: {
+            path: 'department',
+            select: "probirka"
+          }
+        })
+        .lean()
+        .then(connectors => connectors.filter(connector => 
+            connector.services.some(service => String(service.department._id) === String(department)) &&
+            new Date(new Date(connector.client.born).setUTCHours(0, 0, 0, 0)).toISOString() === new Date(new Date(clientborn).setUTCHours(0, 0, 0, 0)).toISOString()
+          ))
+      // services = await OfflineService.find({
+      //   clinica,
+      // })
+      //   .select("service serviceid accept refuse column tables turn connector client files department")
+      //   .populate("client", "lastname firstname born id phone address")
+      //   .populate("service", "price")
+      //   .populate({
+      //     path: "connector",
+      //     select: "probirka createdAt accept clinica",
+      //     populate: {
+      //       path: "clinica",
+      //       select: "name phone1 image"
+      //     }
+      //   })
+      //   .populate({
+      //     path: "serviceid",
+      //     select: "servicetype",
+      //     populate: {
+      //       path: "servicetype",
+      //       select: "name"
+      //     }
+      //   })
+      //   .populate('department', 'probirka')
+      //   .populate("templates", "name template")
+      //   .then(services =>
+      //     services.filter(service => ((String(service.department._id) === String(department) || service.department.probirka)
+      //       && !service.refuse
+      //       && new Date(new Date(service.client.born).setUTCHours(0, 0, 0, 0)).toISOString() === new Date(new Date(clientborn).setUTCHours(0, 0, 0, 0)).toISOString())))
+    } else {
+      connectors = await StatsionarConnector.find({
+        createdAt: {
+          $gte: beginDay,
+          $lt: endDay,
+        },
+        clinica,
       })
-      .populate('department', 'probirka')
-      .populate("templates", "name template")
-      .then(services => 
-        services.filter(service => ((String(service.department._id) === String(department) || service.department.probirka) && !service.refuse)))
+        .select('-__v -updatedAt -isArchive')
+        .populate('clinica', 'name phone1 image')
+        .populate("client", "lastname firstname born id phone address")
+        .populate({
+          path: "services",
+          select: "service serviceid accept refuse column tables turn connector client files department",
+          populate: {
+            path: "service",
+            select: "price"
+          }
+        })
+        .populate({
+          path: "services",
+          select: "service serviceid accept refuse column tables turn connector client files department",
+          populate: {
+            path: "serviceid",
+            select: "servicetype",
+            populate: {
+              path: "servicetype",
+              select: "name"
+            }
+          }
+        })
+        .populate({
+          path: "services",
+          select: "service serviceid accept refuse column tables turn connector client files department",
+          populate: {
+            path: "templates",
+            select: "name template",
+          }
+        })
+        .populate({
+          path: "services",
+          select: "service serviceid accept refuse column tables turn connector client files department",
+          populate: {
+            path: 'department',
+            select: "probirka"
+          }
+        })
+        .lean()
+        .then(connectors => connectors.filter(connector => 
+            connector.services.some(service => String(service.department._id) === String(department))
+          ))
+      // services = await OfflineService.find({
+      //   createdAt: {
+      //     $gte: beginDay,
+      //     $lt: endDay,
+      //   },
+      //   clinica,
+      // })
+      //   .select("service serviceid accept refuse column tables turn connector client files department")
+      //   .populate("client", "lastname firstname born id phone address")
+      //   .populate("service", "price")
+      //   .populate({
+      //     path: "connector",
+      //     select: "probirka createdAt accept clinica",
+      //     populate: {
+      //       path: "clinica",
+      //       select: "name phone1 image"
+      //     }
+      //   })
+      //   .populate({
+      //     path: "serviceid",
+      //     select: "servicetype",
+      //     populate: {
+      //       path: "servicetype",
+      //       select: "name"
+      //     }
+      //   })
+      //   .populate('department', 'probirka')
+      //   .populate("templates", "name template")
+      //   .then(services =>
+      //     services.filter(service => ((String(service.department._id) === String(department) || service.department.probirka)
+      //       && !service.refuse)))
     }
 
-    
-    if (services.length > 0) {
-      // for (const i in services) {
-      //     if (i == 0) {
-      //         client.client = services[i].client;
-      //         client.connector = services[i].connector;
-      //         client.services.push(services[i]);
-      //     } else {
-      //         if (services[i - 1].client._id === services[i].client._id) {
-      //             client.services.push(services[i]);
-      //         } else {
-      //             clients.push(client);
-      //             client = {
-      //                 client: {},
-      //                 connector: {},
-      //                 services: [],
-      //             };
-      //             client.client = services[i].client;
-      //             client.connector = services[i].connector;
-      //             client.services.push(services[i]);
-      //         }
-      //     }
-      // }
-
-      let connectorsId = []
-      for (const service of services) {
-          const check = connectorsId.includes(String(service.connector._id));
-          if (!check) {
-              clients.push({
-                  client: service.client,
-                  connector: service.connector,
-                  services: [service],
-              })
-              connectorsId.push(String(service.connector._id));
-          } else {
-              const index = clients.findIndex(c => String(c.connector._id) === String(service.connector._id))
-              clients[index].services.push(service)
-          }
+    if (connectors.length > 0) {
+      for (const connector of connectors) {
+          clients.push({
+            client: connector.client,
+            connector: {
+              clinica: connector.clinica,
+              accept: connector.accept,
+              createdAt: connector.createdAt,
+              probirka: connector.probirka
+            },
+            services: connector.services,
+          })
       }
-
     }
 
     res.status(200).send(clients);

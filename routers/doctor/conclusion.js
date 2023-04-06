@@ -1,6 +1,7 @@
 const { Clinica } = require("../../models/DirectorAndClinica/Clinica");
 const { StatsionarClient } = require("../../models/StatsionarClient/StatsionarClient");
 const { StatsionarConnector } = require("../../models/StatsionarClient/StatsionarConnector");
+const { ConclusionTemp } = require("../../models/Templates/ConclusionTemp");
 require('../../models/Users')
 require('../../models/StatsionarClient/StatsionarService')
 require('../../models/StatsionarClient/StatsionarRoom')
@@ -56,15 +57,91 @@ module.exports.getClientInfo = async (req, res) => {
     }
 }
 
-// module.exports.saveClientCard = async (req, res) => {
-//     try {
-//         const {client} = req.body;
+module.exports.save = async (req, res) => {
+    try {
+        const {client} = req.body;
 
-//         const statsionarclient = await StatsionarClient.findById(client._id);
-        
-//         co
+        await StatsionarClient.findByIdAndUpdate(client._id, {
+            ...client
+        })
 
-//     } catch (error) {
-        
-//     }
-// }
+        res.status(200).json({message: "Mijoz saqlandi!"})
+    } catch (error) {
+        console.log(error);
+        res.status(501).json({ error: "Serverda xatolik yuz berdi..." });
+    }
+}
+
+
+module.exports.createTemp = async (req, res) => {
+    try {
+        const {id, name, clinica, template} = req.body;
+
+        const clinic = await Clinica.findById(clinica);
+
+        if (!clinic) {
+            return res.status(400).json({
+                message: "Diqqat! Klinika ma'lumotlari topilmadi.",
+            });
+        }
+
+        if (id) {
+            await ConclusionTemp.findByIdAndUpdate(id, {
+                name,
+                template,
+                clinica
+            })
+        } else {
+            const newTemp = new ConclusionTemp({
+                name,
+                template,
+                clinica
+            })
+            await newTemp.save()
+        }
+
+        res.status(200).json({message: "Shablon yaratildi!"})
+
+    } catch (error) {
+        console.log(error);
+        res.status(501).json({ error: "Serverda xatolik yuz berdi..." });
+    }
+}
+
+module.exports.getTemps = async (req, res) => {
+    try {
+        const {clinica} = req.body;
+
+        const clinic = await Clinica.findById(clinica);
+
+        if (!clinic) {
+            return res.status(400).json({
+                message: "Diqqat! Klinika ma'lumotlari topilmadi.",
+            });
+        }
+
+        const temps = await ConclusionTemp.find({
+            clinica,
+        })
+
+        res.status(200).json(temps)
+
+    } catch (error) {
+        console.log(error);
+        res.status(501).json({ error: "Serverda xatolik yuz berdi..." });
+    }
+}
+
+module.exports.delete = async (req, res) => {
+    try {
+        const {id} = req.body;
+
+        await ConclusionTemp.findByIdAndDelete(id);
+
+        res.status(200).json({message: "Shablon yaratildi!"})
+
+    } catch (error) {
+        console.log(error);
+        res.status(501).json({ error: "Serverda xatolik yuz berdi..." });
+    }
+}
