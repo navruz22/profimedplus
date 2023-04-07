@@ -188,7 +188,7 @@ const DoctorTemplate = ({ client, connector, services }) => {
   }
   console.log(services);
   useEffect(() => {
-    setSections([...services].filter(service => service.department.probirka == false));
+    setSections([...services].filter(service => service.department.probirka === false && service.department._id === auth?.user?.specialty));
   }, [services]);
 
   const [t, setT] = useState()

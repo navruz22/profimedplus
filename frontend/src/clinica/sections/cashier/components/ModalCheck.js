@@ -2,6 +2,9 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Check } from '../offlineclients/clientComponents/Check'
 import QRCode from 'qrcode'
 import { useReactToPrint } from 'react-to-print'
+import { SmallCheck } from './SmallCheck'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPrint } from '@fortawesome/free-solid-svg-icons'
 
 export const CheckModal = ({ clinica, modal, connector, setModal, baseUrl }) => {
   const [qr, setQr] = useState()
@@ -9,6 +12,11 @@ export const CheckModal = ({ clinica, modal, connector, setModal, baseUrl }) => 
   const componentRef = useRef()
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
+  })
+
+  const smallcheckref = useRef()
+  const handlePrint2 = useReactToPrint({
+    content: () => smallcheckref.current,
   })
 
   useEffect(() => {
@@ -45,6 +53,11 @@ export const CheckModal = ({ clinica, modal, connector, setModal, baseUrl }) => 
             <div ref={componentRef}>
               <Check baseUrl={baseUrl} clinica={clinica} connector={connector} qr={qr} />
             </div>
+            <div className='d-none'>
+              <div ref={smallcheckref} className="w-[9cm] p-2">
+                <SmallCheck baseUrl={baseUrl} clinica={clinica} connector={connector} qr={qr} />
+              </div>
+            </div>
           </div>
           <div className="modal-footer custom bg-white" style={{ transform: "translateY(-50px)" }}>
             <div className="left-side">
@@ -58,7 +71,18 @@ export const CheckModal = ({ clinica, modal, connector, setModal, baseUrl }) => 
                 Bekor qilish
               </button>
             </div>
-            <div className="divider" />
+            <div className="right-side">
+              <button
+                onClick={() => {
+                  handlePrint2()
+                }}
+                className="btn btn-link success w-100"
+              >
+                <FontAwesomeIcon onClick={() => {
+                  handlePrint2()
+                }} icon={faPrint} />
+              </button>
+            </div>
             <div className="right-side">
               <button
                 onClick={() => {
