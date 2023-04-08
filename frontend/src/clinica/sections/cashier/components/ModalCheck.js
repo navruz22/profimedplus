@@ -54,7 +54,7 @@ export const CheckModal = ({ clinica, modal, connector, setModal, baseUrl }) => 
               <Check baseUrl={baseUrl} clinica={clinica} connector={connector} qr={qr} />
             </div>
             <div className='d-none'>
-              <div ref={smallcheckref} className="w-[9cm] p-2">
+              <div ref={smallcheckref} className="w-[10.4cm] p-2">
                 <SmallCheck baseUrl={baseUrl} clinica={clinica} connector={connector} qr={qr} />
               </div>
             </div>

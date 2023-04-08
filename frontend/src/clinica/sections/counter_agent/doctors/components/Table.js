@@ -167,6 +167,23 @@ const Table = ({
                                     </tr>
                                 )
                             })}
+                            <tr>
+                                <td
+                                    className="border py-1 font-weight-bold text-right"
+                                    style={{ maxWidth: '30px !important' }}
+                                ></td>
+                                <td className="border py-1 font-weight-bold text-[16px]"> </td>
+                                <td className="border py-1 font-weight-bold text-[16px]"></td>
+                                <td className="border py-1 text-left text-[16px]"></td>
+                                <td className="border py-1 text-left text-[16px]"></td>
+                                <td className="border py-1 text-right text-[16px]"></td>
+                                <td className="border py-1 text-right text-[16px] font-bold">
+                                    {connectors.reduce((prev, el) => prev + el.counteragent_profit, 0)}
+                                </td>
+                                <td className="border py-1 text-right text-[16px] font-bold">
+                                    {connectors.reduce((prev, el) => prev + el.counterdoctor_profit, 0)}
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
