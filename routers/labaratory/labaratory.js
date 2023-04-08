@@ -420,7 +420,7 @@ module.exports.getServicesType = async (req, res) => {
 
 module.exports.getClientsForResult = async (req, res) => {
     try {
-        const { clinica, servicetype } = req.body;
+        const { clinica, servicetype, beginDay, endDay } = req.body;
 
         const clinic = await Clinica.findById(clinica);
 
@@ -433,8 +433,8 @@ module.exports.getClientsForResult = async (req, res) => {
         const services = await OfflineService.find({
             clinica,
             createdAt: {
-                $gte: new Date(new Date().setUTCHours(0, 0, 0, 0)),
-                $lte: new Date(new Date().setDate(new Date().getDate() + 1))
+                $gte: beginDay,
+                $lte: endDay
             }
         })
             .select("service serviceid accept refuse column tables turn connector client files")
@@ -444,6 +444,10 @@ module.exports.getClientsForResult = async (req, res) => {
                 path: "serviceid",
                 select: "servicetype",
                 match: { servicetype: servicetype }
+            })
+            .populate({
+                path: "serviceid",
+                select: "servicetype place visible"
             })
             .lean()
             .then(services => services.filter(service => service.serviceid && !service.refuse))

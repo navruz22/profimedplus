@@ -4,10 +4,18 @@ import { AuthContext } from "../../../context/AuthContext";
 import { useHttp } from "../../../hooks/http.hook";
 import Select from 'react-select'
 import makeAnimated from 'react-select/animated'
+import { DatePickers } from "../doctorclients/clientComponents/DatePickers";
 
 const animatedComponents = makeAnimated()
 
 export const Conclusion = () => {
+
+  const [beginDay, setBeginDay] = useState(
+    new Date(new Date().setUTCHours(0, 0, 0, 0))
+  );
+  const [endDay, setEndDay] = useState(
+    new Date(new Date().setDate(new Date().getDate() + 1))
+  );
 
   //====================================================================
   //====================================================================
@@ -85,14 +93,16 @@ export const Conclusion = () => {
   const [serviceClients, setServiceClietns] = useState([])
 
   const getClientsServices =
-    async (servicetype, colservices) => {
+    async (servicetype, colservices, beginDay, endDay) => {
       try {
         const data = await request(
           `/api/labaratory/clients/result`,
           "POST",
           {
             clinica: clinicaValue,
-            servicetype
+            servicetype,
+            beginDay,
+            endDay
           },
           {
             Authorization: `Bearer ${auth.token}`,
@@ -117,25 +127,31 @@ export const Conclusion = () => {
         let services = []
         for (const column of colservices) {
           let currentService = [...client.services].filter(service => service.service._id === column._id)
-
           if (currentService.length > 0) {
             services.push(...currentService)
-          } else {
-            services.push({
-              tables: [],
-              service: []
-            })
-          }
+          } 
+          // else {
+          //   services.push({
+          //     tables: [],
+          //     service: []
+          //   })
+          // }
         }
-        data.push({ ...client, services })
+        data.push({ ...client, services: [...services].filter(service => {
+          console.log(service);
+          return service.serviceid.visible
+        }).sort((a, b) => a.place - b.place) })
       }
     }
+
     setServiceClietns(data);
   }
 
+  //=========================================================
+  //=========================================================
   const handleChangeServiceType = (e) => {
-    setServicesColumn(e.services)
-    getClientsServices(e.value, e.services)
+    setServicesColumn([...e.services].filter(service => service.visible).sort((a, b) => a.place - b.place))
+    getClientsServices(e.value, e.services, beginDay, endDay)
     setServiceType(e);
   }
 
@@ -163,6 +179,21 @@ export const Conclusion = () => {
   const isExistColumn = (serviceid) => {
     return servicesColumn.some(el => el._id === serviceid)
   }
+
+  // ======================================
+  // ======================================
+
+  const changeStart = (e) => {
+    setBeginDay(new Date(new Date(e).setUTCHours(0, 0, 0, 0)));
+    getClientsServices(serviceType.value, serviceType.services, new Date(new Date(e).setUTCHours(0, 0, 0, 0)), endDay)
+  };
+
+  const changeEnd = (e) => {
+    const date = new Date(new Date(e).setUTCHours(23, 59, 59, 59))
+
+    setEndDay(date);
+    getClientsServices(serviceType.value, serviceType.services, beginDay, date)
+  };
 
   // ======================================
   // ======================================
@@ -271,6 +302,10 @@ export const Conclusion = () => {
           options={serviceTypes}
           onChange={e => handleChangeServiceType(e)}
         />
+      </div>
+      <div className="flex items-center gap-2">
+        <DatePickers changeDate={changeStart} />
+        <DatePickers changeDate={changeEnd} />
       </div>
     </div>
     <div className="row gutters">

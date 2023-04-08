@@ -388,6 +388,7 @@ const Tables = () => {
             let servicess = [...services]
             servicess[index] = data
             setServices(servicess)
+            getServices()
         } catch (error) {
             notify({
                 title: error,
