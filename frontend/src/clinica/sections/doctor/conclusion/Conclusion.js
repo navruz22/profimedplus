@@ -11,7 +11,7 @@ import DoctorResult from "./components/DoctorResult";
 
 const Conclusion = () => {
     const { connector } = useLocation().state
-
+    console.log(connector);
     const toast = useToast();
 
     const notify = useCallback(

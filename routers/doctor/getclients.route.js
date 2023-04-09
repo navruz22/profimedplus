@@ -397,6 +397,7 @@ module.exports.getStatsionarAll = async (req, res) => {
           clients.push({
             client: connector.client,
             connector: {
+              _id: connector._id,
               clinica: connector.clinica,
               accept: connector.accept,
               createdAt: connector.createdAt,

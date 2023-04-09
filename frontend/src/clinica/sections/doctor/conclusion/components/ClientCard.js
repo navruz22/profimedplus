@@ -12,7 +12,7 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 
 const ClientCard = ({ connector, setConnector }) => {
-    console.log(connector?.client?.template);
+    console.log(connector);
 
     const componentRef = useRef()
     const handlePrint = useReactToPrint({
@@ -309,7 +309,7 @@ const ClientCard = ({ connector, setConnector }) => {
                                     fontSize: "20px",
                                 }}
                             >
-                                {connector.client && connector.client.address}
+                                {connector?.client?.address}
                             </td>
                             <td
                                 className="p-0 fw-bold"
@@ -328,7 +328,7 @@ const ClientCard = ({ connector, setConnector }) => {
                                     fontSize: "20px",
                                 }}
                             >
-                                {connector.client && connector.client.id}
+                                {connector?.client?.id}
                             </td>
                         </tr>
                     </table>

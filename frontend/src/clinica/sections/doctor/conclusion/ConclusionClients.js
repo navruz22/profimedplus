@@ -208,7 +208,7 @@ export const ConclusionClients = () => {
     }
   }, [auth, beginDay, t, endDay, getDoctorClients, getBaseUrl]);
 
-
+  console.log(currentDoctorClients);
   const componentRef = useRef()
   const print = useReactToPrint({
     content: () => componentRef.current,

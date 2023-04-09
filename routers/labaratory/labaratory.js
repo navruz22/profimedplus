@@ -442,15 +442,14 @@ module.exports.getClientsForResult = async (req, res) => {
             .populate("client", "lastname firstname born id phone address")
             .populate({
                 path: "serviceid",
-                select: "servicetype",
-                match: { servicetype: servicetype }
+                select: "servicetype"
             })
             .populate({
                 path: "serviceid",
                 select: "servicetype place visible"
             })
             .lean()
-            .then(services => services.filter(service => service.serviceid && !service.refuse))
+            .then(services => services.filter(service => String(service.serviceid.servicetype) === String(servicetype) && !service.refuse && service.connector.probirka))
 
 
         let clients = [];

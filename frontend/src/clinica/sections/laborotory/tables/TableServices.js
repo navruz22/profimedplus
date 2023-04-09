@@ -25,8 +25,10 @@ const TableServices = ({
     loading,
     setImports,
     setModal,
-    setRemove
+    setRemove,
+    serviceTypes
 }) => {
+    console.log(currentServices);
     return (
         <div className="shadow-lg border-alotrade table-container">
             <div className="table-responsive">
@@ -47,35 +49,44 @@ const TableServices = ({
                                 </select>
                             </th>
                             <th>
+                                <select
+                                    className="form-control form-control-sm selectpicker"
+                                    placeholder="Bo'limni tanlang"
+                                    onChange={(e) => {
+                                        setCurrentServices([...services].filter(s => {
+                                            if (e.target.value === 'all') {
+                                                return s
+                                            } else {
+                                                return s.servicetype._id === e.target.value
+                                            }
+                                        }))
+                                    }}
+                                    style={{ minWidth: "100px" }}
+                                >
+                                    <option value={'all'}>Barchasi</option>
+                                    {serviceTypes.map(item =>
+                                        <option value={item.value}>{item.label}</option>
+                                    )}
+                                </select>
+                            </th>
+                            <th>
                                 <input
-                                    onChange={searchServiceType}
+                                    onChange={searchName}
                                     style={{ maxWidth: "100px" }}
                                     type="search"
                                     className="form-control form-control-sm selectpicker inline-block"
                                     placeholder="Xizmat turi"
                                     aria-controls="basicExample"
                                 />
-
-                            </th>
-                            <th>
-                                <input
-                                    onChange={searchService}
-                                    style={{ maxWidth: "100px" }}
-                                    type="search"
-                                    className="form-control form-control-sm selectpicker inline-block"
-                                    placeholder="Xizmat nomi"
-                                    aria-controls="basicExample"
-                                />
-
                             </th>
                             <th className="text-center" colSpan={4}>
-                                <Pagination
+                                {/* <Pagination
                                     setCurrentDatas={setCurrentServices}
                                     datas={services}
                                     setCurrentPage={setCurrentPage}
                                     countPage={countPage}
                                     totalDatas={services && services.length}
-                                />
+                                /> */}
                                 {/*<ExcelUpload setData={setImports} setModal={setModal2} loading={loading}/>*/}
                             </th>
                         </tr>
@@ -128,7 +139,7 @@ const TableServices = ({
                                         <input
                                             type="number"
                                             style={{ maxWidth: "50px" }}
-                                            value={service.place && service.place}
+                                            defaultValue={service?.place}
                                             className="outline-0 px-1 border max-w-xs text-right"
                                             onChange={(e) => servicePlace(e, key)}
                                         />
@@ -139,11 +150,11 @@ const TableServices = ({
                                                 checked={service.visible}
                                                 type="checkbox"
                                                 className="custom-control-input border border-dager"
-                                                id={`service${key}`}
+                                                id={`service${service._id}`}
                                                 onChange={(e) => serviceVisible(e, key)}
                                             />
                                             <label className="custom-control-label"
-                                                htmlFor={`service${key}`}></label>
+                                                htmlFor={`service${service._id}`}></label>
                                         </div>
                                     </td>
                                     <td className="border-right text-[16px] py-0 text-center">
@@ -167,7 +178,7 @@ const TableServices = ({
                                             onClick={() => {
                                                 setVisible(true)
                                                 if (!service.column) {
-                                                    setService({...service, column: {col1: 'Наименование', col2: 'Результат', col3: 'Норма'}})
+                                                    setService({ ...service, column: { col1: 'Наименование', col2: 'Результат', col3: 'Норма' } })
                                                 } else {
                                                     setService(service)
                                                 }

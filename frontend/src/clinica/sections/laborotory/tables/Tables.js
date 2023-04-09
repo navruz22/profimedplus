@@ -401,6 +401,44 @@ const Tables = () => {
     //====================================================================
     //====================================================================
 
+    const [serviceTypes, setServiceTypes] = useState([]);
+
+    const getServiceTypes = useCallback(
+        async () => {
+            try {
+                const data = await request(
+                    `/api/labaratory/servicetype/get`,
+                    "POST",
+                    {
+                        clinica: auth.clinica._id,
+                    },
+                    {
+                        Authorization: `Bearer ${auth.token}`,
+                    }
+                );
+                setServiceTypes([...data].map((el => ({
+                    value: el._id,
+                    label: el.name,
+                }))))
+            } catch (error) {
+                notify({
+                    title: error,
+                    description: "",
+                    status: "error",
+                });
+            }
+        },
+        [request, auth, notify]
+    );
+
+    //====================================================================
+    //====================================================================
+
+    const searchName = (e) => {
+        const newS = [...services].filter(s => s.name.toLowerCase().includes(e.target.value.toLowerCase()))
+        setCurrentServices(newS)
+    }
+
     //====================================================================
     //====================================================================
     // useEffect
@@ -410,8 +448,9 @@ const Tables = () => {
         if (!t) {
             setT(1)
             getServices()
+            getServiceTypes()
         }
-    }, [getServices, t])
+    }, [getServices, getServiceTypes, t])
     //====================================================================
     //====================================================================
 
@@ -460,6 +499,7 @@ const Tables = () => {
 
             <div className='mt-4 py-4'>
                 <TableServices
+                    serviceTypes={serviceTypes}
                     setVisible={setVisible}
                     searchServiceType={searchServiceType}
                     updateService={updateService}
@@ -474,6 +514,7 @@ const Tables = () => {
                     setCurrentPage={setCurrentPage}
                     setPageSize={setPageSize}
                     searchService={searchService}
+                    searchName={searchName}
                 />
             </div>
 

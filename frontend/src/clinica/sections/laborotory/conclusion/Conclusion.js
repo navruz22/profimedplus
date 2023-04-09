@@ -353,7 +353,7 @@ export const Conclusion = () => {
                     </td>
                     {service.services.map((s, index) => <td key={index} className="border py-1 font-weight-bold text-[16px]">
                       {isExistColumn(s.service._id) ? s.tables && s.tables.length > 0 && <div>
-                        <input className="outline-none border-[1px] border-black px-2 " value={s?.tables[0]?.col2} onChange={e => handleChangeServiceClient(e, ind, s._id)} />
+                        <input className="max-w-[80px] outline-none border-[1px] border-black px-2 " value={s?.tables[0]?.col2} onChange={e => handleChangeServiceClient(e, ind, s._id)} />
                       </div> : ""}
                     </td>
                     )}
