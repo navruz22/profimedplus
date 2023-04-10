@@ -120,17 +120,17 @@ export const Conclusion = () => {
 
 
   const sortData = (currentData, colservices) => {
-    console.log(currentData);
-    console.log(colservices);
     const data = []
-    let columns = colservices.sort((a, b) => a.place - b.place)
+    let columns = [...colservices].filter(col => col.visible).sort((a, b) => a?.place - b?.place)
     if (currentData.length > 0) {
       for (const client of currentData) {
         let services = []
+        console.log(client);
         for (const column of columns) {
-          if (column.visible) {
+          console.log(column);
             let currentService = [...client.services].filter(service => service.service._id === column._id)
             if (currentService.length > 0) {
+              console.log(currentService);
               services.push(...currentService)
             }
             else {
@@ -139,7 +139,7 @@ export const Conclusion = () => {
                 service: []
               })
             }
-          }
+          
         }
         data.push({
           ...client, services: [...services]
