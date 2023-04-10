@@ -15,6 +15,7 @@ const { StatsionarService } = require("../../models/StatsionarClient/StatsionarS
 const { StatsionarConnector } = require("../../models/StatsionarClient/StatsionarConnector");
 require('../../models/StatsionarClient/StatsionarConnector')
 require('../../models/StatsionarClient/StatsionarClient')
+require('../../models/StatsionarClient/StatsionarRoom')
 require('../../models/Services/Department')
 
 //Clients getall
@@ -275,6 +276,7 @@ module.exports.getStatsionarAll = async (req, res) => {
             select: "probirka"
           }
         })
+        .populate('room', 'beginday endday')
         .lean()
         .then(connectors => connectors.filter(connector => 
             connector.services.some(service => String(service.department._id) === String(department)) &&
@@ -312,7 +314,7 @@ module.exports.getStatsionarAll = async (req, res) => {
       connectors = await StatsionarConnector.find({
         createdAt: {
           $gte: beginDay,
-          $lt: endDay,
+          $lte: endDay,
         },
         clinica,
       })
@@ -355,6 +357,7 @@ module.exports.getStatsionarAll = async (req, res) => {
             select: "probirka"
           }
         })
+        .populate('room', 'beginday endday')
         .lean()
         .then(connectors => connectors.filter(connector => 
             connector.services.some(service => String(service.department._id) === String(department))
@@ -391,7 +394,7 @@ module.exports.getStatsionarAll = async (req, res) => {
       //     services.filter(service => ((String(service.department._id) === String(department) || service.department.probirka)
       //       && !service.refuse)))
     }
-
+    console.log(connectors);
     if (connectors.length > 0) {
       for (const connector of connectors) {
           clients.push({
@@ -401,7 +404,8 @@ module.exports.getStatsionarAll = async (req, res) => {
               clinica: connector.clinica,
               accept: connector.accept,
               createdAt: connector.createdAt,
-              probirka: connector.probirka
+              probirka: connector.probirka,
+              room: connector.room
             },
             services: connector.services,
           })

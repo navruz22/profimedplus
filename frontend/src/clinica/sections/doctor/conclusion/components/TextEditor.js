@@ -23,7 +23,7 @@ import {
     FaUnderline,
     FaUndo,
 } from "react-icons/fa";
-import { BsTextCenter, BsTextLeft, BsTextRight } from 'react-icons/bs';
+import { BsList, BsTextCenter, BsTextLeft, BsTextRight } from 'react-icons/bs';
 
 
 const TextEditor = ({ value, onChange, index }) => {
@@ -135,6 +135,12 @@ const TextEditor = ({ value, onChange, index }) => {
                     >
                         <BsTextRight />
                     </button>
+                    <button
+                        onClick={() => editor.chain().focus().setTextAlign('justify').run()}
+                        className="bg-slate-200 rounded-g p-2"
+                    >
+                        <BsList />
+                    </button>
                     {/* <button
                                     onClick={() => editor.chain().focus().setTextAlign('justify').run()}
                                     className="bg-slate-200 rounded-g p-2"
@@ -143,33 +149,6 @@ const TextEditor = ({ value, onChange, index }) => {
                                 </button>
                                 <button className="bg-slate-200 rounded-g p-2" onClick={() => editor.chain().focus().unsetTextAlign().run()}>unsetTextAlign</button> */}
                 </div>
-            </div>
-            <div className='flex gap-2 mt-2'>
-                <button
-                    onClick={() => editor.chain().focus().setTextAlign('left').run()}
-                    className="bg-slate-200 rounded-g p-2"
-                >
-                    left
-                </button>
-                <button
-                    onClick={() => editor.chain().focus().setTextAlign('center').run()}
-                    className="bg-slate-200 rounded-g p-2"
-                >
-                    center
-                </button>
-                <button
-                    onClick={() => editor.chain().focus().setTextAlign('right').run()}
-                    className="bg-slate-200 rounded-g p-2"
-                >
-                    right
-                </button>
-                <button
-                    onClick={() => editor.chain().focus().setTextAlign('justify').run()}
-                    className="bg-slate-200 rounded-g p-2"
-                >
-                    justify
-                </button>
-                <button className="bg-slate-200 rounded-g p-2" onClick={() => editor.chain().focus().unsetTextAlign().run()}>unsetTextAlign</button>
             </div>
             <div className='flex gap-2 flex-wrap mt-2'>
                 <button className="bg-slate-200 rounded-g p-2"
@@ -187,28 +166,6 @@ const TextEditor = ({ value, onChange, index }) => {
                 <button className="bg-slate-200 rounded-g p-2" onClick={() => editor.chain().focus().addRowAfter().run()}>добавить строку после</button>
                 <button className="bg-slate-200 rounded-g p-2" onClick={() => editor.chain().focus().deleteRow().run()}>удалить строку</button>
                 <button className="bg-slate-200 rounded-g p-2" onClick={() => editor.chain().focus().deleteTable().run()}>удалить таблицу</button>
-                <button className="bg-slate-200 rounded-g p-2" onClick={() => editor.chain().focus().mergeCells().run()}>объединить ячейки</button>
-                <button className="bg-slate-200 rounded-g p-2" onClick={() => editor.chain().focus().splitCell().run()}>
-                    разделить ячейку</button>
-                <button className="bg-slate-200 rounded-g p-2" onClick={() => editor.chain().focus().toggleHeaderColumn().run()}>
-                    переключить столбец заголовка
-                </button>
-                <button className="bg-slate-200 rounded-g p-2" onClick={() => editor.chain().focus().toggleHeaderRow().run()}>
-                    переключить строку заголовка
-                </button>
-                <button className="bg-slate-200 rounded-g p-2" onClick={() => editor.chain().focus().toggleHeaderCell().run()}>
-                    переключить ячейку заголовка
-                </button>
-                <button className="bg-slate-200 rounded-g p-2" onClick={() => editor.chain().focus().mergeOrSplit().run()}>объединить или разделить</button>
-                <button className="bg-slate-200 rounded-g p-2" onClick={() => editor.chain().focus().setCellAttribute('colspan', 2).run()}>
-                    установить атрибут ячейки
-                </button>
-                <button className="bg-slate-200 rounded-g p-2" onClick={() => editor.chain().focus().fixTables().run()}>
-                    исправить таблицы</button>
-                <button className="bg-slate-200 rounded-g p-2" onClick={() => editor.chain().focus().goToNextCell().run()}>перейти к следующей ячейке</button>
-                <button className="bg-slate-200 rounded-g p-2" onClick={() => editor.chain().focus().goToPreviousCell().run()}>
-                    перейти к предыдущей ячейке
-                </button>
             </div>
         </div>
         <div className='flex justify-center'>

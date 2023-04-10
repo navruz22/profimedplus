@@ -72,7 +72,7 @@ export const ConclusionClients = () => {
 
   //====================================================================
   //====================================================================
-
+    const [type, setType] = useState('begin')
   //====================================================================
   //====================================================================
   // getConnectors
@@ -96,10 +96,22 @@ export const ConclusionClients = () => {
             Authorization: `Bearer ${auth.token}`,
           }
         );
-        setDoctorClients(data);
+        setDoctorClients([...data].filter(item => {
+          if (type === 'end') {
+            return item?.connector?.room?.endday
+          } else {
+            return item?.connector?.room?.endday === null
+          }
+        }));
         setSearchStorage(data);
         setCurrentDoctorClients(
-          data.slice(indexFirstConnector, indexLastConnector)
+          [...data].filter(item => {
+            if (type === 'end') {
+              return item?.connector?.room?.endday
+            } else {
+              return item?.connector?.room?.endday === null
+            }
+          }).slice(indexFirstConnector, indexLastConnector)
         );
       } catch (error) {
         notify({
@@ -142,6 +154,27 @@ export const ConclusionClients = () => {
     },
     [searchStorage, countPage]
   );
+
+  //====================================================================
+  //====================================================================
+
+
+  const changeType = (e) => {
+    if (e.target.value === 'end') {
+      const searching = searchStorage.filter((item) =>
+        item?.connector?.room?.endday
+      );
+      setDoctorClients(searching);
+      setCurrentDoctorClients(searching.slice(0, countPage));
+    } else {
+      const searching = searchStorage.filter((item) =>
+        item?.connector?.room?.endday === null
+      );
+      setDoctorClients(searching);
+      setCurrentDoctorClients(searching.slice(0, countPage));
+    }
+    setType(e.target.value);
+  }
 
   //===================================================================
   //===================================================================
@@ -263,58 +296,68 @@ export const ConclusionClients = () => {
             <div className="border-0 shadow-lg table-container">
               <div className="border-0 table-container">
                 <div className="table-responsive">
+                  <div className="flex items-center justify-between gap-2 bg-white p-2">
+                    <div>
+                      <select
+                        className="form-control form-control-sm selectpicker"
+                        placeholder="Bo'limni tanlang"
+                        onChange={setPageSize}
+                        style={{ minWidth: "50px" }}
+                      >
+                        <option value={10}>10</option>
+                        <option value={25}>25</option>
+                        <option value={50}>50</option>
+                        <option value={100}>100</option>
+                      </select>
+                    </div>
+                    <div>
+                      <input
+                        onChange={searchFullname}
+                        style={{ maxWidth: "100px", minWidth: "100px" }}
+                        type="search"
+                        className="w-100 form-control form-control-sm selectpicker"
+                        placeholder="F.I.O"
+                      />
+                    </div>
+                    <div>
+                      <input
+                        onChange={searchId}
+                        style={{ maxWidth: "60px" }}
+                        type="search"
+                        className="form-control form-control-sm selectpicker"
+                        placeholder="ID"
+                      />
+                    </div>
+                    <div className="text-center">
+                      <Pagination
+                        setCurrentDatas={setCurrentDoctorClients}
+                        datas={doctorClients}
+                        setCurrentPage={setCurrentPage}
+                        countPage={countPage}
+                        totalDatas={doctorClients.length}
+                      />
+                    </div>
+                    <div
+                      className="flex items-center gap-2 justify-center"
+                      style={{ maxWidth: "200px", overflow: "hidden" }}
+                    >
+                      <DatePickers changeDate={changeStart} />
+                      <DatePickers changeDate={changeEnd} />
+                    </div>
+                    <div
+                      className="flex items-center gap-2 justify-center"
+                    >
+                      <select
+                        className="form-control form-control-sm selectpicker"
+                        placeholder="Turini tanlang"
+                        onChange={changeType}
+                      >
+                        <option value={'begin'}>Davolanishda</option>
+                        <option value={'end'}>Tugalganlar</option>
+                      </select>
+                    </div>
+                  </div>
                   <table className="table m-0" id="discount-table">
-                    <thead className="bg-white">
-                      <tr>
-                        <th>
-                          <select
-                            className="form-control form-control-sm selectpicker"
-                            placeholder="Bo'limni tanlang"
-                            onChange={setPageSize}
-                            style={{ minWidth: "50px" }}
-                          >
-                            <option value={10}>10</option>
-                            <option value={25}>25</option>
-                            <option value={50}>50</option>
-                            <option value={100}>100</option>
-                          </select>
-                        </th>
-                        <th>
-                          <input
-                            onChange={searchFullname}
-                            style={{ maxWidth: "100px", minWidth: "100px" }}
-                            type="search"
-                            className="w-100 form-control form-control-sm selectpicker"
-                            placeholder="F.I.O"
-                          />
-                        </th>
-                        <th>
-                          <input
-                            onChange={searchId}
-                            style={{ maxWidth: "60px" }}
-                            type="search"
-                            className="form-control form-control-sm selectpicker"
-                            placeholder="ID"
-                          />
-                        </th>
-                        <th className="text-center">
-                          <Pagination
-                            setCurrentDatas={setCurrentDoctorClients}
-                            datas={doctorClients}
-                            setCurrentPage={setCurrentPage}
-                            countPage={countPage}
-                            totalDatas={doctorClients.length}
-                          />
-                        </th>
-                        <th
-                          className="flex items-center gap-2 justify-center"
-                          style={{ maxWidth: "200px", overflow: "hidden" }}
-                        >
-                          <DatePickers changeDate={changeStart} />
-                          <DatePickers changeDate={changeEnd} />
-                        </th>
-                      </tr>
-                    </thead>
                     <thead>
                       <tr>
                         <th className="border bg-alotrade text-[16px] py-1">№</th>
@@ -427,7 +470,13 @@ export const ConclusionClients = () => {
                           </div>
                         </th>
                         <th className="border bg-alotrade text-[16px] py-1">
-                          
+                            Kelgan vaqti
+                        </th>
+                        <th className="border bg-alotrade text-[16px] py-1">
+                            Ketgan vaqti
+                        </th>
+                        <th className="border bg-alotrade text-[16px] py-1">
+
                         </th>
                       </tr>
                     </thead>
@@ -452,12 +501,18 @@ export const ConclusionClients = () => {
                                 {connector.client.phone}
                               </td>
                               <td className="border text-[16px] py-1 text-right">
-                                {new Date(connector.client.born).toLocaleDateString()}
+                                {new Date(connector?.client?.born).toLocaleDateString()}
+                              </td>
+                              <td className="border text-[16px] py-1 text-right">
+                                {new Date(connector?.connector?.room?.beginday).toLocaleDateString()} {new Date(connector?.connector?.room?.beginday).toLocaleTimeString()}
+                              </td>
+                              <td className="border text-[16px] py-1 text-right">
+                              {new Date(connector?.connector?.room?.endday).toLocaleDateString()} {new Date(connector?.connector?.room?.endday).toLocaleTimeString()}
                               </td>
                               <td className="border text-[16px] py-1 text-center flex gap-[4px] items-center">
                                 <button
                                   onClick={() =>
-                                    history.push("/alo24/conclusion", {...connector})
+                                    history.push("/alo24/conclusion", { ...connector })
                                   }
                                   className="btn btn-primary py-0"
                                 >

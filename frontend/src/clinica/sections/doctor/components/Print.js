@@ -8,14 +8,14 @@ const Print = ({ client, connector, sections, clinica, baseUrl, doctor }) => {
     return (
         <div className="bg-white">
             <div>
-            <div className="flex justify-between items-center" style={{ fontSize: "20pt", marginBottom: "30px" }}>
+                <div className="flex justify-between items-center" style={{ fontSize: "20pt", marginBottom: "30px" }}>
                     <div className="" style={{ textAlign: "center" }}>
                         <pre className="" style={{ fontFamily: "-moz-initial", border: 'none', outline: "none" }}>
                             {clinica?.name}
                         </pre>
                     </div>
-                    <div style={{textAlign: "center" }}>
-                        <img style={{ width: "150px"}}  src={baseUrl + '/api/upload/file/' + clinica?.image} alt="logo" />
+                    <div style={{ textAlign: "center" }}>
+                        <img style={{ width: "150px" }} src={baseUrl + '/api/upload/file/' + clinica?.image} alt="logo" />
                     </div>
                     <div className="" style={{ textAlign: "center" }}>
                         <pre className="" style={{ fontFamily: "-moz-initial", border: 'none', outline: "none" }}>
@@ -198,20 +198,20 @@ const Print = ({ client, connector, sections, clinica, baseUrl, doctor }) => {
                 {sections.length > 0 &&
                     sections.map((section, index) => (
                         <div key={index} className={"w-full"}>
-                            <div className="w-full flex justify-center items-center mb-2">
-                                <h2 className="block text-[24px] font-bold">
-                                    {section?.service?.name}
-                                </h2>
-                            </div>
                             {section.templates && section.templates.length > 0 &&
                                 section.templates.map((template, index) => (
-                                    <div
-                                        key={index}
-                                        className="w-full text-[20px] mb-2 print_word"
-                                    >
+                                    <div>
+                                        <h2 className="block text-center mb-4 text-[24px] font-bold">
+                                            {template?.name}
+                                        </h2>
+                                        <div
+                                            key={index}
+                                            className="w-full text-[20px] mb-2 print_word"
+                                        >
 
-                                        {ReactHtmlParser(template.template)}
+                                            {ReactHtmlParser(template.template)}
 
+                                        </div>
                                     </div>
                                 ))}
                             <div>

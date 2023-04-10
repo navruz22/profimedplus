@@ -90,7 +90,7 @@ module.exports.getLabClients = async (req, res) => {
                 .then(services => {
                     return services.filter(service => {
                         return service.connector.accept && new Date(new Date(service.client.born).setUTCHours(0, 0, 0, 0)).toISOString() === new Date(new Date(clientborn).setUTCHours(0, 0, 0, 0)).toISOString()
-                            && service.department.probirka && !service.refuse
+                            && service.department.probirka && !service.refuse && service.serviceid?._id
                     })
                 })
             statsionar = await StatsionarService.find({
@@ -129,7 +129,7 @@ module.exports.getLabClients = async (req, res) => {
                 .then(services => {
                     return services.filter(service => {
                         return service.connector.accept && new Date(new Date(service.client.born).setUTCHours(0, 0, 0, 0)).toISOString() === new Date(new Date(clientborn).setUTCHours(0, 0, 0, 0)).toISOString()
-                            && service.department.probirka && !service.refuse
+                            && service.department.probirka && !service.refuse && service.serviceid?._id
                     })
                 })
         } else {
@@ -163,7 +163,7 @@ module.exports.getLabClients = async (req, res) => {
                 .populate("templates", "name template")
                 .lean()
                 .then(services => {
-                    return services.filter(service => service.connector.accept && service.department.probirka && !service.refuse)
+                    return services.filter(service => service.connector.accept && service.department.probirka && !service.refuse && service.serviceid?._id)
                 })
             statsionar = await StatsionarService.find({
                 createdAt: {
@@ -203,7 +203,7 @@ module.exports.getLabClients = async (req, res) => {
                 .populate("templates", "name template")
                 .lean()
                 .then(services => {
-                    return services.filter(service => service.connector.accept && service.department.probirka && !service.refuse)
+                    return services.filter(service => service.connector.accept && service.department.probirka && !service.refuse && service.serviceid?._id)
                 })
         }
 
@@ -449,7 +449,7 @@ module.exports.getClientsForResult = async (req, res) => {
                 select: "servicetype place visible"
             })
             .lean()
-            .then(services => services.filter(service => String(service.serviceid.servicetype) === String(servicetype) && !service.refuse && service.connector.probirka))
+            .then(services => services.filter(service => String(service?.serviceid?.servicetype) === String(servicetype) && !service.refuse && service.connector.probirka))
 
 
         let clients = [];

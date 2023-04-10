@@ -402,7 +402,7 @@ const DoctorTemplate = ({ client, connector, services }) => {
             </div> 
           </div> */}
         </div>
-        <div className="row pt-4 w-full">
+        <div className="pt-4 w-full">
           {sections.length > 0 &&
             sections.map((section, index) => (
               <div key={index} className={"w-full"}>

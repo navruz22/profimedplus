@@ -14,7 +14,9 @@ import {
     FaUnderline,
     FaUndo
 } from "react-icons/fa";
-import { BsTextCenter, BsTextLeft, BsTextRight } from "react-icons/bs"
+import { BsList, BsTable, BsTextCenter, BsTextLeft, BsTextRight } from 'react-icons/bs';
+import { RiDeleteColumn, RiDeleteRow, RiInsertColumnLeft, RiInsertColumnRight, RiInsertRowBottom, RiInsertRowTop } from 'react-icons/ri';
+import { TbTableOff } from 'react-icons/tb';
 import './style.css'
 
 
@@ -75,15 +77,7 @@ const RegisterTemplate = ({ setTemplate, template, createHandler, editor }) => {
                                     </button>
                                     <button
                                         onClick={() =>
-                                            editor.chain().focus().toggleHeading({ level: 2 }).run()
-                                        }
-                                        className="bg-slate-200 rounded-g p-2"
-                                    >
-                                        <FaHeading />
-                                    </button>
-                                    <button
-                                        onClick={() =>
-                                            editor.chain().focus().toggleHeading({ level: 3 }).run()
+                                            editor.chain().focus().toggleHeading({ level: 6 }).run()
                                         }
                                         className="bg-slate-200 rounded-g p-2"
                                     >
@@ -135,46 +129,37 @@ const RegisterTemplate = ({ setTemplate, template, createHandler, editor }) => {
                                     >
                                         <BsTextRight />
                                     </button>
-                                </div>
-                            </div>
-                            <div className='flex gap-2 flex-wrap mt-2'>
-                                <button className="bg-slate-200 rounded-g p-2"
-                                    onClick={() => editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()
-                                    }
+                                    <button
+                                        onClick={() => editor.chain().focus().setTextAlign('justify').run()}
+                                        className="bg-slate-200 rounded-g p-2"
+                                    >
+                                        <BsList />
+                                    </button>
+                                    {/* <button
+                                    onClick={() => editor.chain().focus().setTextAlign('justify').run()}
+                                    className="bg-slate-200 rounded-g p-2"
                                 >
-                                    вставить таблицу
+                                    justify
                                 </button>
-                                <button className="bg-slate-200 rounded-g p-2" onClick={() => editor.chain().focus().addColumnBefore().run()}>
-                                    добавить столбец перед
-                                </button>
-                                <button className="bg-slate-200 rounded-g p-2" onClick={() => editor.chain().focus().addColumnAfter().run()}>добавить столбец после</button>
-                                <button className="bg-slate-200 rounded-g p-2" onClick={() => editor.chain().focus().deleteColumn().run()}>удалть столбец</button>
-                                <button className="bg-slate-200 rounded-g p-2" onClick={() => editor.chain().focus().addRowBefore().run()}>добавить строку перед</button>
-                                <button className="bg-slate-200 rounded-g p-2" onClick={() => editor.chain().focus().addRowAfter().run()}>добавить строку после</button>
-                                <button className="bg-slate-200 rounded-g p-2" onClick={() => editor.chain().focus().deleteRow().run()}>удалить строку</button>
-                                <button className="bg-slate-200 rounded-g p-2" onClick={() => editor.chain().focus().deleteTable().run()}>удалить таблицу</button>
-                                <button className="bg-slate-200 rounded-g p-2" onClick={() => editor.chain().focus().mergeCells().run()}>объединить ячейки</button>
-                                <button className="bg-slate-200 rounded-g p-2" onClick={() => editor.chain().focus().splitCell().run()}>
-                                    разделить ячейку</button>
-                                <button className="bg-slate-200 rounded-g p-2" onClick={() => editor.chain().focus().toggleHeaderColumn().run()}>
-                                    переключить столбец заголовка
-                                </button>
-                                <button className="bg-slate-200 rounded-g p-2" onClick={() => editor.chain().focus().toggleHeaderRow().run()}>
-                                    переключить строку заголовка
-                                </button>
-                                <button className="bg-slate-200 rounded-g p-2" onClick={() => editor.chain().focus().toggleHeaderCell().run()}>
-                                    переключить ячейку заголовка
-                                </button>
-                                <button className="bg-slate-200 rounded-g p-2" onClick={() => editor.chain().focus().mergeOrSplit().run()}>объединить или разделить</button>
-                                <button className="bg-slate-200 rounded-g p-2" onClick={() => editor.chain().focus().setCellAttribute('colspan', 2).run()}>
-                                    установить атрибут ячейки
-                                </button>
-                                <button className="bg-slate-200 rounded-g p-2" onClick={() => editor.chain().focus().fixTables().run()}>
-                                    исправить таблицы</button>
-                                <button className="bg-slate-200 rounded-g p-2" onClick={() => editor.chain().focus().goToNextCell().run()}>перейти к следующей ячейке</button>
-                                <button className="bg-slate-200 rounded-g p-2" onClick={() => editor.chain().focus().goToPreviousCell().run()}>
-                                    перейти к предыдущей ячейке
-                                </button>
+                                <button className="bg-slate-200 rounded-g p-2" onClick={() => editor.chain().focus().unsetTextAlign().run()}>unsetTextAlign</button> */}
+                                </div>
+                                <div className='flex gap-2 flex-wrap'>
+                                    <button className="bg-slate-200 rounded-g p-2"
+                                        onClick={() => editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()
+                                        }
+                                    >
+                                        <BsTable />
+                                    </button>
+                                    <button className="bg-slate-200 rounded-g p-2" onClick={() => editor.chain().focus().addColumnBefore().run()}>
+                                        <RiInsertColumnLeft />
+                                    </button>
+                                    <button className="bg-slate-200 rounded-g p-2" onClick={() => editor.chain().focus().addColumnAfter().run()}><RiInsertColumnRight /></button>
+                                    <button className="bg-slate-200 rounded-g p-2" onClick={() => editor.chain().focus().deleteColumn().run()}><RiDeleteColumn /></button>
+                                    <button className="bg-slate-200 rounded-g p-2" onClick={() => editor.chain().focus().addRowBefore().run()}><RiInsertRowTop /></button>
+                                    <button className="bg-slate-200 rounded-g p-2" onClick={() => editor.chain().focus().addRowAfter().run()}><RiInsertRowBottom /></button>
+                                    <button className="bg-slate-200 rounded-g p-2" onClick={() => editor.chain().focus().deleteRow().run()}><RiDeleteRow /></button>
+                                    <button className="bg-slate-200 rounded-g p-2" onClick={() => editor.chain().focus().deleteTable().run()}><TbTableOff /></button>
+                                </div>
                             </div>
                         </div>
                         <div className='flex justify-center'>

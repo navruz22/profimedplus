@@ -131,9 +131,9 @@ const TableServices = ({
                                     <td className="border-right text-[16px] py-0 font-weight-bold text-center text-sm">
                                         {currentPage * countPage + key + 1}
                                     </td>
-                                    <td className="border-right text-[16px] py-0 font-bold text-teal-600">{service.servicetype.name}</td>
+                                    <td className="border-right text-[16px] py-0 font-bold text-teal-600">{service?.servicetype?.name}</td>
                                     <td className="border-right text-[16px] py-0">
-                                        {service.name}
+                                        {service?.name}
                                     </td>
                                     <td className="border-right text-[16px] py-0 text-center">
                                         <input
@@ -147,14 +147,14 @@ const TableServices = ({
                                     <td className="border-right text-[16px] py-0 text-center">
                                         <div className="custom-control custom-checkbox text-center">
                                             <input
-                                                checked={service.visible}
+                                                checked={service?.visible}
                                                 type="checkbox"
                                                 className="custom-control-input border border-dager"
-                                                id={`service${service._id}`}
+                                                id={`service${service?._id}`}
                                                 onChange={(e) => serviceVisible(e, key)}
                                             />
                                             <label className="custom-control-label"
-                                                htmlFor={`service${service._id}`}></label>
+                                                htmlFor={`service${service?._id}`}></label>
                                         </div>
                                     </td>
                                     <td className="border-right text-[16px] py-0 text-center">
