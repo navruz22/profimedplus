@@ -16,7 +16,7 @@ import { useReactToPrint } from 'react-to-print'
 import TextEditor from "./TextEditor";
 import LabPrint from "../../laborotory/components/Print"
 
-const DoctorTemplate = ({ client, connector, services }) => {
+const DoctorTemplate = ({ client, connector, services, clientsType }) => {
 
   const { request, loading } = useHttp();
   const auth = useContext(AuthContext);
@@ -113,10 +113,45 @@ const DoctorTemplate = ({ client, connector, services }) => {
 
   }
 
+  const handleSave = () => {
+    if (clientsType === 'offline') {
+      saveService()
+    } else {
+      saveStatsionarService()
+    }
+  }
+
   const saveService = async () => {
     try {
       const data = await request(
         `/api/doctor/clients/adopt`,
+        "POST",
+        {
+          services: sections,
+          connector: connector._id
+        },
+        {
+          Authorization: `Bearer ${auth.token}`,
+        }
+      );
+      notify({
+        title: data.message,
+        description: "",
+        status: "success",
+      });
+    } catch (error) {
+      notify({
+        title: error,
+        description: "",
+        status: "error",
+      });
+    }
+  }
+
+  const saveStatsionarService = async () => {
+    try {
+      const data = await request(
+        `/api/doctor/clients/statsionar/adopt`,
         "POST",
         {
           services: sections,
@@ -497,7 +532,7 @@ const DoctorTemplate = ({ client, connector, services }) => {
         </div>
         <div className="row">
           <div className="col-12 text-center my-4">
-            <button className="btn btn-success px-4 mx-4" onClick={() => saveService()} > Tasdiqlash</button>
+            <button className="btn btn-success px-4 mx-4" onClick={() => handleSave()} > Tasdiqlash</button>
             <button className="btn btn-info px-5" onClick={handlePrint} >Chop etish</button>
           </div>
         </div>
@@ -1147,7 +1182,7 @@ const LabTemplate = ({ client, connector, services }) => {
 
 
 const AdoptionTemplate = () => {
-  const { client, connector, services } = useLocation().state
+  const { client, connector, services, clientsType } = useLocation().state
 
   const [type, setType] = useState('doctor')
 
@@ -1167,7 +1202,7 @@ const AdoptionTemplate = () => {
         onChange={e => setType(e.value)}
       />
     </div>
-    {type === 'doctor' ? <DoctorTemplate client={client} connector={connector} services={services} /> : <LabTemplate client={client} connector={connector} services={services} />}
+    {type === 'doctor' ? <DoctorTemplate clientsType={clientsType} client={client} connector={connector} services={services} /> : <LabTemplate client={client} connector={connector} services={services} />}
   </div>
 }
 

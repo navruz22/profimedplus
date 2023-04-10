@@ -701,7 +701,7 @@ module.exports.adoptClient = async (req, res) => {
       offlineService.templates = service.templates;
       offlineService.files = service.files;
       offlineService.accept = true;
-      if (service.tables.length > 0) {
+      if (service.tables && service.tables.length > 0) {
         offlineService.tables = service.tables;
       }
       offlineService.save()
@@ -710,6 +710,32 @@ module.exports.adoptClient = async (req, res) => {
     const offlineConnector = await OfflineConnector.findById(connector)
     offlineConnector.accept = true;
     offlineConnector.save()
+
+    res.status(200).json({ message: "Mijoz qabul qilindi!" })
+  } catch (error) {
+    console.log(error);
+    res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
+  }
+}
+
+module.exports.adoptStatsionarClient = async (req, res) => {
+  try {
+    const { services, connector } = req.body;
+
+    for (const service of services) {
+      const statsionarservice = await StatsionarService.findById(service._id)
+      statsionarservice.templates = service.templates;
+      statsionarservice.files = service.files;
+      statsionarservice.accept = true;
+      if (service.tables && service.tables.length > 0) {
+        statsionarservice.tables = service.tables;
+      }
+      statsionarservice.save()
+    }
+
+    const statsionarconnector = await StatsionarConnector.findById(connector)
+    statsionarconnector.accept = true;
+    statsionarconnector.save()
 
     res.status(200).json({ message: "Mijoz qabul qilindi!" })
   } catch (error) {

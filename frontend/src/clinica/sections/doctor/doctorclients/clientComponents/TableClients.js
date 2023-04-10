@@ -312,7 +312,7 @@ export const TableClients = ({
                         ) : (
                           <button
                             onClick={() =>
-                              history.push("/alo24/adoption", { ...connector })
+                              history.push("/alo24/adoption", { ...connector, clientsType })
                             }
                             className="btn btn-primary py-0"
                           >

@@ -83,6 +83,10 @@ router.post('/clients/adopt', auth, (req, res) => {
     require('./getclients.route').adoptClient(req, res);
 })
 
+router.post('/clients/statsionar/adopt', auth, (req, res) => {
+    require('./getclients.route').adoptStatsionarClient(req, res);
+})
+
 router.post('/clients/services/get', auth, (req, res) => {
     require('./getclients.route').getServices(req, res);
 })
