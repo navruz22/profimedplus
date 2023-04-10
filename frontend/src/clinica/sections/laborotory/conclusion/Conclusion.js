@@ -314,8 +314,8 @@ export const Conclusion = () => {
       <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
         <div className="shadow-lg border-alotrade table-container">
           <div className="table-responsive">
-            <table className="table m-0" id="discount-table">
-              <thead>
+            <table className="w-full block overflow-scroll table m-0" style={{display: "block", maxHeight: "400px"}}>
+              <thead className="" style={{position: "sticky", top: "0"}}>
                 <tr>
                   <th className="border bg-alotrade py-1 text-[14px]">№</th>
                   <th className="border bg-alotrade py-1 text-[14px]">

@@ -1,6 +1,7 @@
 
 
 export const SmallCheck = ({ baseUrl, clinica, connector, qr }) => {
+    console.log(connector);
     return (
         
             <div>

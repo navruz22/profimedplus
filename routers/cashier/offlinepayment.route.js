@@ -15,6 +15,7 @@ const {
     validateDiscount,
 } = require("../../models/Cashier/OfflineDiscount");
 const { Clinica } = require("../../models/DirectorAndClinica/Clinica");
+require("../../models/Services/Department");
 
 //Payment
 module.exports.payment = async (req, res) => {
@@ -141,7 +142,14 @@ module.exports.getAll = async (req, res) => {
                 clinica
             })
                 .populate("client", "-createdAt -updatedAt -isArchive -__v")
-                .populate("services")
+                .populate({
+                    path: "services",
+                    select: "-__v -updatedAt -isArchive",
+                    populate: {
+                        path: "department",
+                        select: "room"
+                    }
+                })
                 .populate("products")
                 .populate("payments")
                 .populate("discount")
@@ -161,7 +169,14 @@ module.exports.getAll = async (req, res) => {
                 },
             })
                 .populate("client", "-createdAt -updatedAt -isArchive -__v")
-                .populate("services")
+                .populate({
+                    path: "services",
+                    select: "-__v -updatedAt -isArchive",
+                    populate: {
+                        path: "department",
+                        select: "room"
+                    }
+                })
                 .populate("products")
                 .populate("payments")
                 .populate("discount")

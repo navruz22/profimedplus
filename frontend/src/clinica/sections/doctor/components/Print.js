@@ -249,11 +249,11 @@ const Print = ({ client, connector, sections, clinica, baseUrl, doctor }) => {
                         </div>
                     ))}
             </div>
-            <div className='mt-[50px] text-center'>
+            {/* <div className='mt-[50px] text-center'>
                 <div>
                     ___________________<span className='font-bold'>{doctor?.lastname} {doctor?.firstname[0].toUpperCase()}</span>.
                 </div>
-            </div>
+            </div> */}
         </div>
 
     );
