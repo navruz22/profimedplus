@@ -453,36 +453,24 @@ module.exports.getClientsForResult = async (req, res) => {
 
 
         let clients = [];
-        let client = {
-            client: {},
-            connector: {},
-            services: [],
-        };
         if (services.length > 0) {
-            for (const i in services) {
-                if (i == 0) {
-                    client.client = services[i].client;
-                    client.connector = services[i].connector;
-                    client.services.push(services[i]);
+            let connectorsId = []
+            for (const service of services) {
+                const check = connectorsId.includes(String(service.connector._id));
+                if (!check) {
+                    clients.push({
+                        client: service.client,
+                        connector: service.connector,
+                        services: [service],
+                    })
+                    connectorsId.push(String(service.connector._id));
                 } else {
-                    if (services[i - 1].client._id === services[i].client._id) {
-                        client.services.push(services[i]);
-                    } else {
-                        clients.push(client);
-                        client = {
-                            client: {},
-                            connector: {},
-                            services: [],
-                        };
-                        client.client = services[i].client;
-                        client.connector = services[i].connector;
-                        client.services.push(services[i]);
-                    }
+                    const index = clients.findIndex(c => String(c.connector._id) === String(service.connector._id))
+                    clients[index].services.push(service)
                 }
             }
         }
 
-        clients.push(client);
         res.status(200).send(clients);
 
     } catch (error) {

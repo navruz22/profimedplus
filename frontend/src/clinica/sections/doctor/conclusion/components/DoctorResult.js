@@ -64,7 +64,39 @@ const DoctorResult = ({ connector, clinica, baseUrl }) => {
 
     return (
         <>
-            <div ref={componentRef} className="container ">
+            <div ref={componentRef} className="container p-4">
+                {clinica?.ifud1 && <div className="row" style={{ marginTop: '10px', fontSize: "10pt" }}>
+                    <div
+                        className="col-4"
+                        style={{ border: "1px solid", textAlign: "center" }}
+                    >
+                        <p className="pt-2">
+                            {clinica?.ifud1}
+                        </p>
+                    </div>
+                    <div
+                        className="col-4"
+                        style={{
+                            border: "1px solid",
+                            textAlign: "center",
+                            borderLeft: "none",
+                        }}
+                    >
+                        <p className="pt-2">IFUD: {clinica?.ifud2}</p>
+                    </div>
+                    <div
+                        className="col-4"
+                        style={{
+                            border: "1px solid",
+                            textAlign: "center",
+                            borderLeft: "none",
+                        }}
+                    >
+                        <p style={{ margin: "0" }}>
+                            {clinica?.ifud3}
+                        </p>
+                    </div>
+                </div>}
                 <div className="flex justify-between items-center" style={{ fontSize: "20pt", marginBottom: "30px" }}>
                     <div className="" style={{ textAlign: "center" }}>
                         <pre className="" style={{ fontFamily: "-moz-initial", border: 'none', outline: "none" }}>
@@ -240,28 +272,32 @@ const DoctorResult = ({ connector, clinica, baseUrl }) => {
                         </table>
                     </div>
                 </div>
-                <div className="row pt-4 w-full">
+                <div className="mt-2 px-2 py-1 bg-gray-400 flex justify-between items-center">
+                    <span className="text-[14px] font-bold">{clinica?.organitionName}</span>
+                    <span className="text-[14px] font-bold">{clinica?.license}</span>
+                </div>
+                <div className="row pt-2 w-full">
                     {doctorServices.length > 0 &&
                         doctorServices.map((section, index) => (
                             <div key={index} className={"w-full"}>
-                                <div className="w-full flex justify-center items-center mb-2">
-                                    <h2 className="block text-[24px] font-bold">
-                                        {section?.service?.name}
-                                    </h2>
-                                </div>
                                 {section.templates && section.templates.length > 0 &&
                                     section.templates.map((template, index) => (
-                                        <div
-                                            key={index}
-                                            className="w-full text-[16px] mb-2 print_word"
-                                        >
+                                        <div>
+                                            <h2 className="block text-[24px] font-bold">
+                                                {template?.name}
+                                            </h2>
+                                            <div
+                                                key={index}
+                                                className="w-full text-[16px] mb-2 print_word"
+                                            >
 
-                                            {ReactHtmlParser(template.template)}
+                                                {ReactHtmlParser(template.template)}
 
+                                            </div>
                                         </div>
                                     ))}
                                 <div>
-                                    <div className="mt-2">
+                                    <div className="mt-1">
                                         {section.files && section.files.length > 0 && section.files.map((file) => <div className="w-full">
                                             <img src={file} alt='file' />
                                         </div>)}
@@ -273,9 +309,9 @@ const DoctorResult = ({ connector, clinica, baseUrl }) => {
                 <div className="pt-2 w-full text-center">
                     {labServices.length > 0 &&
                         labServices.map((section, index) => (
-                            <div key={index} className={"w-full text-center mb-4"}>
-                                <div className="w-full flex justify-center items-center mb-4">
-                                    <h2 className="block text-[24px] font-bold">
+                            <div key={index} className={"w-full text-center mb-1"}>
+                                <div className="w-full flex justify-center items-center mb-1">
+                                    <h2 className="block text-[18px] font-bold">
                                         {section?.servicetypename}
                                     </h2>
                                 </div>
@@ -294,14 +330,14 @@ const DoctorResult = ({ connector, clinica, baseUrl }) => {
                                             return service.tables.map((table, key) => (
                                                 <tr key={key} >
                                                     <td className={`border-[1px] text-[16px] border-black py-1 px-[12px]`}> <pre
-
+                                                        style={{ fontFamily: "sans-serif" }}
                                                         className="border-none outline-none text-left"
                                                     >
                                                         {table?.col1}
                                                     </pre> </td>
                                                     <td className={`border-[1px] text-[16px] border-black py-1 px-[12px]`}>
                                                         <pre
-
+                                                            style={{ fontFamily: "sans-serif" }}
                                                             className="border-none outline-none"
                                                         >
                                                             {table?.col2}
@@ -309,7 +345,7 @@ const DoctorResult = ({ connector, clinica, baseUrl }) => {
                                                     </td>
                                                     <td className={`border-[1px] text-[16px] border-black py-1 px-[12px]`}>
                                                         <pre
-
+                                                            style={{ fontFamily: "sans-serif" }}
                                                             className="border-none outline-none"
                                                         >
                                                             {table?.col3}
@@ -317,14 +353,14 @@ const DoctorResult = ({ connector, clinica, baseUrl }) => {
                                                     </td>
                                                     {section?.column?.col4 && <td className={`border-[1px] text-[16px] border-black py-1 px-[12px]`}>
                                                         <pre
-
+                                                            style={{ fontFamily: "sans-serif" }}
                                                             className="border-none outline-none"
                                                         >
                                                             {table?.col4}
                                                         </pre></td>}
                                                     {section?.column?.col5 && <td className={`border-[1px] text-[16px] border-black py-1 px-[12px]`}>
                                                         <pre
-
+                                                            style={{ fontFamily: "sans-serif" }}
                                                             className="border-none outline-none"
                                                         >
                                                             {table?.col5}

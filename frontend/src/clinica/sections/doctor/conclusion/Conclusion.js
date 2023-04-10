@@ -115,7 +115,7 @@ const Conclusion = () => {
         {type === 'clientcard' && <ClientCard  connector={connectorInfo} setConnector={setConnectorInfo}  />}
         {type === 'doctorresult' && <DoctorResult baseUrl={baseUrl} clinica={auth?.clinica} connector={connectorInfo} />}
         {type === 'conclusion_temp' && <ConclusionsTemp />}
-        {type === 'conclusion_page' && <ConclusionPage connector={connectorInfo} setConnector={setConnectorInfo} />}
+        {type === 'conclusion_page' && <ConclusionPage baseUrl={baseUrl} clinica={auth?.clinica} connector={connectorInfo} setConnector={setConnectorInfo} />}
     </div>
 }
 

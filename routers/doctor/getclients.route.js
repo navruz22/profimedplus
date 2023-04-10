@@ -203,7 +203,8 @@ module.exports.getAll = async (req, res) => {
               clinica: connector.clinica,
               accept: connector.accept,
               createdAt: connector.createdAt,
-              probirka: connector.probirka
+              probirka: connector.probirka,
+              _id: connector._id
             },
             services: connector.services,
           })

@@ -7,7 +7,7 @@ export const SmallCheck = ({ baseUrl, clinica, connector, qr }) => {
                 <div className='w-full text-center mb-4'>
                     <img
                         className='mx-auto'
-                        style={{ width: "100px" }}
+                        style={{ width: "150px" }}
                         src={baseUrl + '/api/upload/file/' + clinica?.image}
                         alt="logo"
                     />
@@ -108,6 +108,9 @@ export const SmallCheck = ({ baseUrl, clinica, connector, qr }) => {
                                 )
                             }, 0)}
                     </div>
+                </div>
+                <div className="w-full h-[5px] mt-[100px] border-2 border-[#000]">
+                        
                 </div>
             </div>
        

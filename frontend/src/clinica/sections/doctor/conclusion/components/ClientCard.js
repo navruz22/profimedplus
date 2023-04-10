@@ -144,7 +144,7 @@ const ClientCard = ({ connector, setConnector }) => {
                     />
                 </div>
             </div>
-            <div className="container w-[21cm]">
+            <div className="container">
                 <div className="flex justify-between items-center w-full mb-4">
                     <div className="text-[16px] font-bold">
                         Ўзбекистон Республикаси <br />
@@ -389,7 +389,7 @@ const ClientCard = ({ connector, setConnector }) => {
                 </div>
             </div>
             <div className="d-none">
-                <div ref={componentRef} className="container w-[21cm]">
+                <div ref={componentRef} className="container w-[21cm] pt-4">
                     <div className="flex justify-between items-center w-full mb-4">
                         <div className="text-[16px] font-bold">
                             Ўзбекистон Республикаси <br />
