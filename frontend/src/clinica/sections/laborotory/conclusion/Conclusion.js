@@ -120,33 +120,36 @@ export const Conclusion = () => {
 
 
   const sortData = (currentData, colservices) => {
+    console.log(currentData);
+    console.log(colservices);
     const data = []
-
+    let columns = colservices.sort((a, b) => a.place - b.place)
     if (currentData.length > 0) {
       for (const client of currentData) {
         let services = []
-        for (const column of colservices) {
-          let currentService = [...client.services].filter(service => service.service._id === column._id)
-          if (currentService.length > 0) {
-            services.push(...currentService)
-          } 
-          // else {
-          //   services.push({
-          //     tables: [],
-          //     service: []
-          //   })
-          // }
+        for (const column of columns) {
+          if (column.visible) {
+            let currentService = [...client.services].filter(service => service.service._id === column._id)
+            if (currentService.length > 0) {
+              services.push(...currentService)
+            }
+            else {
+              services.push({
+                tables: [],
+                service: []
+              })
+            }
+          }
         }
-        data.push({ ...client, services: [...services].filter(service => {
-          console.log(service);
-          return service.serviceid.visible
-        }).sort((a, b) => a.place - b.place) })
+        data.push({
+          ...client, services: [...services]
+        })
       }
     }
 
     setServiceClietns(data);
   }
-
+  console.log(serviceClients)
   //=========================================================
   //=========================================================
   const handleChangeServiceType = (e) => {
@@ -160,7 +163,7 @@ export const Conclusion = () => {
       if (ind === index) {
         const newServices = client.services.map((service) => {
           if (service._id === serviceid) {
-            service.tables = [...service.tables].map((table) => ({ ...table, col2: e.target.value }))
+            service.tables = [...service.tables].map((table) => ({ ...table, col2: e.target.value, accept: e.target.value ? true : false }))
             if (e.target.value.length > 0) {
               service.accept = true;
             } else {
@@ -179,7 +182,6 @@ export const Conclusion = () => {
   const isExistColumn = (serviceid) => {
     return servicesColumn.some(el => el._id === serviceid)
   }
-
   // ======================================
   // ======================================
 
@@ -354,7 +356,7 @@ export const Conclusion = () => {
                     {service.services.map((s, index) => <td key={index} className="border py-1 font-weight-bold text-[16px]">
                       {isExistColumn(s.service._id) ? s.tables && s.tables.length > 0 && <div>
                         <input className="max-w-[80px] outline-none border-[1px] border-black px-2 " value={s?.tables[0]?.col2} onChange={e => handleChangeServiceClient(e, ind, s._id)} />
-                      </div> : ""}
+                      </div> : <td></td>}
                     </td>
                     )}
                     {addTrow(service.services.length)}

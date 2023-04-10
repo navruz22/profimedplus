@@ -42,6 +42,24 @@ const Conclusion = () => {
     //====================================================================
     //====================================================================
 
+    const [baseUrl, setBaseUrl] = useState()
+
+  const getBaseUrl = useCallback(async () => {
+    try {
+      const data = await request('/api/baseurl', 'GET', null)
+      setBaseUrl(data.baseUrl)
+    } catch (error) {
+      notify({
+        title: error,
+        description: '',
+        status: 'error',
+      })
+    }
+  }, [request, notify])
+
+    //====================================================================
+    //====================================================================
+
     const [connectorInfo, setConnectorInfo] = useState()
 
     const getConnectorInfo = useCallback(
@@ -74,6 +92,10 @@ const Conclusion = () => {
         getConnectorInfo()
     }, [getConnectorInfo])
 
+    useEffect(() => {
+        getBaseUrl()
+    }, [getBaseUrl])
+
 
     // const saveClientCard = () => {
     //     const 
@@ -91,7 +113,7 @@ const Conclusion = () => {
             <button onClick={() => setType('conclusion_page')} className="w-[200px] h-[100px] flex items-center justify-center bg-alotrade rounded-lg text-white text-[16px] font-medium text-uppercase">Xulosa</button>
         </div>
         {type === 'clientcard' && <ClientCard  connector={connectorInfo} setConnector={setConnectorInfo}  />}
-        {type === 'doctorresult' && <DoctorResult connector={connectorInfo} />}
+        {type === 'doctorresult' && <DoctorResult baseUrl={baseUrl} clinica={auth?.clinica} connector={connectorInfo} />}
         {type === 'conclusion_temp' && <ConclusionsTemp />}
         {type === 'conclusion_page' && <ConclusionPage connector={connectorInfo} setConnector={setConnectorInfo} />}
     </div>

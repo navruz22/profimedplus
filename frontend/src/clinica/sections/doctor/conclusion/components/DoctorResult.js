@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import ReactHtmlParser from 'react-html-parser'
 import { useReactToPrint } from "react-to-print";
+import QRcode from "../../../../../qrcode.png"
 
-
-const DoctorResult = ({ connector }) => {
+const DoctorResult = ({ connector, clinica, baseUrl }) => {
 
     const [doctorServices, setDoctorServices] = useState([])
     const [labServices, setLabServices] = useState([])
@@ -65,194 +65,181 @@ const DoctorResult = ({ connector }) => {
     return (
         <>
             <div ref={componentRef} className="container ">
-            <div className="flex justify-between items-center w-full mb-4">
-                <div className="text-[16px] font-bold">
-                    Ўзбекистон Республикаси <br />
-                    Соғлиқни сақлаш вазирлиги <br />
-                    {connector?.clinica?.name}
+                <div className="flex justify-between items-center" style={{ fontSize: "20pt", marginBottom: "30px" }}>
+                    <div className="" style={{ textAlign: "center" }}>
+                        <pre className="" style={{ fontFamily: "-moz-initial", border: 'none', outline: "none" }}>
+                            {clinica?.name}
+                        </pre>
+                    </div>
+                    <div style={{ textAlign: "center" }}>
+                        <img style={{ width: "150px" }} src={baseUrl + '/api/upload/file/' + clinica?.image} alt="logo" />
+                    </div>
+                    <div className="" style={{ textAlign: "center" }}>
+                        <pre className="" style={{ fontFamily: "-moz-initial", border: 'none', outline: "none" }}>
+                            {clinica?.name2}
+                        </pre>
+                    </div>
+                    <div className="" style={{ textAlign: "center" }}>
+                        <p className="text-end m-0">
+                            <img width="100" src={QRcode} alt="QR" />
+                        </p>
+                    </div>
                 </div>
-                <div className="text-[16px] font-bold">
-                    Ўзбекистон Республикаси <br />
-                    Соғлиқни сақлаш вазирининг <br />
-                    2020 йил 31 декабрдаги   № 363-сонли <br />
-                    буйруғи билан тасдиқланган <br />
-                    003- рақамли тиббий хужжат шакли <br />
-                </div>
-            </div>
-            <h1 className="text-center mb-4 text-[18px] font-bold">СТАЦИОНАР БЕМОРНИНГ ТИББИЙ КАРТАСИ №: {connector?.client?.id}</h1>
-            <div className="col-12" style={{ padding: "0" }}>
-                <table
-                    style={{
-                        width: "100%",
-                        border: "2px solid",
-                        borderTop: "3px solid",
-                    }}
-                >
-                    <tr style={{ textAlign: "center" }}>
-                        <td
-                            className="p-0"
+                <h1 className="text-center mb-4 text-[18px] font-bold">СТАЦИОНАР БЕМОРНИНГ ТИББИЙ КАРТАСИ №: {connector?.client?.id}</h1>
+                <div className="">
+                    <div className="" style={{ padding: "0" }}>
+                        <table
                             style={{
-                                width: "25%",
-                                backgroundColor: "white",
-                                border: "1px solid #000",
+                                width: "100%",
+                                border: "2px solid",
+                                borderTop: "3px solid",
                             }}
                         >
-                            Mijozning F.I.SH
-                        </td>
-                        <td
-                            className="p-0"
-                            style={{
-                                fontSize: "20px",
-                                width: "25%",
-                                backgroundColor: "white",
-                                border: "1px solid #000",
-                            }}
-                        >
-                            <h4>
-                                {connector?.client && connector.client.lastname + " " + connector.client.firstname}
-                            </h4>
-                        </td>
-                        <td colSpan={2} style={{ width: "25%" }}>
-                            <p className="fw-bold fs-5 m-0">
-                                {connector?.client?.department}
-                            </p>
-                        </td>
-                    </tr>
-                    <tr style={{ textAlign: "center" }}>
-                        <td
-                            className="p-0"
-                            style={{
-                                width: "25%",
-                                backgroundColor: "white",
-                                border: "1px solid #000",
-                            }}
-                        >
-                            Tug'ilgan yili
-                        </td>
-                        <td
-                            className="p-0"
-                            style={{
-                                width: "25%",
-                                backgroundColor: "white",
-                                border: "1px solid #000",
-                                fontSize: "20px",
-                            }}
-                        >
-                            {connector?.client && new Date(connector.client.born).toLocaleDateString()}
-                        </td>
-                        <td
-                            className="p-0"
-                            style={{
-                                width: "25%",
-                                backgroundColor: "white",
-                                border: "1px solid #000",
-                            }}
-                        >
-                            Jinsi
-                        </td>
-                        <td
-                            className="p-0"
-                            style={{
-                                width: "25%",
-                                backgroundColor: "white",
-                                border: "1px solid #000",
-                                fontSize: "20px",
-                            }}
-                        >
-                            {connector?.client?.gender === 'man' && 'Erkak'}
-                            {connector?.client?.gender === 'women' && 'Ayol'}
-                        </td>
-                    </tr>
-                    <tr style={{ textAlign: "center" }}>
-                        <td
-                            className="p-0"
-                            style={{
-                                width: "25%",
-                                backgroundColor: "white",
-                                border: "1px solid #000",
-                            }}
-                        >
-                            Kelgan sanasi
-                        </td>
-                        <td
-                            className="p-0"
-                            style={{
-                                width: "25%",
-                                backgroundColor: "white",
-                                border: "1px solid #000",
-                                fontSize: "20px",
-                            }}
-                        >
-                            {connector &&
-                                new Date(connector?.room?.beginday).toLocaleDateString()}
-                        </td>
-                        <td
-                            className="p-0 fw-bold"
-                            style={{
-                                width: "100px",
-                                backgroundColor: "white",
-                                border: "1px solid #000",
-                            }}
-                        >
-                            Ketgan vaqti
-                        </td>
-                        <td
-                            className="p-0"
-                            style={{
-                                width: "100px",
-                                backgroundColor: "white",
-                                border: "1px solid #000",
-                                fontSize: "20px",
-                            }}
-                        >
-                            {connector?.room?.endday && new Date(connector?.room?.endday).toLocaleDateString()}
-                        </td>
-                    </tr>
+                            <tr style={{ textAlign: "center" }}>
+                                <td
+                                    className="p-0"
+                                    style={{
+                                        width: "33%",
+                                        backgroundColor: "white",
+                                        border: "1px solid #000",
+                                    }}
+                                >
+                                    Mijozning F.I.SH
+                                </td>
+                                <td
+                                    className="p-0"
+                                    style={{
+                                        width: "33%",
+                                        backgroundColor: "white",
+                                        border: "1px solid #000",
+                                    }}
+                                >
+                                    <h4 className='text-[20px]'>
+                                        {connector?.client && connector?.client.lastname + " " + connector?.client.firstname}
+                                    </h4>
+                                </td>
+                                <td rowSpan="2" colSpan={2} style={{ width: "33%" }}>
+                                    <p className="fw-bold fs-5 m-0">
+                                        TAHLIL <br /> NATIJALARI
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr style={{ textAlign: "center" }}>
+                                <td
+                                    className="p-0"
+                                    style={{
+                                        width: "33%",
+                                        backgroundColor: "white",
+                                        border: "1px solid #000",
+                                    }}
+                                >
+                                    Tug'ilgan yili
+                                </td>
+                                <td
+                                    className="p-0"
+                                    style={{
+                                        width: "33%",
+                                        backgroundColor: "white",
+                                        border: "1px solid #000",
+                                        fontSize: "20px",
+                                    }}
+                                >
+                                    {connector?.client && new Date(connector?.client.born).toLocaleDateString()}
+                                </td>
+                            </tr>
+                            <tr style={{ textAlign: "center" }}>
+                                <td
+                                    className="p-0"
+                                    style={{
+                                        width: "33%",
+                                        backgroundColor: "white",
+                                        border: "1px solid #000",
+                                    }}
+                                >
+                                    Kelgan sanasi
+                                </td>
+                                <td
+                                    className="p-0"
+                                    style={{
+                                        width: "33%",
+                                        backgroundColor: "white",
+                                        border: "1px solid #000",
+                                        fontSize: "20px",
+                                    }}
+                                >
+                                    {connector &&
+                                        new Date(connector.createdAt).toLocaleDateString()}
+                                </td>
+                                <td
+                                    className="p-0 fw-bold"
+                                    style={{
+                                        width: "100px",
+                                        backgroundColor: "white",
+                                        border: "1px solid #000",
+                                    }}
+                                >
+                                    Namuna
+                                </td>
+                                <td
+                                    className="p-0"
+                                    style={{
+                                        width: "100px",
+                                        backgroundColor: "white",
+                                        border: "1px solid #000",
+                                        fontSize: "20px",
+                                    }}
+                                >
+                                    {connector && connector.probirka}
+                                </td>
+                            </tr>
 
-                    <tr style={{ textAlign: "center" }}>
-                        <td
-                            className="p-0"
-                            style={{
-                                width: "25%",
-                                backgroundColor: "white",
-                                border: "1px solid #000",
-                            }}
-                        >
-                            Manzil
-                        </td>
-                        <td
-                            className="p-0"
-                            style={{
-                                width: "25%",
-                                backgroundColor: "white",
-                                border: "1px solid #000",
-                                fontSize: "20px",
-                            }}
-                        >
-                            {connector.client && connector.client.address}
-                        </td>
-                        <td
-                            className="p-0 fw-bold"
-                            style={{
-                                backgroundColor: "white",
-                                border: "1px solid #000",
-                            }}
-                        >
-                            ID
-                        </td>
-                        <td
-                            className="p-0"
-                            style={{
-                                backgroundColor: "white",
-                                border: "1px solid #000",
-                                fontSize: "20px",
-                            }}
-                        >
-                            {connector.client && connector.client.id}
-                        </td>
-                    </tr>
-                </table>
-            </div>
+                            <tr style={{ textAlign: "center" }}>
+                                <td
+                                    className="p-0"
+                                    style={{
+                                        width: "33%",
+                                        backgroundColor: "white",
+                                        border: "1px solid #000",
+                                    }}
+                                >
+                                    Manzil
+                                </td>
+                                <td
+                                    className="p-0"
+                                    style={{
+                                        width: "33%",
+                                        backgroundColor: "white",
+                                        border: "1px solid #000",
+                                        fontSize: "20px",
+                                    }}
+                                >
+                                    {connector?.client && connector?.client.address}
+                                </td>
+                                <td
+                                    className="p-0 fw-bold"
+                                    style={{
+                                        width: "200px",
+                                        backgroundColor: "white",
+                                        border: "1px solid #000",
+                                    }}
+                                >
+                                    ID
+                                </td>
+                                <td
+                                    className="p-0"
+                                    style={{
+                                        width: "200px",
+                                        backgroundColor: "white",
+                                        border: "1px solid #000",
+                                        fontSize: "20px",
+                                    }}
+                                >
+                                    {connector?.client && connector?.client?.id}
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
                 <div className="row pt-4 w-full">
                     {doctorServices.length > 0 &&
                         doctorServices.map((section, index) => (
