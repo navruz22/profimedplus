@@ -73,7 +73,7 @@ const Tables = () => {
             )
             setServices(data)
             setSearchStrorage(data)
-            setCurrentServices(data.slice(indexFirstService, indexLastService))
+            setCurrentServices(data)
         } catch (error) {
             notify({
                 title: error,

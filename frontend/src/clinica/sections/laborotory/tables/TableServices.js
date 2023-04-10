@@ -36,7 +36,7 @@ const TableServices = ({
                     <thead className="bg-white">
                         <tr>
                             <th>
-                                <select
+                                {/* <select
                                     className="form-control form-control-sm selectpicker"
                                     placeholder="Bo'limni tanlang"
                                     onChange={setPageSize}
@@ -46,7 +46,7 @@ const TableServices = ({
                                     <option value={25}>25</option>
                                     <option value={50}>50</option>
                                     <option value={100}>100</option>
-                                </select>
+                                </select> */}
                             </th>
                             <th>
                                 <select
