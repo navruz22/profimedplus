@@ -749,6 +749,35 @@ export const StatsionarClients = () => {
     //====================================================================
     //====================================================================
 
+    const getConnectorsByClientBorn = async (e) => {
+
+        try {
+            const data = await request(
+                `/api/cashier/statsionar/getall`,
+                'POST',
+                { clinica: auth && auth.clinica._id, clientborn: new Date(e) },
+                {
+                    Authorization: `Bearer ${auth.token}`,
+                },
+            )
+            setConnectors(data)
+            setSearchStrorage(data)
+            setCurrentConnectors(
+                data.slice(indexFirstConnector, indexLastConnector),
+            )
+        } catch (error) {
+            notify({
+                title: error,
+                description: '',
+                status: 'error',
+            })
+        }
+
+    }
+
+    //====================================================================
+    //====================================================================
+
     const [baseUrl, setBaseurl] = useState();
 
     const getBaseUrl = useCallback(async () => {
@@ -856,6 +885,7 @@ export const StatsionarClients = () => {
                             setPageSize={setPageSize}
                             // setModal2={setModal2}
                             loading={loading}
+                            getConnectorsByClientBorn={getConnectorsByClientBorn}
                         />
                     </div>
                 </div>

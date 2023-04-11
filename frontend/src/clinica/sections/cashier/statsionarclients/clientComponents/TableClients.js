@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleDown, faAngleUp, faMoneyBill, faPrint } from "@fortawesome/free-solid-svg-icons";
+import { faAngleDown, faAngleUp, faMoneyBill, faPrint, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { Sort } from "./Sort";
 import { Pagination } from "../../components/Pagination";
 import { DatePickers } from "./DatePickers";
@@ -33,9 +33,11 @@ export const TableClients = ({
     loading,
     setServices,
     setProducts,
+    getConnectorsByClientBorn
 }) => {
 
     const location = useLocation()
+    const [clientBorn, setClientBorn] = useState('')
 
     const getTotalprice = (connector) => {
         let roomprice = 0
@@ -152,19 +154,23 @@ export const TableClients = ({
                                 placeholder="Probirka"
                             />
                         </div>
-                        {/* <div
-                            className="text-center"
-                            style={{ maxWidth: '120px', overflow: 'hidden' }}
-                        >
+                        <div className="flex items-center gap-4">
                             <input
+                                onKeyDown={(e) => e.key === 'Enter' && getConnectorsByClientBorn(e.target.value)}
                                 type="date"
                                 name="born"
+                                onChange={(e) => setClientBorn(e.target.value)}
                                 className="form-control inp"
                                 placeholder=""
                                 style={{ color: '#999' }}
-                                onKeyDown={(e) => e.key === 'Enter' && getConnectorsByClientBorn(e)}
                             />
-                        </div> */}
+                            <button onClick={() => getConnectorsByClientBorn(clientBorn)}>
+                                <FontAwesomeIcon
+                                    icon={faSearch}
+                                    style={{ cursor: "pointer" }}
+                                />
+                            </button>
+                        </div>
                         <div className="text-center ml-auto ">
                             <Pagination
                                 setCurrentDatas={setCurrentConnectors}

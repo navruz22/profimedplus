@@ -17,7 +17,9 @@ import { useLocation } from "react-router-dom";
 
 export const StatsionarClients = () => {
     const [beginDay, setBeginDay] = useState(
-        new Date(new Date().setUTCHours(0, 0, 0, 0))
+        new Date(
+            new Date().setMonth(new Date().getMonth() - 3)
+        )
     );
     const [endDay, setEndDay] = useState(
         new Date(new Date().setDate(new Date().getDate() + 1))
@@ -102,10 +104,14 @@ export const StatsionarClients = () => {
                         Authorization: `Bearer ${auth.token}`,
                     }
                 );
-                setConnectors(data);
+                setConnectors([...data].filter(
+                    (item) => item?.room?.endday === null
+                ));
                 setSearchStrorage(data);
                 setCurrentConnectors(
-                    data.slice(indexFirstConnector, indexLastConnector)
+                    [...data].filter(
+                        (item) => item?.room?.endday === null
+                    ).slice(indexFirstConnector, indexLastConnector)
                 );
             } catch (error) {
                 notify({
@@ -185,27 +191,25 @@ export const StatsionarClients = () => {
         [searchStorage, countPage]
     );
 
-    const searchFinished = useCallback(
-        (e) => {
-            if (e.target.value === "tugalgan") {
-                const searching = [...searchStorage].filter((item) => item.room.endday);
+    const searchFinished = (e) => {
+            if (e.target.value === "done") {
+                const searching = [...searchStorage].filter((item) => item?.room?.endday);
                 setConnectors(searching);
                 setCurrentConnectors(searching.slice(0, countPage));
             }
-            if (e.target.value === "tugalmagan") {
+            if (e.target.value === "begin") {
                 const searching = [...searchStorage].filter(
-                    (item) => !item.room.endday
+                    (item) => item?.room?.endday === null
                 );
+                console.log(searching);
                 setConnectors(searching);
                 setCurrentConnectors(searching.slice(0, countPage));
             }
-            if (e.target.value === "hammasi") {
+            if (e.target.value === "all") {
                 setConnectors(searchStorage);
                 setCurrentConnectors(searchStorage);
             }
-        },
-        [searchStorage, countPage]
-    );
+        }
 
     const searchDoctor = useCallback(
         (e) => {
@@ -862,7 +866,7 @@ export const StatsionarClients = () => {
 
     //=================================================================
     //=================================================================
-    
+
     //=================================================================
     //=================================================================
     const [postRoomBody, setPostRoomBody] = useState({});
@@ -908,16 +912,16 @@ export const StatsionarClients = () => {
             console.log(state);
             setOfflineclient(state.client._id)
             setOfflineconnector(state.connector._id)
-            let clientData = {...state.client}
+            let clientData = { ...state.client }
             delete clientData._id
-            let connector = {...state.connector}
+            let connector = { ...state.connector }
             let services = [...state.services]
-            setClient({...client, ...clientData})
+            setClient({ ...client, ...clientData })
             setVisible(true)
             setClientDate(clientData.born.slice(0, 10))
-            setConnector({...connector, reseption: auth.user && auth.user._id,})
-              let s = [];
-              services.map((service) => {
+            setConnector({ ...connector, reseption: auth.user && auth.user._id, })
+            let s = [];
+            services.map((service) => {
                 if (!service.refuse) {
                     s.push({
                         clinica: auth.clinica._id,

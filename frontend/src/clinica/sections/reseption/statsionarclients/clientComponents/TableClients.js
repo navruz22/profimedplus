@@ -127,9 +127,9 @@ export const TableClients = ({
                     placeholder="Doctors"
                     onChange={searchFinished}
                   >
-                    <option value={"hammasi"}>Hammasi</option>
-                    <option value={"tugalgan"}>Tugalgan</option>
-                    <option value={"tugalmagan"}>Tugalmagan</option>
+                    <option value={"all"}>Hammasi</option>
+                    <option value={"done"}>Yakunlangan</option>
+                    <option value={"begin"}>Davolanishda</option>
                   </select>
                 </th>
               </tr>

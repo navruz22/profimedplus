@@ -169,7 +169,7 @@ module.exports.prepayment = async (req, res) => {
 //Clients getall
 module.exports.getAll = async (req, res) => {
     try {
-        const { clinica, beginDay, endDay } = req.body
+        const { clinica, beginDay, endDay, clientborn } = req.body
         const clinic = await Clinica.findById(clinica)
 
         if (!clinic) {
@@ -178,26 +178,46 @@ module.exports.getAll = async (req, res) => {
             })
         }
 
-        const connectors = await StatsionarConnector.find({
-            clinica,
-            createdAt: {
-                $gte: beginDay,
-                $lt: endDay,
-            },
-        })
-            .populate('client', '-updatedAt -isArchive -__v')
-            .populate('services')
-            .populate('products')
-            .populate('room')
-            .populate('payments')
-            .populate('discount')
-            .sort({ _id: -1 })
+        let connectors = []
+
+        if (clientborn) {
+            connectors = await StatsionarConnector.find({
+                clinica
+            })
+                .populate('client', '-updatedAt -isArchive -__v')
+                .populate('services')
+                .populate('products')
+                .populate('room')
+                .populate('payments')
+                .populate('discount')
+                .sort({ _id: -1 })
+                .lean()
+                .then(connectors => connectors.filter(connector =>
+                    new Date(new Date(connector.client.born).setUTCHours(0, 0, 0, 0)).toISOString() === new Date(new Date(clientborn).setUTCHours(0, 0, 0, 0)).toISOString()
+                ))
+        } else {
+            connectors = await StatsionarConnector.find({
+                clinica,
+                createdAt: {
+                    $gte: beginDay,
+                    $lt: endDay,
+                },
+            })
+                .populate('client', '-updatedAt -isArchive -__v')
+                .populate('services')
+                .populate('products')
+                .populate('room')
+                .populate('payments')
+                .populate('discount')
+                .sort({ _id: -1 })
+        }
 
         res.status(200).send(connectors)
     } catch (error) {
         res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
     }
 }
+
 
 
 // PrePayment
