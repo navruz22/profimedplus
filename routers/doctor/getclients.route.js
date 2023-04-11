@@ -11,7 +11,7 @@ const { Product } = require("../../models/Warehouse/Product");
 const { TableColumn } = require("../../models/Services/TableColumn");
 const { ServiceTable } = require("../../models/Services/ServiceTable");
 const { ServiceType } = require("../../models/Services/ServiceType");
-const { StatsionarService } = require("../../models/StatsionarClient/StatsionarService");
+const { StatsionarService, validateStatsionarService } = require("../../models/StatsionarClient/StatsionarService");
 const { StatsionarConnector } = require("../../models/StatsionarClient/StatsionarConnector");
 require('../../models/StatsionarClient/StatsionarConnector')
 require('../../models/StatsionarClient/StatsionarClient')
@@ -79,10 +79,10 @@ module.exports.getAll = async (req, res) => {
           }
         })
         .lean()
-        .then(connectors => connectors.filter(connector => 
-            connector.services.some(service => String(service.department._id) === String(department)) &&
-            new Date(new Date(connector.client.born).setUTCHours(0, 0, 0, 0)).toISOString() === new Date(new Date(clientborn).setUTCHours(0, 0, 0, 0)).toISOString()
-          ))
+        .then(connectors => connectors.filter(connector =>
+          connector.services.some(service => String(service.department._id) === String(department)) &&
+          new Date(new Date(connector.client.born).setUTCHours(0, 0, 0, 0)).toISOString() === new Date(new Date(clientborn).setUTCHours(0, 0, 0, 0)).toISOString()
+        ))
       // services = await OfflineService.find({
       //   clinica,
       // })
@@ -159,9 +159,9 @@ module.exports.getAll = async (req, res) => {
           }
         })
         .lean()
-        .then(connectors => connectors.filter(connector => 
-            connector.services.some(service => String(service.department._id) === String(department))
-          ))
+        .then(connectors => connectors.filter(connector =>
+          connector.services.some(service => String(service.department._id) === String(department))
+        ))
       // services = await OfflineService.find({
       //   createdAt: {
       //     $gte: beginDay,
@@ -197,17 +197,17 @@ module.exports.getAll = async (req, res) => {
 
     if (connectors.length > 0) {
       for (const connector of connectors) {
-          clients.push({
-            client: connector.client,
-            connector: {
-              clinica: connector.clinica,
-              accept: connector.accept,
-              createdAt: connector.createdAt,
-              probirka: connector.probirka,
-              _id: connector._id
-            },
-            services: connector.services,
-          })
+        clients.push({
+          client: connector.client,
+          connector: {
+            clinica: connector.clinica,
+            accept: connector.accept,
+            createdAt: connector.createdAt,
+            probirka: connector.probirka,
+            _id: connector._id
+          },
+          services: connector.services,
+        })
       }
     }
 
@@ -277,12 +277,12 @@ module.exports.getStatsionarAll = async (req, res) => {
             select: "probirka"
           }
         })
-        .populate('room', 'beginday endday')
+        .populate('room', 'beginday endday room')
         .lean()
-        .then(connectors => connectors.filter(connector => 
-            connector.services.some(service => String(service.department._id) === String(department)) &&
-            new Date(new Date(connector.client.born).setUTCHours(0, 0, 0, 0)).toISOString() === new Date(new Date(clientborn).setUTCHours(0, 0, 0, 0)).toISOString()
-          ))
+        .then(connectors => connectors.filter(connector =>
+          connector.services.some(service => String(service.department._id) === String(department)) &&
+          new Date(new Date(connector.client.born).setUTCHours(0, 0, 0, 0)).toISOString() === new Date(new Date(clientborn).setUTCHours(0, 0, 0, 0)).toISOString()
+        ))
       // services = await OfflineService.find({
       //   clinica,
       // })
@@ -358,11 +358,11 @@ module.exports.getStatsionarAll = async (req, res) => {
             select: "probirka"
           }
         })
-        .populate('room', 'beginday endday')
+        .populate('room', 'beginday endday room')
         .lean()
-        .then(connectors => connectors.filter(connector => 
-            connector.services.some(service => String(service.department._id) === String(department))
-          ))
+        .then(connectors => connectors.filter(connector =>
+          connector.services.some(service => String(service.department._id) === String(department))
+        ))
       // services = await OfflineService.find({
       //   createdAt: {
       //     $gte: beginDay,
@@ -398,18 +398,18 @@ module.exports.getStatsionarAll = async (req, res) => {
     console.log(connectors);
     if (connectors.length > 0) {
       for (const connector of connectors) {
-          clients.push({
-            client: connector.client,
-            connector: {
-              _id: connector._id,
-              clinica: connector.clinica,
-              accept: connector.accept,
-              createdAt: connector.createdAt,
-              probirka: connector.probirka,
-              room: connector.room
-            },
-            services: connector.services,
-          })
+        clients.push({
+          client: connector.client,
+          connector: {
+            _id: connector._id,
+            clinica: connector.clinica,
+            accept: connector.accept,
+            createdAt: connector.createdAt,
+            probirka: connector.probirka,
+            room: connector.room
+          },
+          services: connector.services,
+        })
       }
     }
 
@@ -560,6 +560,109 @@ module.exports.addservices = async (req, res) => {
     res.status(501).json({ error: "Serverda xatolik yuz berdi..." });
   }
 };
+
+module.exports.addStatsionarService = async (req, res) => {
+  try {
+    const { clinica, services, connector, client } = req.body;
+
+    const clinic = await Clinica.findById(clinica);
+
+    if (!clinic) {
+      return res.status(400).json({
+        message: "Diqqat! Klinika ma'lumotlari topilmadi.",
+      });
+    }
+
+    //=========================================================
+
+    const statsionarConnector = await StatsionarConnector.findById(connector._id)
+
+    // CreateServices
+    let totalprice = 0
+    for (const service of services) {
+      const { error } = validateStatsionarService(service)
+
+      if (error) {
+        return res.status(400).json({
+          error: error.message,
+        })
+      }
+
+      //=========================================================
+      // Product decrement
+      const productconnectors = await ProductConnector.find({
+        clinica: client.clinica,
+        service: service.serviceid,
+      })
+
+      for (const productconnector of productconnectors) {
+        const product = await Product.findById(productconnector.product)
+        product.total = product.total - productconnector.pieces * service.pieces
+        await product.save()
+      }
+
+      //=========================================================
+      // Create Service
+      const serv = await Service.findById(service.serviceid)
+        .populate('column', 'col1 col2 col3 col4 col5')
+        .populate('tables', 'col1 col2 col3 col4 col5')
+
+      let newservice = null;
+
+      if (service.tables && service.tables.length > 0 && service.column) {
+        newservice = new StatsionarService({
+          ...service,
+          service: {
+            _id: serv._id,
+            name: serv.name,
+            price: serv.price,
+            shortname: serv.shortname,
+            doctorProcient: serv.doctorProcient,
+            counterAgentProcient: serv.counterAgentProcient,
+            counterDoctorProcient: serv.counterDoctorProcient
+          },
+          client: client._id,
+          connector: statsionarConnector._id,
+          column: service.column,
+          tables: service.tables
+        })
+      } else {
+        newservice = new StatsionarService({
+          ...service,
+          service: {
+            _id: serv._id,
+            name: serv.name,
+            price: serv.price,
+            shortname: serv.shortname,
+            doctorProcient: serv.doctorProcient,
+            counterAgentProcient: serv.counterAgentProcient,
+            counterDoctorProcient: serv.counterDoctorProcient
+          },
+          client: client._id,
+          connector: statsionarConnector._id,
+          column: { ...serv.column },
+          tables: [...JSON.parse(JSON.stringify(serv.tables))]
+        })
+      }
+
+      await newservice.save()
+
+      totalprice += service.service.price * service.pieces
+
+      statsionarConnector.services.push(newservice._id)
+      await statsionarConnector.save()
+    }
+
+    statsionarConnector.totalprice = totalprice
+    await statsionarConnector.save()
+
+    res.status(200).send({ message: "Xizmatlar ro'yxatga olindi" });
+
+  } catch (error) {
+    console.log(error);
+    res.status(501).json({ error: "Serverda xatolik yuz berdi..." });
+  }
+}
 
 module.exports.getServices = async (req, res) => {
   try {

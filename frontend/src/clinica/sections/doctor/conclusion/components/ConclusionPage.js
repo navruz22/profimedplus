@@ -451,7 +451,7 @@ const ConclusionPage = ({ connector, onChange, setConnector, clinica, baseUrl })
                             </p>
                         </div>
                     </div>}
-                    <div className="flex justify-between items-center" style={{ fontSize: "20pt", marginBottom: "30px" }}>
+                    <div className="flex justify-between items-center pt-2" style={{ fontSize: "20pt", marginBottom: "30px" }}>
                         <div className="" style={{ textAlign: "center" }}>
                             <pre className="" style={{ fontFamily: "-moz-initial", border: 'none', outline: "none" }}>
                                 {clinica?.name}

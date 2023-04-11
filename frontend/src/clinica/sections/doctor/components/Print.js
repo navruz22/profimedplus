@@ -1,14 +1,46 @@
 import React from 'react'
 import parse from "html-react-parser"
-import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser'
+import ReactHtmlParser from 'react-html-parser'
 import './Print.css'
 import QRcode from "../../../../qrcode.png"
 
 const Print = ({ client, connector, sections, clinica, baseUrl, doctor }) => {
     return (
-        <div className="bg-white">
+        <div className="bg-white pt-4">
             <div>
-                <div className="flex justify-between items-center" style={{ fontSize: "20pt", marginBottom: "30px" }}>
+                {clinica?.ifud1 && <div className="row" style={{ fontSize: "10pt" }}>
+                    <div
+                        className="col-4"
+                        style={{ border: "1px solid", textAlign: "center" }}
+                    >
+                        <p className="pt-2">
+                            {clinica?.ifud1}
+                        </p>
+                    </div>
+                    <div
+                        className="col-4"
+                        style={{
+                            border: "1px solid",
+                            textAlign: "center",
+                            borderLeft: "none",
+                        }}
+                    >
+                        <p className="pt-2">IFUD: {clinica?.ifud2}</p>
+                    </div>
+                    <div
+                        className="col-4"
+                        style={{
+                            border: "1px solid",
+                            textAlign: "center",
+                            borderLeft: "none",
+                        }}
+                    >
+                        <p style={{ margin: "0" }}>
+                            {clinica?.ifud3}
+                        </p>
+                    </div>
+                </div>}
+                <div className="flex justify-between items-center" style={{ fontSize: "20pt", marginBottom: "10px" }}>
                     <div className="" style={{ textAlign: "center" }}>
                         <pre className="" style={{ fontFamily: "-moz-initial", border: 'none', outline: "none" }}>
                             {clinica?.name}
@@ -182,19 +214,12 @@ const Print = ({ client, connector, sections, clinica, baseUrl, doctor }) => {
                         </table>
                     </div>
                 </div>
-                {/* <div className="row mt-3" style={{ backgroundColor: "#C0C0C0" }}>
-                    <div className="col-4">
-                        <p className="px-2 m-0">"GEMO-TEST" х/к</p>
-                    </div>
-                    <div className="col-8">
-                        <p className="px-2 m-0 text-end pr-5">
-                            Xizmatlar litsenziyalangan. LITSENZIYA №21830906 03.09.2020. SSV
-                            RU
-                        </p>
-                    </div>
-                </div> */}
+                <div className="mt-2 px-2 py-1 bg-gray-400 flex justify-between items-center">
+                    <span className="text-[14px] font-bold">{clinica?.organitionName}</span>
+                    <span className="text-[14px] font-bold">{clinica?.license}</span>
+                </div>
             </div>
-            <div className="row pt-4 w-full">
+            <div className="row pt-2 w-full">
                 {sections.length > 0 &&
                     sections.map((section, index) => (
                         <div key={index} className={"w-full"}>

@@ -75,6 +75,10 @@ router.post('/clients/service/add', auth, (req, res) => {
     require('./getclients.route').addservices(req, res)
 })
 
+router.post('/clients/statsionar/service/add', auth, (req, res) => {
+    require('./getclients.route').addStatsionarService(req, res)
+})
+
 router.post('/clients/adopt', auth, (req, res) => {
     require('./getclients.route').adoptClient(req, res);
 })
@@ -115,6 +119,11 @@ router.post('/conclusion/template/get', (req, res) => {
 
 router.post('/conclusion/template/delete', (req, res) => {
     require('./conclusion').delete(req, res);
+})
+
+
+router.post('/conclusion/clients/get', (req, res) => {
+    require('./conclusion').getClients(req, res);
 })
 
 

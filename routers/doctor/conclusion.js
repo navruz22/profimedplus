@@ -22,32 +22,32 @@ module.exports.getClientInfo = async (req, res) => {
         }
 
         const clientconnector = await StatsionarConnector.findById(connector)
-        .select('-__v -updatedAt -isArchive')
-        .populate({
-            path: "services",
-            select: "-__v -isArchive -updatedAt",
-            populate: {
-                path: "department",
-                select: "probirka"
-            }
-        })
-        .populate({
-            path: "services",
-            select: "-__v -isArchive -updatedAt",
-            populate: {
-                path: "serviceid",
-                select: "servicetype",
+            .select('-__v -updatedAt -isArchive')
+            .populate({
+                path: "services",
+                select: "-__v -isArchive -updatedAt",
                 populate: {
-                    path: "servicetype",
-                    select: "name",
+                    path: "department",
+                    select: "probirka"
                 }
-            }
-        })
-        .populate('doctor')
-        .populate('client')
-        .populate('room')
-        .populate('clinica')
-        .lean()
+            })
+            .populate({
+                path: "services",
+                select: "-__v -isArchive -updatedAt",
+                populate: {
+                    path: "serviceid",
+                    select: "servicetype",
+                    populate: {
+                        path: "servicetype",
+                        select: "name",
+                    }
+                }
+            })
+            .populate('doctor')
+            .populate('client')
+            .populate('room')
+            .populate('clinica')
+            .lean()
         console.log(clientconnector);
         res.status(200).json(clientconnector)
 
@@ -59,13 +59,13 @@ module.exports.getClientInfo = async (req, res) => {
 
 module.exports.save = async (req, res) => {
     try {
-        const {client} = req.body;
+        const { client } = req.body;
 
         await StatsionarClient.findByIdAndUpdate(client._id, {
             ...client
         })
 
-        res.status(200).json({message: "Mijoz saqlandi!"})
+        res.status(200).json({ message: "Mijoz saqlandi!" })
     } catch (error) {
         console.log(error);
         res.status(501).json({ error: "Serverda xatolik yuz berdi..." });
@@ -75,7 +75,7 @@ module.exports.save = async (req, res) => {
 
 module.exports.createTemp = async (req, res) => {
     try {
-        const {id, name, clinica, template} = req.body;
+        const { id, name, clinica, template } = req.body;
 
         const clinic = await Clinica.findById(clinica);
 
@@ -100,7 +100,7 @@ module.exports.createTemp = async (req, res) => {
             await newTemp.save()
         }
 
-        res.status(200).json({message: "Shablon yaratildi!"})
+        res.status(200).json({ message: "Shablon yaratildi!" })
 
     } catch (error) {
         console.log(error);
@@ -110,7 +110,7 @@ module.exports.createTemp = async (req, res) => {
 
 module.exports.getTemps = async (req, res) => {
     try {
-        const {clinica} = req.body;
+        const { clinica } = req.body;
 
         const clinic = await Clinica.findById(clinica);
 
@@ -134,12 +134,97 @@ module.exports.getTemps = async (req, res) => {
 
 module.exports.delete = async (req, res) => {
     try {
-        const {id} = req.body;
+        const { id } = req.body;
 
         await ConclusionTemp.findByIdAndDelete(id);
 
-        res.status(200).json({message: "Shablon yaratildi!"})
+        res.status(200).json({ message: "Shablon yaratildi!" })
 
+    } catch (error) {
+        console.log(error);
+        res.status(501).json({ error: "Serverda xatolik yuz berdi..." });
+    }
+}
+
+module.exports.getClients = async (req, res) => {
+    try {
+        const { clinica, department } = req.body;
+
+        const clinic = await Clinica.findById(clinica);
+
+        if (!clinic) {
+            return res.status(400).json({
+                message: "Diqqat! Klinika ma'lumotlari topilmadi.",
+            });
+        }
+
+        let clients = [];
+
+        let connectors = await StatsionarConnector.find({
+            clinica,
+        })
+            .select('-__v -updatedAt -isArchive')
+            .populate('clinica', 'name phone1 image')
+            .populate("client", "lastname firstname born id phone address")
+            .populate({
+                path: "services",
+                select: "service serviceid accept refuse column tables turn connector client files department",
+                populate: {
+                    path: "service",
+                    select: "price"
+                }
+            })
+            .populate({
+                path: "services",
+                select: "service serviceid accept refuse column tables turn connector client files department",
+                populate: {
+                    path: "serviceid",
+                    select: "servicetype",
+                    populate: {
+                        path: "servicetype",
+                        select: "name"
+                    }
+                }
+            })
+            .populate({
+                path: "services",
+                select: "service serviceid accept refuse column tables turn connector client files department",
+                populate: {
+                    path: "templates",
+                    select: "name template",
+                }
+            })
+            .populate({
+                path: "services",
+                select: "service serviceid accept refuse column tables turn connector client files department",
+                populate: {
+                    path: 'department',
+                    select: "probirka"
+                }
+            })
+            .populate('room', 'beginday endday room')
+            .lean()
+            .then(connectors => connectors.filter(connector =>
+                connector.services.some(service => String(service.department._id) === String(department))
+            ))
+
+        if (connectors.length > 0) {
+            for (const connector of connectors) {
+                clients.push({
+                    client: connector.client,
+                    connector: {
+                        _id: connector._id,
+                        clinica: connector.clinica,
+                        accept: connector.accept,
+                        createdAt: connector.createdAt,
+                        probirka: connector.probirka,
+                        room: connector.room
+                    },
+                    services: connector.services,
+                })
+            }
+        }
+        res.status(200).send(clients);
     } catch (error) {
         console.log(error);
         res.status(501).json({ error: "Serverda xatolik yuz berdi..." });

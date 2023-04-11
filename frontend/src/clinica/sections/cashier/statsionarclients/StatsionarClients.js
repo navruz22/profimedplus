@@ -6,6 +6,7 @@ import { Modal } from "../components/Modal";
 import { RegisterClient } from './clientComponents/RegisterClient'
 import { TableClients } from './clientComponents/TableClients'
 import { checkData, checkServices } from './checkData/checkData'
+import { CheckModal } from '../components/ModalCheck';
 // import {
 //   checkClientData,
 //   checkProductsData,
@@ -78,7 +79,7 @@ export const StatsionarClients = () => {
 
     //====================================================================
     //====================================================================
-
+    const [check, setCheck] = useState({});
     //====================================================================
     //====================================================================
     // getConnectors
@@ -169,15 +170,15 @@ export const StatsionarClients = () => {
     //====================================================================
     const setPageSize = (e) => {
         if (e.target.value === 'all') {
-          setCurrentPage(0)
-          setCountPage(100)
-          setCurrentConnectors(connectors)
+            setCurrentPage(0)
+            setCountPage(100)
+            setCurrentConnectors(connectors)
         } else {
-          setCurrentPage(0)
-          setCountPage(e.target.value)
-          setCurrentConnectors(connectors.slice(0, e.target.value))
+            setCurrentPage(0)
+            setCountPage(e.target.value)
+            setCurrentConnectors(connectors.slice(0, e.target.value))
         }
-      }
+    }
 
     //====================================================================
     //====================================================================
@@ -748,6 +749,21 @@ export const StatsionarClients = () => {
     //====================================================================
     //====================================================================
 
+    const [baseUrl, setBaseurl] = useState();
+
+    const getBaseUrl = useCallback(async () => {
+        try {
+            const data = await request(`/api/baseurl`, "GET", null);
+            setBaseurl(data.baseUrl);
+        } catch (error) {
+            notify({
+                title: error,
+                description: "",
+                status: "error",
+            });
+        }
+    }, [request, notify]);
+
     //====================================================================
     //====================================================================
     // useEffect
@@ -758,6 +774,7 @@ export const StatsionarClients = () => {
         if (auth.clinica && !t) {
             setT(1)
             getConnectors(beginDay, endDay)
+            getBaseUrl()
         }
     }, [auth, getConnectors, t, beginDay, endDay])
 
@@ -819,7 +836,7 @@ export const StatsionarClients = () => {
                             setVisible={setVisible}
                             modal1={modal1}
                             setModal1={setModal1}
-                            // setCheck={setCheck}
+                            setCheck={setCheck}
                             changeStart={changeStart}
                             changeEnd={changeEnd}
                             searchPhone={searchPhone}
@@ -844,12 +861,12 @@ export const StatsionarClients = () => {
                 </div>
             </div>
 
-            {/* <CheckModal
-        baseUrl={baseUrl}
-        connector={check}
-        modal={modal1}
-        setModal={setModal1}
-      /> */}
+            <CheckModal
+                baseUrl={baseUrl}
+                connector={check}
+                modal={modal1}
+                setModal={setModal1}
+            />
 
             <Modal
                 modal={modal}

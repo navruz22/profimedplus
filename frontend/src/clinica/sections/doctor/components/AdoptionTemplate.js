@@ -97,7 +97,11 @@ const DoctorTemplate = ({ client, connector, services }) => {
     const file = await res.json()
     setSections([...sections].map(section => {
       if (section._id === serviceid) {
-        section.files.push(`${baseUrl}/api/upload/file/${file.filename}`)
+        if (!section.files) {
+          section.files = [`${baseUrl}/api/upload/file/${file.filename}`]
+        } else {
+          section.files.push(`${baseUrl}/api/upload/file/${file.filename}`)
+        }
       }
       return section;
     }))
@@ -186,7 +190,7 @@ const DoctorTemplate = ({ client, connector, services }) => {
     });
     setSections(newSections);
   }
-  console.log(services);
+  console.log(sections);
   useEffect(() => {
     setSections([...services].filter(service => service.department.probirka === false && service.department._id === auth?.user?.specialty));
   }, [services]);
@@ -219,6 +223,38 @@ const DoctorTemplate = ({ client, connector, services }) => {
       </div>
       <div className="container p-4 bg-white" style={{ fontFamily: "times" }}>
         <div className="px-4">
+          {auth?.clinica?.ifud1 && <div className="row" style={{ fontSize: "10pt" }}>
+            <div
+              className="col-4"
+              style={{ border: "1px solid", textAlign: "center" }}
+            >
+              <p className="pt-2">
+                {auth?.clinica?.ifud1}
+              </p>
+            </div>
+            <div
+              className="col-4"
+              style={{
+                border: "1px solid",
+                textAlign: "center",
+                borderLeft: "none",
+              }}
+            >
+              <p className="pt-2">{auth?.clinica?.ifud2}</p>
+            </div>
+            <div
+              className="col-4"
+              style={{
+                border: "1px solid",
+                textAlign: "center",
+                borderLeft: "none",
+              }}
+            >
+              <p style={{ margin: "0" }}>
+                {auth?.clinica?.ifud3}
+              </p>
+            </div>
+          </div>}
           <div className="row" style={{ fontSize: "20pt" }}>
             <div className="col-6 pt-2" style={{ textAlign: "center" }}>
               <pre className="pt-3" style={{ fontFamily: "-moz-initial" }}>
@@ -390,17 +426,10 @@ const DoctorTemplate = ({ client, connector, services }) => {
               </table>
             </div>
           </div>
-          {/* <div className="row mt-3" style={{ backgroundColor: "#C0C0C0" }}>
-            <div className="col-4">
-              <p className="px-2 m-0">"GEMO-TEST" х/к</p>
-            </div>
-            <div className="col-8">
-              <p className="px-2 m-0 text-end pr-5">
-                Xizmatlar litsenziyalangan. LITSENZIYA №21830906 03.09.2020. SSV
-                RU
-              </p>
-            </div> 
-          </div> */}
+          <div className="mt-2 px-2 py-1 bg-gray-400 flex justify-between items-center">
+            <span className="text-[14px] font-bold">{auth.clinica?.organitionName}</span>
+            <span className="text-[14px] font-bold">{auth?.clinica?.license}</span>
+          </div>
         </div>
         <div className="pt-4 w-full">
           {sections.length > 0 &&
@@ -453,7 +482,7 @@ const DoctorTemplate = ({ client, connector, services }) => {
                     />
                   </div>
                   <div className="">
-                    {section.files && section.files.lenght > 0 && section.files.map((file) => <div className="w-[400px]">
+                    {section.files && section.files.length > 0 && section.files.map((file) => <div className="w-[400px]">
                       <img src={file} alt='file' />
                       <div className="px-4 pt-2">
                         <button className="" onClick={() => deleteFile(file, section._id)} >
@@ -665,7 +694,7 @@ const LabTemplate = ({ client, connector, services }) => {
               return table
             })
             service.tables = tables;
-            service.accept = !service.accept 
+            service.accept = !service.accept
           }
           return service;
         })
@@ -748,7 +777,7 @@ const LabTemplate = ({ client, connector, services }) => {
     setSections([...servicetypes, ...servicesmore])
 
   }, [services]);
- 
+
   useEffect(() => {
     // if (!t) {
     // getServices()
@@ -766,7 +795,7 @@ const LabTemplate = ({ client, connector, services }) => {
         >
           <LabPrint
             baseUrl={baseUrl}
-            clinica={connector?.clinica}
+            clinica={auth?.clinica}
             connector={connector}
             client={client}
             sections={sections}

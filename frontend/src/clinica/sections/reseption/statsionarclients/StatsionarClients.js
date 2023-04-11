@@ -543,7 +543,7 @@ export const StatsionarClients = () => {
     const getBaseUrl = useCallback(async () => {
         try {
             const data = await request(`/api/baseurl`, "GET", null);
-            setBaseurl(data);
+            setBaseurl(data.baseUrl);
         } catch (error) {
             notify({
                 title: error,

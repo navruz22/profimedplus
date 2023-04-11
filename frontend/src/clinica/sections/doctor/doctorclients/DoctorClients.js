@@ -138,10 +138,10 @@ export const DoctorClients = () => {
             Authorization: `Bearer ${auth.token}`,
           }
         );
-        setDoctorClients(data);
-        setSearchStorage(data);
+        setDoctorClients([...data].filter(item => item.connector.room.endday === null));
+        setSearchStorage([...data].filter(item => item.connector.room.endday === null));
         setCurrentDoctorClients(
-          data.slice(indexFirstConnector, indexLastConnector)
+          [...data].filter(item => item.connector.room.endday === null).slice(indexFirstConnector, indexLastConnector)
         );
       } catch (error) {
         notify({
@@ -251,8 +251,16 @@ export const DoctorClients = () => {
   const [client, setClient] = useState({})
   const [connector, setConnector] = useState({})
 
-  const addServices =
-    async () => {
+
+  const handleAdd = () => {
+    if (clientsType === 'offline') {
+      addServices()
+    } else {
+      addServiceStatsionar()
+    }
+  }
+
+  const addServices = async () => {
       try {
         const data = await request(
           `/api/doctor/clients/service/add`,
@@ -271,13 +279,51 @@ export const DoctorClients = () => {
         notify({
           title: data.message,
           description: "",
-          status: "error",
+          status: "success",
         });
         setSelectedServices(null);
         setConnector({})
         setClient({})
         setModal(false);
         getDoctorClients(beginDay, endDay)
+        setNewProducts([])
+        setNewServices([])
+        setVisible(false);
+      } catch (error) {
+        notify({
+          title: error,
+          description: "",
+          status: "error",
+        });
+      }
+    }
+
+  const addServiceStatsionar = async () => {
+      try {
+        const data = await request(
+          `/api/doctor/clients/statsionar/service/add`,
+          "POST",
+          {
+            client: { ...client, clinica: auth.clinica._id },
+            connector: { ...connector, clinica: auth.clinica._id },
+            services: [...newservices],
+            products: [...newproducts],
+            clinica: auth && auth.clinica._id
+          },
+          {
+            Authorization: `Bearer ${auth.token}`,
+          }
+        );
+        notify({
+          title: data.message,
+          description: "",
+          status: "success",
+        });
+        setSelectedServices(null);
+        setConnector({})
+        setClient({})
+        setModal(false);
+        getStatsionarClients(beginDay, endDay)
         setNewProducts([])
         setNewServices([])
         setVisible(false);
@@ -812,7 +858,7 @@ export const DoctorClients = () => {
         modal={modal}
         text={"ma'lumotlar to'g'ri kiritilganligini tasdiqlaysizmi?"}
         setModal={setModal}
-        handler={addServices}
+        handler={handleAdd}
         basic={client.lastname + " " + client.firstname}
       />
     </>

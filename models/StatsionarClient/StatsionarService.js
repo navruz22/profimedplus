@@ -52,7 +52,7 @@ function validateStatsionarService(clientservice) {
         table: Joi.string(),
         templates: Joi.array(),
         refuse: Joi.boolean(),
-        accept: Joi.string(),
+        accept: Joi.boolean(),
         reseption: Joi.string().required(),
         doctor: Joi.string(),
         turn: Joi.string(),

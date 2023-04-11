@@ -38,18 +38,46 @@ export const TableClients = ({
     const location = useLocation()
 
     const getTotalprice = (connector) => {
-        const days = Math.round(
-            Math.abs(
-                ((connector?.room?.endday ? new Date(connector.room.endday).getTime() : new Date().getTime())
-                    -
-                    new Date(connector?.room?.beginday).getTime())
-                /
-                (24 * 60 * 60 * 1000)
+        let roomprice = 0
+        if (connector?.room?.endday) {
+            const day = Math.round(
+                Math.abs(
+                    (new Date(connector?.room?.endday).setUTCHours(23, 59, 59, 999)
+                        -
+                        new Date(connector?.room?.beginday))
+                    /
+                    (24 * 60 * 60 * 1000)
+                )
             )
-        ) * connector?.room?.room?.price;
-        let servicesTotal = connector.services.reduce((prev, s) => s.service && s.refuse === false && prev + (s.service.price * s.pieces), 0)
-        let productsTotal = connector.products.length > 0 && connector.products.reduce((prev, el) => prev + (el.refuse === false && (el.payment && (el.product.price * el.pieces)) || 0), 0) || 0
-        return servicesTotal + productsTotal + days;
+            roomprice = connector?.room?.room?.price * day
+        } else {
+            let begin = new Date(connector?.room?.beginday)
+            let today = new Date()
+            const day = Math.round(
+                Math.abs(
+                    (today.getTime()
+                        -
+                        begin.getTime())
+                    /
+                    (24 * 60 * 60 * 1000)
+                )
+            )
+            roomprice = connector?.room?.room?.price * day
+        }
+
+        let servicesTotal = connector.services.reduce((prev, s) => {
+            if (s.refuse === false) {
+                prev += (s.service.price * s.pieces)
+            }
+            return prev;
+        }, 0)
+        let productsTotal = connector.products.reduce((prev, el) => {
+            if (el.refuse === false) {
+                prev += (el.product.price * el.pieces)
+            }
+            return prev;
+        }, 0)
+        return servicesTotal + productsTotal + roomprice;
     }
 
     const getDebt = (connector) => {

@@ -250,6 +250,12 @@ export const TableClients = ({
                     />
                   </div>
                 </th>
+                {clientsType === 'statsionar' && <th className="border bg-alotrade text-[16px] py-1">
+                  Kelgan sanasi
+                </th>}
+                {clientsType === 'statsionar' && <th className="border bg-alotrade text-[16px] py-1">
+                  Xonasi
+                </th>}
                 <th className="border bg-alotrade text-[16px] py-1">
                   Tasdiqlangan
                 </th>
@@ -280,6 +286,12 @@ export const TableClients = ({
                       <td className="border text-[16px] py-1 text-right">
                         {new Date(connector.client.born).toLocaleDateString()}
                       </td>
+                      {clientsType === 'statsionar' && <td className="border text-[16px] py-1 text-right">
+                        {new Date(connector?.connector?.createdAt).toLocaleDateString()} {new Date(connector?.connector?.createdAt).toLocaleTimeString().slice(0, 5)}
+                      </td>}
+                      {clientsType === 'statsionar' && <td className="border text-[16px] py-1 text-right">
+                        {connector?.connector?.room?.room?.type} {connector?.connector?.room?.room?.number} {connector?.connector?.room?.room?.place}
+                      </td>}
                       <td className="border text-[16px] py-1 text-right">
                         <div className="custom-control custom-checkbox text-center">
                           <input checked={connector?.connector?.accept}

@@ -1,7 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import QRCode from "qrcode";
 import { useReactToPrint } from "react-to-print";
 import CheckStatsionarClient from "../statsionarclients/clientComponents/CheckStatsionarClient";
+import { AuthContext } from "../../../context/AuthContext";
 
 export const CheckModalStatsionar = ({
   modal,
@@ -10,6 +11,8 @@ export const CheckModalStatsionar = ({
   baseUrl,
 }) => {
   const [qr, setQr] = useState();
+
+  const auth = useContext(AuthContext);
 
   const componentRef = useRef();
   const handlePrint = useReactToPrint({
@@ -48,7 +51,7 @@ export const CheckModalStatsionar = ({
           </div>
           <div className="modal-body overflow-scroll">
             <div ref={componentRef}>
-              <CheckStatsionarClient connector={connector} qr={qr} />
+              <CheckStatsionarClient baseUrl={baseUrl} clinica={auth?.clinica} connector={connector} qr={qr} />
             </div>
           </div>
           <div className="modal-footer custom">

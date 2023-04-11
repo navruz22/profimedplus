@@ -427,12 +427,13 @@ module.exports.delete = async (req, res) => {
       },
     });
 
-    for (const productconnector of service.productconnector) {
+    for (const productconnector of service.productconnectors) {
       const del = await ProductConnector.findByIdAndDelete(productconnector);
     }
 
     res.send(service);
   } catch (error) {
+    console.log(error);
     res.status(501).json({ error: "Serverda xatolik yuz berdi..." });
   }
 };

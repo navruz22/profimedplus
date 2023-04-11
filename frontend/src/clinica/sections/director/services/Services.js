@@ -330,17 +330,17 @@ export const Services = () => {
                     Authorization: `Bearer ${auth.token}`,
                 },
             )
-            notify({
-                title: `${data.name} xizmati o'chirildi!`,
-                description: '',
-                status: 'success',
-            })
             getServices()
             setService({
                 clinica: auth.clinica && auth.clinica._id,
             })
             clearInputs()
             setModal(false)
+            notify({
+                title: `${data.name} xizmati o'chirildi!`,
+                description: '',
+                status: 'success',
+            })
         } catch (error) {
             notify({
                 title: error,

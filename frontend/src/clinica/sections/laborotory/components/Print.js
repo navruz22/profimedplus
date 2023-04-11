@@ -72,7 +72,7 @@ const Print = ({ client, connector, sections, baseUrl, clinica }) => {
     }, [sections, location])
 
     return (
-        <div className="px-2 bg-white">
+        <div className="px-2 pt-4 bg-white">
             <div>
                 {clinica?.ifud1 && <div className="row" style={{ fontSize: "10pt" }}>
                     <div

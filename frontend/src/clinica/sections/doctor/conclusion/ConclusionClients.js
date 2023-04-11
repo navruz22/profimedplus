@@ -81,15 +81,13 @@ export const ConclusionClients = () => {
   const [currentDoctorClients, setCurrentDoctorClients] = useState([]);
 
   const getDoctorClients = useCallback(
-    async (beginDay, endDay) => {
+    async () => {
       try {
         const data = await request(
-          `/api/doctor/clients/statsionarclients/get`,
+          `/api/doctor/conclusion/clients/get`,
           "POST",
           {
             clinica: auth && auth.clinica._id,
-            beginDay,
-            endDay,
             department: auth?.user?.specialty,
           },
           {
@@ -189,25 +187,6 @@ export const ConclusionClients = () => {
   //====================================================================
   //====================================================================
   // ChangeDate
-
-  const changeStart = (e) => {
-    setBeginDay(new Date(new Date(e).setUTCHours(0, 0, 0, 0)));
-    getDoctorClients(new Date(new Date(e).setUTCHours(0, 0, 0, 0)), endDay)
-  };
-
-  const changeEnd = (e) => {
-    const date = new Date(
-      new Date(new Date().setDate(new Date(e).getDate() + 1)).setUTCHours(
-        0,
-        0,
-        0,
-        0
-      )
-    );
-
-    setEndDay(date);
-    getDoctorClients(beginDay, date)
-  };
 
   //====================================================================
   //====================================================================
@@ -339,13 +318,6 @@ export const ConclusionClients = () => {
                     </div>
                     <div
                       className="flex items-center gap-2 justify-center"
-                      style={{ maxWidth: "200px", overflow: "hidden" }}
-                    >
-                      <DatePickers changeDate={changeStart} />
-                      <DatePickers changeDate={changeEnd} />
-                    </div>
-                    <div
-                      className="flex items-center gap-2 justify-center"
                     >
                       <select
                         className="form-control form-control-sm selectpicker"
@@ -353,7 +325,7 @@ export const ConclusionClients = () => {
                         onChange={changeType}
                       >
                         <option value={'begin'}>Davolanishda</option>
-                        <option value={'end'}>Tugalganlar</option>
+                        <option value={'end'}>Yakunlangan</option>
                       </select>
                     </div>
                   </div>
@@ -507,7 +479,7 @@ export const ConclusionClients = () => {
                                 {new Date(connector?.connector?.room?.beginday).toLocaleDateString()} {new Date(connector?.connector?.room?.beginday).toLocaleTimeString()}
                               </td>
                               <td className="border text-[16px] py-1 text-right">
-                              {new Date(connector?.connector?.room?.endday).toLocaleDateString()} {new Date(connector?.connector?.room?.endday).toLocaleTimeString()}
+                              {connector?.connector?.room?.endday && new Date(connector?.connector?.room?.endday).toLocaleDateString()} {connector?.connector?.room?.endday && new Date(connector?.connector?.room?.endday).toLocaleTimeString()}
                               </td>
                               <td className="border text-[16px] py-1 text-center flex gap-[4px] items-center">
                                 <button

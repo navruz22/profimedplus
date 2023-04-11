@@ -220,7 +220,7 @@ const ConclusionsTemp = () => {
     const deleteHandler = useCallback(async () => {
         try {
             const data = await request(
-                `/api/doctor/template/delete`,
+                `/api/doctor/conclusion/template/delete`,
                 'POST',
                 { id: remove._id },
                 {

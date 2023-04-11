@@ -334,17 +334,17 @@ const ClientCard = ({ connector, setConnector }) => {
                     </table>
                 </div>
                 <div className="mb-4 mt-4 text-[16px]">
-                    <p className="font-bold">1. <span className="mr-[20px]">Қон гурухи: {connector?.client?.bloodgroup}</span>  резус мансублиги: {connector?.client?.rezus}</p>
-                    <p className="font-bold">2. Дориларнинг ножўя таЪсири: {connector?.client?.medicineresult}</p>
-                    <p className="font-bold">3. <span className="mr-[30px]">Бўйи: {connector?.client?.height},</span> <span className="mr-[30px]">вазни: {connector?.client?.weight},</span> тана харорати: {connector?.client?.temperature}</p>
-                    <p className="font-bold">4. Қариндошларнинг яшаш жойи ва телефон рақамлари: {connector?.client?.relative_info}</p>
-                    <p className="font-bold">5. Иш жойи, касби, лавозими: {connector?.client?.profession_info}</p>
-                    <p className="font-bold">6. Бемор қаердан юборилган: {connector?.client?.sending_info}</p>
-                    <p className="font-bold">7. Касалхонага шошилинч равишда келтирилган: {connector?.client?.isAmbulance}</p>
-                    <p className="font-bold">8. Қандай транспортда келтирилган: {connector?.client?.ambulance_transport}</p>
-                    <p className="font-bold">9. Касаллик бошлангандан сўнг утган вақт, жарохатдан сўнг: {connector?.client?.start_sickness}</p>
-                    <p className="font-bold">10. Бемор йўлланмасидаги ташҳис: {connector?.client?.conter_diagnosis}</p>
-                    <p className="font-bold">11. Қабулхонада қуйилган ташҳис: {connector?.client?.diagnosis}</p>
+                    <p>1. Қон гурухи: <span className="mr-[20px] font-bold"> {connector?.client?.bloodgroup}</span>  резус мансублиги: <span className="font-bold">{connector?.client?.rezus}</span></p>
+                    <p>2. Дориларнинг ножўя таъсири: <span className="font-bold">{connector?.client?.medicineresult}</span></p>
+                    <p>3. Бўйи: <span className="mr-[30px] font-bold">{connector?.client?.height},</span> вазни: <span className="mr-[30px] font-bold">{connector?.client?.weight},</span> тана харорати: <span className="font-bold">{connector?.client?.temperature}</span></p>
+                    <p>4. Қариндошларнинг яшаш жойи ва телефон рақамлари: <span className="font-bold">{connector?.client?.relative_info}</span></p>
+                    <p>5. Иш жойи, касби, лавозими: <span className="font-bold">{connector?.client?.profession_info}</span></p>
+                    <p>6. Бемор қаердан юборилган: <span className="font-bold">{connector?.client?.sending_info}</span></p>
+                    <p>7. Касалхонага шошилинч равишда келтирилган: <span className="font-bold">{connector?.client?.isAmbulance}</span></p>
+                    <p>8. Қандай транспортда келтирилган: <span className="font-bold">{connector?.client?.ambulance_transport}</span></p>
+                    <p>9. Касаллик бошлангандан сўнг утган вақт, жарохатдан сўнг: <span className="font-bold">{connector?.client?.start_sickness}</span></p>
+                    <p>10. Бемор йўлланмасидаги ташҳис: <span className="font-bold">{connector?.client?.conter_diagnosis}</span></p>
+                    <p>11. Қабулхонада қуйилган ташҳис: <span className="font-bold">{connector?.client?.diagnosis}</span></p>
                 </div>
                 <div>
                     {connector.client?.templates && connector.client?.templates.map((t, i) =>
