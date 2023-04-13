@@ -1,4 +1,5 @@
 import React from 'react'
+import Select from 'react-select'
 import { Pagination } from '../../../reseption/components/Pagination'
 import { DatePickers } from '../../../reseption/offlineclients/clientComponents/DatePickers'
 import { Sort } from '../../../reseption/offlineclients/clientComponents/Sort'
@@ -35,8 +36,8 @@ const Table = ({
                                 <option value={100}>100</option>
                             </select>
                         </div>
-                        <div>
-                            <select
+                        <div className='w-[300px]'>
+                            {/* <select
                                 className="form-control form-control-sm selectpicker"
                                 placeholder="Bo'limni tanlang"
                                 onChange={changeCounterDoctor}
@@ -46,12 +47,20 @@ const Table = ({
                                 {counterDoctorsList.length > 0 && counterDoctorsList.map(item =>
                                     <option value={item._id}>{item.firstname + ' ' + item.lastname}</option>
                                 )}
-                            </select>
+                            </select> */}
+                            <Select
+                                options={[...counterDoctorsList].map(item => ({
+                                    ...item,
+                                    value: item._id,
+                                    label: item.firstname + ' ' + item.lastname
+                                }))}
+                                onChange={changeCounterDoctor}
+                            />
                         </div>
                         <div>
                             <input
                                 onChange={searchClientName}
-                                style={{ maxWidth: '100px', minWidth: '100px' }}
+                                style={{ maxWidth: '200px', minWidth: '200px' }}
                                 type="search"
                                 className="w-100 form-control form-control-sm selectpicker"
                                 placeholder="Mijoz F.I.O"
@@ -178,10 +187,10 @@ const Table = ({
                                 <td className="border py-1 text-left text-[16px]"></td>
                                 <td className="border py-1 text-right text-[16px]"></td>
                                 <td className="border py-1 text-right text-[16px] font-bold">
-                                    {connectors.reduce((prev, el) => prev + el.counteragent_profit, 0)}
+                                    {connectors.reduce((prev, el) => prev + (el?.counteragent_profit || 0), 0)}
                                 </td>
                                 <td className="border py-1 text-right text-[16px] font-bold">
-                                    {connectors.reduce((prev, el) => prev + el.counterdoctor_profit, 0)}
+                                    {connectors.reduce((prev, el) => prev + (el?.counterdoctor_profit || 0), 0)}
                                 </td>
                             </tr>
                         </tbody>

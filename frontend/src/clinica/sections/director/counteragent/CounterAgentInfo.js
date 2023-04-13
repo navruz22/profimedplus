@@ -422,13 +422,13 @@ const CounterAgentInfo = () => {
                                                 <td className="border py-1 text-left text-[16px]">
                                                 </td>
                                                 <td className="border py-1 text-right font-weight-bold text-[18px]">
-                                                    {searchStorage.reduce((prev, item) => prev + item.totalprice, 0)}
+                                                    {searchStorage.reduce((prev, item) => prev + item?.totalprice, 0)}
                                                 </td>
                                                 <td className="border py-1 text-right font-weight-bold text-[18px]">
-                                                    {searchStorage.reduce((prev, item) => prev + item.counteragent_profit, 0)}
+                                                    {searchStorage.reduce((prev, item) => prev + (item?.counteragent_profit || 0), 0)}
                                                 </td>
                                                 <td className="border py-1 text-right font-weight-bold text-[18px]">
-                                                    {searchStorage.reduce((prev, item) => prev + item.counterdoctor_profit, 0)}
+                                                    {searchStorage.reduce((prev, item) => prev + (item?.counterdoctor_profit || 0), 0)}
                                                 </td>
                                                 <td className="border py-1 font-weight-bold text-[16px]">
                                                 </td>

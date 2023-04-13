@@ -130,12 +130,12 @@ const Doctors = () => {
     //==============================================================
 
     const changeCounterDoctor = (e) => {
-        if (e.target.value === 'none') {
+        if (e.value === 'none') {
             setCounterdoctor('')
             getCounterDoctorsService(beginDay, endDay, '')
         } else {
-            setCounterdoctor(e.target.value)
-            getCounterDoctorsService(beginDay, endDay, e.target.value)
+            setCounterdoctor(e.value)
+            getCounterDoctorsService(beginDay, endDay, e.value)
         }
     }
 
