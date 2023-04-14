@@ -370,6 +370,48 @@ module.exports.update = async (req, res) => {
         }
       }
     }
+
+    if (!service.department && department) {
+      await Department.findByIdAndUpdate(
+        department,
+        {
+          $push: {
+            services: new ObjectId(service._id),
+          },
+        }
+      );
+      service.department = department;
+    } else {
+      if (
+        service.department &&
+        department &&
+        service.department !== department
+      ) {
+        await Department.findByIdAndUpdate(
+          service.department,
+          {
+            $pull: {
+              services: new ObjectId(service._id),
+            },
+          }
+        );
+
+        await Department.findByIdAndUpdate(
+          department,
+          {
+            $push: {
+              services: new ObjectId(service._id),
+            },
+          }
+        );
+        service.department = department;
+      } else {
+        if (service.department && !department) {
+          service.department = undefined;
+        }
+      }
+    }
+
     await service.save();
 
     res.send(service);

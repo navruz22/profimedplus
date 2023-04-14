@@ -476,7 +476,7 @@ export const ConclusionClients = () => {
                                 {new Date(connector?.client?.born).toLocaleDateString()}
                               </td>
                               <td className="border text-[16px] py-1 text-right">
-                                {new Date(connector?.connector?.room?.beginday).toLocaleDateString()} {new Date(connector?.connector?.room?.beginday).toLocaleTimeString()}
+                                {new Date(connector?.connector?.createdAt).toLocaleDateString()} {new Date(connector?.connector?.createdAt).toLocaleTimeString()}
                               </td>
                               <td className="border text-[16px] py-1 text-right">
                               {connector?.connector?.room?.endday && new Date(connector?.connector?.room?.endday).toLocaleDateString()} {connector?.connector?.room?.endday && new Date(connector?.connector?.room?.endday).toLocaleTimeString()}

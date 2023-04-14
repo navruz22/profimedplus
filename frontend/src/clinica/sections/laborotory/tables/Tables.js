@@ -435,7 +435,7 @@ const Tables = () => {
     //====================================================================
 
     const searchName = (e) => {
-        const newS = [...services].filter(s => s.name.toLowerCase().includes(e.target.value.toLowerCase()))
+        const newS = [...searchStorage].filter(s => s.name.toLowerCase().includes(e.target.value.toLowerCase()))
         setCurrentServices(newS)
     }
 

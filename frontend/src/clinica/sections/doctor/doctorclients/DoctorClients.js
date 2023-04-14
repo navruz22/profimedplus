@@ -138,10 +138,15 @@ export const DoctorClients = () => {
             Authorization: `Bearer ${auth.token}`,
           }
         );
-        setDoctorClients([...data].filter(item => item.connector.room.endday === null));
-        setSearchStorage([...data].filter(item => item.connector.room.endday === null));
+        // setDoctorClients([...data].filter(item => item.connector.room.endday === null));
+        // setSearchStorage([...data].filter(item => item.connector.room.endday === null));
+        // setCurrentDoctorClients(
+        //   [...data].filter(item => item.connector.room.endday === null).slice(indexFirstConnector, indexLastConnector)
+        // );
+        setDoctorClients(data);
+        setSearchStorage(data);
         setCurrentDoctorClients(
-          [...data].filter(item => item.connector.room.endday === null).slice(indexFirstConnector, indexLastConnector)
+          data.slice(indexFirstConnector, indexLastConnector)
         );
       } catch (error) {
         notify({

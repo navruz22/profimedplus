@@ -33,7 +33,9 @@ const client = new Schema(
         conter_diagnosis: {type: String},
         clientcard: {type: String},
         templates: {type: Array},
-        conclusions: {type: Array}
+        conclusions: {type: Array},
+        id2: {type: String},
+        national: {type: String, required: true}
     },
     {
         timestamps: true,
@@ -53,6 +55,8 @@ function validateClient(client) {
         address: Joi.string(),
         connectors: Joi.string(),
         reseption: Joi.string().required(),
+        id2: Joi.string(),
+        national: Joi.string().required()
     })
 
     return schema.validate(client)

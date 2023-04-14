@@ -40,6 +40,14 @@ export const checkClientData = (client) => {
     }
   }
 
+  if (!client.national) {
+    return {
+      title: 'Diqqat! Mijozning fuqorosi tanlanmagan.',
+      description: 'Iltimos mijozning fuqorosini tanlang.',
+      status: 'error',
+    }
+  }
+
   return false
 }
 

@@ -243,7 +243,7 @@ module.exports.getStatsionarAll = async (req, res) => {
         .populate("client", "lastname firstname born id phone address")
         .populate({
           path: "services",
-          select: "service serviceid accept refuse column tables turn connector client files department",
+          select: "service serviceid accept refuse createdAt column tables turn connector client files department",
           populate: {
             path: "service",
             select: "price"
@@ -251,7 +251,7 @@ module.exports.getStatsionarAll = async (req, res) => {
         })
         .populate({
           path: "services",
-          select: "service serviceid accept refuse column tables turn connector client files department",
+          select: "service serviceid accept refuse column createdAt tables turn connector client files department",
           populate: {
             path: "serviceid",
             select: "servicetype",
@@ -263,7 +263,7 @@ module.exports.getStatsionarAll = async (req, res) => {
         })
         .populate({
           path: "services",
-          select: "service serviceid accept refuse column tables turn connector client files department",
+          select: "service serviceid accept refuse column createdAt tables turn connector client files department",
           populate: {
             path: "templates",
             select: "name template",
@@ -271,7 +271,7 @@ module.exports.getStatsionarAll = async (req, res) => {
         })
         .populate({
           path: "services",
-          select: "service serviceid accept refuse column tables turn connector client files department",
+          select: "service serviceid accept refuse column createdAt tables turn connector client files department",
           populate: {
             path: 'department',
             select: "probirka"
@@ -324,7 +324,7 @@ module.exports.getStatsionarAll = async (req, res) => {
         .populate("client", "lastname firstname born id phone address")
         .populate({
           path: "services",
-          select: "service serviceid accept refuse column tables turn connector client files department",
+          select: "service serviceid accept refuse column createdAt tables turn connector client files department",
           populate: {
             path: "service",
             select: "price"
@@ -332,7 +332,7 @@ module.exports.getStatsionarAll = async (req, res) => {
         })
         .populate({
           path: "services",
-          select: "service serviceid accept refuse column tables turn connector client files department",
+          select: "service serviceid accept refuse column createdAt tables turn connector client files department",
           populate: {
             path: "serviceid",
             select: "servicetype",
@@ -344,7 +344,7 @@ module.exports.getStatsionarAll = async (req, res) => {
         })
         .populate({
           path: "services",
-          select: "service serviceid accept refuse column tables turn connector client files department",
+          select: "service serviceid accept refuse column createdAt tables turn connector client files department",
           populate: {
             path: "templates",
             select: "name template",
@@ -352,7 +352,7 @@ module.exports.getStatsionarAll = async (req, res) => {
         })
         .populate({
           path: "services",
-          select: "service serviceid accept refuse column tables turn connector client files department",
+          select: "service serviceid accept refuse column createdAt tables turn connector client files department",
           populate: {
             path: 'department',
             select: "probirka"

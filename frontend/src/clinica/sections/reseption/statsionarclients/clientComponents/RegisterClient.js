@@ -102,7 +102,7 @@ export const RegisterClient = ({
                                             id="lastname"
                                             name="lastname"
                                             placeholder="Familiyasi"
-                                            style={{border: client.lastname && '1px solid blue'}}
+                                            style={{ border: client.lastname && '1px solid blue' }}
                                         />
                                     </div>
                                 </div>
@@ -117,7 +117,7 @@ export const RegisterClient = ({
                                             id="firstname"
                                             name="firstname"
                                             placeholder="Ismi"
-                                            style={{border: client.firstname && '1px solid blue'}}
+                                            style={{ border: client.firstname && '1px solid blue' }}
                                         />
                                     </div>
                                 </div>
@@ -132,7 +132,7 @@ export const RegisterClient = ({
                                             id="fathername"
                                             name="fathername"
                                             placeholder="Otasining ismi"
-                                            style={{border: client.fathername && '1px solid blue'}}
+                                            style={{ border: client.fathername && '1px solid blue' }}
                                         />
                                     </div>
                                 </div>
@@ -166,7 +166,7 @@ export const RegisterClient = ({
                                                 type="number"
                                                 className="form-control"
                                                 name="phone"
-                                                style={{border: client.phone && '1px solid blue'}}
+                                                style={{ border: client.phone && '1px solid blue' }}
                                             />
                                         </div>
                                     </div>
@@ -220,6 +220,55 @@ export const RegisterClient = ({
                                         </div>
                                     </div>
                                 </div>
+                                <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                    <div className="form-group">
+                                        <label htmlFor="biO">Fuqoroligi</label>
+                                        <div>
+                                            <div className="custom-control custom-radio custom-control-inline">
+                                                <input
+                                                    checked={
+                                                        client.national && client.national === 'uzb'
+                                                            ? true
+                                                            : false
+                                                    }
+                                                    onChange={(e) => {
+                                                        setClient({ ...client, national: 'uzb' })
+                                                    }}
+                                                    type="radio"
+                                                    id="national1"
+                                                    name="national"
+                                                    className="custom-control-input"
+                                                />
+                                                <label
+                                                    className="custom-control-label"
+                                                    htmlFor="national1"
+                                                >
+                                                    Uzbek
+                                                </label>
+                                            </div>
+                                            <div className="custom-control custom-radio custom-control-inline">
+                                                <input
+                                                    defaultChecked={
+                                                        client.national === 'foreigner' ? true : false
+                                                    }
+                                                    onChange={(e) => {
+                                                        setClient({ ...client, national: 'foreigner' })
+                                                    }}
+                                                    type="radio"
+                                                    id="national2"
+                                                    name="national"
+                                                    className="custom-control-input"
+                                                />
+                                                <label
+                                                    className="custom-control-label"
+                                                    htmlFor="national2"
+                                                >
+                                                    Chet'ellik
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div className="col-12">
                                     <div className="form-group">
                                         <label htmlFor="biO">Manzili</label>
@@ -230,7 +279,7 @@ export const RegisterClient = ({
                                             name="address"
                                             rows={1}
                                             placeholder="Navoiy shahar ...."
-                                            style={{border: client.address && '1px solid blue'}}
+                                            style={{ border: client.address && '1px solid blue' }}
                                         />
                                     </div>
                                 </div>
@@ -241,7 +290,7 @@ export const RegisterClient = ({
                                             className="form-control form-control-sm selectpicker"
                                             placeholder="Doctors"
                                             onChange={changeDoctor}
-                                            style={{border: connector.doctor && '1px solid blue'}}
+                                            style={{ border: connector.doctor && '1px solid blue' }}
                                         >
                                             <option value={"delete"}>Doctors</option>
                                             {doctors.map((doctor, index) => (
@@ -259,7 +308,7 @@ export const RegisterClient = ({
                                             className="form-control form-control-sm selectpicker"
                                             placeholder="Xonalar"
                                             onChange={changeRoom}
-                                            style={{border: room.room && '1px solid blue'}}
+                                            style={{ border: room.room && '1px solid blue' }}
                                         >
                                             <option value={"delete"}>Xonalar</option>
                                             {rooms.map((room, index) => (
@@ -278,7 +327,7 @@ export const RegisterClient = ({
                                 <div className="col-sm-6 col-12">
                                     <label>Qabul sanasi</label>
                                     <input
-                                        onChange={(e) => setRoom({...room, beginday: new Date(e.target.value)})}
+                                        onChange={(e) => setRoom({ ...room, beginday: new Date(e.target.value) })}
                                         type="date"
                                         className="form-control inp"
                                         placeholder=""
@@ -294,7 +343,7 @@ export const RegisterClient = ({
                                         name="diagnosis"
                                         rows={1}
                                         placeholder="Qabulxonada quyilgan tashxis..."
-                                        style={{border: client.diagnosis && '1px solid blue'}}
+                                        style={{ border: client.diagnosis && '1px solid blue' }}
                                     />
                                 </div>
                                 <div className="col-sm-6 col-12">
@@ -329,7 +378,7 @@ export const RegisterClient = ({
                                             onChange={changeAdver}
                                             className="form-control form-control-sm selectpicker"
                                             placeholder="Reklamalarni tanlash"
-                                            style={{border: client.adver && '1px solid blue'}}
+                                            style={{ border: client.adver && '1px solid blue' }}
                                         >
                                             <option value="delete">Tanlanmagan</option>
                                             {advers.map((adver, index) => {
@@ -354,7 +403,7 @@ export const RegisterClient = ({
                                             className="form-control form-control-sm"
                                             id="lastname"
                                             name="department"
-                                            style={{border: client.department && '1px solid blue'}}
+                                            style={{ border: client.department && '1px solid blue' }}
                                         />
                                     </div>
                                 </div>
@@ -368,7 +417,7 @@ export const RegisterClient = ({
                                             className="form-control form-control-sm"
                                             id="firstname"
                                             name="bloodgroup"
-                                            style={{border: client.bloodgroup && '1px solid blue'}}
+                                            style={{ border: client.bloodgroup && '1px solid blue' }}
                                         />
                                     </div>
                                 </div>
@@ -382,7 +431,7 @@ export const RegisterClient = ({
                                             className="form-control form-control-sm"
                                             id="firstname"
                                             name="rezus"
-                                            style={{border: client.rezus && '1px solid blue'}}
+                                            style={{ border: client.rezus && '1px solid blue' }}
                                         />
                                     </div>
                                 </div>
@@ -396,7 +445,7 @@ export const RegisterClient = ({
                                             className="form-control form-control-sm"
                                             id="firstname"
                                             name="medicineresult"
-                                            style={{border: client.medicineresult && '1px solid blue'}}
+                                            style={{ border: client.medicineresult && '1px solid blue' }}
                                         />
                                     </div>
                                 </div>
@@ -410,7 +459,7 @@ export const RegisterClient = ({
                                             className="form-control form-control-sm"
                                             id="height"
                                             name="height"
-                                            style={{border: client.height && '1px solid blue'}}
+                                            style={{ border: client.height && '1px solid blue' }}
                                         />
                                     </div>
                                 </div>
@@ -424,7 +473,7 @@ export const RegisterClient = ({
                                             className="form-control form-control-sm"
                                             id="weight"
                                             name="weight"
-                                            style={{border: client.weight && '1px solid blue'}}
+                                            style={{ border: client.weight && '1px solid blue' }}
                                         />
                                     </div>
                                 </div>
@@ -438,7 +487,7 @@ export const RegisterClient = ({
                                             className="form-control form-control-sm"
                                             id="temperature"
                                             name="temperature"
-                                            style={{border: client.temperature && '1px solid blue'}}
+                                            style={{ border: client.temperature && '1px solid blue' }}
                                         />
                                     </div>
                                 </div>
@@ -452,7 +501,7 @@ export const RegisterClient = ({
                                             className="form-control form-control-sm"
                                             id="relative_info"
                                             name="relative_info"
-                                            style={{border: client.relative_info && '1px solid blue'}}
+                                            style={{ border: client.relative_info && '1px solid blue' }}
                                         />
                                     </div>
                                 </div>
@@ -466,7 +515,7 @@ export const RegisterClient = ({
                                             className="form-control form-control-sm"
                                             id="profession_info"
                                             name="profession_info"
-                                            style={{border: client.profession_info && '1px solid blue'}}
+                                            style={{ border: client.profession_info && '1px solid blue' }}
                                         />
                                     </div>
                                 </div>
@@ -480,7 +529,7 @@ export const RegisterClient = ({
                                             className="form-control form-control-sm"
                                             id="sending_info"
                                             name="sending_info"
-                                            style={{border: client.sending_info && '1px solid blue'}}
+                                            style={{ border: client.sending_info && '1px solid blue' }}
                                         />
                                     </div>
                                 </div>
@@ -494,7 +543,7 @@ export const RegisterClient = ({
                                             className="form-control form-control-sm"
                                             id="isAmbulance"
                                             name="isAmbulance"
-                                            style={{border: client.isAmbulance && '1px solid blue'}}
+                                            style={{ border: client.isAmbulance && '1px solid blue' }}
                                         />
                                     </div>
                                 </div>
@@ -508,7 +557,7 @@ export const RegisterClient = ({
                                             className="form-control form-control-sm"
                                             id="ambulance_transport"
                                             name="ambulance_transport"
-                                            style={{border: client.ambulance_transport && '1px solid blue'}}
+                                            style={{ border: client.ambulance_transport && '1px solid blue' }}
                                         />
                                     </div>
                                 </div>
@@ -522,7 +571,7 @@ export const RegisterClient = ({
                                             className="form-control form-control-sm"
                                             id="start_sickness"
                                             name="start_sickness"
-                                            style={{border: client.start_sickness && '1px solid blue'}}
+                                            style={{ border: client.start_sickness && '1px solid blue' }}
                                         />
                                     </div>
                                 </div>
@@ -536,7 +585,21 @@ export const RegisterClient = ({
                                             className="form-control form-control-sm"
                                             id="conter_diagnosis"
                                             name="conter_diagnosis"
-                                            style={{border: client.conter_diagnosis && '1px solid blue'}}
+                                            style={{ border: client.conter_diagnosis && '1px solid blue' }}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                    <div className="form-group">
+                                        <label htmlFor="inputEmail">ID</label>
+                                        <input
+                                            defaultValue={client?.id2}
+                                            onChange={changeClientData}
+                                            type="text"
+                                            className="form-control form-control-sm"
+                                            id="id2"
+                                            name="id2"
+                                            style={{ border: client.id2 && '1px solid blue' }}
                                         />
                                     </div>
                                 </div>

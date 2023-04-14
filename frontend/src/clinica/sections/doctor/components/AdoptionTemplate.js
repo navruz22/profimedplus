@@ -7,7 +7,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Select from "react-select";
 import { AuthContext } from "../../../context/AuthContext";
 import { useHttp } from "../../../hooks/http.hook";
@@ -15,8 +15,9 @@ import Print from "./Print";
 import { useReactToPrint } from 'react-to-print'
 import TextEditor from "./TextEditor";
 import LabPrint from "../../laborotory/components/Print"
+import DoctorResult from "../conclusion/components/DoctorResult";
 
-const DoctorTemplate = ({ client, connector, services, clientsType }) => {
+const DoctorTemplate = ({ client, connector, services, clientsType, baseUrl }) => {
 
   const { request, loading } = useHttp();
   const auth = useContext(AuthContext);
@@ -44,21 +45,6 @@ const DoctorTemplate = ({ client, connector, services, clientsType }) => {
 
   const [sections, setSections] = useState([]);
   const [templates, setTemplates] = useState();
-
-  const [baseUrl, setBaseUrl] = useState()
-
-  const getBaseUrl = useCallback(async () => {
-    try {
-      const data = await request('/api/baseurl', 'GET', null)
-      setBaseUrl(data.baseUrl)
-    } catch (error) {
-      notify({
-        title: error,
-        description: '',
-        status: 'error',
-      })
-    }
-  }, [request, notify])
 
   const getTemplates = useCallback(async () => {
     try {
@@ -225,7 +211,7 @@ const DoctorTemplate = ({ client, connector, services, clientsType }) => {
     });
     setSections(newSections);
   }
-  console.log(sections);
+  
   useEffect(() => {
     setSections([...services].filter(service => service.department.probirka === false && service.department._id === auth?.user?.specialty));
   }, [services]);
@@ -234,9 +220,8 @@ const DoctorTemplate = ({ client, connector, services, clientsType }) => {
   useEffect(() => {
     // if (!t) {
     getTemplates();
-    getBaseUrl()
     // }
-  }, [getTemplates, getBaseUrl]);
+  }, [getTemplates]);
 
   return (
     <>
@@ -541,10 +526,8 @@ const DoctorTemplate = ({ client, connector, services, clientsType }) => {
   );
 };
 
-const LabTemplate = ({ client, connector, services }) => {
-  // const clientId = useParams().clientid
-  // const connectorId = useParams().connectorid
-  console.log(services);
+const LabTemplate = ({ client, connector, services, baseUrl }) => {
+  
   const { request } = useHttp();
   const auth = useContext(AuthContext);
 
@@ -572,21 +555,6 @@ const LabTemplate = ({ client, connector, services }) => {
   // const [client, setClient] = useState();
   // const [connector, setConnector] = useState();
   const [sections, setSections] = useState([]);
-
-  const [baseUrl, setBaseUrl] = useState()
-
-  const getBaseUrl = useCallback(async () => {
-    try {
-      const data = await request('/api/baseurl', 'GET', null)
-      setBaseUrl(data.baseUrl)
-    } catch (error) {
-      notify({
-        title: error,
-        description: '',
-        status: 'error',
-      })
-    }
-  }, [request, notify])
 
   // const [tablesSelect, setTablesSelect] = useState([])
 
@@ -812,13 +780,6 @@ const LabTemplate = ({ client, connector, services }) => {
     setSections([...servicetypes, ...servicesmore])
 
   }, [services]);
-
-  useEffect(() => {
-    // if (!t) {
-    // getServices()
-    getBaseUrl()
-    // }
-  }, [getBaseUrl]);
 
   return (
     <>
@@ -1182,9 +1143,50 @@ const LabTemplate = ({ client, connector, services }) => {
 
 
 const AdoptionTemplate = () => {
-  const { client, connector, services, clientsType } = useLocation().state
+  const { client, connector, services, clientsType } = useLocation().state;
+  const connectorData = useLocation().state;
 
   const [type, setType] = useState('doctor')
+
+  const { request } = useHttp();
+  const auth = useContext(AuthContext);
+
+  console.log(connectorData);
+
+  const toast = useToast();
+
+  const notify = useCallback(
+    (data) => {
+      toast({
+        title: data.title && data.title,
+        description: data.description && data.description,
+        status: data.status && data.status,
+        duration: 5000,
+        isClosable: true,
+        position: "top-right",
+      });
+    },
+    [toast]
+  );
+
+  const [baseUrl, setBaseUrl] = useState()
+
+  const getBaseUrl = useCallback(async () => {
+    try {
+      const data = await request('/api/baseurl', 'GET', null)
+      setBaseUrl(data.baseUrl)
+    } catch (error) {
+      notify({
+        title: error,
+        description: '',
+        status: 'error',
+      })
+    }
+  }, [request, notify]);
+
+  useEffect(() => {
+    getBaseUrl()
+  }, [getBaseUrl]);
 
   return <div className="container p-4 bg-white text-center">
     <div className="w-[300px]">
@@ -1197,12 +1199,18 @@ const AdoptionTemplate = () => {
           {
             label: "Laboratoriya",
             value: "laboratory"
+          },
+          {
+            label: "Xammasi",
+            value: "all"
           }
         ]}
         onChange={e => setType(e.value)}
       />
     </div>
-    {type === 'doctor' ? <DoctorTemplate clientsType={clientsType} client={client} connector={connector} services={services} /> : <LabTemplate client={client} connector={connector} services={services} />}
+    {type === 'doctor' && <DoctorTemplate clientsType={clientsType} client={client} connector={connector} services={services} />}
+    {type === 'laboratory' && <LabTemplate client={client} connector={connector} services={services} />}
+    {type === 'all' && <DoctorResult client={client} connector={connectorData} clinica={auth?.clinica} baseUrl={baseUrl} />}
   </div>
 }
 

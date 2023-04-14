@@ -112,15 +112,23 @@ export const HomePage = () => {
   //=============================================
   //=============================================
 
-  const [t, setT] = useState(0)
+  // const [t, setT] = useState(0)
+
+  // useEffect(() => {
+  //   if (!t) {
+  //     setT(1)
+  //     getMonthlyReport()
+  //     getDailyReport()
+  //   }
+  // }, [t, getMonthlyReport, getDailyReport]);
 
   useEffect(() => {
-    if (!t) {
-      setT(1)
-      getMonthlyReport()
-      getDailyReport()
-    }
-  }, [t, getMonthlyReport, getDailyReport]);
+    getMonthlyReport()
+  }, [getMonthlyReport])
+
+  useEffect(() => {
+    getDailyReport()
+  }, [getDailyReport])
 
   return (
     <section

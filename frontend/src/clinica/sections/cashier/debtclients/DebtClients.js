@@ -8,10 +8,12 @@ import { Modal } from "../components/Modal";
 
 export const DebtClients = () => {
   const [beginDay, setBeginDay] = useState(
-    new Date(new Date().setUTCHours(0, 0, 0, 0))
+    new Date(
+      new Date().setMonth(new Date().getMonth() - 3)
+  )
   );
   const [endDay, setEndDay] = useState(
-    new Date(new Date().setDate(new Date().getDate() + 1))
+    new Date()
   );
   //====================================================================
   //====================================================================

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import ReactHtmlParser from 'react-html-parser'
 import { useReactToPrint } from "react-to-print";
 import QRcode from "../../../../../qrcode.png"
+import '../../components/Print.css'
 
 const DoctorResult = ({ connector, clinica, baseUrl }) => {
 
@@ -20,7 +21,8 @@ const DoctorResult = ({ connector, clinica, baseUrl }) => {
                         servicetypeid: check,
                         servicetypename: service.serviceid.servicetype.name,
                         services: [service],
-                        column: service.column
+                        column: service.column,
+                        createdAt: service.createdAt
                     })
                     serviceIdArr.push(check);
                 } else {
@@ -36,7 +38,8 @@ const DoctorResult = ({ connector, clinica, baseUrl }) => {
                             servicetypeid: check,
                             servicetypename: service.serviceid.servicetype.name,
                             services: [service],
-                            column: service.column
+                            column: service.column,
+                            createdAt: service.createdAt
                         })
                     }
                 }
@@ -82,7 +85,7 @@ const DoctorResult = ({ connector, clinica, baseUrl }) => {
                             borderLeft: "none",
                         }}
                     >
-                        <p className="pt-2">IFUD: {clinica?.ifud2}</p>
+                        <p className="pt-2">{clinica?.ifud2}</p>
                     </div>
                     <div
                         className="col-4"
@@ -282,9 +285,12 @@ const DoctorResult = ({ connector, clinica, baseUrl }) => {
                                 {section.templates && section.templates.length > 0 &&
                                     section.templates.map((template, index) => (
                                         <div>
-                                            <h2 className="block text-[24px] font-bold">
+                                            <h2 className="block text-center text-[24px] font-bold">
                                                 {template?.name}
                                             </h2>
+                                            <div className="flex justify-end items-center">
+                                                <div className="text-[12px] font-bold mt-2 px-2 py-1 bg-gray-400">Tekshiruv sanasi: {new Date(section.createdAt).toLocaleDateString()}</div>
+                                            </div>
                                             <div
                                                 key={index}
                                                 className="w-full text-[16px] mb-2 print_word"
@@ -313,6 +319,9 @@ const DoctorResult = ({ connector, clinica, baseUrl }) => {
                                     <h2 className="block text-[18px] font-bold">
                                         {section?.servicetypename}
                                     </h2>
+                                </div>
+                                <div className="flex justify-end items-center">
+                                    <div className="text-[12px] font-bold my-2 px-2 py-1 bg-gray-400">Tekshiruv sanasi: {new Date(section.createdAt).toLocaleDateString()}</div>
                                 </div>
                                 <table className="w-full text-center">
                                     <thead>
@@ -380,8 +389,8 @@ const DoctorResult = ({ connector, clinica, baseUrl }) => {
                     </div>))}
                 </div>
             </div>
-            <div  className="d-none">
-                <div ref={componentRef} className="container w-[21cm]">
+            <div className="d-none">
+                <div ref={componentRef} style={{ fontFamily: "times" }} className="container px-[2cm]">
                     {clinica?.ifud1 && <div className="row" style={{ marginTop: '10px', fontSize: "10pt" }}>
                         <div
                             className="col-4"
@@ -399,7 +408,7 @@ const DoctorResult = ({ connector, clinica, baseUrl }) => {
                                 borderLeft: "none",
                             }}
                         >
-                            <p className="pt-2">IFUD: {clinica?.ifud2}</p>
+                            <p className="pt-2">{clinica?.ifud2}</p>
                         </div>
                         <div
                             className="col-4"
@@ -599,12 +608,15 @@ const DoctorResult = ({ connector, clinica, baseUrl }) => {
                                     {section.templates && section.templates.length > 0 &&
                                         section.templates.map((template, index) => (
                                             <div>
-                                                <h2 className="block text-[24px] font-bold">
+                                                <h2 className="block text-center mb-4 text-[24px] font-bold">
                                                     {template?.name}
                                                 </h2>
+                                                <div className="flex justify-end items-center">
+                                                    <div className="text-[12px] font-bold mt-2 px-2 py-1 bg-gray-400">Tekshiruv sanasi: {new Date(section.createdAt).toLocaleDateString()}</div>
+                                                </div>
                                                 <div
                                                     key={index}
-                                                    className="w-full text-[16px] mb-2 print_word"
+                                                    className="w-full text-[20px] mb-2 print_word"
                                                 >
 
                                                     {ReactHtmlParser(template.template)}
@@ -631,6 +643,9 @@ const DoctorResult = ({ connector, clinica, baseUrl }) => {
                                             {section?.servicetypename}
                                         </h2>
                                     </div>
+                                    <div className="flex justify-end items-center">
+                                        <div className="text-[12px] font-bold my-2 px-2 py-1 bg-gray-400">Tekshiruv sanasi: {new Date(section.createdAt).toLocaleDateString()}</div>
+                                    </div>
                                     <table className="w-full text-center">
                                         <thead>
                                             <tr>
@@ -646,7 +661,7 @@ const DoctorResult = ({ connector, clinica, baseUrl }) => {
                                                 return service.tables.map((table, key) => (
                                                     <tr key={key} >
                                                         <td className={`border-[1px] text-[16px] border-black py-1 px-[12px]`}> <pre
-                                                            style={{ fontFamily: "sans-serif" }}
+                                                            style={{ fontFamily: "times" }}
                                                             className="border-none outline-none text-left"
                                                         >
                                                             {table?.col1}
@@ -701,7 +716,6 @@ const DoctorResult = ({ connector, clinica, baseUrl }) => {
             <div className="container p-4 bg-white">
                 <div className="row">
                     <div className="col-12 text-center my-4">
-                        <button className="btn btn-success px-4 mx-4"  > Tasdiqlash</button>
                         <button className="btn btn-info px-5" onClick={handlePrint} >Chop etish</button>
                     </div>
                 </div>

@@ -12,7 +12,7 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import QRcode from "../../../../../qrcode.png"
 
 const ConclusionPage = ({ connector, onChange, setConnector, clinica, baseUrl }) => {
-    console.log(connector);
+    
 
     const componentRef = useRef()
     const handlePrint = useReactToPrint({
@@ -162,7 +162,7 @@ const ConclusionPage = ({ connector, onChange, setConnector, clinica, baseUrl })
                             borderLeft: "none",
                         }}
                     >
-                        <p className="pt-2">IFUD: {auth?.clinica?.ifud2}</p>
+                        <p className="pt-2">{auth?.clinica?.ifud2}</p>
                     </div>
                     <div
                         className="col-4"
@@ -418,7 +418,7 @@ const ConclusionPage = ({ connector, onChange, setConnector, clinica, baseUrl })
                 </div>
             </div>
             <div className="d-none">
-                <div ref={componentRef} className="container w-[21cm] p-4">
+                <div ref={componentRef} style={{fontFamily: "times"}} className="container w-[21cm] p-4">
                     {auth?.clinica?.ifud1 && <div className="row" style={{ marginTop: '10px', fontSize: "10pt" }}>
                         <div
                             className="col-4"
@@ -458,7 +458,7 @@ const ConclusionPage = ({ connector, onChange, setConnector, clinica, baseUrl })
                             </pre>
                         </div>
                         <div className="px-1" style={{ textAlign: "center" }}>
-                            <img style={{ width: "120px" }} src={baseUrl + '/api/upload/file/' + clinica?.image} alt="logo" />
+                            <img style={{ width: "150px" }} src={baseUrl + '/api/upload/file/' + clinica?.image} alt="logo" />
                         </div>
                         <div className="" style={{ textAlign: "center" }}>
                             <pre className="" style={{ fontFamily: "-moz-initial", border: 'none', outline: "none" }}>
@@ -649,7 +649,7 @@ const ConclusionPage = ({ connector, onChange, setConnector, clinica, baseUrl })
                         <span className="text-[14px] font-bold">{auth.clinica?.organitionName}</span>
                         <span className="text-[14px] font-bold">{auth?.clinica?.license}</span>
                     </div>
-                    <div className="print_word">
+                    <div className="w-full text-[20px] mb-2 print_word">
                         {connector.client?.conclusions && connector.client.conclusions.map(t => ReactHtmlParser(t.template))}
                     </div>
                 </div>
