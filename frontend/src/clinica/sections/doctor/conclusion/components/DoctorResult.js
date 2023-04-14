@@ -8,7 +8,7 @@ const DoctorResult = ({ connector, clinica, baseUrl }) => {
 
     const [doctorServices, setDoctorServices] = useState([])
     const [labServices, setLabServices] = useState([])
-    console.log(labServices);
+    console.log(connector);
     useEffect(() => {
         setDoctorServices([...connector.services].filter(service => service.department.probirka == false));
         const serviceTypes = []
@@ -285,11 +285,13 @@ const DoctorResult = ({ connector, clinica, baseUrl }) => {
                                 {section.templates && section.templates.length > 0 &&
                                     section.templates.map((template, index) => (
                                         <div>
-                                            <h2 className="block text-center text-[24px] font-bold">
-                                                {template?.name}
-                                            </h2>
-                                            <div className="flex justify-end items-center">
-                                                <div className="text-[12px] font-bold mt-2 px-2 py-1 bg-gray-400">Tekshiruv sanasi: {new Date(section.createdAt).toLocaleDateString()}</div>
+                                            <div className="w-full flex justify-center items-center mb-1">
+                                                <h2 className="mx-auto block text-center text-[22px] font-bold">
+                                                    {template?.name}
+                                                </h2>
+                                                {(typeof connector?.client?.id === 'string') && <div className="flex justify-end items-center">
+                                                    <div className="text-[12px] font-bold mt-2 px-2 py-1 bg-gray-400">Tekshiruv sanasi: {new Date(section.createdAt).toLocaleDateString()}</div>
+                                                </div>}
                                             </div>
                                             <div
                                                 key={index}
@@ -316,12 +318,12 @@ const DoctorResult = ({ connector, clinica, baseUrl }) => {
                         labServices.map((section, index) => (
                             <div key={index} className={"w-full text-center mb-1"}>
                                 <div className="w-full flex justify-center items-center mb-1">
-                                    <h2 className="block text-[18px] font-bold">
+                                    <h2 className="block mx-auto text-[18px] font-bold">
                                         {section?.servicetypename}
                                     </h2>
-                                </div>
-                                <div className="flex justify-end items-center">
-                                    <div className="text-[12px] font-bold my-2 px-2 py-1 bg-gray-400">Tekshiruv sanasi: {new Date(section.createdAt).toLocaleDateString()}</div>
+                                    {(typeof connector?.client?.id === 'string') && <div className="flex justify-end items-center">
+                                        <div className="text-[12px] font-bold my-2 px-2 py-1 bg-gray-400">Tekshiruv sanasi: {new Date(section.createdAt).toLocaleDateString()}</div>
+                                    </div>}
                                 </div>
                                 <table className="w-full text-center">
                                     <thead>
@@ -390,7 +392,7 @@ const DoctorResult = ({ connector, clinica, baseUrl }) => {
                 </div>
             </div>
             <div className="d-none">
-                <div ref={componentRef} style={{ fontFamily: "times" }} className="container px-[2cm]">
+                <div ref={componentRef} style={{ fontFamily: "times" }} className="container px-[1.5cm]">
                     {clinica?.ifud1 && <div className="row" style={{ marginTop: '10px', fontSize: "10pt" }}>
                         <div
                             className="col-4"
@@ -601,18 +603,20 @@ const DoctorResult = ({ connector, clinica, baseUrl }) => {
                         <span className="text-[14px] font-bold">{clinica?.organitionName}</span>
                         <span className="text-[14px] font-bold">{clinica?.license}</span>
                     </div>
-                    <div className="row pt-2 w-full">
+                    <div className="pt-2">
                         {doctorServices.length > 0 &&
                             doctorServices.map((section, index) => (
-                                <div key={index} className={"w-full"}>
+                                <div key={index} className={""}>
                                     {section.templates && section.templates.length > 0 &&
                                         section.templates.map((template, index) => (
-                                            <div>
-                                                <h2 className="block text-center mb-4 text-[24px] font-bold">
-                                                    {template?.name}
-                                                </h2>
-                                                <div className="flex justify-end items-center">
-                                                    <div className="text-[12px] font-bold mt-2 px-2 py-1 bg-gray-400">Tekshiruv sanasi: {new Date(section.createdAt).toLocaleDateString()}</div>
+                                            <div style={{paddingRight: '0', paddingLeft: "0"}} className="container">
+                                                <div className="w-full flex justify-center items-center mb-1">
+                                                    <h2 className="mx-auto block text-center text-[22px] font-bold">
+                                                        {template?.name}
+                                                    </h2>
+                                                    {(typeof connector?.client?.id === 'string') && <div className="flex justify-end items-center">
+                                                        <div className="text-[12px] font-bold mt-2 px-2 py-1 bg-gray-400">Tekshiruv sanasi: {new Date(section.createdAt).toLocaleDateString()}</div>
+                                                    </div>}
                                                 </div>
                                                 <div
                                                     key={index}
@@ -634,17 +638,17 @@ const DoctorResult = ({ connector, clinica, baseUrl }) => {
                                 </div>
                             ))}
                     </div>
-                    <div className="pt-2 w-full text-center">
+                    <div className="pt-2 w-full">
                         {labServices.length > 0 &&
                             labServices.map((section, index) => (
                                 <div key={index} className={"w-full text-center mb-1"}>
                                     <div className="w-full flex justify-center items-center mb-1">
-                                        <h2 className="block text-[18px] font-bold">
+                                        <h2 className="block mx-auto text-[18px] font-bold">
                                             {section?.servicetypename}
                                         </h2>
-                                    </div>
-                                    <div className="flex justify-end items-center">
-                                        <div className="text-[12px] font-bold my-2 px-2 py-1 bg-gray-400">Tekshiruv sanasi: {new Date(section.createdAt).toLocaleDateString()}</div>
+                                        {(typeof connector?.client?.id === 'string') && <div className="flex justify-end items-center">
+                                            <div className="text-[12px] font-bold my-2 px-2 py-1 bg-gray-400">Tekshiruv sanasi: {new Date(section.createdAt).toLocaleDateString()}</div>
+                                        </div>}
                                     </div>
                                     <table className="w-full text-center">
                                         <thead>
@@ -660,13 +664,13 @@ const DoctorResult = ({ connector, clinica, baseUrl }) => {
                                             {section?.services.map((service, ind) => {
                                                 return service.tables.map((table, key) => (
                                                     <tr key={key} >
-                                                        <td className={`border-[1px] text-[16px] border-black py-1 px-[12px]`}> <pre
+                                                        <td className={`border-[1px] text-[16px] border-black py-[2px] px-[12px]`}> <pre
                                                             style={{ fontFamily: "times" }}
                                                             className="border-none outline-none text-left"
                                                         >
                                                             {table?.col1}
                                                         </pre> </td>
-                                                        <td className={`border-[1px] text-[16px] border-black py-1 px-[12px]`}>
+                                                        <td className={`border-[1px] text-[16px] border-black py-[2px] px-[12px]`}>
                                                             <pre
                                                                 style={{ fontFamily: "sans-serif" }}
                                                                 className="border-none outline-none"
@@ -674,7 +678,7 @@ const DoctorResult = ({ connector, clinica, baseUrl }) => {
                                                                 {table?.col2}
                                                             </pre>
                                                         </td>
-                                                        <td className={`border-[1px] text-[16px] border-black py-1 px-[12px]`}>
+                                                        <td className={`border-[1px] text-[16px] border-black py-[2px] px-[12px]`}>
                                                             <pre
                                                                 style={{ fontFamily: "sans-serif" }}
                                                                 className="border-none outline-none"
@@ -682,14 +686,14 @@ const DoctorResult = ({ connector, clinica, baseUrl }) => {
                                                                 {table?.col3}
                                                             </pre>
                                                         </td>
-                                                        {section?.column?.col4 && <td className={`border-[1px] text-[16px] border-black py-1 px-[12px]`}>
+                                                        {section?.column?.col4 && <td className={`border-[1px] text-[16px] border-black py-[2px] px-[12px]`}>
                                                             <pre
                                                                 style={{ fontFamily: "sans-serif" }}
                                                                 className="border-none outline-none"
                                                             >
                                                                 {table?.col4}
                                                             </pre></td>}
-                                                        {section?.column?.col5 && <td className={`border-[1px] text-[16px] border-black py-1 px-[12px]`}>
+                                                        {section?.column?.col5 && <td className={`border-[1px] text-[16px] border-black py-[2px] px-[12px]`}>
                                                             <pre
                                                                 style={{ fontFamily: "sans-serif" }}
                                                                 className="border-none outline-none"

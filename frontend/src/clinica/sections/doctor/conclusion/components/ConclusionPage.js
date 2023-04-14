@@ -1,6 +1,6 @@
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { useReactToPrint } from "react-to-print";
-import TextEditor from "./TextEditor";
+import TextEditor from "../../components/TextEditor";
 import ReactHtmlParser from 'react-html-parser'
 import "../../components/Print.css"
 import { useToast } from "@chakra-ui/react";
@@ -418,7 +418,7 @@ const ConclusionPage = ({ connector, onChange, setConnector, clinica, baseUrl })
                 </div>
             </div>
             <div className="d-none">
-                <div ref={componentRef} style={{fontFamily: "times"}} className="container w-[21cm] p-4">
+                <div ref={componentRef} style={{fontFamily: "times"}} className="container px-[1cm] pt-4">
                     {auth?.clinica?.ifud1 && <div className="row" style={{ marginTop: '10px', fontSize: "10pt" }}>
                         <div
                             className="col-4"

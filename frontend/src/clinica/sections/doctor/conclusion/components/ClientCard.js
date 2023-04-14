@@ -1,6 +1,6 @@
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { useReactToPrint } from "react-to-print";
-import TextEditor from "./TextEditor";
+import TextEditor from "../../components/TextEditor";
 import ReactHtmlParser from 'react-html-parser'
 import "../../components/Print.css"
 import { useToast } from "@chakra-ui/react";
@@ -389,7 +389,7 @@ const ClientCard = ({ connector, setConnector }) => {
                 </div>
             </div>
             <div className="d-none">
-                <div ref={componentRef} className="container w-[21cm] pt-4">
+                <div ref={componentRef} className="container px-[1cm] pt-4">
                     <div className="flex justify-between items-center w-full mb-4">
                         <div className="text-[16px] font-bold">
                             Ўзбекистон Республикаси <br />
