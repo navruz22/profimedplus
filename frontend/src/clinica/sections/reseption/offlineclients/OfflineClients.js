@@ -73,7 +73,7 @@ export const OfflineClients = () => {
 
     //====================================================================
     //====================================================================
-
+    const [isActive, setIsActive] = useState(true)
     //====================================================================
     //====================================================================
     // getConnectors
@@ -542,6 +542,7 @@ export const OfflineClients = () => {
     // CreateHandler
 
     const createHandler = useCallback(async () => {
+        setIsActive(false)
         try {
             const data = await request(
                 `/api/offlineclient/client/register`,
@@ -570,12 +571,16 @@ export const OfflineClients = () => {
             setModal(false);
             clearDatas();
             setVisible(false);
+            setTimeout(() => {
+                setIsActive(true)
+            }, 1000)
         } catch (error) {
             notify({
                 title: error,
                 description: "",
                 status: "error",
             });
+            setIsActive(true)
         }
     }, [
         auth,
@@ -872,7 +877,7 @@ export const OfflineClients = () => {
                 modal={modal}
                 text={"ma'lumotlar to'g'ri kiritilganligini tasdiqlaysizmi?"}
                 setModal={setModal}
-                handler={client._id && !isAddConnector ? addHandler : client._id && isAddConnector ? addConnectorHandler : createHandler}
+                handler={client._id && !isAddConnector ? addHandler : client._id && isAddConnector ? addConnectorHandler : isActive && createHandler}
                 basic={client.lastname + " " + client.firstname}
             />
         </div>
