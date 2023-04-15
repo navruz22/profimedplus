@@ -390,6 +390,25 @@ module.exports.adoptLabClient = async (req, res) => {
     }
 }
 
+module.exports.adoptStatsionarClient = async (req, res) => {
+    try {
+        const { services } = req.body;
+
+        for (const service of services) {
+            const offlineService = await StatsionarService.findById(service._id)
+            offlineService.files = service.files;
+            offlineService.tables = service.tables;
+            offlineService.accept = service.accept;
+            offlineService.save()
+        }
+
+        res.status(200).json({ message: "Mijoz qabul qilindi!" })
+    } catch (error) {
+        console.log(error);
+        res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
+    }
+}
+
 module.exports.getServicesType = async (req, res) => {
     try {
         const { clinica } = req.body;

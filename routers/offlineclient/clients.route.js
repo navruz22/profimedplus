@@ -712,7 +712,7 @@ module.exports.getAllReseption = async (req, res) => {
                 clinica
             })
                 .select('probirka client services products createdAt totalprice')
-                .populate('client', 'fullname firstname lastname fathername phone id gender born address')
+                .populate('client', 'fullname firstname lastname fathername phone national id gender born address')
                 .populate('services', '_id service refuse turn pieces department accept column tables templates')
                 .populate('products', '_id product pieces')
                 .lean()
@@ -726,7 +726,7 @@ module.exports.getAllReseption = async (req, res) => {
                 clinica
             })
                 .select('probirka client services products createdAt totalprice')
-                .populate('client', 'fullname firstname lastname fathername phone id gender born address')
+                .populate('client', 'fullname firstname lastname fathername phone national id gender born address')
                 .populate('services', '_id service refuse turn pieces department accept')
                 .populate('products', '_id product pieces')
                 .sort({ _id: -1 })
@@ -743,7 +743,7 @@ module.exports.getAllReseption = async (req, res) => {
                 },
             })
                 .select('probirka client services products createdAt totalprice')
-                .populate('client', 'fullname firstname lastname fathername phone id gender born address')
+                .populate('client', 'fullname firstname lastname fathername national phone id gender born address')
                 .populate('services', '_id service turn refuse pieces department accept column tables templates')
                 .populate('products', '_id product pieces')
                 .sort({ _id: -1 })

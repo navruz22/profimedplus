@@ -60,39 +60,6 @@ const AdoptionTemplate = () => {
     }
   }, [request, notify])
 
-  // const [tablesSelect, setTablesSelect] = useState([])
-
-  // const getServices = useCallback(async () => {
-  //   try {
-  //     const data = await request(
-  //       `/api/doctor/table/services`,
-  //       'POST',
-  //       { clinica: auth.clinica._id, doctor: auth.user },
-  //       {
-  //         Authorization: `Bearer ${auth.token}`,
-  //       },
-  //     )
-  //     setTablesSelect([...data].map(service => {
-  //       return {
-  //         label: service.name,
-  //         value: service._id,
-  //         column: service.column,
-  //         tables: service.tables,
-  //       }
-  //     }))
-  //   } catch (error) {
-  //     notify({
-  //       title: error,
-  //       description: '',
-  //       status: 'error',
-  //     })
-  //   }
-  // }, [
-  //   request,
-  //   auth,
-  //   notify
-  // ])
-
   const uploadFile = async (e, serviceid) => {
     const files = e.target.files[0]
     const data = new FormData()
@@ -125,6 +92,36 @@ const AdoptionTemplate = () => {
     try {
       const data = await request(
         `/api/labaratory/adopt`,
+        "POST",
+        {
+          services: sendData
+        },
+        {
+          Authorization: `Bearer ${auth.token}`,
+        }
+      );
+      notify({
+        title: data.message,
+        description: "",
+        status: "success",
+      });
+    } catch (error) {
+      notify({
+        title: error,
+        description: "",
+        status: "error",
+      });
+    }
+  }
+
+  const saveStatsionar = async () => {
+    const sendData = [...sections].reduce((prev, section) => {
+      prev.push(...section.services)
+      return prev;
+    }, [])
+    try {
+      const data = await request(
+        `/api/labaratory/statsionar/adopt`,
         "POST",
         {
           services: sendData
@@ -244,46 +241,6 @@ const AdoptionTemplate = () => {
   //===========================================================
 
   useEffect(() => {
-    // const serviceTypes = []
-    // const serviceIdArr = []
-    // for (const service of services) {
-    //   const check = service.serviceid.servicetype._id;
-    //   if (!serviceIdArr.includes(check)) {
-    //     serviceTypes.push({
-    //       servicetypeid: check,
-    //       servicetypename: service.serviceid.servicetype.name,
-    //       services: [service],
-    //       column: service.column
-    //     })
-    //     serviceIdArr.push(check);
-    //   } else {
-    //     if (service.column && service.tables && service.tables.length > 0) {
-    //       const checkCols = Object.keys(service.column).filter(el => el.includes('col')).length;
-    //       const index = serviceTypes.findIndex(el =>
-    //         el.column && el.servicetypeid === check
-    //         && Object.keys(el.column).filter(el => el.includes('col')).length === checkCols)
-    //       if (index >= 0) {
-    //         serviceTypes[index].services.push(service)
-    //         serviceTypes[index].column = service.column
-    //       } else {
-    //         serviceTypes.push({
-    //           servicetypeid: check,
-    //           servicetypename: service.serviceid.servicetype.name,
-    //           services: [service],
-    //           column: service.column
-    //         })
-    //       }
-    //     } else {
-    //       serviceTypes.push({
-    //         servicetypeid: check,
-    //         servicetypename: service.serviceid.servicetype.name,
-    //         services: [service],
-    //       })
-    //     }
-    //   }
-    // }
-    // setSections(serviceTypes);
-
     const servicetypesAll = services.reduce((prev, el) => {
       if (!prev.includes(el.serviceid.servicetype.name)) {
         prev.push(el.serviceid.servicetype.name)
@@ -714,7 +671,13 @@ const AdoptionTemplate = () => {
         )))}
         <div className="row">
           <div className="col-12 text-center my-4">
-            <button className="btn btn-success px-4 mx-4" onClick={() => saveService()} > Tasdiqlash</button>
+            <button className="btn btn-success px-4 mx-4" onClick={() => {
+              if (typeof client.id === 'string' && client.id.includes('S')) {
+                saveStatsionar()
+              } else {
+                saveService()
+              }
+            }} > Tasdiqlash</button>
             <button className="btn btn-info px-5" onClick={handlePrint} >Chop etish</button>
           </div>
         </div>

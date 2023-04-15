@@ -18,6 +18,10 @@ router.post('/adopt', authMiddleware, (req, res) => {
     require('./labaratory').adoptLabClient(req, res)
 })
 
+router.post('/statsionar/adopt', authMiddleware, (req, res) => {
+    require('./labaratory').adoptStatsionarClient(req, res)
+})
+
 router.post('/clients/result', (req, res) => {
     require('./labaratory').getClientsForResult(req, res);
 })
