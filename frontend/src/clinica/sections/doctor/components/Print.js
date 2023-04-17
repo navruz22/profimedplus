@@ -218,6 +218,9 @@ const Print = ({ client, connector, sections, clinica, baseUrl, doctor }) => {
                     <span className="text-[14px] font-bold">{clinica?.organitionName}</span>
                     <span className="text-[14px] font-bold">{clinica?.license}</span>
                 </div>
+                <div className="mt-4 flex justify-between items-center">
+                    <span className="text-[20px] font-bold">{doctor?.signature}</span>
+                </div>
             </div>
             <div className="row pt-2 w-full">
                 {sections.length > 0 &&

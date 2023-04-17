@@ -23,6 +23,7 @@ module.exports.register = async (req, res) => {
       specialty,
       type,
       user,
+      signature
     } = req.body;
 
     if (type === 'Director' && _id) {
@@ -113,6 +114,7 @@ module.exports.register = async (req, res) => {
       type,
       specialty,
       user,
+      signature
     });
     await newUser.save();
 

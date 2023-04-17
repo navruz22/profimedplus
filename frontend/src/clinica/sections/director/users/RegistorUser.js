@@ -118,6 +118,21 @@ export const RegistorUser = ({
                     </div>
                   </div>
                 </div>
+                <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                  <div className="form-group">
+                    <label htmlFor="signature">Shifokorning imzosi</label>
+                      <input
+                        onChange={changeHandler}
+                        onKeyUp={keyPressed}
+                        type="signature"
+                        className="form-control"
+                        id="signature"
+                        name="signature"
+                        placeholder="Shifokorning imzosi"
+                        defaultValue={user?.signature}
+                      />
+                  </div>
+                </div>
               </div>
             </div>
           </div>

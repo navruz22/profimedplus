@@ -450,6 +450,9 @@ const DoctorTemplate = ({ client, connector, services, clientsType, baseUrl }) =
             <span className="text-[14px] font-bold">{auth.clinica?.organitionName}</span>
             <span className="text-[14px] font-bold">{auth?.clinica?.license}</span>
           </div>
+          <div className="mt-4 flex justify-between items-center">
+            <span className="text-[20px] font-bold">{auth?.user?.signature}</span>
+          </div>
         </div>
         <div className="pt-4 w-full">
           {sections.length > 0 &&

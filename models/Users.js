@@ -14,6 +14,7 @@ const user = new Schema(
     specialty: { type: Schema.Types.ObjectId, ref: 'Department' }, // Doctorlarga ixtisosligi ID si yoziladi
     users: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     user: { type: Schema.Types.ObjectId, ref: 'User' },
+    signature: { type: String },
     isArchive: { type: Boolean, default: false },
   },
   {
@@ -28,6 +29,7 @@ function validateUser(user) {
     fathername: Joi.string(),
     image: Joi.string(),
     phone: Joi.string(),
+    signature: Joi.string().optional(),
     password: Joi.string(),
     clinica: Joi.string(),
     type: Joi.string(),
