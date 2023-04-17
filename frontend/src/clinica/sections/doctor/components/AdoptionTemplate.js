@@ -1211,7 +1211,7 @@ const AdoptionTemplate = () => {
         onChange={e => setType(e.value)}
       />
     </div>
-    {type === 'doctor' && <DoctorTemplate clientsType={clientsType} client={client} connector={connector} services={services} />}
+    {type === 'doctor' && <DoctorTemplate clientsType={clientsType} baseUrl={baseUrl} client={client} connector={connector} services={services} />}
     {type === 'laboratory' && <LabTemplate client={client} connector={connector} services={services} />}
     {type === 'all' && <DoctorResult client={client} connector={connectorData} clinica={auth?.clinica} baseUrl={baseUrl} />}
   </div>

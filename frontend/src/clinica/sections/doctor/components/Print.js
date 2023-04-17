@@ -5,6 +5,7 @@ import './Print.css'
 import QRcode from "../../../../qrcode.png"
 
 const Print = ({ client, connector, sections, clinica, baseUrl, doctor }) => {
+    console.log(clinica);
     return (
         <div className="bg-white pt-4">
             <div>
