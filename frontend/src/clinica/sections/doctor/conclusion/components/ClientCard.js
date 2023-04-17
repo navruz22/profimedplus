@@ -159,7 +159,7 @@ const ClientCard = ({ connector, setConnector }) => {
                         003- рақамли тиббий хужжат шакли <br />
                     </div>
                 </div>
-                <h1 className="text-center mb-4 text-[18px] font-bold">СТАЦИОНАР БЕМОРНИНГ ТИББИЙ КАРТАСИ №: {connector?.client?.id}</h1>
+                <h1 className="text-center mb-4 text-[18px] font-bold">СТАЦИОНАР БЕМОРНИНГ ТИББИЙ КАРТАСИ №: {connector?.client?.id2 ? connector?.client?.id2 : connector?.client?.id}</h1>
                 <div className="col-12" style={{ padding: "0" }}>
                     <table
                         style={{
@@ -328,7 +328,7 @@ const ClientCard = ({ connector, setConnector }) => {
                                     fontSize: "20px",
                                 }}
                             >
-                                {connector?.client?.id}
+                                {connector?.client?.id2 ? connector?.client?.id2 : connector?.client?.id}
                             </td>
                         </tr>
                     </table>
@@ -404,7 +404,7 @@ const ClientCard = ({ connector, setConnector }) => {
                             003- рақамли тиббий хужжат шакли <br />
                         </div>
                     </div>
-                    <h1 className="text-center mb-4 text-[18px] font-bold">СТАЦИОНАР БЕМОРНИНГ ТИББИЙ КАРТАСИ №: {connector?.client?.id}</h1>
+                    <h1 className="text-center mb-4 text-[18px] font-bold">СТАЦИОНАР БЕМОРНИНГ ТИББИЙ КАРТАСИ №: {connector?.client?.id2 ? connector?.client?.id2 : connector?.client?.id}</h1>
                     <div className="col-12" style={{ padding: "0" }}>
                         <table
                             style={{
@@ -573,7 +573,7 @@ const ClientCard = ({ connector, setConnector }) => {
                                         fontSize: "20px",
                                     }}
                                 >
-                                    {connector.client && connector.client.id}
+                                    {connector?.client?.id2 ? connector?.client?.id2 : connector?.client?.id}
                                 </td>
                             </tr>
                         </table>

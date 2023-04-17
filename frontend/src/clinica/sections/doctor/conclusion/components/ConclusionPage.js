@@ -197,7 +197,7 @@ const ConclusionPage = ({ connector, onChange, setConnector, clinica, baseUrl })
                         </p>
                     </div>
                 </div>
-                <h1 className="text-center mb-4 text-[18px] font-bold">ТИББИЙ БАЙОННОМАДАН КЎЧИРМА №: {connector?.client?.id}</h1>
+                <h1 className="text-center mb-4 text-[18px] font-bold">ТИББИЙ БАЙОННОМАДАН КЎЧИРМА №: {connector?.client?.id2 ? connector?.client?.id2 : connector?.client?.id}</h1>
                 <div className="col-12" style={{ padding: "0" }}>
                     <table
                         style={{
@@ -366,7 +366,7 @@ const ConclusionPage = ({ connector, onChange, setConnector, clinica, baseUrl })
                                     fontSize: "20px",
                                 }}
                             >
-                                {connector?.client?.id}
+                                {connector?.client?.id2 ? connector?.client?.id2 : connector?.client?.id}
                             </td>
                         </tr>
                     </table>
@@ -471,7 +471,7 @@ const ConclusionPage = ({ connector, onChange, setConnector, clinica, baseUrl })
                             </p>
                         </div>
                     </div>
-                    <h1 className="text-center mb-4 text-[18px] font-bold">ТИББИЙ БАЙОННОМАДАН КЎЧИРМА №: {connector?.client?.id}</h1>
+                    <h1 className="text-center mb-4 text-[18px] font-bold">ТИББИЙ БАЙОННОМАДАН КЎЧИРМА №: {connector?.client?.id2 ? connector?.client?.id2 : connector?.client?.id}</h1>
                     <div className="col-12" style={{ padding: "0" }}>
                     <table
                         style={{
@@ -640,7 +640,7 @@ const ConclusionPage = ({ connector, onChange, setConnector, clinica, baseUrl })
                                     fontSize: "20px",
                                 }}
                             >
-                                {connector?.client?.id}
+                                {connector?.client?.id2 ? connector?.client?.id2 : connector?.client?.id}
                             </td>
                         </tr>
                     </table>
