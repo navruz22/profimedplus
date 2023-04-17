@@ -147,7 +147,7 @@ module.exports.getAll = async (req, res) => {
                     select: "-__v -updatedAt -isArchive",
                     populate: {
                         path: "department",
-                        select: "room"
+                        select: "room name"
                     }
                 })
                 .populate("products")
@@ -174,7 +174,7 @@ module.exports.getAll = async (req, res) => {
                     select: "-__v -updatedAt -isArchive",
                     populate: {
                         path: "department",
-                        select: "room"
+                        select: "room name"
                     }
                 })
                 .populate("products")

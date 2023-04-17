@@ -820,7 +820,7 @@ export const OfflineClients = () => {
                                 changeClientData={changeClientData}
                                 changeClientBorn={changeClientBorn}
                                 departments={departments}
-                                counterdoctors={counterdoctors}
+                                counterdoctors={counterdoctors} 
                                 advers={advers}
                                 products={products}
                                 loading={loading}
