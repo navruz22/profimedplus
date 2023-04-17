@@ -7,6 +7,7 @@ export const PaymentClients = ({
   setPayCount,
   checkPayCount,
   loading,
+  setPayment
 }) => {
   return (
     <>
@@ -73,7 +74,7 @@ export const PaymentClients = ({
           <div className="card">
             <div className="card-body">
               <div className="form-group">
-                <label htmlFor="">To'lov</label>
+                {/* <label htmlFor="">To'lov</label>
                 <input
                   value={payCount}
                   onChange={(e) => setPayCount(e.target.value)}
@@ -82,7 +83,111 @@ export const PaymentClients = ({
                   id="payment"
                   name="pay"
                   placeholder="To'lov summasi..."
-                />
+                /> */}
+                <div className="btn-group mb-3 w-100" role="group" aria-label="Basic example">
+                  <button
+                    onClick={() => {
+                      setPayment({
+                        ...payment,
+                        type: 'cash',
+                        card: 0,
+                        transfer: 0,
+                        cash: +payCount
+                      })
+                    }}
+                    type="button"
+                    className={`btn btn-sm py-1 text-white  ${payment.type === "cash" ? "bg-amber-500" : "bg-alotrade"}`}
+                  >
+                    Naqt
+                  </button>
+                  <button
+                    onClick={() => {
+                      setPayment({
+                        ...payment,
+                        type: 'card',
+                        card: +payCount,
+                        transfer: 0,
+                        cash: 0
+                      })
+                    }}
+                    type="button"
+                    className={`btn btn-sm py-1 text-white ${payment.type === "card" ? "bg-amber-500" : "bg-alotrade"}`}
+                  >
+                    Plastik
+                  </button>
+                  <button
+                    onClick={() => {
+                      setPayment({
+                        ...payment,
+                        type: 'transfer',
+                        card: 0,
+                        transfer: +payCount,
+                        cash: 0
+                      })
+                    }}
+                    type="button"
+                    className={`btn btn-sm py-1 text-white ${payment.type === "transfer" ? "bg-amber-500" : "bg-alotrade"}`}
+                  >
+                    O'tkazma
+                  </button>
+                </div>
+                {payment.type === "cash" &&
+                  <div className="input-group input-group-sm mb-3">
+                    <div className="input-group-prepend w-25">
+                      <span
+                        className="w-100 input-group-text bg-primary text-white font-weight-bold"
+                        id="inputGroup-sizing-sm"
+                        style={{ fontSize: "9pt" }}>
+                        Naqt
+                      </span>
+                    </div>
+                    <input
+                      type="number"
+                      className="form-control"
+                      placeholder="Naqt to'lov"
+                      value={payCount || ''}
+                      name="cash"
+                      onChange={(e) => setPayCount(e.target.value)}
+                    />
+                  </div>}
+                {payment.type === "card" &&
+                  <div className="input-group input-group-sm mb-3">
+                    <div className="input-group-prepend w-25">
+                      <span
+                        className="w-100 input-group-text bg-primary text-white font-weight-bold"
+                        id="inputGroup-sizing-sm"
+                        style={{ fontSize: "9pt" }}>
+                        Plastik
+                      </span>
+                    </div>
+                    <input
+                      type="number"
+                      className="form-control"
+                      placeholder="Karta orqali to'lov to'lov"
+                      value={payCount || ''}
+                      name="card"
+                      onChange={(e) => setPayCount(e.target.value)}
+                    />
+                  </div>}
+                {payment.type === "transfer" &&
+                  <div className="input-group input-group-sm mb-3">
+                    <div className="input-group-prepend w-25">
+                      <span
+                        className="w-100 input-group-text bg-primary text-white font-weight-bold"
+                        id="inputGroup-sizing-sm"
+                        style={{ fontSize: "9pt" }}>
+                        O'tkazma
+                      </span>
+                    </div>
+                    <input
+                      type="number"
+                      className="form-control"
+                      placeholder="O'tkazma to'lov"
+                      value={payCount || ''}
+                      name="transfer"
+                      onChange={(e) => setPayCount(e.target.value)}
+                    />
+                  </div>}
               </div>
               <div className="text-right">
                 {loading ? (

@@ -22,6 +22,10 @@ router.post('/offline/debt/payment', auth, (req, res) => {
     require('./debts.route').payment(req, res)
 })
 
+router.post('/statsionar/debt/payment', auth, (req, res) => {
+    require('./debts.route').paymentStatsionar(req, res)
+})
+
 router.post('/statsionar/getall', auth, (req, res) => {
     require('./statsionarpayment.route').getAll(req, res)
 })

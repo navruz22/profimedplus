@@ -246,6 +246,7 @@ export const DebtClients = () => {
 
   const [payment, setPayment] = useState({});
   const [payCount, setPayCount] = useState("");
+  const [paymentType, setPaymentType] = useState('cash')
   const [debt, setDebt] = useState(0)
 
   const checkPayCount = () => {
@@ -351,6 +352,7 @@ export const DebtClients = () => {
       setVisible(false);
       setPayment({});
       setPayCount("");
+      setPaymentType('cash')
       notify({
         title: "To'lov muvaffaqqiyatli amalga oshirildi.",
         description: "",
@@ -368,7 +370,7 @@ export const DebtClients = () => {
   const postStatsionarDebts = useCallback(async () => {
     try {
       const data = await request(
-        `/api/cashier/statsionar/payment`,
+        `/api/cashier/statsionar/debt/payment`,
         "POST",
         {
           payment: {
@@ -385,6 +387,7 @@ export const DebtClients = () => {
       setVisible(false);
       setPayment({});
       setPayCount("");
+      setPaymentType('cash')
       notify({
         title: "To'lov muvaffaqqiyatli amalga oshirildi.",
         description: "",
@@ -401,7 +404,7 @@ export const DebtClients = () => {
 
   //===================================================================
   //===================================================================
-
+  console.log(payment);
   //====================================================================
   //====================================================================
   // useEffect
@@ -446,18 +449,21 @@ export const DebtClients = () => {
                 payment={payment}
                 client={client}
                 payCount={payCount}
+                setPayment={setPayment}
                 setPayCount={(e) => {
                   setPayCount(e)
                   let obj = {
                     ...payment,
                     debt: +debt - +e,
-                    payment: +e
+                    payment: +e,
                   }
                   obj[`${payment.type}`] = +e
                   setPayment(obj)
                 }}
                 checkPayCount={checkPayCount}
                 loading={loading}
+                paymentType={paymentType}
+                setPaymentType={setPaymentType}
               />
             </div>
             <TableClients
