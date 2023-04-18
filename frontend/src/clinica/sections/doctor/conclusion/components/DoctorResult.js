@@ -48,17 +48,6 @@ const DoctorResult = ({ connector, clinica, baseUrl }) => {
         setLabServices([...serviceTypes].map(section =>
             ({ ...section, services: section.services })).filter(el => el.services.length > 0))
     }, [connector]);
-    const getWidth = (table) => {
-        if (table.col5) {
-            return `${1280 / 5}px`
-        }
-        if (!table.col5 && table.col4) {
-            return `${1280 / 4}px`
-        }
-        if (table.col3 && !table.col4) {
-            return `${1280 / 3}px`
-        }
-    }
 
     const componentRef = useRef()
     const handlePrint = useReactToPrint({

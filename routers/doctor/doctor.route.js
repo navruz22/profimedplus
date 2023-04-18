@@ -131,4 +131,10 @@ router.post('/conclusion/clients/get', (req, res) => {
 })
 
 
+//==============================================================
+router.post('/client/history/get', (req, res) => {
+    require('./getclients.route').getClientHistory(req, res);
+})
+
+
 module.exports = router

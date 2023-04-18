@@ -743,3 +743,105 @@ module.exports.adoptStatsionarClient = async (req, res) => {
     res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
   }
 }
+
+module.exports.getClientHistory = async (req, res) => {
+  try {
+    const { id } = req.body;
+
+
+    const connector = await OfflineConnector.findById(id)
+      .select('-__v -updatedAt -isArchive')
+      .populate('clinica', 'name phone1 image')
+      .populate("client", "lastname firstname born id phone address")
+      .populate({
+        path: "services",
+        select: "service serviceid accept refuse column tables turn connector client files department",
+        populate: {
+          path: "service",
+          select: "price"
+        }
+      })
+      .populate({
+        path: "services",
+        select: "service serviceid accept refuse column tables turn connector client files department",
+        populate: {
+          path: "serviceid",
+          select: "servicetype",
+          populate: {
+            path: "servicetype",
+            select: "name"
+          }
+        }
+      })
+      .populate({
+        path: "services",
+        select: "service serviceid accept refuse column tables turn connector client files department",
+        populate: {
+          path: "templates",
+          select: "name template",
+        }
+      })
+      .populate({
+        path: "services",
+        select: "service serviceid accept refuse column tables turn connector client files department",
+        populate: {
+          path: 'department',
+          select: "probirka"
+        }
+      })
+      .lean()
+
+    if (!connector) {
+      const statsionarconnector = await StatsionarConnector.findById(id)
+        .select('-__v -updatedAt -isArchive')
+        .populate('clinica', 'name phone1 image')
+        .populate("client", "lastname firstname born id phone address")
+        .populate({
+          path: "services",
+          select: "service serviceid accept refuse createdAt column tables turn connector client files department",
+          populate: {
+            path: "service",
+            select: "price"
+          }
+        })
+        .populate({
+          path: "services",
+          select: "service serviceid accept refuse column createdAt tables turn connector client files department",
+          populate: {
+            path: "serviceid",
+            select: "servicetype",
+            populate: {
+              path: "servicetype",
+              select: "name"
+            }
+          }
+        })
+        .populate({
+          path: "services",
+          select: "service serviceid accept refuse column createdAt tables turn connector client files department",
+          populate: {
+            path: "templates",
+            select: "name template",
+          }
+        })
+        .populate({
+          path: "services",
+          select: "service serviceid accept refuse column createdAt tables turn connector client files department",
+          populate: {
+            path: 'department',
+            select: "probirka"
+          }
+        })
+        .populate('room', 'beginday endday room')
+        .lean()
+
+        return res.status(200).json(statsionarconnector)
+    }
+
+    return res.status(200).json(connector)
+
+  } catch (error) {
+    console.log(error);
+    res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
+  }
+}

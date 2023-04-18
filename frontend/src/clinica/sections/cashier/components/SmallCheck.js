@@ -152,8 +152,10 @@ export const SmallCheck = ({ baseUrl, clinica, connector, qr }) => {
                         }, 0)}
                 </div>
             </div>
+            <div className="mt-4 w-full flex justify-center">
+                <img width="150" src={qr && qr} alt="QR" />
+            </div>
             <div className="w-full h-[5px] mt-[100px] border-2 border-[#000]">
-
             </div>
         </div>
 

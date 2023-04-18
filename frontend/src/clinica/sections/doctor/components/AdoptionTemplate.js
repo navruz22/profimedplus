@@ -16,6 +16,7 @@ import { useReactToPrint } from 'react-to-print'
 import TextEditor from "./TextEditor";
 import LabPrint from "../../laborotory/components/Print"
 import DoctorResult from "../conclusion/components/DoctorResult";
+import QRCode from "qrcode"
 
 const DoctorTemplate = ({ client, connector, services, clientsType, baseUrl }) => {
 
@@ -216,11 +217,23 @@ const DoctorTemplate = ({ client, connector, services, clientsType, baseUrl }) =
     setSections([...services].filter(service => service.department.probirka === false && service.department._id === auth?.user?.specialty));
   }, [services]);
 
-  const [t, setT] = useState()
+
+  const [qr, setQr] = useState()
+
   useEffect(() => {
-    // if (!t) {
+    if (connector && baseUrl) {
+      QRCode.toDataURL(`${baseUrl}/clienthistory/laboratory/${connector._id}`)
+        .then(data => {
+          setQr(data)
+        })
+    }
+  }, [connector, baseUrl])
+
+
+  const [t, setT] = useState()
+
+  useEffect(() => {
     getTemplates();
-    // }
   }, [getTemplates]);
 
   return (
@@ -238,6 +251,7 @@ const DoctorTemplate = ({ client, connector, services, clientsType, baseUrl }) =
             sections={sections}
             clinica={auth && auth.clinica}
             baseUrl={baseUrl}
+            qr={qr}
           />
         </div>
       </div>
@@ -275,20 +289,20 @@ const DoctorTemplate = ({ client, connector, services, clientsType, baseUrl }) =
               </p>
             </div>
           </div>}
-          <div className="row" style={{ fontSize: "20pt" }}>
-            <div className="col-6 pt-2" style={{ textAlign: "center" }}>
+          <div className="flex justify-between items-center" style={{ fontSize: "20pt" }}>
+            <div className="pt-2" style={{ textAlign: "center" }}>
               <pre className="pt-3" style={{ fontFamily: "-moz-initial" }}>
                 {auth?.clinica?.name}
               </pre>
             </div>
-            <div className="col-6 pt-2" style={{ textAlign: "center" }}>
+            <div className="pt-2" style={{ textAlign: "center" }}>
               <pre className="pt-3" style={{ fontFamily: "-moz-initial" }}>
                 {auth?.clinica?.name2}
               </pre>
             </div>
-            <div className="col-6" style={{ textAlign: "center" }}>
+            <div className="" style={{ textAlign: "center" }}>
               <p className="text-end m-0">
-                {/* <img width="120" src={qr && qr} alt="QR" /> */}
+                <img width="120" src={qr && qr} alt="QR" />
               </p>
             </div>
           </div>
@@ -1186,6 +1200,7 @@ const AdoptionTemplate = () => {
       })
     }
   }, [request, notify]);
+
 
   useEffect(() => {
     getBaseUrl()

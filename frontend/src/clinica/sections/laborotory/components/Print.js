@@ -1,23 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom';
-import QRcode from "../../../../qrcode.png"
 
-const Print = ({ client, connector, sections, baseUrl, clinica }) => {
+
+const Print = ({ client, connector, sections, baseUrl, clinica, qr }) => {
     const location = useLocation()
 
     const [printSections, setPrintSections] = useState([])
 
-    // const getWidth = (table) => {
-    //     if (table.col5) {
-    //         return `${1280 / 5}px`
-    //     }
-    //     if (!table.col5 && table.col4) {
-    //         return `${1280 / 4}px`
-    //     }
-    //     if (table.col3 && !table.col4) {
-    //         return `${1280 / 3}px`
-    //     }
-    // }
 
     useEffect(() => {
         if (location.pathname.includes('alo24/adoption')) {
@@ -122,7 +111,7 @@ const Print = ({ client, connector, sections, baseUrl, clinica }) => {
                     </div>
                     <div className="" style={{ textAlign: "center" }}>
                         <p className="text-end m-0">
-                            <img width="100" src={QRcode} alt="QR" />
+                            <img width="100" src={qr && qr} alt="QR" />
                         </p>
                     </div>
                 </div>

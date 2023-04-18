@@ -34,5 +34,9 @@ router.post('/conclusion/save', (req, res) => {
     require('./labaratory').saveConclusion(req, res);
 })
 
+router.post('/client/history/get', (req, res) => {
+    require('./labaratory').getClientHistory(req, res);
+})
+
 
 module.exports = router;

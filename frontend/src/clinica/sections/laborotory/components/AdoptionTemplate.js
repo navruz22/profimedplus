@@ -9,6 +9,7 @@ import { AuthContext } from "../../../context/AuthContext";
 import { useHttp } from "../../../hooks/http.hook";
 import Print from "./Print";
 import { useReactToPrint } from 'react-to-print'
+import QRCode from "qrcode"
 
 const AdoptionTemplate = () => {
   // const clientId = useParams().clientid
@@ -240,6 +241,17 @@ const AdoptionTemplate = () => {
   //===========================================================
   //===========================================================
 
+  const [qr, setQr] = useState()
+
+  useEffect(() => {
+    if (connector && baseUrl) {
+      QRCode.toDataURL(`${baseUrl}/clienthistory/laboratory/${connector._id}`)
+        .then(data => {
+          setQr(data)
+        })
+    }
+  }, [connector, baseUrl])
+
   useEffect(() => {
     const servicetypesAll = services.reduce((prev, el) => {
       if (!prev.includes(el.serviceid.servicetype.name)) {
@@ -288,12 +300,9 @@ const AdoptionTemplate = () => {
     setSections([...servicetypes, ...servicesmore])
 
   }, [services]);
-  console.log(sections);
+
   useEffect(() => {
-    // if (!t) {
-    // getServices()
     getBaseUrl()
-    // }
   }, [getBaseUrl]);
 
   return (
@@ -301,7 +310,7 @@ const AdoptionTemplate = () => {
       <div className="d-none">
         <div
           ref={componentRef}
-          className="container p-4"
+          className="container p-4 pagebreak"
         >
           <Print
             baseUrl={baseUrl}
@@ -309,6 +318,7 @@ const AdoptionTemplate = () => {
             connector={connector}
             client={client}
             sections={sections}
+            qr={qr}
           />
         </div>
       </div>
@@ -346,20 +356,20 @@ const AdoptionTemplate = () => {
               </p>
             </div>
           </div>}
-          <div className="row" style={{ fontSize: "20pt" }}>
-            <div className="col-6 pt-2" style={{ textAlign: "center" }}>
+          <div className="flex justify-between items-center" style={{ fontSize: "20pt" }}>
+            <div className="pt-2" style={{ textAlign: "center" }}>
               <pre className="pt-3" style={{ fontFamily: "-moz-initial" }}>
                 {auth?.clinica?.name}
               </pre>
             </div>
-            <div className="col-6 pt-2" style={{ textAlign: "center" }}>
+            <div className="pt-2" style={{ textAlign: "center" }}>
               <pre className="pt-3" style={{ fontFamily: "-moz-initial" }}>
                 {auth?.clinica?.name2}
               </pre>
             </div>
-            <div className="col-6" style={{ textAlign: "center" }}>
+            <div className="" style={{ textAlign: "center" }}>
               <p className="text-end m-0">
-                {/* <img width="120" src={qr && qr} alt="QR" /> */}
+                <img width="120" src={qr && qr} alt="QR" />
               </p>
             </div>
           </div>

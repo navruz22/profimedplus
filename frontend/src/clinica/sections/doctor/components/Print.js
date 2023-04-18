@@ -2,10 +2,9 @@ import React from 'react'
 import parse from "html-react-parser"
 import ReactHtmlParser from 'react-html-parser'
 import './Print.css'
-import QRcode from "../../../../qrcode.png"
 
-const Print = ({ client, connector, sections, clinica, baseUrl, doctor }) => {
-    console.log(clinica);
+const Print = ({ client, connector, sections, clinica, baseUrl, doctor, qr }) => {
+   
     return (
         <div className="bg-white pt-4">
             <div>
@@ -57,7 +56,7 @@ const Print = ({ client, connector, sections, clinica, baseUrl, doctor }) => {
                     </div>
                     <div className="" style={{ textAlign: "center" }}>
                         <p className="text-end m-0">
-                            <img width="100" src={QRcode} alt="QR" />
+                            <img width="100" src={qr && qr} alt="QR" />
                         </p>
                     </div>
                 </div>
