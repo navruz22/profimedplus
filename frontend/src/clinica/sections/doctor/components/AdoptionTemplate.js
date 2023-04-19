@@ -42,6 +42,7 @@ const DoctorTemplate = ({ client, connector, services, clientsType, baseUrl }) =
   const componentRef = useRef()
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
+    documentTitle: client && client?.firstname + ' ' + client?.lastname
   })
 
   const [sections, setSections] = useState([]);

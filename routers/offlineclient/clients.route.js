@@ -711,7 +711,7 @@ module.exports.getAllReseption = async (req, res) => {
             connectors = await OfflineConnector.find({
                 clinica
             })
-                .select('probirka client services products createdAt totalprice')
+                .select('probirka client accept services products createdAt totalprice')
                 .populate('client', 'fullname firstname lastname fathername phone national id gender born address')
                 .populate('services', '_id service refuse turn pieces department accept column tables templates')
                 .populate('products', '_id product pieces')
@@ -725,7 +725,7 @@ module.exports.getAllReseption = async (req, res) => {
             connectors = await OfflineConnector.find({
                 clinica
             })
-                .select('probirka client services products createdAt totalprice')
+                .select('probirka client accept services products createdAt totalprice')
                 .populate('client', 'fullname firstname lastname fathername phone national id gender born address')
                 .populate('services', '_id service refuse turn pieces department accept')
                 .populate('products', '_id product pieces')
@@ -742,7 +742,7 @@ module.exports.getAllReseption = async (req, res) => {
                     $lt: endDay,
                 },
             })
-                .select('probirka client services products createdAt totalprice')
+                .select('probirka client accept services products createdAt totalprice')
                 .populate('client', 'fullname firstname lastname fathername national phone id gender born address')
                 .populate('services', '_id service turn refuse pieces department accept column tables templates')
                 .populate('products', '_id product pieces')

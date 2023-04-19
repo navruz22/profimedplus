@@ -37,6 +37,7 @@ const AdoptionTemplate = () => {
   const componentRef = useRef()
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
+    documentTitle: client && client?.firstname + ' ' + client?.lastname
   })
 
   const {
@@ -237,7 +238,7 @@ const AdoptionTemplate = () => {
     });
     setSections(newSections);
   };
-
+ 
   //===========================================================
   //===========================================================
 
