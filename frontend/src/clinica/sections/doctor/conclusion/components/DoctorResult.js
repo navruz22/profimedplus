@@ -8,7 +8,7 @@ const DoctorResult = ({ connector, clinica, baseUrl }) => {
 
     const [doctorServices, setDoctorServices] = useState([])
     const [labServices, setLabServices] = useState([])
-    console.log(connector);
+    
     useEffect(() => {
         setDoctorServices([...connector.services].filter(service => service.department.probirka == false));
         const serviceTypes = []
@@ -191,7 +191,7 @@ const DoctorResult = ({ connector, clinica, baseUrl }) => {
                                     }}
                                 >
                                     {connector &&
-                                        new Date(connector.createdAt).toLocaleDateString()}
+                                        new Date(connector?.room?.beginday).toLocaleDateString()}
                                 </td>
                                 <td
                                     className="p-0 fw-bold"
@@ -516,7 +516,7 @@ const DoctorResult = ({ connector, clinica, baseUrl }) => {
                                         }}
                                     >
                                         {connector &&
-                                            new Date(connector.createdAt).toLocaleDateString()}
+                                            new Date(connector?.room?.beginday).toLocaleDateString()}
                                     </td>
                                     <td
                                         className="p-0 fw-bold"

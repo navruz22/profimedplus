@@ -302,7 +302,7 @@ const ConclusionPage = ({ connector, onChange, setConnector, clinica, baseUrl })
                                 }}
                             >
                                 {connector &&
-                                    new Date(connector?.createdAt).toLocaleDateString()} {new Date(connector?.createdAt).toLocaleTimeString().slice(0, 5)}
+                                    new Date(connector?.room?.beginday).toLocaleDateString()} {new Date(connector?.createdAt).toLocaleTimeString().slice(0, 5)}
                             </td>
                             <td
                                 className="p-0 fw-bold"

@@ -757,12 +757,12 @@ module.exports.getAllReseption = async (req, res) => {
             },
         })
             .select('client doctor createdAt services products room diagnosis')
-            .populate('client', 'firstname lastname fullname born phone id address gender')
+            .populate('client', 'firstname lastname fullname born phone national id address gender')
             .populate("services", 'service pieces createdAt')
             .populate("products", 'product pieces createdAt')
             .populate("doctor", 'firstname lastname')
-            .populate("room", '')
-            .sort({ _id: -1 })
+            .populate("room")
+            .sort({ createdAt: -1 })
         res.status(200).send(connectors)
     } catch (error) {
         res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
@@ -833,6 +833,9 @@ module.exports.update = async (req, res) => {
         }
 
         if (room.room) {
+
+            delete room._id
+
             const oldroom = await StatsionarRoom.findOne({
                 client: client._id,
             })
@@ -843,6 +846,7 @@ module.exports.update = async (req, res) => {
                 })
 
                 oldroom.room = room.room
+                oldroom.beginday = room.beginday
                 oldroom.roomid = room.roomid
                 await oldroom.save()
 
@@ -863,6 +867,7 @@ module.exports.update = async (req, res) => {
         }
         res.status(200).send(update)
     } catch (error) {
+        console.log(error);
         res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
     }
 }

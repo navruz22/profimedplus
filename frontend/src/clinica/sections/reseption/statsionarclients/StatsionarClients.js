@@ -710,7 +710,7 @@ export const StatsionarClients = () => {
         notify,
         clearDatas,
     ]);
-
+    console.log(room);
     const updateHandler = useCallback(async () => {
         if (checkClientData(client)) {
             return notify(checkClientData(client));
@@ -1022,6 +1022,7 @@ export const StatsionarClients = () => {
                             // setModal={setModal}
                             setConnectors={setConnectors}
                             // setConnector={setConnector}
+                            setRoom={setRoom}
                             setCurrentPage={setCurrentPage}
                             countPage={countPage}
                             setCountPage={setCountPage}

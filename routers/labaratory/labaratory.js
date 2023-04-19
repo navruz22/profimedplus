@@ -617,4 +617,4 @@ module.exports.getClientHistory = async (req, res) => {
         console.log(error);
         res.status(501).json({ error: "Serverda xatolik yuz berdi..." });
     }
-}
+} 

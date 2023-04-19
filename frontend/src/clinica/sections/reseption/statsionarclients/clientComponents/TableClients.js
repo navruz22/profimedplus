@@ -34,6 +34,7 @@ export const TableClients = ({
   searchBornDay,
   searchFinished,
   searchDoctor,
+  setRoom
 }) => {
   return (
     <div className="border-0 shadow-lg table-container">
@@ -338,6 +339,7 @@ export const TableClients = ({
                               services: [...connector.services],
                             });
                             setVisible(true);
+                            setRoom(connector.room)
                           }}
                         >
                           +
