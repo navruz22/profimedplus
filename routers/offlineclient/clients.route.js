@@ -704,7 +704,7 @@ module.exports.getAllReseption = async (req, res) => {
                 message: "Diqqat! Klinika ma'lumotlari topilmadi.",
             })
         }
-       
+
         let connectors = null;
 
         if (clientborn) {

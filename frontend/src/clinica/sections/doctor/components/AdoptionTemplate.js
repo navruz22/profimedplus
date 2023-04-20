@@ -570,106 +570,8 @@ const LabTemplate = ({ client, connector, services, baseUrl }) => {
     content: () => componentRef.current,
   })
 
-  // const [client, setClient] = useState();
-  // const [connector, setConnector] = useState();
   const [sections, setSections] = useState([]);
 
-  // const [tablesSelect, setTablesSelect] = useState([])
-
-  // const getServices = useCallback(async () => {
-  //   try {
-  //     const data = await request(
-  //       `/api/doctor/table/services`,
-  //       'POST',
-  //       { clinica: auth.clinica._id, doctor: auth.user },
-  //       {
-  //         Authorization: `Bearer ${auth.token}`,
-  //       },
-  //     )
-  //     setTablesSelect([...data].map(service => {
-  //       return {
-  //         label: service.name,
-  //         value: service._id,
-  //         column: service.column,
-  //         tables: service.tables,
-  //       }
-  //     }))
-  //   } catch (error) {
-  //     notify({
-  //       title: error,
-  //       description: '',
-  //       status: 'error',
-  //     })
-  //   }
-  // }, [
-  //   request,
-  //   auth,
-  //   notify
-  // ])
-
-  const uploadFile = async (e, serviceid) => {
-    const files = e.target.files[0]
-    const data = new FormData()
-    data.append('file', files)
-    const res = await fetch('/api/upload', { method: 'POST', body: data })
-    const file = await res.json()
-    setSections([...sections].map(section => {
-      const ser = section.services.map((s) => {
-        if (s._id === serviceid) {
-          s.files.push(`${baseUrl}/api/upload/file/${file.filename}`)
-        }
-        return s;
-      })
-      section.services = ser;
-      return section;
-    }))
-    notify({
-      status: 'success',
-      description: '',
-      title: 'Surat muvaffaqqiyatli yuklandi',
-    })
-
-  }
-
-  const saveService = async () => {
-    const sendData = [...sections].reduce((prev, section) => {
-      prev.push(...section.services)
-      return prev;
-    }, [])
-    try {
-      const data = await request(
-        `/api/labaratory/adopt`,
-        "POST",
-        {
-          services: sendData
-        },
-        {
-          Authorization: `Bearer ${auth.token}`,
-        }
-      );
-      notify({
-        title: data.message,
-        description: "",
-        status: "success",
-      });
-    } catch (error) {
-      notify({
-        title: error,
-        description: "",
-        status: "error",
-      });
-    }
-  }
-
-  const deleteFile = (file, serviceid) => {
-    setSections([...sections].map(section => {
-      if (section._id === serviceid) {
-        const filterFile = [...section.files].filter(el => el !== file)
-        section.files = filterFile;
-      }
-      return section;
-    }))
-  }
 
   const handleCheckAllAccept = (ind) => {
     const filtered = sections.map((section, index) => {
@@ -751,6 +653,8 @@ const LabTemplate = ({ client, connector, services, baseUrl }) => {
   //===========================================================
   //===========================================================
 
+  const [qr, setQr] = useState()
+
   useEffect(() => {
     const servicetypesAll = services.reduce((prev, el) => {
       if (!prev.includes(el.serviceid.servicetype.name)) {
@@ -799,6 +703,15 @@ const LabTemplate = ({ client, connector, services, baseUrl }) => {
 
   }, [services]);
 
+  useEffect(() => {
+    if (connector && baseUrl) {
+      QRCode.toDataURL(`${baseUrl}/clienthistory/laboratory/${connector._id}`)
+        .then(data => {
+          setQr(data)
+        })
+    }
+  }, [connector, baseUrl])
+
   return (
     <>
       <div className="d-none">
@@ -813,6 +726,7 @@ const LabTemplate = ({ client, connector, services, baseUrl }) => {
             connector={connector}
             client={client}
             sections={sections}
+            qr={qr}
           />
         </div>
       </div>
@@ -1228,7 +1142,7 @@ const AdoptionTemplate = () => {
       />
     </div>
     {type === 'doctor' && <DoctorTemplate clientsType={clientsType} baseUrl={baseUrl} client={client} connector={connector} services={services} />}
-    {type === 'laboratory' && <LabTemplate client={client} connector={connector} services={services} />}
+    {type === 'laboratory' && <LabTemplate client={client} connector={connector} services={services} baseUrl={baseUrl} />}
     {type === 'all' && <DoctorResult client={client} connector={connectorData} clinica={auth?.clinica} baseUrl={baseUrl} />}
   </div>
 }

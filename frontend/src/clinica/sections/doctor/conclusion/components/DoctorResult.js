@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import ReactHtmlParser from 'react-html-parser'
 import { useReactToPrint } from "react-to-print";
-import QRcode from "../../../../../qrcode.png"
 import '../../components/Print.css'
+import QRCode from "qrcode"
 
 const DoctorResult = ({ connector, clinica, baseUrl }) => {
 
@@ -53,6 +53,17 @@ const DoctorResult = ({ connector, clinica, baseUrl }) => {
     const handlePrint = useReactToPrint({
         content: () => componentRef.current,
     })
+
+    const [qr, setQr] = useState()
+    
+    useEffect(() => {
+      if (connector && baseUrl) {
+        QRCode.toDataURL(`${baseUrl}/clienthistory/laboratory/${connector?.connector?._id}`)
+          .then(data => {
+            setQr(data)
+          })
+      }
+    }, [connector, baseUrl])
 
     return (
         <>
@@ -105,7 +116,7 @@ const DoctorResult = ({ connector, clinica, baseUrl }) => {
                     </div>
                     <div className="" style={{ textAlign: "center" }}>
                         <p className="text-end m-0">
-                            <img width="100" src={QRcode} alt="QR" />
+                            <img width="100" src={qr && qr} alt="QR" />
                         </p>
                     </div>
                 </div>
@@ -430,7 +441,7 @@ const DoctorResult = ({ connector, clinica, baseUrl }) => {
                         </div>
                         <div className="" style={{ textAlign: "center" }}>
                             <p className="text-end m-0">
-                                <img width="100" src={QRcode} alt="QR" />
+                                <img width="100" src={qr && qr} alt="QR" />
                             </p>
                         </div>
                     </div>
