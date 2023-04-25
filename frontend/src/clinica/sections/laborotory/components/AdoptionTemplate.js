@@ -34,16 +34,16 @@ const AdoptionTemplate = () => {
     [toast]
   );
 
-  const componentRef = useRef()
-  const handlePrint = useReactToPrint({
-    content: () => componentRef.current,
-    documentTitle: client && client?.firstname + ' ' + client?.lastname
-  })
 
   const {
     state: { client, connector, services },
   } = useLocation();
 
+  const componentRef = useRef()
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+    documentTitle: client && client?.firstname + ' ' + client?.lastname
+  })
 
   const [sections, setSections] = useState([]);
 

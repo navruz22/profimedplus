@@ -201,6 +201,55 @@ export const RegisterClient = ({
                     </div>
                   </div>
                 </div>
+                <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                  <div className="form-group">
+                    <label htmlFor="biO">Fuqoroligi</label>
+                    <div>
+                      <div className="custom-control custom-radio custom-control-inline">
+                        <input
+                          checked={
+                            client.national && client.national === 'uzb'
+                              ? true
+                              : false
+                          }
+                          onChange={(e) => {
+                            setClient({ ...client, national: 'uzb' })
+                          }}
+                          type="radio"
+                          id="national1"
+                          name="national"
+                          className="custom-control-input"
+                        />
+                        <label
+                          className="custom-control-label"
+                          htmlFor="national1"
+                        >
+                          Uzbek
+                        </label>
+                      </div>
+                      <div className="custom-control custom-radio custom-control-inline">
+                        <input
+                          defaultChecked={
+                            client.national === 'foreigner' ? true : false
+                          }
+                          onChange={(e) => {
+                            setClient({ ...client, national: 'foreigner' })
+                          }}
+                          type="radio"
+                          id="national2"
+                          name="national"
+                          className="custom-control-input"
+                        />
+                        <label
+                          className="custom-control-label"
+                          htmlFor="national2"
+                        >
+                          Chet'ellik
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <div className="col-12">
                   <div className="form-group">
                     <label htmlFor="biO">Manzili</label>

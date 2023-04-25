@@ -347,6 +347,7 @@ module.exports.getLabClientsForApprove = async (req, res) => {
         if (services.length > 0) {
             let connectorsId = []
             for (const service of services) {
+                console.log(service);
                 const check = connectorsId.includes(String(service.connector._id));
                 if (!check) {
                     clients.push({

@@ -671,6 +671,7 @@ export const OnlineClients = () => {
                 }
             );
             localStorage.setItem("data", data);
+            setModal2(false)
             notify({
                 title: "Mijoz ma'lumotlari kunduzgi mijozlar ro'yxatiga o'tkazildi.",
                 description: "",

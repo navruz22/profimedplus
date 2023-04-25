@@ -38,4 +38,8 @@ router.post('/client/turns/get', auth, (req, res) => {
     require('./clients.route').getTurns(req, res);
 })
 
+router.post('/client/registeronline', auth, (req, res) => {
+    require('./clients.route').registerOnline(req, res);
+})
+
 module.exports = router

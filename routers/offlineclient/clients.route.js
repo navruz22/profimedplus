@@ -921,3 +921,227 @@ module.exports.getTurns = async (req, res) => {
         res.status(501).json({ error: "Serverda xatolik yuz berdi..." });
     }
 }
+
+module.exports.registerOnline = async (req, res) => {
+    try {
+        const connector = req.body;
+        const client = {...connector.client};
+        const services = [...connector.services];
+        const products = [...connector.products];
+
+        delete connector._id;
+        delete connector.client;
+        delete connector.services;
+        delete connector.products;
+
+        delete client._id;
+        delete client.connectors;
+
+        //=========================================================
+        // CheckData
+        // const checkClient = validateOfflineClient(client).error
+        // if (checkClient) {
+        //     console.log(client);
+        //     return res.status(400).json({
+        //         error: checkClient.message,
+        //     })
+        // }
+
+        // const checkOfflineConnector = validateOfflineConnector(connector).error
+
+        // if (checkOfflineConnector) {
+        //     console.log(connector);
+        //     return res.status(400).json({
+        //         error: checkOfflineConnector.message,
+        //     })
+        // }
+       
+        //=========================================================
+        // CreateClient
+        const id =
+            (await OfflineClient.find({ clinica: client.clinica })).length + 1000001
+
+        const fullname = client.lastname + ' ' + client.firstname
+
+        const newclient = new OfflineClient({ ...client, id, fullname, createdAt: new Date(), updatedAt: new Date() })
+        await newclient.save()
+
+        //=========================================================
+        // CreateOfflineConnector
+        let probirka = 0
+        if (connector.probirka) {
+            probirka =
+                (
+                    await OfflineConnector.find({
+                        clinica: connector.clinica,
+                        probirka: { $ne: 0 },
+                        createdAt: {
+                            $gte: new Date(new Date().setUTCDate(0, 0, 0, 0)),
+                        },
+                    })
+                ).length + 1
+        }
+
+        const newconnector = new OfflineConnector({
+            ...connector,
+            client: newclient._id,
+            probirka,
+            createdAt: new Date(), 
+            updatedAt: new Date()
+        })
+        await newconnector.save()
+
+        newclient.connectors.push(newconnector._id)
+        await newclient.save()
+
+        //=========================================================
+        // CreateServices
+        let totalprice = 0
+        for (const service of services) {
+
+            delete service._id;
+            delete service.isArchive;
+            delete service.connector;
+            delete service.client;
+
+            // const { error } = validateOfflineService(service)
+
+            // if (error) {
+            //     console.log(service);
+            //     return res.status(400).json({
+            //         error: error.message,
+            //     })
+            // }
+
+            //=========================================================
+            // Product decrement
+            const productconnectors = await ProductConnector.find({
+                clinica: client.clinica,
+                service: service.serviceid,
+            })
+
+            for (const productconnector of productconnectors) {
+                const product = await Product.findById(productconnector.product)
+                product.total = product.total - productconnector.pieces * service.pieces
+                await product.save()
+            }
+
+            //=========================================================
+            // TURN
+            var turn = 0
+            const clientservice = await OfflineService.findOne({
+                clinica: service.clinica,
+                client: newclient._id,
+                department: service.department,
+                createdAt: {
+                    $gte: new Date(new Date().setUTCHours(0, 0, 0, 0)),
+                },
+            })
+
+            if (clientservice) {
+                turn = clientservice.turn
+            } else {
+                let turns = await OfflineService.find({
+                    clinica: service.clinica,
+                    department: service.department,
+                    createdAt: {
+                        $gte: new Date(new Date().setUTCHours(0, 0, 0, 0)),
+                    },
+                })
+                    .sort({ client: 1 })
+                    .select('client')
+
+                turns.map((t, i) => {
+                    if (i === 0) {
+                        turn++
+                    } else {
+                        if (turns[i - 1].client.toString() !== t.client.toString()) {
+                            turn++
+                        }
+                    }
+                })
+
+                turn++
+            }
+
+            
+            //=========================================================
+            // Create Service
+            const serv = await Service.findById(service.serviceid)
+                .populate('column', 'col1 col2 col3 col4 col5')
+                .populate('tables', 'col1 col2 col3 col4 col5')
+            const newservice = new OfflineService({
+                ...service,
+                service: {
+                    _id: serv._id,
+                    name: serv.name,
+                    price: serv.price,
+                    shortname: serv.shortname,
+                    doctorProcient: serv.doctorProcient,
+                    counterAgentProcient: serv.counterAgentProcient,
+                    counterDoctorProcient: serv.counterDoctorProcient
+                },
+                client: newclient._id,
+                connector: newconnector._id,
+                turn,
+                column: { ...serv.column },
+                tables: [...JSON.parse(JSON.stringify(serv.tables))],
+                createdAt: new Date(), 
+                updatedAt: new Date(),
+            })
+            // console.log(newservice);
+            // return
+            await newservice.save()
+
+            totalprice += service.service.price * service.pieces
+
+            newconnector.services.push(newservice._id)
+            await newconnector.save()
+        }
+
+        // CreateProducts
+        for (const product of products) {
+
+            delete product._id
+
+            const { error } = validateOfflineProduct(product)
+
+            if (error) {
+                return res.status(400).json({
+                    error: error.message,
+                })
+            }
+
+            const produc = await Product.findById(product.productid)
+            produc.total = produc.total - product.pieces
+            await produc.save()
+
+            const newproduct = new OfflineProduct({
+                ...product,
+                client: newclient._id,
+                connector: newconnector._id,
+                createdAt: new Date(), 
+                updatedAt: new Date(),
+            })
+
+            await newproduct.save()
+            totalprice += product.product.price * product.pieces
+
+            newconnector.products.push(newproduct._id)
+            await newconnector.save()
+        }
+
+        newconnector.totalprice = totalprice
+        await newconnector.save()
+
+        const response = await OfflineConnector.findById(newconnector._id)
+            .populate('client')
+            .populate('services')
+            .populate('products')
+
+        res.status(201).send(response)
+    } catch (error) {
+        console.log(error);
+        res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
+    }
+}
