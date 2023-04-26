@@ -208,7 +208,7 @@ export const ClinicaRegister = ({ onFinishCreate, onFinishUpdate, clinicaData })
   };
   //====================================================================
   //====================================================================
-
+  console.log(clinica);
   //====================================================================
   //====================================================================
   const keyPressed = (e) => {
@@ -646,6 +646,29 @@ export const ClinicaRegister = ({ onFinishCreate, onFinishUpdate, clinicaData })
                           defaultValue={clinica.bankNumber && clinica.bankNumber}
                           name="bankNumber"
                           onChange={changeHandler}
+                        />
+                      </FormControl>
+                    </div>
+                    <div className="col-md-12">
+                      <FormControl>
+                        <FormLabel
+                          style={{ color: "#38B2AC", marginTop: "1rem" }}
+                        >
+                          O'chish sanasi
+                        </FormLabel>
+                        <Input
+                          onKeyUp={keyPressed}
+                          type="date"
+                          placeholder="O'chish sanasini kiriting"
+                          size="sm"
+                          style={
+                            clinica.close_date
+                              ? styleGreen
+                              : styleDefault
+                          }
+                          defaultValue={clinica.close_date && clinica.close_date}
+                          name="close_date"
+                          onChange={e => setClinica({...clinica, close_date: new Date(e.target.value).toISOString()})}
                         />
                       </FormControl>
                     </div>

@@ -25,6 +25,8 @@ const clinica = new Schema(
     mfo: { type: Number },
     address: { type: String },
     orientation: { type: String },
+    isClose: {type: Boolean, default: false},
+    close_date: {type: Date},
     isArchive: { type: Boolean, default: false },
   },
   {

@@ -187,6 +187,16 @@ module.exports.login = async (req, res) => {
       { expiresIn: "12h" }
     );
 
+    if (new Date().getFullYear() === new Date(user?.clinica?.close_date).getFullYear()
+      && new Date().getMonth() === new Date(user?.clinica?.close_date).getMonth()
+      && new Date().getDate() === new Date(user?.clinica?.close_date).getDate()
+    ) {
+      user.clinica.isClose = true;
+      const clinica = await Clinica.findById(user.clinica._id)
+      clinica.isClose = true;
+      await clinica.save()
+    }
+
     res.send({
       token,
       userId: user._id,

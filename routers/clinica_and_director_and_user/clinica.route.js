@@ -71,7 +71,8 @@ module.exports.register = async (req, res) => {
       mfo,
       ifud1,
       ifud2,
-      ifud3
+      ifud3,
+      close_date
     } = req.body
 
     const clinica = await Clinica.find({ name })
@@ -101,7 +102,9 @@ module.exports.register = async (req, res) => {
       mfo,
       ifud1,
       ifud2,
-      ifud3
+      ifud3,
+      close_date,
+      isClose: false,
     })
 
     await newClinica.save()
@@ -169,7 +172,7 @@ module.exports.update = async (req, res) => {
       });
     }
 
-    await Clinica.findByIdAndUpdate(clinica._id, { ...clinica })
+    await Clinica.findByIdAndUpdate(clinica._id, { ...clinica, isClose: false })
 
     const resdata = await Clinica.findById(clinica._id);
 
