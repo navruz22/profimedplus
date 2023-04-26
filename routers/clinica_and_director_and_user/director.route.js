@@ -87,14 +87,14 @@ module.exports.login = async (req, res) => {
     const directors = await Director.find({
       type,
     })
-    .populate({
-      path: 'clinica',
-      select: "-__v -isArchive -updatedAt",
-      populate: {
-        path: "filials",
-        select: 'name phone1'
-      }
-    })
+      .populate({
+        path: 'clinica',
+        select: "-__v -isArchive -updatedAt",
+        populate: {
+          path: "filials",
+          select: 'name phone1'
+        }
+      })
       .lean()
 
     let director = null;
@@ -117,6 +117,16 @@ module.exports.login = async (req, res) => {
       config.get("jwtSecret"),
       { expiresIn: "12h" }
     );
+
+    if (new Date().getFullYear() === new Date(director?.clinica?.close_date).getFullYear()
+      && new Date().getMonth() === new Date(director?.clinica?.close_date).getMonth()
+      && new Date().getDate() === new Date(director?.clinica?.close_date).getDate()
+    ) {
+      director.clinica.isClose = true;
+      const clinica = await Clinica.findById(director.clinica._id)
+      clinica.isClose = true;
+      await clinica.save()
+    }
 
     res.send({
       token,
