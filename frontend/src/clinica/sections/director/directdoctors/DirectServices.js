@@ -11,6 +11,7 @@ import { Pagination } from "../components/Pagination";
 import ReactHtmlTableToExcel from 'react-html-table-to-excel';
 import { faAngleDown, faAngleUp, faPrint } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Select from "react-select"
 
 const DirectServices = () => {
 
@@ -100,6 +101,31 @@ const DirectServices = () => {
     //=======================================================
     //=======================================================
 
+    const [departments, setDepartments] = useState([])
+
+    const getDepartments = useCallback(async () => {
+        try {
+            const data = await request(
+                `/api/services/department/getall`,
+                'POST',
+                { clinica: auth.clinica._id },
+                {
+                    Authorization: `Bearer ${auth.token}`,
+                },
+            )
+            setDepartments([...data].map((deparmtent) => ({
+                label: deparmtent.name,
+                value: deparmtent._id
+            })))
+        } catch (error) {
+            notify({
+                title: error,
+                description: '',
+                status: 'error',
+            })
+        }
+    }, [request, auth, notify])
+
     //=======================================================
     //=======================================================
 
@@ -153,230 +179,245 @@ const DirectServices = () => {
         if (!t) {
             setT(1)
             getDirectDoctors(beginDay, endDay)
+            getDepartments()
         }
-    }, [getDirectDoctors, t, beginDay, endDay])
+    }, [getDirectDoctors, getDepartments, t, beginDay, endDay])
 
 
     return (
         <div className="bg-slate-100 content-wrapper px-lg-5 px-3">
-            <div className="row gutters">
-                <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                    <div className="border-0 table-container">
-                        <div className="border-0 table-container">
-                            <div className="table-responsive">
-                                <div className="bg-white flex gap-4 items-center p-2">
-                                    <div>
-                                        <select
-                                            className="form-control form-control-sm selectpicker"
-                                            placeholder="Bo'limni tanlang"
-                                            onChange={setPageSize}
-                                            style={{ minWidth: "50px" }}
-                                        >
-                                            <option value={10}>10</option>
-                                            <option value={25}>25</option>
-                                            <option value={50}>50</option>
-                                            <option value={'all'}>Barchasi</option>
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <input
-                                            onChange={searchFullname}
-                                            style={{ minWidth: "100px" }}
-                                            type="search"
-                                            className="w-100 form-control form-control-sm selectpicker"
-                                            placeholder="Xizmat"
-                                        />
-                                    </div>
-                                    <div
-                                        className="text-center ml-auto flex gap-2"
-                                        style={{ overflow: 'hidden' }}
-                                    >
-                                        <DatePickers changeDate={changeStart} />
-                                        <DatePickers changeDate={changeEnd} />
-                                    </div>
-                                    <div className="text-center ml-auto mr-4">
-                                        <Pagination
-                                            setCurrentDatas={setCurrentDoctors}
-                                            datas={doctors}
-                                            setCurrentPage={setCurrentPage}
-                                            countPage={countPage}
-                                            totalDatas={doctors.length}
-                                        />
-                                    </div>
-                                    <div className="text-center">
-                                        <div className="btn btn-primary">
-                                            <ReactHtmlTableToExcel
-                                                id="reacthtmltoexcel"
-                                                table="directservices"
-                                                sheet="Sheet"
-                                                buttonText="Excel"
-                                                filename="Yunaltiruvchi shifokor"
+            <div className="border-0 table-container">
+                <div className="border-0 table-container">
+                        <div className="bg-white flex gap-4 items-center p-2">
+                            <div>
+                                <select
+                                    className="form-control form-control-sm selectpicker"
+                                    placeholder="Bo'limni tanlang"
+                                    onChange={setPageSize}
+                                    style={{ minWidth: "50px" }}
+                                >
+                                    <option value={10}>10</option>
+                                    <option value={25}>25</option>
+                                    <option value={50}>50</option>
+                                    <option value={'all'}>Barchasi</option>
+                                </select>
+                            </div>
+                            <div>
+                                <input
+                                    onChange={searchFullname}
+                                    style={{ minWidth: "100px" }}
+                                    type="search"
+                                    className="w-100 form-control form-control-sm selectpicker"
+                                    placeholder="Xizmat"
+                                />
+                            </div>
+                            <div className="w-[300px]">
+                                <Select
+                                    options={[
+                                        {
+                                            label: 'Xammasi',
+                                            value: "all"
+                                        },
+                                        ...departments
+                                    ]}
+                                    onChange={(e) => {
+                                        if (e.value === 'all') {
+                                            setDoctors(searchStorage)
+                                            setCurrentDoctors(searchStorage)
+                                        } else {
+                                            setDoctors([...searchStorage].filter(i => i.service.department._id === e.value))
+                                            setCurrentDoctors([...searchStorage].filter(i => i.service.department._id === e.value))
+                                        }
+                                    }}
+                                />
+                            </div>
+                            <div
+                                className="text-center ml-auto flex gap-2"
+                                style={{ overflow: 'hidden' }}
+                            >
+                                <DatePickers changeDate={changeStart} />
+                                <DatePickers changeDate={changeEnd} />
+                            </div>
+                            <div className="text-center ml-auto mr-4">
+                                <Pagination
+                                    setCurrentDatas={setCurrentDoctors}
+                                    datas={doctors}
+                                    setCurrentPage={setCurrentPage}
+                                    countPage={countPage}
+                                    totalDatas={doctors.length}
+                                />
+                            </div>
+                            <div className="text-center">
+                                <div className="btn btn-primary">
+                                    <ReactHtmlTableToExcel
+                                        id="reacthtmltoexcel"
+                                        table="directservices"
+                                        sheet="Sheet"
+                                        buttonText="Excel"
+                                        filename="Yunaltiruvchi shifokor"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <table className="table m-0 table-sm" id="directservices">
+                            <thead>
+                                <tr>
+                                    <th className="border py-1 bg-alotrade text-[16px]">№</th>
+                                    <th className="border py-1 bg-alotrade text-[16px]">
+                                        Xizmat
+                                        <div className="btn-group-vertical ml-2">
+                                            <FontAwesomeIcon
+                                                onClick={() =>
+                                                    setCurrentDoctors(
+                                                        [...currentDoctors].sort((a, b) =>
+                                                            a.client.fullname > b.client.fullname ? 1 : -1
+                                                        )
+                                                    )
+                                                }
+                                                icon={faAngleUp}
+                                                style={{ cursor: "pointer" }}
+                                            />
+                                            <FontAwesomeIcon
+                                                icon={faAngleDown}
+                                                style={{ cursor: "pointer" }}
+                                                onClick={() =>
+                                                    setCurrentDoctors(
+                                                        [...currentDoctors].sort((a, b) =>
+                                                            b.client.fullname > a.client.fullname ? 1 : -1
+                                                        )
+                                                    )
+                                                }
                                             />
                                         </div>
-                                    </div>
-                                </div>
-                                <table className="table m-0 table-sm" id="directservices">
-                                    <thead>
-                                        <tr>
-                                            <th className="border py-1 bg-alotrade text-[16px]">№</th>
-                                            <th className="border py-1 bg-alotrade text-[16px]">
-                                                Xizmat
-                                                <div className="btn-group-vertical ml-2">
-                                                    <FontAwesomeIcon
-                                                        onClick={() =>
-                                                            setCurrentDoctors(
-                                                                [...currentDoctors].sort((a, b) =>
-                                                                    a.client.fullname > b.client.fullname ? 1 : -1
-                                                                )
-                                                            )
-                                                        }
-                                                        icon={faAngleUp}
-                                                        style={{ cursor: "pointer" }}
-                                                    />
-                                                    <FontAwesomeIcon
-                                                        icon={faAngleDown}
-                                                        style={{ cursor: "pointer" }}
-                                                        onClick={() =>
-                                                            setCurrentDoctors(
-                                                                [...currentDoctors].sort((a, b) =>
-                                                                    b.client.fullname > a.client.fullname ? 1 : -1
-                                                                )
-                                                            )
-                                                        }
-                                                    />
-                                                </div>
-                                            </th>
-                                            <th className="border py-1 bg-alotrade text-[16px]">
-                                                Bo'lim
-                                                <div className="btn-group-vertical ml-2">
-                                                    <FontAwesomeIcon
-                                                        onClick={() =>
-                                                            setCurrentDoctors(
-                                                                [...currentDoctors].sort((a, b) =>
-                                                                    a.client.fullname > b.client.fullname ? 1 : -1
-                                                                )
-                                                            )
-                                                        }
-                                                        icon={faAngleUp}
-                                                        style={{ cursor: "pointer" }}
-                                                    />
-                                                    <FontAwesomeIcon
-                                                        icon={faAngleDown}
-                                                        style={{ cursor: "pointer" }}
-                                                        onClick={() =>
-                                                            setCurrentDoctors(
-                                                                [...currentDoctors].sort((a, b) =>
-                                                                    b.client.fullname > a.client.fullname ? 1 : -1
-                                                                )
-                                                            )
-                                                        }
-                                                    />
-                                                </div>
-                                            </th>
-                                            <th className="border py-1 bg-alotrade text-[16px]">
-                                                Soni
-                                                <div className="btn-group-vertical ml-2">
-                                                    <FontAwesomeIcon
-                                                        onClick={() =>
-                                                            setCurrentDoctors(
-                                                                [...currentDoctors].sort((a, b) =>
-                                                                    a.client.fullname > b.client.fullname ? 1 : -1
-                                                                )
-                                                            )
-                                                        }
-                                                        icon={faAngleUp}
-                                                        style={{ cursor: "pointer" }}
-                                                    />
-                                                    <FontAwesomeIcon
-                                                        icon={faAngleDown}
-                                                        style={{ cursor: "pointer" }}
-                                                        onClick={() =>
-                                                            setCurrentDoctors(
-                                                                [...currentDoctors].sort((a, b) =>
-                                                                    b.client.fullname > a.client.fullname ? 1 : -1
-                                                                )
-                                                            )
-                                                        }
-                                                    />
-                                                </div>
-                                            </th>
-                                            <th className="border py-1 bg-alotrade text-[16px]">
-                                                Narxi
-                                                <div className="btn-group-vertical ml-2">
-                                                    <FontAwesomeIcon
-                                                        onClick={() =>
-                                                            setCurrentDoctors(
-                                                                [...currentDoctors].sort((a, b) =>
-                                                                    a.client.fullname > b.client.fullname ? 1 : -1
-                                                                )
-                                                            )
-                                                        }
-                                                        icon={faAngleUp}
-                                                        style={{ cursor: "pointer" }}
-                                                    />
-                                                    <FontAwesomeIcon
-                                                        icon={faAngleDown}
-                                                        style={{ cursor: "pointer" }}
-                                                        onClick={() =>
-                                                            setCurrentDoctors(
-                                                                [...currentDoctors].sort((a, b) =>
-                                                                    b.client.fullname > a.client.fullname ? 1 : -1
-                                                                )
-                                                            )
-                                                        }
-                                                    />
-                                                </div>
-                                            </th>
-                                            <th className="border py-1 bg-alotrade text-[16px]">Umumiy summa</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {currentDoctors.map((doctor, key) => {
-                                            return (
-                                                <tr key={key}>
-                                                    <td
-                                                        className={`border py-1 font-weight-bold text-right text-[16px]`}
-                                                        style={{ maxWidth: "30px !important" }}
-                                                    >
-                                                        {currentPage * countPage + key + 1}
-                                                    </td>
-                                                    <td className="border py-1 text-[16px] font-weight-bold">
-                                                        {doctor?.service?.service?.name}
-                                                    </td>
-                                                    <td className="border py-1 text-[16px] text-center">
-                                                        {doctor?.service?.department?.name}
-                                                    </td>
-                                                    <td className="border py-1 text-[16px] text-right">
-                                                        {doctor?.service?.pieces}
-                                                    </td>
-                                                    <td className="border py-1 text-[16px] text-right">
-                                                        {doctor?.service?.service?.price}
-                                                    </td>
-                                                    <td className="border py-1 text-[16px] text-right">
-                                                        {doctor?.service?.pieces * doctor?.service?.service?.price}
-                                                    </td>
-                                                </tr>
-                                            );
-                                        })}
-                                        <tr>
+                                    </th>
+                                    <th className="border py-1 bg-alotrade text-[16px]">
+                                        Bo'lim
+                                        <div className="btn-group-vertical ml-2">
+                                            <FontAwesomeIcon
+                                                onClick={() =>
+                                                    setCurrentDoctors(
+                                                        [...currentDoctors].sort((a, b) =>
+                                                            a.client.fullname > b.client.fullname ? 1 : -1
+                                                        )
+                                                    )
+                                                }
+                                                icon={faAngleUp}
+                                                style={{ cursor: "pointer" }}
+                                            />
+                                            <FontAwesomeIcon
+                                                icon={faAngleDown}
+                                                style={{ cursor: "pointer" }}
+                                                onClick={() =>
+                                                    setCurrentDoctors(
+                                                        [...currentDoctors].sort((a, b) =>
+                                                            b.client.fullname > a.client.fullname ? 1 : -1
+                                                        )
+                                                    )
+                                                }
+                                            />
+                                        </div>
+                                    </th>
+                                    <th className="border py-1 bg-alotrade text-[16px]">
+                                        Soni
+                                        <div className="btn-group-vertical ml-2">
+                                            <FontAwesomeIcon
+                                                onClick={() =>
+                                                    setCurrentDoctors(
+                                                        [...currentDoctors].sort((a, b) =>
+                                                            a.client.fullname > b.client.fullname ? 1 : -1
+                                                        )
+                                                    )
+                                                }
+                                                icon={faAngleUp}
+                                                style={{ cursor: "pointer" }}
+                                            />
+                                            <FontAwesomeIcon
+                                                icon={faAngleDown}
+                                                style={{ cursor: "pointer" }}
+                                                onClick={() =>
+                                                    setCurrentDoctors(
+                                                        [...currentDoctors].sort((a, b) =>
+                                                            b.client.fullname > a.client.fullname ? 1 : -1
+                                                        )
+                                                    )
+                                                }
+                                            />
+                                        </div>
+                                    </th>
+                                    <th className="border py-1 bg-alotrade text-[16px]">
+                                        Narxi
+                                        <div className="btn-group-vertical ml-2">
+                                            <FontAwesomeIcon
+                                                onClick={() =>
+                                                    setCurrentDoctors(
+                                                        [...currentDoctors].sort((a, b) =>
+                                                            a.client.fullname > b.client.fullname ? 1 : -1
+                                                        )
+                                                    )
+                                                }
+                                                icon={faAngleUp}
+                                                style={{ cursor: "pointer" }}
+                                            />
+                                            <FontAwesomeIcon
+                                                icon={faAngleDown}
+                                                style={{ cursor: "pointer" }}
+                                                onClick={() =>
+                                                    setCurrentDoctors(
+                                                        [...currentDoctors].sort((a, b) =>
+                                                            b.client.fullname > a.client.fullname ? 1 : -1
+                                                        )
+                                                    )
+                                                }
+                                            />
+                                        </div>
+                                    </th>
+                                    <th className="border py-1 bg-alotrade text-[16px]">Umumiy summa</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {currentDoctors.map((doctor, key) => {
+                                    return (
+                                        <tr key={key}>
                                             <td
                                                 className={`border py-1 font-weight-bold text-right text-[16px]`}
                                                 style={{ maxWidth: "30px !important" }}
                                             >
+                                                {currentPage * countPage + key + 1}
                                             </td>
-                                            <td className="border py-1 text-[16px] font-weight-bold"></td>
-                                            <td className="border py-1 text-[16px] text-center"></td>
-                                            <td className="border py-1 text-[16px] text-right"></td>
-                                            <td className="border py-1 text-[16px] text-center"></td>
-                                            <td className="border py-1 text-[16px] text-right font-bold">
-                                                {searchStorage.reduce((prev, el) => prev + (el?.service?.pieces * el?.service?.service?.price || 0), 0)}
+                                            <td className="border py-1 text-[16px] font-weight-bold">
+                                                {doctor?.service?.service?.name}
+                                            </td>
+                                            <td className="border py-1 text-[16px] text-center">
+                                                {doctor?.service?.department?.name}
+                                            </td>
+                                            <td className="border py-1 text-[16px] text-right">
+                                                {doctor?.service?.pieces}
+                                            </td>
+                                            <td className="border py-1 text-[16px] text-right">
+                                                {doctor?.service?.service?.price}
+                                            </td>
+                                            <td className="border py-1 text-[16px] text-right">
+                                                {doctor?.service?.pieces * doctor?.service?.service?.price}
                                             </td>
                                         </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+                                    );
+                                })}
+                                <tr>
+                                    <td
+                                        className={`border py-1 font-weight-bold text-right text-[16px]`}
+                                        style={{ maxWidth: "30px !important" }}
+                                    >
+                                    </td>
+                                    <td className="border py-1 text-[16px] font-weight-bold"></td>
+                                    <td className="border py-1 text-[16px] text-center"></td>
+                                    <td className="border py-1 text-[16px] text-right"></td>
+                                    <td className="border py-1 text-[16px] text-center"></td>
+                                    <td className="border py-1 text-[16px] text-right font-bold">
+                                        {searchStorage.reduce((prev, el) => prev + (el?.service?.pieces * el?.service?.service?.price || 0), 0)}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                 </div>
             </div>
         </div>
