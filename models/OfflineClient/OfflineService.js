@@ -28,7 +28,7 @@ const service = new Schema(
     accept: { type: Boolean, default: false },
     reseption: { type: Schema.Types.ObjectId, ref: "User", required: true },
     doctor: { type: Schema.Types.ObjectId, ref: "User" },
-    turn: Number,
+    turn: {type: Number},
     bronday: { type: Date },
     payment: { type: Boolean, default: false },
     comment: { type: String },

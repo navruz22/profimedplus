@@ -137,4 +137,16 @@ router.post('/client/history/get', (req, res) => {
 })
 
 
+//===============================================================
+//===============================================================
+
+router.post('/directdoctors/get', (req, res) => {
+    require('./directdoctors').getDirectDoctors(req, res)
+})
+
+router.post('/directdoctors/services/get', (req, res) => {
+    require('./directdoctors').getDirectService(req, res)
+})
+
+
 module.exports = router

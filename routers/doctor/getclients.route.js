@@ -13,6 +13,7 @@ const { ServiceTable } = require("../../models/Services/ServiceTable");
 const { ServiceType } = require("../../models/Services/ServiceType");
 const { StatsionarService, validateStatsionarService } = require("../../models/StatsionarClient/StatsionarService");
 const { StatsionarConnector } = require("../../models/StatsionarClient/StatsionarConnector");
+const { AddedService } = require("../../models/Services/AddedService");
 require('../../models/StatsionarClient/StatsionarConnector')
 require('../../models/StatsionarClient/StatsionarClient')
 require('../../models/StatsionarClient/StatsionarRoom')
@@ -335,7 +336,7 @@ module.exports.gettemplates = async (req, res) => {
 
 module.exports.addservices = async (req, res) => {
   try {
-    const { clinica, services, connector, client } = req.body;
+    const { clinica, services, connector, client, user } = req.body;
 
     const clinic = await Clinica.findById(clinica);
 
@@ -434,6 +435,12 @@ module.exports.addservices = async (req, res) => {
         tables: [...JSON.parse(JSON.stringify(serv.tables))]
       })
       await newservice.save()
+
+      const addedservice = new AddedService({
+        doctor: user._id,
+        service: newservice._id,
+      })
+      await addedservice.save()
 
       totalprice += service.service.price
 

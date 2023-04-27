@@ -275,7 +275,8 @@ export const DoctorClients = () => {
             connector: { ...connector, clinica: auth.clinica._id },
             services: [...newservices],
             products: [...newproducts],
-            clinica: auth && auth.clinica._id
+            clinica: auth && auth.clinica._id,
+            user: auth?.user,
           },
           {
             Authorization: `Bearer ${auth.token}`,

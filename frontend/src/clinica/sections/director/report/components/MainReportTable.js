@@ -401,7 +401,7 @@ export const MainReportTable = ({
                                     className={`py-1 font-weight-bold text-[16px]`}
                                 >
                                     <div className="flex justify-between">
-                                        <div>Qoldiq: {searchStorage.reduce((prev, connector) => prev + connector.payment, 0) - expenseTotal}</div>
+                                        <div>Qoldiq: {searchStorage.reduce((prev, connector) => prev + (connector.payment < 0 ? 0 : connector?.payment), 0) - expenseTotal}</div>
                                         <div>
                                             Xarajat: {expenseTotal}
                                         </div>
@@ -415,9 +415,9 @@ export const MainReportTable = ({
                                     {searchStorage.reduce((prev, el) => prev + (el.payment < 0 || el.isPayDebt ? 0 : el?.total), 0)}
                                 </td>
                                 <td className="border py-1 text-[16px] font-bold text-right">
-                                    {searchStorage.reduce((prev, el) => prev + el.payment, 0)}
+                                    {searchStorage.reduce((prev, el) => prev + (el.payment < 0 ? 0 : el?.payment), 0)}
                                 </td>
-                                <td className="border py-1 text-[16px] font-bold text-right">
+                                <td className="border py-1 text-[16px] font-bold text-right"> 
                                     {searchStorage.reduce((prev, el) => prev + el.cash, 0)}
                                 </td>
                                 <td className="border py-1 text-[16px] font-bold text-right">
@@ -427,10 +427,10 @@ export const MainReportTable = ({
                                     {searchStorage.reduce((prev, el) => prev + el.transfer, 0)}
                                 </td>
                                 <td className="border py-1 text-[16px] font-bold text-right">
-                                    {searchStorage.reduce((prev, el) => prev + el.debt, 0)}
+                                    {searchStorage.reduce((prev, el) => prev + (el?.discount?.discount || 0), 0)}
                                 </td>
                                 <td className="border py-1 text-[16px] font-bold text-right">
-                                    {searchStorage.reduce((prev, el) => prev + (el?.discount?.discount || 0), 0)}
+                                    {searchStorage.reduce((prev, el) => prev + el.debt, 0)}
                                 </td>
                                 <td className="border py-1 text-[16px] font-bold text-right">
                                     {searchStorage.reduce((prev, el) => prev + (el?.isPayDebt ? el?.payment : 0), 0)}

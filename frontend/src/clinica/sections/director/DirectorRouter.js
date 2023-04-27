@@ -8,6 +8,8 @@ import StatsionarClients from "./clients/StatsionarClients";
 import CounterAgent from "./counteragent/CounterAgent";
 import CounterAgentInfo from "./counteragent/CounterAgentInfo";
 import CounterDoctors from "./counter_doctors/CounterDoctors";
+import DirectDoctors from "./directdoctors/DirectDoctors";
+import DirectServices from "./directdoctors/DirectServices";
 import { EditDirector } from "./editDirector/EditDirector";
 import { EditDirectorPassword } from "./editDirector/EditDirectorPassword";
 import { HomePage } from "./homepage/HomePage";
@@ -118,6 +120,12 @@ export const DirectorRouter = () => {
         </Route>
         <Route path="/alo24/expense">
           <Expense />
+        </Route>
+        <Route path="/alo24/directdoctors">
+          <DirectDoctors />
+        </Route>
+        <Route path="/alo24/directservice">
+          <DirectServices />
         </Route>
         <Redirect to="/alo24" />
       </Switch>
