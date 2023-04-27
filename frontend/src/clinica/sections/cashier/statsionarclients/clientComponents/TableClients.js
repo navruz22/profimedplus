@@ -199,8 +199,8 @@ export const TableClients = ({
                             </div>
                         </div>
                     </div>
-                    <table className="table m-0 table-sm">
-                        <thead>
+                    <table className="overflow-scroll table m-0 table-sm" style={{ display: "block", maxHeight: "600px", width: "100%" }}>
+                        <thead style={{ position: "sticky", top: "0" }}>
                             <tr>
                                 <th className="border py-1 bg-alotrade text-[16px]">№</th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
@@ -350,7 +350,7 @@ export const TableClients = ({
                                         >
                                             {currentPage * countPage + key + 1}
                                         </td>
-                                        <td className="border py-1 text-[16px] font-weight-bold">
+                                        <td style={{ minWidth: "300px" }} className="border py-1 text-[16px] font-weight-bold">
                                             {connector.client.lastname +
                                                 " " +
                                                 connector.client.firstname}
@@ -415,6 +415,38 @@ export const TableClients = ({
                                     </tr>
                                 );
                             })}
+                            <tr>
+                                <td
+                                    colSpan={2}
+                                    className={`border py-1 font-weight-bold text-right text-[16px]`}
+                                >
+                                    <div className="flex justify-between">
+                                        <div>Qoldiq: {connectors.reduce((prev, connector) => {
+                                            let payments = connector.payments.reduce((prev, el) => prev + el.payment, 0)
+                                            return prev + payments
+                                        }, 0)}</div>
+                                    </div>
+                                </td>
+                                <td className="border py-1 text-[16px] font-weight-bold"></td>
+                                <td className="border py-1 text-[16px] text-right"></td>
+                                <td className="border py-1 text-[16px] text-right"></td>
+                                <td className="border py-1 text-[16px] text-right font-bold">
+                                    {connectors.reduce((prev, connector) => prev + (getTotalprice(connector) || 0), 0)}
+                                </td>
+                                <td className="border py-1 text-[16px] text-right font-bold">
+                                    {connectors.reduce((prev, connector) => prev + connector.payments.reduce((sum, payment) => sum + payment.payment, 0), 0)}
+                                </td>
+                                <td className="border py-1 text-[16px] text-right font-bold">
+                                    {connectors.reduce((prev, el) => prev + (el?.discount?.discount || 0), 0)}
+                                </td> 
+                                <td className="border py-1 text-[16px] text-right font-bold">
+                                    {connectors.reduce((prev, connector) => prev + getDebt(connector), 0)}
+                                </td>
+                                {!location.pathname.includes('/alo24/statsionarreport') && <td className="border py-1 text-[16px] text-center">
+                                </td>}
+                                <td className="border py-1 text-[16px] text-center">
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table className="table m-0 table-sm d-none" id='statsionarreport-table'>

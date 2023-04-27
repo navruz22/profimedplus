@@ -94,7 +94,7 @@ const MainReport = () => {
     async (beginDay, endDay, clinica) => {
       try {
         const data = await request(
-          `/api/cashier/offline/getall`,
+          `/api/cashier/offline/payments/getall`,
           'POST',
           { clinica: clinica, beginDay, endDay },
           {

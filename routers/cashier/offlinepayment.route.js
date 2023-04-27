@@ -189,3 +189,124 @@ module.exports.getAll = async (req, res) => {
         res.status(501).json({ error: "Serverda xatolik yuz berdi..." });
     }
 };
+
+module.exports.getPayments = async (req, res) => {
+    try {
+        const { clinica, beginDay, endDay, clientborn } = req.body;
+        const clinic = await Clinica.findById(clinica);
+
+        if (!clinic) {
+            return res.status(400).json({
+                message: "Diqqat! Klinika ma'lumotlari topilmadi.",
+            });
+        }
+
+        let connectors = null;
+
+        if (clientborn) {
+            connectors = await OfflinePayment.find({
+                clinica
+            })
+                .sort({ createdAt: -1 })
+                .select("-__v -updatedAt -isArchive")
+                .populate("client", "-updatedAt -isArchive -__v")
+                .populate("discount", "-updatedAt -isArchive -__v")
+                .populate({
+                    path: "connector",
+                    select: "-__v -updatedAt -isArchive",
+                    populate: {
+                        path: "services",
+                        select: "-__v -updatedAt -isArchive",
+                        populate: {
+                            path: "department",
+                            select: "room name"
+                        }
+                    }
+                })
+                .populate({
+                    path: "connector",
+                    select: "-__v -updatedAt -isArchive",
+                    populate: {
+                        path: "products",
+                        select: "-__v -updatedAt -isArchive",
+                    }
+                })
+                .populate({
+                    path: "connector",
+                    select: "-__v -updatedAt -isArchive",
+                    populate: {
+                        path: "payments",
+                        select: "-__v -updatedAt -isArchive",
+                    }
+                })
+                .populate({
+                    path: "connector",
+                    select: "-__v -updatedAt -isArchive",
+                    populate: {
+                        path: "discount",
+                        select: "-__v -updatedAt -isArchive",
+                    }
+                })
+                .lean()
+                .then(connectors => {
+                    return connectors.filter(connector => {
+                        return new Date(new Date(connector.client.born).setUTCHours(0, 0, 0, 0)).toISOString() === new Date(new Date(clientborn).setUTCHours(0, 0, 0, 0)).toISOString()
+                    });
+                })
+        } else {
+
+            connectors = await OfflinePayment.find({
+                clinica,
+                createdAt: {
+                    $gte: beginDay,
+                    $lte: endDay,
+                },
+            })
+                .sort({ createdAt: -1 })
+                .select("-__v -updatedAt -isArchive")
+                .populate("client", "-updatedAt -isArchive -__v")
+                .populate("discount", "-updatedAt -isArchive -__v")
+                .populate({
+                    path: "connector",
+                    select: "-__v -updatedAt -isArchive",
+                    populate: {
+                        path: "services",
+                        select: "-__v -updatedAt -isArchive",
+                        populate: {
+                            path: "department",
+                            select: "room name"
+                        }
+                    }
+                })
+                .populate({
+                    path: "connector",
+                    select: "-__v -updatedAt -isArchive",
+                    populate: {
+                        path: "products",
+                        select: "-__v -updatedAt -isArchive",
+                    }
+                })
+                .populate({
+                    path: "connector",
+                    select: "-__v -updatedAt -isArchive",
+                    populate: {
+                        path: "payments",
+                        select: "-__v -updatedAt -isArchive",
+                    }
+                })
+                .populate({
+                    path: "connector",
+                    select: "-__v -updatedAt -isArchive",
+                    populate: {
+                        path: "discount",
+                        select: "-__v -updatedAt -isArchive",
+                    }
+                })
+                .lean()
+        }
+
+        res.status(200).send(connectors);
+    } catch (error) {
+        res.status(501).json({ error: "Serverda xatolik yuz berdi..." });
+    }
+}

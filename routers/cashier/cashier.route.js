@@ -10,6 +10,10 @@ router.post('/offline/getall', auth, (req, res) => {
     require('./offlinepayment.route').getAll(req, res)
 })
 
+router.post('/offline/payments/getall', auth, (req, res) => {
+    require('./offlinepayment.route').getPayments(req, res)
+})
+
 router.post('/offline/discounts', auth, (req, res) => {
     require('./discount.route').offline(req, res)
 })

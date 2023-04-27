@@ -5,7 +5,7 @@ import { ClinicaRegister } from '../loginAndRegister/ClinicaRegister';
 import { DirectorRegistor } from '../loginAndRegister/DirectorRegistor';
 import { Modal } from '../sections/director/users/modal/Modal';
 import { ClinicasTable } from './components/ClinicasTable';
-
+ 
 const RegisterClinica = () => {
 
     //====================================================================
