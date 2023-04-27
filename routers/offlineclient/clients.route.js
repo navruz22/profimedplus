@@ -668,12 +668,21 @@ module.exports.getAll = async (req, res) => {
                 $lt: endDay,
             },
         })
-            .sort({ createdAt: -1 })
-            .populate('client', '-createdAt -updatedAt -isArchive -__v')
-            .populate('payments')
+            .sort({createdAt: -1})
+            .select('-__v -updatedAt -isArchive')
+            .populate('clinica', 'name phone1 image')
+            .populate("client", "lastname firstname fullname born id phone address")
             .populate({
-                path: 'services',
-                select: "-updatedAt -isArchive -__v",
+                path: "services",
+                select: "service serviceid accept refuse column tables turn connector client files department",
+                populate: {
+                    path: "service",
+                    select: "price"
+                }
+            })
+            .populate({
+                path: "services",
+                select: "service serviceid accept refuse column tables turn connector client files department",
                 populate: {
                     path: "serviceid",
                     select: "servicetype",
@@ -683,7 +692,24 @@ module.exports.getAll = async (req, res) => {
                     }
                 }
             })
-            .populate('products')
+            .populate({
+                path: "services",
+                select: "service serviceid accept refuse column tables turn connector client files department",
+                populate: {
+                    path: "templates",
+                    select: "name template",
+                }
+            })
+            .populate({
+                path: "services",
+                select: "service serviceid accept refuse column tables turn connector client files department",
+                populate: {
+                    path: 'department',
+                    select: "probirka"
+                }
+            })
+            .populate('payments')
+            .lean()
 
         res.status(200).send(connectors)
     } catch (error) {
@@ -748,7 +774,7 @@ module.exports.getAllReseption = async (req, res) => {
                 .populate('products', '_id product pieces')
                 .sort({ _id: -1 })
         }
-        
+
         res.status(200).send(connectors)
     } catch (error) {
         console.log(error);
@@ -925,7 +951,7 @@ module.exports.getTurns = async (req, res) => {
 module.exports.registerOnline = async (req, res) => {
     try {
         const connector = req.body;
-        const client = {...connector.client};
+        const client = { ...connector.client };
         const services = [...connector.services];
         const products = [...connector.products];
 
@@ -955,7 +981,7 @@ module.exports.registerOnline = async (req, res) => {
         //         error: checkOfflineConnector.message,
         //     })
         // }
-       
+
         //=========================================================
         // CreateClient
         const id =
@@ -986,7 +1012,7 @@ module.exports.registerOnline = async (req, res) => {
             ...connector,
             client: newclient._id,
             probirka,
-            createdAt: new Date(), 
+            createdAt: new Date(),
             updatedAt: new Date()
         })
         await newconnector.save()
@@ -1064,7 +1090,7 @@ module.exports.registerOnline = async (req, res) => {
                 turn++
             }
 
-            
+
             //=========================================================
             // Create Service
             const serv = await Service.findById(service.serviceid)
@@ -1086,7 +1112,7 @@ module.exports.registerOnline = async (req, res) => {
                 turn,
                 column: { ...serv.column },
                 tables: [...JSON.parse(JSON.stringify(serv.tables))],
-                createdAt: new Date(), 
+                createdAt: new Date(),
                 updatedAt: new Date(),
             })
             // console.log(newservice);
@@ -1120,7 +1146,7 @@ module.exports.registerOnline = async (req, res) => {
                 ...product,
                 client: newclient._id,
                 connector: newconnector._id,
-                createdAt: new Date(), 
+                createdAt: new Date(),
                 updatedAt: new Date(),
             })
 

@@ -18,7 +18,7 @@ const Print = ({ client, connector, sections, baseUrl, clinica, qr }) => {
                 }
                 return prev;
               }, [])
-          
+        
               let servicetypes = []
               for (const type of servicetypesAll) {
                 sections.map((service) => {
@@ -41,7 +41,6 @@ const Print = ({ client, connector, sections, baseUrl, clinica, qr }) => {
                   return service;
                 })
               }
-          
               const servicesmore = [...servicetypesAll].reduce((prev, el) => {
                 sections.map((service) => {
                   if (service.serviceid.servicetype.name === el && service.tables.length > 2) {

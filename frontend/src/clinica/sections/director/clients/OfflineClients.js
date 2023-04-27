@@ -143,7 +143,7 @@ const OfflineClients = () => {
         (e) => {
             setCurrentPage(0)
             setCountPage(e.target.value)
-            setCurrentClients(searchStorage.slice(0, countPage))
+            setCurrentClients(searchStorage.slice(0, e.target.value))
         }
 
 
@@ -186,10 +186,7 @@ const OfflineClients = () => {
                     style={{ fontFamily: "times" }}
                 >
                     <Print
-                        doctor={auth.doctor}
-                        sections={printBody.services}
                         baseUrl={baseUrl}
-                        client={printBody.client}
                         clinica={auth && auth.clinica}
                         connector={printBody}
                     />

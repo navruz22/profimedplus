@@ -260,7 +260,6 @@ const AdoptionTemplate = () => {
       }
       return prev;
     }, [])
-
     let servicetypes = []
     for (const type of servicetypesAll) {
       services.map((service) => {
@@ -283,7 +282,6 @@ const AdoptionTemplate = () => {
         return service;
       })
     }
-
     const servicesmore = [...servicetypesAll].reduce((prev, el) => {
       services.map((service) => {
         if (service.serviceid.servicetype.name === el && service.tables.length > 2) {
@@ -297,7 +295,6 @@ const AdoptionTemplate = () => {
       })
       return prev;
     }, [])
-
     setSections([...servicetypes, ...servicesmore])
 
   }, [services]);

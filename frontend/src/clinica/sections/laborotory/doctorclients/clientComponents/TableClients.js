@@ -11,6 +11,7 @@ import { Pagination } from "../../components/Pagination";
 import { DatePickers } from "./DatePickers";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import { useHistory } from "react-router-dom";
+import { Modal } from "../../../reseption/components/Modal";
 
 export const TableClients = ({
   changeStart,
@@ -32,6 +33,19 @@ export const TableClients = ({
 
   const history = useHistory()
   const [clientBorn, setClientBorn] = useState('')
+
+  const [modal, setModal] = useState(false)
+  const [debt, setDebt] = useState(0)
+
+  const isDebt = (payments) => {
+    const debt = payments.reduce((prev, item) => prev + item.debt, 0)
+    if (debt > 0) {
+      return 'bg-red-400'
+    } else {
+      return ""
+    }
+  }
+
   return (
     <div className="shadow-lg border-alotrade table-container">
       <div className="table-responsive">
@@ -276,8 +290,15 @@ export const TableClients = ({
               return (
                 <tr key={key}>
                   <td
-                    className="border py-1 font-weight-bold text-right text-[16px]"
+                    className={`${isDebt(connector.payments)} border text-[16px] py-1 font-weight-bold text-right`}
                     style={{ maxWidth: "30px !important" }}
+                    onClick={() => {
+                      const debt = connector.payments.reduce((prev, item) => prev + item.debt, 0)
+                      if (debt > 0) {
+                        setDebt(debt)
+                        setModal(true)
+                      }
+                    }}
                   >
                     {currentPage * countPage + key + 1}
                   </td>
@@ -342,6 +363,12 @@ export const TableClients = ({
           </tbody>
         </table>
       </div>
+      <Modal
+        modal={modal}
+        text={""}
+        setModal={setModal}
+        basic={debt}
+      />
     </div>
   );
 };

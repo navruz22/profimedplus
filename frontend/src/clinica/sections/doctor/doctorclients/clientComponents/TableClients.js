@@ -15,6 +15,7 @@ import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import { useHistory } from "react-router-dom";
 import Select from "react-select";
 import makeAnimated from 'react-select/animated'
+import { Modal } from "../../../reseption/components/Modal";
 
 const animatedComponents = makeAnimated()
 
@@ -41,6 +42,19 @@ export const TableClients = ({
 }) => {
   const history = useHistory();
   const [clientBorn, setClientBorn] = useState('')
+
+  const [modal, setModal] = useState(false)
+  const [debt, setDebt] = useState(0)
+
+  const isDebt = (payments) => {
+    const debt = payments.reduce((prev, item) => prev + item.debt, 0)
+    if (debt > 0) {
+      return 'bg-red-400'
+    } else {
+      return ""
+    }
+  }
+
   return (
     <div className="border-0 shadow-lg table-container">
       <div className="border-0 table-container">
@@ -269,8 +283,15 @@ export const TableClients = ({
                   return (
                     <tr key={key}>
                       <td
-                        className="border text-[16px] py-1 font-weight-bold text-right"
+                        className={`${isDebt(connector.payments)} border text-[16px] py-1 font-weight-bold text-right`}
                         style={{ maxWidth: "30px !important" }}
+                        onClick={() => {
+                          const debt = connector.payments.reduce((prev, item) => prev + item.debt, 0)
+                          if (debt > 0) {
+                            setDebt(debt)
+                            setModal(true)
+                          }
+                        }}
                       >
                         {currentPage * countPage + key + 1}
                       </td>
@@ -359,6 +380,12 @@ export const TableClients = ({
           </table>
         </div>
       </div>
+      <Modal
+        modal={modal}
+        text={""}
+        setModal={setModal}
+        basic={debt}
+      />
     </div>
   );
 };

@@ -196,14 +196,11 @@ export const DoctorClients = () => {
   //===================================================================
   //===================================================================
 
-  const setPageSize = useCallback(
-    (e) => {
+  const setPageSize = (e) => {
       setCurrentPage(0);
       setCountPage(e.target.value);
-      setCurrentDoctorClients(doctorClients.slice(0, countPage));
-    },
-    [countPage, doctorClients]
-  );
+      setCurrentDoctorClients(doctorClients.slice(0, e.target.value));
+    }
 
   //====================================================================
   //====================================================================

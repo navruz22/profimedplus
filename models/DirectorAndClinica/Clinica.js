@@ -57,6 +57,7 @@ function validateClinica(clinica) {
     ifud1: Joi.string(),
     ifud2: Joi.string(),
     ifud3: Joi.string(),
+    close_date: Joi.date().optional()
   })
 
   return schema.validate(clinica)
@@ -64,3 +65,4 @@ function validateClinica(clinica) {
 
 module.exports.validateClinica = validateClinica
 module.exports.Clinica = model('Clinica', clinica)
+ 
