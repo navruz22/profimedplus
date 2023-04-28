@@ -148,5 +148,17 @@ router.post('/directdoctors/services/get', (req, res) => {
     require('./directdoctors').getDirectService(req, res)
 })
 
+//===============================================================
+//===============================================================
+
+router.post('/statsionardoctors/get', auth, (req, res) => {
+    require('./statsionardoctor').getStatsionarDoctor(req, res)
+})
+
+router.post('/statsionardoctors/room/get', auth, (req, res) => {
+    require('./statsionardoctor').getStatsionarRoom(req, res)
+})
+
+
 
 module.exports = router

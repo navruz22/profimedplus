@@ -1143,7 +1143,7 @@ const AdoptionTemplate = () => {
     </div>
     {type === 'doctor' && <DoctorTemplate clientsType={clientsType} baseUrl={baseUrl} client={client} connector={connector} services={services} />}
     {type === 'laboratory' && <LabTemplate client={client} connector={connector} services={services} baseUrl={baseUrl} />}
-    {type === 'all' && <DoctorResult client={client} connector={connectorData} clinica={auth?.clinica} baseUrl={baseUrl} />}
+    {type === 'all' && <DoctorResult client={client} connector={connectorData} user={auth?.user} clinica={auth?.clinica} baseUrl={baseUrl} />}
   </div>
 }
 

@@ -12,7 +12,7 @@ import ReactHtmlTableToExcel from 'react-html-table-to-excel';
 import { faAngleDown, faAngleUp, faPrint } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const DirectDoctors = () => {
+const StatsionarDoctor = () => {
 
     const [beginDay, setBeginDay] = useState(
         new Date(new Date().setUTCHours(0, 0, 0, 0))
@@ -72,7 +72,7 @@ const DirectDoctors = () => {
         async (beginDay, endDay) => {
             try {
                 const data = await request(
-                    `/api/doctor/directdoctors/get`,
+                    `/api/doctor/statsionardoctors/get`,
                     "POST",
                     { clinica: auth?.clinica._id, beginDay, endDay },
                     {
@@ -339,8 +339,8 @@ const DirectDoctors = () => {
                                                         ) : (
                                                             <button
                                                                 onClick={() => {
-                                                                    history.push('/alo24/directservice', {
-                                                                        doctorId: doctor._id
+                                                                    history.push('/alo24/statsionardoctors_room', {
+                                                                        doctor: doctor
                                                                     })
                                                                 }}
                                                                 type="button"
@@ -381,4 +381,4 @@ const DirectDoctors = () => {
     )
 }
 
-export default DirectDoctors;
+export default StatsionarDoctor;

@@ -2,7 +2,7 @@ import { useToast } from '@chakra-ui/react';
 import { faAngleDown, faAngleUp, faPrint } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useCallback, useContext, useEffect, useState } from 'react'
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { AuthContext } from '../../../context/AuthContext';
 import { useHttp } from '../../../hooks/http.hook';
 import { DatePickers } from '../../reseption/offlineclients/clientComponents/DatePickers';
@@ -206,6 +206,17 @@ const DoctorProcient = () => {
 
     return (
         <div className="bg-slate-100 content-wrapper px-lg-5 px-3">
+            <div className='flex justify-between items-center mb-4'>
+                <Link to='/alo24/doctor_procient' className="block px-4 py-2 rounded-xl text-[#fff] text-[21px] hover:text-[#fff] font-bold bg-alotrade">
+                    Kunduzgi shifokor ulushi
+                </Link>
+                <Link to='/alo24/statsionardoctors' className="block px-4 py-2 rounded-xl text-[#fff] text-[21px] hover:text-[#fff] font-bold bg-alotrade">
+                    Statsionar ulushi
+                </Link>
+                <Link to='/alo24/directdoctors' className="block px-4 py-2 rounded-xl text-[#fff] text-[21px] hover:text-[#fff] font-bold bg-alotrade">
+                    Yullanmadan ulushi
+                </Link>
+            </div>
             <div className="row gutters">
                 <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                     {auth?.clinica?.mainclinica && auth?.clinica?.filials.length > 0 && <div className="w-[300px] mb-2">
@@ -651,10 +662,10 @@ const DoctorProcient = () => {
 
                                             </td>
                                             <td className="border py-1 text-[16px] text-right">
-                                                
+
                                             </td>
                                             <td className="border py-1 text-[16px] text-center">
-                                            {searchStorage.reduce((prev, el) => prev + el.profit, 0)}
+                                                {searchStorage.reduce((prev, el) => prev + el.profit, 0)}
                                             </td>
                                         </tr>
                                     </tbody>

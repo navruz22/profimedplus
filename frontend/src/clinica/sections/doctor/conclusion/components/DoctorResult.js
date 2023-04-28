@@ -4,13 +4,14 @@ import { useReactToPrint } from "react-to-print";
 import '../../components/Print.css'
 import QRCode from "qrcode"
 
-const DoctorResult = ({ connector, clinica, baseUrl }) => {
+const DoctorResult = ({ connector, clinica, baseUrl, user }) => {
 
+    console.log(connector);
     const [doctorServices, setDoctorServices] = useState([])
     const [labServices, setLabServices] = useState([])
-    
+
     useEffect(() => {
-        setDoctorServices([...connector.services].filter(service => service.department.probirka == false));
+        setDoctorServices([...connector.services].filter(service => service.department.probirka === false));
         const serviceTypes = []
         const serviceIdArr = []
         for (const service of connector.services) {
@@ -55,14 +56,14 @@ const DoctorResult = ({ connector, clinica, baseUrl }) => {
     })
 
     const [qr, setQr] = useState()
-    
+
     useEffect(() => {
-      if (connector && baseUrl) {
-        QRCode.toDataURL(`${baseUrl}/clienthistory/laboratory/${connector?.connector?._id}`)
-          .then(data => {
-            setQr(data)
-          })
-      }
+        if (connector && baseUrl) {
+            QRCode.toDataURL(`${baseUrl}/clienthistory/laboratory/${connector?.connector?._id}`)
+                .then(data => {
+                    setQr(data)
+                })
+        }
     }, [connector, baseUrl])
 
     return (
@@ -201,8 +202,9 @@ const DoctorResult = ({ connector, clinica, baseUrl }) => {
                                         fontSize: "20px",
                                     }}
                                 >
-                                    {connector &&
-                                        new Date(connector?.room?.beginday).toLocaleDateString()}
+                                    {connector.clientsType === 'offline' ?
+                                        new Date(connector?.connector?.createdAt).toLocaleDateString() :
+                                        new Date(connector?.connector?.room?.beginday).toLocaleDateString()}
                                 </td>
                                 <td
                                     className="p-0 fw-bold"
@@ -277,6 +279,9 @@ const DoctorResult = ({ connector, clinica, baseUrl }) => {
                 <div className="mt-2 px-2 py-1 bg-gray-400 flex justify-between items-center">
                     <span className="text-[14px] font-bold">{clinica?.organitionName}</span>
                     <span className="text-[14px] font-bold">{clinica?.license}</span>
+                </div>
+                <div className="mt-4 flex justify-between items-center">
+                    <span className="text-[20px] font-bold">{user?.signature}</span>
                 </div>
                 <div className="row pt-2 w-full">
                     {doctorServices.length > 0 &&
@@ -526,8 +531,9 @@ const DoctorResult = ({ connector, clinica, baseUrl }) => {
                                             fontSize: "20px",
                                         }}
                                     >
-                                        {connector &&
-                                            new Date(connector?.room?.beginday).toLocaleDateString()}
+                                        {connector.clientsType === 'offline' ?
+                                            new Date(connector?.connector?.createdAt).toLocaleDateString() :
+                                            new Date(connector?.connector?.room?.beginday).toLocaleDateString()}
                                     </td>
                                     <td
                                         className="p-0 fw-bold"
@@ -603,13 +609,16 @@ const DoctorResult = ({ connector, clinica, baseUrl }) => {
                         <span className="text-[14px] font-bold">{clinica?.organitionName}</span>
                         <span className="text-[14px] font-bold">{clinica?.license}</span>
                     </div>
+                    <div className="mt-4 flex justify-between items-center">
+                        <span className="text-[20px] font-bold">{user?.signature}</span>
+                    </div>
                     <div className="pt-2">
                         {doctorServices.length > 0 &&
                             doctorServices.map((section, index) => (
                                 <div key={index} className={""}>
                                     {section.templates && section.templates.length > 0 &&
                                         section.templates.map((template, index) => (
-                                            <div style={{paddingRight: '0', paddingLeft: "0"}} className="container">
+                                            <div style={{ paddingRight: '0', paddingLeft: "0" }} className="container">
                                                 <div className="w-full flex justify-center items-center mb-1">
                                                     <h2 className="mx-auto block text-center text-[22px] font-bold">
                                                         {template?.name}

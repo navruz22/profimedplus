@@ -29,6 +29,8 @@ import { Rooms } from "./services/Rooms";
 import { Services } from "./services/Services";
 import { ServiceType } from "./services/ServiceType";
 import { Warehouses } from "./services/Warehouses";
+import StatsionarDoctor from "./statsionardoctor/StatsionarDoctor";
+import StatsionarRoomDoctor from "./statsionardoctor/StatsionarRoomDoctor";
 import { Users } from "./users/Users";
 
 export const DirectorRouter = () => {
@@ -126,6 +128,12 @@ export const DirectorRouter = () => {
         </Route>
         <Route path="/alo24/directservice">
           <DirectServices />
+        </Route>
+        <Route path="/alo24/statsionardoctors">
+          <StatsionarDoctor />
+        </Route>
+        <Route path="/alo24/statsionardoctors_room">
+          <StatsionarRoomDoctor />
         </Route>
         <Redirect to="/alo24" />
       </Switch>

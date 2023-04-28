@@ -396,13 +396,6 @@ export const Navbar = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link className="dropdown-item" to="/alo24/directdoctors"
-                    onClick={() => setActivePage('/alo24/directdoctors')}
-                  >
-                    Yunaltiruvchi shifokor
-                  </Link>
-                </li>
-                <li>
                   <Link className="dropdown-item" to="/alo24/nurse_profit"
                     onClick={() => setActivePage('/alo24/nurse_profit')}
                   >

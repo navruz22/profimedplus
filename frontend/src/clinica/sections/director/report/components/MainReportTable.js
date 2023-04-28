@@ -201,14 +201,14 @@ export const MainReportTable = ({
                                         property={"probirka"}
                                     />
                                 </th>
-                                <th className="border py-1 bg-alotrade text-[16px]">
+                                {/* <th className="border py-1 bg-alotrade text-[16px]">
                                     To'lov summasi
                                     <Sort
                                         data={currentConnectors}
                                         setData={setCurrentConnectors}
                                         property={"totalprice"}
                                     />
-                                </th>
+                                </th> */}
                                 <th className="border py-1 bg-alotrade text-[16px]">
                                     To'langan
                                     <div className="btn-group-vertical ml-2">
@@ -347,9 +347,9 @@ export const MainReportTable = ({
                                         <td className="border py-1 text-[16px] text-right">
                                             {connector?.connector?.probirka}
                                         </td>
-                                        <td className="border py-1 text-[16px] text-right">
+                                        {/* <td className="border py-1 text-[16px] text-right">
                                             {connector.payment < 0 || connector.isPayDebt ? 0 : connector?.total}
-                                        </td>
+                                        </td> */}
                                         <td className="border py-1 text-[16px] text-right">
                                             {connector.payment < 0 ? 0 : connector?.payment}
                                         </td>
@@ -411,11 +411,11 @@ export const MainReportTable = ({
                                 </td>
                                 <td className="border py-1 text-[16px] text-right font-bold">
                                 </td>
-                                <td className="border py-1 text-[16px] text-right font-bold">
+                                {/* <td className="border py-1 text-[16px] text-right font-bold">
                                     {searchStorage.reduce((prev, el) => prev + (el.payment < 0 || el.isPayDebt ? 0 : el?.total), 0)}
-                                </td>
+                                </td> */}
                                 <td className="border py-1 text-[16px] font-bold text-right">
-                                    {searchStorage.reduce((prev, el) => prev + (el.payment < 0 ? 0 : el?.payment), 0)}
+                                    {searchStorage.reduce((prev, el) => prev + el?.payment, 0)}
                                 </td>
                                 <td className="border py-1 text-[16px] font-bold text-right"> 
                                     {searchStorage.reduce((prev, el) => prev + el.cash, 0)}
