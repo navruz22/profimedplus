@@ -15,16 +15,12 @@ import Select from "react-select"
 
 const DirectServices = () => {
 
-    const { doctorId } = useLocation().state
+    const { doctorId, startDate, endDate } = useLocation().state
     //======================================================
     //======================================================
 
-    const [beginDay, setBeginDay] = useState(
-        new Date(new Date().setUTCHours(0, 0, 0, 0))
-    );
-    const [endDay, setEndDay] = useState(
-        new Date(new Date().setDate(new Date().getDate() + 1))
-    );
+    const [beginDay, setBeginDay] = useState(startDate);
+    const [endDay, setEndDay] = useState(endDate);
 
     //======================================================
     //======================================================
@@ -173,15 +169,15 @@ const DirectServices = () => {
     //=======================================================
     //=======================================================
 
-    const [t, setT] = useState(0);
+    // const [t, setT] = useState(0);
 
     useEffect(() => {
-        if (!t) {
-            setT(1)
-            getDirectDoctors(beginDay, endDay)
-            getDepartments()
-        }
-    }, [getDirectDoctors, getDepartments, t, beginDay, endDay])
+        getDirectDoctors(startDate, endDate)
+    }, [getDirectDoctors, startDate, endDate])
+
+    useEffect(() => {
+        getDepartments()
+    }, [getDepartments])
 
 
     return (
@@ -235,8 +231,8 @@ const DirectServices = () => {
                                 className="text-center ml-auto flex gap-2"
                                 style={{ overflow: 'hidden' }}
                             >
-                                <DatePickers changeDate={changeStart} />
-                                <DatePickers changeDate={changeEnd} />
+                                <DatePickers value={new Date(beginDay).toISOString().slice(0, 10)} changeDate={changeStart} />
+                                <DatePickers value={new Date(endDay).toISOString().slice(0, 10)} changeDate={changeEnd} />
                             </div>
                             <div className="text-center ml-auto mr-4">
                                 <Pagination

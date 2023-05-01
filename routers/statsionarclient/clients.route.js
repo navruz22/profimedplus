@@ -37,6 +37,7 @@ const { OfflineService } = require('../../models/OfflineClient/OfflineService')
 const { OfflineConnector } = require('../../models/OfflineClient/OfflineConnector')
 const { OfflinePayment } = require('../../models/Cashier/OfflinePayment')
 const { OfflineClient } = require('../../models/OfflineClient/OfflineClient')
+require('../../models/Users')
 // register
 module.exports.register = async (req, res) => {
     try {
@@ -765,6 +766,7 @@ module.exports.getAllReseption = async (req, res) => {
             .sort({ createdAt: -1 })
         res.status(200).send(connectors)
     } catch (error) {
+        console.log(error);
         res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
     }
 }

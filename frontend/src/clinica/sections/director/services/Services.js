@@ -426,7 +426,7 @@ export const Services = () => {
         }
     }
 
-    const searchName = 
+    const searchName =
         (e) => {
             const searching = searchStorage.filter((item) =>
                 item.name.toLowerCase().includes(e.target.value.toLowerCase()),
@@ -436,14 +436,17 @@ export const Services = () => {
         }
     //====================================================================
     //====================================================================
-    const setPageSize = useCallback(
-        (e) => {
+    const setPageSize = (e) => {
+        if (e.target.value === 'all') {
+            setCurrentPage(0)
+            setCountPage(services.length)
+            setCurrentServices(services)
+        } else {
             setCurrentPage(0)
             setCountPage(e.target.value)
             setCurrentServices(services.slice(0, e.target.value))
-        },
-        [services],
-    )
+        }
+    }
     //====================================================================
     //====================================================================
 

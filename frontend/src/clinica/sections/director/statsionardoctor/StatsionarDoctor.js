@@ -306,6 +306,33 @@ const StatsionarDoctor = () => {
                                                     />
                                                 </div>
                                             </th>
+                                            <th className="border py-1 bg-alotrade text-[16px]">
+                                                Umumiy ulushi
+                                                <div className="btn-group-vertical ml-2">
+                                                    <FontAwesomeIcon
+                                                        onClick={() =>
+                                                            setCurrentDoctors(
+                                                                [...currentDoctors].sort((a, b) =>
+                                                                    a.client.fullname > b.client.fullname ? 1 : -1
+                                                                )
+                                                            )
+                                                        }
+                                                        icon={faAngleUp}
+                                                        style={{ cursor: "pointer" }}
+                                                    />
+                                                    <FontAwesomeIcon
+                                                        icon={faAngleDown}
+                                                        style={{ cursor: "pointer" }}
+                                                        onClick={() =>
+                                                            setCurrentDoctors(
+                                                                [...currentDoctors].sort((a, b) =>
+                                                                    b.client.fullname > a.client.fullname ? 1 : -1
+                                                                )
+                                                            )
+                                                        }
+                                                    />
+                                                </div>
+                                            </th>
                                             <th className="border py-1 bg-alotrade text-[16px]"></th>
                                         </tr>
                                     </thead>
@@ -330,6 +357,9 @@ const StatsionarDoctor = () => {
                                                     <td className="border py-1 text-[16px] text-right">
                                                         {doctor?.total}
                                                     </td>
+                                                    <td className="border py-1 text-[16px] text-right">
+                                                        {doctor?.profit}
+                                                    </td>
                                                     <td className="border py-1 text-[16px] text-center">
                                                         {loading ? (
                                                             <button className="btn btn-success" disabled>
@@ -340,7 +370,9 @@ const StatsionarDoctor = () => {
                                                             <button
                                                                 onClick={() => {
                                                                     history.push('/alo24/statsionardoctors_room', {
-                                                                        doctor: doctor
+                                                                        doctor: doctor,
+                                                                        startDate: beginDay,
+                                                                        endDate: endDay,
                                                                     })
                                                                 }}
                                                                 type="button"
@@ -366,6 +398,9 @@ const StatsionarDoctor = () => {
                                             </td>
                                             <td className="border py-1 text-[16px] text-right font-bold">
                                                 {searchStorage.reduce((prev, el) => prev + (el.total || 0), 0)}
+                                            </td>
+                                            <td className="border py-1 text-[16px] text-right font-bold">
+                                                {searchStorage.reduce((prev, el) => prev + (el.profit || 0), 0)}
                                             </td>
                                             <td className="border py-1 text-[16px] text-center">
                                             </td>

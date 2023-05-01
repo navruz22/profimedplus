@@ -131,25 +131,43 @@ export const SmallCheck = ({ baseUrl, clinica, connector, qr }) => {
                         </div>
                     ))}
             </div>
-            <div
-                className="border-2 border-black-800 p-1 mt-2 flex justify-between items-center text-[24px] font-bold"
-            >
-                <div>Jami:</div>
-                <div>
-                    {connector.products &&
-                        connector.services &&
-                        connector.services.reduce((summ, service) => {
-                            return (
-                                summ +
-                                (service.refuse === false ? service.service.price * parseInt(service.pieces) : 0)
-                            )
-                        }, 0) +
-                        connector.products.reduce((summ, product) => {
-                            return (
-                                summ +
-                                product.product.price * parseInt(product.pieces)
-                            )
-                        }, 0)}
+            <div className="border-2 border-black-800">
+                <div
+                    className="p-1 mt-2 flex justify-between items-center text-[24px] font-bold"
+                >
+                    <div>Jami:</div>
+                    <div>
+                        {connector.products &&
+                            connector.services &&
+                            connector.services.reduce((summ, service) => {
+                                return (
+                                    summ +
+                                    (service.refuse === false ? service.service.price * parseInt(service.pieces) : 0)
+                                )
+                            }, 0) +
+                            connector.products.reduce((summ, product) => {
+                                return (
+                                    summ +
+                                    product.product.price * parseInt(product.pieces)
+                                )
+                            }, 0)}
+                    </div>
+                </div>
+                <div className=" p-1 mt-2 flex justify-between items-center text-[24px] font-bold">
+                    <div>Chegirma:</div>
+                    <div>{connector?.discount?.discount || 0}</div>
+                </div>
+                <div className="p-1 mt-2 flex justify-between items-center text-[24px] font-bold">
+                    <div>Qaytarilgan:</div>
+                    <div>{connector && connector.services && connector.products && (connector.services.reduce((prev, el) => prev + (el.refuse && el.service.price || 0), 0) + connector.products.reduce((prev, el) => prev + (el.refuse && el.product.price || 0), 0))}</div>
+                </div>
+                <div className="p-1 mt-2 flex justify-between items-center text-[24px] font-bold">
+                    <div>Qarz:</div>
+                    <div>{connector && connector.payments && connector.payments.reduce((prev, el) => prev + el.debt, 0) || 0}</div>
+                </div>
+                <div className="p-1 mt-2 flex justify-between items-center text-[24px] font-bold">
+                    <div>To'langan:</div>
+                    <div>{connector && connector.payments && connector.payments.reduce((prev, el) => prev + el.payment, 0) || 0}</div>
                 </div>
             </div>
             <div className="mt-4 w-full flex justify-center">

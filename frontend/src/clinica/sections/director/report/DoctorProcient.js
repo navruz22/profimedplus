@@ -460,11 +460,15 @@ const DoctorProcient = () => {
                                                                 onClick={() => {
                                                                     if (type === 'offline') {
                                                                         history.push('/alo24/doctor_procient_services', {
-                                                                            doctor
+                                                                            doctor,
+                                                                            startDate: beginDay,
+                                                                            endDate: endDay
                                                                         })
                                                                     } else {
                                                                         history.push('/alo24/doctor_procient_statsionar', {
-                                                                            doctor
+                                                                            doctor,
+                                                                            startDate: beginDay,
+                                                                            endDate: endDay
                                                                         })
                                                                     }
                                                                 }}

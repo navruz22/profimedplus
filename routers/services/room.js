@@ -156,7 +156,7 @@ module.exports.getnotbusy = async (req, res) => {
 //Room update
 module.exports.update = async (req, res) => {
   try {
-    const { _id, type, number, price, position, clinica, place } = req.body
+    const { _id, type, number, price, position, clinica, place, nurseProcient, doctorProcient } = req.body
 
     const clinic = await Clinica.findById(clinica)
 
@@ -173,11 +173,13 @@ module.exports.update = async (req, res) => {
         message: `Diqqat! ${number} xona ${place}  o'rin avval yaratilmagan.`,
       })
     }
-    room.type = type
-    room.price = price
-    room.number = number
-    room.position = position
-    room.place = place
+    room.type = type;
+    room.price = price;
+    room.number = number;
+    room.position = position;
+    room.place = place;
+    room.nurseProcient = nurseProcient;
+    room.doctorProcient = doctorProcient;
     await room.save()
 
     res.send(room)

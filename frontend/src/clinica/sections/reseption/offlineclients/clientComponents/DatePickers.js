@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import DatePicker from 'react-datepicker'
 
-export const DatePickers = ({ changeDate }) => {
+export const DatePickers = ({ changeDate, value }) => {
   const [startDate, setStartDate] = useState(new Date())
   const years = Array.from(
     { length: 80 },
@@ -30,6 +30,7 @@ export const DatePickers = ({ changeDate }) => {
         onSelect={(e) => {
           changeDate(e)
         }}
+        value={value}
         dateFormat="dd/MM/yyyy"
         renderCustomHeader={({
           date,

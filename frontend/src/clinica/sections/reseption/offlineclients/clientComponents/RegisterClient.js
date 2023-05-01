@@ -32,50 +32,47 @@ export const RegisterClient = ({
     servicetypes
 }) => {
 
-    const [services, setServices] = useState([])
-
+    const [services, setServices] = useState([]);
     const getServices = useCallback(
         (e) => {
-            let s = []
-            if (e === 'all') {
-                servicetypes.map((servicetype) => {
-                    return servicetype.services.map((service) => {
+            var s = [];
+            if (e === "all") {
+                departments.map((department) => {
+                    return department.services.map((service) => {
                         return s.push({
                             label: service.name,
                             value: service._id,
                             service: service,
-                            servicetype: servicetype,
-                            department: servicetype.department
-                        })
-                    })
-                })
+                            department: department,
+                        });
+                    });
+                });
             } else {
-                servicetypes.map((servicetype) => {
-                    if (e === servicetype._id) {
-                        servicetype.services.map((service) => {
+                departments.map((department) => {
+                    if (e === department._id) {
+                        department.services.map((service) => {
                             s.push({
                                 label: service.name,
                                 value: service._id,
                                 service: service,
-                                servicetype: servicetype,
-                                department: servicetype.department
-                            })
-                            return ''
-                        })
+                                department: department,
+                            });
+                            return "";
+                        });
                     }
-                    return ''
-                })
+                    return "";
+                });
             }
-            setServices(s)
+            setServices(s);
         },
-        [servicetypes],
-    )
-    
+        [departments]
+    );
+
     useEffect(() => {
-        if (servicetypes) {
-            getServices('all')
+        if (departments) {
+            getServices("all");
         }
-    }, [servicetypes, getServices])
+    }, [departments, getServices]);
     return (
         <>
             {/* Row start */}
@@ -362,19 +359,19 @@ export const RegisterClient = ({
                             <div className="row gutters">
                                 <div className="col-12">
                                     <div className="form-group">
-                                        <label htmlFor="fullName">Turi</label>
+                                        <label htmlFor="fullName">Bo'limlar</label>
                                         <select
                                             className="form-control form-control-sm selectpicker"
                                             placeholder="Reklamalarni tanlash"
                                             onChange={(event) => getServices(event.target.value)}
                                         >
-                                            <option value="all">Xizmat turlari</option>
-                                            {servicetypes.map((servicetype, index) => {
+                                            <option value="all"> Barcha bo'limlar</option>
+                                            {departments.map((department, index) => {
                                                 return (
-                                                    <option key={index} value={servicetype._id}>
-                                                        {servicetype.name}
+                                                    <option key={index} value={department._id}>
+                                                        {department.name}
                                                     </option>
-                                                )
+                                                );
                                             })}
                                         </select>
                                     </div>

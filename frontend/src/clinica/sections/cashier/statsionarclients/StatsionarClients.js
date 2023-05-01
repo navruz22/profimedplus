@@ -7,6 +7,7 @@ import { RegisterClient } from './clientComponents/RegisterClient'
 import { TableClients } from './clientComponents/TableClients'
 import { checkData, checkServices } from './checkData/checkData'
 import { CheckModal } from '../components/ModalCheck';
+import { CheckModalStatsionar } from '../../reseption/components/ModalCheckStatsionar';
 // import {
 //   checkClientData,
 //   checkProductsData,
@@ -890,8 +891,8 @@ export const StatsionarClients = () => {
                     </div>
                 </div>
             </div>
-
-            <CheckModal
+            
+            <CheckModalStatsionar
                 baseUrl={baseUrl}
                 connector={check}
                 modal={modal1}

@@ -756,7 +756,7 @@ export const OfflineClients = () => {
         if (auth.clinica && !t) {
             setT(1);
             getConnectors(beginDay, endDay);
-            getServiceTypes();
+            getDepartments();
             getCounterDoctors();
             getAdvers();
             getProducts();
@@ -769,7 +769,7 @@ export const OfflineClients = () => {
         t,
         getProducts,
         getCounterDoctors,
-        getServiceTypes,
+        getDepartments,
         getBaseUrl,
         beginDay,
         endDay,

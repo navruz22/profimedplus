@@ -15,17 +15,13 @@ import Select from "react-select"
 
 const StatsionarRoomDoctor = () => {
 
-    const { doctor } = useLocation().state
+    const { doctor, startDate, endDate } = useLocation().state
 
     //======================================================
     //======================================================
 
-    const [beginDay, setBeginDay] = useState(
-        new Date(new Date().setUTCHours(0, 0, 0, 0))
-    );
-    const [endDay, setEndDay] = useState(
-        new Date(new Date().setDate(new Date().getDate() + 1))
-    );
+    const [beginDay, setBeginDay] = useState(startDate);
+    const [endDay, setEndDay] = useState(endDate);
 
     //======================================================
     //======================================================
@@ -78,7 +74,7 @@ const StatsionarRoomDoctor = () => {
                 const data = await request(
                     `/api/doctor/statsionardoctors/room/get`,
                     "POST",
-                    { doctor: doctor._id, beginDay, endDay },
+                    { doctor: doctor._id, beginDay: beginDay, endDay: endDay },
                     {
                         Authorization: `Bearer ${auth.token}`,
                     }
@@ -152,7 +148,7 @@ const StatsionarRoomDoctor = () => {
         (e) => {
             if (e.target.value === 'all') {
                 setCurrentPage(0)
-                setCountPage(e.target.value)
+                setCountPage(doctors.length)
                 setCurrentDoctors(doctors)
             } else {
                 setCurrentPage(0)
@@ -164,7 +160,7 @@ const StatsionarRoomDoctor = () => {
     const searchFullname =
         (e) => {
             const searching = searchStorage.filter((item) =>
-                item.service.service.name
+                item.client.fullname
                     .toLowerCase()
                     .includes(e.target.value.toLowerCase()))
             setDoctors(searching)
@@ -174,15 +170,19 @@ const StatsionarRoomDoctor = () => {
     //=======================================================
     //=======================================================
 
-    const [t, setT] = useState(0);
+    // const [t, setT] = useState(0);
+
+    // useEffect(() => {
+    //     if (!t) {
+    //         setT(1)
+    //         getDirectDoctors(beginDay, endDay)
+    //         getDepartments()
+    //     }
+    // }, [getDirectDoctors, getDepartments, t, beginDay, endDay])
 
     useEffect(() => {
-        if (!t) {
-            setT(1)
-            getDirectDoctors(beginDay, endDay)
-            getDepartments()
-        }
-    }, [getDirectDoctors, getDepartments, t, beginDay, endDay])
+        getDirectDoctors(startDate, endDate)
+    }, [getDirectDoctors, startDate, endDate])
 
 
     return (
@@ -212,35 +212,15 @@ const StatsionarRoomDoctor = () => {
                                 style={{ minWidth: "100px" }}
                                 type="search"
                                 className="w-100 form-control form-control-sm selectpicker"
-                                placeholder="Xizmat"
-                            />
-                        </div>
-                        <div className="w-[300px]">
-                            <Select
-                                options={[
-                                    {
-                                        label: 'Xammasi',
-                                        value: "all"
-                                    },
-                                    ...departments
-                                ]}
-                                onChange={(e) => {
-                                    if (e.value === 'all') {
-                                        setDoctors(searchStorage)
-                                        setCurrentDoctors(searchStorage)
-                                    } else {
-                                        setDoctors([...searchStorage].filter(i => i.service.department._id === e.value))
-                                        setCurrentDoctors([...searchStorage].filter(i => i.service.department._id === e.value))
-                                    }
-                                }}
+                                placeholder="Mijoz"
                             />
                         </div>
                         <div
                             className="text-center ml-auto flex gap-2"
                             style={{ overflow: 'hidden' }}
                         >
-                            <DatePickers changeDate={changeStart} />
-                            <DatePickers changeDate={changeEnd} />
+                            <DatePickers value={new Date(beginDay).toISOString().slice(0, 10)} changeDate={changeStart} />
+                            <DatePickers value={new Date(endDay).toISOString().slice(0, 10)} changeDate={changeEnd} />
                         </div>
                         <div className="text-center ml-auto mr-4">
                             <Pagination
@@ -349,6 +329,33 @@ const StatsionarRoomDoctor = () => {
                                     </div>
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
+                                    Kuni
+                                    <div className="btn-group-vertical ml-2">
+                                        <FontAwesomeIcon
+                                            onClick={() =>
+                                                setCurrentDoctors(
+                                                    [...currentDoctors].sort((a, b) =>
+                                                        a.client.fullname > b.client.fullname ? 1 : -1
+                                                    )
+                                                )
+                                            }
+                                            icon={faAngleUp}
+                                            style={{ cursor: "pointer" }}
+                                        />
+                                        <FontAwesomeIcon
+                                            icon={faAngleDown}
+                                            style={{ cursor: "pointer" }}
+                                            onClick={() =>
+                                                setCurrentDoctors(
+                                                    [...currentDoctors].sort((a, b) =>
+                                                        b.client.fullname > a.client.fullname ? 1 : -1
+                                                    )
+                                                )
+                                            }
+                                        />
+                                    </div>
+                                </th>
+                                <th className="border py-1 bg-alotrade text-[16px]">
                                     Xona
                                     <div className="btn-group-vertical ml-2">
                                         <FontAwesomeIcon
@@ -402,6 +409,33 @@ const StatsionarRoomDoctor = () => {
                                         />
                                     </div>
                                 </th>
+                                <th className="border py-1 bg-alotrade text-[16px]">
+                                    Shifokor ulushi
+                                    <div className="btn-group-vertical ml-2">
+                                        <FontAwesomeIcon
+                                            onClick={() =>
+                                                setCurrentDoctors(
+                                                    [...currentDoctors].sort((a, b) =>
+                                                        a.client.fullname > b.client.fullname ? 1 : -1
+                                                    )
+                                                )
+                                            }
+                                            icon={faAngleUp}
+                                            style={{ cursor: "pointer" }}
+                                        />
+                                        <FontAwesomeIcon
+                                            icon={faAngleDown}
+                                            style={{ cursor: "pointer" }}
+                                            onClick={() =>
+                                                setCurrentDoctors(
+                                                    [...currentDoctors].sort((a, b) =>
+                                                        b.client.fullname > a.client.fullname ? 1 : -1
+                                                    )
+                                                )
+                                            }
+                                        />
+                                    </div>
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -424,6 +458,17 @@ const StatsionarRoomDoctor = () => {
                                             {new Date(doctor?.room?.endday).toLocaleDateString()}
                                         </td>
                                         <td className="border py-1 text-[16px] text-right">
+                                            {(Math.round(
+                                                Math.abs(
+                                                    (new Date(doctor?.room?.beginday).getTime()
+                                                        -
+                                                        new Date(doctor?.room?.endday).getTime())
+                                                    /
+                                                    (24 * 60 * 60 * 1000)
+                                                )
+                                            ))}
+                                        </td>
+                                        <td className="border py-1 text-[16px] text-right">
                                             {doctor?.room?.room?.number}
                                         </td>
                                         <td className="border py-1 text-[16px] text-right">
@@ -436,6 +481,17 @@ const StatsionarRoomDoctor = () => {
                                                     (24 * 60 * 60 * 1000)
                                                 )
                                             ) * doctor?.room?.room?.price)}
+                                        </td>
+                                        <td className="border py-1 text-[16px] text-right">
+                                            {doctor.room.room.doctorProcient <= 100 ? ((Math.round(
+                                                Math.abs(
+                                                    (new Date(doctor?.room?.beginday).getTime()
+                                                        -
+                                                        new Date(doctor?.room?.endday).getTime())
+                                                    /
+                                                    (24 * 60 * 60 * 1000)
+                                                )
+                                            ) * doctor?.room?.room?.price) / 100) * doctor.room.room.doctorProcient : doctor.room.room.doctorProcient}
                                         </td>
                                     </tr>
                                 );
@@ -450,6 +506,7 @@ const StatsionarRoomDoctor = () => {
                                 <td className="border py-1 text-[16px] text-center"></td>
                                 <td className="border py-1 text-[16px] text-right"></td>
                                 <td className="border py-1 text-[16px] text-center"></td>
+                                <td className="border py-1 text-[16px] text-center"></td>
                                 <td className="border py-1 text-[16px] text-right font-bold">
                                     {searchStorage.reduce((prev, el) => prev + ((Math.round(
                                         Math.abs(
@@ -460,6 +517,17 @@ const StatsionarRoomDoctor = () => {
                                             (24 * 60 * 60 * 1000)
                                         )
                                     ) * el?.room?.room?.price)), 0)}
+                                </td>
+                                <td className="border py-1 text-[16px] text-right font-bold">
+                                    {searchStorage.reduce((prev, el) => prev + el.room.room.doctorProcient <= 100 ? ((Math.round(
+                                        Math.abs(
+                                            (new Date(el?.room?.beginday).getTime()
+                                                -
+                                                new Date(el?.room?.endday).getTime())
+                                            /
+                                            (24 * 60 * 60 * 1000)
+                                        )
+                                    ) * el?.room?.room?.price) / 100) * el.room.room.doctorProcient : el.room.room.doctorProcient, 0)}
                                 </td>
                             </tr>
                         </tbody>

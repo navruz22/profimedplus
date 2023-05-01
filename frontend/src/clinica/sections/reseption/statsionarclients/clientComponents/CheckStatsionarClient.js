@@ -1,6 +1,7 @@
 import React from "react";
 
 const CheckStatsionarClient = ({ connector, qr, clinica, baseUrl }) => {
+  console.log(connector);
   return (
     <div className="container p-3">
       <div className="">
@@ -358,25 +359,49 @@ const CheckStatsionarClient = ({ connector, qr, clinica, baseUrl }) => {
                   <td className="text-right px-3 font-weight-bold" colSpan="4">
                     Jami to'lov:
                   </td>
-                  <td className=" text-right">To'lov</td>
+                  <td className="text-right">
+                    {(connector?.room?.endday ? Math.round(
+                      Math.abs(
+                        (new Date(connector?.room?.beginday).getTime()
+                          -
+                          new Date(connector?.room?.endday).getTime())
+                        /
+                        (24 * 60 * 60 * 1000)
+                      )
+                    ) * connector?.room?.room?.price : Math.round(
+                      Math.abs(
+                        (new Date(connector?.room?.beginday).getTime()
+                          -
+                          new Date().getTime())
+                        /
+                        (24 * 60 * 60 * 1000)
+                      )
+                    ) * connector?.room?.room?.price) + (connector?.services && connector?.services.length > 0 ? connector?.services.reduce((prev, service) => prev + (service.pieces + service.service.price), 0) : 0)}
+                  </td>
                 </tr>
-                <tr>
+                {!connector?.room?.endday && <tr>
                   <td className="text-right px-3 font-weight-bold" colSpan="4">
                     Oldindan to'lov:
                   </td>
-                  <td className=" text-right">Oldindan to'lov</td>
-                </tr>
-                <tr>
+                  <td className="text-right">{connector?.payments && connector?.payments.length > 0 ? connector?.payments.reduce((prev, el) => prev + el.payment, 0) : 0}</td>
+                </tr>}
+                {connector?.room?.endday && <tr>
                   <td className="text-right px-3 font-weight-bold" colSpan="4">
                     To'langan:
                   </td>
-                  <td className=" text-right">To'lov</td>
-                </tr>
+                  <td className=" text-right">{connector?.payments && connector?.payments.reduce((prev, el) => prev + el.payment, 0)}</td>
+                </tr>}
                 <tr>
                   <td className="text-right px-3 font-weight-bold" colSpan="4">
                     Qarz:
                   </td>
-                  <td className=" text-right">To'lov</td>
+                  <td className="text-right">{connector?.payments && connector?.payments.reduce((prev, el) => prev + el.debt, 0)}</td>
+                </tr>
+                <tr>
+                  <td className="text-right px-3 font-weight-bold" colSpan="4">
+                    Chegirma:
+                  </td>
+                  <td className="text-right">{connector?.discount?.discount}</td>
                 </tr>
               </tfoot>
             </table>

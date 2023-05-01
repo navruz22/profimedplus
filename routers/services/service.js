@@ -297,6 +297,7 @@ module.exports.update = async (req, res) => {
       doctorProcient,
       counterAgentProcient,
       counterDoctorProcient,
+      serviceroom
     } = req.body;
 
     const clinic = await Clinica.findById(clinica);
@@ -329,6 +330,7 @@ module.exports.update = async (req, res) => {
     service.doctorProcient = doctorProcient;
     service.counterAgentProcient = counterAgentProcient;
     service.counterDoctorProcient = counterDoctorProcient;
+    service.serviceroom = serviceroom;
 
     if (!service.servicetype && servicetype) {
       const serviceTypeUpdate1 = await ServiceType.findByIdAndUpdate(

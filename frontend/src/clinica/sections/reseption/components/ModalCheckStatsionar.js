@@ -22,7 +22,7 @@ export const CheckModalStatsionar = ({
   useEffect(() => {
     if (connector.client) {
       QRCode.toDataURL(
-        `${baseUrl.baseUrl}/clienthistorys/${connector._id}`
+        `${baseUrl}/clienthistorys/${connector._id}`
       ).then((data) => {
         setQr(data);
       });

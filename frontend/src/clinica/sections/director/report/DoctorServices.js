@@ -10,14 +10,6 @@ import { DatePickers } from '../../reseption/offlineclients/clientComponents/Dat
 import { Pagination } from '../components/Pagination';
 
 const DoctorServices = () => {
-
-    const [beginDay, setBeginDay] = useState(
-        new Date(new Date().setUTCHours(0, 0, 0, 0))
-    );
-    const [endDay, setEndDay] = useState(
-        new Date(new Date().setDate(new Date().getDate() + 1))
-    );
-
     //======================================================
     //======================================================
 
@@ -25,6 +17,9 @@ const DoctorServices = () => {
     const auth = useContext(AuthContext);
 
     const { state } = useLocation()
+
+    const [beginDay, setBeginDay] = useState(state?.startDate);
+    const [endDay, setEndDay] = useState(state?.endDate);
 
     console.log(state);
     //======================================================
@@ -68,12 +63,11 @@ const DoctorServices = () => {
                 const data = await request(
                     `/api/doctor_procient/get`,
                     "POST",
-                    { department: state?.doctor?.specialty?._id, beginDay, endDay },
+                    { department: state?.doctor?.specialty?._id, beginDay: beginDay, endDay: endDay },
                     {
                         Authorization: `Bearer ${auth.token}`,
                     }
                 );
-
                 setServices(data)
                 setSearchStrorage(data)
                 setCurrentServices(
@@ -132,14 +126,9 @@ const DoctorServices = () => {
     //=======================================================
     //=======================================================
 
-    const [t, setT] = useState(0);
-
     useEffect(() => {
-        if (auth.clinica && !t) {
-            setT(1)
-            getDoctorServices(beginDay, endDay)
-        }
-    }, [getDoctorServices, auth, t, beginDay, endDay])
+        getDoctorServices(state?.startDate, state?.endDate)
+    }, [getDoctorServices, state])
 
     return (
         <div className="bg-slate-100 content-wrapper px-lg-5 px-3">
@@ -175,8 +164,8 @@ const DoctorServices = () => {
                                         className="text-center ml-auto flex gap-2"
                                         style={{ overflow: 'hidden' }}
                                     >
-                                        <DatePickers changeDate={changeStart} />
-                                        <DatePickers changeDate={changeEnd} />
+                                        <DatePickers value={new Date(beginDay).toISOString().slice(0, 10)} changeDate={changeStart} />
+                                        <DatePickers value={new Date(endDay).toISOString().slice(0, 10)} changeDate={changeEnd} />
                                     </div>
                                     <div className="text-center ml-auto mr-4">
                                         <Pagination

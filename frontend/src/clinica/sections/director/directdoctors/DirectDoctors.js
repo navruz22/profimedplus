@@ -340,7 +340,9 @@ const DirectDoctors = () => {
                                                             <button
                                                                 onClick={() => {
                                                                     history.push('/alo24/directservice', {
-                                                                        doctorId: doctor._id
+                                                                        doctorId: doctor._id,
+                                                                        startDate: beginDay,
+                                                                        endDate: endDay
                                                                     })
                                                                 }}
                                                                 type="button"

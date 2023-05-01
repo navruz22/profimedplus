@@ -198,6 +198,8 @@ export const Rooms = () => {
     }
   }
 
+  console.log(room);
+
   const uploadAllRooms = useCallback(async () => {
     try {
       const data = await request(
@@ -344,14 +346,17 @@ export const Rooms = () => {
   )
   //====================================================================
   //====================================================================
-  const setPageSize = useCallback(
-    (e) => {
+  const setPageSize = (e) => {
+    if (e.target.value === 'all') {
+      setCurrentPage(0)
+      setCountPage(rooms.length)
+      setCurrentRooms(rooms)
+    } else {
       setCurrentPage(0)
       setCountPage(e.target.value)
       setCurrentRooms(rooms.slice(0, countPage))
-    },
-    [countPage, rooms],
-  )
+    }
+  }
   //====================================================================
   //====================================================================
 
