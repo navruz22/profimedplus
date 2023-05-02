@@ -3,6 +3,7 @@ import { Redirect, Route, Switch } from "react-router-dom";
 import Expense from "../cashier/expense/Expense";
 import { Advers } from "./adver/Advers";
 import AdverChart from "./adver_chart/AdverChart";
+import StatsionarClientHistory from "./clients/components/StatsionarClientHistory";
 import OfflineClients from "./clients/OfflineClients";
 import StatsionarClients from "./clients/StatsionarClients";
 import CounterAgent from "./counteragent/CounterAgent";
@@ -134,6 +135,9 @@ export const DirectorRouter = () => {
         </Route>
         <Route path="/alo24/statsionardoctors_room">
           <StatsionarRoomDoctor />
+        </Route>
+        <Route path="/alo24/statsionarclient_history">
+          <StatsionarClientHistory />
         </Route>
         <Redirect to="/alo24" />
       </Switch>

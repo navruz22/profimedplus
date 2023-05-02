@@ -275,8 +275,9 @@ export const DebtClients = () => {
   };
 
   const getPayment = (connector) => {
-    let obj = { ...connector, debt: 0, payment: connector.debt, }
-    obj[`${connector.type}`] = connector.debt;
+    let obj = { ...connector, debt: 0, payment: connector.debt, card: 0, transfer: 0 }
+    obj.cash = connector.debt;
+    obj.type = 'cash'
     setPayment(obj);
     setPayCount(connector.debt);
     setVisible(true);

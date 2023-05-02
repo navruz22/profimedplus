@@ -1,5 +1,5 @@
 import { useToast } from '@chakra-ui/react'
-import { faPrint } from '@fortawesome/free-solid-svg-icons'
+import { faPenAlt, faPrint } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { useReactToPrint } from 'react-to-print'
@@ -8,6 +8,7 @@ import { useHttp } from '../../../hooks/http.hook'
 import Print from './components/Print'
 import { Pagination } from '../components/Pagination'
 import { DatePickers } from '../../reseption/offlineclients/clientComponents/DatePickers'
+import { useHistory } from 'react-router-dom'
 
 const OfflineClients = () => {
 
@@ -24,6 +25,8 @@ const OfflineClients = () => {
 
     //=================================================
     //=================================================
+
+    const history = useHistory()
 
     //=================================================
     //=================================================
@@ -287,20 +290,20 @@ const OfflineClients = () => {
                                                         <td className="border-right text-[16px]">
                                                             {new Date(connector.client.born).toLocaleDateString()}
                                                         </td>
-                                                        <td className="border-right text-[16px] text-center">
+                                                        <td className="border py-1 text-center text-[16px]">
                                                             {loading ? (
-                                                                <button className="ml-2 btn btn-success" disabled>
+                                                                <button className="btn btn-success" disabled>
                                                                     <span className="spinner-border spinner-border-sm"></span>
                                                                     Loading...
                                                                 </button>
                                                             ) : (
                                                                 <button
                                                                     onClick={() =>
-                                                                        handlePrint(connector)
+                                                                        history.push("/alo24/statsionarclient_history", { connector, clinica: auth?.clinica, user: auth?.user, baseUrl })
                                                                     }
-                                                                    className="ml-2 btn btn-success py-0"
+                                                                    className="btn btn-primary py-0"
                                                                 >
-                                                                    <FontAwesomeIcon icon={faPrint} />
+                                                                    <FontAwesomeIcon icon={faPenAlt} />
                                                                 </button>
                                                             )}
                                                         </td>

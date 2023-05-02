@@ -98,15 +98,9 @@ const StatsionarClients = () => {
                         Authorization: `Bearer ${auth.token}`,
                     }
                 );
-                setConnectors([...data].filter(
-                    (item) => item?.room?.endday === null
-                ));
-                setSearchStrorage(data);
-                setCurrentConnectors(
-                    [...data].filter(
-                        (item) => item?.room?.endday === null
-                    ).slice(indexFirstConnector, indexLastConnector)
-                );
+                setConnectors([...data]);
+                setSearchStrorage([...data]);
+                setCurrentConnectors([...data].slice(indexFirstConnector, indexLastConnector));
             } catch (error) {
                 notify({
                     title: error,
@@ -293,6 +287,7 @@ const StatsionarClients = () => {
         if (auth.clinica && !t) {
             setT(1);
             getConnectors(beginDay, endDay);
+            getBaseUrl()
         }
     }, [
         getConnectors,
@@ -340,6 +335,9 @@ const StatsionarClients = () => {
                             searchBornDay={searchBornDay}
                             searchFinished={searchFinished}
                             searchDoctor={searchDoctor}
+                            baseUrl={baseUrl}
+                            clinica={auth?.clinica}
+                            user={auth?.user}
                         />
                     </div>
                 </div>

@@ -154,6 +154,12 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                       className="text-center text-black border py-0 "
                       style={{ fontSize: '18px', fontFamily: 'times' }}
                     >
+                      Xona
+                    </th>
+                    <th
+                      className="text-center text-black border py-0 "
+                      style={{ fontSize: '18px', fontFamily: 'times' }}
+                    >
                       Navbat
                     </th>
                     <th
@@ -185,6 +191,9 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                             </td>
                             <td className="py-0 border pl-2 font-weight-bold">
                               {service.service.name}
+                            </td>
+                            <td className="py-0 border pl-2 font-weight-bold">
+                              {service?.department?.room}
                             </td>
                             <td className="py-0 border pl-2 text-right">
                               {service.turn}
@@ -249,6 +258,12 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                       className="text-center text-black border py-0 "
                       style={{ fontSize: '11pt', fontFamily: 'times' }}
                     >
+                      Xona
+                    </th>
+                    <th
+                      className="text-center text-black border py-0 "
+                      style={{ fontSize: '11pt', fontFamily: 'times' }}
+                    >
                       Navbat
                     </th>
                     <th
@@ -279,6 +294,9 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                           </td>
                           <td className="py-0 border pl-2 font-weight-bold">
                             {service.service.name}
+                          </td>
+                          <td className="py-0 border pl-2 font-weight-bold">
+                            {service?.department?.room}
                           </td>
                           <td className="py-0 border pl-2 text-right">
                             {service.turn}
@@ -509,6 +527,12 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                       className="text-center text-black border py-0 "
                       style={{ fontSize: '18px', fontFamily: 'times' }}
                     >
+                      Xona
+                    </th>
+                    <th
+                      className="text-center text-black border py-0 "
+                      style={{ fontSize: '18px', fontFamily: 'times' }}
+                    >
                       Navbat
                     </th>
                     <th
@@ -540,6 +564,9 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                             </td>
                             <td className="py-0 border pl-2 font-weight-bold">
                               {service.service.name}
+                            </td>
+                            <td className="py-0 border pl-2 font-weight-bold">
+                              {service?.department?.name}
                             </td>
                             <td className="py-0 border pl-2 text-right">
                               {service.turn}

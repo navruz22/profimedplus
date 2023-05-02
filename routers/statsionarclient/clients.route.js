@@ -38,6 +38,8 @@ const { OfflineConnector } = require('../../models/OfflineClient/OfflineConnecto
 const { OfflinePayment } = require('../../models/Cashier/OfflinePayment')
 const { OfflineClient } = require('../../models/OfflineClient/OfflineClient')
 require('../../models/Users')
+require('../../models/Services/Department')
+require('../../models/Services/ServiceType')
 // register
 module.exports.register = async (req, res) => {
     try {
@@ -75,7 +77,7 @@ module.exports.register = async (req, res) => {
         //=========================================================
         // CreateClient
         let id = ''
- 
+
         if (client && client.id) {
             id = 'S' + client.id
         } else {
@@ -759,7 +761,34 @@ module.exports.getAllReseption = async (req, res) => {
         })
             .select('client doctor createdAt services products room diagnosis')
             .populate('client', 'firstname lastname fullname born phone national id address gender')
-            .populate("services", 'service pieces createdAt')
+            .populate({
+                path: "services",
+                select: "service serviceid accept refuse column createdAt tables turn connector client files department",
+                populate: {
+                    path: "serviceid",
+                    select: "servicetype",
+                    populate: {
+                        path: "servicetype",
+                        select: "name"
+                    }
+                }
+            })
+            .populate({
+                path: "services",
+                select: "service serviceid accept refuse column createdAt tables turn connector client files department",
+                populate: {
+                    path: "templates",
+                    select: "name template",
+                }
+            })
+            .populate({
+                path: "services",
+                select: "service serviceid accept refuse column createdAt tables turn connector client files department",
+                populate: {
+                    path: 'department',
+                    select: "probirka"
+                }
+            })
             .populate("products", 'product pieces createdAt')
             .populate("doctor", 'firstname lastname')
             .populate("room")

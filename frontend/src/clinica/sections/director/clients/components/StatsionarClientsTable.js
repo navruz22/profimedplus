@@ -1,6 +1,7 @@
-import { faAngleDown, faAngleUp, faPrint } from '@fortawesome/free-solid-svg-icons';
+import { faAngleDown, faAngleUp, faPenAlt, faPrint } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react'
+import { useHistory } from 'react-router-dom';
 import { Pagination } from '../../../reseption/components/Pagination';
 import { DatePickers } from '../../../reseption/statsionarclients/clientComponents/DatePickers';
 import { Sort } from '../../../reseption/statsionarclients/clientComponents/Sort';
@@ -24,7 +25,13 @@ const StatsionarClientsTable = ({
     searchBornDay,
     searchFinished,
     searchDoctor,
+    clinica,
+    user,
+    baseUrl
 }) => {
+
+    const history = useHistory()
+
     return (
         <div className="border-0 shadow-lg table-container">
             <div className="border-0 table-container">
@@ -111,7 +118,7 @@ const StatsionarClientsTable = ({
                                 >
                                     <DatePickers changeDate={changeEnd} />
                                 </th>
-                                <th className="text-center" style={{ maxWidth: "120px" }}>
+                                <th colSpan={2} className="text-center" style={{ maxWidth: "120px" }}>
                                     <select
                                         className="form-control form-control-sm selectpicker"
                                         placeholder="Doctors"
@@ -293,6 +300,7 @@ const StatsionarClientsTable = ({
                                     />
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px] text-center">Chek</th>
+                                <th className="border py-1 bg-alotrade text-[16px] text-center"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -354,6 +362,23 @@ const StatsionarClientsTable = ({
                                                     }}
                                                 >
                                                     <FontAwesomeIcon icon={faPrint} />
+                                                </button>
+                                            )}
+                                        </td>
+                                        <td className="border py-1 text-center text-[16px]">
+                                            {loading ? (
+                                                <button className="btn btn-success" disabled>
+                                                    <span className="spinner-border spinner-border-sm"></span>
+                                                    Loading...
+                                                </button>
+                                            ) : (
+                                                <button
+                                                    onClick={() =>
+                                                        history.push("/alo24/statsionarclient_history", { connector, clinica, user, baseUrl })
+                                                    }
+                                                    className="btn btn-primary py-0"
+                                                >
+                                                    <FontAwesomeIcon icon={faPenAlt} />
                                                 </button>
                                             )}
                                         </td>
