@@ -169,7 +169,7 @@ module.exports.prepayment = async (req, res) => {
 //Clients getall
 module.exports.getAll = async (req, res) => {
     try {
-        const { clinica, beginDay, endDay, clientborn } = req.body
+        const { clinica, beginDay, endDay, clientborn, type } = req.body
         const clinic = await Clinica.findById(clinica)
 
         if (!clinic) {
@@ -195,12 +195,39 @@ module.exports.getAll = async (req, res) => {
                 .then(connectors => connectors.filter(connector =>
                     new Date(new Date(connector.client.born).setUTCHours(0, 0, 0, 0)).toISOString() === new Date(new Date(clientborn).setUTCHours(0, 0, 0, 0)).toISOString()
                 ))
-        } else {
+        } else if (type === 'done') {
+            connectors = await StatsionarConnector.find({
+                clinica
+            })
+                .populate('client', '-updatedAt -isArchive -__v')
+                .populate('services')
+                .populate('products')
+                .populate('room')
+                .populate('payments')
+                .populate('discount')
+                .then(statsionars => statsionars.filter(s => s?.room?.endday && (new Date(new Date(s?.room?.endday).setUTCHours(0, 0, 0, 0)).toISOString() >= new Date(new Date(beginDay).setUTCHours(0, 0, 0, 0)).toISOString() && new Date(new Date(s?.room?.endday).setUTCHours(0, 0, 0, 0)).toISOString() <= new Date(new Date(endDay).setUTCHours(0, 0, 0, 0)).toISOString())))
+        } else if (type === 'continue') {
             connectors = await StatsionarConnector.find({
                 clinica,
                 createdAt: {
                     $gte: beginDay,
-                    $lt: endDay,
+                    $lte: endDay,
+                }
+            })
+                .populate('client', '-updatedAt -isArchive -__v')
+                .populate('services')
+                .populate('products')
+                .populate('room')
+                .populate('payments')
+                .populate('discount')
+                .then(statsionars => statsionars.filter(s => s?.room?.endday === null))
+        }
+        else {
+            connectors = await StatsionarConnector.find({
+                clinica,
+                createdAt: {
+                    $gte: beginDay,
+                    $lte: endDay,
                 },
             })
                 .populate('client', '-updatedAt -isArchive -__v')
@@ -209,7 +236,7 @@ module.exports.getAll = async (req, res) => {
                 .populate('room')
                 .populate('payments')
                 .populate('discount')
-                .sort({ _id: -1 })
+                .sort({ createdAt: -1 })
         }
 
         res.status(200).send(connectors)

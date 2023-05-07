@@ -88,12 +88,12 @@ export const StatsionarClients = () => {
     const [searchStorage, setSearchStrorage] = useState([])
 
     const getConnectors = useCallback(
-        async (beginDay, endDay) => {
+        async (beginDay, endDay, type) => {
             try {
                 const data = await request(
                     `/api/cashier/statsionar/getall`,
                     'POST',
-                    { clinica: auth && auth.clinica._id, beginDay, endDay },
+                    { clinica: auth && auth.clinica._id, beginDay, endDay, type },
                     {
                         Authorization: `Bearer ${auth.token}`,
                     },
@@ -115,6 +115,8 @@ export const StatsionarClients = () => {
     )
     //====================================================================
     //====================================================================+
+
+    const [type, setType] = useState('all')
 
     //====================================================================
     //====================================================================
@@ -203,14 +205,14 @@ export const StatsionarClients = () => {
 
     const changeStart = (e) => {
         setBeginDay(new Date(new Date(e).setUTCHours(0, 0, 0, 0)))
-        getConnectors(new Date(new Date(e).setUTCHours(0, 0, 0, 0)), endDay)
+        getConnectors(new Date(new Date(e).setUTCHours(0, 0, 0, 0)), endDay, type)
     }
 
     const changeEnd = (e) => {
         const date = new Date(new Date(e).setUTCHours(23, 59, 59, 59))
 
         setEndDay(date)
-        getConnectors(beginDay, date)
+        getConnectors(beginDay, date, type)
     }
 
     //====================================================================
@@ -274,9 +276,9 @@ export const StatsionarClients = () => {
         if (connector.room.endday) {
             const day = Math.round(
                 Math.abs(
-                    (new Date(connector.room.endday).setUTCHours(23, 59, 59, 999)
+                    (new Date(connector.room.endday).setUTCHours(0, 0, 0, 0)
                         -
-                        new Date(connector.room.beginday))
+                        new Date(connector.room.beginday).setUTCHours(0, 0, 0, 0))
                     /
                     (24 * 60 * 60 * 1000)
                 )
@@ -293,9 +295,9 @@ export const StatsionarClients = () => {
             let today = new Date()
             const day = Math.round(
                 Math.abs(
-                    (today.getTime()
+                    (new Date(new Date(today).setHours(0, 0, 0, 0)).getTime()
                         -
-                        begin.getTime())
+                        new Date(new Date(begin).setHours(0, 0, 0, 0)).getTime())
                     /
                     (24 * 60 * 60 * 1000)
                 )
@@ -779,6 +781,24 @@ export const StatsionarClients = () => {
     //====================================================================
     //====================================================================
 
+    const changeType = (e) => {
+        if (e.target.value === 'done') {
+            setType('done')
+            getConnectors(beginDay, endDay, e.target.value)
+        }
+        if (e.target.value === 'continue') {
+            setType('continue')
+            getConnectors(beginDay, endDay, e.target.value)
+        }
+        if (e.target.value === 'all') {
+            setType('all')
+            getConnectors(beginDay, endDay)
+        }
+    }
+
+    //====================================================================
+    //====================================================================
+
     const [baseUrl, setBaseurl] = useState();
 
     const getBaseUrl = useCallback(async () => {
@@ -887,6 +907,7 @@ export const StatsionarClients = () => {
                             // setModal2={setModal2}
                             loading={loading}
                             getConnectorsByClientBorn={getConnectorsByClientBorn}
+                            changeType={changeType}
                         />
                     </div>
                 </div>

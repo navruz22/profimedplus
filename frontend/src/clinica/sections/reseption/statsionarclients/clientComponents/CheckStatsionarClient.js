@@ -323,33 +323,51 @@ const CheckStatsionarClient = ({ connector, qr, clinica, baseUrl }) => {
                     {connector.room && connector.room.room.type}
                   </td>
                   <td className="text-right border py-1 text-bold">
-                    {connector.room &&
+                    {connector?.room?.endday ?
                       Math.round(
                         Math.abs(
-                          (new Date(connector.room.beginday).getTime()
+                          (new Date(connector?.room?.endday).setHours(0, 0, 0, 0)
                             -
-                            new Date().getTime())
+                            new Date(connector?.room?.beginday).setHours(0, 0, 0, 0))
                           /
                           (24 * 60 * 60 * 1000)
                         )
-                      )}
+                      ) : Math.round(
+                        Math.abs(
+                          (new Date(connector?.room?.beginday).setHours(0, 0, 0, 0)
+                            -
+                            new Date().setHours(0, 0, 0, 0))
+                          /
+                          (24 * 60 * 60 * 1000)
+                        )
+                      )
+                    }
                   </td>
                   <td className="text-right border py-1 text-bold">
-                    {connector.room && connector.room.room.price}
+                    {connector?.room && connector.room.room.price}
                   </td>
-                  <td className="text-right border py-1">{connector.room &&
-                    Math.round(
-                      Math.abs(
-                        (new Date(connector.room.beginday).getTime()
-                          -
-                          new Date().getTime())
-                        /
-                        (24 * 60 * 60 * 1000)
-                      )
-                    ) * connector.room.room.price
+                  <td className="text-right border py-1">{
+                    (connector?.room?.endday ?
+                      Math.round(
+                        Math.abs(
+                          (new Date(connector?.room?.endday).setHours(0, 0, 0, 0)
+                            -
+                            new Date(connector?.room?.beginday).setHours(0, 0, 0, 0))
+                          /
+                          (24 * 60 * 60 * 1000)
+                        )
+                      ) : Math.round(
+                        Math.abs(
+                          (new Date(connector?.room?.beginday).setHours(0, 0, 0, 0)
+                            -
+                            new Date().setHours(0, 0, 0, 0))
+                          /
+                          (24 * 60 * 60 * 1000)
+                        )
+                      )) * connector?.room?.room?.price
                   }</td>
                   <td className="text-right border py-1 text-bold">
-                    {connector.room &&
+                    {connector?.room &&
                       new Date(connector.room.beginday).toLocaleDateString()}
                   </td>
                 </tr>
@@ -362,17 +380,17 @@ const CheckStatsionarClient = ({ connector, qr, clinica, baseUrl }) => {
                   <td className="text-right">
                     {(connector?.room?.endday ? Math.round(
                       Math.abs(
-                        (new Date(connector?.room?.beginday).getTime()
+                        (new Date(connector?.room?.beginday).setHours(0, 0, 0, 0)
                           -
-                          new Date(connector?.room?.endday).getTime())
+                          new Date(connector?.room?.endday).setHours(0, 0, 0, 0))
                         /
                         (24 * 60 * 60 * 1000)
                       )
                     ) * connector?.room?.room?.price : Math.round(
                       Math.abs(
-                        (new Date(connector?.room?.beginday).getTime()
+                        (new Date(connector?.room?.beginday).setHours(0, 0, 0, 0)
                           -
-                          new Date().getTime())
+                          new Date().setHours(0, 0, 0, 0))
                         /
                         (24 * 60 * 60 * 1000)
                       )

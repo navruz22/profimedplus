@@ -33,7 +33,8 @@ export const TableClients = ({
     loading,
     setServices,
     setProducts,
-    getConnectorsByClientBorn
+    getConnectorsByClientBorn,
+    changeType
 }) => {
 
     const location = useLocation()
@@ -44,22 +45,23 @@ export const TableClients = ({
         if (connector?.room?.endday) {
             const day = Math.round(
                 Math.abs(
-                    (new Date(connector?.room?.endday).setUTCHours(23, 59, 59, 999)
+                    (new Date(connector?.room?.endday).setHours(0, 0, 0, 0)
                         -
-                        new Date(connector?.room?.beginday))
+                        new Date(connector?.room?.beginday).setHours(0, 0, 0, 0))
                     /
                     (24 * 60 * 60 * 1000)
                 )
             )
+            console.log(day);
             roomprice = connector?.room?.room?.price * day
         } else {
             let begin = new Date(connector?.room?.beginday)
             let today = new Date()
             const day = Math.round(
                 Math.abs(
-                    (today.getTime()
+                    (new Date(new Date(today).setHours(0, 0, 0, 0)).getTime()
                         -
-                        begin.getTime())
+                        new Date(new Date(begin).setHours(0, 0, 0, 0)).getTime())
                     /
                     (24 * 60 * 60 * 1000)
                 )
@@ -101,7 +103,7 @@ export const TableClients = ({
     }
 
     return (
-        <div className="border-0 table-container">
+       
             <div className="border-0 table-container">
                 <div className="table-responsive">
                     <div className="bg-white flex gap-6 items-center py-2 px-2">
@@ -143,15 +145,6 @@ export const TableClients = ({
                                 type="search"
                                 className="form-control form-control-sm selectpicker"
                                 placeholder="ID"
-                            />
-                        </div>
-                        <div>
-                            <input
-                                onChange={searchProbirka}
-                                style={{ maxWidth: '70px' }}
-                                type="search"
-                                className="form-control form-control-sm selectpicker"
-                                placeholder="Probirka"
                             />
                         </div>
                         <div className="flex items-center gap-4">
@@ -198,145 +191,53 @@ export const TableClients = ({
                                 />
                             </div>
                         </div>
+                        <div>
+                            <select
+                                className="form-control form-control-sm selectpicker"
+                                placeholder="Doctors"
+                                onChange={changeType}
+                            >
+                                <option value={"all"}>Hammasi</option>
+                                <option value={"done"}>Yakunlangan</option>
+                                <option value={"continue"}>Davolanishda</option>
+                            </select>
+                        </div>
                     </div>
-                    <table className="overflow-scroll table m-0 table-sm" style={{ display: "block", maxHeight: "600px", width: "100%" }}>
+                    <table className="overflow-scroll table m-0 table-sm" style={{ display: "block", maxHeight: "600px", minWidth: "100%" }}>
                         <thead style={{ position: "sticky", top: "0" }}>
                             <tr>
                                 <th className="border py-1 bg-alotrade text-[16px]">№</th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
                                     F.I.O
-                                    <div className="btn-group-vertical ml-2">
-                                        <FontAwesomeIcon
-                                            onClick={() =>
-                                                setCurrentConnectors(
-                                                    [...currentConnectors].sort((a, b) =>
-                                                        a.client.fullname > b.client.fullname ? 1 : -1
-                                                    )
-                                                )
-                                            }
-                                            icon={faAngleUp}
-                                            style={{ cursor: "pointer" }}
-                                        />
-                                        <FontAwesomeIcon
-                                            icon={faAngleDown}
-                                            style={{ cursor: "pointer" }}
-                                            onClick={() =>
-                                                setCurrentConnectors(
-                                                    [...currentConnectors].sort((a, b) =>
-                                                        b.client.fullname > a.client.fullname ? 1 : -1
-                                                    )
-                                                )
-                                            }
-                                        />
-                                    </div>
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">Tel</th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
                                     ID
-                                    <div className="btn-group-vertical ml-2">
-                                        <FontAwesomeIcon
-                                            onClick={() =>
-                                                setCurrentConnectors(
-                                                    [...currentConnectors].sort((a, b) =>
-                                                        a.client.id > b.client.id ? 1 : -1
-                                                    )
-                                                )
-                                            }
-                                            icon={faAngleUp}
-                                            style={{ cursor: "pointer" }}
-                                        />
-                                        <FontAwesomeIcon
-                                            icon={faAngleDown}
-                                            style={{ cursor: "pointer" }}
-                                            onClick={() =>
-                                                setCurrentConnectors(
-                                                    [...currentConnectors].sort((a, b) =>
-                                                        b.client.id > a.client.id ? 1 : -1
-                                                    )
-                                                )
-                                            }
-                                        />
-                                    </div>
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                    Probirka
-                                    <Sort
-                                        data={currentConnectors}
-                                        setData={setCurrentConnectors}
-                                        property={"probirka"}
-                                    />
+                                    Kelgan
+                                </th>
+                                <th className="border py-1 bg-alotrade text-[16px]">
+                                    Ketgan
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
                                     To'lov summasi
-                                    <Sort
-                                        data={currentConnectors}
-                                        setData={setCurrentConnectors}
-                                        property={"totalprice"}
-                                    />
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
                                     To'langan
-                                    <div className="btn-group-vertical ml-2">
-                                        <FontAwesomeIcon
-                                            onClick={() =>
-                                                setCurrentConnectors(
-                                                    [...currentConnectors].sort((a, b) =>
-                                                        a.services.length > b.services.length ? 1 : -1
-                                                    )
-                                                )
-                                            }
-                                            icon={faAngleUp}
-                                            style={{ cursor: "pointer" }}
-                                        />
-                                        <FontAwesomeIcon
-                                            icon={faAngleDown}
-                                            style={{ cursor: "pointer" }}
-                                            onClick={() =>
-                                                setCurrentConnectors(
-                                                    [...currentConnectors].sort((a, b) =>
-                                                        b.services.length > a.services.length ? 1 : -1
-                                                    )
-                                                )
-                                            }
-                                        />
-                                    </div>
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
                                     Chegirma
-                                    <Sort
-                                        data={currentConnectors}
-                                        setData={setCurrentConnectors}
-                                        property={"createdAt"}
-                                    />
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
                                     Qarz
-                                    <Sort
-                                        data={currentConnectors}
-                                        setData={setCurrentConnectors}
-                                        property={"createdAt"}
-                                    />
                                 </th>
                                 {!location.pathname.includes('/alo24/statsionarreport') && <th className="border py-1 bg-alotrade text-[16px]">
-                                    Qabul qilish
-                                    <div className="btn-group-vertical ml-2">
-                                        <Sort
-                                            data={currentConnectors}
-                                            setData={setCurrentConnectors}
-                                            property={"counterAgentProcient"}
-                                        />
-                                    </div>
+                                    To'lov
                                 </th>}
 
                                 <th className="border py-1 bg-alotrade text-[16px]">
                                     Chek
-                                    <div className="btn-group-vertical ml-2">
-                                        <Sort
-                                            data={currentConnectors}
-                                            setData={setCurrentConnectors}
-                                            property={"counterAgentProcient"}
-                                        />
-                                    </div>
                                 </th>
                             </tr>
                         </thead>
@@ -350,7 +251,7 @@ export const TableClients = ({
                                         >
                                             {currentPage * countPage + key + 1}
                                         </td>
-                                        <td style={{ minWidth: "300px" }} className="border py-1 text-[16px] font-weight-bold">
+                                        <td className="border py-1 text-[16px] font-weight-bold">
                                             {connector.client.lastname +
                                                 " " +
                                                 connector.client.firstname}
@@ -362,7 +263,10 @@ export const TableClients = ({
                                             {connector.client.id}
                                         </td>
                                         <td className="border py-1 text-[16px] text-right">
-                                            {connector.probirka}
+                                            {new Date(connector?.room?.beginday).toLocaleDateString()}
+                                        </td>
+                                        <td className="border py-1 text-[16px] text-right">
+                                            {connector?.room?.endday && new Date(connector?.room?.endday).toLocaleDateString()}
                                         </td>
                                         <td className="border py-1 text-[16px] text-right">
                                             {getTotalprice(connector)}
@@ -430,6 +334,7 @@ export const TableClients = ({
                                 <td className="border py-1 text-[16px] font-weight-bold"></td>
                                 <td className="border py-1 text-[16px] text-right"></td>
                                 <td className="border py-1 text-[16px] text-right"></td>
+                                <td className="border py-1 text-[16px] text-right"></td>
                                 <td className="border py-1 text-[16px] text-right font-bold">
                                     {connectors.reduce((prev, connector) => prev + (getTotalprice(connector) || 0), 0)}
                                 </td>
@@ -438,7 +343,7 @@ export const TableClients = ({
                                 </td>
                                 <td className="border py-1 text-[16px] text-right font-bold">
                                     {connectors.reduce((prev, el) => prev + (el?.discount?.discount || 0), 0)}
-                                </td> 
+                                </td>
                                 <td className="border py-1 text-[16px] text-right font-bold">
                                     {connectors.reduce((prev, connector) => prev + getDebt(connector), 0)}
                                 </td>
@@ -455,138 +360,35 @@ export const TableClients = ({
                                 <th className="border py-1 bg-alotrade text-[16px]">№</th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
                                     F.I.O
-                                    <div className="btn-group-vertical ml-2">
-                                        <FontAwesomeIcon
-                                            onClick={() =>
-                                                setCurrentConnectors(
-                                                    [...currentConnectors].sort((a, b) =>
-                                                        a.client.fullname > b.client.fullname ? 1 : -1
-                                                    )
-                                                )
-                                            }
-                                            icon={faAngleUp}
-                                            style={{ cursor: "pointer" }}
-                                        />
-                                        <FontAwesomeIcon
-                                            icon={faAngleDown}
-                                            style={{ cursor: "pointer" }}
-                                            onClick={() =>
-                                                setCurrentConnectors(
-                                                    [...currentConnectors].sort((a, b) =>
-                                                        b.client.fullname > a.client.fullname ? 1 : -1
-                                                    )
-                                                )
-                                            }
-                                        />
-                                    </div>
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">Tel</th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
                                     ID
-                                    <div className="btn-group-vertical ml-2">
-                                        <FontAwesomeIcon
-                                            onClick={() =>
-                                                setCurrentConnectors(
-                                                    [...currentConnectors].sort((a, b) =>
-                                                        a.client.id > b.client.id ? 1 : -1
-                                                    )
-                                                )
-                                            }
-                                            icon={faAngleUp}
-                                            style={{ cursor: "pointer" }}
-                                        />
-                                        <FontAwesomeIcon
-                                            icon={faAngleDown}
-                                            style={{ cursor: "pointer" }}
-                                            onClick={() =>
-                                                setCurrentConnectors(
-                                                    [...currentConnectors].sort((a, b) =>
-                                                        b.client.id > a.client.id ? 1 : -1
-                                                    )
-                                                )
-                                            }
-                                        />
-                                    </div>
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                    Probirka
-                                    <Sort
-                                        data={currentConnectors}
-                                        setData={setCurrentConnectors}
-                                        property={"probirka"}
-                                    />
+                                    Kelgan
+                                </th>
+                                <th className="border py-1 bg-alotrade text-[16px]">
+                                    Ketgan
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
                                     To'lov summasi
-                                    <Sort
-                                        data={currentConnectors}
-                                        setData={setCurrentConnectors}
-                                        property={"totalprice"}
-                                    />
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
                                     To'langan
-                                    <div className="btn-group-vertical ml-2">
-                                        <FontAwesomeIcon
-                                            onClick={() =>
-                                                setCurrentConnectors(
-                                                    [...currentConnectors].sort((a, b) =>
-                                                        a.services.length > b.services.length ? 1 : -1
-                                                    )
-                                                )
-                                            }
-                                            icon={faAngleUp}
-                                            style={{ cursor: "pointer" }}
-                                        />
-                                        <FontAwesomeIcon
-                                            icon={faAngleDown}
-                                            style={{ cursor: "pointer" }}
-                                            onClick={() =>
-                                                setCurrentConnectors(
-                                                    [...currentConnectors].sort((a, b) =>
-                                                        b.services.length > a.services.length ? 1 : -1
-                                                    )
-                                                )
-                                            }
-                                        />
-                                    </div>
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
                                     Chegirma
-                                    <Sort
-                                        data={currentConnectors}
-                                        setData={setCurrentConnectors}
-                                        property={"createdAt"}
-                                    />
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
                                     Qarz
-                                    <Sort
-                                        data={currentConnectors}
-                                        setData={setCurrentConnectors}
-                                        property={"createdAt"}
-                                    />
                                 </th>
                                 {!location.pathname.includes('/alo24/statsionarreport') && <th className="border py-1 bg-alotrade text-[16px]">
-                                    Qabul qilish
-                                    <div className="btn-group-vertical ml-2">
-                                        <Sort
-                                            data={currentConnectors}
-                                            setData={setCurrentConnectors}
-                                            property={"counterAgentProcient"}
-                                        />
-                                    </div>
+                                    To'lov
                                 </th>}
 
                                 <th className="border py-1 bg-alotrade text-[16px]">
                                     Chek
-                                    <div className="btn-group-vertical ml-2">
-                                        <Sort
-                                            data={currentConnectors}
-                                            setData={setCurrentConnectors}
-                                            property={"counterAgentProcient"}
-                                        />
-                                    </div>
                                 </th>
                             </tr>
                         </thead>
@@ -612,7 +414,10 @@ export const TableClients = ({
                                             {connector.client.id}
                                         </td>
                                         <td className="border py-1 text-[16px] text-right">
-                                            {connector.probirka}
+                                            {new Date(connector?.room?.beginday).toDateString()}
+                                        </td>
+                                        <td className="border py-1 text-[16px] text-right">
+                                            {connector?.room?.endday && new Date(connector?.room?.endday).toDateString()}
                                         </td>
                                         <td className="border py-1 text-[16px] text-right">
                                             {getTotalprice(connector)}
@@ -669,6 +474,6 @@ export const TableClients = ({
                     </table>
                 </div>
             </div>
-        </div>
+       
     );
 };
