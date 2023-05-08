@@ -77,19 +77,9 @@ const TableTemplate = ({
                                 <th className="border-right bg-alotrade text-[16px] text-center">№</th>
                                 <th className="border-right bg-alotrade text-[16px]">
                                     Nomi
-                                    <Sort
-                                        data={currentTemplates}
-                                        setData={setCurrentTemplates}
-                                        property={"name"}
-                                    />
                                 </th>
                                 <th className="border-right bg-alotrade text-[16px] max-w-screen-sm">
                                     Shablon
-                                    <Sort
-                                        data={currentTemplates}
-                                        setData={setCurrentTemplates}
-                                        property={"template"}
-                                    />
                                 </th>
                                 <th className="border-right bg-alotrade text-[16px]">
                                     Tahrirlash

@@ -109,37 +109,15 @@ export const TableProducts = ({
                 <th className="border-right bg-alotrade text-[16px]">№</th>
                 <th className="border-right bg-alotrade text-[16px]">
                   Nomi
-                  <div className="btn-group-vertical ml-2">
-                    <Sort
-                      data={currentProducts}
-                      setData={setCurrentProducts}
-                      property={"name"}
-                    />
-                  </div>
                 </th>
                 <th className="border-right bg-alotrade text-[16px]">
                   O'lchov birligi
-                  <Sort
-                    data={currentProducts}
-                    setData={setCurrentProducts}
-                    property={"unit"}
-                  />
                 </th>
                 <th className="border-right bg-alotrade text-[16px]">
                   Narxi
-                  <Sort
-                    data={currentProducts}
-                    setData={setCurrentProducts}
-                    property={"price"}
-                  />
                 </th>
                 <th className="border-right bg-alotrade text-[16px]">
                   Soni
-                  <Sort
-                    data={currentProducts}
-                    setData={setCurrentProducts}
-                    property={"total"}
-                  />
                 </th>
                 <th className="border-right text-center bg-alotrade text-[16px]">Tahrirlash</th>
                 <th className="text-center bg-alotrade text-[16px]">O'chirish</th>

@@ -401,43 +401,10 @@ export const ServiceType = () => {
                     <tr>
                       <th className='text-[16px] bg-alotrade '>№</th>
                       <th className="text-[16px] bg-alotrade w-25">
-                        Bo'limi{'  '}
-                        <div className="btn-group-vertical ml-2">
-                          <FontAwesomeIcon
-                            onClick={() =>
-                              setServiceTypes(
-                                [...servicetypes].sort((a, b) =>
-                                  a.department.name > b.department.name
-                                    ? 1
-                                    : -1,
-                                ),
-                              )
-                            }
-                            icon={faAngleUp}
-                            style={{ cursor: 'pointer' }}
-                          />
-                          <FontAwesomeIcon
-                            icon={faAngleDown}
-                            style={{ cursor: 'pointer' }}
-                            onClick={() =>
-                              setServiceTypes(
-                                [...servicetypes].sort((a, b) =>
-                                  b.department.name > a.department.name
-                                    ? 1
-                                    : -1,
-                                ),
-                              )
-                            }
-                          />
-                        </div>
+                        Bo'limi
                       </th>
                       <th className="text-[16px] bg-alotrade w-25">
-                        Xizmat turi{' '}
-                        <Sort
-                          data={servicetypes}
-                          setData={setServiceTypes}
-                          property={'name'}
-                        />
+                        Xizmat turi
                       </th>
                       <th className="text-[16px] bg-alotrade w-25">Barcha xizmatlar</th>
                       <th className="text-[16px] bg-alotrade w-25">Tahrirlash</th>

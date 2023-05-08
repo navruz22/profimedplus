@@ -194,138 +194,18 @@ const DoctorServices = () => {
                                             <th className="border py-1 bg-alotrade text-[16px]">№</th>
                                             <th className="border py-1 bg-alotrade text-[16px]">
                                                 Mijoz
-                                                <div className="btn-group-vertical ml-2">
-                                                    <FontAwesomeIcon
-                                                        onClick={() =>
-                                                            setCurrentServices(
-                                                                [...currentServices].sort((a, b) =>
-                                                                    a.client.fullname > b.client.fullname ? 1 : -1
-                                                                )
-                                                            )
-                                                        }
-                                                        icon={faAngleUp}
-                                                        style={{ cursor: "pointer" }}
-                                                    />
-                                                    <FontAwesomeIcon
-                                                        icon={faAngleDown}
-                                                        style={{ cursor: "pointer" }}
-                                                        onClick={() =>
-                                                            setCurrentServices(
-                                                                [...currentServices].sort((a, b) =>
-                                                                    b.client.fullname > a.client.fullname ? 1 : -1
-                                                                )
-                                                            )
-                                                        }
-                                                    />
-                                                </div>
                                             </th>
                                             <th className="border py-1 bg-alotrade text-[16px]">
                                                 Xizmat nomi
-                                                <div className="btn-group-vertical ml-2">
-                                                    <FontAwesomeIcon
-                                                        onClick={() =>
-                                                            setCurrentServices(
-                                                                [...currentServices].sort((a, b) =>
-                                                                    a.client.fullname > b.client.fullname ? 1 : -1
-                                                                )
-                                                            )
-                                                        }
-                                                        icon={faAngleUp}
-                                                        style={{ cursor: "pointer" }}
-                                                    />
-                                                    <FontAwesomeIcon
-                                                        icon={faAngleDown}
-                                                        style={{ cursor: "pointer" }}
-                                                        onClick={() =>
-                                                            setCurrentServices(
-                                                                [...currentServices].sort((a, b) =>
-                                                                    b.client.fullname > a.client.fullname ? 1 : -1
-                                                                )
-                                                            )
-                                                        }
-                                                    />
-                                                </div>
                                             </th>
                                             <th className="border py-1 bg-alotrade text-[16px]">
                                                 Xizmat soni
-                                                <div className="btn-group-vertical ml-2">
-                                                    <FontAwesomeIcon
-                                                        onClick={() =>
-                                                            setCurrentServices(
-                                                                [...currentServices].sort((a, b) =>
-                                                                    a.client.fullname > b.client.fullname ? 1 : -1
-                                                                )
-                                                            )
-                                                        }
-                                                        icon={faAngleUp}
-                                                        style={{ cursor: "pointer" }}
-                                                    />
-                                                    <FontAwesomeIcon
-                                                        icon={faAngleDown}
-                                                        style={{ cursor: "pointer" }}
-                                                        onClick={() =>
-                                                            setCurrentServices(
-                                                                [...currentServices].sort((a, b) =>
-                                                                    b.client.fullname > a.client.fullname ? 1 : -1
-                                                                )
-                                                            )
-                                                        }
-                                                    />
-                                                </div>
                                             </th>
                                             <th className="border py-1 bg-alotrade text-[16px]">
                                                 Umumiy narxi
-                                                <div className="btn-group-vertical ml-2">
-                                                    <FontAwesomeIcon
-                                                        onClick={() =>
-                                                            setCurrentServices(
-                                                                [...currentServices].sort((a, b) =>
-                                                                    a.client.fullname > b.client.fullname ? 1 : -1
-                                                                )
-                                                            )
-                                                        }
-                                                        icon={faAngleUp}
-                                                        style={{ cursor: "pointer" }}
-                                                    />
-                                                    <FontAwesomeIcon
-                                                        icon={faAngleDown}
-                                                        style={{ cursor: "pointer" }}
-                                                        onClick={() =>
-                                                            setCurrentServices(
-                                                                [...currentServices].sort((a, b) =>
-                                                                    b.client.fullname > a.client.fullname ? 1 : -1
-                                                                )
-                                                            )
-                                                        }
-                                                    />
-                                                </div>
                                             </th>
                                             <th className="border py-1 bg-alotrade text-[16px]">
                                                 Shifokor ulushi
-                                                <div className="btn-group-vertical ml-2">
-                                                    <FontAwesomeIcon
-                                                        onClick={() =>
-                                                            setCurrentServices(
-                                                                [...currentServices].sort((a, b) =>
-                                                                    a.client.fullname > b.client.fullname ? 1 : -1
-                                                                )
-                                                            )
-                                                        }
-                                                        icon={faAngleUp}
-                                                        style={{ cursor: "pointer" }}
-                                                    />
-                                                    <FontAwesomeIcon
-                                                        icon={faAngleDown}
-                                                        style={{ cursor: "pointer" }}
-                                                        onClick={() =>
-                                                            setCurrentServices(
-                                                                [...currentServices].sort((a, b) =>
-                                                                    b.client.fullname > a.client.fullname ? 1 : -1
-                                                                )
-                                                            )
-                                                        }
-                                                    />
-                                                </div>
                                             </th>
                                         </tr>
                                     </thead>

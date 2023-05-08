@@ -118,29 +118,12 @@ export const TableProductConnectors = ({
                 <th className="border-right bg-alotrade text-[16px]">№</th>
                 <th className="border-right bg-alotrade text-[16px]">
                   Xizmt nomi
-                  <div className="btn-group-vertical ml-2">
-                    <Sort
-                      data={currentProductConnectors}
-                      setData={setCurrentProductConnectors}
-                      property={"service"}
-                    />
-                  </div>
                 </th>
                 <th className="border-right bg-alotrade text-[16px]">
                   Mahsulot nomi
-                  <Sort
-                    data={currentProductConnectors}
-                    setData={setCurrentProductConnectors}
-                    property={"product"}
-                  />
                 </th>
                 <th className="border-right bg-alotrade text-[16px]">
                   Soni
-                  <Sort
-                    data={currentProductConnectors}
-                    setData={setCurrentProductConnectors}
-                    property={"pieces"}
-                  />
                 </th>
                 <th className="text-center bg-alotrade text-[16px]">O'chirish</th>
               </tr>

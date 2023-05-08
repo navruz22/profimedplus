@@ -318,76 +318,18 @@ const CounterAgent = () => {
                                                 <th className="border py-1 bg-alotrade text-[16px]">№</th>
                                                 <th className="border py-1 bg-alotrade text-[16px]">
                                                     Kontragent
-                                                    <div className="btn-group-vertical ml-2">
-                                                        <FontAwesomeIcon
-                                                            onClick={() =>
-                                                                setCurrentConnectors(
-                                                                    [...currentConnectors].sort((a, b) =>
-                                                                        a.client.fullname > b.client.fullname ? 1 : -1
-                                                                    )
-                                                                )
-                                                            }
-                                                            icon={faAngleUp}
-                                                            style={{ cursor: "pointer" }}
-                                                        />
-                                                        <FontAwesomeIcon
-                                                            icon={faAngleDown}
-                                                            style={{ cursor: "pointer" }}
-                                                            onClick={() =>
-                                                                setCurrentConnectors(
-                                                                    [...currentConnectors].sort((a, b) =>
-                                                                        b.client.fullname > a.client.fullname ? 1 : -1
-                                                                    )
-                                                                )
-                                                            }
-                                                        />
-                                                    </div>
                                                 </th>
                                                 <th className="border py-1 bg-alotrade text-[16px]">
                                                     Mijozlar
                                                 </th>
                                                 <th className="border py-1 bg-alotrade text-[16px]">
                                                     Shifokorlar
-                                                    <div className="btn-group-vertical ml-2">
-                                                        <FontAwesomeIcon
-                                                            onClick={() =>
-                                                                setCurrentConnectors(
-                                                                    [...currentConnectors].sort((a, b) =>
-                                                                        a.client.id > b.client.id ? 1 : -1
-                                                                    )
-                                                                )
-                                                            }
-                                                            icon={faAngleUp}
-                                                            style={{ cursor: "pointer" }}
-                                                        />
-                                                        <FontAwesomeIcon
-                                                            icon={faAngleDown}
-                                                            style={{ cursor: "pointer" }}
-                                                            onClick={() =>
-                                                                setCurrentConnectors(
-                                                                    [...currentConnectors].sort((a, b) =>
-                                                                        b.client.id > a.client.id ? 1 : -1
-                                                                    )
-                                                                )
-                                                            }
-                                                        />
-                                                    </div>
                                                 </th>
                                                 <th className="border py-1 bg-alotrade text-[16px]">
                                                     Umumiy
-                                                    <Sort
-                                                        data={currentConnectors}
-                                                        setData={setCurrentConnectors}
-                                                        property={"probirka"}
-                                                    />
                                                 </th>
                                                 <th className="border py-1 bg-alotrade text-[16px]">
                                                     Ulushi
-                                                    <Sort
-                                                        data={currentConnectors}
-                                                        setData={setCurrentConnectors}
-                                                        property={"totalprice"}
-                                                    />
                                                 </th>
                                                 <th className="border py-1 bg-alotrade text-[16px]">
                                                 </th>
@@ -472,76 +414,18 @@ const CounterAgent = () => {
                                                 <th className="border py-1 bg-alotrade text-[16px]">№</th>
                                                 <th className="border py-1 bg-alotrade text-[16px]">
                                                     Kontragent
-                                                    <div className="btn-group-vertical ml-2">
-                                                        <FontAwesomeIcon
-                                                            onClick={() =>
-                                                                setCurrentConnectors(
-                                                                    [...currentConnectors].sort((a, b) =>
-                                                                        a.client.fullname > b.client.fullname ? 1 : -1
-                                                                    )
-                                                                )
-                                                            }
-                                                            icon={faAngleUp}
-                                                            style={{ cursor: "pointer" }}
-                                                        />
-                                                        <FontAwesomeIcon
-                                                            icon={faAngleDown}
-                                                            style={{ cursor: "pointer" }}
-                                                            onClick={() =>
-                                                                setCurrentConnectors(
-                                                                    [...currentConnectors].sort((a, b) =>
-                                                                        b.client.fullname > a.client.fullname ? 1 : -1
-                                                                    )
-                                                                )
-                                                            }
-                                                        />
-                                                    </div>
                                                 </th>
                                                 <th className="border py-1 bg-alotrade text-[16px]">
                                                     Mijozlar
                                                 </th>
                                                 <th className="border py-1 bg-alotrade text-[16px]">
                                                     Shifokorlar
-                                                    <div className="btn-group-vertical ml-2">
-                                                        <FontAwesomeIcon
-                                                            onClick={() =>
-                                                                setCurrentConnectors(
-                                                                    [...currentConnectors].sort((a, b) =>
-                                                                        a.client.id > b.client.id ? 1 : -1
-                                                                    )
-                                                                )
-                                                            }
-                                                            icon={faAngleUp}
-                                                            style={{ cursor: "pointer" }}
-                                                        />
-                                                        <FontAwesomeIcon
-                                                            icon={faAngleDown}
-                                                            style={{ cursor: "pointer" }}
-                                                            onClick={() =>
-                                                                setCurrentConnectors(
-                                                                    [...currentConnectors].sort((a, b) =>
-                                                                        b.client.id > a.client.id ? 1 : -1
-                                                                    )
-                                                                )
-                                                            }
-                                                        />
-                                                    </div>
                                                 </th>
                                                 <th className="border py-1 bg-alotrade text-[16px]">
                                                     Umumiy
-                                                    <Sort
-                                                        data={currentConnectors}
-                                                        setData={setCurrentConnectors}
-                                                        property={"probirka"}
-                                                    />
                                                 </th>
                                                 <th className="border py-1 bg-alotrade text-[16px]">
                                                     Ulushi
-                                                    <Sort
-                                                        data={currentConnectors}
-                                                        setData={setCurrentConnectors}
-                                                        property={"totalprice"}
-                                                    />
                                                 </th>
                                             </tr>
                                         </thead>

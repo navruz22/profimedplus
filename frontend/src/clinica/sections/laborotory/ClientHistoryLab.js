@@ -477,7 +477,7 @@ const ClientHistoryLab = () => {
             >
                 <Print
                     baseUrl={baseUrl}
-                    clinica={auth?.clinica}
+                    clinica={auth && auth.clinica}
                     connector={connector}
                     client={client}
                     sections={services}

@@ -492,54 +492,15 @@ export const Users = () => {
                       <th className="border-right bg-alotrade text-[16px]">№</th>
                       <th className="border-right bg-alotrade text-[16px]">
                         Xizmat turi
-                        <div className="btn-group-vertical ml-2">
-                          {/* <FontAwesomeIcon
-                      onClick={() =>
-                        setCurrentUsers(
-                          [...currentUsers].sort((a, b) =>
-                            a.user.name > b.user.name ? 1 : -1
-                          )
-                        )
-                      }
-                      icon={faAngleUp}
-                      style={{ cursor: "pointer" }}
-                    />
-                    <FontAwesomeIcon
-                      icon={faAngleDown}
-                      style={{ cursor: "pointer" }}
-                      onClick={() =>
-                        setCurrentUsers(
-                          [...currentUsers].sort((a, b) =>
-                            b.user.name > a.user.name ? 1 : -1
-                          )
-                        )
-                      }
-                    /> */}
-                        </div>
                       </th>
                       <th className="border-right bg-alotrade text-[16px]">
                         Ixtisosligi
-                        {/* <Sort
-                    data={currentUsers}
-                    setData={setCurrentUsers}
-                    property={"serveicetype"}
-                  /> */}
                       </th>
                       <th className="border-right bg-alotrade text-[16px]">
                         F.I.Sh
-                        <Sort
-                          data={currentUsers}
-                          setData={setCurrentUsers}
-                          property={'lastname'}
-                        />
                       </th>
                       <th className="border-right bg-alotrade text-[16px]">
                         Tel
-                        {/* <Sort
-                    data={currentUsers}
-                    setData={setCurrentUsers}
-                    property={"shortname"}
-                  /> */}
                       </th>
                       <th className="border-right bg-alotrade text-[16px] text-center">Tahrirlash</th>
                       <th className="text-center bg-alotrade text-[16px]">O'chirish</th>

@@ -376,36 +376,16 @@ export const Departments = () => {
                     <tr>
                       <th className="bg-alotrade text-[16px]">№</th>
                       <th className="w-25 bg-alotrade text-[16px]">
-                        Nomi{'  '}
-                        <Sort
-                          data={departments}
-                          setData={setDepartments}
-                          property={'name'}
-                        />
+                        Nomi
                       </th>
                       <th className="w-25 bg-alotrade text-[16px]">
-                        Xonasi{'  '}
-                        <Sort
-                          data={departments}
-                          setData={setDepartments}
-                          property={'room'}
-                        />
+                        Xonasi
                       </th>
                       <th className="w-25 bg-alotrade text-[16px]">
-                        Barcha xizmat turlari{' '}
-                        <Sort
-                          data={departments}
-                          setData={setDepartments}
-                          property={'name'}
-                        />
+                        Barcha xizmat turlari
                       </th>
                       <th className="w-25 bg-alotrade text-[16px]">
-                        Probirka{' '}
-                        <Sort
-                          data={departments}
-                          setData={setDepartments}
-                          property={'probirka'}
-                        />
+                        Probirka
                       </th>
                       <th className="w-25 bg-alotrade text-[16px]">Tahrirlash</th>
                       <th className="w-25 bg-alotrade text-[16px]">O'chirish</th>

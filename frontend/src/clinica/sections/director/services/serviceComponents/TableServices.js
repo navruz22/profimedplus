@@ -156,96 +156,30 @@ export const TableServices = ({
                 <th className="border-right  text-[12px] bg-alotrade">№</th>
                 <th className="border-right  text-[12px] bg-alotrade">
                   Bo'lim
-                  <div className="btn-group-vertical ml-2">
-                    <FontAwesomeIcon
-                      onClick={() =>
-                        setCurrentServices(
-                          [...currentServices].sort((a, b) =>
-                            a.department.name > b.department.name ? 1 : -1
-                          )
-                        )
-                      }
-                      icon={faAngleUp}
-                      style={{ cursor: "pointer" }}
-                    />
-                    <FontAwesomeIcon
-                      icon={faAngleDown}
-                      style={{ cursor: "pointer" }}
-                      onClick={() =>
-                        setCurrentServices(
-                          [...currentServices].sort((a, b) =>
-                            b.department.name > a.department.name ? 1 : -1
-                          )
-                        )
-                      }
-                    />
-                  </div>
                 </th>
                 <th className="border-right  text-[12px] bg-alotrade">
                   Xizmat turi
-                  <Sort
-                    data={currentServices}
-                    setData={setCurrentServices}
-                    property={"serveicetype"}
-                  />
                 </th>
                 <th className="border-right  text-[12px] bg-alotrade">
                   Xizmat
-                  <Sort
-                    data={currentServices}
-                    setData={setCurrentServices}
-                    property={"name"}
-                  />
                 </th>
                 <th className="border-right text-[12px] bg-alotrade">
                   Qisqartma nomi
-                  <Sort
-                    data={currentServices}
-                    setData={setCurrentServices}
-                    property={"shortname"}
-                  />
                 </th>
                 <th className="border-right text-[12px] bg-alotrade">
                   Xizmat xonasi
-                  <Sort
-                    data={currentServices}
-                    setData={setCurrentServices}
-                    property={"shortname"}
-                  />
                 </th>
                 <th className="border-right text-[12px] bg-alotrade">
                   Narxi
-                  <Sort
-                    data={currentServices}
-                    setData={setCurrentServices}
-                    property={"price"}
-                  />
                 </th>
                 <th className="border-right text-[12px] bg-alotrade">
                   Doktor ulushi
-                  <Sort
-                    data={currentServices}
-                    setData={setCurrentServices}
-                    property={"doctorProcient"}
-                  />
                 </th>
                 <th className="border-right text-[12px] bg-alotrade">
                   Kontragent ulushi
-                  <div className="btn-group-vertical ml-2">
-                    <Sort
-                      data={currentServices}
-                      setData={setCurrentServices}
-                      property={"counterAgentProcient"}
-                    />
-                  </div>
                 </th>
                 <th className="border-right text-[12px] bg-alotrade">
                   Kounterdoktor ulushi
-                  <Sort
-                    data={currentServices}
-                    setData={setCurrentServices}
-                    property={"counterDoctorProcient"}
-                  />
                 </th>
                 <th className="border-right text-center text-[12px] bg-alotrade">Tahrirlash</th>
                 <th className="text-center text-[12px] bg-alotrade">O'chirish</th>

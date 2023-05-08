@@ -117,62 +117,15 @@ export const TableWarehouses = ({
                 <th className="border-right bg-alotrade text-[16px]">№</th>
                 <th className="border-right bg-alotrade text-[16px]">
                   Mahsulot
-                  <div className="btn-group-vertical ml-2">
-                    <FontAwesomeIcon
-                      onClick={() =>
-                        setCurrentWarehouses(
-                          [...currentWarehouses].sort((a, b) =>
-                            a.product &&
-                              b.product &&
-                              a.product.name > b.product.name
-                              ? 1
-                              : -1
-                          )
-                        )
-                      }
-                      icon={faAngleUp}
-                      style={{ cursor: "pointer" }}
-                    />
-                    <FontAwesomeIcon
-                      icon={faAngleDown}
-                      style={{ cursor: "pointer" }}
-                      onClick={() =>
-                        setCurrentWarehouses(
-                          [...currentWarehouses].sort((a, b) =>
-                            a.product &&
-                              b.product &&
-                              b.product.name > a.product.name
-                              ? 1
-                              : -1
-                          )
-                        )
-                      }
-                    />
-                  </div>
                 </th>
                 <th className="border-right bg-alotrade text-[16px]">
                   Soni
-                  <Sort
-                    data={currentWarehouses}
-                    setData={setCurrentWarehouses}
-                    property={"total"}
-                  />
                 </th>
                 <th className="border-right bg-alotrade text-[16px]">
                   Narxi
-                  <Sort
-                    data={currentWarehouses}
-                    setData={setCurrentWarehouses}
-                    property={"price"}
-                  />
                 </th>
                 <th className="border-right bg-alotrade text-[16px]">
                   Keltirilgan vaqti
-                  <Sort
-                    data={currentWarehouses}
-                    setData={setCurrentWarehouses}
-                    property={"dateofreciept"}
-                  />
                 </th>
                 <th className="border-right bg-alotrade text-[16px] text-center">Tahrirlash</th>
                 <th className="text-center bg-alotrade text-[16px]">O'chirish</th>

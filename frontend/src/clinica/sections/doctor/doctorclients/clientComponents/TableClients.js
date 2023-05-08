@@ -158,111 +158,15 @@ export const TableClients = ({
                 <th className="border bg-alotrade text-[16px] py-1">№</th>
                 <th className="border bg-alotrade text-[16px] py-1">
                   F.I.O
-                  <div className="btn-group-vertical ml-2">
-                    <FontAwesomeIcon
-                      onClick={() =>
-                        setCurrentDoctorClients(
-                          [...currentDoctorClients].sort((a, b) =>
-                            a.client.fullname > b.client.fullname ? 1 : -1
-                          )
-                        )
-                      }
-                      icon={faAngleUp}
-                      style={{ cursor: "pointer" }}
-                    />
-                    <FontAwesomeIcon
-                      icon={faAngleDown}
-                      style={{ cursor: "pointer" }}
-                      onClick={() =>
-                        setCurrentDoctorClients(
-                          [...currentDoctorClients].sort((a, b) =>
-                            b.client.fullname > a.client.fullname ? 1 : -1
-                          )
-                        )
-                      }
-                    />
-                  </div>
                 </th>
                 <th className="border bg-alotrade text-[16px] py-1">
                   ID
-                  <div className="btn-group-vertical ml-2">
-                    <FontAwesomeIcon
-                      onClick={() =>
-                        setCurrentDoctorClients(
-                          [...currentDoctorClients].sort((a, b) =>
-                            a.client.id > b.client.id ? 1 : -1
-                          )
-                        )
-                      }
-                      icon={faAngleUp}
-                      style={{ cursor: "pointer" }}
-                    />
-                    <FontAwesomeIcon
-                      icon={faAngleDown}
-                      style={{ cursor: "pointer" }}
-                      onClick={() =>
-                        setCurrentDoctorClients(
-                          [...currentDoctorClients].sort((a, b) =>
-                            b.client.id > a.client.id ? 1 : -1
-                          )
-                        )
-                      }
-                    />
-                  </div>
                 </th>
                 <th className="border bg-alotrade text-[16px] py-1">
                   Telefon raqami
-                  <div className="btn-group-vertical ml-2">
-                    <FontAwesomeIcon
-                      onClick={() =>
-                        setCurrentDoctorClients(
-                          [...currentDoctorClients].sort((a, b) =>
-                            a.client.phone > b.client.phone ? 1 : -1
-                          )
-                        )
-                      }
-                      icon={faAngleUp}
-                      style={{ cursor: "pointer" }}
-                    />
-                    <FontAwesomeIcon
-                      icon={faAngleDown}
-                      style={{ cursor: "pointer" }}
-                      onClick={() =>
-                        setCurrentDoctorClients(
-                          [...currentDoctorClients].sort((a, b) =>
-                            b.client.phone > a.client.phone ? 1 : -1
-                          )
-                        )
-                      }
-                    />
-                  </div>
                 </th>
                 <th className="border bg-alotrade text-[16px] py-1">
                   Tugilgan yili
-                  <div className="btn-group-vertical ml-2">
-                    <FontAwesomeIcon
-                      onClick={() =>
-                        setCurrentDoctorClients(
-                          [...currentDoctorClients].sort((a, b) =>
-                            a.client.born > b.client.born ? 1 : -1
-                          )
-                        )
-                      }
-                      icon={faAngleUp}
-                      style={{ cursor: "pointer" }}
-                    />
-                    <FontAwesomeIcon
-                      icon={faAngleDown}
-                      style={{ cursor: "pointer" }}
-                      onClick={() =>
-                        setCurrentDoctorClients(
-                          [...currentDoctorClients].sort((a, b) =>
-                            b.client.born > a.client.born ? 1 : -1
-                          )
-                        )
-                      }
-                    />
-                  </div>
                 </th>
                 {clientsType === 'statsionar' && <th className="border bg-alotrade text-[16px] py-1">
                   Kelgan sanasi

@@ -257,27 +257,12 @@ const CreateCounterDoctor = () => {
                                                 <th className="border py-1 bg-alotrade text-[16px]">№</th>
                                                 <th className="border py-1 bg-alotrade text-[16px]">
                                                     Shifokor
-                                                    <Sort
-                                                        data={counterdoctors}
-                                                        setData={setCounterdoctors}
-                                                        property={'lastname'}
-                                                    />
                                                 </th>
                                                 <th className="border py-1 bg-alotrade text-[16px]">
                                                     Ish joy
-                                                    <Sort
-                                                        data={counterdoctors}
-                                                        setData={setCounterdoctors}
-                                                        property={'clinica_name'}
-                                                    />
                                                 </th>
                                                 <th className="border py-1 bg-alotrade text-[16px]">
                                                     Telefon raqam
-                                                    <Sort
-                                                        data={counterdoctors}
-                                                        setData={setCounterdoctors}
-                                                        property={'phone'}
-                                                    />
                                                 </th>
                                                 <th className="border py-1 bg-alotrade text-[16px]">
                                                     Tahrirlash

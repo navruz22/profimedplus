@@ -136,168 +136,27 @@ const StatsionarClientsTable = ({
                                 <th className="border py-1 bg-alotrade text-[16px]">№</th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
                                     F.I.O
-                                    <div className="btn-group-vertical ml-2">
-                                        <FontAwesomeIcon
-                                            onClick={() =>
-                                                setCurrentConnectors(
-                                                    [...currentConnectors].sort((a, b) =>
-                                                        a.client.fullname > b.client.fullname ? 1 : -1
-                                                    )
-                                                )
-                                            }
-                                            icon={faAngleUp}
-                                            style={{ cursor: "pointer" }}
-                                        />
-                                        <FontAwesomeIcon
-                                            icon={faAngleDown}
-                                            style={{ cursor: "pointer" }}
-                                            onClick={() =>
-                                                setCurrentConnectors(
-                                                    [...currentConnectors].sort((a, b) =>
-                                                        b.client.fullname > a.client.fullname ? 1 : -1
-                                                    )
-                                                )
-                                            }
-                                        />
-                                    </div>
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
                                     Tug'ilgan yili
-                                    <div className="btn-group-vertical ml-2">
-                                        <FontAwesomeIcon
-                                            onClick={() =>
-                                                setCurrentConnectors(
-                                                    [...currentConnectors].sort((a, b) =>
-                                                        a.client.born.toLocaleDateString() >
-                                                            b.client.toLocaleDateString()
-                                                            ? 1
-                                                            : -1
-                                                    )
-                                                )
-                                            }
-                                            icon={faAngleUp}
-                                            style={{ cursor: "pointer" }}
-                                        />
-                                        <FontAwesomeIcon
-                                            icon={faAngleDown}
-                                            style={{ cursor: "pointer" }}
-                                            onClick={() =>
-                                                setCurrentConnectors(
-                                                    [...currentConnectors].sort((a, b) =>
-                                                        b.client.born.toLocaleDateString() >
-                                                            a.client.born.toLocaleDateString()
-                                                            ? 1
-                                                            : -1
-                                                    )
-                                                )
-                                            }
-                                        />
-                                    </div>
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
                                     Tel
-                                    <div className="btn-group-vertical ml-2">
-                                        <FontAwesomeIcon
-                                            onClick={() =>
-                                                setCurrentConnectors(
-                                                    [...currentConnectors].sort((a, b) =>
-                                                        a.client.phone > b.client.phone ? 1 : -1
-                                                    )
-                                                )
-                                            }
-                                            icon={faAngleUp}
-                                            style={{ cursor: "pointer" }}
-                                        />
-                                        <FontAwesomeIcon
-                                            icon={faAngleDown}
-                                            style={{ cursor: "pointer" }}
-                                            onClick={() =>
-                                                setCurrentConnectors(
-                                                    [...currentConnectors].sort((a, b) =>
-                                                        b.client.phone > a.client.phone ? 1 : -1
-                                                    )
-                                                )
-                                            }
-                                        />
-                                    </div>
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
                                     Manzil
-                                    <div className="btn-group-vertical ml-2">
-                                        <FontAwesomeIcon
-                                            onClick={() =>
-                                                setCurrentConnectors(
-                                                    [...currentConnectors].sort((a, b) =>
-                                                        a.client.id > b.client.id ? 1 : -1
-                                                    )
-                                                )
-                                            }
-                                            icon={faAngleUp}
-                                            style={{ cursor: "pointer" }}
-                                        />
-                                        <FontAwesomeIcon
-                                            icon={faAngleDown}
-                                            style={{ cursor: "pointer" }}
-                                            onClick={() =>
-                                                setCurrentConnectors(
-                                                    [...currentConnectors].sort((a, b) =>
-                                                        b.client.id > a.client.id ? 1 : -1
-                                                    )
-                                                )
-                                            }
-                                        />
-                                    </div>
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
                                     Shikokor
-                                    <div className="btn-group-vertical ml-2">
-                                        <FontAwesomeIcon
-                                            onClick={() =>
-                                                setCurrentConnectors(
-                                                    [...currentConnectors].sort((a, b) =>
-                                                        a.doctor.fullname > b.doctor.fullname ? 1 : -1
-                                                    )
-                                                )
-                                            }
-                                            icon={faAngleUp}
-                                            style={{ cursor: "pointer" }}
-                                        />
-                                        <FontAwesomeIcon
-                                            icon={faAngleDown}
-                                            style={{ cursor: "pointer" }}
-                                            onClick={() =>
-                                                setCurrentConnectors(
-                                                    [...currentConnectors].sort((a, b) =>
-                                                        b.doctor.fullname > a.doctor.fullname ? 1 : -1
-                                                    )
-                                                )
-                                            }
-                                        />
-                                    </div>
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
                                     Kelgan vaqti
-                                    <Sort
-                                        data={currentConnectors}
-                                        setData={setCurrentConnectors}
-                                        property={"createdAt"}
-                                    />
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
                                     Ketgan vaqti
-                                    <Sort
-                                        data={currentConnectors}
-                                        setData={setCurrentConnectors}
-                                        property={"createdAt"}
-                                    />
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
                                     Kuni
-                                    <Sort
-                                        data={currentConnectors}
-                                        setData={setCurrentConnectors}
-                                        property={"createdAt"}
-                                    />
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px] text-center">Chek</th>
                                 <th className="border py-1 bg-alotrade text-[16px] text-center"></th>

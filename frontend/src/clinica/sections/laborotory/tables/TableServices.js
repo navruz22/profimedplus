@@ -96,19 +96,9 @@ const TableServices = ({
                             <th className="border-right text-[14px] bg-alotrade py-2 text-center text-center">№</th>
                             <th className="border-right text-[14px] bg-alotrade py-2 text-center">
                                 Xizmat turi
-                                <Sort
-                                    data={currentServices}
-                                    setData={setCurrentServices}
-                                    property={"name"}
-                                />
                             </th>
                             <th className="border-right text-[14px] bg-alotrade py-2 text-center max-w-screen-sm">
                                 Xizmat nomi
-                                <Sort
-                                    data={currentServices}
-                                    setData={setCurrentServices}
-                                    property={"service"}
-                                />
                             </th>
                             <th className="border-right text-[14px] bg-alotrade py-2 text-center">
                                 O'rni

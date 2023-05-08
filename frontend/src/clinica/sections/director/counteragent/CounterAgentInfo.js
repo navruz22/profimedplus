@@ -322,51 +322,21 @@ const CounterAgentInfo = () => {
                                                 <th className='border py-1 bg-alotrade text-[16px]'>Mijoz</th>
                                                 <th className="border py-1 bg-alotrade text-[16px]">
                                                     Kelgan vaqti
-                                                    <Sort
-                                                        data={currentConnectors}
-                                                        setData={setCurrentConnectors}
-                                                        property={'createdAt'}
-                                                    />
                                                 </th>
                                                 <th className="border py-1 bg-alotrade text-[16px]">
                                                     Xizmat nomi
-                                                    <Sort
-                                                        data={currentConnectors}
-                                                        setData={setCurrentConnectors}
-                                                        property={'totalprice'}
-                                                    />
                                                 </th>
                                                 <th className="border py-1 bg-alotrade text-[16px]">
                                                     Umumiy narxi
-                                                    <Sort
-                                                        data={currentConnectors}
-                                                        setData={setCurrentConnectors}
-                                                        property={'totalprice'}
-                                                    />
                                                 </th>
                                                 <th className="border py-1 bg-alotrade text-[16px]">
                                                     Agent ulushi
-                                                    <Sort
-                                                        data={currentConnectors}
-                                                        setData={setCurrentConnectors}
-                                                        property={'counteragent_profit'}
-                                                    />
                                                 </th>
                                                 <th className="border py-1 bg-alotrade text-[16px]">
                                                     Shifokor ulushi
-                                                    <Sort
-                                                        data={currentConnectors}
-                                                        setData={setCurrentConnectors}
-                                                        property={'counterdoctor_profit'}
-                                                    />
                                                 </th>
                                                 <th className="border py-1 bg-alotrade text-[16px]">
                                                     Yunaltiruvchi shifokor
-                                                    <Sort
-                                                        data={currentConnectors}
-                                                        setData={setCurrentConnectors}
-                                                        property={'counterdoctor_profit'}
-                                                    />
                                                 </th>
                                             </tr>
                                         </thead>

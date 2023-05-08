@@ -121,59 +121,24 @@ export const TableRooms = ({
                 <th className="border-right bg-alotrade text-[16px]">№</th>
                 <th className="border-right bg-alotrade text-[16px]">
                   Xona turi
-                  <Sort
-                    data={currentRooms}
-                    setData={setCurrentRooms}
-                    property={"type"}
-                  />
                 </th>
                 <th className="border-right bg-alotrade text-[16px]">
                   Xona raqami
-                  <Sort
-                    data={currentRooms}
-                    setData={setCurrentRooms}
-                    property={"number"}
-                  />
                 </th>
                 <th className="border-right bg-alotrade text-[16px]">
                   O'rin raqami
-                  <Sort
-                    data={currentRooms}
-                    setData={setCurrentRooms}
-                    property={"place"}
-                  />
                 </th>
                 <th className="border-right bg-alotrade text-[16px]">
                   Narxi
-                  <Sort
-                    data={currentRooms}
-                    setData={setCurrentRooms}
-                    property={"price"}
-                  />
                 </th>
                 <th className="border-right bg-alotrade text-[16px]">
                   Shifokor ulushi
-                  <Sort
-                    data={currentRooms}
-                    setData={setCurrentRooms}
-                    property={"doctorProcient"}
-                  />
                 </th>
                 <th className="border-right bg-alotrade text-[16px]">
                   Hamshira ulushi
-                  <Sort
-                    data={currentRooms}
-                    setData={setCurrentRooms}
-                    property={"nurseProcient"}
-                  />
                 </th>
                 <th className="border-right bg-alotrade text-[16px]">
                   Holati
-                  <Sort
-                    data={currentRooms}
-                    setData={setCurrentRooms}
-                    property={"position"}
-                  />
                 </th>
                 <th className="border-right text-center bg-alotrade text-[16px]">Tahrirlash</th>
                 <th className="text-center bg-alotrade text-[16px]">O'chirish</th>
