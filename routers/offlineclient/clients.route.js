@@ -668,7 +668,7 @@ module.exports.getAll = async (req, res) => {
                 $lt: endDay,
             },
         })
-            .sort({createdAt: -1})
+            .sort({ createdAt: -1 })
             .select('-__v -updatedAt -isArchive')
             .populate('clinica', 'name phone1 image')
             .populate("client", "lastname firstname fullname born id phone address")
@@ -739,7 +739,26 @@ module.exports.getAllReseption = async (req, res) => {
             })
                 .select('probirka client accept services products createdAt totalprice')
                 .populate('client', 'fullname firstname lastname fathername phone national id gender born address')
-                .populate('services', '_id service refuse turn pieces department accept column tables templates')
+                .populate({
+                    path: "services",
+                    select: "service serviceid accept refuse column tables turn connector client files department",
+                    populate: {
+                        path: "serviceid",
+                        select: "servicetype",
+                        populate: {
+                            path: "servicetype",
+                            select: "name"
+                        }
+                    }
+                })
+                .populate({
+                    path: "services",
+                    select: "service serviceid accept refuse column tables turn connector client files department",
+                    populate: {
+                        path: 'department',
+                        select: "probirka"
+                    }
+                })
                 .populate('products', '_id product pieces')
                 .lean()
                 .then(datas => {
@@ -753,7 +772,26 @@ module.exports.getAllReseption = async (req, res) => {
             })
                 .select('probirka client accept services products createdAt totalprice')
                 .populate('client', 'fullname firstname lastname fathername phone national id gender born address')
-                .populate('services', '_id service refuse turn pieces department accept')
+                .populate({
+                    path: "services",
+                    select: "service serviceid accept refuse column tables turn connector client files department",
+                    populate: {
+                        path: "serviceid",
+                        select: "servicetype",
+                        populate: {
+                            path: "servicetype",
+                            select: "name"
+                        }
+                    }
+                })
+                .populate({
+                    path: "services",
+                    select: "service serviceid accept refuse column tables turn connector client files department",
+                    populate: {
+                        path: 'department',
+                        select: "probirka"
+                    }
+                })
                 .populate('products', '_id product pieces')
                 .sort({ _id: -1 })
                 .lean()
@@ -770,7 +808,26 @@ module.exports.getAllReseption = async (req, res) => {
             })
                 .select('probirka client accept services products createdAt totalprice')
                 .populate('client', 'fullname firstname lastname fathername national phone id gender born address')
-                .populate('services', '_id service turn refuse pieces department accept column tables templates')
+                .populate({
+                    path: "services",
+                    select: "service serviceid accept refuse column tables turn connector client files department",
+                    populate: {
+                        path: "serviceid",
+                        select: "servicetype",
+                        populate: {
+                            path: "servicetype",
+                            select: "name"
+                        }
+                    }
+                })
+                .populate({
+                    path: "services",
+                    select: "service serviceid accept refuse column tables turn connector client files department",
+                    populate: {
+                        path: 'department',
+                        select: "probirka"
+                    }
+                })
                 .populate('products', '_id product pieces')
                 .sort({ _id: -1 })
         }

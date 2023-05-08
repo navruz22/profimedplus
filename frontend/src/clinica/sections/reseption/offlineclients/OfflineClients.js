@@ -7,6 +7,9 @@ import { RegisterClient } from "./clientComponents/RegisterClient";
 import { TableClients } from "./clientComponents/TableClients";
 import { checkClientData, checkProductsData, checkServicesData, } from "./checkData/checkData";
 import { CheckModal } from "../components/ModalCheck";
+import { useRef } from "react";
+import { useReactToPrint } from "react-to-print";
+import AllServices from "../components/AllServices";
 
 export const OfflineClients = () => {
     const [beginDay, setBeginDay] = useState(
@@ -22,6 +25,13 @@ export const OfflineClients = () => {
     const [modal1, setModal1] = useState(false);
     //====================================================================
     //====================================================================
+
+    const [printBody, setPrintBody] = useState(null)
+
+    const componentRef = useRef()
+    const handlePrint = useReactToPrint({
+        content: () => componentRef.current,
+    })
 
     //====================================================================
     //====================================================================
@@ -729,7 +739,7 @@ export const OfflineClients = () => {
     //====================================================================
     //====================================================================
     console.log(connector);
-    
+
     //====================================================================
     //====================================================================
     // ChangeDate
@@ -774,7 +784,7 @@ export const OfflineClients = () => {
         beginDay,
         endDay,
     ]);
-    
+
 
     //====================================================================
     //====================================================================
@@ -820,7 +830,7 @@ export const OfflineClients = () => {
                                 changeClientData={changeClientData}
                                 changeClientBorn={changeClientBorn}
                                 departments={departments}
-                                counterdoctors={counterdoctors} 
+                                counterdoctors={counterdoctors}
                                 advers={advers}
                                 products={products}
                                 loading={loading}
@@ -860,6 +870,8 @@ export const OfflineClients = () => {
                             setClientDate={setClientDate}
                             setIsAddConnector={setIsAddConnector}
                             getClientsById={getClientsById}
+                            setPrintBody={setPrintBody}
+                            handlePrint={handlePrint}
                         />
                     </div>
                 </div>
@@ -872,6 +884,16 @@ export const OfflineClients = () => {
                 modal={modal1}
                 setModal={setModal1}
             />
+
+            <div className="d-none">
+                <div className="container p-4 bg-white text-center" ref={componentRef}>
+                    {printBody && <AllServices
+                        baseUrl={baseUrl}
+                        clinica={auth?.clinica}
+                        connector={printBody}
+                    />}
+                </div>
+            </div>
 
             <Modal
                 modal={modal}
