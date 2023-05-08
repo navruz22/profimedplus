@@ -94,7 +94,7 @@ module.exports.statsionar = async (req, res) => {
                 debt: { $gt: 0 },
                 createdAt: {
                     $gte: beginDay,
-                    $lt: endDay,
+                    $lte: endDay,
                 },
             })
                 .select('-isArchive -updatedAt -__v')

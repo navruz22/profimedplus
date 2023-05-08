@@ -5,6 +5,7 @@ import { useHttp } from "../../../hooks/http.hook";
 import { TableClients } from "../../cashier/statsionarclients/clientComponents/TableClients";
 import Select from 'react-select'
 import makeAnimated from 'react-select/animated'
+import { StatsionarReportTable } from "./components/StatsionarReportTable";
 
 const animatedComponents = makeAnimated()
 
@@ -248,7 +249,7 @@ export const StatsionarReport = () => {
                                 })}
                             />
                         </div>}
-                        <TableClients
+                        <StatsionarReportTable
                             setVisible={setVisible}
                             modal1={modal1}
                             setModal1={setModal1}

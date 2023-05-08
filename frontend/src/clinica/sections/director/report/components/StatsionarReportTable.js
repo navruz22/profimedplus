@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown, faAngleUp, faMoneyBill, faPrint, faSearch } from "@fortawesome/free-solid-svg-icons";
-import { Sort } from "./Sort";
-import { Pagination } from "../../components/Pagination";
-import { DatePickers } from "./DatePickers";
 import { useLocation } from "react-router-dom";
 import ReactHtmlTableToExcel from "react-html-table-to-excel";
+import { Pagination } from "../../../reseption/components/Pagination";
+import { DatePickers } from "../../../reseption/offlineclients/clientComponents/DatePickers";
 
 
-export const TableClients = ({
+export const StatsionarReportTable = ({
     changeClient,
     baseUrl,
     setVisible,
@@ -103,7 +102,6 @@ export const TableClients = ({
     }
 
     return (
-       
             <div className="border-0 table-container">
                 <div className="table-responsive">
                     <div className="bg-white flex gap-6 items-center py-2 px-2">
@@ -227,6 +225,15 @@ export const TableClients = ({
                                     To'langan
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
+                                    Naqt
+                                </th>
+                                <th className="border py-1 bg-alotrade text-[16px]">
+                                    Plastik
+                                </th>
+                                <th className="border py-1 bg-alotrade text-[16px]">
+                                    O'tkazma
+                                </th>
+                                <th className="border py-1 bg-alotrade text-[16px]">
                                     Chegirma
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
@@ -273,6 +280,15 @@ export const TableClients = ({
                                         </td>
                                         <td className="border py-1 text-[16px] text-right">
                                             {connector.payments.reduce((prev, el) => prev + el.payment, 0)}
+                                        </td>
+                                        <td className="border py-1 text-[16px] text-right">
+                                            {connector.payments.reduce((prev, el) => prev + el.cash, 0)}
+                                        </td>
+                                        <td className="border py-1 text-[16px] text-right">
+                                            {connector.payments.reduce((prev, el) => prev + el.card, 0)}
+                                        </td>
+                                        <td className="border py-1 text-[16px] text-right">
+                                            {connector.payments.reduce((prev, el) => prev + el.transfer, 0)}
                                         </td>
                                         <td className="border py-1 text-[16px] text-right">
                                             {(connector?.discount?.discount || 0)}
@@ -340,6 +356,15 @@ export const TableClients = ({
                                 </td>
                                 <td className="border py-1 text-[16px] text-right font-bold">
                                     {connectors.reduce((prev, connector) => prev + connector.payments.reduce((sum, payment) => sum + payment.payment, 0), 0)}
+                                </td>
+                                <td className="border py-1 text-[16px] text-right font-bold">
+                                    {connectors.reduce((prev, connector) => prev + connector.payments.reduce((sum, payment) => sum + payment.cash, 0), 0)}
+                                </td>
+                                <td className="border py-1 text-[16px] text-right font-bold">
+                                    {connectors.reduce((prev, connector) => prev + connector.payments.reduce((sum, payment) => sum + payment.card, 0), 0)}
+                                </td>
+                                <td className="border py-1 text-[16px] text-right font-bold">
+                                    {connectors.reduce((prev, connector) => prev + connector.payments.reduce((sum, payment) => sum + payment.transfer, 0), 0)}
                                 </td>
                                 <td className="border py-1 text-[16px] text-right font-bold">
                                     {connectors.reduce((prev, el) => prev + (el?.discount?.discount || 0), 0)}
