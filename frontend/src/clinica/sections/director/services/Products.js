@@ -8,8 +8,12 @@ import { Modal } from './modal/Modal'
 import { TableProducts } from './productComponents/TableProducts'
 import { InputProduct } from './productComponents/InputProduct'
 import { ExcelCols } from './productComponents/ExcelCols'
+import { useTranslation } from 'react-i18next'
 
 export const Products = () => {
+
+  const {t} = useTranslation()
+
   //====================================================================
   //====================================================================
   // Pagenation
@@ -80,11 +84,11 @@ export const Products = () => {
   const [changeImports, setChangeImports] = useState([])
 
   const sections = [
-    { name: 'Shifoxona nomi', value: 'clinica' },
-    { name: 'Mahsulot nomi', value: 'name' },
-    { name: 'Mahsulot narxi', value: 'price' },
-    { name: "O'lchov birligi", value: 'unit' },
-    { name: 'Donasi', value: 'total' },
+    { name: t('Shifoxona nomi'), value: 'clinica' },
+    { name: t('Mahsulot nomi'), value: 'name' },
+    { name: t('Mahsulot narxi'), value: 'price' },
+    { name: t("O'lchov birligi"), value: 'unit' },
+    { name: t('Donasi'), value: 'total' },
   ]
 
   const getProducts = useCallback(async () => {
@@ -349,13 +353,13 @@ export const Products = () => {
 
   //====================================================================
   //====================================================================
-  const [t, setT] = useState()
+  const [s, setS] = useState()
   useEffect(() => {
-    if (!t) {
-      setT(1)
+    if (!s) {
+      setS(1)
       getProducts()
     }
-  }, [getProducts, t])
+  }, [getProducts, s])
   //====================================================================
   //====================================================================
 
@@ -400,15 +404,15 @@ export const Products = () => {
         modal={modal}
         setModal={setModal}
         basic={remove && remove.name}
-        text={"mahsulotini o'chirishni tasdiqlaysizmi?"}
+        text={t("mahsulotini o'chirishni tasdiqlaysizmi?")}
         handler={deleteHandler}
       />
 
       <Modal
         modal={modal1}
         setModal={setModal1}
-        basic={'Barcha'}
-        text={"mahsulotini o'chirishni tasdiqlaysizmi?"}
+        basic={t('Barcha')}
+        text={t("mahsulotini o'chirishni tasdiqlaysizmi?")}
         handler={deleteAll}
       />
 

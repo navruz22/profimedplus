@@ -10,6 +10,7 @@ import { Pagination } from "../../components/Pagination";
 import { DatePickers } from "./DatePickers";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import { useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 export const TableClients = ({
   changeStart,
@@ -28,6 +29,7 @@ export const TableClients = ({
   getPayment,
   getDebtsByClientBorn
 }) => {
+  const {t} = useTranslation()
   const location = useLocation()
   return (
     <div className="border-0 shadow-lg table-container">
@@ -37,7 +39,7 @@ export const TableClients = ({
             <div>
               <select
                 className="form-control form-control-sm selectpicker"
-                placeholder="Bo'limni tanlang"
+                placeholder={t("Bo'limni tanlang")}
                 onChange={setPageSize}
                 style={{ minWidth: "50px" }}
               >
@@ -53,14 +55,14 @@ export const TableClients = ({
                 style={{ maxWidth: "100px", minWidth: "100px" }}
                 type="search"
                 className="w-100 form-control form-control-sm selectpicker"
-                placeholder="F.I.O"
+                placeholder={t("F.I.O")}
               />
               <input
                 onChange={searchId}
                 style={{ maxWidth: "60px" }}
                 type="search"
                 className="form-control form-control-sm selectpicker"
-                placeholder="ID"
+                placeholder={t("ID")}
               />
             </div>
             <div className="text-center">
@@ -68,9 +70,9 @@ export const TableClients = ({
                 className="form-control form-control-sm selectpicker"
                 onChange={sortDebts}
               >
-                <option value="none">hamma</option>
-                <option value="statsionar">Statsionar</option>
-                <option value="offline">Kunduzgi</option>
+                <option value="none">{t("hamma")}</option>
+                <option value="statsionar">{t("Statsionar")}</option>
+                <option value="offline">{t("Kunduzgi")}</option>
               </select>
             </div>
             <div>
@@ -106,7 +108,7 @@ export const TableClients = ({
                   table="debt-table"
                   sheet="Sheet"
                   buttonText="Excel"
-                  filename="Qarzlar"
+                  filename={t("Qarzlar")}
                 />
               </div>
             </div>
@@ -116,28 +118,28 @@ export const TableClients = ({
               <tr>
                 <th className="border bg-alotrade text-[16px] py-1">№</th>
                 <th className="border bg-alotrade text-[16px] py-1">
-                  F.I.O
+                  {("F.I.O")}
                 </th>
                 <th className="border bg-alotrade text-[16px] py-1">
-                  ID
+                  {t("ID")}
                 </th>
                 <th className="border bg-alotrade text-[16px] py-1">
-                  Telefon raqami
+                  {t("Telefon raqami")}
                 </th>
                 <th className="border bg-alotrade text-[16px] py-1">
-                  Tugilgan yili
+                  {t("Tugilgan yili")}
                 </th>
                 <th className="border bg-alotrade text-[16px] py-1">
-                  Summa
+                  {t("Summa")}
                 </th>
                 <th className="border bg-alotrade text-[16px] py-1">
-                  Qarz summasi
+                  {t("Qarz summasi")}
                 </th>
                 <th className="border bg-alotrade text-[16px] py-1">
-                  Izoh
+                  {t("Izoh")}
                 </th>
                 {!location.pathname.includes('alo24/debtreport') && <th className="border bg-alotrade text-[16px] py-1">
-                  Qabul
+                  {t("Qabul")}
                 </th>}
               </tr>
             </thead>

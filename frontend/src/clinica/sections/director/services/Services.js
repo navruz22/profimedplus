@@ -9,11 +9,13 @@ import { TableServices } from './serviceComponents/TableServices'
 import { InputService } from './serviceComponents/InputService'
 import { ExcelCols } from './serviceComponents/ExcelCols'
 import { useLocation } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 export const Services = () => {
 
     const location = useLocation()
 
+    const {t} = useTranslation()
 
     //====================================================================
     //====================================================================
@@ -85,16 +87,16 @@ export const Services = () => {
     const [changeImports, setChangeImports] = useState([])
 
     const sections = [
-        { name: 'Shifoxona nomi', value: 'clinica' },
-        { name: "Bo'lim nomi", value: 'department' },
-        { name: 'Xizmat turi', value: 'servicetype' },
-        { name: 'Xizmat nomi', value: 'name' },
-        { name: 'Qisqartma nomi', value: 'shortname' },
-        { name: 'Narxi', value: 'price' },
-        { name: 'Xizmat xonasi', value: 'serviceroom' },
-        { name: 'Shifokor ulushi', value: 'doctorProcient' },
-        { name: 'Kontragent ulushi', value: 'counterAgentProcient' },
-        { name: "Yo'naltiruvchi shifokor ulushi", value: 'counterDoctorProcient' },
+        { name: t('Shifoxona nomi'), value: 'clinica' },
+        { name: t("Bo'lim nomi"), value: 'department' },
+        { name: t('Xizmat turi'), value: 'servicetype' },
+        { name: t('Xizmat nomi'), value: 'name' },
+        { name: t('Qisqartma nomi'), value: 'shortname' },
+        { name: t('Narxi'), value: 'price' },
+        { name: t('Xizmat xonasi'), value: 'serviceroom' },
+        { name: t('Shifokor ulushi'), value: 'doctorProcient' },
+        { name: t('Kontragent ulushi'), value: 'counterAgentProcient' },
+        { name: t("Yo'naltiruvchi shifokor ulushi"), value: 'counterDoctorProcient' },
     ]
 
     const getServices = useCallback(async () => {
@@ -452,15 +454,15 @@ export const Services = () => {
 
     //====================================================================
     //====================================================================
-    const [t, setT] = useState()
+    const [s, setS] = useState()
     useEffect(() => {
-        if (!t) {
-            setT(1)
+        if (!s) {
+            setS(1)
             getDepartments()
             getServices()
             getServiceTypes()
         }
-    }, [getServices, getDepartments, getServiceTypes, t])
+    }, [getServices, getDepartments, getServiceTypes, s])
     //====================================================================
     //====================================================================
 
@@ -512,15 +514,15 @@ export const Services = () => {
                 modal={modal}
                 setModal={setModal}
                 basic={remove && remove.name}
-                text={"xizmatini o'chirishni tasdiqlaysizmi?"}
+                text={t("xizmatini o'chirishni tasdiqlaysizmi?")}
                 handler={deleteHandler}
             />
 
             <Modal
                 modal={modal1}
                 setModal={setModal1}
-                basic={'Barcha'}
-                text={"xizmatlarni o'chirishni tasdiqlaysizmi?"}
+                basic={t('Barcha')}
+                text={t("xizmatlarni o'chirishni tasdiqlaysizmi?")}
                 handler={deleteAll}
             />
 

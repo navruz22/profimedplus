@@ -5,6 +5,7 @@ import { ExcelUpload } from "./ExcelUpload";
 import { Pagination } from "../../components/Pagination";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBed } from "@fortawesome/free-solid-svg-icons";
+import { useTranslation } from "react-i18next";
 
 export const TableRooms = ({
   searchType,
@@ -24,6 +25,7 @@ export const TableRooms = ({
   setModal2,
   loading
 }) => {
+  const {t} = useTranslation()
   return (
     <div className="border-0 table-container">
       <div className="border-0 table-container">
@@ -40,7 +42,7 @@ export const TableRooms = ({
                     <option value={10}>10</option>
                     <option value={25}>25</option>
                     <option value={50}>50</option>
-                    <option value={'all'}>Barchasi</option>
+                    <option value={'all'}>{t("Barchasi")}</option>
                   </select>
                 </th>
                 <th>
@@ -96,7 +98,7 @@ export const TableRooms = ({
                 <th className="text-center">
                   <Tooltip
                     hasArrow
-                    label="Barcha xonalarni o'chirish"
+                    label={t("Barcha xonalarni o'chirish")}
                     bg="red.500"
                   >
                     {loading ?
@@ -120,28 +122,28 @@ export const TableRooms = ({
               <tr>
                 <th className="border-right bg-alotrade text-[16px]">№</th>
                 <th className="border-right bg-alotrade text-[16px]">
-                  Xona turi
+                  {t("Xona turi")}
                 </th>
                 <th className="border-right bg-alotrade text-[16px]">
-                  Xona raqami
+                  {t("Xona raqami")}
                 </th>
                 <th className="border-right bg-alotrade text-[16px]">
-                  O'rin raqami
+                  {t("O'rin raqami")}
                 </th>
                 <th className="border-right bg-alotrade text-[16px]">
-                  Narxi
+                  {t("Narxi")}
                 </th>
                 <th className="border-right bg-alotrade text-[16px]">
-                  Shifokor ulushi
+                  {t("Shifokor ulushi")}
                 </th>
                 <th className="border-right bg-alotrade text-[16px]">
-                  Hamshira ulushi
+                  {t("Hamshira ulushi")}
                 </th>
                 <th className="border-right bg-alotrade text-[16px]">
-                  Holati
+                  {t("Holati")}
                 </th>
-                <th className="border-right text-center bg-alotrade text-[16px]">Tahrirlash</th>
-                <th className="text-center bg-alotrade text-[16px]">O'chirish</th>
+                <th className="border-right text-center bg-alotrade text-[16px]">{t("Tahrirlash")}</th>
+                <th className="text-center bg-alotrade text-[16px]">{t("O'chirish")}</th>
               </tr>
             </thead>
             <tbody>
@@ -179,7 +181,7 @@ export const TableRooms = ({
                         className="bg-alotrade text-white font-semibold rounded py-1 px-2"
                         style={{ fontSize: "75%" }}
                       >
-                        Tahrirlash
+                        {t("Tahrirlash")}
                       </button>
                     </td>
                     <td className="text-center text-[16px]">
@@ -192,7 +194,7 @@ export const TableRooms = ({
                         className="bg-red-400 text-white font-semibold rounded py-1 px-2"
                         style={{ fontSize: "75%" }}
                       >
-                        O'chirish
+                        {t("O'chirish")}
                       </button>
                     </td>
                   </tr>

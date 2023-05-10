@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 export const InputRoom = ({
   room,
@@ -7,19 +8,20 @@ export const InputRoom = ({
   saveHandler,
   loading
 }) => {
+  const {t} = useTranslation()
   return (
     <div className="border-0 table-container">
       <div className="table-responsive">
         <table className="table m-0">
           <thead>
             <tr>
-              <th className="bg-alotrade text-[16px]">Xona turi</th>
-              <th className="bg-alotrade text-[16px]">Xona raqami</th>
-              <th className="bg-alotrade text-[16px]">O'rin raqami</th>
-              <th className="bg-alotrade text-[16px]">Narxi</th>
-              <th className="bg-alotrade text-[16px]">Shifokor ulushi</th>
-              <th className="bg-alotrade text-[16px]">Hamshira ulushi</th>
-              <th className="bg-alotrade text-[16px]">Saqlash</th>
+              <th className="bg-alotrade text-[16px]">{t("Xona turi")}</th>
+              <th className="bg-alotrade text-[16px]">{t("Xona raqami")}</th>
+              <th className="bg-alotrade text-[16px]">{t("O'rin raqami")}</th>
+              <th className="bg-alotrade text-[16px]">{t("Narxi")}</th>
+              <th className="bg-alotrade text-[16px]">{t("Shifokor ulushi")}</th>
+              <th className="bg-alotrade text-[16px]">{t("Hamshira ulushi")}</th>
+              <th className="bg-alotrade text-[16px]">{t("Saqlash")}</th>
             </tr>
           </thead>
           <tbody>
@@ -34,7 +36,7 @@ export const InputRoom = ({
                   type="text"
                   className="form-control w-75"
                   id="type"
-                  placeholder="Xona turini kiriting"
+                  placeholder={t("Xona turini kiriting")}
                 />
               </td>
               <td>
@@ -47,7 +49,7 @@ export const InputRoom = ({
                   type="text"
                   className="form-control w-75"
                   id="number"
-                  placeholder="Xona nomini kiriting"
+                  placeholder={t("Xona nomini kiriting")}
                 />
               </td>
               <td>
@@ -60,7 +62,7 @@ export const InputRoom = ({
                   type="number"
                   className="form-control w-75"
                   id="place"
-                  placeholder="Yotoq o'rnini kiriting"
+                  placeholder={t("Yotoq o'rnini kiriting")}
                 />
               </td>
               <td>
@@ -73,7 +75,7 @@ export const InputRoom = ({
                   type="number"
                   className="form-control w-75"
                   id="price"
-                  placeholder="Narxini kiriting"
+                  placeholder={t("Narxini kiriting")}
                 />
               </td>
               <td>
@@ -86,7 +88,7 @@ export const InputRoom = ({
                   type="number"
                   className="form-control w-75"
                   id="doctorProcient"
-                  placeholder="Narxini kiriting"
+                  placeholder={t("Narxini kiriting")}
                 />
               </td>
               <td>
@@ -99,7 +101,7 @@ export const InputRoom = ({
                   type="number"
                   className="form-control w-75"
                   id="nurseProcient"
-                  placeholder="Hamshira ulushini"
+                  placeholder={t("Hamshira ulushini")}
                 />
               </td>
               <td>
@@ -116,7 +118,7 @@ export const InputRoom = ({
                     onClick={saveHandler}
                     className="btn btn-info py-1 px-4"
                   >
-                    Saqlash
+                    {t("Saqlash")}
                   </button>
                 }
               </td>

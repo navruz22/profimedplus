@@ -3,6 +3,7 @@ import { Sort } from "./Sort";
 import { Tooltip } from "@chakra-ui/react";
 import { ExcelUpload } from "./ExcelUpload";
 import { Pagination } from "../../components/Pagination";
+import { useTranslation } from "react-i18next";
 
 export const TableProducts = ({
   searchName,
@@ -23,6 +24,7 @@ export const TableProducts = ({
   setModal2,
   loading
 }) => {
+  const {t} = useTranslation()
   return (
     <div className="border-0 shadow-lg table-container">
       <div className="border-0 table-container">
@@ -33,7 +35,7 @@ export const TableProducts = ({
                 <th>
                   <select
                     className="form-control form-control-sm selectpicker"
-                    placeholder="Bo'limni tanlang"
+                    placeholder={t("Bo'limni tanlang")}
                     onChange={setPageSize}
                   >
                     <option value={10}>10</option>
@@ -85,7 +87,7 @@ export const TableProducts = ({
                 <th className="text-center">
                   <Tooltip
                     hasArrow
-                    label="Barcha mahsulotlarni o'chirish"
+                    label={t("Barcha mahsulotlarni o'chirish")}
                     bg="red.500"
                   >
                     {loading ? <button className="btn btn-danger" disabled>
@@ -108,19 +110,19 @@ export const TableProducts = ({
               <tr>
                 <th className="border-right bg-alotrade text-[16px]">№</th>
                 <th className="border-right bg-alotrade text-[16px]">
-                  Nomi
+                  {t("Nomi")}
                 </th>
                 <th className="border-right bg-alotrade text-[16px]">
-                  O'lchov birligi
+                  {t("O'lchov birligi")}
                 </th>
                 <th className="border-right bg-alotrade text-[16px]">
-                  Narxi
+                  {t("Narxi")}
                 </th>
                 <th className="border-right bg-alotrade text-[16px]">
-                  Soni
+                  {t("Soni")}
                 </th>
-                <th className="border-right text-center bg-alotrade text-[16px]">Tahrirlash</th>
-                <th className="text-center bg-alotrade text-[16px]">O'chirish</th>
+                <th className="border-right text-center bg-alotrade text-[16px]">{t("Tahrirlash")}</th>
+                <th className="text-center bg-alotrade text-[16px]">{t("O'chirish")}</th>
               </tr>
             </thead>
             <tbody>
@@ -144,7 +146,7 @@ export const TableProducts = ({
                         className="text-white font-semibold bg-alotrade rounded py-1 px-2"
                         style={{ fontSize: "75%" }}
                       >
-                        Tahrirlash
+                        {t("Tahrirlash")}
                       </button>
                     </td>
                     <td className="text-center text-[16px]">
@@ -157,7 +159,7 @@ export const TableProducts = ({
                         className="text-white font-semibold bg-red-400 rounded py-1 px-2"
                         style={{ fontSize: "75%" }}
                       >
-                        O'chirish
+                        {t("O'chirish")}
                       </button>
                     </td>
                   </tr>

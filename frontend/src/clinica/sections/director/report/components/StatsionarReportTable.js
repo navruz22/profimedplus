@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 import ReactHtmlTableToExcel from "react-html-table-to-excel";
 import { Pagination } from "../../../reseption/components/Pagination";
 import { DatePickers } from "../../../reseption/offlineclients/clientComponents/DatePickers";
+import { useTranslation } from "react-i18next";
 
 
 export const StatsionarReportTable = ({
@@ -35,7 +36,7 @@ export const StatsionarReportTable = ({
     getConnectorsByClientBorn,
     changeType
 }) => {
-
+    const {t} = useTranslation()
     const location = useLocation()
     const [clientBorn, setClientBorn] = useState('')
 
@@ -108,14 +109,14 @@ export const StatsionarReportTable = ({
                         <div>
                             <select
                                 className="form-control form-control-sm selectpicker"
-                                placeholder="Bo'limni tanlang"
+                                placeholder={t("Bo'limni tanlang")}
                                 onChange={setPageSize}
                                 style={{ minWidth: '50px' }}
                             >
                                 <option value={10}>10</option>
                                 <option value={25}>25</option>
                                 <option value={50}>50</option>
-                                <option value={'all'}>Barchasi</option>
+                                <option value={'all'}>{t("Barchasi")}</option>
                             </select>
                         </div>
                         <div>
@@ -124,7 +125,7 @@ export const StatsionarReportTable = ({
                                 style={{ maxWidth: '100px', minWidth: '100px' }}
                                 type="search"
                                 className="w-100 form-control form-control-sm selectpicker"
-                                placeholder="F.I.O"
+                                placeholder={t("F.I.O")}
                             />
                         </div>
                         <div>
@@ -133,7 +134,7 @@ export const StatsionarReportTable = ({
                                 style={{ maxWidth: '100px', minWidth: '100px' }}
                                 type="search"
                                 className="w-100 form-control form-control-sm selectpicker"
-                                placeholder="Tel"
+                                placeholder={t("Tel")}
                             />
                         </div>
                         <div>
@@ -142,7 +143,7 @@ export const StatsionarReportTable = ({
                                 style={{ maxWidth: '80px' }}
                                 type="search"
                                 className="form-control form-control-sm selectpicker"
-                                placeholder="ID"
+                                placeholder={t("ID")}
                             />
                         </div>
                         <div className="flex items-center gap-4">
@@ -185,7 +186,7 @@ export const StatsionarReportTable = ({
                                     table="statsionarreport-table"
                                     sheet="Sheet"
                                     buttonText="Excel"
-                                    filename="Statsionar"
+                                    filename={t("Statsionar")}
                                 />
                             </div>
                         </div>
@@ -195,9 +196,9 @@ export const StatsionarReportTable = ({
                                 placeholder="Doctors"
                                 onChange={changeType}
                             >
-                                <option value={"all"}>Hammasi</option>
-                                <option value={"done"}>Yakunlangan</option>
-                                <option value={"continue"}>Davolanishda</option>
+                                <option value={"all"}>{t("Hammasi")}</option>
+                                <option value={"done"}>{t("Yakunlangan")}</option>
+                                <option value={"continue"}>{t("Davolanishda")}</option>
                             </select>
                         </div>
                     </div>
@@ -206,45 +207,45 @@ export const StatsionarReportTable = ({
                             <tr>
                                 <th className="border py-1 bg-alotrade text-[16px]">№</th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                    F.I.O
+                                    {t("F.I.O")}
                                 </th>
-                                <th className="border py-1 bg-alotrade text-[16px]">Tel</th>
+                                <th className="border py-1 bg-alotrade text-[16px]">{t("Tel")}</th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                    ID
-                                </th>
-                                <th className="border py-1 bg-alotrade text-[16px]">
-                                    Kelgan
+                                    {t("ID")}
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                    Ketgan
+                                    {t("Kelgan")}
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                    To'lov summasi
+                                    {t("Ketgan")}
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                    To'langan
+                                    {t("To'lov summasi")}
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                    Naqt
+                                    {t("To'langan")}
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                    Plastik
+                                    {t("Naqt")}
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                    O'tkazma
+                                    {t("Plastik")}
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                    Chegirma
+                                    {t("O'tkazma")}
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                    Qarz
+                                    {t("Chegirma")}
+                                </th>
+                                <th className="border py-1 bg-alotrade text-[16px]">
+                                    {t("Qarz")}
                                 </th>
                                 {!location.pathname.includes('/alo24/statsionarreport') && <th className="border py-1 bg-alotrade text-[16px]">
-                                    To'lov
+                                    {t("To'lov")}
                                 </th>}
 
                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                    Chek
+                                    {t("Chek")}
                                 </th>
                             </tr>
                         </thead>
@@ -341,7 +342,7 @@ export const StatsionarReportTable = ({
                                     className={`border py-1 font-weight-bold text-right text-[16px]`}
                                 >
                                     <div className="flex justify-between">
-                                        <div>Qoldiq: {connectors.reduce((prev, connector) => {
+                                        <div>{t("Qoldiq")}: {connectors.reduce((prev, connector) => {
                                             let payments = connector.payments.reduce((prev, el) => prev + el.payment, 0)
                                             return prev + payments
                                         }, 0)}</div>

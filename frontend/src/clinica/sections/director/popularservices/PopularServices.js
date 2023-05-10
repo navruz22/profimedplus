@@ -1,5 +1,6 @@
 import { useToast } from '@chakra-ui/react';
 import React, { useCallback, useContext, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next';
 import { AuthContext } from '../../../context/AuthContext';
 import { useHttp } from '../../../hooks/http.hook';
 import { DatePickers } from '../../reseption/offlineclients/clientComponents/DatePickers';
@@ -17,6 +18,7 @@ const PopularServices = () => {
         new Date()
     );
 
+    const {t} = useTranslation()
     //======================================================
     //======================================================
 
@@ -128,13 +130,13 @@ const PopularServices = () => {
     //=====================================================
     //=====================================================
 
-    const [t, setT] = useState(0);
+    const [s, setS] = useState(0);
     useEffect(() => {
-        if (!t) {
-            setT(1)
+        if (!s) {
+            setS(1)
             getServices(beginDay, endDay)
         }
-    }, [t, getServices])
+    }, [s, getServices])
 
     return (
         <div className="min-h-full">
@@ -148,7 +150,7 @@ const PopularServices = () => {
                                         <div>
                                             <select
                                                 className="form-control form-control-sm selectpicker"
-                                                placeholder="Bo'limni tanlang"
+                                                placeholder={t("Bo'limni tanlang")}
                                                 onChange={setPageSize}
                                                 style={{ minWidth: "50px" }}
                                             >
@@ -180,13 +182,13 @@ const PopularServices = () => {
                                             <tr>
                                                 <th className="border py-1 bg-alotrade text-[16px]">№</th>
                                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                                    Bo'lim
+                                                    {t("Bo'lim")}
                                                 </th>
                                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                                    Xizmat
+                                                    {t("Xizmat")}
                                                 </th>
                                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                                    Soni
+                                                    {t("Soni")}
                                                     <Sort
                                                         data={services}
                                                         setData={setServices}

@@ -8,8 +8,12 @@ import { Modal } from './modal/Modal'
 import { TableRooms } from './roomComponents/TableRooms'
 import { InputRoom } from './roomComponents/InputRoom'
 import { ExcelCols } from './roomComponents/ExcelCols'
+import { useTranslation } from 'react-i18next'
 
 export const Rooms = () => {
+
+  const {t} = useTranslation()
+
   //====================================================================
   //====================================================================
   // Pagenation
@@ -79,11 +83,11 @@ export const Rooms = () => {
   const [changeImports, setChangeImports] = useState([])
 
   const sections = [
-    { name: 'Shifoxona', value: 'clinica' },
-    { name: 'Xona turi', value: 'type' },
-    { name: 'Xona raqami', value: 'number' },
-    { name: "O'rin raqami", value: 'place' },
-    { name: 'Narxi', value: 'price' },
+    { name: t('Shifoxona'), value: 'clinica' },
+    { name: t('Xona turi'), value: 'type' },
+    { name: t('Xona raqami'), value: 'number' },
+    { name: t("O'rin raqami"), value: 'place' },
+    { name: t('Narxi'), value: 'price' },
   ]
 
   const getRooms = useCallback(async () => {
@@ -362,13 +366,13 @@ export const Rooms = () => {
 
   //====================================================================
   //====================================================================
-  const [t, setT] = useState()
+  const [s, setS] = useState()
   useEffect(() => {
-    if (!t) {
-      setT(1)
+    if (!s) {
+      setS(1)
       getRooms()
     }
-  }, [getRooms, t])
+  }, [getRooms, s])
   //====================================================================
   //====================================================================
 
@@ -413,15 +417,15 @@ export const Rooms = () => {
         modal={modal}
         setModal={setModal}
         basic={remove && remove.type}
-        text={"xonasini o'chirishni tasdiqlaysizmi?"}
+        text={t("xonasini o'chirishni tasdiqlaysizmi?")}
         handler={deleteHandler}
       />
 
       <Modal
         modal={modal1}
         setModal={setModal1}
-        basic={'Barcha'}
-        text={"xonalarni o'chirishni tasdiqlaysizmi?"}
+        basic={t('Barcha')}
+        text={t("xonalarni o'chirishni tasdiqlaysizmi?")}
         handler={deleteAll}
       />
 

@@ -1,6 +1,7 @@
 import { faAngleDown, faAngleUp, faPenAlt, faPrint } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react'
+import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import { Pagination } from '../../../reseption/components/Pagination';
 import { DatePickers } from '../../../reseption/statsionarclients/clientComponents/DatePickers';
@@ -29,7 +30,7 @@ const StatsionarClientsTable = ({
     user,
     baseUrl
 }) => {
-
+    const {t} = useTranslation()
     const history = useHistory()
 
     return (
@@ -42,14 +43,14 @@ const StatsionarClientsTable = ({
                                 <th>
                                     <select
                                         className="form-control form-control-sm selectpicker"
-                                        placeholder="Bo'limni tanlang"
+                                        placeholder={t("Bo'limni tanlang")}
                                         onChange={setPageSize}
                                         style={{ minWidth: "50px" }}
                                     >
                                         <option value={10}>10</option>
                                         <option value={25}>25</option>
                                         <option value={50}>50</option>
-                                        <option value={'all'}>Barchasi</option>
+                                        <option value={'all'}>{t("Barchasi")}</option>
                                     </select>
                                 </th>
                                 <th>
@@ -58,7 +59,7 @@ const StatsionarClientsTable = ({
                                         style={{ maxWidth: "100px", minWidth: "100px" }}
                                         type="search"
                                         className="w-100 form-control form-control-sm selectpicker"
-                                        placeholder="F.I.O"
+                                        placeholder={t("F.I.O")}
                                     />
                                 </th>
                                 <th>
@@ -67,7 +68,7 @@ const StatsionarClientsTable = ({
                                         style={{ maxWidth: "100px", minWidth: "100px" }}
                                         type="search"
                                         className="w-100 form-control form-control-sm selectpicker"
-                                        placeholder="Tug'ilgan yili"
+                                        placeholder={t("Tug'ilgan yili")}
                                     />
                                 </th>
                                 <th>
@@ -76,7 +77,7 @@ const StatsionarClientsTable = ({
                                         style={{ maxWidth: "100px", minWidth: "100px" }}
                                         type="search"
                                         className="w-100 form-control form-control-sm selectpicker"
-                                        placeholder="Tel"
+                                        placeholder={t("Tel")}
                                     />
                                 </th>
                                 <th>
@@ -85,7 +86,7 @@ const StatsionarClientsTable = ({
                                         style={{ maxWidth: "60px" }}
                                         type="search"
                                         className="form-control form-control-sm selectpicker"
-                                        placeholder="ID"
+                                        placeholder={t("ID")}
                                     />
                                 </th>
                                 <th>
@@ -94,7 +95,7 @@ const StatsionarClientsTable = ({
                                         style={{ maxWidth: "100px" }}
                                         type="search"
                                         className="form-control form-control-sm selectpicker"
-                                        placeholder="Shifokor"
+                                        placeholder={t("Shifokor")}
                                     />
                                 </th>
                                 <th className="text-center">
@@ -124,9 +125,9 @@ const StatsionarClientsTable = ({
                                         placeholder="Doctors"
                                         onChange={searchFinished}
                                     >
-                                        <option value={"all"}>Hammasi</option>
-                                        <option value={"done"}>Yakunlangan</option>
-                                        <option value={"begin"}>Davolanishda</option>
+                                        <option value={"all"}>{t("Hammasi")}</option>
+                                        <option value={"done"}>{t("Yakunlangan")}</option>
+                                        <option value={"begin"}>{t("Davolanishda")}</option>
                                     </select>
                                 </th>
                             </tr>
@@ -135,30 +136,30 @@ const StatsionarClientsTable = ({
                             <tr>
                                 <th className="border py-1 bg-alotrade text-[16px]">№</th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                    F.I.O
+                                    {t("F.I.O")}
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                    Tug'ilgan yili
+                                    {t("Tug'ilgan yili")}
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                    Tel
+                                    {t("Tel")}
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                    Manzil
+                                    {t("Manzil")}
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                    Shikokor
+                                    {t("Shikokor")}
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                    Kelgan vaqti
+                                    {t("Kelgan vaqti")}
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                    Ketgan vaqti
+                                    {t("Ketgan vaqti")}
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                    Kuni
+                                    {t("Kuni")}
                                 </th>
-                                <th className="border py-1 bg-alotrade text-[16px] text-center">Chek</th>
+                                <th className="border py-1 bg-alotrade text-[16px] text-center">{t("Chek")}</th>
                                 <th className="border py-1 bg-alotrade text-[16px] text-center"></th>
                             </tr>
                         </thead>

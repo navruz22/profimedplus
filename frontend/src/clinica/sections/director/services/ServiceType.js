@@ -9,10 +9,13 @@ import { Sort } from './serviceComponents/Sort'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleUp, faAngleDown } from '@fortawesome/free-solid-svg-icons'
 import { useHistory, useLocation } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 export const ServiceType = () => {
   //====================================================================
   //====================================================================
+
+  const {t} = useTranslation()
 
   const location = useLocation()
   const history = useHistory()
@@ -298,14 +301,14 @@ export const ServiceType = () => {
 
   //====================================================================
   //====================================================================
-  const [t, setT] = useState()
+  const [s, setS] = useState()
   useEffect(() => {
-    if (!t) {
-      setT(1)
+    if (!s) {
+      setS(1)
       getDepartments()
       getServiceType()
     }
-  }, [getDepartments, getServiceType, t])
+  }, [getDepartments, getServiceType, s])
   //====================================================================
   //====================================================================
 
@@ -320,10 +323,10 @@ export const ServiceType = () => {
                 <table className="table m-0">
                   <thead>
                     <tr>
-                      <th className="w-25 bg-alotrade text-[16px]">Bo'lim nomi</th>
-                      <th className="w-25 bg-alotrade text-[16px]">Xizmat turi</th>
-                      <th className="w-25 bg-alotrade text-[16px]">Saqlash</th>
-                      <th className="w-25 bg-alotrade text-[16px]">Barcha xizmatlarni o'chirish</th>
+                      <th className="w-25 bg-alotrade text-[16px]">{t("Bo'lim nomi")}</th>
+                      <th className="w-25 bg-alotrade text-[16px]">{t("Xizmat turi")}</th>
+                      <th className="w-25 bg-alotrade text-[16px]">{t("Saqlash")}</th>
+                      <th className="w-25 bg-alotrade text-[16px]">{t("Barcha xizmatlarni o'chirish")}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -335,7 +338,7 @@ export const ServiceType = () => {
                           placeholder="Bo'limni tanlang"
                           onChange={checkHandler}
                         >
-                          <option value={'none'}>Bo'limni tanlang</option>
+                          <option value={'none'}>{t("Bo'limni tanlang")}</option>
                           {departments &&
                             departments.map((department, index) => {
                               return (
@@ -370,7 +373,7 @@ export const ServiceType = () => {
                             onClick={saveHandler}
                             className="text-[16px] btn btn-info py-1 px-4"
                           >
-                            Saqlash
+                            {t("Saqlash")}
                           </button>
                         )}
                       </td>
@@ -401,14 +404,14 @@ export const ServiceType = () => {
                     <tr>
                       <th className='text-[16px] bg-alotrade '>№</th>
                       <th className="text-[16px] bg-alotrade w-25">
-                        Bo'limi
+                        {t("Bo'limi")}
                       </th>
                       <th className="text-[16px] bg-alotrade w-25">
-                        Xizmat turi
+                        {t("Xizmat turi")}
                       </th>
-                      <th className="text-[16px] bg-alotrade w-25">Barcha xizmatlar</th>
-                      <th className="text-[16px] bg-alotrade w-25">Tahrirlash</th>
-                      <th className="text-[16px] bg-alotrade w-25">O'chirish</th>
+                      <th className="text-[16px] bg-alotrade w-25">{t("Barcha xizmatlar")}</th>
+                      <th className="text-[16px] bg-alotrade w-25">{t("Tahrirlash")}</th>
+                      <th className="text-[16px] bg-alotrade w-25">{t("O'chirish")}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -425,7 +428,7 @@ export const ServiceType = () => {
                                   servicetype: s._id
                                 })}
                                 className='text-[16px] bg-green-400 text-white font-semibold py-1 px-2'>
-                                Xizmatlar
+                                {t("Xizmatlar")}
                               </button>
                             </td>
                             <td className='text-[16px]'>
@@ -443,7 +446,7 @@ export const ServiceType = () => {
                                 className="text-[16px] rounded bg-alotrade text-white py-1 px-2"
                                 style={{ fontSize: '75%' }}
                               >
-                                Tahrirlash
+                                {t("Tahrirlash")}
                               </button>
                             </td>
                             <td className='text-[16px]'>
@@ -456,7 +459,7 @@ export const ServiceType = () => {
                                 className="text-[16px] rounded bg-red-400 text-white py-1 px-2"
                                 style={{ fontSize: '75%' }}
                               >
-                                O'chirish
+                                {t("O'chirish")}
                               </button>
                             </td>
                           </tr>
@@ -474,15 +477,15 @@ export const ServiceType = () => {
         modal={modal}
         setModal={setModal}
         basic={remove && remove.name}
-        text={"xizmat turini o'chirishni tasdiqlaysizmi?"}
+        text={t("xizmat turini o'chirishni tasdiqlaysizmi?")}
         handler={deleteHandler}
       />
 
       <Modal
         modal={modal1}
         setModal={setModal1}
-        basic={'Barcha'}
-        text={"xizmat turlarini o'chirishni tasdiqlaysizmi?"}
+        basic={t('Barchasi')}
+        text={t("xizmat turlarini o'chirishni tasdiqlaysizmi?")}
         handler={deleteAll}
       />
     </>

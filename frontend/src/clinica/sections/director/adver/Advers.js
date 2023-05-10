@@ -6,6 +6,7 @@ import { AuthContext } from '../../../context/AuthContext'
 import { checkAdver } from './checkData'
 import { Modal } from './modal/Modal'
 import { Sort } from './Sort'
+import { useTranslation } from 'react-i18next'
 
 export const Advers = () => {
   //====================================================================
@@ -22,7 +23,7 @@ export const Advers = () => {
   }, [])
   //====================================================================
   //====================================================================
-
+  const {t} = useTranslation()
   //====================================================================
   //====================================================================
   const toast = useToast()
@@ -262,9 +263,9 @@ export const Advers = () => {
                 <table className="table m-0">
                   <thead>
                     <tr>
-                      <th className="bg-alotrade text-[14px]">Bo'lim nomi</th>
-                      <th className="bg-alotrade text-[14px]">Xizmat turi</th>
-                      <th className="bg-alotrade text-[14px]">Xizmat nomi</th>
+                      <th className="bg-alotrade text-[14px]">{t("Bo'lim nomi")}</th>
+                      <th className="bg-alotrade text-[14px]">{t("Xizmat turi")}</th>
+                      <th className="bg-alotrade text-[14px]">{t("Xizmat nomi")}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -278,7 +279,7 @@ export const Advers = () => {
                           type="text"
                           className="form-control w-75"
                           id="inputName"
-                          placeholder="Reklama nomini kiriting"
+                          placeholder={t("Reklama nomini kiriting")}
                         />
                       </td>
                       <td>
@@ -322,15 +323,15 @@ export const Advers = () => {
                       <tr>
                         <th className="border-right  text-[12px] bg-alotrade">№</th>
                         <th className="border-right  text-[12px] bg-alotrade">
-                          Nomi{'  '}
+                          {t("Nomi")}{'  '}
                           <Sort
                             data={advers}
                             setData={setAdvers}
                             property={'name'}
                           />
                         </th>
-                        <th className="border-right text-center text-[12px] bg-alotrade">Tahrirlash</th>
-                        <th className="text-center text-[12px] bg-alotrade">O'chirish</th>
+                        <th className="border-right text-center text-[12px] bg-alotrade">{t("Tahrirlash")}</th>
+                        <th className="text-center text-[12px] bg-alotrade">{t("O'chirish")}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -348,7 +349,7 @@ export const Advers = () => {
                                   className="text-white font-semibold bg-alotrade rounded py-1 px-2"
                                   style={{ fontSize: "75%" }}
                                 >
-                                  Tahrirlash
+                                  {t("Tahrirlash")}
                                 </button>
                               </td>
                               <td className='border-right text-center'>
@@ -361,7 +362,7 @@ export const Advers = () => {
                                   className="text-white font-semibold bg-red-400 rounded-lg py-1 px-2"
                                   style={{ fontSize: "75%" }}
                                 >
-                                  O'chirish
+                                  {t("O'chirish")}
                                 </button>
                               </td>
                             </tr>
@@ -380,15 +381,15 @@ export const Advers = () => {
         modal={modal}
         setModal={setModal}
         basic={remove && remove.name}
-        text={"reklamani o'chirishni tasdiqlaysizmi?"}
+        text={t("reklamani o'chirishni tasdiqlaysizmi?")}
         handler={deleteHandler}
       />
 
       <Modal
         modal={modal1}
         setModal={setModal1}
-        basic={'Barcha'}
-        text={"reklamalarni o'chirishni tasdiqlaysizmi?"}
+        basic={t('Barcha')}
+        text={t("reklamalarni o'chirishni tasdiqlaysizmi?")}
         handler={deleteAll}
       />
     </>

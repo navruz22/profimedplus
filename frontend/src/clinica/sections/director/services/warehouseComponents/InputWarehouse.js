@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 export const InputWarehouse = ({
   products,
@@ -9,17 +10,18 @@ export const InputWarehouse = ({
   saveHandler,
   loading
 }) => {
+  const {t} = useTranslation()
   return (
     <div className="border-0 table-container">
       <div className="table-responsive">
         <table className="table m-0">
           <thead>
             <tr>
-              <th className="bg-alotrade text-[16px]">Mahsulot nomi</th>
-              <th className="bg-alotrade text-[16px]">Mahsulot soni</th>
-              <th className="bg-alotrade text-[16px]">Narxi</th>
-              <th className="bg-alotrade text-[16px]">Keltirilgan vaqti</th>
-              <th className="bg-alotrade text-[16px]">Saqlash</th>
+              <th className="bg-alotrade text-[16px]">{t("Mahsulot nomi")}</th>
+              <th className="bg-alotrade text-[16px]">{t("Mahsulot soni")}</th>
+              <th className="bg-alotrade text-[16px]">{t("Narxi")}</th>
+              <th className="bg-alotrade text-[16px]">{t("Keltirilgan vaqti")}</th>
+              <th className="bg-alotrade text-[16px]">{t("Saqlash")}</th>
             </tr>
           </thead>
           <tbody>
@@ -34,10 +36,10 @@ export const InputWarehouse = ({
                       product: e.target.value,
                     })
                   }
-                  placeholder="Bo'limni tanlang"
+                  placeholder={t("Bo'limni tanlang")}
                   style={{ minWidth: "70px" }}
                 >
-                  <option>Mahsulotni tanlang</option>
+                  <option>{t("Mahsulotni tanlang")}</option>
                   {products &&
                     products.map((product, index) => {
                       return (
@@ -58,7 +60,7 @@ export const InputWarehouse = ({
                   type="number"
                   className="form-control w-75"
                   id="total"
-                  placeholder="Mahsulot sonini kiriting"
+                  placeholder={t("Mahsulot sonini kiriting")}
                 />
               </td>
               <td>
@@ -71,7 +73,7 @@ export const InputWarehouse = ({
                   type="number"
                   className="form-control w-75"
                   id="price"
-                  placeholder="Mahsulot narxini kiriting"
+                  placeholder={t("Mahsulot narxini kiriting")}
                 />
               </td>
               <td>
@@ -83,7 +85,7 @@ export const InputWarehouse = ({
                   type="date"
                   className="form-control w-75"
                   id="dateofreciept"
-                  placeholder="Keltirilgan vaqtini kiriting"
+                  placeholder={t("Keltirilgan vaqtini kiriting")}
                 />
               </td>
               <td>
@@ -96,7 +98,7 @@ export const InputWarehouse = ({
                     onClick={saveHandler}
                     className="btn btn-info py-1 px-4"
                   >
-                    Saqlash
+                    {t("Saqlash")}
                   </button>
                 }
               </td>

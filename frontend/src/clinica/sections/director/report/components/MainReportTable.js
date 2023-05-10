@@ -4,6 +4,7 @@ import ReactHtmlTableToExcel from "react-html-table-to-excel";
 import { Pagination } from "../../../cashier/components/Pagination";
 import { DatePickers } from "../../../cashier/offlineclients/clientComponents/DatePickers";
 import { Sort } from "../../../cashier/offlineclients/clientComponents/Sort";
+import { useTranslation } from "react-i18next";
 
 export const MainReportTable = ({
     changeClient,
@@ -35,7 +36,7 @@ export const MainReportTable = ({
     beginDay,
     endDay
 }) => {
-
+    const {t} = useTranslation()
     // const setPosition = (connector) => {
     //     const payments = connector.payments.reduce((prev, el) => prev + el.payment, 0)
     //     if (debt) {
@@ -55,14 +56,14 @@ export const MainReportTable = ({
                         <div>
                             <select
                                 className="form-control form-control-sm selectpicker"
-                                placeholder="Bo'limni tanlang"
+                                placeholder={t("Bo'limni tanlang")}
                                 onChange={setPageSize}
                                 style={{ minWidth: "50px" }}
                             >
                                 <option value={10}>10</option>
                                 <option value={25}>25</option>
                                 <option value={50}>50</option>
-                                <option value={'all'}>Barchasi</option>
+                                <option value={'all'}>{t("Barchasi")}</option>
                             </select>
                         </div>
                         <div>
@@ -71,7 +72,7 @@ export const MainReportTable = ({
                                 style={{ maxWidth: "100px", minWidth: "100px" }}
                                 type="search"
                                 className="w-100 form-control form-control-sm selectpicker"
-                                placeholder="F.I.O"
+                                placeholder={t("F.I.O")}
                             />
                         </div>
                         <div>
@@ -80,7 +81,7 @@ export const MainReportTable = ({
                                 style={{ maxWidth: "100px", minWidth: "100px" }}
                                 type="search"
                                 className="w-100 form-control form-control-sm selectpicker"
-                                placeholder="Tel"
+                                placeholder={t("Tel")}
                             />
                         </div>
                         <div>
@@ -89,7 +90,7 @@ export const MainReportTable = ({
                                 style={{ maxWidth: "60px" }}
                                 type="search"
                                 className="form-control form-control-sm selectpicker"
-                                placeholder="ID"
+                                placeholder={t("ID")}
                             />
                         </div>
                         <div>
@@ -98,7 +99,7 @@ export const MainReportTable = ({
                                 style={{ maxWidth: "50px" }}
                                 type="search"
                                 className="form-control form-control-sm selectpicker"
-                                placeholder="Probirka"
+                                placeholder={t("Probirka")}
                             />
                         </div>
                         <div className="text-center">
@@ -129,7 +130,7 @@ export const MainReportTable = ({
                                     table="mainreport-table"
                                     sheet="Sheet"
                                     buttonText="Excel"
-                                    filename="Kunduzgi"
+                                    filename={t("Kunduzgi")}
                                 />
                             </div>
                         </div>
@@ -139,14 +140,14 @@ export const MainReportTable = ({
                             <tr>
                                 <th className="border py-1 bg-alotrade text-[16px]">№</th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                    F.I.O
+                                    {t("F.I.O")}
                                 </th>
-                                <th className="border py-1 bg-alotrade text-[16px]">Tel</th>
+                                <th className="border py-1 bg-alotrade text-[16px]">{t("Tel")}</th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                    ID
+                                    {t("ID")}
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                    Probirka
+                                    {t("Probirka")}
                                 </th>
                                 {/* <th className="border py-1 bg-alotrade text-[16px]">
                                     To'lov summasi
@@ -157,31 +158,31 @@ export const MainReportTable = ({
                                     />
                                 </th> */}
                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                    To'langan
+                                    {t("To'langan")}
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                    Naqt
+                                    {t("Naqt")}
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                    Plastik
+                                    {t("Plastik")}
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                    O'tkazma
+                                    {t("O'tkazma")}
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                    Chegirma
+                                    {t("Chegirma")}
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                    Qarz
+                                    {t("Qarz")}
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                    Qarzdan to'lov
+                                    {t("Qarzdan to'lov")}
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                    Qaytarilgan summa
+                                    {t("Qaytarilgan summa")}
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                    Chek
+                                    {t("Chek")}
                                 </th>
                             </tr>
                         </thead>
@@ -263,9 +264,9 @@ export const MainReportTable = ({
                                     className={`py-1 font-weight-bold text-[16px]`}
                                 >
                                     <div className="flex justify-between">
-                                        <div>Qoldiq: {searchStorage.reduce((prev, connector) => prev + (connector.payment < 0 ? 0 : connector?.payment), 0) - expenseTotal}</div>
+                                        <div>{t("Qoldiq")}: {searchStorage.reduce((prev, connector) => prev + (connector.payment < 0 ? 0 : connector?.payment), 0) - expenseTotal}</div>
                                         <div>
-                                            Xarajat: {expenseTotal}
+                                            {t("Xarajat")}: {expenseTotal}
                                         </div>
                                     </div>
                                 </td>

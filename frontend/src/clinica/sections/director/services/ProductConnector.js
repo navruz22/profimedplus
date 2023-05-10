@@ -11,6 +11,7 @@ import { Modal } from './modal/Modal'
 import { TableProductConnectors } from './productConnectorComponents/TableProductConnectors'
 import { InputProductConnector } from './productConnectorComponents/InputProductConnector'
 import { ExcelCols } from './productConnectorComponents/ExcelCols'
+import { useTranslation } from 'react-i18next'
 
 export const ProductConnectors = () => {
   //====================================================================
@@ -25,7 +26,7 @@ export const ProductConnectors = () => {
 
   //====================================================================
   //====================================================================
-
+  const {t} = useTranslation()
   //====================================================================
   //====================================================================
   const [modal, setModal] = useState(false)
@@ -85,10 +86,10 @@ export const ProductConnectors = () => {
   const [changeImports, setChangeImports] = useState([])
 
   const sections = [
-    { name: 'Shifoxona nomi', value: 'clinica' },
-    { name: 'Mahsulot nomi', value: 'product' },
-    { name: 'Xizmat nomi', value: 'service' },
-    { name: 'Soni', value: 'pieces' },
+    { name: t('Shifoxona nomi'), value: 'clinica' },
+    { name: t('Mahsulot nomi'), value: 'product' },
+    { name: t('Xizmat nomi'), value: 'service' },
+    { name: t('Soni'), value: 'pieces' },
   ]
 
   const getProductConnectors = useCallback(async () => {
@@ -454,15 +455,15 @@ export const ProductConnectors = () => {
 
   //====================================================================
   //====================================================================
-  const [t, setT] = useState()
+  const [s, setS] = useState()
   useEffect(() => {
-    if (!t) {
-      setT(1)
+    if (!s) {
+      setS(1)
       getDepartments()
       getProductConnectors()
       getProducts()
     }
-  }, [getProductConnectors, getDepartments, getProducts, t])
+  }, [getProductConnectors, getDepartments, getProducts, s])
   //====================================================================
   //====================================================================
 

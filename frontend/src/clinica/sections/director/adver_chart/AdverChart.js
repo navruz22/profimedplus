@@ -5,6 +5,7 @@ import { useToast } from '@chakra-ui/react';
 import { useHttp } from '../../../hooks/http.hook';
 import { AuthContext } from '../../../context/AuthContext';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -21,6 +22,8 @@ const AdverChart = () => {
 
     //======================================================
     //======================================================
+
+    const {t} = useTranslation()
 
     const toast = useToast();
 
@@ -143,18 +146,18 @@ const AdverChart = () => {
     //=====================================================
     //=====================================================
 
-    const [t, setT] = useState(0);
+    const [s, setS] = useState(0);
     useEffect(() => {
-        if (!t) {
+        if (!s) {
             const beginDay = new Date(
                 new Date().setMonth(new Date().getMonth() - 1)
             )
             const endDay = new Date()
-            setT(1);
+            setS(1);
             getStatistics(beginDay, endDay)
             getAdvers(beginDay, endDay)
         }
-    }, [t, getStatistics, getAdvers])
+    }, [s, getStatistics, getAdvers])
 
     //======================================================
     //======================================================
@@ -162,13 +165,13 @@ const AdverChart = () => {
     return (
         <div className="bg-slate-100 content-wrapper px-lg-5 px-3">
             <div className='flex justify-evenly items-center mb-6'>
-                <Link to='/alo24/advers' className='bg-purple-500 flex justify-center items-center py-2 px-4 w-[300px] h-[150px] rounded-xl text-[20px] text-white shadow-2xl font-bold text-uppercase'>Reklamalar</Link>
-                <Link to='/alo24/counter_doctors' className='bg-green-500 flex justify-center items-center py-2 px-4 w-[300px] h-[150px] text-[20px] rounded-xl shadow-2xl text-white font-bold text-uppercase'>Agentlar</Link>
-                <Link to='/alo24/popular_services' className='bg-sky-500 flex justify-center items-center py-2 px-4 w-[300px] h-[150px] text-[20px] rounded-xl shadow-2xl text-white font-bold text-uppercase'>Aktual xizmatlar</Link>
+                <Link to='/alo24/advers' className='bg-purple-500 flex justify-center items-center py-2 px-4 w-[300px] h-[150px] rounded-xl text-[20px] text-white shadow-2xl font-bold text-uppercase'>{t("Reklamalar")}</Link>
+                <Link to='/alo24/counter_doctors' className='bg-green-500 flex justify-center items-center py-2 px-4 w-[300px] h-[150px] text-[20px] rounded-xl shadow-2xl text-white font-bold text-uppercase'>{t("Agentlar")}</Link>
+                <Link to='/alo24/popular_services' className='bg-sky-500 flex justify-center items-center py-2 px-4 w-[300px] h-[150px] text-[20px] rounded-xl shadow-2xl text-white font-bold text-uppercase'>{t("Aktual xizmatlar")}</Link>
             </div>
             <div className='flex justify-evenly items-center'>
                 <div>
-                    <h2 className='text-center text-[28px] text-uppercase font-bold mb-4'>Reklama</h2>
+                    <h2 className='text-center text-[28px] text-uppercase font-bold mb-4'>{t("Reklama")}</h2>
                     <Doughnut data={{
                         labels: adverLabels,
                         datasets: [
@@ -181,9 +184,9 @@ const AdverChart = () => {
                     }} />
                 </div>
                 <div>
-                    <h2 className='text-center text-[28px] text-uppercase font-bold mb-4'>Mijozlar</h2>
+                    <h2 className='text-center text-[28px] text-uppercase font-bold mb-4'>{t("Mijozlar")}</h2>
                     <Doughnut data={{
-                        labels: ['Agent mijozlari', 'Oddiy mijoz'],
+                        labels: [t('Agent mijozlari'), t('Oddiy mijoz')],
                         datasets: [
                             {
                                 label: '',

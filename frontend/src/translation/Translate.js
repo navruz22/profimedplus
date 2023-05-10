@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import i18next from "i18next";
 import cookie from "js-cookie";
 
@@ -12,7 +12,7 @@ const GlobeIcon = ({ width = 20, height = 20 }) => (
     xmlns="http://www.w3.org/2000/svg"
     width={width}
     height={height}
-    fill="currentColor"
+    fill="black"
     className="bi bi-globe"
     viewBox="0 0 16 16"
   >
@@ -21,8 +21,9 @@ const GlobeIcon = ({ width = 20, height = 20 }) => (
 );
 function Translaste() {
   const currentLanguageCode = cookie.get("i18next") || "en";
+  const [visible, setVisible] = useState(false)
   return (
-    <div className="dropdown" style={{ position: "absolute", margin: "10px",right:"0" }}>
+    <div className="dropdown" style={{position: "absolute", margin: "10px",right:"0" }}>
       <button
         className="dropdown-toggle d-flex text-white"
         type="button"
@@ -30,12 +31,14 @@ function Translaste() {
         data-bs-toggle="dropdown"
         aria-expanded="false"
         style={{ outline: "none" }}
+        onClick={() => setVisible(!visible)}
       >
         <GlobeIcon />
       </button>
       <ul
         className="dropdown-menu"
         aria-labelledby="dropdownMenuButton1"
+        style={{background: 'gray', left: '-150px', display: visible ? 'block' : 'none'}}
       >
         {language.map(({ code, name, country_code }) => (
           <li key={country_code}>

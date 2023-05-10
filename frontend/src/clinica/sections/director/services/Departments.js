@@ -7,10 +7,13 @@ import { checkDepartment } from './checkData'
 import { Modal } from './modal/Modal'
 import { Sort } from './serviceComponents/Sort'
 import { useHistory } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 export const Departments = () => {
   //====================================================================
   //====================================================================
+
+  const {t} = useTranslation()
 
   const history = useHistory()
 
@@ -262,13 +265,13 @@ export const Departments = () => {
   //====================================================================
   //====================================================================
 
-  const [t, setT] = useState()
+  const [s, setS] = useState()
   useEffect(() => {
-    if (!t) {
-      setT(1)
+    if (!s) {
+      setS(1)
       getDepartments()
     }
-  }, [getDepartments, t])
+  }, [getDepartments, s])
   //====================================================================
   //====================================================================
 
@@ -283,11 +286,11 @@ export const Departments = () => {
                 <table className="table m-0">
                   <thead>
                     <tr>
-                      <th className="w-25 bg-alotrade text-[16px]">Bo'lim nomi</th>
-                      <th className="w-25 bg-alotrade text-[16px]">Bo'lim xonasi</th>
-                      <th className="w-25 bg-alotrade text-[16px]">Probirka</th>
-                      <th className="w-25 bg-alotrade text-[16px]">Saqlash</th>
-                      <th className="w-25 bg-alotrade text-[16px]">Bo'limlarni o'chirish</th>
+                      <th className="w-25 bg-alotrade text-[16px]">{t("Bo'lim nomi")}</th>
+                      <th className="w-25 bg-alotrade text-[16px]">{t("Bo'lim xonasi")}</th>
+                      <th className="w-25 bg-alotrade text-[16px]">{t("Probirka")}</th>
+                      <th className="w-25 bg-alotrade text-[16px]">{t("Saqlash")}</th>
+                      <th className="w-25 bg-alotrade text-[16px]">{t("Bo'limlarni o'chirish")}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -301,7 +304,7 @@ export const Departments = () => {
                           type="text"
                           className="form-control w-75"
                           id="inputName"
-                          placeholder="Bo'lim nomini kiriting"
+                          placeholder={t("Bo'lim nomini kiriting")}
                         />
                       </td>
                       <td>
@@ -313,7 +316,7 @@ export const Departments = () => {
                           type="text"
                           className="form-control w-75"
                           id="inputName"
-                          placeholder="Bo'lim xonasini kiriting"
+                          placeholder={t("Bo'lim xonasini kiriting")}
                         />
                       </td>
                       <td>
@@ -330,7 +333,7 @@ export const Departments = () => {
                             className="custom-control-label"
                             htmlFor="customSwitch1"
                           >
-                            {department.probirka ? 'Probirkali' : 'Probirkasiz'}
+                            {department.probirka ? t('Probirkali') : t('Probirkasiz')}
                           </label>
                         </div>
                       </td>
@@ -345,7 +348,7 @@ export const Departments = () => {
                             onClick={saveHandler}
                             className="btn btn-info py-1 px-4"
                           >
-                            Saqlash
+                            {t("Saqlash")}
                           </button>
                         )}
                       </td>
@@ -376,19 +379,19 @@ export const Departments = () => {
                     <tr>
                       <th className="bg-alotrade text-[16px]">№</th>
                       <th className="w-25 bg-alotrade text-[16px]">
-                        Nomi
+                        {t("Nomi")}
                       </th>
                       <th className="w-25 bg-alotrade text-[16px]">
-                        Xonasi
+                        {t("Xonasi")}
                       </th>
                       <th className="w-25 bg-alotrade text-[16px]">
-                        Barcha xizmat turlari
+                        {t("Barcha xizmat turlari")}
                       </th>
                       <th className="w-25 bg-alotrade text-[16px]">
-                        Probirka
+                        {t("Probirka")}
                       </th>
-                      <th className="w-25 bg-alotrade text-[16px]">Tahrirlash</th>
-                      <th className="w-25 bg-alotrade text-[16px]">O'chirish</th>
+                      <th className="w-25 bg-alotrade text-[16px]">{t("Tahrirlash")}</th>
+                      <th className="w-25 bg-alotrade text-[16px]">{t("O'chirish")}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -405,7 +408,7 @@ export const Departments = () => {
                                   department: d._id
                                 })}
                                 className='text-[16px] bg-green-400 text-white font-semibold py-1 px-2'>
-                                Xizmat turlari
+                                {t("Xizmat turlari")}
                               </button>
                             </td>
                             <td className='text-[16px]'>{d.probirka ? 'Probirka' : ''}</td>
@@ -416,7 +419,7 @@ export const Departments = () => {
                                 className="text-[16px] bg-alotrade text-white font-semibold py-1 px-2"
                                 style={{ fontSize: '75%' }}
                               >
-                                Tahrirlash
+                                {t("Tahrirlash")}
                               </button>
                             </td>
                             <td>
@@ -429,7 +432,7 @@ export const Departments = () => {
                                 className="text-[16px] text-white font-semibold bg-red-400 py-1 px-2"
                                 style={{ fontSize: '75%' }}
                               >
-                                O'chirish
+                                {t("O'chirish")}
                               </button>
                             </td>
                           </tr>
@@ -447,15 +450,15 @@ export const Departments = () => {
         modal={modal}
         setModal={setModal}
         basic={remove && remove.name}
-        text={"bo'limini o'chirishni tasdiqlaysizmi?"}
+        text={t("bo'limini o'chirishni tasdiqlaysizmi?")}
         handler={deleteHandler}
       />
 
       <Modal
         modal={modal1}
         setModal={setModal1}
-        basic={'Barcha'}
-        text={"bo'limlarni o'chirishni tasdiqlaysizmi?"}
+        basic={t('Barcha')}
+        text={t("bo'limlarni o'chirishni tasdiqlaysizmi?")}
         handler={deleteAll}
       />
     </>

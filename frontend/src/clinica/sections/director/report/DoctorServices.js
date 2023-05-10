@@ -3,6 +3,7 @@ import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import ReactHtmlTableToExcel from 'react-html-table-to-excel';
+import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { AuthContext } from '../../../context/AuthContext';
 import { useHttp } from '../../../hooks/http.hook';
@@ -12,6 +13,8 @@ import { Pagination } from '../components/Pagination';
 const DoctorServices = () => {
     //======================================================
     //======================================================
+
+    const {t} = useTranslation()
 
     const { request, loading } = useHttp();
     const auth = useContext(AuthContext);
@@ -141,7 +144,7 @@ const DoctorServices = () => {
                                     <div>
                                         <select
                                             className="form-control form-control-sm selectpicker"
-                                            placeholder="Bo'limni tanlang"
+                                            placeholder={t("Bo'limni tanlang")}
                                             onChange={setPageSize}
                                             style={{ minWidth: "50px" }}
                                         >
@@ -157,7 +160,7 @@ const DoctorServices = () => {
                                             style={{ minWidth: "100px" }}
                                             type="search"
                                             className="w-100 form-control form-control-sm selectpicker"
-                                            placeholder="F.I.O"
+                                            placeholder={t("F.I.O")}
                                         />
                                     </div>
                                     <div
@@ -183,7 +186,7 @@ const DoctorServices = () => {
                                                 table="doctor_service-table"
                                                 sheet="Sheet"
                                                 buttonText="Excel"
-                                                filename="Shifokor ulushi"
+                                                filename={t("Shifokor ulushi")}
                                             />
                                         </div>
                                     </div>
@@ -193,19 +196,19 @@ const DoctorServices = () => {
                                         <tr>
                                             <th className="border py-1 bg-alotrade text-[16px]">№</th>
                                             <th className="border py-1 bg-alotrade text-[16px]">
-                                                Mijoz
+                                                {t("Mijoz")}
                                             </th>
                                             <th className="border py-1 bg-alotrade text-[16px]">
-                                                Xizmat nomi
+                                                {t("Xizmat nomi")}
                                             </th>
                                             <th className="border py-1 bg-alotrade text-[16px]">
-                                                Xizmat soni
+                                                {t("Xizmat soni")}
                                             </th>
                                             <th className="border py-1 bg-alotrade text-[16px]">
-                                                Umumiy narxi
+                                                {t("Umumiy narxi")}
                                             </th>
                                             <th className="border py-1 bg-alotrade text-[16px]">
-                                                Shifokor ulushi
+                                                {t("Shifokor ulushi")}
                                             </th>
                                         </tr>
                                     </thead>

@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 export const InputService = ({
   departments,
@@ -10,22 +11,25 @@ export const InputService = ({
   servicetypes,
   loading
 }) => {
+
+  const {t} = useTranslation()
+
   return (
     <div className="border-0 table-container">
       <div className="table-responsive">
         <table className="table m-0">
           <thead>
             <tr>
-              <th className="bg-alotrade text-[14px]">Bo'lim nomi</th>
-              <th className="bg-alotrade text-[14px]">Xizmat turi</th>
-              <th className="bg-alotrade text-[14px]">Xizmat nomi</th>
-              <th className="bg-alotrade text-[14px]">Qisqartma nomi</th>
-              <th className="bg-alotrade text-[14px]">Xizmat xonasi</th>
-              <th className="bg-alotrade text-[14px]">Narxi</th>
-              <th className="bg-alotrade text-[14px]">Doktor ulushi</th>
-              <th className="bg-alotrade text-[14px]">Kounteragent ulushi</th>
-              <th className="bg-alotrade text-[14px]">Kounterdoktor ulushi</th>
-              <th className="bg-alotrade text-[14px]">Saqlash</th>
+              <th className="bg-alotrade text-[14px]">{t("Bo'lim nomi")}</th>
+              <th className="bg-alotrade text-[14px]">{t("Xizmat turi")}</th>
+              <th className="bg-alotrade text-[14px]">{t("Xizmat nomi")}</th>
+              <th className="bg-alotrade text-[14px]">{t("Qisqartma nomi")}</th>
+              <th className="bg-alotrade text-[14px]">{t("Xizmat xonasi")}</th>
+              <th className="bg-alotrade text-[14px]">{t("Narxi")}</th>
+              <th className="bg-alotrade text-[14px]">{t("Doktor ulushi")}</th>
+              <th className="bg-alotrade text-[14px]">{t("Kounteragent ulushi")}</th>
+              <th className="bg-alotrade text-[14px]">{t("Kounterdoktor ulushi")}</th>
+              <th className="bg-alotrade text-[14px]">{t("Saqlash")}</th>
             </tr>
           </thead>
           <tbody>
@@ -40,10 +44,10 @@ export const InputService = ({
                       department: e.target.value,
                     })
                   }
-                  placeholder="Bo'limni tanlang"
+                  placeholder={t("Bo'limni tanlang")}
                   style={{ minWidth: "70px" }}
                 >
-                  <option>Bo'limni tanlang</option>
+                  <option>{t("Bo'limni tanlang")}</option>
                   {departments &&
                     departments.map((department, index) => {
                       return (
@@ -72,7 +76,7 @@ export const InputService = ({
                       });
                     }
                   }}
-                  placeholder="Xizmat turini tanlang"
+                  placeholder={t("Xizmat turini tanlang")}
                   style={{ minWidth: "70px" }}
                 >
                   {servicetypes &&
@@ -105,7 +109,7 @@ export const InputService = ({
                   type="text"
                   className="form-control w-75"
                   id="name"
-                  placeholder="Xizmat nomini kiriting"
+                  placeholder={t("Xizmat nomini kiriting")}
                 />
               </td>
               <td>
@@ -118,7 +122,7 @@ export const InputService = ({
                   type="text"
                   className="form-control w-75"
                   id="shortname"
-                  placeholder="Qisqartma nomini kiriting"
+                  placeholder={t("Qisqartma nomini kiriting")}
                 />
               </td>
               <td>
@@ -131,7 +135,7 @@ export const InputService = ({
                   type="number"
                   className="form-control w-75"
                   id="shortname"
-                  placeholder="Qisqartma nomini kiriting"
+                  placeholder={t("Qisqartma nomini kiriting")}
                 />
               </td>
               <td>
@@ -144,7 +148,7 @@ export const InputService = ({
                   type="number"
                   className="form-control w-75"
                   id="price"
-                  placeholder="Xizmat narxini kiriting"
+                  placeholder={t("Xizmat narxini kiriting")}
                 />
               </td>
               <td>
@@ -157,7 +161,7 @@ export const InputService = ({
                   type="number"
                   className="form-control w-75"
                   id="doctorProcient"
-                  placeholder="Shifokor ulushini kiriting"
+                  placeholder={t("Shifokor ulushini kiriting")}
                 />
               </td>
               <td>
@@ -170,7 +174,7 @@ export const InputService = ({
                   type="number"
                   className="form-control w-75"
                   id="counterAgentProcient"
-                  placeholder="Kontragent ulushini kiriting"
+                  placeholder={t("Kontragent ulushini kiriting")}
                 />
               </td>
               <td>
@@ -183,7 +187,7 @@ export const InputService = ({
                   type="number"
                   className="form-control w-75"
                   id="counterDoctorProcient"
-                  placeholder="Yo'naltiruvchi shifokor ulushini kiriting"
+                  placeholder={t("Yo'naltiruvchi shifokor ulushini kiriting")}
                 />
               </td>
               <td>
@@ -197,7 +201,7 @@ export const InputService = ({
                   onClick={saveHandler}
                   className="btn btn-info py-1 px-4"
                 >
-                  Saqlash
+                  {t("Saqlash")}
                 </button>}
               </td>
             </tr>

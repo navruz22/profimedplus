@@ -8,6 +8,7 @@ import { Modal } from './modal/Modal'
 import { TableWarehouses } from './warehouseComponents/TableWarehouses'
 import { InputWarehouse } from './warehouseComponents/InputWarehouse'
 import { ExcelCols } from './warehouseComponents/ExcelCols'
+import { useTranslation } from 'react-i18next'
 
 export const Warehouses = () => {
   //====================================================================
@@ -22,7 +23,7 @@ export const Warehouses = () => {
 
   //====================================================================
   //====================================================================
-
+  const {t} = useTranslation()
   //====================================================================
   //====================================================================
   const [modal, setModal] = useState(false)
@@ -386,14 +387,14 @@ export const Warehouses = () => {
 
   //====================================================================
   //====================================================================
-  const [t, setT] = useState()
+  const [s, setS] = useState()
   useEffect(() => {
-    if (!t) {
-      setT(1)
+    if (!s) {
+      setS(1)
       getProducts()
       getWarehouses()
     }
-  }, [getWarehouses, getProducts, t])
+  }, [getWarehouses, getProducts, s])
   //====================================================================
   //====================================================================
 
@@ -440,15 +441,15 @@ export const Warehouses = () => {
         modal={modal}
         setModal={setModal}
         basic={remove && remove.name}
-        text={"mahsulotini o'chirishni tasdiqlaysizmi?"}
+        text={t("mahsulotini o'chirishni tasdiqlaysizmi?")}
         handler={deleteHandler}
       />
 
       <Modal
         modal={modal1}
         setModal={setModal1}
-        basic={'Barcha'}
-        text={"mahsulotlarni o'chirishni tasdiqlaysizmi?"}
+        basic={t('Barcha')}
+        text={t("mahsulotlarni o'chirishni tasdiqlaysizmi?")}
         handler={deleteAll}
       />
 

@@ -1,5 +1,6 @@
 import { useToast } from '@chakra-ui/react'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { AuthContext } from '../../../context/AuthContext'
 import { useHttp } from '../../../hooks/http.hook'
 import DailyCircle from '../components/DailyCircle'
@@ -9,6 +10,9 @@ export const HomePage = () => {
 
   const { request, loading } = useHttp()
   const auth = useContext(AuthContext)
+
+
+  const {t} = useTranslation()
 
   //=======================================
   //=======================================
@@ -33,18 +37,18 @@ export const HomePage = () => {
   //=======================================
 
   const months = [
-    'Yanvar',
-    'Fevral',
-    'Mart',
-    'Aprel',
-    'May',
-    'Iyun',
-    'Iyul',
-    'Avgust',
-    'Sentabr',
-    'Oktabr',
-    'Noyabr',
-    'Dekabr'
+    t('Yanvar'),
+    t('Fevral'),
+    t('Mart'),
+    t('Aprel'),
+    t('May'),
+    t('Iyun'),
+    t('Iyul'),
+    t('Avgust'),
+    t('Sentabr'),
+    t('Oktabr'),
+    t('Noyabr'),
+    t('Dekabr')
   ]
 
   const [monthlyReport, setMonthlyReport] = useState({
@@ -139,34 +143,34 @@ export const HomePage = () => {
       <div className={'flex items-center justify-around gap-[3.1rem]'}>
         <DailyCircle
           text={dailyReport.clients}
-          label={'Mijozlar soni'}
+          label={t('Mijozlar soni')}
         />
         <DailyCircle
           nth={1}
           text={dailyReport.services}
-          label={"Ko'rsatilgan xizmatlar"}
+          label={t("Ko'rsatilgan xizmatlar")}
         />
         <DailyCircle
           nth={2}
           text={dailyReport.payments}
-          label={'Tushumlar'}
+          label={t('Tushumlar')}
         />
         <DailyCircle
           nth={3}
           text={dailyReport.expense}
-          label={'Xarajatlar'}
+          label={t('Xarajatlar')}
         />
       </div>
       <div className={'h-[25rem]'}>
         <LineChart
           label={[
-            'Oylik mijoz soni',
+            t('Oylik mijoz soni'),
             `${months[new Date().getMonth()]} : ${monthlyReport?.clients.length > 0
               ? monthlyReport.clients[
               monthlyReport.clients.length - 1
               ]
               : 0
-            } ${'ta'}`,
+            } ${t('ta')}`,
           ]}
           arr={monthlyReport?.clients}
         />
@@ -174,13 +178,13 @@ export const HomePage = () => {
       <div className={'h-[25rem]'}>
         <LineChart
           label={[
-            'Oylik daromad',
+            t('Oylik daromad'),
             `${months[new Date().getMonth()]} : ${monthlyReport?.totalsum.length > 0
               ? monthlyReport.totalsum[
               monthlyReport.totalsum.length - 1
               ]
               : 0
-            } ${'ta'}`,
+            }`,
           ]}
           arr={monthlyReport?.totalsum}
         />

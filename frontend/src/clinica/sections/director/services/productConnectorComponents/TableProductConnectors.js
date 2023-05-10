@@ -2,6 +2,7 @@ import React from "react";
 import { Sort } from "./Sort";
 import { Tooltip } from "@chakra-ui/react";
 import { Pagination } from "../../components/Pagination";
+import { useTranslation } from "react-i18next";
 
 export const TableProductConnectors = ({
   productConnector,
@@ -25,6 +26,7 @@ export const TableProductConnectors = ({
   setModal2,
   loading
 }) => {
+  const {t} = useTranslation()
   return (
     <div className="border-0 table-container">
       <div className="border-0 table-container">
@@ -35,7 +37,7 @@ export const TableProductConnectors = ({
                 <th>
                   <select
                     className="form-control form-control-sm selectpicker"
-                    placeholder="Bo'limni tanlang"
+                    placeholder={t("Bo'limni tanlang")}
                     onChange={setPageSize}
                   >
                     <option value={10}>10</option>
@@ -94,7 +96,7 @@ export const TableProductConnectors = ({
                 <th className="text-center">
                   <Tooltip
                     hasArrow
-                    label="Barcha xizmatlarni o'chirish"
+                    label={t("Barcha xizmatlarni o'chirish")}
                     bg="red.500"
                   >
                     {loading ? <button className="btn btn-danger" disabled>
@@ -117,15 +119,15 @@ export const TableProductConnectors = ({
               <tr>
                 <th className="border-right bg-alotrade text-[16px]">№</th>
                 <th className="border-right bg-alotrade text-[16px]">
-                  Xizmt nomi
+                  {t("Xizmt nomi")}
                 </th>
                 <th className="border-right bg-alotrade text-[16px]">
-                  Mahsulot nomi
+                  {t("Mahsulot nomi")}
                 </th>
                 <th className="border-right bg-alotrade text-[16px]">
-                  Soni
+                  {t("Soni")}
                 </th>
-                <th className="text-center bg-alotrade text-[16px]">O'chirish</th>
+                <th className="text-center bg-alotrade text-[16px]">{t("O'chirish")}</th>
               </tr>
             </thead>
             <tbody>
@@ -152,7 +154,7 @@ export const TableProductConnectors = ({
                         className="bg-red-400 text-white font-semibold py-1 px-2"
                         style={{ fontSize: "75%" }}
                       >
-                        O'chirish
+                        {t("O'chirish")}
                       </button>
                     </td>
                   </tr>

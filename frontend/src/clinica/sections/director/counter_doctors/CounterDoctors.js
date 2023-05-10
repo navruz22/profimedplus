@@ -1,5 +1,6 @@
 import { useToast } from '@chakra-ui/react'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { AuthContext } from '../../../context/AuthContext'
 import { useHttp } from '../../../hooks/http.hook'
 import { Pagination } from '../components/Pagination'
@@ -8,7 +9,7 @@ const CounterDoctors = () => {
 
     //===================================================================
     //===================================================================
-
+    const {t} = useTranslation()
     //===================================================================
     //===================================================================
 
@@ -114,13 +115,13 @@ const CounterDoctors = () => {
     //====================================================================
     //====================================================================
 
-    const [t, setT] = useState(0)
+    const [s, setS] = useState(0)
     useEffect(() => {
-        if (!t) {
-            setT(1);
+        if (!s) {
+            setS(1);
             getDoctorsList();
         }
-    }, [t, getDoctorsList]);
+    }, [s, getDoctorsList]);
 
     //====================================================================
     //====================================================================
@@ -137,7 +138,7 @@ const CounterDoctors = () => {
                                         <div>
                                             <select
                                                 className="form-control form-control-sm selectpicker"
-                                                placeholder="Bo'limni tanlang"
+                                                placeholder={t("Bo'limni tanlang")}
                                                 onChange={setPageSize}
                                                 style={{ minWidth: "50px" }}
                                             >
@@ -161,10 +162,10 @@ const CounterDoctors = () => {
                                         <thead>
                                             <tr>
                                                 <th className="border py-1 bg-alotrade text-[16px]">№</th>
-                                                <th className='border py-1 bg-alotrade text-[16px]'>Agent</th>
-                                                <th className='border py-1 bg-alotrade text-[16px]'>Shifokor</th>
-                                                <th className='border py-1 bg-alotrade text-[16px]'>Shifoxona</th>
-                                                <th className='border py-1 bg-alotrade text-[16px]'>Telefon raqami</th>
+                                                <th className='border py-1 bg-alotrade text-[16px]'>{t("Agent")}</th>
+                                                <th className='border py-1 bg-alotrade text-[16px]'>{t("Shifokor")}</th>
+                                                <th className='border py-1 bg-alotrade text-[16px]'>{t("Shifoxona")}</th>
+                                                <th className='border py-1 bg-alotrade text-[16px]'>{t("Telefon raqami")}</th>
                                             </tr>
                                         </thead>
                                         <tbody>

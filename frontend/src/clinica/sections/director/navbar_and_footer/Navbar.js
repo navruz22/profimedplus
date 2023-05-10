@@ -4,11 +4,15 @@ import { AuthContext } from "../../../context/AuthContext";
 import { useHttp } from "../../../hooks/http.hook";
 import { useToast } from "@chakra-ui/react";
 import AloLogo from "../../../../clinica_logo.jpg"
+import { useTranslation } from "react-i18next";
 
 export const Navbar = () => {
   const history = useHistory();
   //====================================================================
   //====================================================================
+
+  const {t} = useTranslation()
+
   const toast = useToast();
 
   const notify = useCallback(
@@ -84,14 +88,14 @@ export const Navbar = () => {
   //====================================================================
   //====================================================================
 
-  const [t, setT] = useState(0)
+  const [s, setS] = useState(0)
   useEffect(() => {
     if (!t) {
-      setT(1)
+      setS(1)
       getDirector();
       getBaseUrl()
     }
-  }, [getDirector, getBaseUrl, t]);
+  }, [getDirector, getBaseUrl, s]);
   //====================================================================
   //====================================================================
 
@@ -130,7 +134,7 @@ export const Navbar = () => {
                 style={{ background: activePage === "/alo24" || activePage === "/" ? "#F97316" : "" }}
               >
                 <i className="icon-devices_other nav-icon" />
-                Bosh sahifa
+                {t('Bosh sahifa')}
               </Link>
             </li>
             <li className="nav-item dropdown">
@@ -165,7 +169,7 @@ export const Navbar = () => {
                 }}
               >
                 <i className="icon-users nav-icon" />
-                Xizmatlar
+                {t("Xizmatlar")}
               </span>
               <ul className="dropdown-menu" aria-labelledby="doctoRs">
                 <li>
@@ -178,7 +182,7 @@ export const Navbar = () => {
                     aria-haspopup="true"
                     aria-expanded="false"
                   >
-                    Xizmatlar
+                    {t("Xizmatlar")}
                   </Link>
                   <ul
                     className="dropdown-menu dropdown-menu-right"
@@ -186,7 +190,7 @@ export const Navbar = () => {
                   >
                     <li>
                       <Link className="dropdown-item" onClick={() => setActivePage('/alo24/departments')} to="/alo24/departments">
-                        Bo'limlar
+                        {t("Bo'limlar")}
                       </Link>
                     </li>
                     <li>
@@ -195,19 +199,19 @@ export const Navbar = () => {
                         to="/alo24/servicetypes"
                         onClick={() => setActivePage('/alo24/servicetypes')}
                       >
-                        Xizmat turlari
+                        {t("Xizmat turlari")}
                       </Link>
                     </li>
                     <li>
                       <Link className="dropdown-item" onClick={() => setActivePage('/alo24/services')} to="/alo24/services">
-                        Xizmatlar
+                        {t("Xizmatlar")}
                       </Link>
                     </li>
                   </ul>
                 </li>
                 <li>
                   <Link className="dropdown-item" onClick={() => setActivePage('/alo24/rooms')} to="/alo24/rooms">
-                    Statsionar xonalar
+                    {t("Statsionar xonalar")}
                   </Link>
                 </li>
                 <li>
@@ -220,7 +224,7 @@ export const Navbar = () => {
                     aria-haspopup="true"
                     aria-expanded="false"
                   >
-                    Omborxona
+                    {t("Omborxona")}
                   </Link>
                   <ul
                     className="dropdown-menu dropdown-menu-right"
@@ -228,7 +232,7 @@ export const Navbar = () => {
                   >
                     <li>
                       <Link className="dropdown-item" onClick={() => setActivePage('/alo24/products')} to="/alo24/products">
-                        Barcha mahsulotlar
+                        {t("Barcha mahsulotlar")}
                       </Link>
                     </li>
                     <li>
@@ -237,7 +241,7 @@ export const Navbar = () => {
                         to="/alo24/recieptproducts"
                         onClick={() => setActivePage('/alo24/recieproducts')}
                       >
-                        Keltirilgan mahsulotlar
+                        {t("Keltirilgan mahsulotlar")}
                       </Link>
                     </li>
                     <li>
@@ -246,7 +250,7 @@ export const Navbar = () => {
                         to="/alo24/productconnector"
                         onClick={() => setActivePage('/alo24/productconnector')}
                       >
-                        Xizmatlarga bog'lash
+                        {t("Xizmatlarga bog'lash")}
                       </Link>
                     </li>
                   </ul>
@@ -265,7 +269,7 @@ export const Navbar = () => {
                 onClick={() => setActivePage('/alo24/users')}
               >
                 <i className="icon-book-open nav-icon" />
-                Foydalanuvchilar
+                {t("Foydalanuvchilar")}
               </Link>
             </li>
             <li className="nav-item dropdown">
@@ -289,21 +293,21 @@ export const Navbar = () => {
                 }}
               >
                 <i className="icon-edit1 nav-icon" />
-                Mijozlar
+                {t("Mijozlar")}
               </span>
               <ul className="dropdown-menu" aria-labelledby="formsDropdown">
                 <li>
                   <Link className="dropdown-item" to="/alo24/offlineclients"
                     onClick={() => setActivePage('/alo24/offlineclients')}
                   >
-                    Kunduzgi
+                    {t("Kunduzgi")}
                   </Link>
                 </li>
                 <li>
                   <Link className="dropdown-item" to="/alo24/statsionarclients"
                     onClick={() => setActivePage('/alo24/statsionarclients')}
                   >
-                    Statsionar
+                    {t("Statsionar")}
                   </Link>
                 </li>
               </ul>
@@ -319,7 +323,7 @@ export const Navbar = () => {
                 style={{ background: activePage === '/alo24/adver' ? "#F97316" : "" }}
                 onClick={() => setActivePage('/alo24/adver')}
               >
-                Marketing
+                {t("Marketing")}
               </Link>
             </li>
             <li className="nav-item dropdown">
@@ -357,63 +361,63 @@ export const Navbar = () => {
                 }}
               >
                 <i className="icon-book-open nav-icon" />
-                Hisob bo'limi
+                {t("Hisob bo'limi")}
               </span>
               <ul className="dropdown-menu" aria-labelledby="uiElementsDropdown">
                 <li>
                   <Link className="dropdown-item" to="/alo24/mainreport"
                     onClick={() => setActivePage('/alo24/mainreport')}
                   >
-                    Kunduzgi
+                    {t("Kunduzgi")}
                   </Link>
                 </li>
                 <li>
                   <Link className="dropdown-item" to="/alo24/statsionarreport"
                     onClick={() => setActivePage('/alo24/statsionarreport')}
                   >
-                    Statsionar
+                    {t("Statsionar")}
                   </Link>
                 </li>
                 <li>
                   <Link className="dropdown-item" to="/alo24/discountreport"
                     onClick={() => setActivePage('/alo24/discountreport')}
                   >
-                    Chegirmalar
+                    {t("Chegirmalar")}
                   </Link>
                 </li>
                 <li>
                   <Link className="dropdown-item" to="/alo24/debtreport"
                     onClick={() => setActivePage('/alo24/debtreport')}
                   >
-                    Qarzlar
+                    {t("Qarzlar")}
                   </Link>
                 </li>
                 <li>
                   <Link className="dropdown-item" to="/alo24/doctor_procient"
                     onClick={() => setActivePage('/alo24/doctor_procient')}
                   >
-                    Shifokor ulushi
+                    {t("Shifokor ulushi")}
                   </Link>
                 </li>
                 <li>
                   <Link className="dropdown-item" to="/alo24/nurse_profit"
                     onClick={() => setActivePage('/alo24/nurse_profit')}
                   >
-                    Xamshira ulushi
+                    {t("Xamshira ulushi")}
                   </Link>
                 </li>
                 <li>
                   <Link className="dropdown-item" to="/alo24/counteragent"
                     onClick={() => setActivePage('/alo24/counteragent')}
                   >
-                    Kontragent
+                    {t("Kontragent")}
                   </Link>
                 </li>
                 <li>
                   <Link className="dropdown-item" to="/alo24/expense"
                     onClick={() => setActivePage('/alo24/expense')}
                   >
-                    Xarajatlar
+                    {t("Xarajatlar")}
                   </Link>
                 </li>
               </ul>
@@ -470,7 +474,7 @@ export const Navbar = () => {
                       history.push("/");
                     }}
                   >
-                    <i className="icon-log-out1" /> Chiqish
+                    <i className="icon-log-out1" /> {t("Chiqish")}
                   </button>
                 </div>
               </div>

@@ -5,6 +5,7 @@ import { Sort } from "./Sort";
 import { Pagination } from "../../components/Pagination";
 import { DatePickers } from "./DatePickers";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
+import { useTranslation } from "react-i18next";
 
 export const TableClients = ({
   currentConnectors,
@@ -22,6 +23,7 @@ export const TableClients = ({
   sortDiscounts,
   getDiscountsByClientBorn
 }) => {
+  const {t} = useTranslation()
   return (
     <div className="border-0 shadow-lg table-container">
       <div className="border-0 table-container">
@@ -30,7 +32,7 @@ export const TableClients = ({
             <div>
               <select
                 className="form-control form-control-sm selectpicker"
-                placeholder="Bo'limni tanlang"
+                placeholder={t("Bo'limni tanlang")}
                 onChange={setPageSize}
                 style={{ minWidth: "50px" }}
               >
@@ -46,7 +48,7 @@ export const TableClients = ({
                 style={{ maxWidth: "100px", minWidth: "100px" }}
                 type="search"
                 className="w-100 form-control form-control-sm selectpicker"
-                placeholder="F.I.O"
+                placeholder={t("F.I.O")}
               />
             </div>
             <div>
@@ -55,7 +57,7 @@ export const TableClients = ({
                 style={{ maxWidth: "60px" }}
                 type="search"
                 className="form-control form-control-sm selectpicker"
-                placeholder="ID"
+                placeholder={t("ID")}
               />
             </div>
             <div>
@@ -82,9 +84,9 @@ export const TableClients = ({
                 className="form-control form-control-sm selectpicker"
                 onChange={sortDiscounts}
               >
-                <option value="none">hamma</option>
-                <option value="statsionar">Statsionar</option>
-                <option value="offline">Kunduzgi</option>
+                <option value="none">{t("hamma")}</option>
+                <option value="statsionar">{t("Statsionar")}</option>
+                <option value="offline">{t("Kunduzgi")}</option>
               </select>
             </div>
             <div
@@ -101,7 +103,7 @@ export const TableClients = ({
                   table="discount-table"
                   sheet="Sheet"
                   buttonText="Excel"
-                  filename="Chegirma"
+                  filename={t("Chegirma")}
                 />
               </div>
             </div>
@@ -110,7 +112,7 @@ export const TableClients = ({
                 className="form-control form-control-sm selectpicker"
                 onChange={sortComment}
               >
-                <option value="none">hamma</option>
+                <option value="none">{t("hamma")}</option>
                 {commentSelect.map((item, index) => (
                   <option key={index} value={item}>
                     {item}
@@ -124,27 +126,27 @@ export const TableClients = ({
               <tr>
                 <th className="border py-1 bg-alotrade text-[14px]">№</th>
                 <th className="border py-1 bg-alotrade text-[14px]">
-                  F.I.O
+                  {t("F.I.O")}
                 </th>
                 <th className="border py-1 bg-alotrade text-[14px]">
-                  ID
+                  {t("ID")}
                 </th>
                 <th className="border py-1 bg-alotrade text-[14px]">
-                  Telefon raqami
+                  {t("Telefon raqami")}
                 </th>
                 <th className="border py-1 bg-alotrade text-[14px]">
-                  Tugilgan yil
+                  {t("Tugilgan yil")}
                 </th>
                 <th className="border py-1 bg-alotrade text-[14px]">
-                  Jami to'lov
+                  {t("Jami to'lov")}
                 </th>
                 <th className="border py-1 bg-alotrade text-[14px]">
-                  Procient
+                  {t("Procient")}
                 </th>
                 <th className="border py-1 bg-alotrade text-[14px]">
-                  Chegirma summasi
+                  {t("Chegirma summasi")}
                 </th>
-                <th className="border py-1 bg-alotrade text-[14px]">Izoh</th>
+                <th className="border py-1 bg-alotrade text-[14px]">{t("Izoh")}</th>
               </tr>
             </thead>
             <tbody>
@@ -193,7 +195,7 @@ export const TableClients = ({
             <tbody>
               <tr>
                 <td className="py-1 text-right font-weight-bold" colSpan={2}>
-                  Jami:
+                  {t("Jami")}:
                 </td>
                 <td className="py-1 font-weight-bold" colSpan={4}>
                   {currentConnectors &&

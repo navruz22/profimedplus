@@ -10,10 +10,13 @@ import { Pagination } from '../components/Pagination';
 import Select from 'react-select'
 import makeAnimated from 'react-select/animated'
 import ReactHtmlTableToExcel from 'react-html-table-to-excel';
+import { useTranslation } from 'react-i18next';
 
 const animatedComponents = makeAnimated()
 
 const DoctorProcient = () => {
+
+    const {t} = useTranslation()
 
     const [beginDay, setBeginDay] = useState(
         new Date(new Date().setUTCHours(0, 0, 0, 0))
@@ -194,27 +197,27 @@ const DoctorProcient = () => {
     //=======================================================
     //=======================================================
 
-    const [t, setT] = useState(0);
+    const [s, setS] = useState(0);
 
     useEffect(() => {
-        if (!t) {
-            setT(1)
+        if (!s) {
+            setS(1)
             getDoctorCleitns(beginDay, endDay, clinicaValue)
             getStatsionar(beginDay, endDay, clinicaValue)
         }
-    }, [getDoctorCleitns, t, beginDay, endDay, clinicaValue])
+    }, [getDoctorCleitns, s, beginDay, endDay, clinicaValue])
 
     return (
         <div className="bg-slate-100 content-wrapper px-lg-5 px-3">
             <div className='flex justify-between items-center mb-4'>
                 <Link to='/alo24/doctor_procient' className="block px-4 py-2 rounded-xl text-[#fff] text-[21px] hover:text-[#fff] font-bold bg-alotrade">
-                    Kunduzgi shifokor ulushi
+                    {t("Kunduzgi shifokor ulushi")}
                 </Link>
                 <Link to='/alo24/statsionardoctors' className="block px-4 py-2 rounded-xl text-[#fff] text-[21px] hover:text-[#fff] font-bold bg-alotrade">
-                    Statsionar ulushi
+                    {t("Statsionar ulushi")}
                 </Link>
                 <Link to='/alo24/directdoctors' className="block px-4 py-2 rounded-xl text-[#fff] text-[21px] hover:text-[#fff] font-bold bg-alotrade">
-                    Yullanmadan ulushi
+                    {t("Yullanmadan ulushi")}
                 </Link>
             </div>
             <div className="row gutters">
@@ -252,7 +255,7 @@ const DoctorProcient = () => {
                                     <div>
                                         <select
                                             className="form-control form-control-sm selectpicker"
-                                            placeholder="Bo'limni tanlang"
+                                            placeholder={t("Bo'limni tanlang")}
                                             onChange={setPageSize}
                                             style={{ minWidth: "50px" }}
                                         >
@@ -268,18 +271,18 @@ const DoctorProcient = () => {
                                             style={{ minWidth: "100px" }}
                                             type="search"
                                             className="w-100 form-control form-control-sm selectpicker"
-                                            placeholder="F.I.O"
+                                            placeholder={t("F.I.O")}
                                         />
                                     </div>
                                     <div>
                                         <select
                                             className="form-control form-control-sm selectpicker"
-                                            placeholder="Turini tanlang"
+                                            placeholder={t("Turini tanlang")}
                                             onChange={changeType}
                                             style={{ minWidth: "50px" }}
                                         >
-                                            <option value='offline'>Kunduzgi</option>
-                                            <option value='statsionar'>Statsionar</option>
+                                            <option value='offline'>{t("Kunduzgi")}</option>
+                                            <option value='statsionar'>{t("Statsionar")}</option>
                                         </select>
                                     </div>
                                     <div
@@ -305,7 +308,7 @@ const DoctorProcient = () => {
                                                 table="doctor_procient-table"
                                                 sheet="Sheet"
                                                 buttonText="Excel"
-                                                filename="Shifokor ulushi"
+                                                filename={t("Shifokor ulushi")}
                                             />
                                         </div>
                                     </div>
@@ -315,16 +318,16 @@ const DoctorProcient = () => {
                                         <tr>
                                             <th className="border py-1 bg-alotrade text-[16px]">№</th>
                                             <th className="border py-1 bg-alotrade text-[16px]">
-                                                F.I.O
+                                                {t("F.I.O")}
                                             </th>
                                             <th className="border py-1 bg-alotrade text-[16px]">
-                                                Bo'lim
+                                                {t("Bo'lim")}
                                             </th>
                                             <th className="border py-1 bg-alotrade text-[16px]">
-                                                Umumiy summa
+                                                {t("Umumiy summa")}
                                             </th>
                                             <th className="border py-1 bg-alotrade text-[16px]">
-                                                Shifokor ulushi
+                                                {t("Shifokor ulushi")}
                                             </th>
                                             <th className="border py-1 bg-alotrade text-[16px]"></th>
                                         </tr>
@@ -380,7 +383,7 @@ const DoctorProcient = () => {
                                                                 className="bg-alotrade rounded text-white font-semibold py-1 px-2"
                                                                 style={{ fontSize: '75%' }}
                                                             >
-                                                                Batafsil
+                                                                {t("Batafsil")}
                                                             </button>
                                                         )}
                                                     </td>

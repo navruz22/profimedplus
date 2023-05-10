@@ -193,7 +193,7 @@ export const Login = () => {
                 </div>
                 <div className="d-grid">
                   <button onClick={loginHandler} className="w-[200px] border-2 border-white tracking-wide bg-green-500 py-2 text-center rounded-lg font-bold text-white">
-                    KIRISH
+                    {t("KIRISH")}
                   </button>
                 </div>
               </div>

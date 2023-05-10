@@ -9,12 +9,13 @@ import Print from './components/Print'
 import { Pagination } from '../components/Pagination'
 import { DatePickers } from '../../reseption/offlineclients/clientComponents/DatePickers'
 import { useHistory } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 const OfflineClients = () => {
 
     //=================================================
     //=================================================
-
+    const {t} = useTranslation()
     //=================================================
     //=================================================
     // AUTH
@@ -168,10 +169,10 @@ const OfflineClients = () => {
         getConnectors(beginDay, date);
     };
 
-    const [t, setT] = useState()
+    const [s, setS] = useState()
     useEffect(() => {
-        if (!t) {
-            setT(1)
+        if (!s) {
+            setS(1)
             getConnectors(beginDay, endDay)
             getBaseUrl()
         }
@@ -207,7 +208,7 @@ const OfflineClients = () => {
                                                 <th>
                                                     <select
                                                         className="form-control form-control-sm selectpicker"
-                                                        placeholder="Bo'limni tanlang"
+                                                        placeholder={t("Bo'limni tanlang")}
                                                         onChange={setPageSize}
                                                         style={{ minWidth: '50px' }}
                                                     >
@@ -224,7 +225,7 @@ const OfflineClients = () => {
                                                         style={{ maxWidth: '200px', minWidth: '100px' }}
                                                         type="search"
                                                         className="w-100 form-control form-control-sm selectpicker"
-                                                        placeholder="Mijoz ismi"
+                                                        placeholder={t("Mijoz ismi")}
                                                     />
                                                 </th>
                                                 <th className='text-right'>
@@ -247,9 +248,9 @@ const OfflineClients = () => {
                                         <thead>
                                             <tr>
                                                 <th className="border-right bg-alotrade text-[16px]">№</th>
-                                                <th className="border-right bg-alotrade text-[16px]">Kelgan vaqti</th>
+                                                <th className="border-right bg-alotrade text-[16px]">{t("Kelgan vaqti")}</th>
                                                 <th className="border-right bg-alotrade text-[16px]">
-                                                    F.I.Sh
+                                                    {t("F.I.Sh")}
                                                     {/* <Sort
                                                     data={currentUsers}
                                                     setData={setCurrentUsers}
@@ -257,13 +258,13 @@ const OfflineClients = () => {
                                                 /> */}
                                                 </th>
                                                 <th className="border-right bg-alotrade text-[16px]">
-                                                    ID
+                                                    {t("ID")}
                                                 </th>
                                                 <th className="border-right bg-alotrade text-[16px]">
-                                                    Tel
+                                                    {t("Tel")}
                                                 </th>
                                                 <th className="border-right bg-alotrade text-[16px]">
-                                                    Tug'ilgan san'asi
+                                                    {t("Tug'ilgan san'asi")}
                                                 </th>
                                                 <th className="border-right bg-alotrade text-[16px] text-center"></th>
                                             </tr>

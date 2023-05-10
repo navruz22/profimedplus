@@ -353,16 +353,16 @@ const MainReport = () => {
   //====================================================================
   // useEffect
 
-  const [t, setT] = useState(0)
+  const [s, setS] = useState(0)
 
   useEffect(() => {
-    if (auth.clinica && !t) {
-      setT(1)
+    if (auth.clinica && !s) {
+      setS(1)
       getConnectors(beginDay, endDay, clinicaValue)
       getExpenseTotal(beginDay, endDay, clinicaValue)
       getBaseUrl()
     }
-  }, [auth, getConnectors, getBaseUrl, t, beginDay, endDay])
+  }, [auth, getConnectors, getBaseUrl, s, beginDay, endDay])
 
   //====================================================================
   //====================================================================

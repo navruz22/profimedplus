@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 export const InputProductConnector = ({
   services,
@@ -12,17 +13,18 @@ export const InputProductConnector = ({
   products,
   loading
 }) => {
+  const {t} = useTranslation()
   return (
     <div className="border-0 table-container">
       <div className="table-responsive">
         <table className="table m-0">
           <thead>
             <tr>
-              <th className="bg-alotrade text-[16px]">Bo'lim nomi</th>
-              <th className="bg-alotrade text-[16px]">Xizmat nomi</th>
-              <th className="bg-alotrade text-[16px]">Mahsulot nomi</th>
-              <th className="bg-alotrade text-[16px]">Soni</th>
-              <th className="bg-alotrade text-[16px]">Saqlash</th>
+              <th className="bg-alotrade text-[16px]">{t("Bo'lim nomi")}</th>
+              <th className="bg-alotrade text-[16px]">{t("Xizmat nomi")}</th>
+              <th className="bg-alotrade text-[16px]">{t("Mahsulot nomi")}</th>
+              <th className="bg-alotrade text-[16px]">{t("Soni")}</th>
+              <th className="bg-alotrade text-[16px]">{t("Saqlash")}</th>
             </tr>
           </thead>
           <tbody>
@@ -34,10 +36,10 @@ export const InputProductConnector = ({
                   onChange={(e) =>
                     setServices(departments[e.target.value].services)
                   }
-                  placeholder="Bo'limni tanlang"
+                  placeholder={t("Bo'limni tanlang")}
                   style={{ minWidth: "70px" }}
                 >
-                  <option>Bo'limni tanlang</option>
+                  <option>{t("Bo'limni tanlang")}</option>
                   {departments &&
                     departments.map((department, index) => {
                       return (
@@ -58,10 +60,10 @@ export const InputProductConnector = ({
                       service: e.target.value,
                     });
                   }}
-                  placeholder="Xizmat nomini tanlang"
+                  placeholder={t("Xizmat nomini tanlang")}
                   style={{ minWidth: "70px" }}
                 >
-                  <option>Xizmat nomini tanlang</option>
+                  <option>{t("Xizmat nomini tanlang")}</option>
                   {services &&
                     services.map((service, index) => {
                       return (
@@ -83,10 +85,10 @@ export const InputProductConnector = ({
                       product: e.target.value,
                     });
                   }}
-                  placeholder="Mahsulot turini tanlang"
+                  placeholder={t("Mahsulot turini tanlang")}
                   style={{ minWidth: "70px" }}
                 >
-                  <option>Mahsulot turini tanlang</option>
+                  <option>{t("Mahsulot turini tanlang")}</option>
                   {products &&
                     products.map((product, index) => {
                       return (
@@ -107,7 +109,7 @@ export const InputProductConnector = ({
                   type="number"
                   className="form-control w-75"
                   id="pieces"
-                  placeholder="Mahsulot sonini kiriting"
+                  placeholder={t("Mahsulot sonini kiriting")}
                 />
               </td>
               <td>
@@ -120,7 +122,7 @@ export const InputProductConnector = ({
                     onClick={saveHandler}
                     className="btn btn-info py-1 px-4"
                   >
-                    Saqlash
+                    {t("Saqlash")}
                   </button>
                 }
               </td>

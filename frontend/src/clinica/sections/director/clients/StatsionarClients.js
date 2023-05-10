@@ -8,6 +8,7 @@ import { AuthContext } from "../../../context/AuthContext";
 import StatsionarClientsTable from "./components/StatsionarClientsTable";
 
 const StatsionarClients = () => {
+    
     const [beginDay, setBeginDay] = useState(
         new Date(
             new Date().setMonth(new Date().getMonth() - 3)

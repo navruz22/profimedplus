@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 export const InputProduct = ({
   setProduct,
@@ -8,18 +9,21 @@ export const InputProduct = ({
   saveHandler,
   loading
 }) => {
+
+  const {t} = useTranslation()
   const si = ["dona", "kg", "g", "l", "ml", "pachka"]
+  
   return (
     <div className="border-0 shadow-lg table-container">
       <div className="table-responsive">
         <table className="table m-0">
           <thead>
             <tr>
-              <th className="bg-alotrade text-[16px]">Mahsulot nomi</th>
-              <th className="bg-alotrade text-[16px]">O'lchov birligi</th>
-              <th className="bg-alotrade text-[16px]">Sotuv narxi</th>
-              <th className="bg-alotrade text-[16px]">Soni</th>
-              <th className="bg-alotrade text-[16px]">Saqlash</th>
+              <th className="bg-alotrade text-[16px]">{t("Mahsulot nomi")}</th>
+              <th className="bg-alotrade text-[16px]">{t("O'lchov birligi")}</th>
+              <th className="bg-alotrade text-[16px]">{t("Sotuv narxi")}</th>
+              <th className="bg-alotrade text-[16px]">{t("Soni")}</th>
+              <th className="bg-alotrade text-[16px]">{t("Saqlash")}</th>
             </tr>
           </thead>
           <tbody>
@@ -34,7 +38,7 @@ export const InputProduct = ({
                   type="text"
                   className="form-control w-75"
                   id="name"
-                  placeholder="Mahsulot nomini kiriting"
+                  placeholder={t("Mahsulot nomini kiriting")}
                 />
               </td>
               <td>
@@ -55,10 +59,10 @@ export const InputProduct = ({
                       });
                     }
                   }}
-                  placeholder="O'lchov birligini tanlang"
+                  placeholder={t("O'lchov birligini tanlang")}
                   style={{ minWidth: "70px" }}
                 >
-                  <option>O'lchov birligini tanlang</option>
+                  <option>{t("O'lchov birligini tanlang")}</option>
                   {si.map((s, key) => {
                     return <option value={s} key={key}>{s}</option>;
                   })}
@@ -74,7 +78,7 @@ export const InputProduct = ({
                   type="number"
                   className="form-control w-75"
                   id="price"
-                  placeholder="Mahsulot narxini kiriting"
+                  placeholder={t("Mahsulot narxini kiriting")}
                 />
               </td>
               <td>
@@ -87,7 +91,7 @@ export const InputProduct = ({
                   type="number"
                   className="form-control w-75"
                   id="total"
-                  placeholder="Mahsulot sonini kiriting"
+                  placeholder={t("Mahsulot sonini kiriting")}
                 />
               </td>
               <td>
@@ -100,7 +104,7 @@ export const InputProduct = ({
                     onClick={saveHandler}
                     className="btn btn-info py-1 px-4"
                   >
-                    Saqlash
+                    {t("Saqlash")}
                   </button>
                 }
               </td>

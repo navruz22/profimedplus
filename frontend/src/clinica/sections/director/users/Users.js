@@ -8,6 +8,7 @@ import { checkUserData } from './checkData/checkData'
 import { Loader } from '../../../loader/Loader'
 import { RegistorUser } from './RegistorUser'
 import { Modal } from './modal/Modal'
+import { useTranslation } from 'react-i18next'
 
 export const Users = () => {
   //====================================================================
@@ -16,7 +17,7 @@ export const Users = () => {
   const [remove, setRemove] = useState()
   //====================================================================
   //====================================================================
-
+  const {t} = useTranslation()
   //====================================================================
   //====================================================================
   // RegisterPage
@@ -83,7 +84,7 @@ export const Users = () => {
       const data = await request(
         `/api/services/department/getall`,
         'POST',
-        { clinica: auth.clinica._id },
+        { clinica: auth?.clinica?._id },
         {
           Authorization: `Bearer ${auth.token}`,
         },
@@ -105,7 +106,7 @@ export const Users = () => {
   //SECTIONS
   const [user, setUser] = useState({
     type: null,
-    clinica: auth.clinica._id,
+    clinica: auth?.clinica?._id,
   })
   const [sections, setSections] = useState([])
 
@@ -204,7 +205,7 @@ export const Users = () => {
       const data = await request(
         `/api/user/getall`,
         'POST',
-        { clinica: auth.clinica._id },
+        { clinica: auth?.clinica?._id },
         {
           Authorization: `Bearer ${auth.token}`,
         },
@@ -374,16 +375,16 @@ export const Users = () => {
 
   //====================================================================
   //====================================================================
-  const [t, setT] = useState()
+  const [s, setS] = useState()
   useEffect(() => {
-    if (!t) {
-      setT(1)
+    if (!s) {
+      setS(1)
       getSections()
       getUsers()
       getBaseUrl()
       getDepartments()
     }
-  }, [getSections, getUsers, getBaseUrl, getDepartments, t])
+  }, [getSections, getUsers, getBaseUrl, getDepartments, s])
   //====================================================================
   //====================================================================
 
@@ -398,13 +399,13 @@ export const Users = () => {
             className={`bg-alotrade border-0 btn text-white mb-2 w-100 ${visible ? 'd-none' : ''}`}
             onClick={changeVisible}
           >
-            Registratsiya
+            {t("Registratsiya")}
           </button>
           <button
             className={`bg-alotrade border-0 btn text-white mb-2 w-100 ${visible ? '' : 'd-none'}`}
             onClick={changeVisible}
           >
-            Registratsiya
+            {t("Registratsiya")}
           </button>
         </div>
       </div>
@@ -438,7 +439,7 @@ export const Users = () => {
                       <th>
                         <select
                           className="form-control form-control-sm selectpicker"
-                          placeholder="Bo'limni tanlang"
+                          placeholder={t("Bo'limni tanlang")}
                           onChange={setPageSize}
                           style={{ minWidth: '50px' }}
                         >
@@ -452,11 +453,11 @@ export const Users = () => {
                         <select
                           defaultValue="none"
                           className="form-control form-control-sm selectpicker"
-                          placeholder="Bo'limni tanlang"
+                          placeholder={t("Bo'limni tanlang")}
                           onChange={sortType}
                           style={{ minWidth: '50px' }}
                         >
-                          <option value="all">Barchasi foydalanuvchilar</option>
+                          <option value="all">{t("Barchasi foydalanuvchilar")}</option>
                           {sections.map((section, index) => {
                             return (
                               <option value={section.type} key={index}>
@@ -491,19 +492,19 @@ export const Users = () => {
                     <tr>
                       <th className="border-right bg-alotrade text-[16px]">№</th>
                       <th className="border-right bg-alotrade text-[16px]">
-                        Xizmat turi
+                        {t("Xizmat turi")}
                       </th>
                       <th className="border-right bg-alotrade text-[16px]">
-                        Ixtisosligi
+                        {t("Ixtisosligi")}
                       </th>
                       <th className="border-right bg-alotrade text-[16px]">
-                        F.I.Sh
+                        {t("F.I.Sh")}
                       </th>
                       <th className="border-right bg-alotrade text-[16px]">
-                        Tel
+                        {t("Tel")}
                       </th>
-                      <th className="border-right bg-alotrade text-[16px] text-center">Tahrirlash</th>
-                      <th className="text-center bg-alotrade text-[16px]">O'chirish</th>
+                      <th className="border-right bg-alotrade text-[16px] text-center">{t("Tahrirlash")}</th>
+                      <th className="text-center bg-alotrade text-[16px]">{t("O'chirish")}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -554,7 +555,7 @@ export const Users = () => {
                                 className="bg-alotrade rounded text-white font-semibold py-1 px-2"
                                 style={{ fontSize: '75%' }}
                               >
-                                Tahrirlash
+                                {t("Tahrirlash")}
                               </button>
                             )}
                           </td>
@@ -574,7 +575,7 @@ export const Users = () => {
                                 className="bg-red-400 rounded text-white font-semibold py-1 px-2"
                                 style={{ fontSize: '75%' }}
                               >
-                                O'chirish
+                                {t("O'chirish")}
                               </button>
                             )}
                           </td>
@@ -593,7 +594,7 @@ export const Users = () => {
         modal={modal}
         setModal={setModal}
         basic={remove && remove.lastname + ' ' + remove.firstname}
-        text={" ismli foydalanuvchini o'chirishni tasdiqlaysizmi?"}
+        text={t(" ismli foydalanuvchini o'chirishni tasdiqlaysizmi?")}
         handler={deleteHandler}
       />
     </div>

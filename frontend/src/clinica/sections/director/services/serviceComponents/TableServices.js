@@ -5,6 +5,7 @@ import { Sort } from "./Sort";
 import { Tooltip } from "@chakra-ui/react";
 import { ExcelUpload } from "./ExcelUpload";
 import { Pagination } from "../../components/Pagination";
+import { useTranslation } from "react-i18next";
 
 export const TableServices = ({
   servicetypes,
@@ -30,6 +31,9 @@ export const TableServices = ({
   servicetypesSelect,
   searchServiceType,
 }) => {
+
+  const {t} = useTranslation()
+
   const edit = (e, service) => {
     setService(service);
     const index = departments.findIndex(
@@ -54,20 +58,20 @@ export const TableServices = ({
                 <th className="text-[16px]">
                   <select
                     className="form-control form-control-sm selectpicker"
-                    placeholder="Bo'limni tanlang"
+                    placeholder={t("Bo'limni tanlang")}
                     onChange={setPageSize}
                     style={{ minWidth: "50px" }}
                   >
                     <option value={10}>10</option>
                     <option value={25}>25</option>
                     <option value={50}>50</option>
-                    <option value={'all'}>Barchasi</option>
+                    <option value={'all'}>{t("Barchasi")}</option>
                   </select>
                 </th>
                 <th className="text-[16px]">
                   <select
                     className="form-control form-control-sm selectpicker"
-                    placeholder="Bo'limni tanlang"
+                    placeholder={t("Bo'limni tanlang")}
                     onChange={searchDepartment}
                     style={{ minWidth: "50px" }}
                   >
@@ -80,7 +84,7 @@ export const TableServices = ({
                 <th className="text-[16px]">
                   <select
                     className="form-control form-control-sm selectpicker"
-                    placeholder="Xizmat turini tanlang"
+                    placeholder={t("Xizmat turini tanlang")}
                     onChange={searchServiceType}
                     style={{ minWidth: "50px" }}
                   >
@@ -96,7 +100,7 @@ export const TableServices = ({
                     onChange={searchName}
                     type="text"
                     className="form-control w-75"
-                    placeholder="Xizmat nomini kiriting"
+                    placeholder={t("Xizmat nomini kiriting")}
                   />
                 </th>
                 <th colSpan={6} className="text-[16px]">
@@ -155,34 +159,34 @@ export const TableServices = ({
               <tr>
                 <th className="border-right  text-[12px] bg-alotrade">№</th>
                 <th className="border-right  text-[12px] bg-alotrade">
-                  Bo'lim
+                  {t("Bo'lim")}
                 </th>
                 <th className="border-right  text-[12px] bg-alotrade">
-                  Xizmat turi
+                  {t("Xizmat turi")}
                 </th>
                 <th className="border-right  text-[12px] bg-alotrade">
-                  Xizmat
+                  {t("Xizmat")}
                 </th>
                 <th className="border-right text-[12px] bg-alotrade">
-                  Qisqartma nomi
+                  {t("Qisqartma nomi")}
                 </th>
                 <th className="border-right text-[12px] bg-alotrade">
-                  Xizmat xonasi
+                  {t("Xizmat xonasi")}
                 </th>
                 <th className="border-right text-[12px] bg-alotrade">
-                  Narxi
+                  {t("Narxi")}
                 </th>
                 <th className="border-right text-[12px] bg-alotrade">
-                  Doktor ulushi
+                  {t("Doktor ulushi")}
                 </th>
                 <th className="border-right text-[12px] bg-alotrade">
-                  Kontragent ulushi
+                  {t("Kontragent ulushi")}
                 </th>
                 <th className="border-right text-[12px] bg-alotrade">
-                  Kounterdoktor ulushi
+                  {t("Kounterdoktor ulushi")}
                 </th>
-                <th className="border-right text-center text-[12px] bg-alotrade">Tahrirlash</th>
-                <th className="text-center text-[12px] bg-alotrade">O'chirish</th>
+                <th className="border-right text-center text-[12px] bg-alotrade">{t("Tahrirlash")}</th>
+                <th className="text-center text-[12px] bg-alotrade">{t("O'chirish")}</th>
               </tr>
             </thead>
             <tbody>
@@ -218,7 +222,7 @@ export const TableServices = ({
                         className="text-white font-semibold bg-alotrade rounded py-1 px-2"
                         style={{ fontSize: "75%" }}
                       >
-                        Tahrirlash
+                        {t("Tahrirlash")}
                       </button>
                     </td>
                     <td className="text-center text-[16px]">
@@ -231,7 +235,7 @@ export const TableServices = ({
                         className="text-white font-semibold bg-red-400 rounded-lg py-1 px-2"
                         style={{ fontSize: "75%" }}
                       >
-                        O'chirish
+                        {t("O'chirish")}
                       </button>
                     </td>
                   </tr>
