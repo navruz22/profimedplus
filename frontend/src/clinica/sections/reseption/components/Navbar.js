@@ -4,9 +4,15 @@ import { AuthContext } from "../../../context/AuthContext";
 import { useHttp } from "../../../hooks/http.hook";
 import { useToast } from "@chakra-ui/react";
 import AloLogo from "../../../../clinica_logo.jpg"
+import { useTranslation } from "react-i18next";
 
 export const Navbar = () => {
     const history = useHistory();
+    //====================================================================
+    //====================================================================
+
+    const {t} = useTranslation()
+
     //====================================================================
     //====================================================================
     const toast = useToast();
@@ -60,13 +66,13 @@ export const Navbar = () => {
 
     //====================================================================
     //====================================================================
-    const [t, setT] = useState();
+    const [s, setS] = useState();
     useEffect(() => {
-        if (!t) {
-            setT(1);
+        if (!s) {
+            setS(1);
             getBaseUrl();
         }
-    }, [getBaseUrl, t]);
+    }, [getBaseUrl, s]);
     //====================================================================
     //====================================================================
 
@@ -108,7 +114,7 @@ export const Navbar = () => {
                                     style={{ background: activePage === "/alo24" || activePage === "/" ? '#F97316' : '' }}
                                 >
                                     <i className="icon-devices_other nav-icon" />
-                                    Kunduzgi
+                                    {t("Kunduzgi")}
                                 </Link>
                             </li>
                             <li className="nav-item">
@@ -124,7 +130,7 @@ export const Navbar = () => {
                                     style={{ background: activePage === "/alo24/statsionar" ? '#F97316' : '' }}
                                 >
                                     <i className="icon-devices_other nav-icon" />
-                                    Statsionar
+                                    {t("Statsionar")}
                                 </Link>
                             </li>
                             <li className="nav-item">
@@ -140,7 +146,7 @@ export const Navbar = () => {
                                     style={{ background: activePage === "/alo24/online" ? '#F97316' : '' }}
                                 >
                                     <i className="icon-devices_other nav-icon" />
-                                    Online
+                                    {t("Online")}
                                 </Link>
                             </li>
                             <li className="nav-item dropdown">
@@ -167,7 +173,7 @@ export const Navbar = () => {
                                     to="#"
                                 >
                                     <i className="icon-users nav-icon" />
-                                    Kassa
+                                    {t("Kassa")}
                                 </Link>
                                 <ul className="dropdown-menu" aria-labelledby="doctoRs">
                                     <li>
@@ -181,7 +187,7 @@ export const Navbar = () => {
                                                 setActivePage('/alo24/cashier')
                                             }}
                                         >
-                                            Kunduzgi
+                                            {t("Kunduzgi")}
                                         </Link>
                                     </li>
                                     <li>
@@ -195,7 +201,7 @@ export const Navbar = () => {
                                                 setActivePage('/alo24/cashier_statsionar')
                                             }}
                                         >
-                                            Statsionar
+                                            {t("Statsionar")}
                                         </Link>
                                     </li>
                                     <li>
@@ -209,7 +215,7 @@ export const Navbar = () => {
                                                 setActivePage('/alo24/cashier_discount')
                                             }}
                                         >
-                                            Chegirma
+                                            {t("Chegirma")}
                                         </Link>
                                     </li>
                                     <li>
@@ -223,7 +229,7 @@ export const Navbar = () => {
                                                 setActivePage('/alo24/cashier_debt')
                                             }}
                                         >
-                                            Qarz
+                                            {t("Qarz")}
                                         </Link>
                                     </li>
                                     <li>
@@ -237,7 +243,7 @@ export const Navbar = () => {
                                                 setActivePage('/alo24/cashier_expense')
                                             }}
                                         >
-                                            Xarajat
+                                            {t("Xarajat")}
                                         </Link>
                                     </li>
                                 </ul>
@@ -294,7 +300,7 @@ export const Navbar = () => {
                                                 history.push("/");
                                             }}
                                         >
-                                            <i className="icon-log-out1" /> Chiqish
+                                            <i className="icon-log-out1" /> {t("Chiqish")}
                                         </button>
                                     </div>
                                 </div>

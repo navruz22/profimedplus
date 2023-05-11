@@ -1,18 +1,20 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 
 const RegisterDoctor = ({ doctor, changeDoctorData, loading, checkData }) => {
+    const {t} = useTranslation()
     return (
         <div className=''>
             <div className="w-full flex flex-col items-center bg-white p-2">
                 <div className="card w-[50%]">
                     <div className="card-header">
-                        <div className="card-title">Mijozning shaxsiy ma'lumotlari</div>
+                        <div className="card-title">{t("Mijozning shaxsiy ma'lumotlari")}</div>
                     </div>
                     <div className="card-body">
                         <div className="row gutters">
                             <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div className="form-group">
-                                    <label htmlFor="fullName">Familiyasi</label>
+                                    <label htmlFor="fullName">{t("Familiyasi")}</label>
                                     <input
                                         value={doctor.lastname || ''}
                                         onChange={changeDoctorData}
@@ -20,13 +22,13 @@ const RegisterDoctor = ({ doctor, changeDoctorData, loading, checkData }) => {
                                         className="form-control form-control-sm"
                                         id="lastname"
                                         name="lastname"
-                                        placeholder="Familiyasi"
+                                        placeholder={t("Familiyasi")}
                                     />
                                 </div>
                             </div>
                             <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div className="form-group">
-                                    <label htmlFor="inputEmail">Ismi</label>
+                                    <label htmlFor="inputEmail">{t("Ismi")}</label>
                                     <input
                                         value={doctor?.firstname}
                                         onChange={changeDoctorData}
@@ -34,13 +36,13 @@ const RegisterDoctor = ({ doctor, changeDoctorData, loading, checkData }) => {
                                         className="form-control form-control-sm"
                                         id="firstname"
                                         name="firstname"
-                                        placeholder="Ismi"
+                                        placeholder={t("Ismi")}
                                     />
                                 </div>
                             </div>
                             <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div className="form-group">
-                                    <label htmlFor="education">Klinika</label>
+                                    <label htmlFor="education">{t("Klinika")}</label>
                                     <input
                                         value={doctor?.clinica_name}
                                         onChange={changeDoctorData}
@@ -48,13 +50,13 @@ const RegisterDoctor = ({ doctor, changeDoctorData, loading, checkData }) => {
                                         className="form-control form-control-sm"
                                         id="fathername"
                                         name="clinica_name"
-                                        placeholder="Kilinika"
+                                        placeholder={t("Kilinika")}
                                     />
                                 </div>
                             </div>
                             <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div className="form-group">
-                                    <label htmlFor="addreSs">Telefon raqami</label>
+                                    <label htmlFor="addreSs">{t("Telefon raqami")}</label>
                                     <div className="input-group input-group-sm mb-3">
                                         <div className="input-group-prepend">
                                             <span
@@ -86,7 +88,7 @@ const RegisterDoctor = ({ doctor, changeDoctorData, loading, checkData }) => {
                             </button>
                         ) : (
                             <button onClick={checkData} className="bg-alotrade rounded text-white py-2 px-3">
-                                Saqlash
+                                {t("Saqlash")}
                             </button>
                         )}
                     </div>

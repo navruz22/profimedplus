@@ -1,11 +1,15 @@
 import { useToast } from '@chakra-ui/react';
 import React, { useCallback, useContext, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next';
 import { AuthContext } from '../../../context/AuthContext';
 import { useHttp } from '../../../hooks/http.hook';
 import RegisterDoctor from './components/RegisterDoctor';
 import Table from './components/Table';
 
 const Doctors = () => {
+
+    const {t} = useTranslation()
+
     // Pagination
     const [currentPage, setCurrentPage] = useState(0);
     const [countPage, setCountPage] = useState(10);
@@ -191,14 +195,14 @@ const Doctors = () => {
     //==============================================================
     //==============================================================
 
-    const [t, setT] = useState(0);
+    const [s, setS] = useState(0);
 
     useEffect(() => {
-        if (auth.clinica && !t) {
-            setT(1);
+        if (auth.clinica && !s) {
+            setS(1);
             getCounterDoctorsService(beginDay, endDay, counterdoctor);
         }
-    }, [getCounterDoctorsService, auth, t]);
+    }, [getCounterDoctorsService, auth, s]);
 
     //==============================================================
     //==============================================================

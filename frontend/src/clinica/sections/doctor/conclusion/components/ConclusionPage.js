@@ -10,9 +10,11 @@ import Select from "react-select"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import QRcode from "../../../../../qrcode.png"
+import { useTranslation } from "react-i18next";
 
 const ConclusionPage = ({ connector, onChange, setConnector, clinica, baseUrl }) => {
     
+    const {t} = useTranslation()
 
     const componentRef = useRef()
     const handlePrint = useReactToPrint({
@@ -197,7 +199,7 @@ const ConclusionPage = ({ connector, onChange, setConnector, clinica, baseUrl })
                         </p>
                     </div>
                 </div>
-                <h1 className="text-center mb-4 text-[18px] font-bold">ТИББИЙ БАЙОННОМАДАН КЎЧИРМА №: {connector?.client?.id2 ? connector?.client?.id2 : connector?.client?.id}</h1>
+                <h1 className="text-center mb-4 text-[18px] font-bold">{t("ТИББИЙ БАЙОННОМАДАН КЎЧИРМА")} №: {connector?.client?.id2 ? connector?.client?.id2 : connector?.client?.id}</h1>
                 <div className="col-12" style={{ padding: "0" }}>
                     <table
                         style={{
@@ -215,7 +217,7 @@ const ConclusionPage = ({ connector, onChange, setConnector, clinica, baseUrl })
                                     border: "1px solid #000",
                                 }}
                             >
-                                Mijozning F.I.SH
+                                {t("Mijozning F.I.SH")}
                             </td>
                             <td
                                 className="p-0"
@@ -245,7 +247,7 @@ const ConclusionPage = ({ connector, onChange, setConnector, clinica, baseUrl })
                                     border: "1px solid #000",
                                 }}
                             >
-                                Tug'ilgan yili
+                                {t("Tug'ilgan yili")}
                             </td>
                             <td
                                 className="p-0"
@@ -266,7 +268,7 @@ const ConclusionPage = ({ connector, onChange, setConnector, clinica, baseUrl })
                                     border: "1px solid #000",
                                 }}
                             >
-                                Jinsi
+                                {t("Jinsi")}
                             </td>
                             <td
                                 className="p-0"
@@ -277,8 +279,8 @@ const ConclusionPage = ({ connector, onChange, setConnector, clinica, baseUrl })
                                     fontSize: "20px",
                                 }}
                             >
-                                {connector?.client?.gender === 'man' && 'Erkak'}
-                                {connector?.client?.gender === 'women' && 'Ayol'}
+                                {connector?.client?.gender === 'man' && t('Erkak')}
+                                {connector?.client?.gender === 'women' && t('Ayol')}
                             </td>
                         </tr>
                         <tr style={{ textAlign: "center" }}>
@@ -290,7 +292,7 @@ const ConclusionPage = ({ connector, onChange, setConnector, clinica, baseUrl })
                                     border: "1px solid #000",
                                 }}
                             >
-                                Kelgan sanasi
+                                {t("Kelgan sanasi")}
                             </td>
                             <td
                                 className="p-0"
@@ -312,7 +314,7 @@ const ConclusionPage = ({ connector, onChange, setConnector, clinica, baseUrl })
                                     border: "1px solid #000",
                                 }}
                             >
-                                Ketgan vaqti
+                                {t("Ketgan vaqti")}
                             </td>
                             <td
                                 className="p-0"
@@ -336,7 +338,7 @@ const ConclusionPage = ({ connector, onChange, setConnector, clinica, baseUrl })
                                     border: "1px solid #000",
                                 }}
                             >
-                                Manzil
+                                {t("Manzil")}
                             </td>
                             <td
                                 className="p-0"
@@ -356,7 +358,7 @@ const ConclusionPage = ({ connector, onChange, setConnector, clinica, baseUrl })
                                     border: "1px solid #000",
                                 }}
                             >
-                                ID
+                                {t("ID")}
                             </td>
                             <td
                                 className="p-0"
@@ -412,8 +414,8 @@ const ConclusionPage = ({ connector, onChange, setConnector, clinica, baseUrl })
             <div className="container p-4 bg-white">
                 <div className="row">
                     <div className="col-12 text-center my-4">
-                        <button className="btn btn-success px-4 mx-4" onClick={saveClient} > Tasdiqlash</button>
-                        <button className="btn btn-info px-5" onClick={handlePrint} >Chop etish</button>
+                        <button className="btn btn-success px-4 mx-4" onClick={saveClient} > {t("Tasdiqlash")}</button>
+                        <button className="btn btn-info px-5" onClick={handlePrint} >{t("Chop etish")}</button>
                     </div>
                 </div>
             </div>
@@ -436,7 +438,7 @@ const ConclusionPage = ({ connector, onChange, setConnector, clinica, baseUrl })
                                 borderLeft: "none",
                             }}
                         >
-                            <p className="pt-2">IFUD: {auth?.clinica?.ifud2}</p>
+                            <p className="pt-2">{t("IFUD")}: {auth?.clinica?.ifud2}</p>
                         </div>
                         <div
                             className="col-4"
@@ -471,7 +473,7 @@ const ConclusionPage = ({ connector, onChange, setConnector, clinica, baseUrl })
                             </p>
                         </div>
                     </div>
-                    <h1 className="text-center mb-4 text-[18px] font-bold">ТИББИЙ БАЙОННОМАДАН КЎЧИРМА №: {connector?.client?.id2 ? connector?.client?.id2 : connector?.client?.id}</h1>
+                    <h1 className="text-center mb-4 text-[18px] font-bold">{t("ТИББИЙ БАЙОННОМАДАН КЎЧИРМА")} №: {connector?.client?.id2 ? connector?.client?.id2 : connector?.client?.id}</h1>
                     <div className="col-12" style={{ padding: "0" }}>
                     <table
                         style={{
@@ -489,7 +491,7 @@ const ConclusionPage = ({ connector, onChange, setConnector, clinica, baseUrl })
                                     border: "1px solid #000",
                                 }}
                             >
-                                Mijozning F.I.SH
+                                {t("Mijozning F.I.SH")}
                             </td>
                             <td
                                 className="p-0"
@@ -519,7 +521,7 @@ const ConclusionPage = ({ connector, onChange, setConnector, clinica, baseUrl })
                                     border: "1px solid #000",
                                 }}
                             >
-                                Tug'ilgan yili
+                                {t("Tug'ilgan yili")}
                             </td>
                             <td
                                 className="p-0"
@@ -540,7 +542,7 @@ const ConclusionPage = ({ connector, onChange, setConnector, clinica, baseUrl })
                                     border: "1px solid #000",
                                 }}
                             >
-                                Jinsi
+                                {t("Jinsi")}
                             </td>
                             <td
                                 className="p-0"
@@ -551,8 +553,8 @@ const ConclusionPage = ({ connector, onChange, setConnector, clinica, baseUrl })
                                     fontSize: "20px",
                                 }}
                             >
-                                {connector?.client?.gender === 'man' && 'Erkak'}
-                                {connector?.client?.gender === 'women' && 'Ayol'}
+                                {connector?.client?.gender === 'man' && t('Erkak')}
+                                {connector?.client?.gender === 'women' && t('Ayol')}
                             </td>
                         </tr>
                         <tr style={{ textAlign: "center" }}>
@@ -564,7 +566,7 @@ const ConclusionPage = ({ connector, onChange, setConnector, clinica, baseUrl })
                                     border: "1px solid #000",
                                 }}
                             >
-                                Kelgan sanasi
+                                {t("Kelgan sanasi")}
                             </td>
                             <td
                                 className="p-0"
@@ -586,7 +588,7 @@ const ConclusionPage = ({ connector, onChange, setConnector, clinica, baseUrl })
                                     border: "1px solid #000",
                                 }}
                             >
-                                Ketgan vaqti
+                                {t("Ketgan vaqti")}
                             </td>
                             <td
                                 className="p-0"
@@ -610,7 +612,7 @@ const ConclusionPage = ({ connector, onChange, setConnector, clinica, baseUrl })
                                     border: "1px solid #000",
                                 }}
                             >
-                                Manzil
+                                {t("Manzil")}
                             </td>
                             <td
                                 className="p-0"
@@ -630,7 +632,7 @@ const ConclusionPage = ({ connector, onChange, setConnector, clinica, baseUrl })
                                     border: "1px solid #000",
                                 }}
                             >
-                                ID
+                                {t("ID")}
                             </td>
                             <td
                                 className="p-0"

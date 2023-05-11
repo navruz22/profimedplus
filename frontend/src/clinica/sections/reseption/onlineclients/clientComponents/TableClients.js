@@ -5,10 +5,12 @@ import {
   faAngleDown,
   faPenAlt,
   faPrint,
+  faCircleCheck,
 } from "@fortawesome/free-solid-svg-icons";
 import { Sort } from "./Sort";
 import { Pagination } from "../../components/Pagination";
 import { DatePickers } from "./DatePickers";
+import { useTranslation } from "react-i18next";
 
 export const TableClients = ({
   baseUrl,
@@ -35,6 +37,9 @@ export const TableClients = ({
   setModal2,
   setPostConnector,
 }) => {
+
+  const {t} = useTranslation()
+
   return (
     <div className="border-0 table-container">
       <div className="border-0 table-container">
@@ -61,7 +66,7 @@ export const TableClients = ({
                     style={{ maxWidth: "100px", minWidth: "100px" }}
                     type="search"
                     className="w-100 form-control form-control-sm selectpicker"
-                    placeholder="F.I.O"
+                    placeholder={t("F.I.O")}
                   />
                 </th>
                 <th>
@@ -70,7 +75,7 @@ export const TableClients = ({
                     style={{ maxWidth: "100px", minWidth: "100px" }}
                     type="search"
                     className="w-100 form-control form-control-sm selectpicker"
-                    placeholder="Tel"
+                    placeholder={t("Tel")}
                   />
                 </th>
                 <th>
@@ -79,7 +84,7 @@ export const TableClients = ({
                     style={{ maxWidth: "60px" }}
                     type="search"
                     className="form-control form-control-sm selectpicker"
-                    placeholder="ID"
+                    placeholder={t("ID")}
                   />
                 </th>
                 <th>
@@ -88,7 +93,7 @@ export const TableClients = ({
                     style={{ maxWidth: "50px" }}
                     type="search"
                     className="form-control form-control-sm selectpicker"
-                    placeholder="Probirka"
+                    placeholder={t("Probirka")}
                   />
                 </th>
                 <th className="text-center" colSpan={3}>
@@ -118,7 +123,7 @@ export const TableClients = ({
               <tr>
                 <th className="border py-1 bg-alotrade text-[16px]">№</th>
                 <th className="border py-1 bg-alotrade text-[16px]">
-                  F.I.O
+                  {t("F.I.O")}
                   <div className="btn-group-vertical ml-2">
                     <FontAwesomeIcon
                       onClick={() =>
@@ -144,9 +149,9 @@ export const TableClients = ({
                     />
                   </div>
                 </th>
-                <th className="border py-1 bg-alotrade text-[16px]">Tel</th>
+                <th className="border py-1 bg-alotrade text-[16px]">{t("Tel")}</th>
                 <th className="border py-1 bg-alotrade text-[16px]">
-                  ID
+                  {t("ID")}
                   <div className="btn-group-vertical ml-2">
                     <FontAwesomeIcon
                       onClick={() =>
@@ -173,7 +178,7 @@ export const TableClients = ({
                   </div>
                 </th>
                 <th className="border py-1 bg-alotrade text-[16px]">
-                  Probirka
+                  {t("Probirka")}
                   <Sort
                     data={currentConnectors}
                     setData={setCurrentConnectors}
@@ -181,7 +186,7 @@ export const TableClients = ({
                   />
                 </th>
                 <th className="border py-1 bg-alotrade text-[16px]">
-                  Summa
+                  {t("Summa")}
                   <Sort
                     data={currentConnectors}
                     setData={setCurrentConnectors}
@@ -189,7 +194,7 @@ export const TableClients = ({
                   />
                 </th>
                 <th className="border py-1 bg-alotrade text-[16px]">
-                  Xizmatlar
+                  {t("Xizmatlar")}
                   <div className="btn-group-vertical ml-2">
                     <FontAwesomeIcon
                       onClick={() =>
@@ -216,7 +221,7 @@ export const TableClients = ({
                   </div>
                 </th>
                 <th className="border py-1 bg-alotrade text-[16px]">
-                  Kelgan vaqti
+                  {t("Kelgan vaqti")}
                   <Sort
                     data={currentConnectors}
                     setData={setCurrentConnectors}
@@ -224,7 +229,7 @@ export const TableClients = ({
                   />
                 </th>
                 <th className="border py-1 bg-alotrade text-[16px]">
-                  Tahrirlash
+                  {t("Tahrirlash")}
                   <div className="btn-group-vertical ml-2">
                     <Sort
                       data={currentConnectors}
@@ -234,7 +239,7 @@ export const TableClients = ({
                   </div>
                 </th>
                 <th className="border py-1 bg-alotrade text-[16px]">
-                  Qabul qilish
+                  {t("Qabul qilish")}
                   <div className="btn-group-vertical ml-2">
                     <Sort
                       data={currentConnectors}
@@ -310,13 +315,13 @@ export const TableClients = ({
                         </button>
                       ) : (
                         <button
-                          className="btn btn-primary py-0"
+                          className="btn btn-success py-0"
                           onClick={() => {
                             setModal2(true);
                             setPostConnector(connector);
                           }}
                         >
-                          <FontAwesomeIcon icon={faPrint} />
+                          <FontAwesomeIcon icon={faCircleCheck} />
                         </button>
                       )}
                     </td>

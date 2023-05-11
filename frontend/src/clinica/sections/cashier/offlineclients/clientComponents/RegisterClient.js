@@ -1,6 +1,7 @@
 import React from "react";
 // import { DatePickers } from "./DatePickers";
 import "react-datepicker/dist/react-datepicker.css";
+import { useTranslation } from "react-i18next";
 
 export const RegisterClient = ({
     inputPayment,
@@ -28,6 +29,8 @@ export const RegisterClient = ({
     connector
 }) => {
 
+    const {t} = useTranslation()
+
     return (
         <>
             {/* Row start */}
@@ -35,47 +38,47 @@ export const RegisterClient = ({
                 <div className="col-xl-4 col-lg-4 col-md-12 col-sm-12">
                     <div className="card">
                         <div className="card-header">
-                            <div className="card-title">Mijozning shaxsiy ma'lumotlari</div>
+                            <div className="card-title">{t("Mijozning shaxsiy ma'lumotlari")}</div>
                         </div>
                         <div className="card-body">
                             <table className="table">
                                 <thead>
                                     <tr>
                                         <th scope="col" className="border py-1 bg-alotrade">
-                                            #
+                                            
                                         </th>
                                         <th scope="col" className="border py-1 bg-alotrade">
-                                            First
+                                            
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td className="py-1 border">Familiyasi</td>
+                                        <td className="py-1 border">{t("Familiyasi")}</td>
                                         <td className="py-1 border">{client.lastname}</td>
                                     </tr>
                                     <tr>
-                                        <td className="py-1 border">Ismi</td>
+                                        <td className="py-1 border">{t("Ismi")}</td>
                                         <td className="py-1 border">{client.firstname}</td>
                                     </tr>
                                     <tr>
-                                        <td className="py-1 border">Otasining ismi</td>
+                                        <td className="py-1 border">{t("Otasining ismi")}</td>
                                         <td className="py-1 border">{client.fathername}</td>
                                     </tr>
                                     <tr>
-                                        <td className="py-1 border">Tugilgan sanasi</td>
+                                        <td className="py-1 border">{t("Tug'ilgan sanasi")}</td>
                                         <td className="py-1 border">{client.born && new Date(client.born).toLocaleDateString()}</td>
                                     </tr>
                                     <tr>
-                                        <td className="py-1 border">Telefon raqami</td>
+                                        <td className="py-1 border">{t("Telefon raqami")}</td>
                                         <td className="py-1 border">+998{client.phone}</td>
                                     </tr>
                                     <tr>
-                                        <td className="py-1 border">ID</td>
+                                        <td className="py-1 border">{t("ID")}</td>
                                         <td className="py-1 border">{client.id}</td>
                                     </tr>
                                     <tr>
-                                        <td className="py-1 border">Probirka</td>
+                                        <td className="py-1 border">{t("Probirka")}</td>
                                         <td className="py-1 border">{connector.probirka}</td>
                                     </tr>
                                 </tbody>
@@ -87,7 +90,7 @@ export const RegisterClient = ({
                     <div className="card">
                         <div className="card-header">
                             <div className="card-title">
-                                Xizmat va tolovlar bilan ishlash bo'limi
+                                {t("Xizmat va tolovlar bilan ishlash bo'limi")}
                             </div>
                         </div>
                         <div className="card-body">
@@ -97,11 +100,11 @@ export const RegisterClient = ({
                                         <thead>
                                             <tr>
                                                 <th className="border py-1 bg-alotrade">№</th>
-                                                <th className="border py-1 bg-alotrade">Nomi</th>
-                                                <th className="border py-1 bg-alotrade">Narxi</th>
-                                                <th className="border py-1 bg-alotrade">Soni</th>
-                                                <th className="border py-1 bg-alotrade">To'lov</th>
-                                                <th className="border py-1 bg-alotrade">Izoh</th>
+                                                <th className="border py-1 bg-alotrade">{t("Nomi")}</th>
+                                                <th className="border py-1 bg-alotrade">{t("Narxi")}</th>
+                                                <th className="border py-1 bg-alotrade">{t("Soni")}</th>
+                                                <th className="border py-1 bg-alotrade">{t("To'lov")}</th>
+                                                <th className="border py-1 bg-alotrade">{t("Izoh")}</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -138,7 +141,7 @@ export const RegisterClient = ({
                                                                     className="form-control form-control-sm"
                                                                     id="comment"
                                                                     name="comment"
-                                                                    placeholder="Izoh"
+                                                                    placeholder={t("Izoh")}
                                                                 />}
                                                             </td>
                                                         </tr>
@@ -177,7 +180,7 @@ export const RegisterClient = ({
                                                                     className="form-control form-control-sm"
                                                                     id="comment"
                                                                     name="comment"
-                                                                    placeholder="Izoh"
+                                                                    placeholder={t("Izoh")}
                                                                 />}
                                                             </td>
                                                         </tr>
@@ -185,7 +188,7 @@ export const RegisterClient = ({
                                                 })}
                                             <tr className="bg-white">
                                                 <td className="border py-1 font-bold text-right text-teal-600 text-sm "
-                                                    colSpan={2}> Jami
+                                                    colSpan={2}> {t("Jami")}
                                                 </td>
                                                 <td className="border py-1 font-bold  text-teal-600 text-sm"
                                                     colSpan={4}> {totalpayment}</td>
@@ -202,7 +205,7 @@ export const RegisterClient = ({
                     <div className="card">
                         <div className="card-header">
                             <div className="card-title">
-                                Hisobot
+                                {t("Hisobot")}
                             </div>
                         </div>
                         <div className="card-body">
@@ -210,7 +213,7 @@ export const RegisterClient = ({
                                 <tfoot>
                                     <tr>
                                         <th className="text-right" colSpan={2}>
-                                            Jami to'lov:
+                                            {t("Jami to'lov")}:
                                         </th>
                                         <th className="text-left" colSpan={4}>
                                             {totalpayment}
@@ -218,7 +221,7 @@ export const RegisterClient = ({
                                     </tr>
                                     <tr>
                                         <th className="text-right" colSpan={2}>
-                                            Chegirma:
+                                            {t("Chegirma")}:
                                         </th>
                                         <th className="text-left" colSpan={4}>
                                             {discount.discount}
@@ -226,7 +229,7 @@ export const RegisterClient = ({
                                     </tr>
                                     <tr>
                                         <th className="text-right" colSpan={2}>
-                                            To'langan:
+                                            {t("To'langan")}:
                                         </th>
                                         <th className="text-left" colSpan={4}>
                                             {payments}
@@ -234,7 +237,7 @@ export const RegisterClient = ({
                                     </tr>
                                     <tr>
                                         <th className="text-right" colSpan={2}>
-                                            Qarz:
+                                            {t("Qarz")}:
                                         </th>
                                         <th className="text-left" colSpan={4}>
                                             {payment.debt}
@@ -242,7 +245,7 @@ export const RegisterClient = ({
                                     </tr>
                                     <tr>
                                         <th className="text-right" colSpan={2}>
-                                            To'lanayotgan:
+                                            {t("To'lanayotgan")}:
                                         </th>
                                         <th className="text-left" colSpan={4}>
                                             {totalpayment - payments - discount.discount - payment.debt}
@@ -257,7 +260,7 @@ export const RegisterClient = ({
                     <div className="card">
                         <div className="card-header">
                             <div className="card-title">
-                                To'lov qabul qilish
+                                {t("To'lov qabul qilish")}
                             </div>
                         </div>
                         <div className="card-body">
@@ -270,7 +273,7 @@ export const RegisterClient = ({
                                                     className="w-100 input-group-text bg-alotrade text-white font-weight-bold"
                                                     id="inputGroup-sizing-sm"
                                                     style={{ fontSize: "9pt" }}>
-                                                    Chegirma
+                                                    {t("Chegirma")}
                                                 </span>
                                             </div>
                                             {
@@ -279,13 +282,13 @@ export const RegisterClient = ({
                                                         onChange={changeDiscount}
                                                         type="number"
                                                         className="form-control"
-                                                        placeholder="Chegirma foizi yoki summasini kiriting"
+                                                        placeholder={t("Chegirma foizi yoki summasini kiriting")}
                                                         defaultValue={discount.discount}
                                                     /> : <input
                                                         onChange={changeDiscount}
                                                         type="number"
                                                         className="form-control"
-                                                        placeholder="Chegirma foizi yoki summasini kiriting"
+                                                        placeholder={t("Chegirma foizi yoki summasini kiriting")}
                                                         value={discount.discount || ''}
                                                     />}
                                         </div>
@@ -298,17 +301,18 @@ export const RegisterClient = ({
                                                     htmlFor="inputGroupSelect01"
                                                     style={{ fontSize: "9pt" }}
                                                 >
-                                                    Izoh</label>
+                                                    {t("Izoh")}</label>
                                             </div>
                                             <select
                                                 onChange={discountComment}
                                                 className="custom-select"
                                                 id="inputGroupSelect01"
                                             >
-                                                <option value="delete">Tanglang</option>
-                                                <option value="Kam ta'minlangan">Kam ta'minlangan</option>
-                                                <option value="two">Two</option>
-                                                <option value="three">Three</option>
+                                                <option value="delete">{t("Tanlang...")}</option>
+                                                <option value="Kam ta'minlangan">{t("Kam ta'minlangan")}</option>
+                                                <option value="Direktor tanishi">{t("Direktor tanishi")}</option>
+                                                <option value="Nogironligi mavjud">{t("Nogironligi mavjud")}</option>
+                                                <option value="Doimiy mijoz">{t("Doimiy mijoz")}</option>
                                             </select>
                                         </div>
                                     </div>
@@ -319,14 +323,14 @@ export const RegisterClient = ({
                                                     className="w-100 input-group-text bg-alotrade text-white font-weight-bold"
                                                     id="inputGroup-sizing-sm"
                                                     style={{ fontSize: "9pt" }}>
-                                                    Qarz
+                                                    {t("Qarz")}
                                                 </span>
                                             </div>
                                             <input
                                                 onChange={changeDebt}
                                                 type="number"
                                                 className="form-control"
-                                                placeholder="Qarz summasini kiriting"
+                                                placeholder={t("Qarz summasini kiriting")}
                                                 value={payment.debt || ''}
                                             />
                                         </div>
@@ -338,14 +342,14 @@ export const RegisterClient = ({
                                                     className="w-100 input-group-text bg-alotrade text-white font-weight-bold"
                                                     id="inputGroup-sizing-sm"
                                                     style={{ fontSize: "9pt" }}>
-                                                    Izoh
+                                                    {t("Izoh")}
                                                 </span>
                                             </div>
                                             <input
                                                 onChange={debtComment}
                                                 type="text"
                                                 className="form-control"
-                                                placeholder="Qarz izohini kiriting"
+                                                placeholder={t("Qarz izohini kiriting")}
                                             />
                                         </div>
                                     </div>
@@ -366,7 +370,7 @@ export const RegisterClient = ({
                                             type="button"
                                             className={`btn btn-sm py-1 text-white  ${payment.type === "cash" ? "bg-amber-500" : "bg-alotrade"}`}
                                         >
-                                            Naqt
+                                            {t("Naqt")}
                                         </button>
                                         <button
                                             onClick={() => {
@@ -382,7 +386,7 @@ export const RegisterClient = ({
                                             type="button"
                                             className={`btn btn-sm py-1 text-white ${payment.type === "card" ? "bg-amber-500" : "bg-alotrade"}`}
                                         >
-                                            Plastik
+                                            {t("Plastik")}
                                         </button>
                                         <button
                                             onClick={() => {
@@ -398,7 +402,7 @@ export const RegisterClient = ({
                                             type="button"
                                             className={`btn btn-sm py-1 text-white ${payment.type === "transfer" ? "bg-amber-500" : "bg-alotrade"}`}
                                         >
-                                            O'tkazma
+                                            {t("O'tkazma")}
                                         </button>
                                         <button
                                             onClick={() => {
@@ -413,7 +417,7 @@ export const RegisterClient = ({
                                             type="button"
                                             className={`btn btn-sm py-1 text-white ${payment.type === "mixed" ? "bg-amber-500" : "bg-alotrade"}`}
                                         >
-                                            Aralash
+                                            {t("Aralash")}
                                         </button>
                                     </div>
                                     {(payment.type === "cash" || payment.type === "mixed") &&
@@ -423,13 +427,13 @@ export const RegisterClient = ({
                                                     className="w-100 input-group-text bg-primary text-white font-weight-bold"
                                                     id="inputGroup-sizing-sm"
                                                     style={{ fontSize: "9pt" }}>
-                                                    Naqt
+                                                    {t("Naqt")}
                                                 </span>
                                             </div>
                                             <input
                                                 type="number"
                                                 className="form-control"
-                                                placeholder="Naqt to'lov"
+                                                placeholder={t("Naqt to'lov")}
                                                 value={payment.cash || ''}
                                                 name="cash"
                                                 onChange={inputPayment}
@@ -442,13 +446,13 @@ export const RegisterClient = ({
                                                     className="w-100 input-group-text bg-primary text-white font-weight-bold"
                                                     id="inputGroup-sizing-sm"
                                                     style={{ fontSize: "9pt" }}>
-                                                    Plastik
+                                                    {t("Plastik")}
                                                 </span>
                                             </div>
                                             <input
                                                 type="number"
                                                 className="form-control"
-                                                placeholder="Karta orqali to'lov to'lov"
+                                                placeholder={t("Karta orqali to'lov")}
                                                 value={payment.card || ''}
                                                 name="card"
                                                 onChange={inputPayment}
@@ -461,13 +465,13 @@ export const RegisterClient = ({
                                                     className="w-100 input-group-text bg-primary text-white font-weight-bold"
                                                     id="inputGroup-sizing-sm"
                                                     style={{ fontSize: "9pt" }}>
-                                                    O'tkazma
+                                                    {t("O'tkazma")}
                                                 </span>
                                             </div>
                                             <input
                                                 type="number"
                                                 className="form-control"
-                                                placeholder="O'tkazma to'lov"
+                                                placeholder={t("O'tkazma to'lov")}
                                                 value={payment.transfer || ''}
                                                 name="transfer"
                                                 onChange={inputPayment}
@@ -486,7 +490,7 @@ export const RegisterClient = ({
                                     </button>
                                 ) : (
                                     <button onClick={checkPayment} className="btn btn-warning w-100">
-                                        Qabul qilish
+                                        {t("Qabul qilish")}
                                     </button>
                                 )}
                             </div>

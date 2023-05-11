@@ -17,8 +17,11 @@ import TextEditor from "./TextEditor";
 import LabPrint from "../../laborotory/components/Print"
 import DoctorResult from "../conclusion/components/DoctorResult";
 import QRCode from "qrcode"
+import { useTranslation } from "react-i18next";
 
 const DoctorTemplate = ({ client, connector, services, clientsType, baseUrl }) => {
+
+  const {t} = useTranslation()
 
   const { request, loading } = useHttp();
   const auth = useContext(AuthContext);
@@ -230,9 +233,6 @@ const DoctorTemplate = ({ client, connector, services, clientsType, baseUrl }) =
     }
   }, [connector, baseUrl])
 
-
-  const [t, setT] = useState()
-
   useEffect(() => {
     getTemplates();
   }, [getTemplates]);
@@ -325,7 +325,7 @@ const DoctorTemplate = ({ client, connector, services, clientsType, baseUrl }) =
                       border: "1px solid #000",
                     }}
                   >
-                    Mijozning F.I.SH
+                    {t("Mijozning F.I.SH")}
                   </td>
                   <td
                     className="p-0"
@@ -341,7 +341,7 @@ const DoctorTemplate = ({ client, connector, services, clientsType, baseUrl }) =
                   </td>
                   <td rowSpan="2" colSpan={2} style={{ width: "33%" }}>
                     <p className="fw-bold fs-5 m-0">
-                      TAHLIL <br /> NATIJALARI
+                      {t("TAHLIL")} <br /> {t("NATIJALARI")}
                     </p>
                   </td>
                 </tr>
@@ -354,7 +354,7 @@ const DoctorTemplate = ({ client, connector, services, clientsType, baseUrl }) =
                       border: "1px solid #000",
                     }}
                   >
-                    Tug'ilgan yili
+                    {t("Tug'ilgan yili")}
                   </td>
                   <td
                     className="p-0"
@@ -377,7 +377,7 @@ const DoctorTemplate = ({ client, connector, services, clientsType, baseUrl }) =
                       border: "1px solid #000",
                     }}
                   >
-                    Kelgan sanasi
+                    {t("Kelgan sanasi")}
                   </td>
                   <td
                     className="p-0"
@@ -399,7 +399,7 @@ const DoctorTemplate = ({ client, connector, services, clientsType, baseUrl }) =
                       border: "1px solid #000",
                     }}
                   >
-                    Namuna
+                    {t("Namuna")}
                   </td>
                   <td
                     className="p-0"
@@ -423,7 +423,7 @@ const DoctorTemplate = ({ client, connector, services, clientsType, baseUrl }) =
                       border: "1px solid #000",
                     }}
                   >
-                    Manzil
+                    {t("Manzil")}
                   </td>
                   <td
                     className="p-0"
@@ -444,7 +444,7 @@ const DoctorTemplate = ({ client, connector, services, clientsType, baseUrl }) =
                       border: "1px solid #000",
                     }}
                   >
-                    ID
+                    {t("ID")}
                   </td>
                   <td
                     className="p-0"
@@ -535,8 +535,8 @@ const DoctorTemplate = ({ client, connector, services, clientsType, baseUrl }) =
         </div>
         <div className="row">
           <div className="col-12 text-center my-4">
-            <button className="btn btn-success px-4 mx-4" onClick={() => handleSave()} > Tasdiqlash</button>
-            <button className="btn btn-info px-5" onClick={handlePrint} >Chop etish</button>
+            <button className="btn btn-success px-4 mx-4" onClick={() => handleSave()} > {t("Tasdiqlash")}</button>
+            <button className="btn btn-info px-5" onClick={handlePrint} >{t("Chop etish")}</button>
           </div>
         </div>
       </div>
@@ -545,6 +545,8 @@ const DoctorTemplate = ({ client, connector, services, clientsType, baseUrl }) =
 };
 
 const LabTemplate = ({ client, connector, services, baseUrl }) => {
+
+  const {t} = useTranslation()
   
   const { request } = useHttp();
   const auth = useContext(AuthContext);
@@ -749,7 +751,7 @@ const LabTemplate = ({ client, connector, services, baseUrl }) => {
                 borderLeft: "none",
               }}
             >
-              <p className="pt-2">IFUD: {auth?.clinica?.ifud2}</p>
+              <p className="pt-2">{t("IFUD")}: {auth?.clinica?.ifud2}</p>
             </div>
             <div
               className="col-4"
@@ -799,7 +801,7 @@ const LabTemplate = ({ client, connector, services, baseUrl }) => {
                       border: "1px solid #000",
                     }}
                   >
-                    Mijozning F.I.SH
+                    {t("Mijozning F.I.SH")}
                   </td>
                   <td
                     className="p-0"
@@ -815,7 +817,7 @@ const LabTemplate = ({ client, connector, services, baseUrl }) => {
                   </td>
                   <td rowSpan="2" colSpan={2} style={{ width: "33%" }}>
                     <p className="fw-bold fs-5 m-0">
-                      TAHLIL <br /> NATIJALARI
+                      {t("TAHLIL")} <br /> {t("NATIJALARI")}
                     </p>
                   </td>
                 </tr>
@@ -828,7 +830,7 @@ const LabTemplate = ({ client, connector, services, baseUrl }) => {
                       border: "1px solid #000",
                     }}
                   >
-                    Tug'ilgan yili
+                    {t("Tug'ilgan yili")}
                   </td>
                   <td
                     className="p-0"
@@ -851,7 +853,7 @@ const LabTemplate = ({ client, connector, services, baseUrl }) => {
                       border: "1px solid #000",
                     }}
                   >
-                    Kelgan sanasi
+                    {t("Kelgan sanasi")}
                   </td>
                   <td
                     className="p-0"
@@ -873,7 +875,7 @@ const LabTemplate = ({ client, connector, services, baseUrl }) => {
                       border: "1px solid #000",
                     }}
                   >
-                    Namuna
+                    {t("Namuna")}
                   </td>
                   <td
                     className="p-0"
@@ -897,7 +899,7 @@ const LabTemplate = ({ client, connector, services, baseUrl }) => {
                       border: "1px solid #000",
                     }}
                   >
-                    Manzil
+                    {t("Manzil")}
                   </td>
                   <td
                     className="p-0"
@@ -918,7 +920,7 @@ const LabTemplate = ({ client, connector, services, baseUrl }) => {
                       border: "1px solid #000",
                     }}
                   >
-                    ID
+                    {t("ID")}
                   </td>
                   <td
                     className="p-0"
@@ -1065,7 +1067,7 @@ const LabTemplate = ({ client, connector, services, baseUrl }) => {
         </div>
         <div className="row">
           <div className="col-12 text-center my-4">
-            <button className="btn btn-info px-5" onClick={handlePrint} >Chop etish</button>
+            <button className="btn btn-info px-5" onClick={handlePrint} >{t("Chop etish")}</button>
           </div>
         </div>
       </div>
@@ -1075,6 +1077,9 @@ const LabTemplate = ({ client, connector, services, baseUrl }) => {
 
 
 const AdoptionTemplate = () => {
+
+  const {t} = useTranslation()
+
   const { client, connector, services, clientsType } = useLocation().state;
   const connectorData = useLocation().state;
 
@@ -1082,8 +1087,6 @@ const AdoptionTemplate = () => {
 
   const { request } = useHttp();
   const auth = useContext(AuthContext);
-
-  console.log(connectorData);
 
   const toast = useToast();
 
@@ -1126,15 +1129,15 @@ const AdoptionTemplate = () => {
       <Select
         options={[
           {
-            label: "Shifokor",
+            label: t("Shifokor"),
             value: "doctor"
           },
           {
-            label: "Laboratoriya",
+            label: t("Laboratoriya"),
             value: "laboratory"
           },
           {
-            label: "Xammasi",
+            label: t("Xammasi"),
             value: "all"
           }
         ]}

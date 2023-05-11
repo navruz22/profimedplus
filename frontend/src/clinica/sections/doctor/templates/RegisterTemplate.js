@@ -18,10 +18,12 @@ import { BsList, BsTable, BsTextCenter, BsTextLeft, BsTextRight } from 'react-ic
 import { RiDeleteColumn, RiDeleteRow, RiInsertColumnLeft, RiInsertColumnRight, RiInsertRowBottom, RiInsertRowTop } from 'react-icons/ri';
 import { TbTableOff } from 'react-icons/tb';
 import './style.css'
+import { useTranslation } from 'react-i18next';
 
 
 const RegisterTemplate = ({ setTemplate, template, createHandler, editor }) => {
 
+    const {t} = useTranslation()
 
     if (!editor) {
         return null;
@@ -32,12 +34,12 @@ const RegisterTemplate = ({ setTemplate, template, createHandler, editor }) => {
                 <div className="bg-alotrade">
                     <div className="border border-collapse p-2">
                         <div className='bg-alotrade py-1'>
-                            <p className='text-center text-[18px] font-bold text-white'>Nomi</p>
+                            <p className='text-center text-[18px] font-bold text-white'>{t("Nomi")}</p>
                         </div>
                         <div className='bg-alotrade text-center py-1'>
                             <input
                                 value={template?.name}
-                                placeholder="Shablon nomi kiritish"
+                                placeholder={t("Shablon nomi kiritish")}
                                 className="w-[200px] border outline-0 rounded-sm p-1"
                                 onChange={(e) => {
                                     setTemplate({ ...template, name: e.target.value })
@@ -48,7 +50,7 @@ const RegisterTemplate = ({ setTemplate, template, createHandler, editor }) => {
                     </div>
                     <div className="border border-collapse p-2">
                         <div className='py-1'>
-                            <p className='text-center text-[18px] font-bold text-white'>Shablon</p>
+                            <p className='text-center text-[18px] font-bold text-white'>{t("Shablon")}</p>
                             <div className="flex gap-2">
                                 <div className="flex gap-2">
                                     <button

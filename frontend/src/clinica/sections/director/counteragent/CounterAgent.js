@@ -11,10 +11,13 @@ import { Sort } from '../../reseption/offlineclients/clientComponents/Sort'
 import Select from 'react-select'
 import makeAnimated from 'react-select/animated'
 import ReactHtmlTableToExcel from 'react-html-table-to-excel'
+import { useTranslation } from 'react-i18next'
 
 const animatedComponents = makeAnimated()
 
 const CounterAgent = () => {
+
+    const {t} = useTranslation()
 
     const history = useHistory()
 
@@ -188,15 +191,15 @@ const CounterAgent = () => {
     //====================================================================
     // useEffect
 
-    const [t, setT] = useState(0)
+    const [s, setS] = useState(0)
 
     useEffect(() => {
-        if (!t) {
-            setT(1)
+        if (!s) {
+            setS(1)
             getConnectors(beginDay, endDay, clinicaValue)
             getBaseUrl()
         }
-    }, [getConnectors, getBaseUrl, t, beginDay, endDay, clinicaValue])
+    }, [getConnectors, getBaseUrl, s, beginDay, endDay, clinicaValue])
 
     //====================================================================
     //====================================================================
@@ -317,19 +320,19 @@ const CounterAgent = () => {
                                             <tr>
                                                 <th className="border py-1 bg-alotrade text-[16px]">№</th>
                                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                                    Kontragent
+                                                    {t("Kontragent")}
                                                 </th>
                                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                                    Mijozlar
+                                                    {t("Mijozlar")}
                                                 </th>
                                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                                    Shifokorlar
+                                                    {t("Shifokorlar")}
                                                 </th>
                                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                                    Umumiy
+                                                    {t("Umumiy")}
                                                 </th>
                                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                                    Ulushi
+                                                    {t("Ulushi")}
                                                 </th>
                                                 <th className="border py-1 bg-alotrade text-[16px]">
                                                 </th>
@@ -379,7 +382,7 @@ const CounterAgent = () => {
                                                                     className="bg-alotrade rounded text-white font-semibold py-1 px-2"
                                                                     style={{ fontSize: '75%' }}
                                                                 >
-                                                                    Batafsil
+                                                                    {t("Batafsil")}
                                                                 </button>
                                                             )}
                                                         </td>

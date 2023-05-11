@@ -3,10 +3,12 @@ import ReactHtmlParser from 'react-html-parser'
 import { useReactToPrint } from "react-to-print";
 import '../../components/Print.css'
 import QRCode from "qrcode"
+import { useTranslation } from "react-i18next";
 
 const DoctorResult = ({ connector, clinica, baseUrl, user }) => {
 
-    console.log(connector);
+    const {t} = useTranslation()
+
     const [doctorServices, setDoctorServices] = useState([])
     const [labServices, setLabServices] = useState([])
 
@@ -139,7 +141,7 @@ const DoctorResult = ({ connector, clinica, baseUrl, user }) => {
                                         border: "1px solid #000",
                                     }}
                                 >
-                                    Mijozning F.I.SH
+                                    {t("Mijozning F.I.SH")}
                                 </td>
                                 <td
                                     className="p-0"
@@ -155,7 +157,7 @@ const DoctorResult = ({ connector, clinica, baseUrl, user }) => {
                                 </td>
                                 <td rowSpan="2" colSpan={2} style={{ width: "33%" }}>
                                     <p className="fw-bold fs-5 m-0">
-                                        TAHLIL <br /> NATIJALARI
+                                        {t("TAHLIL")} <br /> {t("NATIJALARI")}
                                     </p>
                                 </td>
                             </tr>
@@ -168,7 +170,7 @@ const DoctorResult = ({ connector, clinica, baseUrl, user }) => {
                                         border: "1px solid #000",
                                     }}
                                 >
-                                    Tug'ilgan yili
+                                    {t("Tug'ilgan yili")}
                                 </td>
                                 <td
                                     className="p-0"
@@ -191,7 +193,7 @@ const DoctorResult = ({ connector, clinica, baseUrl, user }) => {
                                         border: "1px solid #000",
                                     }}
                                 >
-                                    Kelgan sanasi
+                                    {t("Kelgan sanasi")}
                                 </td>
                                 <td
                                     className="p-0"
@@ -214,7 +216,7 @@ const DoctorResult = ({ connector, clinica, baseUrl, user }) => {
                                         border: "1px solid #000",
                                     }}
                                 >
-                                    Namuna
+                                    {t("Namuna")}
                                 </td>
                                 <td
                                     className="p-0"
@@ -238,7 +240,7 @@ const DoctorResult = ({ connector, clinica, baseUrl, user }) => {
                                         border: "1px solid #000",
                                     }}
                                 >
-                                    Manzil
+                                    {t("Manzil")}
                                 </td>
                                 <td
                                     className="p-0"
@@ -259,7 +261,7 @@ const DoctorResult = ({ connector, clinica, baseUrl, user }) => {
                                         border: "1px solid #000",
                                     }}
                                 >
-                                    ID
+                                    {t("ID")}
                                 </td>
                                 <td
                                     className="p-0"
@@ -295,7 +297,7 @@ const DoctorResult = ({ connector, clinica, baseUrl, user }) => {
                                                     {template?.name}
                                                 </h2>
                                                 {(typeof connector?.client?.id === 'string') && <div className="flex justify-end items-center">
-                                                    <div className="text-[12px] font-bold mt-2 px-2 py-1 bg-gray-400">Tekshiruv sanasi: {new Date(section.createdAt).toLocaleDateString()}</div>
+                                                    <div className="text-[12px] font-bold mt-2 px-2 py-1 bg-gray-400">{t("Tekshiruv sanasi")}: {new Date(section.createdAt).toLocaleDateString()}</div>
                                                 </div>}
                                             </div>
                                             <div
@@ -327,7 +329,7 @@ const DoctorResult = ({ connector, clinica, baseUrl, user }) => {
                                         {section?.servicetypename}
                                     </h2>
                                     {(typeof connector?.client?.id === 'string') && <div className="flex justify-end items-center">
-                                        <div className="text-[12px] font-bold my-2 px-2 py-1 bg-gray-400">Tekshiruv sanasi: {new Date(section.createdAt).toLocaleDateString()}</div>
+                                        <div className="text-[12px] font-bold my-2 px-2 py-1 bg-gray-400">{t("Tekshiruv sanasi")}: {new Date(section.createdAt).toLocaleDateString()}</div>
                                     </div>}
                                 </div>
                                 <table className="w-full text-center">
@@ -468,7 +470,7 @@ const DoctorResult = ({ connector, clinica, baseUrl, user }) => {
                                             border: "1px solid #000",
                                         }}
                                     >
-                                        Mijozning F.I.SH
+                                        {t("Mijozning F.I.SH")}
                                     </td>
                                     <td
                                         className="p-0"
@@ -484,7 +486,7 @@ const DoctorResult = ({ connector, clinica, baseUrl, user }) => {
                                     </td>
                                     <td rowSpan="2" colSpan={2} style={{ width: "33%" }}>
                                         <p className="fw-bold fs-5 m-0">
-                                            TAHLIL <br /> NATIJALARI
+                                            {t("TAHLIL")} <br /> {t("NATIJALARI")}
                                         </p>
                                     </td>
                                 </tr>
@@ -497,7 +499,7 @@ const DoctorResult = ({ connector, clinica, baseUrl, user }) => {
                                             border: "1px solid #000",
                                         }}
                                     >
-                                        Tug'ilgan yili
+                                        {t("Tug'ilgan yili")}
                                     </td>
                                     <td
                                         className="p-0"
@@ -520,7 +522,7 @@ const DoctorResult = ({ connector, clinica, baseUrl, user }) => {
                                             border: "1px solid #000",
                                         }}
                                     >
-                                        Kelgan sanasi
+                                        {t("Kelgan sanasi")}
                                     </td>
                                     <td
                                         className="p-0"
@@ -543,7 +545,7 @@ const DoctorResult = ({ connector, clinica, baseUrl, user }) => {
                                             border: "1px solid #000",
                                         }}
                                     >
-                                        Namuna
+                                        {t("Namuna")}
                                     </td>
                                     <td
                                         className="p-0"
@@ -567,7 +569,7 @@ const DoctorResult = ({ connector, clinica, baseUrl, user }) => {
                                             border: "1px solid #000",
                                         }}
                                     >
-                                        Manzil
+                                        {t("Manzil")}
                                     </td>
                                     <td
                                         className="p-0"
@@ -588,7 +590,7 @@ const DoctorResult = ({ connector, clinica, baseUrl, user }) => {
                                             border: "1px solid #000",
                                         }}
                                     >
-                                        ID
+                                        {t("ID")}
                                     </td>
                                     <td
                                         className="p-0"
@@ -624,7 +626,7 @@ const DoctorResult = ({ connector, clinica, baseUrl, user }) => {
                                                         {template?.name}
                                                     </h2>
                                                     {(typeof connector?.client?.id === 'string') && <div className="flex justify-end items-center">
-                                                        <div className="text-[12px] font-bold mt-2 px-2 py-1 bg-gray-400">Tekshiruv sanasi: {new Date(section.createdAt).toLocaleDateString()}</div>
+                                                        <div className="text-[12px] font-bold mt-2 px-2 py-1 bg-gray-400">{t("Tekshiruv sanasi")}: {new Date(section.createdAt).toLocaleDateString()}</div>
                                                     </div>}
                                                 </div>
                                                 <div
@@ -656,7 +658,7 @@ const DoctorResult = ({ connector, clinica, baseUrl, user }) => {
                                             {section?.servicetypename}
                                         </h2>
                                         {(typeof connector?.client?.id === 'string') && <div className="flex justify-end items-center">
-                                            <div className="text-[12px] font-bold my-2 px-2 py-1 bg-gray-400">Tekshiruv sanasi: {new Date(section.createdAt).toLocaleDateString()}</div>
+                                            <div className="text-[12px] font-bold my-2 px-2 py-1 bg-gray-400">{t("Tekshiruv sanasi")}: {new Date(section.createdAt).toLocaleDateString()}</div>
                                         </div>}
                                     </div>
                                     <table className="w-full text-center">
@@ -729,7 +731,7 @@ const DoctorResult = ({ connector, clinica, baseUrl, user }) => {
             <div className="container p-4 bg-white">
                 <div className="row">
                     <div className="col-12 text-center my-4">
-                        <button className="btn btn-info px-5" onClick={handlePrint} >Chop etish</button>
+                        <button className="btn btn-info px-5" onClick={handlePrint} >{t("Chop etish")}</button>
                     </div>
                 </div>
             </div>

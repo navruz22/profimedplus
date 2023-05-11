@@ -90,7 +90,7 @@ export const Navbar = () => {
 
   const [s, setS] = useState(0)
   useEffect(() => {
-    if (!t) {
+    if (!s) {
       setS(1)
       getDirector();
       getBaseUrl()

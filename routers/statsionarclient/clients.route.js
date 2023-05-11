@@ -137,9 +137,13 @@ module.exports.register = async (req, res) => {
         // CreateServices
         let totalprice = 0
         for (const service of services) {
+            
+            service.department = service.department._id
+
             const { error } = validateStatsionarService(service)
 
             if (error) {
+                console.log(error);
                 return res.status(400).json({
                     error: error.message,
                 })
@@ -699,6 +703,7 @@ module.exports.add = async (req, res) => {
 
         res.status(201).send({ message: "Xizmatlar ro'yxatga olindi" })
     } catch (error) {
+        console.log(error);
         res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
     }
 }

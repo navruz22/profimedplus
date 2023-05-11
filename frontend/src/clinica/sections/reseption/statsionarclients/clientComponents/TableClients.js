@@ -5,6 +5,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Pagination } from "../../components/Pagination";
 import { DatePickers } from "./DatePickers";
+import { useTranslation } from "react-i18next";
 
 export const TableClients = ({
   setVisible,
@@ -33,6 +34,7 @@ export const TableClients = ({
   searchDoctor,
   setRoom
 }) => {
+  const {t} = useTranslation()
   return (
     <div className="border-0 shadow-lg table-container">
       <div className="border-0 table-container">
@@ -59,7 +61,7 @@ export const TableClients = ({
                     style={{ maxWidth: "100px", minWidth: "100px" }}
                     type="search"
                     className="w-100 form-control form-control-sm selectpicker"
-                    placeholder="F.I.O"
+                    placeholder={t("F.I.O")}
                   />
                 </th>
                 <th>
@@ -68,7 +70,7 @@ export const TableClients = ({
                     style={{ maxWidth: "100px", minWidth: "100px" }}
                     type="search"
                     className="w-100 form-control form-control-sm selectpicker"
-                    placeholder="Tug'ilgan yili"
+                    placeholder={t("Tug'ilgan yili")}
                   />
                 </th>
                 <th>
@@ -77,7 +79,7 @@ export const TableClients = ({
                     style={{ maxWidth: "100px", minWidth: "100px" }}
                     type="search"
                     className="w-100 form-control form-control-sm selectpicker"
-                    placeholder="Tel"
+                    placeholder={t("Tel")}
                   />
                 </th>
                 <th>
@@ -86,7 +88,7 @@ export const TableClients = ({
                     style={{ maxWidth: "60px" }}
                     type="search"
                     className="form-control form-control-sm selectpicker"
-                    placeholder="ID"
+                    placeholder={t("ID")}
                   />
                 </th>
                 <th>
@@ -95,7 +97,7 @@ export const TableClients = ({
                     style={{ maxWidth: "100px" }}
                     type="search"
                     className="form-control form-control-sm selectpicker"
-                    placeholder="Shifokor"
+                    placeholder={t("Shifokor")}
                   />
                 </th>
                 <th className="text-center">
@@ -125,9 +127,9 @@ export const TableClients = ({
                     placeholder="Doctors"
                     onChange={searchFinished}
                   >
-                    <option value={"all"}>Hammasi</option>
-                    <option value={"done"}>Yakunlangan</option>
-                    <option value={"begin"}>Davolanishda</option>
+                    <option value={"all"}>{t("Hammasi")}</option>
+                    <option value={"done"}>{t("Yakunlangan")}</option>
+                    <option value={"begin"}>{t("Davolanishda")}</option>
                   </select>
                 </th>
               </tr>
@@ -136,26 +138,26 @@ export const TableClients = ({
               <tr>
                 <th className="border py-1 bg-alotrade text-[16px]">№</th>
                 <th className="border py-1 bg-alotrade text-[16px]">
-                  F.I.O
+                  {t("F.I.O")}
                 </th>
                 <th className="border py-1 bg-alotrade text-[16px]">
-                  Tug'ilgan yili
+                  {t("Tug'ilgan yili")}
                 </th>
                 <th className="border py-1 bg-alotrade text-[16px]">
-                  Tel
+                  {t("Tel")}
                 </th>
                 <th className="border py-1 bg-alotrade text-[16px]">
-                  ID
+                  {t("ID")}
                 </th>
                 <th className="border py-1 bg-alotrade text-[16px]">
-                  Shikokor
+                  {t("Shikokor")}
                 </th>
                 <th className="border py-1 bg-alotrade text-[16px]">
-                  Kelgan vaqti
+                  {t("Kelgan vaqti")}
                 </th>
-                <th className="border py-1 bg-alotrade text-[16px]">Qo'shish</th>
-                <th className="border py-1 bg-alotrade text-[16px] text-center">Chek</th>
-                <th className="border py-1 bg-alotrade text-[16px] text-center">Tugatish</th>
+                <th className="border py-1 bg-alotrade text-[16px]">{t("Qo'shish")}</th>
+                <th className="border py-1 bg-alotrade text-[16px] text-center">{t("Chek")}</th>
+                <th className="border py-1 bg-alotrade text-[16px] text-center">{t("Tugatish")}</th>
               </tr>
             </thead>
             <tbody>
@@ -247,7 +249,7 @@ export const TableClients = ({
                             setModal2(true);
                           }}
                         >
-                          Tugatish
+                          {t("Tugatish")}
                         </button>
                       )}
                     </td>

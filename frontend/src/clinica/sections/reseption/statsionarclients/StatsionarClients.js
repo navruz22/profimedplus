@@ -14,6 +14,7 @@ import {
 } from "./checkData/checkData";
 import { CheckModalStatsionar } from "../components/ModalCheckStatsionar";
 import { useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 export const StatsionarClients = () => {
     const [beginDay, setBeginDay] = useState(
@@ -33,7 +34,7 @@ export const StatsionarClients = () => {
     const [modal2, setModal2] = useState(false);
     //====================================================================
     //====================================================================
-
+    const {t} = useTranslation()
     //====================================================================
     //====================================================================
     // RegisterPage
@@ -835,11 +836,11 @@ export const StatsionarClients = () => {
     //====================================================================
     // useEffect
 
-    const [t, setT] = useState(0);
+    const [s, setS] = useState(0);
 
     useEffect(() => {
-        if (auth.clinica && !t) {
-            setT(1);
+        if (auth.clinica && !s) {
+            setS(1);
             getConnectors(beginDay, endDay);
             getDepartments();
             getCounterDoctors();
@@ -859,7 +860,7 @@ export const StatsionarClients = () => {
         getDoctors,
         getRooms,
         auth,
-        t,
+        s,
         beginDay,
         endDay,
     ]);
@@ -961,14 +962,14 @@ export const StatsionarClients = () => {
                                         }`}
                                     onClick={changeVisible}
                                 >
-                                    Registratsiya
+                                    {t("Registratsiya")}
                                 </button>
                                 <button
                                     className={`btn bg-alotrade text-white mb-2 w-100 ${visible ? "" : "d-none"
                                         }`}
                                     onClick={changeVisible}
                                 >
-                                    Registratsiya
+                                    {t("Registratsiya")}
                                 </button>
                             </div>
                         </div>
@@ -1052,7 +1053,7 @@ export const StatsionarClients = () => {
 
             <Modal
                 modal={modal}
-                text={"ma'lumotlar to'g'ri kiritilganligini tasdiqlaysizmi?"}
+                text={t("ma'lumotlar to'g'ri kiritilganligini tasdiqlaysizmi?")}
                 setModal={setModal}
                 handler={client._id ? addHandler : createHandler}
                 basic={client.lastname + " " + client.firstname}
@@ -1060,7 +1061,7 @@ export const StatsionarClients = () => {
 
             <Modal2
                 modal={modal2}
-                text={"ma'lumotlar to'g'ri kiritilganligini tasdiqlaysizmi?"}
+                text={t("ma'lumotlar to'g'ri kiritilganligini tasdiqlaysizmi?")}
                 setModal={setModal2}
                 handler={postRoom}
             />

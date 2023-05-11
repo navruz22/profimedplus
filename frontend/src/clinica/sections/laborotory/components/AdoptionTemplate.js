@@ -10,10 +10,13 @@ import { useHttp } from "../../../hooks/http.hook";
 import Print from "./Print";
 import { useReactToPrint } from 'react-to-print'
 import QRCode from "qrcode"
+import { useTranslation } from "react-i18next";
 
 const AdoptionTemplate = () => {
   // const clientId = useParams().clientid
   // const connectorId = useParams().connectorid
+
+  const {t} = useTranslation()
 
   const { request } = useHttp();
   const auth = useContext(AuthContext);
@@ -339,7 +342,7 @@ const AdoptionTemplate = () => {
                 borderLeft: "none",
               }}
             >
-              <p className="pt-2">IFUD: {auth?.clinica?.ifud2}</p>
+              <p className="pt-2">{t("IFUD")}: {auth?.clinica?.ifud2}</p>
             </div>
             <div
               className="col-4"
@@ -389,7 +392,7 @@ const AdoptionTemplate = () => {
                       border: "1px solid #000",
                     }}
                   >
-                    Mijozning F.I.SH
+                    {t("Mijozning F.I.SH")}
                   </td>
                   <td
                     className="p-0"
@@ -405,7 +408,7 @@ const AdoptionTemplate = () => {
                   </td>
                   <td rowSpan="2" colSpan={2} style={{ width: "33%" }}>
                     <p className="fw-bold fs-5 m-0">
-                      TAHLIL <br /> NATIJALARI
+                      {t("TAHLIL")} <br /> {t("NATIJALARI")}
                     </p>
                   </td>
                 </tr>
@@ -418,7 +421,7 @@ const AdoptionTemplate = () => {
                       border: "1px solid #000",
                     }}
                   >
-                    Tug'ilgan yili
+                    {t("Tug'ilgan yili")}
                   </td>
                   <td
                     className="p-0"
@@ -441,7 +444,7 @@ const AdoptionTemplate = () => {
                       border: "1px solid #000",
                     }}
                   >
-                    Kelgan sanasi
+                    {t("Kelgan sanasi")}
                   </td>
                   <td
                     className="p-0"
@@ -463,7 +466,7 @@ const AdoptionTemplate = () => {
                       border: "1px solid #000",
                     }}
                   >
-                    Namuna
+                    {t("Namuna")}
                   </td>
                   <td
                     className="p-0"
@@ -487,7 +490,7 @@ const AdoptionTemplate = () => {
                       border: "1px solid #000",
                     }}
                   >
-                    Manzil
+                    {t("Manzil")}
                   </td>
                   <td
                     className="p-0"
@@ -508,7 +511,7 @@ const AdoptionTemplate = () => {
                       border: "1px solid #000",
                     }}
                   >
-                    ID
+                    {t("ID")}
                   </td>
                   <td
                     className="p-0"
@@ -685,8 +688,8 @@ const AdoptionTemplate = () => {
               } else {
                 saveService()
               }
-            }} > Tasdiqlash</button>
-            <button className="btn btn-info px-5" onClick={handlePrint} >Chop etish</button>
+            }} > {t("Tasdiqlash")}</button>
+            <button className="btn btn-info px-5" onClick={handlePrint} >{t("Chop etish")}</button>
           </div>
         </div>
       </div>

@@ -20,6 +20,7 @@ import { AuthContext } from '../../../../context/AuthContext';
 import RegisterTemplate from '../../templates/RegisterTemplate';
 import TableTemplate from '../../templates/TableTemplate';
 import { Modal } from '../../components/Modal';
+import { useTranslation } from 'react-i18next';
 
 const ConclusionsTemp = () => {
     //====================================================================
@@ -35,7 +36,7 @@ const ConclusionsTemp = () => {
 
     //====================================================================
     //====================================================================
-
+    const {t} = useTranslation()
     //====================================================================
     //====================================================================
     const [modal, setModal] = useState(false)
@@ -150,14 +151,14 @@ const ConclusionsTemp = () => {
     const createHandler = async () => {
         if (!template.name) {
             return notify({
-                title: "Diqqat! Shablon nomini kiriting.",
+                title: t("Diqqat! Shablon nomini kiriting."),
                 description: '',
                 status: 'error',
             })
         }
         if (!templateText) {
             return notify({
-                title: "Diqqat! Shablonni kiriting.",
+                title: t("Diqqat! Shablonni kiriting."),
                 description: '',
                 status: 'error',
             })
@@ -201,7 +202,7 @@ const ConclusionsTemp = () => {
             )
             localStorage.setItem("data", data)
             notify({
-                title: `Shablonlar yaratildi!`,
+                title: t(`Shablonlar yaratildi!`),
                 description: '',
                 status: 'success',
             })
@@ -305,13 +306,13 @@ const ConclusionsTemp = () => {
     //====================================================================
     // useEffect
 
-    const [t, setT] = useState()
+    const [s, setS] = useState()
     useEffect(() => {
-        if (!t) {
-            setT(1)
+        if (!s) {
+            setS(1)
             getTemplates()
         }
-    }, [getTemplates, t])
+    }, [getTemplates, s])
     //====================================================================
     //====================================================================
 
@@ -370,7 +371,7 @@ const ConclusionsTemp = () => {
                         modal={modal}
                         setModal={setModal}
                         handler={deleteHandler}
-                        text=" shablonini ochirishni tasdiqlaysizmi?"
+                        text={t("shablonini ochirishni tasdiqlaysizmi?")}
                         basic={remove && remove.name}
                     />
                 </div>

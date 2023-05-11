@@ -178,7 +178,10 @@ export const Login = () => {
                 <div className="mb-3 mt-3">
                   <Select
                     onChange={(e) => setUser({ ...user, type: e.type })}
-                    options={sections && sections}
+                    options={sections && sections.map(s => ({
+                      ...s,
+                      label: t(s.label)
+                    }))}
                     isLoading={loading}
                     style={{ height: "32px" }}
                     placeholder={t("select_n1")}

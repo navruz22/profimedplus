@@ -21,6 +21,7 @@ import TableRow from '@tiptap/extension-table-row'
 import Text from '@tiptap/extension-text'
 import TextAlign from '@tiptap/extension-text-align'
 import TextStyle from "@tiptap/extension-text-style"
+import { useTranslation } from 'react-i18next';
 
 const Templates = () => {
     //====================================================================
@@ -36,7 +37,7 @@ const Templates = () => {
 
     //====================================================================
     //====================================================================
-
+    const {t} = useTranslation()
     //====================================================================
     //====================================================================
     const [modal, setModal] = useState(false)
@@ -306,13 +307,13 @@ const Templates = () => {
     //====================================================================
     // useEffect
 
-    const [t, setT] = useState()
+    const [s, setS] = useState()
     useEffect(() => {
-        if (!t) {
-            setT(1)
+        if (!s) {
+            setS(1)
             getTemplates()
         }
-    }, [getTemplates, t])
+    }, [getTemplates, s])
     //====================================================================
     //====================================================================
 
@@ -371,7 +372,7 @@ const Templates = () => {
                         modal={modal}
                         setModal={setModal}
                         handler={deleteHandler}
-                        text=" shablonini ochirishni tasdiqlaysizmi?"
+                        text={t("shablonini ochirishni tasdiqlaysizmi?")}
                         basic={remove && remove.name}
                     />
                 </div>

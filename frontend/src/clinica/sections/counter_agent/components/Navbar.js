@@ -4,6 +4,7 @@ import { AuthContext } from "../../../context/AuthContext";
 import { useHttp } from "../../../hooks/http.hook";
 import { useToast } from "@chakra-ui/react";
 import AloLogo from "../../../../clinica_logo.jpg"
+import { useTranslation } from "react-i18next";
 
 export const Navbar = () => {
     const history = useHistory();
@@ -27,7 +28,7 @@ export const Navbar = () => {
     const [activePage, setActivePage] = useState(window.location.pathname)
     //====================================================================
     //====================================================================
-
+    const {t} = useTranslation()
     //====================================================================
     //====================================================================
 
@@ -59,13 +60,13 @@ export const Navbar = () => {
 
     //====================================================================
     //====================================================================
-    const [t, setT] = useState();
+    const [s, setS] = useState();
     useEffect(() => {
-        if (!t) {
-            setT(1);
+        if (!s) {
+            setS(1);
             getBaseUrl();
         }
-    }, [getBaseUrl, t]);
+    }, [getBaseUrl, s]);
     //====================================================================
     //====================================================================
 
@@ -107,7 +108,7 @@ export const Navbar = () => {
                                     style={{ background: activePage === "/alo24" || activePage === "/" ? "#F97316" : "" }}
                                 >
                                     <i className="icon-devices_other nav-icon" />
-                                    Shifokorlar
+                                    {t("Shifokorlar")}
                                 </Link>
                             </li>
                             <li className="nav-item">
@@ -121,7 +122,7 @@ export const Navbar = () => {
                                     style={{ background: activePage === "/alo24/counter_doctors_report" ? "#F97316" : "" }}
                                 >
                                     <i className="icon-devices_other nav-icon" />
-                                    Hisobot
+                                    {t("Hisobot")}
                                 </Link>
                             </li>
                         </ul>
@@ -176,7 +177,7 @@ export const Navbar = () => {
                                                 history.push("/");
                                             }}
                                         >
-                                            <i className="icon-log-out1" /> Chiqish
+                                            <i className="icon-log-out1" /> {t("Chiqish")}
                                         </button>
                                     </div>
                                 </div>

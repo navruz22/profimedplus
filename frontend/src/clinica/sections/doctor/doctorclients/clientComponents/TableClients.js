@@ -16,6 +16,7 @@ import { useHistory } from "react-router-dom";
 import Select from "react-select";
 import makeAnimated from 'react-select/animated'
 import { Modal } from "../../../reseption/components/Modal";
+import { useTranslation } from "react-i18next";
 
 const animatedComponents = makeAnimated()
 
@@ -40,6 +41,9 @@ export const TableClients = ({
   changeClientsType,
   getClientsByBorn
 }) => {
+
+  const {t} = useTranslation()
+
   const history = useHistory();
   const [clientBorn, setClientBorn] = useState('')
 
@@ -79,7 +83,7 @@ export const TableClients = ({
                 style={{ maxWidth: "100px", minWidth: "100px" }}
                 type="search"
                 className="w-100 form-control form-control-sm selectpicker"
-                placeholder="F.I.O"
+                placeholder={t("F.I.O")}
               />
             </div>
             <div>
@@ -88,7 +92,7 @@ export const TableClients = ({
                 style={{ maxWidth: "60px" }}
                 type="search"
                 className="form-control form-control-sm selectpicker"
-                placeholder="ID"
+                placeholder={t("ID")}
               />
             </div>
             <div className="flex items-center gap-4">
@@ -147,8 +151,8 @@ export const TableClients = ({
                 placeholder="Mijozalar"
                 onChange={changeClientsType}
               >
-                <option value="offline">Kunduzgi</option>
-                <option value="statsionar">Statsionar</option>
+                <option value="offline">{t("Kunduzgi")}</option>
+                <option value="statsionar">{t("Statsionar")}</option>
               </select>
             </div>
           </div>
@@ -157,25 +161,25 @@ export const TableClients = ({
               <tr>
                 <th className="border bg-alotrade text-[16px] py-1">№</th>
                 <th className="border bg-alotrade text-[16px] py-1">
-                  F.I.O
+                  {t("F.I.O")}
                 </th>
                 <th className="border bg-alotrade text-[16px] py-1">
-                  ID
+                  {t("ID")}
                 </th>
                 <th className="border bg-alotrade text-[16px] py-1">
-                  Telefon raqami
+                  {t("Telefon raqami")}
                 </th>
                 <th className="border bg-alotrade text-[16px] py-1">
-                  Tugilgan yili
+                  {t("Tugilgan yili")}
                 </th>
                 {clientsType === 'statsionar' && <th className="border bg-alotrade text-[16px] py-1">
-                  Kelgan sanasi
+                  {t("Kelgan sanasi")}
                 </th>}
                 {clientsType === 'statsionar' && <th className="border bg-alotrade text-[16px] py-1">
-                  Xonasi
+                  {t("Xonasi")}
                 </th>}
                 <th className="border bg-alotrade text-[16px] py-1">
-                  Tasdiqlangan
+                  {t("Tasdiqlangan")}
                 </th>
                 <th className="border bg-alotrade text-[16px] py-1 w-[12%]">
                 </th>

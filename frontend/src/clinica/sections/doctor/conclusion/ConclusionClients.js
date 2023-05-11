@@ -2,6 +2,7 @@ import { useToast } from "@chakra-ui/react";
 import { faAngleDown, faAngleUp, faPenAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
 import { AuthContext } from "../../../context/AuthContext";
@@ -32,7 +33,7 @@ export const ConclusionClients = () => {
 
   //====================================================================
   //====================================================================
-
+  const {t} = useTranslation()
   //====================================================================
   //====================================================================
   // Pagination
@@ -210,15 +211,15 @@ export const ConclusionClients = () => {
   //====================================================================
   // useEffect
 
-  const [t, setT] = useState(0);
+  const [s, setS] = useState(0);
 
   useEffect(() => {
-    if (auth.clinica && !t) {
-      setT(1);
+    if (auth.clinica && !s) {
+      setS(1);
       getDoctorClients(beginDay, endDay);
       getBaseUrl()
     }
-  }, [auth, beginDay, t, endDay, getDoctorClients, getBaseUrl]);
+  }, [auth, beginDay, s, endDay, getDoctorClients, getBaseUrl]);
 
   console.log(currentDoctorClients);
   const componentRef = useRef()
@@ -268,7 +269,7 @@ export const ConclusionClients = () => {
                   className={`btn bg-alotrade text-white mb-2 w-100`}
                   onClick={() => setVisible(!visible)}
                 >
-                  Malumot
+                  {t("Malumot")}
                 </button>
               </div>
             </div>
@@ -295,7 +296,7 @@ export const ConclusionClients = () => {
                         style={{ maxWidth: "100px", minWidth: "100px" }}
                         type="search"
                         className="w-100 form-control form-control-sm selectpicker"
-                        placeholder="F.I.O"
+                        placeholder={t("F.I.O")}
                       />
                     </div>
                     <div>
@@ -304,7 +305,7 @@ export const ConclusionClients = () => {
                         style={{ maxWidth: "60px" }}
                         type="search"
                         className="form-control form-control-sm selectpicker"
-                        placeholder="ID"
+                        placeholder={t("ID")}
                       />
                     </div>
                     <div className="text-center">
@@ -321,11 +322,11 @@ export const ConclusionClients = () => {
                     >
                       <select
                         className="form-control form-control-sm selectpicker"
-                        placeholder="Turini tanlang"
+                        placeholder={t("Turini tanlang")}
                         onChange={changeType}
                       >
-                        <option value={'begin'}>Davolanishda</option>
-                        <option value={'end'}>Yakunlangan</option>
+                        <option value={'begin'}>{t("Davolanishda")}</option>
+                        <option value={'end'}>{t("Yakunlangan")}</option>
                       </select>
                     </div>
                   </div>
@@ -334,22 +335,22 @@ export const ConclusionClients = () => {
                       <tr>
                         <th className="border bg-alotrade text-[16px] py-1">№</th>
                         <th className="border bg-alotrade text-[16px] py-1">
-                          F.I.O
+                          {t("F.I.O")}
                         </th>
                         <th className="border bg-alotrade text-[16px] py-1">
-                          ID
+                          {t("ID")}
                         </th>
                         <th className="border bg-alotrade text-[16px] py-1">
-                          Telefon raqami
+                          {t("Telefon raqami")}
                         </th>
                         <th className="border bg-alotrade text-[16px] py-1">
-                          Tugilgan yili
+                          {t("Tugilgan yili")}
                         </th>
                         <th className="border bg-alotrade text-[16px] py-1">
-                            Kelgan vaqti
+                            {t("Kelgan vaqti")}
                         </th>
                         <th className="border bg-alotrade text-[16px] py-1">
-                            Ketgan vaqti
+                            {t("Ketgan vaqti")}
                         </th>
                         <th className="border bg-alotrade text-[16px] py-1">
 

@@ -1,5 +1,6 @@
 import { useToast } from "@chakra-ui/react";
 import { useCallback, useContext, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthContext";
 import { useHttp } from "../../../hooks/http.hook";
@@ -10,8 +11,11 @@ import DoctorResult from "./components/DoctorResult";
 
 
 const Conclusion = () => {
+
+    const {t} = useTranslation()
+
     const { connector } = useLocation().state
-    console.log(connector);
+
     const toast = useToast();
 
     const notify = useCallback(
@@ -106,11 +110,11 @@ const Conclusion = () => {
 
     return <div className="container p-4 bg-white">
         <div className="flex justify-between items-center">
-            <button onClick={() => setType('clientcard')} className="w-[200px] h-[100px] flex items-center justify-center bg-alotrade rounded-lg text-white text-[16px] font-medium text-uppercase">Bemor kartasi</button>
-            <button onClick={() => setType('doctorresult')} className="w-[200px] h-[100px] flex items-center justify-center bg-alotrade rounded-lg text-white text-[16px] font-medium text-uppercase">Shifokor kurigi</button>
-            <button onClick={() => setType('conclusion_temp')} className="w-[200px] h-[100px] flex items-center justify-center bg-alotrade rounded-lg text-white text-[16px] font-medium text-uppercase">Shablonlar</button>
+            <button onClick={() => setType('clientcard')} className="w-[200px] h-[100px] flex items-center justify-center bg-alotrade rounded-lg text-white text-[16px] font-medium text-uppercase">{t("Bemor kartasi")}</button>
+            <button onClick={() => setType('doctorresult')} className="w-[200px] h-[100px] flex items-center justify-center bg-alotrade rounded-lg text-white text-[16px] font-medium text-uppercase">{t("Shifokor kurigi")}</button>
+            <button onClick={() => setType('conclusion_temp')} className="w-[200px] h-[100px] flex items-center justify-center bg-alotrade rounded-lg text-white text-[16px] font-medium text-uppercase">{t("Shablonlar")}</button>
             {/* <button className="w-[200px] h-[100px] flex items-center justify-center bg-alotrade rounded-lg text-white text-[16px] font-medium text-uppercase">Xarorat</button> */}
-            <button onClick={() => setType('conclusion_page')} className="w-[200px] h-[100px] flex items-center justify-center bg-alotrade rounded-lg text-white text-[16px] font-medium text-uppercase">Xulosa</button>
+            <button onClick={() => setType('conclusion_page')} className="w-[200px] h-[100px] flex items-center justify-center bg-alotrade rounded-lg text-white text-[16px] font-medium text-uppercase">{t("Xulosa")}</button>
         </div>
         {type === 'clientcard' && <ClientCard  connector={connectorInfo} setConnector={setConnectorInfo}  />}
         {type === 'doctorresult' && <DoctorResult baseUrl={baseUrl} clinica={auth?.clinica} connector={connectorInfo} />}

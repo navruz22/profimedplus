@@ -4,6 +4,7 @@ import { faAngleDown, faAngleUp, faMoneyBill, faPrint } from "@fortawesome/free-
 import { Sort } from "./Sort";
 import { Pagination } from "../../components/Pagination";
 import { DatePickers } from "./DatePickers";
+import { useTranslation } from "react-i18next";
 
 
 export const TableClients = ({
@@ -36,6 +37,8 @@ export const TableClients = ({
     beginDay,
     endDay
 }) => {
+
+    const {t} = useTranslation()
 
     const getTotalprice = (connector) => {
         let servicesTotal = connector.services.reduce((prev, s) => {
@@ -97,7 +100,7 @@ export const TableClients = ({
                                 style={{ maxWidth: '100px', minWidth: '100px' }}
                                 type="search"
                                 className="w-100 form-control form-control-sm selectpicker"
-                                placeholder="F.I.O"
+                                placeholder={t("F.I.O")}
                             />
                         </div>
                         <div>
@@ -106,7 +109,7 @@ export const TableClients = ({
                                 style={{ maxWidth: '100px', minWidth: '100px' }}
                                 type="search"
                                 className="w-100 form-control form-control-sm selectpicker"
-                                placeholder="Tel"
+                                placeholder={t("Tel")}
                             />
                         </div>
                         <div>
@@ -115,7 +118,7 @@ export const TableClients = ({
                                 style={{ maxWidth: '80px' }}
                                 type="search"
                                 className="form-control form-control-sm selectpicker"
-                                placeholder="ID"
+                                placeholder={t("ID")}
                             />
                         </div>
                         <div>
@@ -124,7 +127,7 @@ export const TableClients = ({
                                 style={{ maxWidth: '70px' }}
                                 type="search"
                                 className="form-control form-control-sm selectpicker"
-                                placeholder="Probirka"
+                                placeholder={t("Probirka")}
                             />
                         </div>
                         <div
@@ -162,39 +165,39 @@ export const TableClients = ({
                             <tr>
                                 <th className="border py-1 bg-alotrade text-[16px]">№</th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                    F.I.O
+                                    {t("F.I.O")}
                                 </th>
-                                <th className="border py-1 bg-alotrade text-[16px]">Tel</th>
+                                <th className="border py-1 bg-alotrade text-[16px]">{t("Tel")}</th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                    ID
-                                </th>
-                                <th className="border py-1 bg-alotrade text-[16px]">
-                                    Probirka
+                                    {t("ID")}
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                    To'lov summasi
+                                    {t("Probirka")}
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                    To'langan
+                                    {t("To'lov summasi")}
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                    Chegirma
+                                    {t("To'langan")}
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                    Qarz
+                                    {t("Chegirma")}
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                    Qarzdan to'lov
+                                    {t("Qarz")}
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                    Qaytarilgan summa
+                                    {t("Qarzdan to'lov")}
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                    Qabul qilish
+                                    {t("Qaytarilgan summa")}
+                                </th>
+                                <th className="border py-1 bg-alotrade text-[16px]">
+                                    {t("Qabul qilish")}
                                 </th>
 
                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                    Chek
+                                    {t("Chek")}
                                 </th>
                             </tr>
                         </thead>

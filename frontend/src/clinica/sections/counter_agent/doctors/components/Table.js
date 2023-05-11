@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import Select from 'react-select'
 import { Pagination } from '../../../reseption/components/Pagination'
 import { DatePickers } from '../../../reseption/offlineclients/clientComponents/DatePickers'
@@ -18,7 +19,7 @@ const Table = ({
     counterDoctorsList,
     changeCounterDoctor
 }) => {
-
+    const {t} = useTranslation()
     const [selected, setSelected] = useState(null)
 
     return (
@@ -35,7 +36,7 @@ const Table = ({
                             <option value={10}>10</option>
                             <option value={25}>25</option>
                             <option value={50}>50</option>
-                            <option value={'all'}>Barchasi</option>
+                            <option value={'all'}>{t("Barchasi")}</option>
                         </select>
                     </div>
                     <div className='w-[300px]'>
@@ -54,7 +55,7 @@ const Table = ({
                             value={selected}
                             options={[
                                 {
-                                    label: 'Xammasi',
+                                    label: t('Xammasi'),
                                     value: "none"
                                 },
                                 ...[...counterDoctorsList].map(item => ({
@@ -75,7 +76,7 @@ const Table = ({
                             style={{ maxWidth: '200px', minWidth: '200px' }}
                             type="search"
                             className="w-100 form-control form-control-sm selectpicker"
-                            placeholder="Mijoz F.I.O"
+                            placeholder={t("Mijoz F.I.O")}
                         />
                     </div>
                     <div className="text-center ml-auto ">
@@ -101,24 +102,24 @@ const Table = ({
                             <tr>
                                 <th className="border py-1 bg-alotrade text-[16px]">№</th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                    Yunaltiruvchi shifokor
+                                    {t("Yunaltiruvchi shifokor")}
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                    Yunaltiruvchini klinikasi
+                                    {t("Yunaltiruvchini klinikasi")}
                                 </th>
-                                <th className='border py-1 bg-alotrade text-[16px]'>Mijoz</th>
-                                <th className='border py-1 bg-alotrade text-[16px]'>Kelgan vaqti</th>
+                                <th className='border py-1 bg-alotrade text-[16px]'>{t("Mijoz")}</th>
+                                <th className='border py-1 bg-alotrade text-[16px]'>{t("Kelgan vaqti")}</th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                    Xizmat nomi
-                                </th>
-                                <th className="border py-1 bg-alotrade text-[16px]">
-                                    Umumiy narxi
+                                    {t("Xizmat nomi")}
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                    Agent ulushi
+                                    {t("Umumiy narxi")}
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                    Shifokor ulushi
+                                    {t("Agent ulushi")}
+                                </th>
+                                <th className="border py-1 bg-alotrade text-[16px]">
+                                    {t("Shifokor ulushi")}
                                 </th>
                             </tr>
                         </thead>

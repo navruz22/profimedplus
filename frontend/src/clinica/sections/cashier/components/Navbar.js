@@ -4,9 +4,15 @@ import { AuthContext } from "../../../context/AuthContext";
 import { useHttp } from "../../../hooks/http.hook";
 import { useToast } from "@chakra-ui/react";
 import AloLogo from "../../../../clinica_logo.jpg"
+import { useTranslation } from "react-i18next";
 
 export const Navbar = () => {
     const history = useHistory();
+    //====================================================================
+    //====================================================================
+
+    const {t} = useTranslation()
+
     //====================================================================
     //====================================================================
     const toast = useToast();
@@ -59,13 +65,13 @@ export const Navbar = () => {
 
     //====================================================================
     //====================================================================
-    const [t, setT] = useState();
+    const [s, setS] = useState();
     useEffect(() => {
-        if (!t) {
-            setT(1);
+        if (!s) {
+            setS(1);
             getBaseUrl();
         }
-    }, [getBaseUrl, t]);
+    }, [getBaseUrl, s]);
     //====================================================================
     //====================================================================
 
@@ -107,7 +113,7 @@ export const Navbar = () => {
                                     style={{ background: activePage === "/alo24" || activePage === "/" ? "#F97316" : "" }}
                                 >
                                     <i className="icon-devices_other nav-icon" />
-                                    Kunduzgi
+                                    {t("Kunduzgi")}
                                 </Link>
                             </li>
                             <li className="nav-item">
@@ -123,7 +129,7 @@ export const Navbar = () => {
                                     style={{ background: activePage === "/alo24/statsionar" ? "#F97316" : "" }}
                                 >
                                     <i className="icon-devices_other nav-icon" />
-                                    Statsionar
+                                    {t("Statsionar")}
                                 </Link>
                             </li>
                             <li className="nav-item">
@@ -139,7 +145,7 @@ export const Navbar = () => {
                                     style={{ background: activePage === "/alo24/discount" ? "#F97316" : "" }}
                                 >
                                     <i className="icon-devices_other nav-icon" />
-                                    Chegirmalar
+                                    {t("Chegirmalar")}
                                 </Link>
                             </li>
                             <li className="nav-item">
@@ -155,7 +161,7 @@ export const Navbar = () => {
                                     style={{ background: activePage === "/alo24/debt" ? "#F97316" : "" }}
                                 >
                                     <i className="icon-devices_other nav-icon" />
-                                    Qarizlar
+                                    {t("Qarizlar")}
                                 </Link>
                             </li>
                             <li className="nav-item">
@@ -171,7 +177,7 @@ export const Navbar = () => {
                                     style={{ background: activePage === "/alo24/expense" ? "#F97316" : "" }}
                                 >
                                     <i className="icon-devices_other nav-icon" />
-                                    Xarajatlar
+                                    {t("Xarajatlar")}
                                 </Link>
                             </li>
                         </ul>
@@ -226,7 +232,7 @@ export const Navbar = () => {
                                                 history.push("/");
                                             }}
                                         >
-                                            <i className="icon-log-out1" /> Chiqish
+                                            <i className="icon-log-out1" /> {t("Chiqish")}
                                         </button>
                                     </div>
                                 </div>

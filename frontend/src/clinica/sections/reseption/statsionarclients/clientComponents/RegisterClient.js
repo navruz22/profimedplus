@@ -3,6 +3,7 @@ import { DatePickers } from "./DatePickers";
 import "react-datepicker/dist/react-datepicker.css";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
+import { useTranslation } from "react-i18next";
 
 const animatedComponents = makeAnimated();
 
@@ -39,6 +40,9 @@ export const RegisterClient = ({
     changeDiagnos,
     clientDate
 }) => {
+
+    const {t} = useTranslation()
+
     const [services, setServices] = useState([]);
     const getServices = useCallback(
         (e) => {
@@ -87,13 +91,13 @@ export const RegisterClient = ({
                 <div className="">
                     <div className="bg-white">
                         <div className="bg-white card-header">
-                            <div className="card-title">Mijozning shaxsiy ma'lumotlari</div>
+                            <div className="card-title">{t("Mijozning shaxsiy ma'lumotlari")}</div>
                         </div>
                         <div className="flex items-start w-full">
                             <div className="flex flex-wrap w-[50%]">
                                 <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div className="form-group">
-                                        <label htmlFor="fullName">Familiyasi</label>
+                                        <label htmlFor="fullName">{t("Familiyasi")}</label>
                                         <input
                                             value={client.lastname || ""}
                                             onChange={changeClientData}
@@ -101,14 +105,14 @@ export const RegisterClient = ({
                                             className="form-control form-control-sm"
                                             id="lastname"
                                             name="lastname"
-                                            placeholder="Familiyasi"
+                                            placeholder={t("Familiyasi")}
                                             style={{ border: client.lastname && '1px solid blue' }}
                                         />
                                     </div>
                                 </div>
                                 <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div className="form-group">
-                                        <label htmlFor="inputEmail">Ismi</label>
+                                        <label htmlFor="inputEmail">{t("Ismi")}</label>
                                         <input
                                             defaultValue={client.firstname}
                                             onChange={changeClientData}
@@ -116,14 +120,14 @@ export const RegisterClient = ({
                                             className="form-control form-control-sm"
                                             id="firstname"
                                             name="firstname"
-                                            placeholder="Ismi"
+                                            placeholder={t("Ismi")}
                                             style={{ border: client.firstname && '1px solid blue' }}
                                         />
                                     </div>
                                 </div>
                                 <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div className="form-group">
-                                        <label htmlFor="education">Otasining ismi</label>
+                                        <label htmlFor="education">{t("Otasining ismi")}</label>
                                         <input
                                             defaultValue={client.fathername}
                                             onChange={changeClientData}
@@ -131,13 +135,13 @@ export const RegisterClient = ({
                                             className="form-control form-control-sm"
                                             id="fathername"
                                             name="fathername"
-                                            placeholder="Otasining ismi"
+                                            placeholder={t("Otasining ismi")}
                                             style={{ border: client.fathername && '1px solid blue' }}
                                         />
                                     </div>
                                 </div>
                                 <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                    <label htmlFor="education">Tug'ilgan sanasi</label>
+                                    <label htmlFor="education">{t("Tug'ilgan sanasi")}</label>
                                     <input
                                         onChange={(e) => changeClientBorn(e)}
                                         type="date"
@@ -150,7 +154,7 @@ export const RegisterClient = ({
                                 </div>
                                 <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div className="form-group">
-                                        <label htmlFor="addreSs">Telefon raqami</label>
+                                        <label htmlFor="addreSs">{t("Telefon raqami")}</label>
                                         <div className="input-group input-group-sm mb-3">
                                             <div className="input-group-prepend">
                                                 <span
@@ -173,7 +177,7 @@ export const RegisterClient = ({
                                 </div>
                                 <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div className="form-group">
-                                        <label htmlFor="biO">Jinsi</label>
+                                        <label htmlFor="biO">{t("Jinsi")}</label>
                                         <div>
                                             <div className="custom-control custom-radio custom-control-inline">
                                                 <input
@@ -194,7 +198,7 @@ export const RegisterClient = ({
                                                     className="custom-control-label"
                                                     htmlFor="customRadioInline1"
                                                 >
-                                                    Erkak
+                                                    {t("Erkak")}
                                                 </label>
                                             </div>
                                             <div className="custom-control custom-radio custom-control-inline">
@@ -214,7 +218,7 @@ export const RegisterClient = ({
                                                     className="custom-control-label"
                                                     htmlFor="customRadioInline2"
                                                 >
-                                                    Ayol
+                                                    {t("Ayol")}
                                                 </label>
                                             </div>
                                         </div>
@@ -222,7 +226,7 @@ export const RegisterClient = ({
                                 </div>
                                 <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div className="form-group">
-                                        <label htmlFor="biO">Fuqoroligi</label>
+                                        <label htmlFor="biO">{t("Fuqoroligi")}</label>
                                         <div>
                                             <div className="custom-control custom-radio custom-control-inline">
                                                 <input
@@ -243,7 +247,7 @@ export const RegisterClient = ({
                                                     className="custom-control-label"
                                                     htmlFor="national1"
                                                 >
-                                                    Uzbek
+                                                    {t("Uzbek")}
                                                 </label>
                                             </div>
                                             <div className="custom-control custom-radio custom-control-inline">
@@ -263,7 +267,7 @@ export const RegisterClient = ({
                                                     className="custom-control-label"
                                                     htmlFor="national2"
                                                 >
-                                                    Chet'ellik
+                                                    {t("Chet'ellik")}
                                                 </label>
                                             </div>
                                         </div>
@@ -271,28 +275,28 @@ export const RegisterClient = ({
                                 </div>
                                 <div className="col-12">
                                     <div className="form-group">
-                                        <label htmlFor="biO">Manzili</label>
+                                        <label htmlFor="biO">{t("Manzili")}</label>
                                         <textarea
                                             defaultValue={client.address}
                                             onChange={changeClientData}
                                             className="form-control form-control-sm"
                                             name="address"
                                             rows={1}
-                                            placeholder="Navoiy shahar ...."
+                                            placeholder={t("Manzilni kiriting....")}
                                             style={{ border: client.address && '1px solid blue' }}
                                         />
                                     </div>
                                 </div>
                                 <div className="col-sm-6 col-12">
                                     <div className="form-group">
-                                        <label htmlFor="biO">Doctors</label>
+                                        <label htmlFor="biO">{t("Doctors")}</label>
                                         <select
                                             className="form-control form-control-sm selectpicker"
                                             placeholder="Doctors"
                                             onChange={changeDoctor}
                                             style={{ border: connector.doctor && '1px solid blue' }}
                                         >
-                                            <option value={"delete"}>Doctors</option>
+                                            <option value={"delete"}>{t("Doctors")}</option>
                                             {doctors.map((doctor, index) => (
                                                 <option key={index} value={doctor._id}>
                                                     {doctor.lastname} {doctor.firstname}
@@ -303,14 +307,14 @@ export const RegisterClient = ({
                                 </div>
                                 <div className="col-sm-6 col-12">
                                     <div className="form-group">
-                                        <label htmlFor="biO">Xonalar</label>
+                                        <label htmlFor="biO">{t("Xonalar")}</label>
                                         <select
                                             className="form-control form-control-sm selectpicker"
                                             placeholder="Xonalar"
                                             onChange={changeRoom}
                                             style={{ border: room.room && '1px solid blue' }}
                                         >
-                                            <option value={"delete"}>Xonalar</option>
+                                            <option value={"delete"}>{t("Xonalar")}</option>
                                             {rooms.map((room, index) => (
                                                 <option key={index} value={JSON.stringify(room)}>
                                                     {room.type +
@@ -325,7 +329,7 @@ export const RegisterClient = ({
                                     </div>
                                 </div>
                                 <div className="col-sm-6 col-12">
-                                    <label>Qabul sanasi</label>
+                                    <label>{t("Qabul sanasi")}</label>
                                     <input
                                         onChange={(e) => setRoom({ ...room, beginday: new Date(e.target.value) })}
                                         type="date"
@@ -335,26 +339,26 @@ export const RegisterClient = ({
                                     />
                                 </div>
                                 <div className="col-sm-6 col-12">
-                                    <label htmlFor="biO">Qabulxonada quyilgan tashxis</label>
+                                    <label htmlFor="biO">{t("Qabulxonada quyilgan tashxis")}</label>
                                     <textarea
                                         value={client.diagnosis}
                                         onChange={changeClientData}
                                         className="form-control form-control-sm"
                                         name="diagnosis"
                                         rows={1}
-                                        placeholder="Qabulxonada quyilgan tashxis..."
+                                        placeholder={t("Qabulxonada quyilgan tashxis...")}
                                         style={{ border: client.diagnosis && '1px solid blue' }}
                                     />
                                 </div>
                                 <div className="col-sm-6 col-12">
                                     <div className="form-group">
-                                        <label htmlFor="biO">Kontragent</label>
+                                        <label htmlFor="biO">{t("Kontragent")}</label>
                                         <select
                                             onChange={changeCounterAgent}
                                             className="form-control form-control-sm selectpicker"
                                             placeholder="Kontragentlarni tanlash"
                                         >
-                                            <option value="delete">Tanlanmagan</option>
+                                            <option value="delete">{t("Tanlanmagan")}</option>
                                             {counterdoctors.map((counterdoctor, index) => {
                                                 return (
                                                     <option
@@ -373,14 +377,14 @@ export const RegisterClient = ({
                                 </div>
                                 <div className="col-sm-6 col-12">
                                     <div className="form-group">
-                                        <label htmlFor="biO">Reklama</label>
+                                        <label htmlFor="biO">{t("Reklama")}</label>
                                         <select
                                             onChange={changeAdver}
                                             className="form-control form-control-sm selectpicker"
                                             placeholder="Reklamalarni tanlash"
                                             style={{ border: client.adver && '1px solid blue' }}
                                         >
-                                            <option value="delete">Tanlanmagan</option>
+                                            <option value="delete">{t("Tanlanmagan")}</option>
                                             {advers.map((adver, index) => {
                                                 return (
                                                     <option key={index} value={adver._id}>
@@ -395,7 +399,7 @@ export const RegisterClient = ({
                             <div className="flex flex-wrap w-[50%]">
                                 <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div className="form-group">
-                                        <label htmlFor="fullName">Bo'lim</label>
+                                        <label htmlFor="fullName">{t("Bo'lim")}</label>
                                         <input
                                             value={client.department || ""}
                                             onChange={changeClientData}
@@ -409,7 +413,7 @@ export const RegisterClient = ({
                                 </div>
                                 <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div className="form-group">
-                                        <label htmlFor="inputEmail">Qon guruhi</label>
+                                        <label htmlFor="inputEmail">{t("Qon guruhi")}</label>
                                         <input
                                             defaultValue={client.bloodgroup}
                                             onChange={changeClientData}
@@ -423,7 +427,7 @@ export const RegisterClient = ({
                                 </div>
                                 <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div className="form-group">
-                                        <label htmlFor="inputEmail">Rezus mansubligi</label>
+                                        <label htmlFor="inputEmail">{t("Rezus mansubligi")}</label>
                                         <input
                                             defaultValue={client.rezus}
                                             onChange={changeClientData}
@@ -437,7 +441,7 @@ export const RegisterClient = ({
                                 </div>
                                 <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div className="form-group">
-                                        <label htmlFor="inputEmail">Dorilarning nojuya ta'siri</label>
+                                        <label htmlFor="inputEmail">{t("Dorilarning nojuya ta'siri")}</label>
                                         <input
                                             defaultValue={client.medicineresult}
                                             onChange={changeClientData}
@@ -451,7 +455,7 @@ export const RegisterClient = ({
                                 </div>
                                 <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div className="form-group">
-                                        <label htmlFor="inputEmail">Bo'yi</label>
+                                        <label htmlFor="inputEmail">{t("Bo'yi")}</label>
                                         <input
                                             defaultValue={client.height}
                                             onChange={changeClientData}
@@ -465,7 +469,7 @@ export const RegisterClient = ({
                                 </div>
                                 <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div className="form-group">
-                                        <label htmlFor="inputEmail">Vazni</label>
+                                        <label htmlFor="inputEmail">{t("Vazni")}</label>
                                         <input
                                             defaultValue={client.weight}
                                             onChange={changeClientData}
@@ -479,7 +483,7 @@ export const RegisterClient = ({
                                 </div>
                                 <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div className="form-group">
-                                        <label htmlFor="inputEmail">Tana xarorati</label>
+                                        <label htmlFor="inputEmail">{t("Tana xarorati")}</label>
                                         <input
                                             defaultValue={client.temperature}
                                             onChange={changeClientData}
@@ -493,7 +497,7 @@ export const RegisterClient = ({
                                 </div>
                                 <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div className="form-group">
-                                        <label htmlFor="inputEmail">Qarindoshlarning tel raqami va yashash joyi</label>
+                                        <label htmlFor="inputEmail">{t("Qarindoshlarning tel raqami va yashash joyi")}</label>
                                         <input
                                             defaultValue={client.relative_info}
                                             onChange={changeClientData}
@@ -507,7 +511,7 @@ export const RegisterClient = ({
                                 </div>
                                 <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div className="form-group">
-                                        <label htmlFor="inputEmail">Ish joyi, kasbi, lavozimi</label>
+                                        <label htmlFor="inputEmail">{t("Ish joyi, kasbi, lavozimi")}</label>
                                         <input
                                             defaultValue={client.profession_info}
                                             onChange={changeClientData}
@@ -521,7 +525,7 @@ export const RegisterClient = ({
                                 </div>
                                 <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div className="form-group">
-                                        <label htmlFor="inputEmail">Bemor qayerdan yuborilgan</label>
+                                        <label htmlFor="inputEmail">{t("Bemor qayerdan yuborilgan")}</label>
                                         <input
                                             defaultValue={client.sending_info}
                                             onChange={changeClientData}
@@ -535,7 +539,7 @@ export const RegisterClient = ({
                                 </div>
                                 <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div className="form-group">
-                                        <label htmlFor="inputEmail">Qasalxonaga shoshilinch ravishda keltirilganmi?</label>
+                                        <label htmlFor="inputEmail">{t("Kasalxonaga shoshilinch ravishda keltirilganmi?")}</label>
                                         <input
                                             defaultValue={client.isAmbulance}
                                             onChange={changeClientData}
@@ -549,7 +553,7 @@ export const RegisterClient = ({
                                 </div>
                                 <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div className="form-group">
-                                        <label htmlFor="inputEmail">Qanday transporta?</label>
+                                        <label htmlFor="inputEmail">{t("Qanday transporta?")}</label>
                                         <input
                                             defaultValue={client.ambulance_transport}
                                             onChange={changeClientData}
@@ -563,7 +567,7 @@ export const RegisterClient = ({
                                 </div>
                                 <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div className="form-group">
-                                        <label htmlFor="inputEmail">Kasallik boshlangandan so'ng utgan vaqt</label>
+                                        <label htmlFor="inputEmail">{t("Kasallik boshlangandan so'ng utgan vaqt")}</label>
                                         <input
                                             defaultValue={client.start_sickness}
                                             onChange={changeClientData}
@@ -577,7 +581,7 @@ export const RegisterClient = ({
                                 </div>
                                 <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div className="form-group">
-                                        <label htmlFor="inputEmail">Bemor yullanmasidan tashxis</label>
+                                        <label htmlFor="inputEmail">{t("Bemor yullanmasidan tashxis")}</label>
                                         <input
                                             defaultValue={client.conter_diagnosis}
                                             onChange={changeClientData}
@@ -591,7 +595,7 @@ export const RegisterClient = ({
                                 </div>
                                 <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div className="form-group">
-                                        <label htmlFor="inputEmail">ID</label>
+                                        <label htmlFor="inputEmail">{t("ID")}</label>
                                         <input
                                             defaultValue={client?.id2}
                                             onChange={changeClientData}
@@ -612,7 +616,7 @@ export const RegisterClient = ({
                                             </button>
                                         ) : (
                                             <button onClick={updateData} className="btn btn-primary">
-                                                Yangilash
+                                                {t("Yangilash")}
                                             </button>
                                         )}
                                     </div>
@@ -626,20 +630,20 @@ export const RegisterClient = ({
                 <div className="mt-6">
                     <div className="bg-white py-4">
                         <div className="bg-white card-header">
-                            <div className="card-title">Xizmatlar bilan ishlash</div>
+                            <div className="card-title">{t("Xizmatlar bilan ishlash")}</div>
                         </div>
                         <div className="">
                             <div className="">
                                 <div className="flex justify-evenly items-center">
                                     <div className="w-[300px]">
                                         <div className="form-group">
-                                            <label htmlFor="fullName">Bo'limlar</label>
+                                            <label htmlFor="fullName">{t("Bo'limlar")}</label>
                                             <select
                                                 className="form-control form-control-sm selectpicker"
                                                 placeholder="Reklamalarni tanlash"
                                                 onChange={(event) => getServices(event.target.value)}
                                             >
-                                                <option value="all"> Barcha bo'limlar</option>
+                                                <option value="all">{t("Barcha bo'limlar")}</option>
                                                 {departments.map((department, index) => {
                                                     return (
                                                         <option key={index} value={department._id}>
@@ -652,10 +656,11 @@ export const RegisterClient = ({
                                     </div>
                                     <div className="w-[300px]">
                                         <div className="form-group">
-                                            <label htmlFor="inputEmail">Xizmatlar</label>
+                                            <label htmlFor="inputEmail">{t("Xizmatlar")}</label>
                                             <Select
                                                 value={selectedServices}
                                                 onChange={changeService}
+                                                placeholder={t('Tanlang...')}
                                                 closeMenuOnSelect={false}
                                                 components={animatedComponents}
                                                 options={services}
@@ -671,12 +676,13 @@ export const RegisterClient = ({
                                     </div>
                                     <div className="w-[300px]">
                                         <div className="form-group">
-                                            <label htmlFor="inputEmail">Mahsulotlar</label>
+                                            <label htmlFor="inputEmail">{t("Mahsulotlar")}</label>
                                             <Select
                                                 value={selectedProducts}
                                                 onChange={changeProduct}
                                                 closeMenuOnSelect={false}
                                                 components={animatedComponents}
+                                                placeholder={t('Tanlang...')}
                                                 options={products}
                                                 theme={(theme) => ({
                                                     ...theme,
@@ -694,9 +700,9 @@ export const RegisterClient = ({
                                         <thead>
                                             <tr>
                                                 <th className="border py-1 bg-alotrade">№</th>
-                                                <th className="border py-1 bg-alotrade">Nomi</th>
-                                                <th className="border py-1 bg-alotrade">Narxi</th>
-                                                <th className="border py-1 bg-alotrade">Soni</th>
+                                                <th className="border py-1 bg-alotrade">{t("Nomi")}</th>
+                                                <th className="border py-1 bg-alotrade">{t("Narxi")}</th>
+                                                <th className="border py-1 bg-alotrade">{t("Soni")}</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -767,7 +773,7 @@ export const RegisterClient = ({
                                         <tfoot>
                                             <tr>
                                                 <th className="text-right" colSpan={2}>
-                                                    Jami:
+                                                    {t("Jami")}:
                                                 </th>
                                                 <th colSpan={2}>
                                                     {newservices.reduce((summa, service) => {
@@ -796,7 +802,7 @@ export const RegisterClient = ({
                                             </button>
                                         ) : (
                                             <button onClick={checkData} className="bg-alotrade text-white rounded py-2 px-3">
-                                                Saqlash
+                                                {t("Saqlash")}
                                             </button>
                                         )}
                                     </div>

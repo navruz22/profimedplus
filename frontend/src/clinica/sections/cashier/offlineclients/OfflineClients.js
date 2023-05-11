@@ -12,6 +12,7 @@ import { checkData } from './checkData/checkData'
 //   checkServicesData,
 // } from "./checkData/checkData";
 import { CheckModal } from "../components/ModalCheck";
+import { useTranslation } from 'react-i18next';
 
 export const OfflineClients = () => {
     const [beginDay, setBeginDay] = useState(
@@ -27,7 +28,7 @@ export const OfflineClients = () => {
     const [modal1, setModal1] = useState(false)
     //====================================================================
     //====================================================================
-
+    const {t} = useTranslation()
     //====================================================================
     //====================================================================
     // RegisterPage
@@ -553,7 +554,7 @@ export const OfflineClients = () => {
             e.target.value = parseInt(parseInt(e.target.value) / 10)
             return notify({
                 title:
-                    "Diqqat! Qarz summasi umumiy to'lov summasidan oshmasligi kerak!",
+                    t("Diqqat! Qarz summasi umumiy to'lov summasidan oshmasligi kerak!"),
                 description: '',
                 status: 'error',
             })
@@ -586,7 +587,7 @@ export const OfflineClients = () => {
                         && m < 0)) {
                     return notify({
                         title:
-                            "Diqqat! to'lov summasi umumiy to'lov summasidan oshmasligi kerak!",
+                            t("Diqqat! to'lov summasi umumiy to'lov summasidan oshmasligi kerak!"),
                         description: '',
                         status: 'error',
                     })
@@ -602,7 +603,7 @@ export const OfflineClients = () => {
                     (totalpayment - payments > m + payment.cash + payment.transfer + discount.discount && m < 0)) {
                     return notify({
                         title:
-                            "Diqqat! to'lov summasi umumiy to'lov summasidan oshmasligi kerak!",
+                            t("Diqqat! to'lov summasi umumiy to'lov summasidan oshmasligi kerak!"),
                         description: '',
                         status: 'error',
                     })
@@ -621,7 +622,7 @@ export const OfflineClients = () => {
                         && m < 0)) {
                     return notify({
                         title:
-                            "Diqqat! to'lov summasi umumiy to'lov summasidan oshmasligi kerak!",
+                            t("Diqqat! to'lov summasi umumiy to'lov summasidan oshmasligi kerak!"),
                         description: '',
                         status: 'error',
                     })
@@ -697,7 +698,7 @@ export const OfflineClients = () => {
             setModal(false)
             setVisible(false)
             notify({
-                title: "To'lov muvaffaqqiyatli amalga oshirildi.",
+                title: t("To'lov muvaffaqqiyatli amalga oshirildi."),
                 description: '',
                 status: 'success',
             })
@@ -723,15 +724,15 @@ export const OfflineClients = () => {
     //====================================================================
     // useEffect
 
-    const [t, setT] = useState(0)
+    const [s, setS] = useState(0)
 
     useEffect(() => {
-        if (auth.clinica && !t) {
-            setT(1)
+        if (auth.clinica && !s) {
+            setS(1)
             getConnectors(beginDay, endDay)
             getBaseUrl()
         }
-    }, [auth, getConnectors, getBaseUrl, t, beginDay, endDay])
+    }, [auth, getConnectors, getBaseUrl, s, beginDay, endDay])
 
     //====================================================================
     //====================================================================
@@ -747,14 +748,14 @@ export const OfflineClients = () => {
                                         }`}
                                     onClick={changeVisible}
                                 >
-                                    Malumot
+                                    {t("Malumot")}
                                 </button>
                                 <button
                                     className={`btn bg-alotrade text-white mb-2 w-100 ${visible ? '' : 'd-none'
                                         }`}
                                     onClick={changeVisible}
                                 >
-                                    Malumot
+                                    {t("Malumot")}
                                 </button>
                             </div>
                         </div>
@@ -831,7 +832,7 @@ export const OfflineClients = () => {
                 text={<div className="card">
                     <div className="card-header">
                         <div className="card-title">
-                            Hisobot
+                            {t("Hisobot")}
                         </div>
                     </div>
                     <div className="card-body">
@@ -839,7 +840,7 @@ export const OfflineClients = () => {
                             <tfoot>
                                 <tr>
                                     <th className="text-right" colSpan={2}>
-                                        Jami to'lov:
+                                        {t("Jami to'lov")}:
                                     </th>
                                     <th className="text-left" colSpan={4}>
                                         {totalpayment}
@@ -847,7 +848,7 @@ export const OfflineClients = () => {
                                 </tr>
                                 <tr>
                                     <th className="text-right" colSpan={2}>
-                                        Chegirma:
+                                        {t("Chegirma")}:
                                     </th>
                                     <th className="text-left" colSpan={4}>
                                         {discount.discount}
@@ -855,7 +856,7 @@ export const OfflineClients = () => {
                                 </tr>
                                 <tr>
                                     <th className="text-right" colSpan={2}>
-                                        To'langan:
+                                        {t("To'langan")}:
                                     </th>
                                     <th className="text-left" colSpan={4}>
                                         {payments}
@@ -863,7 +864,7 @@ export const OfflineClients = () => {
                                 </tr>
                                 <tr>
                                     <th className="text-right" colSpan={2}>
-                                        Qarz:
+                                        {t("Qarz")}:
                                     </th>
                                     <th className="text-left" colSpan={4}>
                                         {payment.debt}
@@ -871,7 +872,7 @@ export const OfflineClients = () => {
                                 </tr>
                                 <tr>
                                     <th className="text-right" colSpan={2}>
-                                        To'lanayotgan:
+                                        {t("To'lanayotgan")}:
                                     </th>
                                     <th className="text-left" colSpan={4}>
                                         {payment.payment}
@@ -883,7 +884,7 @@ export const OfflineClients = () => {
                 </div>}
                 setModal={setModal}
                 handler={() => isActive && createHandler()}
-                basic={"Mijoz " + client.lastname + " " + client.firstname}
+                basic={client.lastname + " " + client.firstname}
             />
         </div>
     )

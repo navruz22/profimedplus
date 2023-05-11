@@ -3,6 +3,7 @@ import { Pagination } from "../../director/components/Pagination";
 import { ExcelUpload } from "./uploadExcel/ExcelUpload";
 import { Sort } from "./../components/Sort";
 import parse from "html-react-parser"
+import { useTranslation } from 'react-i18next';
 
 const TableTemplate = ({
     setTemplate,
@@ -21,6 +22,9 @@ const TableTemplate = ({
     setModal,
     setRemove
 }) => {
+
+    const {t} = useTranslation()
+
     return (
         <div className="border-0 shadow-lg table-container">
             <div className="border-0 table-container">
@@ -76,16 +80,16 @@ const TableTemplate = ({
                             <tr>
                                 <th className="border-right bg-alotrade text-[16px] text-center">№</th>
                                 <th className="border-right bg-alotrade text-[16px]">
-                                    Nomi
+                                    {t("Nomi")}
                                 </th>
                                 <th className="border-right bg-alotrade text-[16px] max-w-screen-sm">
-                                    Shablon
+                                    {t("Shablon")}
                                 </th>
                                 <th className="border-right bg-alotrade text-[16px]">
-                                    Tahrirlash
+                                    {t("Tahrirlash")}
                                 </th>
                                 <th className="border-right bg-alotrade text-[16px]">
-                                    O'chirish
+                                    {t("O'chirish")}
                                 </th>
                             </tr>
                         </thead>
@@ -111,7 +115,7 @@ const TableTemplate = ({
                                                 className="py-1 px-2 bg-alotrade font-semibold text-white rounded"
                                                 style={{ fontSize: "75%" }}
                                             >
-                                                Tahrirlash
+                                                {t("Tahrirlash")}
                                             </button>
                                         </td>
                                         <td className="text-center text-[16px]">
@@ -124,7 +128,7 @@ const TableTemplate = ({
                                                 className="py-1 px-2 bg-red-500 font-semibold text-white rounded"
                                                 style={{ fontSize: "75%" }}
                                             >
-                                                O'chirish
+                                                {t("O'chirish")}
                                             </button>
                                         </td>
                                     </tr>

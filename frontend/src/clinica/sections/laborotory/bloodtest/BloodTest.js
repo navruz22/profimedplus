@@ -1,5 +1,6 @@
 import { useToast } from "@chakra-ui/react";
 import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useReactToPrint } from "react-to-print";
 import { AuthContext } from "../../../context/AuthContext";
 import { useHttp } from "../../../hooks/http.hook";
@@ -22,7 +23,7 @@ export const BloodTest = () => {
 
     //====================================================================
     //====================================================================
-
+    const {t} = useTranslation()
     //====================================================================
     //====================================================================
     // RegisterPage
@@ -175,14 +176,14 @@ export const BloodTest = () => {
     //====================================================================
     // useEffect
 
-    const [t, setT] = useState(0);
+    const [s, setS] = useState(0);
 
     useEffect(() => {
-        if (auth.clinica && !t) {
-            setT(1);
+        if (auth.clinica && !s) {
+            setS(1);
             getDoctorClients(beginDay, endDay);
         }
-    }, [auth, beginDay, t, endDay, getDoctorClients]);
+    }, [auth, beginDay, s, endDay, getDoctorClients]);
 
 
     const approveLab = async () => {

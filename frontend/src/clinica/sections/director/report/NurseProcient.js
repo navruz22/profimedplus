@@ -10,10 +10,13 @@ import { Pagination } from '../components/Pagination';
 import Select from 'react-select'
 import makeAnimated from 'react-select/animated'
 import ReactHtmlTableToExcel from 'react-html-table-to-excel';
+import { useTranslation } from 'react-i18next';
 
 const animatedComponents = makeAnimated()
 
 const NurseProcient = () => {
+
+    const {t} = useTranslation()
 
     const [beginDay, setBeginDay] = useState(
         new Date(new Date().setUTCHours(0, 0, 0, 0))
@@ -145,14 +148,14 @@ const NurseProcient = () => {
     //=======================================================
     //=======================================================
 
-    const [t, setT] = useState(0);
+    const [s, setS] = useState(0);
 
     useEffect(() => {
-        if (!t) {
-            setT(1)
+        if (!s) {
+            setS(1)
             getNurseProfit(beginDay, endDay, clinicaValue)
         }
-    }, [getNurseProfit, t, beginDay, endDay, clinicaValue])
+    }, [getNurseProfit, s, beginDay, endDay, clinicaValue])
 
     return (
         <div className="bg-slate-100 content-wrapper px-lg-5 px-3">
@@ -191,7 +194,7 @@ const NurseProcient = () => {
                                     <div>
                                         <select
                                             className="form-control form-control-sm selectpicker"
-                                            placeholder="Bo'limni tanlang"
+                                            placeholder={t("Bo'limni tanlang")}
                                             onChange={setPageSize}
                                             style={{ minWidth: "50px" }}
                                         >
@@ -207,7 +210,7 @@ const NurseProcient = () => {
                                             style={{ minWidth: "100px" }}
                                             type="search"
                                             className="w-100 form-control form-control-sm selectpicker"
-                                            placeholder="F.I.O"
+                                            placeholder={t("F.I.O")}
                                         />
                                     </div>
                                     <div
@@ -233,7 +236,7 @@ const NurseProcient = () => {
                                                 table="nurseprocient-table"
                                                 sheet="Sheet"
                                                 buttonText="Excel"
-                                                filename="Xamshira ulushi"
+                                                filename={t("Xamshira ulushi")}
                                             />
                                         </div>
                                     </div>
@@ -243,19 +246,19 @@ const NurseProcient = () => {
                                         <tr>
                                             <th className="border py-1 bg-alotrade text-[16px]">№</th>
                                             <th className="border py-1 bg-alotrade text-[16px]">
-                                                Mijoz
+                                                {t("Mijoz")}
                                             </th>
                                             <th className="border py-1 bg-alotrade text-[16px]">
-                                                Xona
+                                                {t("Xona")}
                                             </th>
                                             <th className="border py-1 bg-alotrade text-[16px]">
-                                                Kuni
+                                                {t("Kuni")}
                                             </th>
                                             <th className="border py-1 bg-alotrade text-[16px]">
-                                                Umumiy narxi
+                                                {t("Umumiy narxi")}
                                             </th>
                                             <th className="border py-1 bg-alotrade text-[16px]">
-                                                Xamshira ulushi
+                                                {t("Xamshira ulushi")}
                                             </th>
                                         </tr>
                                     </thead>

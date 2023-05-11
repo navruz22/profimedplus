@@ -4,6 +4,7 @@ import { AuthContext } from "../../../context/AuthContext";
 import { useHttp } from "../../../hooks/http.hook";
 import { useToast } from "@chakra-ui/react";
 import AloLogo from "../../../../clinica_logo.jpg"
+import { useTranslation } from "react-i18next";
 
 export const Navbar = () => {
   const history = useHistory();
@@ -28,7 +29,7 @@ export const Navbar = () => {
   const [activePage, setActivePage] = useState(window.location.pathname);
   //====================================================================
   //====================================================================
-
+  const {t} = useTranslation()
   //====================================================================
   //====================================================================
 
@@ -60,13 +61,13 @@ export const Navbar = () => {
 
   //====================================================================
   //====================================================================
-  const [t, setT] = useState();
+  const [s, setS] = useState();
   useEffect(() => {
-    if (!t) {
-      setT(1);
+    if (!s) {
+      setS(1);
       getBaseUrl();
     }
-  }, [getBaseUrl, t]);
+  }, [getBaseUrl, s]);
 
   //====================================================================
   //====================================================================
@@ -111,7 +112,7 @@ export const Navbar = () => {
                   style={{ background: activePage === "/alo24" || activePage === "/" ? "#F97316" : "" }}
                 >
                   <i className="icon-devices_other nav-icon" />
-                  Mijozlar
+                  {t("Mijozlar")}
                 </Link>
               </li>
               <li className="nav-item">
@@ -125,7 +126,7 @@ export const Navbar = () => {
                   style={{ background: activePage === "/alo24/tables" ? "#F97316" : "" }}
                 >
                   <i className="icon-devices_other nav-icon" />
-                  Shablonlar
+                  {t("Shablonlar")}
                 </Link>
               </li>
               <li className="nav-item">
@@ -139,7 +140,7 @@ export const Navbar = () => {
                   style={{ background: activePage === "/alo24/conclusion" ? "#F97316" : "" }}
                 >
                   <i className="icon-devices_other nav-icon" />
-                  Jadvallar
+                  {t("Jadvallar")}
                 </Link>
               </li>
               <li className="nav-item">
@@ -153,7 +154,7 @@ export const Navbar = () => {
                   style={{ background: activePage === "/alo24/bloodtest" ? "#F97316" : "" }}
                 >
                   <i className="icon-devices_other nav-icon" />
-                  Qon olish
+                  {t("Qon olish")}
                 </Link>
               </li>
             </ul>
@@ -208,7 +209,7 @@ export const Navbar = () => {
                         history.push("/");
                       }}
                     >
-                      <i className="icon-log-out1" /> Chiqish
+                      <i className="icon-log-out1" /> {t("Chiqish")}
                     </button>
                   </div>
                 </div>

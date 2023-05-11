@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 
 
 const Print = ({ client, connector, sections, baseUrl, clinica, qr }) => {
     const location = useLocation()
+    const {t} = useTranslation()
 
     const [printSections, setPrintSections] = useState([])
 
@@ -79,7 +81,7 @@ const Print = ({ client, connector, sections, baseUrl, clinica, qr }) => {
                             borderLeft: "none",
                         }}
                     >
-                        <p className="pt-2">IFUD: {clinica?.ifud2}</p>
+                        <p className="pt-2">{t("IFUD")}: {clinica?.ifud2}</p>
                     </div>
                     <div
                         className="col-4"
@@ -132,7 +134,7 @@ const Print = ({ client, connector, sections, baseUrl, clinica, qr }) => {
                                         border: "1px solid #000",
                                     }}
                                 >
-                                    Mijozning F.I.SH
+                                    {t("Mijozning F.I.SH")}
                                 </td>
                                 <td
                                     className="p-0"
@@ -148,7 +150,7 @@ const Print = ({ client, connector, sections, baseUrl, clinica, qr }) => {
                                 </td>
                                 <td rowSpan="2" colSpan={2} style={{ width: "33%" }}>
                                     <p className="fw-bold fs-5 m-0">
-                                        TAHLIL <br /> NATIJALARI
+                                        {t("TAHLIL")} <br /> {t("NATIJALARI")}
                                     </p>
                                 </td>
                             </tr>
@@ -161,7 +163,7 @@ const Print = ({ client, connector, sections, baseUrl, clinica, qr }) => {
                                         border: "1px solid #000",
                                     }}
                                 >
-                                    Tug'ilgan yili
+                                    {t("Tug'ilgan yili")}
                                 </td>
                                 <td
                                     className="p-0"
@@ -184,7 +186,7 @@ const Print = ({ client, connector, sections, baseUrl, clinica, qr }) => {
                                         border: "1px solid #000",
                                     }}
                                 >
-                                    Kelgan sanasi
+                                    {t("Kelgan sanasi")}
                                 </td>
                                 <td
                                     className="p-0"
@@ -206,7 +208,7 @@ const Print = ({ client, connector, sections, baseUrl, clinica, qr }) => {
                                         border: "1px solid #000",
                                     }}
                                 >
-                                    Namuna
+                                    {t("Namuna")}
                                 </td>
                                 <td
                                     className="p-0"
@@ -230,7 +232,7 @@ const Print = ({ client, connector, sections, baseUrl, clinica, qr }) => {
                                         border: "1px solid #000",
                                     }}
                                 >
-                                    Manzil
+                                    {t("Manzil")}
                                 </td>
                                 <td
                                     className="p-0"
@@ -251,7 +253,7 @@ const Print = ({ client, connector, sections, baseUrl, clinica, qr }) => {
                                         border: "1px solid #000",
                                     }}
                                 >
-                                    ID
+                                    {t("ID")}
                                 </td>
                                 <td
                                     className="p-0"

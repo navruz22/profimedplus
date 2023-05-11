@@ -10,6 +10,7 @@ import Select from 'react-select'
 import makeAnimated from 'react-select/animated'
 import { checkClientData, checkProductsData, checkServicesData } from "../../reseption/offlineclients/checkData/checkData";
 import { Modal } from "../../reseption/components/Modal";
+import { useTranslation } from "react-i18next";
 
 const animatedComponents = makeAnimated()
 
@@ -22,7 +23,7 @@ export const DoctorClients = () => {
   );
   //====================================================================
   //====================================================================
-
+  const {t} = useTranslation()
 
   //====================================================================
   //====================================================================
@@ -510,17 +511,17 @@ export const DoctorClients = () => {
   //====================================================================
   // useEffect
 
-  const [t, setT] = useState(0);
+  const [s, setS] = useState(0);
 
   useEffect(() => {
-    if (auth.clinica && !t) {
-      setT(1);
+    if (auth.clinica && !s) {
+      setS(1);
       getDoctorClients(beginDay, endDay);
       getDepartments()
       getBaseUrl()
       getProducts()
     }
-  }, [auth, beginDay, t, endDay, getDoctorClients, getDepartments, getProducts]);
+  }, [auth, beginDay, s, endDay, getDoctorClients, getDepartments, getProducts]);
 
 
   const componentRef = useRef()
@@ -650,7 +651,7 @@ export const DoctorClients = () => {
                   className={`btn bg-alotrade text-white mb-2 w-100`}
                   onClick={() => setVisible(!visible)}
                 >
-                  Malumot
+                  {t("Malumot")}
                 </button>
               </div>
             </div>
@@ -658,19 +659,19 @@ export const DoctorClients = () => {
               <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
                 <div className="card">
                   <div className="card-header">
-                    <div className="card-title">Xizmatlar bilan ishlash</div>
+                    <div className="card-title">{t("Xizmatlar bilan ishlash")}</div>
                   </div>
                   <div className="card-body">
                     <div className="row gutters">
                       <div className="col-12">
                         <div className="form-group">
-                          <label htmlFor="fullName">Bo'limlar</label>
+                          <label htmlFor="fullName">{t("Bo'limlar")}</label>
                           <select
                             className="form-control form-control-sm selectpicker"
                             placeholder="Reklamalarni tanlash"
                             onChange={(event) => getServices(event.target.value)}
                           >
-                            <option value="all"> Barcha bo'limlar</option>
+                            <option value="all"> {t("Barcha bo'limlar")}</option>
                             {departments.map((department, index) => {
                               return (
                                 <option key={index} value={department._id}>
@@ -683,7 +684,7 @@ export const DoctorClients = () => {
                       </div>
                       <div className="col-12">
                         <div className="form-group">
-                          <label htmlFor="inputEmail">Xizmatlar</label>
+                          <label htmlFor="inputEmail">{t("Xizmatlar")}</label>
                           <Select
                             value={selectedServices}
                             onChange={changeService}
@@ -702,7 +703,7 @@ export const DoctorClients = () => {
                       </div>
                       <div className="col-12">
                         <div className="form-group">
-                          <label htmlFor="inputEmail">Mahsulotlar</label>
+                          <label htmlFor="inputEmail">{t("Mahsulotlar")}</label>
                           <Select
                             value={selectedProducts}
                             onChange={changeProduct}
@@ -724,9 +725,9 @@ export const DoctorClients = () => {
                           <thead>
                             <tr>
                               <th className="border bg-alotrade py-1">№</th>
-                              <th className="border bg-alotrade py-1">Nomi</th>
-                              <th className="border bg-alotrade py-1">Narxi</th>
-                              <th className="border bg-alotrade py-1">Soni</th>
+                              <th className="border bg-alotrade py-1">{t("Nomi")}</th>
+                              <th className="border bg-alotrade py-1">{t("Narxi")}</th>
+                              <th className="border bg-alotrade py-1">{t("Soni")}</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -797,7 +798,7 @@ export const DoctorClients = () => {
                           <tfoot>
                             <tr>
                               <th className="text-right" colSpan={2}>
-                                Jami:
+                                {t("Jami")}:
                               </th>
                               <th colSpan={2}>
                                 {newservices.reduce((summa, service) => {
@@ -826,7 +827,7 @@ export const DoctorClients = () => {
                             </button>
                           ) : (
                             <button onClick={checkData} className="bg-alotrade rounded text-white py-2 px-3">
-                              Saqlash
+                              {t("Saqlash")}
                             </button>
                           )}
                         </div>
@@ -862,7 +863,7 @@ export const DoctorClients = () => {
       </div>
       <Modal
         modal={modal}
-        text={"ma'lumotlar to'g'ri kiritilganligini tasdiqlaysizmi?"}
+        text={t("ma'lumotlar to'g'ri kiritilganligini tasdiqlaysizmi?")}
         setModal={setModal}
         handler={handleAdd}
         basic={client.lastname + " " + client.firstname}

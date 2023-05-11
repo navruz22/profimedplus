@@ -10,8 +10,14 @@ import { Sort } from '../adver/Sort'
 import { Pagination } from '../components/Pagination'
 import Select from "react-select"
 import ReactHtmlTableToExcel from 'react-html-table-to-excel'
+import { useTranslation } from 'react-i18next'
 
 const CounterAgentInfo = () => {
+
+    //===================================================================
+    //===================================================================
+
+    const {t} = useTranslation()
 
     //===================================================================
     //===================================================================
@@ -234,15 +240,15 @@ const CounterAgentInfo = () => {
     //====================================================================
     // useEffect
 
-    const [t, setT] = useState(0)
+    const [s, setS] = useState(0)
 
     useEffect(() => {
-        if (auth.clinica && !t) {
-            setT(1)
+        if (auth.clinica && !s) {
+            setS(1)
             getConnectors(beginDay, endDay)
             getBaseUrl()
         }
-    }, [auth, getConnectors, getBaseUrl, t, beginDay, endDay])
+    }, [auth, getConnectors, getBaseUrl, s, beginDay, endDay])
 
     //====================================================================
     //====================================================================
@@ -277,7 +283,7 @@ const CounterAgentInfo = () => {
                                                 // styles={CustomStyle}
                                                 // value={value}
                                                 options={[{
-                                                    label: "Hammasi",
+                                                    label: t("Hammasi"),
                                                     value: "none"
                                                 }, ...doctors]}
                                                 // isDisabled={isDisabled}
@@ -319,24 +325,24 @@ const CounterAgentInfo = () => {
                                         <thead>
                                             <tr>
                                                 <th className="border py-1 bg-alotrade text-[16px]">№</th>
-                                                <th className='border py-1 bg-alotrade text-[16px]'>Mijoz</th>
+                                                <th className='border py-1 bg-alotrade text-[16px]'>{t("Mijoz")}</th>
                                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                                    Kelgan vaqti
+                                                    {t("Kelgan vaqti")}
                                                 </th>
                                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                                    Xizmat nomi
+                                                    {t("Xizmat nomi")}
                                                 </th>
                                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                                    Umumiy narxi
+                                                    {t("Umumiy narxi")}
                                                 </th>
                                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                                    Agent ulushi
+                                                    {t("Agent ulushi")}
                                                 </th>
                                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                                    Shifokor ulushi
+                                                    {t("Shifokor ulushi")}
                                                 </th>
                                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                                    Yunaltiruvchi shifokor
+                                                    {t("Yunaltiruvchi shifokor")}
                                                 </th>
                                             </tr>
                                         </thead>

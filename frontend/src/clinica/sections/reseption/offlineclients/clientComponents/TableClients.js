@@ -12,6 +12,7 @@ import { Sort } from './Sort'
 import { Pagination } from '../../components/Pagination'
 import { DatePickers } from './DatePickers'
 import { useHistory } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 export const TableClients = ({
   baseUrl,
@@ -43,6 +44,8 @@ export const TableClients = ({
   handlePrint
 }) => {
 
+  const {t} = useTranslation()
+
   const history = useHistory()
   const [clientBorn, setClientBorn] = useState('')
   return (
@@ -69,7 +72,7 @@ export const TableClients = ({
                 style={{ maxWidth: '100px', minWidth: '100px' }}
                 type="search"
                 className="w-100 form-control form-control-sm selectpicker"
-                placeholder="F.I.O"
+                placeholder={t("F.I.O")}
               />
             </div>
             <div>
@@ -78,7 +81,7 @@ export const TableClients = ({
                 style={{ maxWidth: '100px', minWidth: '100px' }}
                 type="search"
                 className="w-100 form-control form-control-sm selectpicker"
-                placeholder="Tel"
+                placeholder={t("Tel")}
               />
             </div>
             <div>
@@ -87,7 +90,7 @@ export const TableClients = ({
                 style={{ maxWidth: '80px' }}
                 type="search"
                 className="form-control form-control-sm selectpicker"
-                placeholder="ID"
+                placeholder={t("ID")}
                 onKeyDown={(e) => e.key === 'Enter' && getClientsById()}
               />
             </div>
@@ -97,7 +100,7 @@ export const TableClients = ({
                 style={{ maxWidth: '70px' }}
                 type="search"
                 className="form-control form-control-sm selectpicker"
-                placeholder="Probirka"
+                placeholder={t("Probirka")}
               />
             </div>
             <div className="flex items-center gap-4">
@@ -139,35 +142,35 @@ export const TableClients = ({
               <tr>
                 <th className="border py-1 bg-alotrade text-[16px]">№</th>
                 <th className="border py-1 bg-alotrade text-[16px]">
-                  F.I.O
+                  {t("F.I.O")}
                 </th>
-                <th className='border py-1 bg-alotrade text-[16px]'>Tel</th>
+                <th className='border py-1 bg-alotrade text-[16px]'>{t("Tel")}</th>
                 <th className="border py-1 bg-alotrade text-[16px]">
-                  ID
-                </th>
-                <th className="border py-1 bg-alotrade text-[16px]">
-                  Probirka
+                  {t("ID")}
                 </th>
                 <th className="border py-1 bg-alotrade text-[16px]">
-                  Summa
+                  {t("Probirka")}
                 </th>
                 <th className="border py-1 bg-alotrade text-[16px]">
-                  Xizmatlar
+                  {t("Summa")}
                 </th>
                 <th className="border py-1 bg-alotrade text-[16px]">
-                  Kelgan vaqti
+                  {t("Xizmatlar")}
+                </th>
+                <th className="border py-1 bg-alotrade text-[16px]">
+                  {t("Kelgan vaqti")}
                 </th>
                 <th className="border py-1 bg-alotrade text-[16px]">
 
                 </th>
                 <th className="border py-1 bg-alotrade text-[16px]">
-                  Qo'shish
+                  {t("Tahrirlash")}
                 </th>
                 <th className="border py-1 bg-alotrade text-[16px]">
-                  Tahrirlash
+                  {t("Qo'shish")}
                 </th>
                 <th className="border py-1 bg-alotrade text-[16px]">
-                  Chop etish
+                  {t("Chop etish")}
                 </th>
               </tr>
             </thead>
@@ -225,27 +228,7 @@ export const TableClients = ({
                             history.push('alo24/statsionar', { client: { ...connector.client }, services: [...connector.services], connector: { _id: connector._id, probirka: connector?.probirka, accept: connector?.accept } })
                           }}
                         >
-                          Statsionar
-                        </button>
-                      )}
-                    </td>
-                    <td className="border py-1 text-center text-[16px]">
-                      {loading ? (
-                        <button className="btn btn-success" disabled>
-                          <span className="spinner-border spinner-border-sm"></span>
-                          Loading...
-                        </button>
-                      ) : (
-                        <button
-                          className="btn btn-success py-0"
-                          onClick={() => {
-                            setClient({ ...connector.client })
-                            setClientDate(connector.client.born.slice(0, 10))
-                            setIsAddConnector(true);
-                            setVisible(true)
-                          }}
-                        >
-                          <FontAwesomeIcon icon={faPlus} />
+                          {t("Statsionar")}
                         </button>
                       )}
                     </td>
@@ -271,6 +254,26 @@ export const TableClients = ({
                           }}
                         >
                           <FontAwesomeIcon icon={faPenAlt} />
+                        </button>
+                      )}
+                    </td>
+                    <td className="border py-1 text-center text-[16px]">
+                      {loading ? (
+                        <button className="btn btn-success" disabled>
+                          <span className="spinner-border spinner-border-sm"></span>
+                          Loading...
+                        </button>
+                      ) : (
+                        <button
+                          className="btn btn-success py-0"
+                          onClick={() => {
+                            setClient({ ...connector.client })
+                            setClientDate(connector.client.born.slice(0, 10))
+                            setIsAddConnector(true);
+                            setVisible(true)
+                          }}
+                        >
+                          <FontAwesomeIcon icon={faPlus} />
                         </button>
                       )}
                     </td>

@@ -7,6 +7,7 @@ import { RegisterClient } from "./clientComponents/RegisterClient";
 import { TableClients } from "./clientComponents/TableClients";
 import { checkClientData, checkProductsData, checkServicesData, } from "./checkData/checkData";
 import { CheckModal } from "../components/ModalCheck";
+import { useTranslation } from "react-i18next";
 
 export const OnlineClients = () => {
     const [beginDay, setBeginDay] = useState(
@@ -23,7 +24,7 @@ export const OnlineClients = () => {
     const [modal2, setModal2] = useState(false);
     //====================================================================
     //====================================================================
-
+    const {t} = useTranslation()
     //====================================================================
     //====================================================================
     // RegisterPage
@@ -691,11 +692,11 @@ export const OnlineClients = () => {
     //====================================================================
     //====================================================================
     // useEffect
-    const [t, setT] = useState(0);
+    const [s, setS] = useState(0);
 
     useEffect(() => {
-        if (auth.clinica && !t) {
-            setT(1);
+        if (auth.clinica && !s) {
+            setS(1);
             getConnectors(beginDay, endDay);
             getDepartments();
             getCounterDoctors();
@@ -707,7 +708,7 @@ export const OnlineClients = () => {
         auth,
         getConnectors,
         getAdvers,
-        t,
+        s,
         getProducts,
         getCounterDoctors,
         getDepartments,
@@ -730,14 +731,14 @@ export const OnlineClients = () => {
                                         }`}
                                     onClick={changeVisible}
                                 >
-                                    Registratsiya
+                                    {t("Registratsiya")}
                                 </button>
                                 <button
                                     className={`btn bg-alotrade text-white mb-2 w-100 ${visible ? "" : "d-none"
                                         }`}
                                     onClick={changeVisible}
                                 >
-                                    Registratsiya
+                                    {t("Registratsiya")}
                                 </button>
                             </div>
                         </div>
@@ -808,7 +809,7 @@ export const OnlineClients = () => {
 
             <Modal
                 modal={modal}
-                text={"ma'lumotlar to'g'ri kiritilganligini tasdiqlaysizmi?"}
+                text={t("ma'lumotlar to'g'ri kiritilganligini tasdiqlaysizmi?")}
                 setModal={setModal}
                 handler={client._id ? addHandler : createHandler}
                 basic={client.lastname + " " + client.firstname}
@@ -816,7 +817,7 @@ export const OnlineClients = () => {
 
             <Modal2
                 modal={modal2}
-                text={" malumotlarni qabul qilishni tasdiqlaysizmi?"}
+                text={t("ma'lumotlar to'g'ri kiritilganligini tasdiqlaysizmi?")}
                 setModal={setModal2}
                 handler={PostToOffline}
                 basic={postConnector.client && postConnector.client.fullname}

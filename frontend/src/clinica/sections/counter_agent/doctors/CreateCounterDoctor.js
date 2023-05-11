@@ -8,6 +8,7 @@ import { Sort } from '../../director/adver/Sort';
 import { Pagination } from '../../director/components/Pagination';
 import RegisterDoctor from './components/RegisterDoctor';
 import Table from './components/Table';
+import { useTranslation } from 'react-i18next';
 
 const CreateCounterDoctor = () => {
     // Pagination
@@ -16,6 +17,11 @@ const CreateCounterDoctor = () => {
 
     const indexLastConnector = (currentPage + 1) * countPage;
     const indexFirstConnector = indexLastConnector - countPage;
+
+    //====================================================
+    //====================================================
+
+    const {t} = useTranslation()
 
     //====================================================
     //====================================================
@@ -117,28 +123,28 @@ const CreateCounterDoctor = () => {
     const checkData = () => {
         if (!doctor.firstname) {
             return notify({
-                title: "Shifokorni nomi terilmagan!",
+                title: t("Shifokorni nomi terilmagan!"),
                 description: "",
                 status: "error"
             })
         }
         if (!doctor.lastname) {
             return notify({
-                title: "Shifokorni familiyasi terilmagan!",
+                title: t("Shifokorni familiyasi terilmagan!"),
                 description: "",
                 status: "error"
             })
         }
         if (!doctor.clinica_name) {
             return notify({
-                title: "Shifokorni klinikasi terilmagan!",
+                title: t("Shifokorni klinikasi terilmagan!"),
                 description: "",
                 status: "error"
             })
         }
         if (!doctor.phone) {
             return notify({
-                title: "Shifokorni telefon raqami terilmagan!",
+                title: t("Shifokorni telefon raqami terilmagan!"),
                 description: "",
                 status: "error"
             })
@@ -180,14 +186,14 @@ const CreateCounterDoctor = () => {
     }, [auth, request, notify])
 
 
-    const [t, setT] = useState(0);
+    const [s, setS] = useState(0);
 
     useEffect(() => {
-        if (auth.clinica && !t) {
-            setT(1);
+        if (auth.clinica && !s) {
+            setS(1);
             getDoctorsList()
         }
-    }, [getDoctorsList, auth, t]);
+    }, [getDoctorsList, auth, s]);
 
     //==============================================================
     //==============================================================
@@ -205,14 +211,14 @@ const CreateCounterDoctor = () => {
                                         }`}
                                     onClick={changeVisible}
                                 >
-                                    Registratsiya
+                                    {t("Registratsiya")}
                                 </button>
                                 <button
                                     className={`btn bg-alotrade text-white mb-2 w-100 ${visible ? "" : "d-none"
                                         }`}
                                     onClick={changeVisible}
                                 >
-                                    Registratsiya
+                                    {t("Registratsiya")}
                                 </button>
                             </div>
                         </div>
@@ -256,16 +262,16 @@ const CreateCounterDoctor = () => {
                                             <tr>
                                                 <th className="border py-1 bg-alotrade text-[16px]">№</th>
                                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                                    Shifokor
+                                                    {t("Shifokor")}
                                                 </th>
                                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                                    Ish joy
+                                                    {t("Ish joy")}
                                                 </th>
                                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                                    Telefon raqam
+                                                    {t("Telefon raqam")}
                                                 </th>
                                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                                    Tahrirlash
+                                                    {t("Tahrirlash")}
                                                 </th>
                                             </tr>
                                         </thead>

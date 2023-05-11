@@ -3,6 +3,7 @@ import { DatePickers } from './DatePickers'
 import 'react-datepicker/dist/react-datepicker.css'
 import Select from 'react-select'
 import makeAnimated from 'react-select/animated'
+import { useTranslation } from 'react-i18next'
 
 const animatedComponents = makeAnimated()
 
@@ -31,6 +32,8 @@ export const RegisterClient = ({
     clientDate,
     servicetypes
 }) => {
+
+    const {t} = useTranslation()
 
     const [services, setServices] = useState([]);
     const getServices = useCallback(
@@ -80,13 +83,13 @@ export const RegisterClient = ({
                 <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
                     <div className="card">
                         <div className="card-header">
-                            <div className="card-title">Mijozning shaxsiy ma'lumotlari</div>
+                            <div className="card-title">{t("Mijozning shaxsiy ma'lumotlari")}</div>
                         </div>
                         <div className="card-body">
                             <div className="row gutters">
                                 <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div className="form-group">
-                                        <label htmlFor="fullName">Familiyasi</label>
+                                        <label htmlFor="fullName">{t("Familiyasi")}</label>
                                         <input
                                             value={client.lastname || ''}
                                             onChange={changeClientData}
@@ -94,13 +97,13 @@ export const RegisterClient = ({
                                             className="form-control form-control-sm"
                                             id="lastname"
                                             name="lastname"
-                                            placeholder="Familiyasi"
+                                            placeholder={t("Familiyasi")}
                                         />
                                     </div>
                                 </div>
                                 <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div className="form-group">
-                                        <label htmlFor="inputEmail">Ismi</label>
+                                        <label htmlFor="inputEmail">{t("Ismi")}</label>
                                         <input
                                             defaultValue={client.firstname}
                                             onChange={changeClientData}
@@ -108,13 +111,13 @@ export const RegisterClient = ({
                                             className="form-control form-control-sm"
                                             id="firstname"
                                             name="firstname"
-                                            placeholder="Ismi"
+                                            placeholder={t("Ismi")}
                                         />
                                     </div>
                                 </div>
                                 <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div className="form-group">
-                                        <label htmlFor="education">Otasining ismi</label>
+                                        <label htmlFor="education">{t("Otasining ismi")}</label>
                                         <input
                                             defaultValue={client.fathername}
                                             onChange={changeClientData}
@@ -122,12 +125,12 @@ export const RegisterClient = ({
                                             className="form-control form-control-sm"
                                             id="fathername"
                                             name="fathername"
-                                            placeholder="Otasining ismi"
+                                            placeholder={t("Otasining ismi")}
                                         />
                                     </div>
                                 </div>
                                 <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                    <label htmlFor="education">Tug'ilgan sanasi</label>
+                                    <label htmlFor="education">{t("Tug'ilgan sanasi")}</label>
                                     {/* <DatePickers changeDate={changeClientBorn} /> */}
                                     <input
                                         onChange={(e) => changeClientBorn(e)}
@@ -141,7 +144,7 @@ export const RegisterClient = ({
                                 </div>
                                 <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div className="form-group">
-                                        <label htmlFor="addreSs">Telefon raqami</label>
+                                        <label htmlFor="addreSs">{t("Telefon raqami")}</label>
                                         <div className="input-group input-group-sm mb-3">
                                             <div className="input-group-prepend">
                                                 <span
@@ -163,7 +166,7 @@ export const RegisterClient = ({
                                 </div>
                                 <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div className="form-group">
-                                        <label htmlFor="biO">Jinsi</label>
+                                        <label htmlFor="biO">{t("Jinsi")}</label>
                                         <div>
                                             <div className="custom-control custom-radio custom-control-inline">
                                                 <input
@@ -184,7 +187,7 @@ export const RegisterClient = ({
                                                     className="custom-control-label"
                                                     htmlFor="customRadioInline1"
                                                 >
-                                                    Erkak
+                                                    {t("Erkak")}
                                                 </label>
                                             </div>
                                             <div className="custom-control custom-radio custom-control-inline">
@@ -204,7 +207,7 @@ export const RegisterClient = ({
                                                     className="custom-control-label"
                                                     htmlFor="customRadioInline2"
                                                 >
-                                                    Ayol
+                                                    {t("Ayol")}
                                                 </label>
                                             </div>
                                         </div>
@@ -212,7 +215,7 @@ export const RegisterClient = ({
                                 </div>
                                 <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                     <div className="form-group">
-                                        <label htmlFor="biO">Fuqoroligi</label>
+                                        <label htmlFor="biO">{t("Fuqoroligi")}</label>
                                         <div>
                                             <div className="custom-control custom-radio custom-control-inline">
                                                 <input
@@ -233,7 +236,7 @@ export const RegisterClient = ({
                                                     className="custom-control-label"
                                                     htmlFor="national1"
                                                 >
-                                                    Uzbek
+                                                    {t("Uzbek")}
                                                 </label>
                                             </div>
                                             <div className="custom-control custom-radio custom-control-inline">
@@ -253,7 +256,7 @@ export const RegisterClient = ({
                                                     className="custom-control-label"
                                                     htmlFor="national2"
                                                 >
-                                                    Chet'ellik
+                                                    {t("Chet'ellik")}
                                                 </label>
                                             </div>
                                         </div>
@@ -261,26 +264,27 @@ export const RegisterClient = ({
                                 </div>
                                 <div className="col-12">
                                     <div className="form-group">
-                                        <label htmlFor="biO">Manzili</label>
+                                        <label htmlFor="biO">{t("Manzili")}</label>
                                         <textarea
                                             defaultValue={client.address}
                                             onChange={changeClientData}
                                             className="form-control form-control-sm"
                                             name="address"
                                             rows={1}
-                                            placeholder="Navoiy shahar ...."
+                                            placeholder={t("Manzilni kiriting....")}
                                         />
                                     </div>
                                 </div>
                                 <div className="col-sm-6 col-12">
                                     <div className="form-group">
-                                        <label htmlFor="biO">Yullanma</label>
+                                        <label htmlFor="biO">{t("Yullanma")}</label>
                                         <Select
                                             onChange={changeCounterDoctor}
+                                            placeholder={t('Tanlang...')}
                                             // styles={CustomStyle}
                                             // value={value}
                                             options={[{
-                                                label: "Hammasi",
+                                                label: t("Hammasi"),
                                                 value: "delete"
                                             }, ...counterdoctors]}
                                             // isDisabled={isDisabled}
@@ -313,13 +317,13 @@ export const RegisterClient = ({
                                 </div>
                                 <div className="col-sm-6 col-12">
                                     <div className="form-group">
-                                        <label htmlFor="biO">Reklama</label>
+                                        <label htmlFor="biO">{t("Reklama")}</label>
                                         <select
                                             onChange={changeAdver}
                                             className="form-control form-control-sm selectpicker"
                                             placeholder="Reklamalarni tanlash"
                                         >
-                                            <option value="delete">Tanlanmagan</option>
+                                            <option value="delete">{t("Tanlanmagan")}</option>
                                             {advers.map((adver, index) => {
                                                 return (
                                                     <option key={index} value={adver._id}>
@@ -339,7 +343,7 @@ export const RegisterClient = ({
                                             </button>
                                         ) : (
                                             <button onClick={updateData} className="btn btn-primary">
-                                                Yangilash
+                                                {t("Yangilash")}
                                             </button>
                                         )}
                                     </div>
@@ -353,19 +357,19 @@ export const RegisterClient = ({
                 <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
                     <div className="card">
                         <div className="card-header">
-                            <div className="card-title">Xizmatlar bilan ishlash</div>
+                            <div className="card-title">{t("Xizmatlar bilan ishlash")}</div>
                         </div>
                         <div className="card-body">
                             <div className="row gutters">
                                 <div className="col-12">
                                     <div className="form-group">
-                                        <label htmlFor="fullName">Bo'limlar</label>
+                                        <label htmlFor="fullName">{t("Bo'limlar")}</label>
                                         <select
                                             className="form-control form-control-sm selectpicker"
                                             placeholder="Reklamalarni tanlash"
                                             onChange={(event) => getServices(event.target.value)}
                                         >
-                                            <option value="all"> Barcha bo'limlar</option>
+                                            <option value="all">{t("Barcha bo'limlar")}</option>
                                             {departments.map((department, index) => {
                                                 return (
                                                     <option key={index} value={department._id}>
@@ -378,12 +382,13 @@ export const RegisterClient = ({
                                 </div>
                                 <div className="col-12">
                                     <div className="form-group">
-                                        <label htmlFor="inputEmail">Xizmatlar</label>
+                                        <label htmlFor="inputEmail">{t("Xizmatlar")}</label>
                                         <Select
                                             value={selectedServices}
                                             onChange={changeService}
                                             closeMenuOnSelect={false}
                                             components={animatedComponents}
+                                            placeholder={t('Tanlang...')}
                                             options={services}
                                             theme={(theme) => ({
                                                 ...theme,
@@ -397,12 +402,13 @@ export const RegisterClient = ({
                                 </div>
                                 <div className="col-12">
                                     <div className="form-group">
-                                        <label htmlFor="inputEmail">Mahsulotlar</label>
+                                        <label htmlFor="inputEmail">{t("Mahsulotlar")}</label>
                                         <Select
                                             value={selectedProducts}
                                             onChange={changeProduct}
                                             closeMenuOnSelect={false}
                                             components={animatedComponents}
+                                            placeholder={t('Tanlang...')}
                                             options={products}
                                             theme={(theme) => ({
                                                 ...theme,
@@ -419,9 +425,9 @@ export const RegisterClient = ({
                                         <thead>
                                             <tr>
                                                 <th className="border bg-alotrade py-1">№</th>
-                                                <th className="border bg-alotrade py-1">Nomi</th>
-                                                <th className="border bg-alotrade py-1">Narxi</th>
-                                                <th className="border bg-alotrade py-1">Soni</th>
+                                                <th className="border bg-alotrade py-1">{t("Nomi")}</th>
+                                                <th className="border bg-alotrade py-1">{t("Narxi")}</th>
+                                                <th className="border bg-alotrade py-1">{t("Soni")}</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -492,7 +498,7 @@ export const RegisterClient = ({
                                         <tfoot>
                                             <tr>
                                                 <th className="text-right" colSpan={2}>
-                                                    Jami:
+                                                    {t("Jami")}:
                                                 </th>
                                                 <th colSpan={2}>
                                                     {newservices.reduce((summa, service) => {
@@ -521,7 +527,7 @@ export const RegisterClient = ({
                                             </button>
                                         ) : (
                                             <button onClick={checkData} className="bg-alotrade rounded text-white py-2 px-3">
-                                                Saqlash
+                                                {t("Saqlash")}
                                             </button>
                                         )}
                                     </div>

@@ -7,6 +7,7 @@ import Print from "../components/Print";
 import { TableClients } from "./clientComponents/TableClients";
 import Select from 'react-select'
 import makeAnimated from 'react-select/animated'
+import { useTranslation } from "react-i18next";
 
 const animatedComponents = makeAnimated()
 
@@ -24,7 +25,7 @@ export const DoctorClients = () => {
 
   //====================================================================
   //====================================================================
-
+  const {t} = useTranslation()
   //====================================================================
   //====================================================================
   // RegisterPage
@@ -240,15 +241,15 @@ export const DoctorClients = () => {
   //====================================================================
   // useEffect
 
-  const [t, setT] = useState(0);
+  const [s, setS] = useState(0);
 
   useEffect(() => {
-    if (auth.clinica && !t) {
-      setT(1);
+    if (auth.clinica && !s) {
+      setS(1);
       getDoctorClients(beginDay, endDay, clinicaValue);
       getBaseUrl()
     }
-  }, [auth, beginDay, t, endDay, getDoctorClients, getBaseUrl]);
+  }, [auth, beginDay, s, endDay, getDoctorClients, getBaseUrl]);
 
   const componentRef = useRef()
   const print = useReactToPrint({

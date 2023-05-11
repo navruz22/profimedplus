@@ -6,6 +6,7 @@ import { AuthContext } from "../../../context/AuthContext";
 import { ExcelCols } from "./uploadExcel/ExcelCols";
 import TableServices from "./TableServices";
 import RegisterTables from "./RegisterTables";
+import { useTranslation } from 'react-i18next';
 // import {checkServices} from "./uploadExcel/checkData";
 
 const Tables = () => {
@@ -22,7 +23,7 @@ const Tables = () => {
 
     //====================================================================
     //====================================================================
-
+    const {t} = useTranslation()
     //====================================================================
     //====================================================================
     const [modal2, setModal2] = useState(false)
@@ -108,7 +109,7 @@ const Tables = () => {
     const [imports, setImports] = useState([])
     const [changeImports, setChangeImports] = useState([])
     const sections = [
-        { name: '1-ustun', value: 'col1' },
+        { name: "1-ustun", value: 'col1' },
         { name: "2-ustun", value: 'col2' },
         { name: "3-ustun", value: 'col3' },
         { name: "4-ustun", value: 'col4' },
@@ -152,7 +153,7 @@ const Tables = () => {
                 },
             )
             notify({
-                title: `Jadval muvaffaqqiyatli saqlandi!`,
+                title: t(`Jadval muvaffaqqiyatli saqlandi!`),
                 description: '',
                 status: 'success',
             })
@@ -180,7 +181,7 @@ const Tables = () => {
                 },
             )
             notify({
-                title: `Jadval muvaffaqqiyatli saqlandi!`,
+                title: t(`Jadval muvaffaqqiyatli saqlandi!`),
                 description: '',
                 status: 'success',
             })
@@ -210,7 +211,7 @@ const Tables = () => {
                 },
             )
             notify({
-                title: `Shablonlar yaratildi!`,
+                title: t(`Shablonlar yaratildi!`),
                 description: '',
                 status: 'success',
             })
@@ -245,7 +246,7 @@ const Tables = () => {
                 },
             )
             notify({
-                title: `Ustun nomlari saqlandi.`,
+                title: t(`Ustun nomlari saqlandi.`),
                 description: '',
                 status: 'success',
             })
@@ -272,7 +273,7 @@ const Tables = () => {
                 },
             )
             notify({
-                title: `Jadval muvaffaqqiyatli o'chirildi.`,
+                title: t(`Jadval muvaffaqqiyatli o'chirildi.`),
                 description: '',
                 status: 'success',
             })
@@ -299,7 +300,7 @@ const Tables = () => {
                 },
             )
             notify({
-                title: `Jadval muvaffaqqiyatli o'chirildi.`,
+                title: t(`Jadval muvaffaqqiyatli o'chirildi.`),
                 description: '',
                 status: 'success',
             })
@@ -394,13 +395,13 @@ const Tables = () => {
     //====================================================================
     // useEffect
 
-    const [t, setT] = useState()
+    const [s, setS] = useState()
     useEffect(() => {
-        if (!t) {
-            setT(1)
+        if (!s) {
+            setS(1)
             getServices()
         }
-    }, [getServices, t])
+    }, [getServices, s])
     //====================================================================
     //====================================================================
 
@@ -410,7 +411,7 @@ const Tables = () => {
                 <button
                     onClick={() => setVisible(false)}
                     className={visible ? "w-full bg-primary hover:bg-teal-900  text-white font-bold py-1" : 'd-none'}>
-                    Oynani yopish
+                    {t("Oynani yopish")}
                 </button>
                 <RegisterTables
                     setModal2={setModal2}

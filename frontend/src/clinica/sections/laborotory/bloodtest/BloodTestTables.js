@@ -2,6 +2,7 @@ import { faAngleDown, faAngleUp, faCheck, faPrint } from '@fortawesome/free-soli
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react'
 import ReactHtmlTableToExcel from 'react-html-table-to-excel';
+import { useTranslation } from 'react-i18next';
 import { Pagination } from '../components/Pagination';
 import { DatePickers } from '../doctorclients/clientComponents/DatePickers';
 
@@ -20,6 +21,9 @@ const BloodTestTables = ({
     loading,
     handleApprove
 }) => {
+
+    const {t} = useTranslation()
+
     return (
         <div className="shadow-lg border-alotrade table-container">
             <div className="table-responsive">
@@ -45,7 +49,7 @@ const BloodTestTables = ({
                                     style={{ maxWidth: "100px", minWidth: "100px" }}
                                     type="search"
                                     className="w-100 text-[14px] form-control form-control-sm selectpicker"
-                                    placeholder="F.I.O"
+                                    placeholder={t("F.I.O")}
                                 />
                             </th>
                             <th>
@@ -54,7 +58,7 @@ const BloodTestTables = ({
                                     style={{ maxWidth: "60px" }}
                                     type="search"
                                     className="form-control text-[14px] form-control-sm selectpicker"
-                                    placeholder="ID"
+                                    placeholder={t("ID")}
                                 />
                             </th>
                             <th className="text-center text-[14px]">
@@ -90,22 +94,22 @@ const BloodTestTables = ({
                         <tr>
                             <th className="border text-[14px] bg-alotrade py-1">№</th>
                             <th className="border text-[14px] bg-alotrade py-1">
-                                F.I.O
+                                {t("F.I.O")}
                             </th>
                             <th className="border text-[14px] bg-alotrade py-1">
-                                ID
+                                {t("ID")}
                             </th>
                             <th className="border text-[14px] bg-alotrade py-1">
-                                Probirka
+                                {t("Probirka")}
                             </th>
                             <th className="border text-[14px] bg-alotrade py-1">
-                                Telefon raqami
+                                {t("Telefon raqami")}
                             </th>
                             <th className="border text-[14px] bg-alotrade py-1">
-                                Tugilgan yili
+                                {t("Tugilgan yili")}
                             </th>
                             <th className="border text-[14px] bg-alotrade py-1">
-                                Qabul
+                                {t("Qabul")}
                             </th>
                         </tr>
                     </thead>
@@ -141,7 +145,7 @@ const BloodTestTables = ({
                                             }
                                             className="px-4 btn btn-success rounded-xl"
                                         >
-                                            Qabul qilish
+                                            {t("Qabul qilish")}
                                         </button>}
                                     </td>
                                 </tr>

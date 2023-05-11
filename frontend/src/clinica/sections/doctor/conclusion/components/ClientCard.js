@@ -9,10 +9,10 @@ import { AuthContext } from "../../../../context/AuthContext";
 import Select from "react-select"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { useTranslation } from "react-i18next";
 
 
 const ClientCard = ({ connector, setConnector }) => {
-    console.log(connector);
 
     const componentRef = useRef()
     const handlePrint = useReactToPrint({
@@ -35,6 +35,8 @@ const ClientCard = ({ connector, setConnector }) => {
         },
         [toast]
     );
+
+    const {t} = useTranslation()
 
     //====================================================================
     //====================================================================
@@ -147,19 +149,19 @@ const ClientCard = ({ connector, setConnector }) => {
             <div className="container">
                 <div className="flex justify-between items-center w-full mb-4">
                     <div className="text-[16px] font-bold">
-                        Ўзбекистон Республикаси <br />
-                        Соғлиқни сақлаш вазирлиги <br />
+                        {t("Ўзбекистон Республикаси")} <br />
+                        {t("Соғлиқни сақлаш вазирлиги")} <br />
                         {connector?.clinica?.name}
                     </div>
                     <div className="text-[16px] font-bold">
-                        Ўзбекистон Республикаси <br />
-                        Соғлиқни сақлаш вазирининг <br />
-                        2020 йил 31 декабрдаги   № 363-сонли <br />
-                        буйруғи билан тасдиқланган <br />
-                        003- рақамли тиббий хужжат шакли <br />
+                        {t("Ўзбекистон Республикаси")} <br />
+                        {t("Соғлиқни сақлаш вазирининг")} <br />
+                        {t("2020 йил 31 декабрдаги   № 363-сонли")} <br />
+                        {t("буйруғи билан тасдиқланган")} <br />
+                        {t("003- рақамли тиббий хужжат шакли")} <br />
                     </div>
                 </div>
-                <h1 className="text-center mb-4 text-[18px] font-bold">СТАЦИОНАР БЕМОРНИНГ ТИББИЙ КАРТАСИ №: {connector?.client?.id2 ? connector?.client?.id2 : connector?.client?.id}</h1>
+                <h1 className="text-center mb-4 text-[18px] font-bold">{t("СТАЦИОНАР БЕМОРНИНГ ТИББИЙ КАРТАСИ")} №: {connector?.client?.id2 ? connector?.client?.id2 : connector?.client?.id}</h1>
                 <div className="col-12" style={{ padding: "0" }}>
                     <table
                         style={{
@@ -177,7 +179,7 @@ const ClientCard = ({ connector, setConnector }) => {
                                     border: "1px solid #000",
                                 }}
                             >
-                                Mijozning F.I.SH
+                                {t("Mijozning F.I.SH")}
                             </td>
                             <td
                                 className="p-0"
@@ -207,7 +209,7 @@ const ClientCard = ({ connector, setConnector }) => {
                                     border: "1px solid #000",
                                 }}
                             >
-                                Tug'ilgan yili
+                                {t("Tug'ilgan yili")}
                             </td>
                             <td
                                 className="p-0"
@@ -228,7 +230,7 @@ const ClientCard = ({ connector, setConnector }) => {
                                     border: "1px solid #000",
                                 }}
                             >
-                                Jinsi
+                                {t("Jinsi")}
                             </td>
                             <td
                                 className="p-0"
@@ -252,7 +254,7 @@ const ClientCard = ({ connector, setConnector }) => {
                                     border: "1px solid #000",
                                 }}
                             >
-                                Kelgan sanasi
+                                {t("Kelgan sanasi")}
                             </td>
                             <td
                                 className="p-0"
@@ -274,7 +276,7 @@ const ClientCard = ({ connector, setConnector }) => {
                                     border: "1px solid #000",
                                 }}
                             >
-                                Ketgan vaqti
+                                {t("Ketgan vaqti")}
                             </td>
                             <td
                                 className="p-0"
@@ -298,7 +300,7 @@ const ClientCard = ({ connector, setConnector }) => {
                                     border: "1px solid #000",
                                 }}
                             >
-                                Manzil
+                                {t("Manzil")}
                             </td>
                             <td
                                 className="p-0"
@@ -318,7 +320,7 @@ const ClientCard = ({ connector, setConnector }) => {
                                     border: "1px solid #000",
                                 }}
                             >
-                                ID
+                                {t("ID")}
                             </td>
                             <td
                                 className="p-0"
@@ -334,17 +336,17 @@ const ClientCard = ({ connector, setConnector }) => {
                     </table>
                 </div>
                 <div className="mb-4 mt-4 text-[16px]">
-                    <p>1. Қон гурухи: <span className="mr-[20px] font-bold"> {connector?.client?.bloodgroup}</span>  резус мансублиги: <span className="font-bold">{connector?.client?.rezus}</span></p>
-                    <p>2. Дориларнинг ножўя таъсири: <span className="font-bold">{connector?.client?.medicineresult}</span></p>
-                    <p>3. Бўйи: <span className="mr-[30px] font-bold">{connector?.client?.height},</span> вазни: <span className="mr-[30px] font-bold">{connector?.client?.weight},</span> тана харорати: <span className="font-bold">{connector?.client?.temperature}</span></p>
-                    <p>4. Қариндошларнинг яшаш жойи ва телефон рақамлари: <span className="font-bold">{connector?.client?.relative_info}</span></p>
-                    <p>5. Иш жойи, касби, лавозими: <span className="font-bold">{connector?.client?.profession_info}</span></p>
-                    <p>6. Бемор қаердан юборилган: <span className="font-bold">{connector?.client?.sending_info}</span></p>
-                    <p>7. Касалхонага шошилинч равишда келтирилган: <span className="font-bold">{connector?.client?.isAmbulance}</span></p>
-                    <p>8. Қандай транспортда келтирилган: <span className="font-bold">{connector?.client?.ambulance_transport}</span></p>
-                    <p>9. Касаллик бошлангандан сўнг утган вақт, жарохатдан сўнг: <span className="font-bold">{connector?.client?.start_sickness}</span></p>
-                    <p>10. Бемор йўлланмасидаги ташҳис: <span className="font-bold">{connector?.client?.conter_diagnosis}</span></p>
-                    <p>11. Қабулхонада қуйилган ташҳис: <span className="font-bold">{connector?.client?.diagnosis}</span></p>
+                    <p>1. {t("Қон гурухи")}: <span className="mr-[20px] font-bold"> {connector?.client?.bloodgroup}</span>  {t("резус мансублиги")}: <span className="font-bold">{connector?.client?.rezus}</span></p>
+                    <p>2. {t("Дориларнинг ножўя таъсири")}: <span className="font-bold">{connector?.client?.medicineresult}</span></p>
+                    <p>3. {t("Бўйи")}: <span className="mr-[30px] font-bold">{connector?.client?.height},</span> {t("вазни")}: <span className="mr-[30px] font-bold">{connector?.client?.weight},</span> {t("тана харорати")}: <span className="font-bold">{connector?.client?.temperature}</span></p>
+                    <p>4. {t("Қариндошларнинг яшаш жойи ва телефон рақамлари")}: <span className="font-bold">{connector?.client?.relative_info}</span></p>
+                    <p>5. {t("Иш жойи")}, {t("касби")}, {t("лавозими")}: <span className="font-bold">{connector?.client?.profession_info}</span></p>
+                    <p>6. {t("Бемор қаердан юборилган")}: <span className="font-bold">{connector?.client?.sending_info}</span></p>
+                    <p>7. {t("Касалхонага шошилинч равишда келтирилган")}: <span className="font-bold">{connector?.client?.isAmbulance}</span></p>
+                    <p>8. {t("Қандай транспортда келтирилган")}: <span className="font-bold">{connector?.client?.ambulance_transport}</span></p>
+                    <p>9. {t("Касаллик бошлангандан сўнг утган вақт, жарохатдан сўнг")}: <span className="font-bold">{connector?.client?.start_sickness}</span></p>
+                    <p>10. {t("Бемор йўлланмасидаги ташҳис")}: <span className="font-bold">{connector?.client?.conter_diagnosis}</span></p>
+                    <p>11. {t("Қабулхонада қуйилган ташҳис")}: <span className="font-bold">{connector?.client?.diagnosis}</span></p>
                 </div>
                 <div>
                     {connector.client?.templates && connector.client?.templates.map((t, i) =>
@@ -383,8 +385,8 @@ const ClientCard = ({ connector, setConnector }) => {
             <div className="container p-4 bg-white">
                 <div className="row">
                     <div className="col-12 text-center my-4">
-                        <button className="btn btn-success px-4 mx-4" onClick={saveClient} > Tasdiqlash</button>
-                        <button className="btn btn-info px-5" onClick={handlePrint} >Chop etish</button>
+                        <button className="btn btn-success px-4 mx-4" onClick={saveClient} > {t("Tasdiqlash")}</button>
+                        <button className="btn btn-info px-5" onClick={handlePrint} >{t("Chop etish")}</button>
                     </div>
                 </div>
             </div>
@@ -392,19 +394,19 @@ const ClientCard = ({ connector, setConnector }) => {
                 <div ref={componentRef} className="container px-[1cm] pt-4">
                     <div className="flex justify-between items-center w-full mb-4">
                         <div className="text-[16px] font-bold">
-                            Ўзбекистон Республикаси <br />
-                            Соғлиқни сақлаш вазирлиги <br />
+                            {t("Ўзбекистон Республикаси")} <br />
+                            {t("Соғлиқни сақлаш вазирлиги")} <br />
                             {connector?.clinica?.name}
                         </div>
                         <div className="text-[16px] font-bold">
-                            Ўзбекистон Республикаси <br />
-                            Соғлиқни сақлаш вазирининг <br />
-                            2020 йил 31 декабрдаги   № 363-сонли <br />
-                            буйруғи билан тасдиқланган <br />
-                            003- рақамли тиббий хужжат шакли <br />
+                            {t("Ўзбекистон Республикаси")} <br />
+                            {t("Соғлиқни сақлаш вазирининг")} <br />
+                            {t("2020 йил 31 декабрдаги   № 363-сонли")} <br />
+                            {t("буйруғи билан тасдиқланган")} <br />
+                            {t("003- рақамли тиббий хужжат шакли")} <br />
                         </div>
                     </div>
-                    <h1 className="text-center mb-4 text-[18px] font-bold">СТАЦИОНАР БЕМОРНИНГ ТИББИЙ КАРТАСИ №: {connector?.client?.id2 ? connector?.client?.id2 : connector?.client?.id}</h1>
+                    <h1 className="text-center mb-4 text-[18px] font-bold">{t("СТАЦИОНАР БЕМОРНИНГ ТИББИЙ КАРТАСИ")} №: {connector?.client?.id2 ? connector?.client?.id2 : connector?.client?.id}</h1>
                     <div className="col-12" style={{ padding: "0" }}>
                         <table
                             style={{
@@ -422,7 +424,7 @@ const ClientCard = ({ connector, setConnector }) => {
                                         border: "1px solid #000",
                                     }}
                                 >
-                                    Mijozning F.I.SH
+                                    {t("Mijozning F.I.SH")}
                                 </td>
                                 <td
                                     className="p-0"
@@ -452,7 +454,7 @@ const ClientCard = ({ connector, setConnector }) => {
                                         border: "1px solid #000",
                                     }}
                                 >
-                                    Tug'ilgan yili
+                                    {t("Tug'ilgan yili")}
                                 </td>
                                 <td
                                     className="p-0"
@@ -473,7 +475,7 @@ const ClientCard = ({ connector, setConnector }) => {
                                         border: "1px solid #000",
                                     }}
                                 >
-                                    Jinsi
+                                    {t("Jinsi")}
                                 </td>
                                 <td
                                     className="p-0"
@@ -497,7 +499,7 @@ const ClientCard = ({ connector, setConnector }) => {
                                         border: "1px solid #000",
                                     }}
                                 >
-                                    Kelgan sanasi
+                                    {t("Kelgan sanasi")}
                                 </td>
                                 <td
                                     className="p-0"
@@ -519,7 +521,7 @@ const ClientCard = ({ connector, setConnector }) => {
                                         border: "1px solid #000",
                                     }}
                                 >
-                                    Ketgan vaqti
+                                    {t("Ketgan vaqti")}
                                 </td>
                                 <td
                                     className="p-0"
@@ -543,7 +545,7 @@ const ClientCard = ({ connector, setConnector }) => {
                                         border: "1px solid #000",
                                     }}
                                 >
-                                    Manzil
+                                    {t("Manzil")}
                                 </td>
                                 <td
                                     className="p-0"
@@ -563,7 +565,7 @@ const ClientCard = ({ connector, setConnector }) => {
                                         border: "1px solid #000",
                                     }}
                                 >
-                                    ID
+                                    {t("ID")}
                                 </td>
                                 <td
                                     className="p-0"
@@ -579,17 +581,17 @@ const ClientCard = ({ connector, setConnector }) => {
                         </table>
                     </div>
                     <div className="mb-4 mt-4 text-[16px]">
-                        <p>1. Қон гурухи: <span className="mr-[20px] font-bold"> {connector?.client?.bloodgroup}</span>  резус мансублиги: <span className="font-bold">{connector?.client?.rezus}</span></p>
-                        <p>2. Дориларнинг ножўя таъсири: <span className="font-bold">{connector?.client?.medicineresult}</span></p>
-                        <p>3. Бўйи: <span className="mr-[30px] font-bold">{connector?.client?.height},</span> вазни: <span className="mr-[30px] font-bold">{connector?.client?.weight},</span> тана харорати: <span className="font-bold">{connector?.client?.temperature}</span></p>
-                        <p>4. Қариндошларнинг яшаш жойи ва телефон рақамлари: <span className="font-bold">{connector?.client?.relative_info}</span></p>
-                        <p>5. Иш жойи, касби, лавозими: <span className="font-bold">{connector?.client?.profession_info}</span></p>
-                        <p>6. Бемор қаердан юборилган: <span className="font-bold">{connector?.client?.sending_info}</span></p>
-                        <p>7. Касалхонага шошилинч равишда келтирилган: <span className="font-bold">{connector?.client?.isAmbulance}</span></p>
-                        <p>8. Қандай транспортда келтирилган: <span className="font-bold">{connector?.client?.ambulance_transport}</span></p>
-                        <p>9. Касаллик бошлангандан сўнг утган вақт, жарохатдан сўнг: <span className="font-bold">{connector?.client?.start_sickness}</span></p>
-                        <p>10. Бемор йўлланмасидаги ташҳис: <span className="font-bold">{connector?.client?.conter_diagnosis}</span></p>
-                        <p>11. Қабулхонада қуйилган ташҳис: <span className="font-bold">{connector?.client?.diagnosis}</span></p>
+                        <p>1. {t("Қон гурухи")}: <span className="mr-[20px] font-bold"> {connector?.client?.bloodgroup}</span>  {t("резус мансублиги")}: <span className="font-bold">{connector?.client?.rezus}</span></p>
+                        <p>2. {t("Дориларнинг ножўя таъсири")}: <span className="font-bold">{connector?.client?.medicineresult}</span></p>
+                        <p>3. {t("Бўйи")}: <span className="mr-[30px] font-bold">{connector?.client?.height},</span> {t("вазни")}: <span className="mr-[30px] font-bold">{connector?.client?.weight},</span> {t("тана харорати")}: <span className="font-bold">{connector?.client?.temperature}</span></p>
+                        <p>4. {t("Қариндошларнинг яшаш жойи ва телефон рақамлари")}: <span className="font-bold">{connector?.client?.relative_info}</span></p>
+                        <p>5. {t("Иш жойи")}, {t("касби")}, {t("лавозими")}: <span className="font-bold">{connector?.client?.profession_info}</span></p>
+                        <p>6. {t("Бемор қаердан юборилган")}: <span className="font-bold">{connector?.client?.sending_info}</span></p>
+                        <p>7. {t("Касалхонага шошилинч равишда келтирилган")}: <span className="font-bold">{connector?.client?.isAmbulance}</span></p>
+                        <p>8. {t("Қандай транспортда келтирилган")}: <span className="font-bold">{connector?.client?.ambulance_transport}</span></p>
+                        <p>9. {t("Касаллик бошлангандан сўнг утган вақт, жарохатдан сўнг")}: <span className="font-bold">{connector?.client?.start_sickness}</span></p>
+                        <p>10. {t("Бемор йўлланмасидаги ташҳис")}: <span className="font-bold">{connector?.client?.conter_diagnosis}</span></p>
+                        <p>11. {t("Қабулхонада қуйилган ташҳис")}: <span className="font-bold">{connector?.client?.diagnosis}</span></p>
                     </div>
                     <div className="print_word">
                         {connector.client?.templates && connector.client.templates.map(t => ReactHtmlParser(t.template))}

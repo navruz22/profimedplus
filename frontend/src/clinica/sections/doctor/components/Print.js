@@ -2,9 +2,10 @@ import React from 'react'
 import parse from "html-react-parser"
 import ReactHtmlParser from 'react-html-parser'
 import './Print.css'
+import { useTranslation } from 'react-i18next'
 
 const Print = ({ client, connector, sections, clinica, baseUrl, doctor, qr }) => {
-   
+    const {t} = useTranslation()
     return (
         <div className="bg-white pt-4">
             <div>
@@ -25,7 +26,7 @@ const Print = ({ client, connector, sections, clinica, baseUrl, doctor, qr }) =>
                             borderLeft: "none",
                         }}
                     >
-                        <p className="pt-2">IFUD: {clinica?.ifud2}</p>
+                        <p className="pt-2">{t("IFUD")}: {clinica?.ifud2}</p>
                     </div>
                     <div
                         className="col-4"
@@ -78,7 +79,7 @@ const Print = ({ client, connector, sections, clinica, baseUrl, doctor, qr }) =>
                                         border: "1px solid #000",
                                     }}
                                 >
-                                    Mijozning F.I.SH
+                                    {t("Mijozning F.I.SH")}
                                 </td>
                                 <td
                                     className="p-0"
@@ -94,7 +95,7 @@ const Print = ({ client, connector, sections, clinica, baseUrl, doctor, qr }) =>
                                 </td>
                                 <td rowSpan="2" colSpan={2} style={{ width: "33%" }}>
                                     <p className="fw-bold fs-5 m-0">
-                                        TAHLIL <br /> NATIJALARI
+                                        {t("TAHLIL")} <br /> {t("NATIJALARI")}
                                     </p>
                                 </td>
                             </tr>
@@ -107,7 +108,7 @@ const Print = ({ client, connector, sections, clinica, baseUrl, doctor, qr }) =>
                                         border: "1px solid #000",
                                     }}
                                 >
-                                    Tug'ilgan yili
+                                    {t("Tug'ilgan yili")}
                                 </td>
                                 <td
                                     className="p-0"
@@ -130,7 +131,7 @@ const Print = ({ client, connector, sections, clinica, baseUrl, doctor, qr }) =>
                                         border: "1px solid #000",
                                     }}
                                 >
-                                    Kelgan sanasi
+                                    {t("Kelgan sanasi")}
                                 </td>
                                 <td
                                     className="p-0"
@@ -152,7 +153,7 @@ const Print = ({ client, connector, sections, clinica, baseUrl, doctor, qr }) =>
                                         border: "1px solid #000",
                                     }}
                                 >
-                                    Namuna
+                                    {t("Namuna")}
                                 </td>
                                 <td
                                     className="p-0"
@@ -176,7 +177,7 @@ const Print = ({ client, connector, sections, clinica, baseUrl, doctor, qr }) =>
                                         border: "1px solid #000",
                                     }}
                                 >
-                                    Manzil
+                                    {t("Manzil")}
                                 </td>
                                 <td
                                     className="p-0"
@@ -197,7 +198,7 @@ const Print = ({ client, connector, sections, clinica, baseUrl, doctor, qr }) =>
                                         border: "1px solid #000",
                                     }}
                                 >
-                                    ID
+                                    {t("ID")}
                                 </td>
                                 <td
                                     className="p-0"

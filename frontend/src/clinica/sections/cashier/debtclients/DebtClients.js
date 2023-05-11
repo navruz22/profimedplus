@@ -5,6 +5,7 @@ import { useHttp } from "../../../hooks/http.hook";
 import { PaymentClients } from "./clientComponents/PaymentClients";
 import { TableClients } from "./clientComponents/TableClients";
 import { Modal } from "../components/Modal";
+import { useTranslation } from "react-i18next";
 
 export const DebtClients = () => {
   const [beginDay, setBeginDay] = useState(
@@ -32,7 +33,7 @@ export const DebtClients = () => {
 
   //====================================================================
   //====================================================================
-
+  const {t} = useTranslation()
   //====================================================================
   //====================================================================
   // Pagination
@@ -252,22 +253,22 @@ export const DebtClients = () => {
   const checkPayCount = () => {
     if (!payCount) {
       return notify({
-        title: `Diqqat! To'lov kiritilmagan.`,
-        description: `Iltimos to'lovni kirirting.`,
+        title: t(`Diqqat! To'lov kiritilmagan.`),
+        description: t(`Iltimos to'lovni kirirting.`),
         status: "error",
       });
     }
     if (!payment.client) {
       return notify({
-        title: `Diqqat! Mijoz aniqlamagan.`,
-        description: `Iltimos Mijoz malumotlarini kirirting.`,
+        title: t(`Diqqat! Mijoz aniqlamagan.`),
+        description: t(`Iltimos Mijoz malumotlarini kirirting.`),
         status: "error",
       });
     }
     if (+payCount > +debt) {
       return notify({
-        title: `Diqqat! To'lov summasi qarz dan oshmaslik kerak.`,
-        description: `Iltimos To'lovni tug'ri kiriting.`,
+        title: t(`Diqqat! To'lov summasi qarz dan oshmaslik kerak.`),
+        description: t(`Iltimos To'lovni tug'ri kiriting.`),
         status: "error",
       });
     }
@@ -355,7 +356,7 @@ export const DebtClients = () => {
       setPayCount("");
       setPaymentType('cash')
       notify({
-        title: "To'lov muvaffaqqiyatli amalga oshirildi.",
+        title: t("To'lov muvaffaqqiyatli amalga oshirildi."),
         description: "",
         status: "success",
       });
@@ -390,7 +391,7 @@ export const DebtClients = () => {
       setPayCount("");
       setPaymentType('cash')
       notify({
-        title: "To'lov muvaffaqqiyatli amalga oshirildi.",
+        title: t("To'lov muvaffaqqiyatli amalga oshirildi."),
         description: "",
         status: "success",
       });
@@ -410,15 +411,15 @@ export const DebtClients = () => {
   //====================================================================
   // useEffect
 
-  const [t, setT] = useState(0);
+  const [s, setS] = useState(0);
 
   useEffect(() => {
-    if (auth.clinica && !t) {
-      setT(1);
+    if (auth.clinica && !s) {
+      setS(1);
       getOfflineDebts(beginDay, endDay);
       getStatsionarDebts(beginDay, endDay);
     }
-  }, [auth, getOfflineDebts, getStatsionarDebts, t, beginDay, endDay]);
+  }, [auth, getOfflineDebts, getStatsionarDebts, s, beginDay, endDay]);
 
   //====================================================================
   //====================================================================
@@ -434,14 +435,14 @@ export const DebtClients = () => {
                     }`}
                   onClick={changeVisible}
                 >
-                  Malumot
+                  {t("Malumot")}
                 </button>
                 <button
                   className={`btn bg-alotrade text-white mb-2 w-100 ${visible ? "" : "d-none"
                     }`}
                   onClick={changeVisible}
                 >
-                  Malumot
+                  {t("Malumot")}
                 </button>
               </div>
             </div>
@@ -496,9 +497,9 @@ export const DebtClients = () => {
       <Modal
         modal={modal}
         setModal={setModal}
-        text={"to'lov qilishini tasdiqlaysizmi"}
+        text={t("to'lov qilishini tasdiqlaysizmi")}
         handler={sortPostPayment}
-        basic={`Mijoz ${payment.client && payment.client.fullname}`}
+        basic={`${t("Mijoz")} ${payment.client && payment.client.fullname}`}
       />
     </div>
   );

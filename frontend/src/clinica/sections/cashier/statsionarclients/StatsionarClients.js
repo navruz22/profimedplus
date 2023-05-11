@@ -8,6 +8,7 @@ import { TableClients } from './clientComponents/TableClients'
 import { checkData, checkServices } from './checkData/checkData'
 import { CheckModal } from '../components/ModalCheck';
 import { CheckModalStatsionar } from '../../reseption/components/ModalCheckStatsionar';
+import { useTranslation } from 'react-i18next';
 // import {
 //   checkClientData,
 //   checkProductsData,
@@ -29,7 +30,7 @@ export const StatsionarClients = () => {
     const [modal1, setModal1] = useState(false)
     //====================================================================
     //====================================================================
-
+    const {t} = useTranslation()
     //====================================================================
     //====================================================================
     // RegisterPage
@@ -453,7 +454,7 @@ export const StatsionarClients = () => {
             e.target.value = parseInt(parseInt(e.target.value) / 10)
             return notify({
                 title:
-                    "Diqqat! Chegirma summasi umumiy to'lov summasidan oshmasligi kerak!",
+                    t("Diqqat! Chegirma summasi umumiy to'lov summasidan oshmasligi kerak!"),
                 description: '',
                 status: 'error',
             })
@@ -517,7 +518,7 @@ export const StatsionarClients = () => {
             e.target.value = parseInt(parseInt(e.target.value) / 10)
             return notify({
                 title:
-                    "Diqqat! Qarz summasi umumiy to'lov summasidan oshmasligi kerak!",
+                    t("Diqqat! Qarz summasi umumiy to'lov summasidan oshmasligi kerak!"),
                 description: '',
                 status: 'error',
             })
@@ -664,7 +665,7 @@ export const StatsionarClients = () => {
             setModal(false)
             setVisible(false)
             notify({
-                title: "To'lov muvaffaqqiyatli amalga oshirildi.",
+                title: t("To'lov muvaffaqqiyatli amalga oshirildi."),
                 description: '',
                 status: 'success',
             })
@@ -700,7 +701,7 @@ export const StatsionarClients = () => {
             setModal(false)
             setVisible(false)
             notify({
-                title: "To'lov muvaffaqqiyatli amalga oshirildi.",
+                title: t("To'lov muvaffaqqiyatli amalga oshirildi."),
                 description: '',
                 status: 'success',
             })
@@ -818,15 +819,15 @@ export const StatsionarClients = () => {
     //====================================================================
     // useEffect
 
-    const [t, setT] = useState(0)
+    const [s, setS] = useState(0)
 
     useEffect(() => {
-        if (auth.clinica && !t) {
-            setT(1)
+        if (auth.clinica && !s) {
+            setS(1)
             getConnectors(beginDay, endDay)
             getBaseUrl()
         }
-    }, [auth, getConnectors, t, beginDay, endDay])
+    }, [auth, getConnectors, s, beginDay, endDay])
 
     //====================================================================
     //====================================================================
@@ -842,14 +843,14 @@ export const StatsionarClients = () => {
                                         }`}
                                     onClick={changeVisible}
                                 >
-                                    Malumot
+                                    {t('Malumot')}
                                 </button>
                                 <button
                                     className={`btn bg-alotrade text-white mb-2 w-100 ${visible ? '' : 'd-none'
                                         }`}
                                     onClick={changeVisible}
                                 >
-                                    Malumot
+                                    {t('Malumot')}
                                 </button>
                             </div>
                         </div>
@@ -925,7 +926,7 @@ export const StatsionarClients = () => {
                 text={connector.room && connector.room.endday ? <div className="card">
                     <div className="card-header">
                         <div className="card-title">
-                            Hisobot
+                            {t("Hisobot")}
                         </div>
                     </div>
                     <div className="card-body">
@@ -933,7 +934,7 @@ export const StatsionarClients = () => {
                             <tfoot>
                                 <tr>
                                     <th className="text-right w-50">
-                                        Jami to'lov:
+                                        {t("Jami to'lov")}:
                                     </th>
                                     <th className="text-left w-50">
                                         {totalpayment}
@@ -941,7 +942,7 @@ export const StatsionarClients = () => {
                                 </tr>
                                 <tr>
                                     <th className="text-right">
-                                        Chegirma:
+                                        {t("Chegirma")}:
                                     </th>
                                     <th className="text-left">
                                         {discount.discount}
@@ -949,7 +950,7 @@ export const StatsionarClients = () => {
                                 </tr>
                                 <tr>
                                     <th className="text-right">
-                                        To'langan:
+                                        {t("To'langan")}:
                                     </th>
                                     <th className="text-left">
                                         {payments}
@@ -957,7 +958,7 @@ export const StatsionarClients = () => {
                                 </tr>
                                 <tr>
                                     <th className="text-right">
-                                        Qarz:
+                                        {t("Qarz")}:
                                     </th>
                                     <th className="text-left">
                                         {payment.debt}
@@ -965,7 +966,7 @@ export const StatsionarClients = () => {
                                 </tr>
                                 <tr>
                                     <th className="text-right">
-                                        To'lanayotgan:
+                                        {t("To'lanayotgan")}:
                                     </th>
                                     <th className="text-left">
                                         {payment.payment}
@@ -979,7 +980,7 @@ export const StatsionarClients = () => {
                         <tfoot>
                             <tr>
                                 <th className="text-right w-50">
-                                    Jami to'lov:
+                                    {t("Jami to'lov")}:
                                 </th>
                                 <th className="text-left w-50">
                                     {totalpayment}
@@ -987,7 +988,7 @@ export const StatsionarClients = () => {
                             </tr>
                             <tr>
                                 <th className="text-right">
-                                    Oldindan to'lov:
+                                    {t("Oldindan to'lov")}:
                                 </th>
                                 <th className="text-left">
                                     {payments}
@@ -995,7 +996,7 @@ export const StatsionarClients = () => {
                             </tr>
                             <tr>
                                 <th className="text-right">
-                                    To'lanayotgan summa:
+                                    {t("To'lanayotgan summa")}:
                                 </th>
                                 <th className="text-left">
                                     {payment.payment}

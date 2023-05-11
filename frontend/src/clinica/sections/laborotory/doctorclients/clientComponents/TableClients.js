@@ -12,6 +12,7 @@ import { DatePickers } from "./DatePickers";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import { useHistory } from "react-router-dom";
 import { Modal } from "../../../reseption/components/Modal";
+import { useTranslation } from "react-i18next";
 
 export const TableClients = ({
   changeStart,
@@ -30,6 +31,8 @@ export const TableClients = ({
   getDoctorClientsByClientBorn,
   searchProbirka
 }) => {
+
+  const {t} = useTranslation()
 
   const history = useHistory()
   const [clientBorn, setClientBorn] = useState('')
@@ -69,7 +72,7 @@ export const TableClients = ({
               style={{ maxWidth: "100px", minWidth: "100px" }}
               type="search"
               className="w-100 form-control form-control-sm selectpicker text-[16px]"
-              placeholder="F.I.O"
+              placeholder={t("F.I.O")}
             />
           </div>
           <div>
@@ -78,7 +81,7 @@ export const TableClients = ({
               style={{ maxWidth: "60px" }}
               type="search"
               className="form-control form-control-sm selectpicker text-[16px]"
-              placeholder="ID"
+              placeholder={t("ID")}
             />
           </div>
           <div>
@@ -87,7 +90,7 @@ export const TableClients = ({
               style={{ maxWidth: "60px" }}
               type="probirka"
               className="form-control form-control-sm selectpicker text-[16px]"
-              placeholder="Probirka"
+              placeholder={t("Probirka")}
             />
           </div>
           <div className="flex items-center gap-4">
@@ -140,28 +143,28 @@ export const TableClients = ({
             <tr>
               <th className="border bg-alotrade py-1 text-[14px]">№</th>
               <th className="border bg-alotrade py-1 text-[14px]">
-                Xizmatlar
+                {t("Xizmatlar")}
               </th>
               <th className="border bg-alotrade py-1 text-[14px]">
-                F.I.O
+                {t("F.I.O")}
               </th>
               <th className="border bg-alotrade py-1 text-[14px]">
-                Tugilgan yili
+                {t("Tugilgan yili")}
               </th>
               <th className="border bg-alotrade py-1 text-[14px]">
-                Telefon raqami
+                {t("Telefon raqami")}
               </th>
               <th className="border bg-alotrade py-1 text-[14px]">
-                ID
+                {t("ID")}
               </th>
               <th className="border bg-alotrade py-1 text-[14px]">
-                Probirka
+                {t("Probirka")}
               </th>
               <th className="border bg-alotrade py-1 text-[14px]">
-                Kelgan vaqti
+                {t("Kelgan vaqti")}
               </th>
               <th className="border bg-alotrade py-1 text-[14px]">
-                Qabul
+                {t("Qabul")}
               </th>
             </tr>
           </thead>

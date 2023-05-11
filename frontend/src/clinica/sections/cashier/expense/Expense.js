@@ -2,6 +2,7 @@ import { useToast } from '@chakra-ui/react';
 import { faAngleDown, faAngleUp, faPenAlt, faRemove } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useCallback, useContext, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next';
 import { AuthContext } from '../../../context/AuthContext';
 import { useHttp } from '../../../hooks/http.hook';
 import { Modal } from '../components/Modal';
@@ -10,6 +11,9 @@ import { DatePickers } from '../debtclients/clientComponents/DatePickers';
 import { Sort } from '../debtclients/clientComponents/Sort';
 
 const Expense = () => {
+
+    const {t} = useTranslation()
+
     const [beginDay, setBeginDay] = useState(
         new Date(new Date().setUTCHours(0, 0, 0, 0))
     );
@@ -262,14 +266,14 @@ const Expense = () => {
     //=====================================================================
 
     // useEffect
-    const [t, setT] = useState(0);
+    const [s, setS] = useState(0);
 
     useEffect(() => {
-        if (!t) {
-            setT(1);
+        if (!s) {
+            setS(1);
             getExpenses(beginDay, endDay)
         }
-    }, [t, beginDay, endDay]);
+    }, [s, beginDay, endDay]);
 
 
     return (
@@ -283,14 +287,14 @@ const Expense = () => {
                                     }`}
                                 onClick={changeVisible}
                             >
-                                Malumot
+                                {t("Malumot")}
                             </button>
                             <button
                                 className={`btn bg-alotrade text-white mb-2 w-100 ${visible ? "" : "d-none"
                                     }`}
                                 onClick={changeVisible}
                             >
-                                Malumot
+                                {t("Malumot")}
                             </button>
                         </div>
                     </div>
@@ -299,7 +303,7 @@ const Expense = () => {
                             <div className="card w-[500px]">
                                 <div className="card-body">
                                     <div className="form-group">
-                                        <label htmlFor="">To'lov</label>
+                                        <label htmlFor="">{t("To'lov")}</label>
                                         <input
                                             value={expense?.total}
                                             onChange={(e) => setExpense({ ...expense, total: +e.target.value })}
@@ -307,23 +311,23 @@ const Expense = () => {
                                             className="form-control form-control-sm"
                                             id="payment"
                                             name="pay"
-                                            placeholder="To'lov summasi..."
+                                            placeholder={t("To'lov summasi...")}
                                         />
                                     </div>
                                     <div className="form-group">
-                                        <label htmlFor="">To'lov turi</label>
+                                        <label htmlFor="">{t("To'lov turi")}</label>
                                         <select
                                             value={expense?.type}
                                             className="form-control form-control-sm selectpicker"
                                             onChange={(e) => setExpense({ ...expense, type: e.target.value })}
                                         >
-                                            <option value={'cash'}>Naqt</option>
-                                            <option value={'card'}>Plastik</option>
-                                            <option value={'transfer'}>O'tkazma</option>
+                                            <option value={'cash'}>{t("Naqt")}</option>
+                                            <option value={'card'}>{t("Plastik")}</option>
+                                            <option value={'transfer'}>{t("O'tkazma")}</option>
                                         </select>
                                     </div>
                                     <div className="form-group">
-                                        <label htmlFor="">Izoh</label>
+                                        <label htmlFor="">{t("Izoh")}</label>
                                         <input
                                             value={expense?.comment}
                                             onChange={(e) => setExpense({ ...expense, comment: e.target.value })}
@@ -331,7 +335,7 @@ const Expense = () => {
                                             className="form-control form-control-sm"
                                             id="payment"
                                             name="pay"
-                                            placeholder='Izoh...'
+                                            placeholder={t('Izoh...')}
                                         />
                                     </div>
                                     <div className="text-right">
@@ -345,7 +349,7 @@ const Expense = () => {
                                                 className="bg-alotrade text-white py-2 px-3 font-semibold"
                                                 onClick={checkData}
                                             >
-                                                Saqlash
+                                                {t("Saqlash")}
                                             </button>
                                         )}
                                     </div>
@@ -376,7 +380,7 @@ const Expense = () => {
                                             style={{ maxWidth: "60px" }}
                                             type="search"
                                             className="form-control form-control-sm selectpicker"
-                                            placeholder="ID"
+                                            placeholder={t("ID")}
                                         />
                                     </div>
                                     <div className="text-center ml-auto">
@@ -401,22 +405,22 @@ const Expense = () => {
                                         <tr>
                                             <th className="border bg-alotrade text-[16px] py-1">№</th>
                                             <th className="border bg-alotrade text-[16px] py-1">
-                                                Summa
+                                                {t("Summa")}
                                             </th>
                                             <th className="border bg-alotrade text-[16px] py-1">
-                                                Turi
+                                                {t("Turi")}
                                             </th>
                                             <th className="border bg-alotrade text-[16px] py-1">
-                                                Izoh
+                                                {t("Izoh")}
                                             </th>
                                             <th className="border bg-alotrade text-[16px] py-1">
-                                                Sa'na
+                                                {t("Sa'na")}
                                             </th>
                                             <th className="border bg-alotrade text-[16px] py-1">
-                                                Tahrirlash
+                                                {t("Tahrirlash")}
                                             </th>
                                             <th className="border bg-alotrade text-[16px] py-1">
-                                                O'chirish
+                                                {t("O'chirish")}
                                             </th>
                                         </tr>
                                     </thead>
@@ -434,8 +438,8 @@ const Expense = () => {
                                                         {connector.total}
                                                     </td>
                                                     <td className="border py-1 text-left text-[16px]">
-                                                        {connector.type === 'cash' ? 'Naqt' : connector.type === 'card' ?
-                                                            'Plastik' : "O'tkazma"}
+                                                        {connector.type === 'cash' ? 'Naqt' : connector.type === t('card') ?
+                                                            t('Plastik') : t("O'tkazma")}
                                                     </td>
                                                     <td className="border py-1 text-left text-[16px]">
                                                         {connector.comment}
@@ -497,7 +501,7 @@ const Expense = () => {
             <Modal
                 modal={modal}
                 setModal={setModal}
-                text={"to'lov qilishini tasdiqlaysizmi"}
+                text={t("to'lov qilishini tasdiqlaysizmi")}
                 handler={deleteHandler}
                 basic={``}
             />

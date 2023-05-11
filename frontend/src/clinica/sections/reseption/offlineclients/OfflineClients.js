@@ -10,6 +10,7 @@ import { CheckModal } from "../components/ModalCheck";
 import { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
 import AllServices from "../components/AllServices";
+import { useTranslation } from "react-i18next";
 
 export const OfflineClients = () => {
     const [beginDay, setBeginDay] = useState(
@@ -23,6 +24,11 @@ export const OfflineClients = () => {
     // MODAL
     const [modal, setModal] = useState(false);
     const [modal1, setModal1] = useState(false);
+    //====================================================================
+    //====================================================================
+
+    const {t} = useTranslation()
+
     //====================================================================
     //====================================================================
 
@@ -760,11 +766,11 @@ export const OfflineClients = () => {
     //====================================================================
     // useEffect
 
-    const [t, setT] = useState(0);
+    const [s, setS] = useState(0);
 
     useEffect(() => {
-        if (auth.clinica && !t) {
-            setT(1);
+        if (auth.clinica && !s) {
+            setS(1);
             getConnectors(beginDay, endDay);
             getDepartments();
             getCounterDoctors();
@@ -776,7 +782,7 @@ export const OfflineClients = () => {
         auth,
         getConnectors,
         getAdvers,
-        t,
+        s,
         getProducts,
         getCounterDoctors,
         getDepartments,
@@ -800,14 +806,14 @@ export const OfflineClients = () => {
                                         }`}
                                     onClick={changeVisible}
                                 >
-                                    Registratsiya
+                                    {t("Registratsiya")}
                                 </button>
                                 <button
                                     className={`btn bg-alotrade text-white mb-2 w-100 ${visible ? "" : "d-none"
                                         }`}
                                     onClick={changeVisible}
                                 >
-                                    Registratsiya
+                                    {t("Registratsiya")}
                                 </button>
                             </div>
                         </div>
@@ -897,7 +903,7 @@ export const OfflineClients = () => {
 
             <Modal
                 modal={modal}
-                text={"ma'lumotlar to'g'ri kiritilganligini tasdiqlaysizmi?"}
+                text={t("ma'lumotlar to'g'ri kiritilganligini tasdiqlaysizmi?")}
                 setModal={setModal}
                 handler={client._id && !isAddConnector ? addHandler : client._id && isAddConnector ? addConnectorHandler : isActive && createHandler}
                 basic={client.lastname + " " + client.firstname}
