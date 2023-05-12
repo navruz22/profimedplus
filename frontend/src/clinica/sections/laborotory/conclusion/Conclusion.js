@@ -5,6 +5,7 @@ import { useHttp } from "../../../hooks/http.hook";
 import Select from 'react-select'
 import makeAnimated from 'react-select/animated'
 import { DatePickers } from "../doctorclients/clientComponents/DatePickers";
+import { useTranslation } from "react-i18next";
 
 const animatedComponents = makeAnimated()
 
@@ -36,7 +37,7 @@ export const Conclusion = () => {
   );
   //====================================================================
   //====================================================================
-
+  const {t} = useTranslation()
   //====================================================================
   //====================================================================
   const { request, loading } = useHttp();
@@ -258,13 +259,13 @@ export const Conclusion = () => {
   // ======================================
   // ======================================
 
-  const [t, setT] = useState(0);
+  // const [t, setT] = useState(0);
   useEffect(() => {
-    if (!t) {
-      setT(1);
+    // if (!t) {
+      // setT(1);
       getServiceTypes(clinicaValue)
-    }
-  }, [getServiceTypes, t])
+    // }
+  }, [getServiceTypes])
 
   return <div className="bg-slate-100 content-wrapper px-lg-5 px-3">
     <div className="flex justify-between mb-2">
@@ -319,13 +320,13 @@ export const Conclusion = () => {
                 <tr>
                   <th className="border bg-alotrade py-1 text-[14px]">№</th>
                   <th className="border bg-alotrade py-1 text-[14px]">
-                    Probirka
+                    {t("Probirka")}
                   </th>
                   <th className="border bg-alotrade py-1 text-[14px]">
-                    F.I.O
+                    {t("F.I.O")}
                   </th>
                   <th className="border bg-alotrade py-1 text-[14px]">
-                    Tugilgan yili
+                    {t("Tug'ilgan yili")}
                   </th>
                   {servicesColumn.length > 0 && servicesColumn.map((col, ind) =>
                     <th className="border bg-alotrade py-1 text-[14px]" key={ind}>

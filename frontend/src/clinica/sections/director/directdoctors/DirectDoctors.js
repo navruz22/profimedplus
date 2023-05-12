@@ -11,6 +11,7 @@ import { Pagination } from "../components/Pagination";
 import ReactHtmlTableToExcel from 'react-html-table-to-excel';
 import { faAngleDown, faAngleUp, faPrint } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useTranslation } from "react-i18next";
 
 const DirectDoctors = () => {
 
@@ -32,7 +33,7 @@ const DirectDoctors = () => {
 
     //======================================================
     //======================================================
-
+    const {t} = useTranslation()
     //======================================================
     //======================================================
     // Pagination
@@ -143,26 +144,26 @@ const DirectDoctors = () => {
     //=======================================================
     //=======================================================
 
-    const [t, setT] = useState(0);
+    const [s, setS] = useState(0);
 
     useEffect(() => {
-        if (!t) {
-            setT(1)
+        if (!s) {
+            setS(1)
             getDirectDoctors(beginDay, endDay)
         }
-    }, [getDirectDoctors, t, beginDay, endDay])
+    }, [getDirectDoctors, s, beginDay, endDay])
 
     return (
         <div className="bg-slate-100 content-wrapper px-lg-5 px-3">
             <div className='flex justify-between items-center mb-4'>
                 <Link to='/alo24/doctor_procient' className="block px-4 py-2 rounded-xl text-[#fff] text-[21px] hover:text-[#fff] font-bold bg-alotrade">
-                    Kunduzgi shifokor ulushi
+                    {t("Kunduzgi shifokor ulushi")}
                 </Link>
                 <Link to='/alo24/statsionardoctors' className="block px-4 py-2 rounded-xl text-[#fff] text-[21px] hover:text-[#fff] font-bold bg-alotrade">
-                    Statsionar ulushi
+                    {t("Statsionar ulushi")}
                 </Link>
                 <Link to='/alo24/directdoctors' className="block px-4 py-2 rounded-xl text-[#fff] text-[21px] hover:text-[#fff] font-bold bg-alotrade">
-                    Yullanmadan ulushi
+                    {t("Yullanmadan ulushi")}
                 </Link>
             </div>
             <div className="row gutters">
@@ -190,7 +191,7 @@ const DirectDoctors = () => {
                                             style={{ minWidth: "100px" }}
                                             type="search"
                                             className="w-100 form-control form-control-sm selectpicker"
-                                            placeholder="F.I.O"
+                                            placeholder={t("F.I.O")}
                                         />
                                     </div>
                                     <div
@@ -226,7 +227,7 @@ const DirectDoctors = () => {
                                         <tr>
                                             <th className="border py-1 bg-alotrade text-[16px]">№</th>
                                             <th className="border py-1 bg-alotrade text-[16px]">
-                                                F.I.O
+                                                {t("F.I.O")}
                                                 <div className="btn-group-vertical ml-2">
                                                     <FontAwesomeIcon
                                                         onClick={() =>
@@ -253,7 +254,7 @@ const DirectDoctors = () => {
                                                 </div>
                                             </th>
                                             <th className="border py-1 bg-alotrade text-[16px]">
-                                                Bo'lim
+                                                {t("Bo'lim")}
                                                 <div className="btn-group-vertical ml-2">
                                                     <FontAwesomeIcon
                                                         onClick={() =>
@@ -280,7 +281,7 @@ const DirectDoctors = () => {
                                                 </div>
                                             </th>
                                             <th className="border py-1 bg-alotrade text-[16px]">
-                                                Umumiy summa
+                                                {t("Umumiy narxi")}
                                                 <div className="btn-group-vertical ml-2">
                                                     <FontAwesomeIcon
                                                         onClick={() =>
@@ -349,7 +350,7 @@ const DirectDoctors = () => {
                                                                 className="bg-alotrade rounded text-white font-semibold py-1 px-2"
                                                                 style={{ fontSize: '75%' }}
                                                             >
-                                                                Batafsil
+                                                                {t("Batafsil")}
                                                             </button>
                                                         )}
                                                     </td>

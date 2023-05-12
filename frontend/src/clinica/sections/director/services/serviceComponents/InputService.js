@@ -96,7 +96,6 @@ export const InputService = ({
                       }
                       return "";
                     })}
-                  <option value="delete">Xizmat turini o'chirish</option>
                 </select>
               </td>
               <td>
@@ -109,7 +108,7 @@ export const InputService = ({
                   type="text"
                   className="form-control w-75"
                   id="name"
-                  placeholder={t("Xizmat nomini kiriting")}
+                  // placeholder={t("Xizmat nomini kiriting")}
                 />
               </td>
               <td>
@@ -122,7 +121,7 @@ export const InputService = ({
                   type="text"
                   className="form-control w-75"
                   id="shortname"
-                  placeholder={t("Qisqartma nomini kiriting")}
+                  // placeholder={t("Qisqartma nomini kiriting")}
                 />
               </td>
               <td>
@@ -135,7 +134,7 @@ export const InputService = ({
                   type="number"
                   className="form-control w-75"
                   id="shortname"
-                  placeholder={t("Qisqartma nomini kiriting")}
+                  // placeholder={t("Xizmat xonasini kiriting")}
                 />
               </td>
               <td>
@@ -148,7 +147,7 @@ export const InputService = ({
                   type="number"
                   className="form-control w-75"
                   id="price"
-                  placeholder={t("Xizmat narxini kiriting")}
+                  // placeholder={t("Xizmat narxini kiriting")}
                 />
               </td>
               <td>
@@ -161,7 +160,7 @@ export const InputService = ({
                   type="number"
                   className="form-control w-75"
                   id="doctorProcient"
-                  placeholder={t("Shifokor ulushini kiriting")}
+                  // placeholder={t("Shifokor ulushini kiriting")}
                 />
               </td>
               <td>
@@ -174,7 +173,7 @@ export const InputService = ({
                   type="number"
                   className="form-control w-75"
                   id="counterAgentProcient"
-                  placeholder={t("Kontragent ulushini kiriting")}
+                  // placeholder={t("Kontragent ulushini kiriting")}
                 />
               </td>
               <td>
@@ -187,7 +186,7 @@ export const InputService = ({
                   type="number"
                   className="form-control w-75"
                   id="counterDoctorProcient"
-                  placeholder={t("Yo'naltiruvchi shifokor ulushini kiriting")}
+                  // placeholder={t("Yo'naltiruvchi shifokor ulushini kiriting")}
                 />
               </td>
               <td>

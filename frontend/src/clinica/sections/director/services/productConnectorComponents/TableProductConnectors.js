@@ -52,7 +52,7 @@ export const TableProductConnectors = ({
                     style={{ maxWidth: "100px" }}
                     type="search"
                     className="w-100 form-control form-control-sm selectpicker"
-                    placeholder=""
+                    placeholder={t("Xizmat nomini kiriting")}
                   />
                 </th>
                 <th>
@@ -61,7 +61,7 @@ export const TableProductConnectors = ({
                     style={{ maxWidth: "100px" }}
                     type="search"
                     className="form-control form-control-sm selectpicker"
-                    placeholder=""
+                    placeholder={t("Maxsulot nomini kiriting")}
                     aria-controls="basicExample"
                   />
                 </th>
@@ -119,7 +119,7 @@ export const TableProductConnectors = ({
               <tr>
                 <th className="border-right bg-alotrade text-[16px]">№</th>
                 <th className="border-right bg-alotrade text-[16px]">
-                  {t("Xizmt nomi")}
+                  {t("Xizmat nomi")}
                 </th>
                 <th className="border-right bg-alotrade text-[16px]">
                   {t("Mahsulot nomi")}

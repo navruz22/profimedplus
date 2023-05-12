@@ -344,7 +344,7 @@ export const ConclusionClients = () => {
                           {t("Telefon raqami")}
                         </th>
                         <th className="border bg-alotrade text-[16px] py-1">
-                          {t("Tugilgan yili")}
+                          {t("Tug'ilgan yili")}
                         </th>
                         <th className="border bg-alotrade text-[16px] py-1">
                             {t("Kelgan vaqti")}

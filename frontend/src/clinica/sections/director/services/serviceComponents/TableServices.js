@@ -75,7 +75,7 @@ export const TableServices = ({
                     onChange={searchDepartment}
                     style={{ minWidth: "50px" }}
                   >
-                    <option value='none'>Hammasi</option>
+                    <option value='none'>{t("Hammasi")}</option>
                     {departments.length > 0 && departments.map((d, ind) =>
                       <option value={d._id} key={ind}>{d.name}</option>
                     )}
@@ -88,7 +88,7 @@ export const TableServices = ({
                     onChange={searchServiceType}
                     style={{ minWidth: "50px" }}
                   >
-                    <option value='none'>Hammasi</option>
+                    <option value='none'>{t("Hammasi")}</option>
                     {servicetypesSelect.length > 0 && servicetypesSelect.map((d, ind) =>
                       <option value={d._id} key={ind}>{d.name}</option>
                     )}

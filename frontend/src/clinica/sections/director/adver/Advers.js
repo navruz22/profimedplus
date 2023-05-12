@@ -263,9 +263,9 @@ export const Advers = () => {
                 <table className="table m-0">
                   <thead>
                     <tr>
-                      <th className="bg-alotrade text-[14px]">{t("Bo'lim nomi")}</th>
-                      <th className="bg-alotrade text-[14px]">{t("Xizmat turi")}</th>
-                      <th className="bg-alotrade text-[14px]">{t("Xizmat nomi")}</th>
+                      <th className="bg-alotrade text-[14px]">{t("Reklama nomini kiriting")}</th>
+                      <th className="bg-alotrade text-[14px]">{t("Saqlash")}</th>
+                      <th className="bg-alotrade text-[14px]">{t("O'chirish")}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -292,7 +292,7 @@ export const Advers = () => {
                             onClick={saveHandler}
                             className="btn btn-info py-1 px-4"
                           >
-                            Saqlash
+                            {t("Saqlash")}
                           </button>
                         }
                       </td>

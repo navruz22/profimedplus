@@ -109,7 +109,7 @@ export const InputProductConnector = ({
                   type="number"
                   className="form-control w-75"
                   id="pieces"
-                  placeholder={t("Mahsulot sonini kiriting")}
+                  // placeholder={t("Mahsulot sonini kiriting")}
                 />
               </td>
               <td>

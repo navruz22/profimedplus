@@ -51,7 +51,7 @@ export const TableRooms = ({
                     style={{ maxWidth: "100px" }}
                     type="search"
                     className="w-100 form-control form-control-sm selectpicker"
-                    placeholder=""
+                    placeholder={t("Xizmat turini kiriting")}
                   />
                 </th>
                 <th>
@@ -60,7 +60,7 @@ export const TableRooms = ({
                     style={{ maxWidth: "100px" }}
                     type="search"
                     className="form-control form-control-sm selectpicker"
-                    placeholder=""
+                    placeholder={t("Xizmat xonasini kiriting")}
                     aria-controls="basicExample"
                   />
                 </th>

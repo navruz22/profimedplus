@@ -58,7 +58,7 @@ export const TableWarehouses = ({
                     style={{ maxWidth: "100px" }}
                     type="search"
                     className="w-100 form-control form-control-sm selectpicker"
-                    placeholder=""
+                    placeholder={t("Maxsulot nomini kiriting")}
                   />
                 </th>
                 <th colSpan={3}>
@@ -118,7 +118,7 @@ export const TableWarehouses = ({
               <tr>
                 <th className="border-right bg-alotrade text-[16px]">№</th>
                 <th className="border-right bg-alotrade text-[16px]">
-                  {t("Mahsulot")}
+                  {t("Nomi")}
                 </th>
                 <th className="border-right bg-alotrade text-[16px]">
                   {t("Soni")}

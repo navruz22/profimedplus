@@ -50,7 +50,7 @@ export const TableProducts = ({
                     style={{ maxWidth: "100px" }}
                     type="search"
                     className="w-100 form-control form-control-sm selectpicker"
-                    placeholder=""
+                    placeholder={t("Maxsulot nomini kiriting")}
                   />
                 </th>
                 <th colSpan={3}>

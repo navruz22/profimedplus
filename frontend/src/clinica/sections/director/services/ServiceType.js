@@ -359,7 +359,7 @@ export const ServiceType = () => {
                           type="text"
                           className="text-[16px] form-control w-75 py-0"
                           id="name"
-                          placeholder="Xizmat nomini kiriting"
+                          // placeholder={t("Xizmat turini kiriting")}
                         />
                       </td>
                       <td>

@@ -70,7 +70,7 @@ export const TableClients = ({
                 className="form-control form-control-sm selectpicker"
                 onChange={sortDebts}
               >
-                <option value="none">{t("hamma")}</option>
+                <option value="none">{t("Hammasi")}</option>
                 <option value="statsionar">{t("Statsionar")}</option>
                 <option value="offline">{t("Kunduzgi")}</option>
               </select>
@@ -118,7 +118,7 @@ export const TableClients = ({
               <tr>
                 <th className="border bg-alotrade text-[16px] py-1">№</th>
                 <th className="border bg-alotrade text-[16px] py-1">
-                  {("F.I.O")}
+                  {("F.I.Sh")}
                 </th>
                 <th className="border bg-alotrade text-[16px] py-1">
                   {t("ID")}
@@ -127,7 +127,7 @@ export const TableClients = ({
                   {t("Telefon raqami")}
                 </th>
                 <th className="border bg-alotrade text-[16px] py-1">
-                  {t("Tugilgan yili")}
+                  {t("Tug'ilgan yili")}
                 </th>
                 <th className="border bg-alotrade text-[16px] py-1">
                   {t("Summa")}

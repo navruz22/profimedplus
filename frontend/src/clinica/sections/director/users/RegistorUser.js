@@ -158,7 +158,7 @@ export const RegistorUser = ({
                       placeholder={t("Bo'limni tanlang")}
                       style={{ minWidth: "70px" }}
                     >
-                      <option>{t("Mutaxassisligi")}</option>
+                      <option>{t("Mutaxasisligi")}</option>
                       {sections &&
                         sections.map((section, index) => {
                           return (
@@ -242,7 +242,7 @@ export const RegistorUser = ({
                       className="form-control"
                       id="password"
                       name="password"
-                      placeholder="Parol"
+                      placeholder={t("Parol")}
                     />
                   </div>
                 </div>

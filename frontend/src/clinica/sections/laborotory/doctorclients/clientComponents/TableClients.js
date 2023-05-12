@@ -149,7 +149,7 @@ export const TableClients = ({
                 {t("F.I.O")}
               </th>
               <th className="border bg-alotrade py-1 text-[14px]">
-                {t("Tugilgan yili")}
+                {t("Tug'ilgan yili")}
               </th>
               <th className="border bg-alotrade py-1 text-[14px]">
                 {t("Telefon raqami")}

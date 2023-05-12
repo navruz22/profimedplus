@@ -27,8 +27,8 @@ export const Pagination = ({
   return (
     <nav className="float-right">
       <ReactPaginate
-        previousLabel={"oldingi"}
-        nextLabel="keyingi"
+        previousLabel={"<<"}
+        nextLabel=">>"
         breakLabel={"..."}
         pageCount={pageNumbers.length}
         marginPagesDisplayed={2}

@@ -324,7 +324,7 @@ const DoctorProcient = () => {
                                                 {t("Bo'lim")}
                                             </th>
                                             <th className="border py-1 bg-alotrade text-[16px]">
-                                                {t("Umumiy summa")}
+                                                {t("Umumiy narxi")}
                                             </th>
                                             <th className="border py-1 bg-alotrade text-[16px]">
                                                 {t("Shifokor ulushi")}
@@ -474,7 +474,7 @@ const DoctorProcient = () => {
                                                 </div>
                                             </th>
                                             <th className="border py-1 bg-alotrade text-[16px]">
-                                                Umumiy summa
+                                                Umumiy narxi
                                                 <div className="btn-group-vertical ml-2">
                                                     <FontAwesomeIcon
                                                         onClick={() =>

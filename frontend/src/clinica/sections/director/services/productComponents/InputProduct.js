@@ -38,7 +38,7 @@ export const InputProduct = ({
                   type="text"
                   className="form-control w-75"
                   id="name"
-                  placeholder={t("Mahsulot nomini kiriting")}
+                  // placeholder={t("Mahsulot nomini kiriting")}
                 />
               </td>
               <td>
@@ -78,7 +78,7 @@ export const InputProduct = ({
                   type="number"
                   className="form-control w-75"
                   id="price"
-                  placeholder={t("Mahsulot narxini kiriting")}
+                  // placeholder={t("Mahsulot narxini kiriting")}
                 />
               </td>
               <td>
@@ -91,7 +91,7 @@ export const InputProduct = ({
                   type="number"
                   className="form-control w-75"
                   id="total"
-                  placeholder={t("Mahsulot sonini kiriting")}
+                  // placeholder={t("Mahsulot sonini kiriting")}
                 />
               </td>
               <td>

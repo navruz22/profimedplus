@@ -170,10 +170,10 @@ export const TableClients = ({
                   {t("Telefon raqami")}
                 </th>
                 <th className="border bg-alotrade text-[16px] py-1">
-                  {t("Tugilgan yili")}
+                  {t("Tug'ilgan yili")}
                 </th>
                 {clientsType === 'statsionar' && <th className="border bg-alotrade text-[16px] py-1">
-                  {t("Kelgan sanasi")}
+                  {t("Kelgan vaqti")}
                 </th>}
                 {clientsType === 'statsionar' && <th className="border bg-alotrade text-[16px] py-1">
                   {t("Xonasi")}

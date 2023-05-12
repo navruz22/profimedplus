@@ -225,7 +225,7 @@ const OfflineClients = () => {
                                                         style={{ maxWidth: '200px', minWidth: '100px' }}
                                                         type="search"
                                                         className="w-100 form-control form-control-sm selectpicker"
-                                                        placeholder={t("Mijoz ismi")}
+                                                        placeholder={t("F.I.Sh")}
                                                     />
                                                 </th>
                                                 <th className='text-right'>

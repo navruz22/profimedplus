@@ -304,7 +304,7 @@ export const Departments = () => {
                           type="text"
                           className="form-control w-75"
                           id="inputName"
-                          placeholder={t("Bo'lim nomini kiriting")}
+                          // placeholder={t("Bo'lim nomini kiriting")}
                         />
                       </td>
                       <td>
@@ -316,7 +316,7 @@ export const Departments = () => {
                           type="text"
                           className="form-control w-75"
                           id="inputName"
-                          placeholder={t("Bo'lim xonasini kiriting")}
+                          // placeholder={t("Bo'lim xonasini kiriting")}
                         />
                       </td>
                       <td>

@@ -474,7 +474,7 @@ export const Users = () => {
                           style={{ maxWidth: '100px', minWidth: '100px' }}
                           type="search"
                           className="w-100 form-control form-control-sm selectpicker"
-                          placeholder=""
+                          placeholder={t("F.I.Sh")}
                         />
                       </th>
                       <th colSpan={2}>

@@ -84,7 +84,7 @@ export const TableClients = ({
                 className="form-control form-control-sm selectpicker"
                 onChange={sortDiscounts}
               >
-                <option value="none">{t("hamma")}</option>
+                <option value="none">{t("Hammasi")}</option>
                 <option value="statsionar">{t("Statsionar")}</option>
                 <option value="offline">{t("Kunduzgi")}</option>
               </select>
@@ -112,7 +112,7 @@ export const TableClients = ({
                 className="form-control form-control-sm selectpicker"
                 onChange={sortComment}
               >
-                <option value="none">{t("hamma")}</option>
+                <option value="none">{t("Hammasi")}</option>
                 {commentSelect.map((item, index) => (
                   <option key={index} value={item}>
                     {item}
@@ -135,7 +135,7 @@ export const TableClients = ({
                   {t("Telefon raqami")}
                 </th>
                 <th className="border py-1 bg-alotrade text-[14px]">
-                  {t("Tugilgan yil")}
+                  {t("Tug'ilgan yili")}
                 </th>
                 <th className="border py-1 bg-alotrade text-[14px]">
                   {t("Jami to'lov")}

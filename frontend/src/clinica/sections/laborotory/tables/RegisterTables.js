@@ -2,6 +2,7 @@ import React from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFloppyDisk, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { ExcelUpload } from "./uploadExcel/ExcelUpload";
+import { useTranslation } from 'react-i18next';
 
 const RegisterTables = ({
     setImports,
@@ -17,6 +18,9 @@ const RegisterTables = ({
     changeNewTable,
     createHandler
 }) => {
+
+    const {t} = useTranslation()
+
     const changeTables = (e, index, col) => {
         let tables = [...service.tables]
         tables[index][col] = e.target.value

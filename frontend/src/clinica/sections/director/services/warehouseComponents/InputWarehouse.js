@@ -60,7 +60,7 @@ export const InputWarehouse = ({
                   type="number"
                   className="form-control w-75"
                   id="total"
-                  placeholder={t("Mahsulot sonini kiriting")}
+                  // placeholder={t("Mahsulot sonini kiriting")}
                 />
               </td>
               <td>
@@ -73,7 +73,7 @@ export const InputWarehouse = ({
                   type="number"
                   className="form-control w-75"
                   id="price"
-                  placeholder={t("Mahsulot narxini kiriting")}
+                  // placeholder={t("Mahsulot narxini kiriting")}
                 />
               </td>
               <td>
@@ -85,7 +85,7 @@ export const InputWarehouse = ({
                   type="date"
                   className="form-control w-75"
                   id="dateofreciept"
-                  placeholder={t("Keltirilgan vaqtini kiriting")}
+                  // placeholder={t("Keltirilgan vaqtini kiriting")}
                 />
               </td>
               <td>

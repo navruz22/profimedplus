@@ -3,8 +3,12 @@ import { Tooltip } from "@chakra-ui/react";
 import { faFileExcel } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as XLSX from "xlsx";
+import { useTranslation } from "react-i18next";
 
 export const ExcelUpload = ({ setData, setModal, loading }) => {
+
+    const {t} = useTranslation()
+
     const readExcel = (file) => {
         const promise = new Promise((resolve, reject) => {
             const fileReader = new FileReader();
@@ -58,7 +62,7 @@ export const ExcelUpload = ({ setData, setModal, loading }) => {
                         }}
                         className="btn bg-green-400 text-white px-2 py-2 align-middle"
                     >
-                        Jadvalni yuklash
+                        {t("Jadvalni yuklash")}
                     </button>
                 }
             </Tooltip>

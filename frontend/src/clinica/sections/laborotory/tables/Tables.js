@@ -9,6 +9,7 @@ import RegisterTables from "./RegisterTables";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFloppyDisk } from '@fortawesome/free-solid-svg-icons';
 import { ExcelUpload } from './uploadExcel/ExcelUpload';
+import { useTranslation } from 'react-i18next';
 // import {checkServices} from "./uploadExcel/checkData";
 
 const Tables = () => {
@@ -25,7 +26,7 @@ const Tables = () => {
 
     //====================================================================
     //====================================================================
-
+    const {t} = useTranslation()
     //====================================================================
     //====================================================================
     const [modal2, setModal2] = useState(false)
@@ -443,14 +444,14 @@ const Tables = () => {
     //====================================================================
     // useEffect
 
-    const [t, setT] = useState()
+    const [s, setS] = useState()
     useEffect(() => {
-        if (!t) {
-            setT(1)
+        if (!s) {
+            setS(1)
             getServices()
             getServiceTypes()
         }
-    }, [getServices, getServiceTypes, t])
+    }, [getServices, getServiceTypes, s])
     //====================================================================
     //====================================================================
 
@@ -461,7 +462,7 @@ const Tables = () => {
                     <button
                         onClick={() => setVisible(false)}
                         className={visible ? "w-[150px] rounded bg-orange-400 hover:bg-teal-900  text-white font-bold py-1" : 'd-none'}>
-                        Oynani yopish
+                        {t("Oynani yopish")}
                     </button>
                     <div className='font-bold text-[18px]'>
                         {service?.name || ""}
@@ -472,7 +473,7 @@ const Tables = () => {
                             createColumn()
                             updateHandler()
                         }} >
-                            <FontAwesomeIcon icon={faFloppyDisk} /> Saqlash
+                            <FontAwesomeIcon icon={faFloppyDisk} /> {t("Saqlash")}
                         </button>
                     </div>
                 </div>

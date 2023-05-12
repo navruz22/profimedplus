@@ -106,7 +106,7 @@ const BloodTestTables = ({
                                 {t("Telefon raqami")}
                             </th>
                             <th className="border text-[14px] bg-alotrade py-1">
-                                {t("Tugilgan yili")}
+                                {t("Tug'ilgan yili")}
                             </th>
                             <th className="border text-[14px] bg-alotrade py-1">
                                 {t("Qabul")}

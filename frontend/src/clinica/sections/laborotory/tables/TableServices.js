@@ -4,6 +4,7 @@ import { Sort } from "./../components/Sort";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFloppyDisk, faPen, faTable } from "@fortawesome/free-solid-svg-icons";
 import { Pagination } from '../components/Pagination';
+import { useTranslation } from "react-i18next";
 
 const TableServices = ({
     setVisible,
@@ -28,7 +29,7 @@ const TableServices = ({
     setRemove,
     serviceTypes
 }) => {
-    console.log(currentServices);
+    const {t} = useTranslation()
     return (
         <div className="shadow-lg border-alotrade table-container">
             <div className="table-responsive">
@@ -63,7 +64,7 @@ const TableServices = ({
                                     }}
                                     style={{ minWidth: "100px" }}
                                 >
-                                    <option value={'all'}>Barchasi</option>
+                                    <option value={'all'}>{t("Hammasi")}</option>
                                     {serviceTypes.map(item =>
                                         <option value={item.value}>{item.label}</option>
                                     )}
@@ -75,7 +76,7 @@ const TableServices = ({
                                     style={{ maxWidth: "100px" }}
                                     type="search"
                                     className="form-control form-control-sm selectpicker inline-block"
-                                    placeholder="Xizmat turi"
+                                    placeholder={t("Xizmat nomi")}
                                     aria-controls="basicExample"
                                 />
                             </th>
@@ -95,22 +96,22 @@ const TableServices = ({
                         <tr>
                             <th className="border-right text-[14px] bg-alotrade py-2 text-center text-center">№</th>
                             <th className="border-right text-[14px] bg-alotrade py-2 text-center">
-                                Xizmat turi
+                                {t("Xizmat turi")}
                             </th>
                             <th className="border-right text-[14px] bg-alotrade py-2 text-center max-w-screen-sm">
-                                Xizmat nomi
+                                {t("Xizmat nomi")}
                             </th>
                             <th className="border-right text-[14px] bg-alotrade py-2 text-center">
-                                O'rni
+                                {t("O'rni")}
                             </th>
                             <th className="border-right text-[14px] bg-alotrade py-2 text-center">
-                                Ko'rinishi
+                                {t("Ko'rinishi")}
                             </th>
                             <th className="border-right text-[14px] bg-alotrade py-2 text-center">
-                                Saqlash
+                                {t("Saqlash")}
                             </th>
                             <th className="border-right text-[14px] bg-alotrade py-2 text-center">
-                                Tahrirlash
+                                {t("Tahrirlash")}
                             </th>
                         </tr>
                     </thead>

@@ -202,7 +202,7 @@ const DoctorServices = () => {
                                                 {t("Xizmat nomi")}
                                             </th>
                                             <th className="border py-1 bg-alotrade text-[16px]">
-                                                {t("Xizmat soni")}
+                                                {t("Soni")}
                                             </th>
                                             <th className="border py-1 bg-alotrade text-[16px]">
                                                 {t("Umumiy narxi")}

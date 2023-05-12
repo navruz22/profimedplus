@@ -36,7 +36,7 @@ export const InputRoom = ({
                   type="text"
                   className="form-control w-75"
                   id="type"
-                  placeholder={t("Xona turini kiriting")}
+                  // placeholder={t("Xona turini kiriting")}
                 />
               </td>
               <td>
@@ -49,7 +49,7 @@ export const InputRoom = ({
                   type="text"
                   className="form-control w-75"
                   id="number"
-                  placeholder={t("Xona nomini kiriting")}
+                  // placeholder={t("Xona nomini kiriting")}
                 />
               </td>
               <td>
@@ -62,7 +62,7 @@ export const InputRoom = ({
                   type="number"
                   className="form-control w-75"
                   id="place"
-                  placeholder={t("Yotoq o'rnini kiriting")}
+                  // placeholder={t("Yotoq o'rnini kiriting")}
                 />
               </td>
               <td>
@@ -75,7 +75,7 @@ export const InputRoom = ({
                   type="number"
                   className="form-control w-75"
                   id="price"
-                  placeholder={t("Narxini kiriting")}
+                  // placeholder={t("Narxini kiriting")}
                 />
               </td>
               <td>
@@ -88,7 +88,7 @@ export const InputRoom = ({
                   type="number"
                   className="form-control w-75"
                   id="doctorProcient"
-                  placeholder={t("Narxini kiriting")}
+                  // placeholder={t("Narxini kiriting")}
                 />
               </td>
               <td>
@@ -101,7 +101,7 @@ export const InputRoom = ({
                   type="number"
                   className="form-control w-75"
                   id="nurseProcient"
-                  placeholder={t("Hamshira ulushini")}
+                  // placeholder={t("Hamshira ulushini")}
                 />
               </td>
               <td>
