@@ -139,7 +139,7 @@ const BloodTestTables = ({
                                         {new Date(connector.client.born).toLocaleDateString()}
                                     </td>
                                     <td className="border text-[16px] py-1 text-center">
-                                        {connector.connector.accept ? <span className='font-bold w-full text-green-400' ><FontAwesomeIcon className='font-bold text-[18px]' icon={faCheck} /> Qabul qilingan </span> : <button
+                                        {connector.connector.accept ? <span className='font-bold w-full text-green-400' ><FontAwesomeIcon className='font-bold text-[18px]' icon={faCheck} /> {t("Qabul qilingan")} </span> : <button
                                             onClick={() =>
                                                 handleApprove(connector)
                                             }

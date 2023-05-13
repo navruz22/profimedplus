@@ -118,7 +118,7 @@ export const TableClients = ({
               <tr>
                 <th className="border bg-alotrade text-[16px] py-1">№</th>
                 <th className="border bg-alotrade text-[16px] py-1">
-                  {("F.I.Sh")}
+                  {t("F.I.Sh")}
                 </th>
                 <th className="border bg-alotrade text-[16px] py-1">
                   {t("ID")}

@@ -186,7 +186,7 @@ const AdverChart = () => {
                 <div>
                     <h2 className='text-center text-[28px] text-uppercase font-bold mb-4'>{t("Mijozlar")}</h2>
                     <Doughnut data={{
-                        labels: [t('Agent mijozlari'), t('Oddiy mijoz')],
+                        labels: [t('Agent mijozlari'), t('Oddiy mijozlar')],
                         datasets: [
                             {
                                 label: '',

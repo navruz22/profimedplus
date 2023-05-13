@@ -16,7 +16,7 @@ const animatedComponents = makeAnimated()
 
 const DoctorProcient = () => {
 
-    const {t} = useTranslation()
+    const { t } = useTranslation()
 
     const [beginDay, setBeginDay] = useState(
         new Date(new Date().setUTCHours(0, 0, 0, 0))
@@ -327,6 +327,12 @@ const DoctorProcient = () => {
                                                 {t("Umumiy narxi")}
                                             </th>
                                             <th className="border py-1 bg-alotrade text-[16px]">
+                                                {t("Kounteragent ulushi")}
+                                            </th>
+                                            <th className="border py-1 bg-alotrade text-[16px]">
+                                                {t("Kounterdoktor ulushi")}
+                                            </th>
+                                            <th className="border py-1 bg-alotrade text-[16px]">
                                                 {t("Shifokor ulushi")}
                                             </th>
                                             <th className="border py-1 bg-alotrade text-[16px]"></th>
@@ -354,7 +360,13 @@ const DoctorProcient = () => {
                                                         {doctor.total}
                                                     </td>
                                                     <td className="border py-1 text-[16px] text-right">
-                                                        {doctor.profit}
+                                                        {doctor?.agent_profit}
+                                                    </td>
+                                                    <td className="border py-1 text-[16px] text-right">
+                                                        {doctor?.counterdoctor_profit}
+                                                    </td>
+                                                    <td className="border py-1 text-[16px] text-right">
+                                                        {doctor.doctor_profit}
                                                     </td>
                                                     <td className="border py-1 text-[16px] text-center">
                                                         {loading ? (
@@ -403,11 +415,17 @@ const DoctorProcient = () => {
                                             <td className="border py-1 text-[16px] text-center">
 
                                             </td>
-                                            <td className="border py-1 text-[16px] text-right">
-
+                                            <td className="border py-1 text-[16px] text-right font-bold">
+                                                {searchStorage.reduce((prev, el) => prev + el?.total, 0)}
                                             </td>
-                                            <td className="border py-1 text-[16px] text-right">
-                                                {searchStorage.reduce((prev, el) => prev + el.profit, 0)}
+                                            <td className="border py-1 text-[16px] text-right font-bold">
+                                                {searchStorage.reduce((prev, el) => prev + el?.agent_profit, 0)}
+                                            </td>
+                                            <td className="border py-1 text-[16px] text-right font-bold">
+                                                {searchStorage.reduce((prev, el) => prev + el?.counterdoctor_profit, 0)}
+                                            </td>
+                                            <td className="border py-1 text-[16px] text-right font-bold">
+                                                {searchStorage.reduce((prev, el) => prev + el.doctor_profit, 0)}
                                             </td>
                                             <td className="border py-1 text-[16px] text-center">
 

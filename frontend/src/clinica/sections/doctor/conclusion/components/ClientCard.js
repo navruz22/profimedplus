@@ -143,6 +143,7 @@ const ClientCard = ({ connector, setConnector }) => {
                                 }
                             })
                         }}
+                        placeholder={t("Tanlang...")}
                     />
                 </div>
             </div>

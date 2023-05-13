@@ -15,7 +15,7 @@ module.exports.getMonthly = async (req, res) => {
 
         let count = 0;
         const currentMonth = new Date().getMonth();
-
+       
         while (count <= currentMonth) {
             const startDate = new Date(
                 new Date(new Date().setMonth(count, 1)).setHours(0, 0, 0, 0)
@@ -28,7 +28,7 @@ module.exports.getMonthly = async (req, res) => {
                 createdAt: {
                     $gte: startDate,
                     $lte: endDate,
-                },
+                }
             })
                 .select("-isArchive -updatedAt -__v")
                 .populate({

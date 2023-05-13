@@ -68,6 +68,7 @@ const Table = ({
                                 setSelected(e);
                                 changeCounterDoctor(e)
                             }}
+                            placeholder={t("Tanlang...")}
                         />
                     </div>
                     <div>
@@ -76,7 +77,7 @@ const Table = ({
                             style={{ maxWidth: '200px', minWidth: '200px' }}
                             type="search"
                             className="w-100 form-control form-control-sm selectpicker"
-                            placeholder={t("Mijoz F.I.O")}
+                            placeholder={t("Mijozning F.I.SH")}
                         />
                     </div>
                     <div className="text-center ml-auto ">
@@ -116,7 +117,7 @@ const Table = ({
                                     {t("Umumiy narxi")}
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                    {t("Agent ulushi")}
+                                    {t("Kounteragent ulushi")}
                                 </th>
                                 <th className="border py-1 bg-alotrade text-[16px]">
                                     {t("Shifokor ulushi")}

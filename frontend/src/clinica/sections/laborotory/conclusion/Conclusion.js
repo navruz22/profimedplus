@@ -304,6 +304,7 @@ export const Conclusion = () => {
           value={serviceType}
           options={serviceTypes}
           onChange={e => handleChangeServiceType(e)}
+          placeholder={t("Tanlang...")}
         />
       </div>
       <div className="flex items-center gap-2">

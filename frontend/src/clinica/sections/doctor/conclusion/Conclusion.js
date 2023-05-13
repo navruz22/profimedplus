@@ -110,11 +110,11 @@ const Conclusion = () => {
 
     return <div className="container p-4 bg-white">
         <div className="flex justify-between items-center">
-            <button onClick={() => setType('clientcard')} className="w-[200px] h-[100px] flex items-center justify-center bg-alotrade rounded-lg text-white text-[16px] font-medium text-uppercase">{t("Bemor kartasi")}</button>
-            <button onClick={() => setType('doctorresult')} className="w-[200px] h-[100px] flex items-center justify-center bg-alotrade rounded-lg text-white text-[16px] font-medium text-uppercase">{t("Shifokor kurigi")}</button>
-            <button onClick={() => setType('conclusion_temp')} className="w-[200px] h-[100px] flex items-center justify-center bg-alotrade rounded-lg text-white text-[16px] font-medium text-uppercase">{t("Shablonlar")}</button>
+            <button onClick={() => setType('clientcard')} className="w-[200px] h-[100px] flex items-center justify-center bg-alotrade rounded-lg text-white text-[16px] font-medium text-uppercase">{t("BEMOR KARTASI")}</button>
+            <button onClick={() => setType('doctorresult')} className="w-[200px] h-[100px] flex items-center justify-center bg-alotrade rounded-lg text-white text-[16px] font-medium text-uppercase">{t("SHIFOKOR KURIGI")}</button>
+            <button onClick={() => setType('conclusion_temp')} className="w-[200px] h-[100px] flex items-center justify-center bg-alotrade rounded-lg text-white text-[16px] font-medium text-uppercase">{t("SHABLONLAR")}</button>
             {/* <button className="w-[200px] h-[100px] flex items-center justify-center bg-alotrade rounded-lg text-white text-[16px] font-medium text-uppercase">Xarorat</button> */}
-            <button onClick={() => setType('conclusion_page')} className="w-[200px] h-[100px] flex items-center justify-center bg-alotrade rounded-lg text-white text-[16px] font-medium text-uppercase">{t("Xulosa")}</button>
+            <button onClick={() => setType('conclusion_page')} className="w-[200px] h-[100px] flex items-center justify-center bg-alotrade rounded-lg text-white text-[16px] font-medium text-uppercase">{t("XULOSA")}</button>
         </div>
         {type === 'clientcard' && <ClientCard  connector={connectorInfo} setConnector={setConnectorInfo}  />}
         {type === 'doctorresult' && <DoctorResult baseUrl={baseUrl} clinica={auth?.clinica} connector={connectorInfo} />}

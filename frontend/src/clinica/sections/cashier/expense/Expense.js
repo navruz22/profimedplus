@@ -311,7 +311,7 @@ const Expense = () => {
                                             className="form-control form-control-sm"
                                             id="payment"
                                             name="pay"
-                                            placeholder={t("To'lov summasi...")}
+                                            placeholder={t("To'lov summasi")}
                                         />
                                     </div>
                                     <div className="form-group">
@@ -335,7 +335,7 @@ const Expense = () => {
                                             className="form-control form-control-sm"
                                             id="payment"
                                             name="pay"
-                                            placeholder={t('Izoh...')}
+                                            placeholder={t('Izoh')}
                                         />
                                     </div>
                                     <div className="text-right">
@@ -408,7 +408,7 @@ const Expense = () => {
                                                 {t("Summa")}
                                             </th>
                                             <th className="border bg-alotrade text-[16px] py-1">
-                                                {t("Turi")}
+                                                {t("To'lov turi")}
                                             </th>
                                             <th className="border bg-alotrade text-[16px] py-1">
                                                 {t("Izoh")}

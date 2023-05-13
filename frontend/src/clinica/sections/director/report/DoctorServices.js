@@ -208,6 +208,12 @@ const DoctorServices = () => {
                                                 {t("Umumiy narxi")}
                                             </th>
                                             <th className="border py-1 bg-alotrade text-[16px]">
+                                                {t("Kounteragent ulushi")}
+                                            </th>
+                                            <th className="border py-1 bg-alotrade text-[16px]">
+                                                {t("Kounterdoktor ulushi")}
+                                            </th>
+                                            <th className="border py-1 bg-alotrade text-[16px]">
                                                 {t("Shifokor ulushi")}
                                             </th>
                                         </tr>
@@ -237,6 +243,12 @@ const DoctorServices = () => {
                                                         {service?.totalprice}
                                                     </td>
                                                     <td className="border py-1 text-[16px] text-right">
+                                                        {service?.agent_profit}
+                                                    </td>
+                                                    <td className="border py-1 text-[16px] text-right">
+                                                        {service?.counterdoctor_profit}
+                                                    </td>
+                                                    <td className="border py-1 text-[16px] text-right">
                                                         {service?.doctor_profit}
                                                     </td>
                                                 </tr>
@@ -249,8 +261,16 @@ const DoctorServices = () => {
                                             ></td>
                                             <td className="border py-1 text-[16px] font-weight-bold"></td>
                                             <td className="border py-1 text-[16px] text-center"></td>
-                                            <td className="border py-1 text-[16px] text-right"></td>
-                                            <td className="border py-1 text-[16px] text-right"></td>
+                                            <td className="border py-1 text-[16px] text-center"></td>
+                                            <td className="border py-1 text-[16px] text-right font-bold">
+                                                {searchStorage.reduce((prev, el) => prev + el?.totalprice, 0)}
+                                            </td>
+                                            <td className="border py-1 text-[16px] text-right font-bold">
+                                                {searchStorage.reduce((prev, el) => prev + el?.agent_profit, 0)}
+                                            </td>
+                                            <td className="border py-1 text-[16px] text-right font-bold">
+                                                {searchStorage.reduce((prev, el) => prev + el?.counterdoctor_profit, 0)}
+                                            </td>
                                             <td className="border py-1 text-[16px] text-right font-bold">
                                                 {searchStorage.reduce((prev, el) => prev + el?.doctor_profit, 0)}
                                             </td>

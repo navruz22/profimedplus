@@ -44,21 +44,46 @@ module.exports.getDocotors = async (req, res) => {
                     $lte: endDay
                 }
             })
-                .select('service pieces')
+                .select('service pieces counterdoctor')
                 .lean()
 
-            doctor.total = offlineservices.reduce((prev, el) => prev + (el.pieces * el.service.price), 0)
-            doctor.profit = offlineservices.reduce((prev, el) => {
-                const procient = el.service.doctorProcient;
+            const total = offlineservices.reduce((prev, el) => prev + (el.pieces * el.service.price), 0)
+            const agent_profit = offlineservices.reduce((prev, el) => {
+                const procient = el.service.counterAgentProcient;
                 const totalprice = el.pieces * el.service.price;
-                if (procient <= 100 && procient > 0) {
-                    prev += ((totalprice / 100) * procient);
-                }
-                if (procient > 100) {
-                    prev += procient
+                if (el.counterdoctor) {
+                    if (procient <= 100 && procient > 0) {
+                        prev += ((totalprice / 100) * procient);
+                    }
+                    if (procient > 100) {
+                        prev += procient
+                    }
+                } else {
+                    prev = 0
                 }
                 return prev;
+            }, 0) 
+            const counterdoctor_profit = offlineservices.reduce((prev, el) => {
+                const agent_procient = el.service.counterAgentProcient
+                const counterdoctor_procient = el.service.counterDoctorProcient
+                const totalprice = el.pieces * el.service.price;
+                const totalagent = agent_procient <= 100 && agent_procient > 0 ? totalprice - (Math.round(totalprice / 100) * agent_procient) : agent_procient > 100 ? totalprice - agent_procient : totalprice;
+                return prev += el.counterdoctor ? (counterdoctor_procient <= 100 && counterdoctor_procient > 0 ? (Math.round(totalagent / 100) * counterdoctor_procient) : counterdoctor_procient > 100 ? counterdoctor_procient : 0) : 0
             }, 0)
+            const profit = offlineservices.reduce((prev, el) => {
+                const agent_procient = el.service.counterAgentProcient
+                const procient = el.service.doctorProcient
+                const counterdoctor_procient = el.service.counterDoctorProcient
+                const totalprice = el.pieces * el.service.price;
+                const totalagent = agent_procient <= 100 && agent_procient > 0 ? totalprice - (Math.round(totalprice / 100) * agent_procient) : agent_procient > 100 ? totalprice - agent_procient : totalprice;
+                const totalcounterdoctor = counterdoctor_procient <= 100 && counterdoctor_procient > 0 ? totalagent - (Math.round(totalagent / 100) * counterdoctor_procient) : counterdoctor_procient > 100 ? totalagent - counterdoctor_procient : totalagent;
+                return prev += el.counterdoctor ? (procient <= 100 && procient > 0 ? (Math.round(totalcounterdoctor / 100) * procient) : procient > 100 ? procient : 0) : (procient <= 100 && procient > 0 ? (Math.round(totalprice / 100) * procient) : procient > 100 ? procient : 0)
+            }, 0)
+
+            doctor.total = total
+            doctor.agent_profit = agent_profit;
+            doctor.doctor_profit = profit
+            doctor.counterdoctor_profit = counterdoctor_profit
         }
 
 
@@ -157,7 +182,7 @@ module.exports.get = async (req, res) => {
                 $lte: endDay
             }
         })
-            .select('service pieces department')
+            .select('service pieces department counterdoctor')
             .populate('client', 'firstname lastname')
             .populate({
                 path: 'department',
@@ -170,18 +195,34 @@ module.exports.get = async (req, res) => {
             .lean()
 
         for (const service of offlineservices) {
-            const procient = service.service.doctorProcient;
-            const totalprice = service.service.price * service.pieces;
+            // const procient = service.service.doctorProcient;
+            // const agent_procient = service.service.counterAgentProcient;
+            // const totalprice = service.service.price * service.pieces;
+            // const total = agent_procient <= 100 && agent_procient > 0 ? ((totalprice / 100) * agent_procient) : agent_procient > 100 ? totalprice - agent_procient : totalprice
+
+            // service.totalprice = totalprice;
+
+            // service.agent_profit = agent_procient <= 100 && agent_procient > 0 ? ((totalprice / 100) * agent_procient) : agent_procient > 100 ? agent_procient : 0
+            // service.doctor_profit = procient <= 100 && procient > 0 ? total - ((total / 100) * procient) : procient > 100 ? total - procient : 0
+
+            const agent_procient = service.service.counterAgentProcient
+            const procient = service.service.doctorProcient
+            const counterdoctor_procient = service.service.counterDoctorProcient
+
+            const totalprice = service.pieces * service.service.price;
+
+            const totalagent = agent_procient <= 100 && agent_procient > 0 ? totalprice - (Math.round(totalprice / 100) * agent_procient) : agent_procient > 100 ? totalprice - agent_procient : totalprice;
+            const agent_profit = service.counterdoctor ? (agent_procient <= 100 && agent_procient > 0 ? (Math.round(totalprice / 100) * agent_procient) : agent_procient > 100 ? agent_procient : 0) : 0
+
+            const totalcounterdoctor = counterdoctor_procient <= 100 && counterdoctor_procient > 0 ? totalagent - (Math.round(totalagent / 100) * counterdoctor_procient) : counterdoctor_procient > 100 ? totalagent - counterdoctor_procient : totalagent;
+            const counterdoctor_profit = service.counterdoctor ? (counterdoctor_procient <= 100 && counterdoctor_procient > 0 ? (Math.round(totalagent / 100) * counterdoctor_procient) : counterdoctor_procient > 100 ? counterdoctor_procient : 0): 0
+
+            const doctor_profit = service.counterdoctor ? (procient <= 100 && procient > 0 ? (Math.round(totalcounterdoctor / 100) * procient) : procient > 100 ? procient : 0) : (procient <= 100 && procient > 0 ? (Math.round(totalprice / 100) * procient) : procient > 100 ? procient : 0)
 
             service.totalprice = totalprice;
-            service.doctor_profit = 0;
-
-            if (procient <= 100 && procient > 0) {
-                service.doctor_profit = ((totalprice / 100) * procient);
-            }
-            if (procient > 100) {
-                service.doctor_profit = procient
-            }
+            service.agent_profit = agent_profit
+            service.counterdoctor_profit = counterdoctor_profit
+            service.doctor_profit = doctor_profit
         }
 
         res.status(200).json(offlineservices)

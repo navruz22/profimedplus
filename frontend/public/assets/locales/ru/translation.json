@@ -172,7 +172,8 @@
 "ТИББИЙ БАЙОННОМАДАН КЎЧИРМА": "КОПИЯ МЕДИЦИНСКОЙ ЗАПИСИ",
 "Mijozning F.I.SH": "Ф.И.О",
 "СТАЦИОНАР БЕМОРНИНГ ТИББИЙ КАРТАСИ": "МЕДИЦИНСКАЯ КАРТА СТАЦИОНАРНОГО ПАЦИЕНТА",
-"TAHLIL NATIJALARI": "РЕЗУЛЬТАТ ОСМОТРА",
+"TAHLIL": "РЕЗУЛЬТАТ",
+"NATIJALARI": "ОСМОТРА",
 "Jadvallar": "Таблица",
 "Qon olish": "Сдача крови",
 "O'rni": "Место",
@@ -209,6 +210,7 @@
 "Parolni qayta kiriting": "Введите пароль",
 "Yaratish": "Создать",
 "Kelgan vaqti": "Дата начала",
+"Kelgan sanasi": "Дата прихода",
 "ID": "ИД",
 "Tug'ilgan san'asi": "Дата рождения",
 "Tug'ilgan yil": "Дата рождения",
@@ -306,5 +308,7 @@
 "Yo'naltiruvchi shifokor ulushini kiriting": "Введите долю направляющего доктора",
 "Maxsulot nomini kiriting": "Ввведите название товара",
 "Tasdiqlangan": "Завершенный",
-"Oynani yopish": "Закрыть окно"
+"Oynani yopish": "Закрыть окно",
+"Qabul qilingan": "Принят",
+"Serverda xatolik yuz berdi...": "Ошибка сервера"
 }

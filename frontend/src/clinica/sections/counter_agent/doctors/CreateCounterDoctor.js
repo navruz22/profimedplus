@@ -268,7 +268,7 @@ const CreateCounterDoctor = () => {
                                                     {t("Ish joy")}
                                                 </th>
                                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                                    {t("Telefon raqam")}
+                                                    {t("Telefon raqami")}
                                                 </th>
                                                 <th className="border py-1 bg-alotrade text-[16px]">
                                                     {t("Tahrirlash")}

@@ -466,7 +466,7 @@ const AdoptionTemplate = () => {
                       border: "1px solid #000",
                     }}
                   >
-                    {t("Namuna")}
+                    {t("NAMUNA")}
                   </td>
                   <td
                     className="p-0"

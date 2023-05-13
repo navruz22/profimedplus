@@ -50,7 +50,7 @@ const RegisterDoctor = ({ doctor, changeDoctorData, loading, checkData }) => {
                                         className="form-control form-control-sm"
                                         id="fathername"
                                         name="clinica_name"
-                                        placeholder={t("Kilinika")}
+                                        placeholder={t("Ish joy")}
                                     />
                                 </div>
                             </div>

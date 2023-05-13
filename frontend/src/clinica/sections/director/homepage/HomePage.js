@@ -69,7 +69,7 @@ export const HomePage = () => {
       setMonthlyReport(data);
     } catch (error) {
       notify({
-        title: error,
+        title: t(`${error}`),
         description: '',
         status: 'error',
       })
@@ -105,7 +105,7 @@ export const HomePage = () => {
       });
     } catch (error) {
       notify({
-        title: error,
+        title: t(`${error}`),
         description: '',
         status: 'error',
       })

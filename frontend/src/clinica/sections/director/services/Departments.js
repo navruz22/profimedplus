@@ -79,7 +79,7 @@ export const Departments = () => {
       setDepartments(data)
     } catch (error) {
       notify({
-        title: error,
+        title: t(`${error}`),
         description: '',
         status: 'error',
       })

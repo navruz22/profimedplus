@@ -399,7 +399,7 @@ const DoctorTemplate = ({ client, connector, services, clientsType, baseUrl }) =
                       border: "1px solid #000",
                     }}
                   >
-                    {t("Namuna")}
+                    {t("NAMUNA")}
                   </td>
                   <td
                     className="p-0"
@@ -875,7 +875,7 @@ const LabTemplate = ({ client, connector, services, baseUrl }) => {
                       border: "1px solid #000",
                     }}
                   >
-                    {t("Namuna")}
+                    {t("NAMUNA")}
                   </td>
                   <td
                     className="p-0"
@@ -1141,6 +1141,7 @@ const AdoptionTemplate = () => {
             value: "all"
           }
         ]}
+        placeholder={t("Tanlang...")}
         onChange={e => setType(e.value)}
       />
     </div>
