@@ -244,13 +244,8 @@ export const TableClients = ({
                           onClick={() => {
                             setClient({ ...connector.client })
                             setClientDate(connector.client.born.slice(0, 10))
-                            setConnector({
-                              ...connector,
-                              _id: connector._id,
-                              services: [...connector.services],
-                            })
-                            setIsAddConnector(false);
-                            setVisible(true);
+                            setIsAddConnector(true);
+                            setVisible(true)
                           }}
                         >
                           <FontAwesomeIcon icon={faPenAlt} />
@@ -269,8 +264,13 @@ export const TableClients = ({
                           onClick={() => {
                             setClient({ ...connector.client })
                             setClientDate(connector.client.born.slice(0, 10))
-                            setIsAddConnector(true);
-                            setVisible(true)
+                            setConnector({
+                              ...connector,
+                              _id: connector._id,
+                              services: [...connector.services],
+                            })
+                            setIsAddConnector(false);
+                            setVisible(true);
                           }}
                         >
                           <FontAwesomeIcon icon={faPlus} />

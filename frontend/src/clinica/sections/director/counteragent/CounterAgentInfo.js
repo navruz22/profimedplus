@@ -291,6 +291,7 @@ const CounterAgentInfo = () => {
                                                 components={{
                                                     IndicatorSeparator: () => null,
                                                 }}
+                                                placeholder={t('Tanlang...')}
                                             />
                                         </div>
                                         <div className="text-center">
@@ -336,7 +337,7 @@ const CounterAgentInfo = () => {
                                                     {t("Umumiy narxi")}
                                                 </th>
                                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                                    {t("Agent ulushi")}
+                                                    {t("Kounteragent ulushi")}
                                                 </th>
                                                 <th className="border py-1 bg-alotrade text-[16px]">
                                                     {t("Shifokor ulushi")}

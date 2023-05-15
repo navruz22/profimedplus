@@ -78,7 +78,7 @@ router.post('/user/remove', (req, res) => {
 
 
 // Admin
-router.post('/admin/register', (req, res) => {
+router.post('/admin/create_admin/post', (req, res) => {
   require('./admin').register(req, res);
 })
 
