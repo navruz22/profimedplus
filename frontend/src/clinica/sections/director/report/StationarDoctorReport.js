@@ -3,6 +3,7 @@ import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import ReactHtmlTableToExcel from 'react-html-table-to-excel';
+import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { AuthContext } from '../../../context/AuthContext';
 import { useHttp } from '../../../hooks/http.hook';
@@ -17,6 +18,8 @@ const StationarDoctorReport = () => {
         new Date(new Date().setDate(new Date().getDate() + 1))
     );
 
+
+    const {t} = useTranslation()
     //======================================================
     //======================================================
 
@@ -80,7 +83,7 @@ const StationarDoctorReport = () => {
                 )
             } catch (error) {
                 notify({
-                    title: error,
+                    title: t(`${error}`),
                     description: "",
                     status: "error",
                 });
@@ -119,14 +122,14 @@ const StationarDoctorReport = () => {
     //=======================================================
     //=======================================================
 
-    const [t, setT] = useState(0);
+    const [s, setS] = useState(0);
 
     useEffect(() => {
-        if (auth.clinica && !t) {
-            setT(1)
+        if (auth.clinica && !s) {
+            setS(1)
             getDoctorServices()
         }
-    }, [getDoctorServices, auth, t])
+    }, [getDoctorServices, auth, s])
 
     return (
         <div className="bg-slate-100 content-wrapper px-lg-5 px-3">

@@ -82,7 +82,7 @@ export const ServiceType = () => {
       setDepartments(data)
     } catch (error) {
       notify({
-        title: error,
+        title: t(`${error}`),
         description: '',
         status: 'error',
       })
@@ -114,7 +114,7 @@ export const ServiceType = () => {
       }
     } catch (error) {
       notify({
-        title: error,
+        title: t(`${error}`),
         description: '',
         status: 'error',
       })
@@ -137,7 +137,7 @@ export const ServiceType = () => {
         },
       )
       notify({
-        title: `${data.name} xizmat turi yaratildi!`,
+        title: `${data.name} ${t("xizmat turi yaratildi")}!`,
         description: '',
         status: 'success',
       })
@@ -148,7 +148,7 @@ export const ServiceType = () => {
       clearInputs()
     } catch (error) {
       notify({
-        title: error,
+        title: t(`${error}`),
         description: '',
         status: 'error',
       })
@@ -166,7 +166,7 @@ export const ServiceType = () => {
         },
       )
       notify({
-        title: `${data.name} xizmati yangilandi!`,
+        title: `${data.name} ${t("xizmat turi yangilandi")}!`,
         description: '',
         status: 'success',
       })
@@ -177,7 +177,7 @@ export const ServiceType = () => {
       clearInputs()
     } catch (error) {
       notify({
-        title: error,
+        title: t(`${error}`),
         description: '',
         status: 'error',
       })
@@ -185,8 +185,8 @@ export const ServiceType = () => {
   }, [request, auth, notify, getServiceType, servicetype, clearInputs])
 
   const saveHandler = () => {
-    if (checkServiceType(servicetype)) {
-      return notify(checkServiceType(servicetype))
+    if (checkServiceType(servicetype, t)) {
+      return notify(checkServiceType(servicetype, t))
     }
     if (servicetype._id) {
       return updateHandler()
@@ -212,7 +212,7 @@ export const ServiceType = () => {
         },
       )
       notify({
-        title: `${data.name} nomli xizmat turi o'chirildi!`,
+        title: `${data.name} ${t("nomli xizmat turi o'chirildi")}!`,
         description: '',
         status: 'success',
       })
@@ -224,7 +224,7 @@ export const ServiceType = () => {
       clearInputs()
     } catch (error) {
       notify({
-        title: error,
+        title: t(`${error}`),
         description: '',
         status: 'error',
       })
@@ -234,7 +234,7 @@ export const ServiceType = () => {
   const deleteAll = useCallback(async () => {
     if (servicetypes && servicetypes.length === 0) {
       return notify({
-        title: `Xizmat turlari mavjud emas`,
+        title: t(`Xizmat turlari mavjud emas`),
         description: '',
         status: 'warning',
       })
@@ -250,7 +250,7 @@ export const ServiceType = () => {
       )
       localStorage.setItem('delete', data)
       notify({
-        title: `Barcha xizmat turlari o'chirildi!`,
+        title: t(`Barcha xizmat turlari o'chirildi!`),
         description: '',
         status: 'success',
       })
@@ -262,7 +262,7 @@ export const ServiceType = () => {
       clearInputs()
     } catch (error) {
       notify({
-        title: error,
+        title: t(`${error}`),
         description: '',
         status: 'error',
       })
@@ -484,8 +484,8 @@ export const ServiceType = () => {
       <Modal
         modal={modal1}
         setModal={setModal1}
-        basic={t('Barchasi')}
-        text={t("xizmat turlarini o'chirishni tasdiqlaysizmi?")}
+        basic={''}
+        text={t("Barchasi xizmat turlarini o'chirishni tasdiqlaysizmi?")}
         handler={deleteAll}
       />
     </>

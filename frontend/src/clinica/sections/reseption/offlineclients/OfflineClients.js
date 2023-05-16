@@ -114,7 +114,7 @@ export const OfflineClients = () => {
                 );
             } catch (error) {
                 notify({
-                    title: error,
+                    title: t(`${error}`),
                     description: "",
                     status: "error",
                 });
@@ -142,7 +142,7 @@ export const OfflineClients = () => {
             );
         } catch (error) {
             notify({
-                title: error,
+                title: t(`${error}`),
                 description: "",
                 status: "error",
             });
@@ -171,7 +171,7 @@ export const OfflineClients = () => {
             );
         } catch (error) {
             notify({
-                title: error,
+                title: t(`${error}`),
                 description: "",
                 status: "error",
             });
@@ -261,7 +261,7 @@ export const OfflineClients = () => {
             setDepartments(data);
         } catch (error) {
             notify({
-                title: error,
+                title: t(`${error}`),
                 description: "",
                 status: "error",
             });
@@ -323,7 +323,7 @@ export const OfflineClients = () => {
             })));
         } catch (error) {
             notify({
-                title: error,
+                title: t(`${error}`),
                 description: "",
                 status: "error",
             });
@@ -382,7 +382,7 @@ export const OfflineClients = () => {
             setAdvers(data);
         } catch (error) {
             notify({
-                title: error,
+                title: t(`${error}`),
                 description: "",
                 status: "error",
             });
@@ -436,7 +436,7 @@ export const OfflineClients = () => {
             setProducts(s);
         } catch (error) {
             notify({
-                title: error,
+                title: t(`${error}`),
                 description: "",
                 status: "error",
             });
@@ -475,7 +475,7 @@ export const OfflineClients = () => {
             setBaseurl(data.baseUrl);
         } catch (error) {
             notify({
-                title: error,
+                title: t(`${error}`),
                 description: "",
                 status: "error",
             });
@@ -537,16 +537,16 @@ export const OfflineClients = () => {
     }, [auth]);
 
     const checkData = () => {
-        if (checkClientData(client)) {
-            return notify(checkClientData(client));
+        if (checkClientData(client, t)) {
+            return notify(checkClientData(client, t));
         }
 
-        if (checkServicesData(services && services)) {
-            return notify(checkServicesData(services));
+        if (checkServicesData(services && services, t)) {
+            return notify(checkServicesData(services, t));
         }
 
-        if (checkProductsData(newproducts)) {
-            return notify(checkProductsData(newproducts));
+        if (checkProductsData(newproducts, t)) {
+            return notify(checkProductsData(newproducts, t));
         }
         setModal(true);
     };
@@ -576,7 +576,7 @@ export const OfflineClients = () => {
                 }
             );
             notify({
-                title: "Mijoz muvaffaqqiyatli yaratildi.",
+                title: t("Mijoz muvaffaqqiyatli yaratildi."),
                 description: "",
                 status: "success",
             });
@@ -592,7 +592,7 @@ export const OfflineClients = () => {
             }, 1000)
         } catch (error) {
             notify({
-                title: error,
+                title: t(`${error}`),
                 description: "",
                 status: "error",
             });
@@ -635,7 +635,7 @@ export const OfflineClients = () => {
             getConnectors(beginDay, endDay);
             notify({
                 title: `${data.lastname + " " + data.firstname
-                    }  ismli mijoz ma'lumotlari muvaffaqqiyatl yangilandi.`,
+                    }  ${t("ismli mijoz ma'lumotlari muvaffaqqiyatl yangilandi.")}`,
                 description: "",
                 status: "success",
             });
@@ -643,7 +643,7 @@ export const OfflineClients = () => {
             setVisible(false);
         } catch (error) {
             notify({
-                title: error,
+                title: t(`${error}`),
                 description: "",
                 status: "error",
             });
@@ -683,7 +683,7 @@ export const OfflineClients = () => {
             getConnectors(beginDay, endDay);
             notify({
                 title: `${client.lastname + " " + client.firstname
-                    }  ismli mijozga xizmatlar muvaffaqqiyatli qo'shildi.`,
+                    }  ${t("ismli mijozga xizmatlar muvaffaqqiyatli qo'shildi.")}`,
                 description: "",
                 status: "success",
             });
@@ -692,7 +692,7 @@ export const OfflineClients = () => {
             setVisible(false);
         } catch (error) {
             notify({
-                title: error,
+                title: t(`${error}`),
                 description: "",
                 status: "error",
             });
@@ -735,7 +735,7 @@ export const OfflineClients = () => {
             setModal(false);
         } catch (error) {
             notify({
-                title: error,
+                title: t(`${error}`),
                 description: "",
                 status: "error",
             });

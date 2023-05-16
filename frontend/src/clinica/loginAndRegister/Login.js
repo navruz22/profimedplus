@@ -11,6 +11,11 @@ import { useToast } from "@chakra-ui/react";
 export const Login = () => {
   //====================================================================
   //====================================================================
+
+  const {t} = useTranslation()
+
+  //====================================================================
+  //====================================================================
   const toast = useToast();
 
   const notify = useCallback(
@@ -101,18 +106,18 @@ export const Login = () => {
         const data = await request(`/api/director/login`, "POST", { ...user });
         auth.login(data.token, data.userId, data.user, data.clinica);
         notify({
-          title: `Xush kelibsiz ${data.user.firstname + " " + data.user.lastname
+          title: `${t("Xush kelibsiz")} ${data.user.firstname + " " + data.user.lastname
             }!`,
-          description: "Kirish muvaffaqqiyatli amalga oshirildi",
+          description: t("Kirish muvaffaqqiyatli amalga oshirildi"),
           status: "success",
         });
       } else {
         const data = await request(`/api/user/login`, "POST", { ...user });
         auth.login(data.token, data.userId, data.user, data.clinica);
         notify({
-          title: `Xush kelibsiz ${data.user.firstname + " " + data.user.lastname
+          title: `${t("Xush kelibsiz")} ${data.user.firstname + " " + data.user.lastname
             }!`,
-          description: "Kirish muvaffaqqiyatli amalga oshirildi",
+          description: t("Kirish muvaffaqqiyatli amalga oshirildi"),
           status: "success",
         });
       }
@@ -143,9 +148,6 @@ export const Login = () => {
   //====================================================================
   //====================================================================
 
-  //====================================================================
-  //====================================================================
-  const { t } = useTranslation();
   //====================================================================
   //====================================================================
 

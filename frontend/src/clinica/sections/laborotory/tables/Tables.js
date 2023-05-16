@@ -106,7 +106,7 @@ const Tables = () => {
 
     //====================================================================
     //====================================================================
-    console.log(service);
+  
     //====================================================================
     //====================================================================
     const [imports, setImports] = useState([])
@@ -156,7 +156,7 @@ const Tables = () => {
                 },
             )
             notify({
-                title: `Jadval muvaffaqqiyatli saqlandi!`,
+                title: t(`Jadval muvaffaqqiyatli saqlandi!`),
                 description: '',
                 status: 'success',
             })
@@ -167,7 +167,7 @@ const Tables = () => {
             getServices()
         } catch (error) {
             notify({
-                title: error,
+                title: t(error),
                 description: '',
                 status: 'error',
             })
@@ -185,7 +185,7 @@ const Tables = () => {
                 },
             )
             notify({
-                title: `Jadval muvaffaqqiyatli saqlandi!`,
+                title: t(`Jadval muvaffaqqiyatli saqlandi!`),
                 description: '',
                 status: 'success',
             })
@@ -193,7 +193,7 @@ const Tables = () => {
             getServices()
         } catch (error) {
             notify({
-                title: error,
+                title: t(error),
                 description: '',
                 status: 'error',
             })
@@ -216,7 +216,7 @@ const Tables = () => {
                 },
             )
             notify({
-                title: `Shablonlar yaratildi!`,
+                title: t(`Shablonlar yaratildi!`),
                 description: '',
                 status: 'success',
             })
@@ -227,7 +227,7 @@ const Tables = () => {
             getServices()
         } catch (error) {
             notify({
-                title: error,
+                title: t(error),
                 description: '',
                 status: 'error',
             })
@@ -252,7 +252,7 @@ const Tables = () => {
                 },
             )
             notify({
-                title: `Ustun nomlari saqlandi.`,
+                title: t(`Ustun nomlari saqlandi!`),
                 description: '',
                 status: 'success',
             })
@@ -260,7 +260,7 @@ const Tables = () => {
             getServices()
         } catch (error) {
             notify({
-                title: error,
+                title: t(error),
                 description: '',
                 status: 'error',
             })
@@ -280,14 +280,14 @@ const Tables = () => {
                 },
             )
             notify({
-                title: `Jadval muvaffaqqiyatli o'chirildi.`,
+                title: t(`Jadval muvaffaqqiyatli o'chirildi!`),
                 description: '',
                 status: 'success',
             })
             setService(data)
         } catch (error) {
             notify({
-                title: error,
+                title: t(error),
                 description: '',
                 status: 'error',
             })
@@ -307,7 +307,7 @@ const Tables = () => {
                 },
             )
             notify({
-                title: `Jadval muvaffaqqiyatli o'chirildi.`,
+                title: t(`Jadval muvaffaqqiyatli o'chirildi!`),
                 description: '',
                 status: 'success',
             })
@@ -317,7 +317,7 @@ const Tables = () => {
             setService({ ...service, tables: [...tables] })
         } catch (error) {
             notify({
-                title: error,
+                title: t(error),
                 description: '',
                 status: 'error',
             })
@@ -382,7 +382,7 @@ const Tables = () => {
                 },
             )
             notify({
-                title: `${data.name} xizmati yangilandi!`,
+                title: `${data.name} ${t('xizmati yangilandi!')}`,
                 description: '',
                 status: 'success',
             })
@@ -392,7 +392,7 @@ const Tables = () => {
             getServices()
         } catch (error) {
             notify({
-                title: error,
+                title: t(error),
                 description: '',
                 status: 'error',
             })
@@ -423,7 +423,7 @@ const Tables = () => {
                 }))))
             } catch (error) {
                 notify({
-                    title: error,
+                    title: t(error),
                     description: "",
                     status: "error",
                 });
@@ -493,7 +493,7 @@ const Tables = () => {
                 />
                 <div className='w-full flex justify-end items-center gap-4'>
                     <button className='py-2 px-4 text-white font-semibold rounded bg-alotrade' onClick={createHandler} >
-                        + Qo'shish
+                        {t("+ Qo'shish")}
                     </button>
                 </div>
             </div>

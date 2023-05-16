@@ -96,7 +96,7 @@ const DoctorProcient = () => {
                 )
             } catch (error) {
                 notify({
-                    title: error,
+                    title: t(`${error}`),
                     description: "",
                     status: "error",
                 });
@@ -122,7 +122,7 @@ const DoctorProcient = () => {
                 setStatsionarDoctors(data);
             } catch (error) {
                 notify({
-                    title: error,
+                    title: t(`${error}`),
                     description: "",
                     status: "error",
                 });

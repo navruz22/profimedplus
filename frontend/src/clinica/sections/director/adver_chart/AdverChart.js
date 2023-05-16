@@ -92,7 +92,7 @@ const AdverChart = () => {
                 setCounterClients(data.counteragent_clients)
             } catch (error) {
                 notify({
-                    title: error,
+                    title: t(`${error}`),
                     description: "",
                     status: "error",
                 });
@@ -128,7 +128,7 @@ const AdverChart = () => {
                 getRandomColor(data.advernames.length)
             } catch (error) {
                 notify({
-                    title: error,
+                    title: t(`${error}`),
                     description: "",
                     status: "error",
                 });

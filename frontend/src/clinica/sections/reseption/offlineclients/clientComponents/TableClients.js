@@ -7,6 +7,11 @@ import {
   faPrint,
   faPlus,
   faSearch,
+  faRotate,
+  faSquare,
+  faPenSquare,
+  faPenToSquare,
+  faUserPen,
 } from '@fortawesome/free-solid-svg-icons'
 import { Sort } from './Sort'
 import { Pagination } from '../../components/Pagination'
@@ -164,14 +169,14 @@ export const TableClients = ({
 
                 </th>
                 <th className="border py-1 bg-alotrade text-[16px]">
-                  {t("Tahrirlash")}
+                  
                 </th>
                 <th className="border py-1 bg-alotrade text-[16px]">
                   {t("Qo'shish")}
                 </th>
-                <th className="border py-1 bg-alotrade text-[16px]">
+                {/* <th className="border py-1 bg-alotrade text-[16px]">
                   {t("Chop etish")}
-                </th>
+                </th> */}
               </tr>
             </thead>
             <tbody>
@@ -240,7 +245,7 @@ export const TableClients = ({
                         </button>
                       ) : (
                         <button
-                          className="btn btn-success py-0"
+                          className="bg-orange-500 border-orange-500 hover:bg-green-400 btn btn-success py-0"
                           onClick={() => {
                             setClient({ ...connector.client })
                             setClientDate(connector.client.born.slice(0, 10))
@@ -248,7 +253,7 @@ export const TableClients = ({
                             setVisible(true)
                           }}
                         >
-                          <FontAwesomeIcon icon={faPenAlt} />
+                          <FontAwesomeIcon icon={faRotate} />
                         </button>
                       )}
                     </td>
@@ -260,7 +265,7 @@ export const TableClients = ({
                         </button>
                       ) : (
                         <button
-                          className="btn btn-success py-0"
+                          className="bg-green-500 border-green-500 hover:bg-green-400 btn btn-success py-0"
                           onClick={() => {
                             setClient({ ...connector.client })
                             setClientDate(connector.client.born.slice(0, 10))
@@ -273,11 +278,11 @@ export const TableClients = ({
                             setVisible(true);
                           }}
                         >
-                          <FontAwesomeIcon icon={faPlus} />
+                          <FontAwesomeIcon icon={faUserPen} />
                         </button>
                       )}
                     </td>
-                    <td className="border py-1 text-center text-[16px]">
+                    {/* <td className="border py-1 text-center text-[16px]">
                       {loading ? (
                         <button className="btn btn-success" disabled>
                           <span className="spinner-border spinner-border-sm"></span>
@@ -294,7 +299,7 @@ export const TableClients = ({
                           <FontAwesomeIcon icon={faPrint} />
                         </button>
                       )}
-                    </td>
+                    </td> */}
                   </tr>
                 )
               })}

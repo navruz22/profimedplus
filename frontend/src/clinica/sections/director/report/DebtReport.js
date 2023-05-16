@@ -5,6 +5,7 @@ import { useHttp } from "../../../hooks/http.hook";
 import { TableClients } from "../../cashier/debtclients/clientComponents/TableClients";
 import Select from 'react-select'
 import makeAnimated from 'react-select/animated'
+import { useTranslation } from "react-i18next";
 
 const animatedComponents = makeAnimated()
 
@@ -24,7 +25,7 @@ export const DebtReport = () => {
 
     //====================================================================
     //====================================================================
-
+    const {t} = useTranslation()
     //====================================================================
     //====================================================================
     // RegisterPage
@@ -108,7 +109,7 @@ export const DebtReport = () => {
                 setOfflineDebts(data);
             } catch (error) {
                 notify({
-                    title: error,
+                    title: t(`${error}`),
                     description: "",
                     status: "error",
                 });
@@ -131,7 +132,7 @@ export const DebtReport = () => {
                 setStatsionarDebts(data);
             } catch (error) {
                 notify({
-                    title: error,
+                    title: t(`${error}`),
                     description: "",
                     status: "error",
                 });
@@ -253,15 +254,15 @@ export const DebtReport = () => {
     //====================================================================
     // useEffect
 
-    const [t, setT] = useState(0);
+    const [s, setS] = useState(0);
 
     useEffect(() => {
-        if (!t) {
-            setT(1);
+        if (!s) {
+            setS(1);
             getOfflineDebts(beginDay, endDay, clinicaValue);
             getStatsionarDebts(beginDay, endDay, clinicaValue);
         }
-    }, [getOfflineDebts, getStatsionarDebts, t, beginDay, endDay, clinicaValue]);
+    }, [getOfflineDebts, getStatsionarDebts, s, beginDay, endDay, clinicaValue]);
 
     //====================================================================
     //====================================================================

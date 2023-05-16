@@ -1,76 +1,78 @@
 // Department
-export const checkDepartment = (department) => {
+export const checkDepartment = (department, t) => {
+
+
   if (!department.clinica)
     return {
-      title: "Diqqat! Avtorzatsiyadan o'tilmagan.",
+      title: t("Diqqat! Avtorzatsiyadan o'tilmagan."),
       description: "Iltimos bo'limdan chiqib qayta kiriting.",
       status: "error",
     };
   if (!department.name)
     return {
-      title: "Diqqat! Bo'lim nomi kiritilmagan.",
-      description: "Iltimos bo'lim nomini kiriting.",
+      title: t("Diqqat! Bo'lim nomi kiritilmagan."),
+      description: t("Iltimos bo'lim nomini kiriting."),
       status: "error",
     };
   return false;
 };
 
 // ServiceType
-export const checkServiceType = (servicetype) => {
+export const checkServiceType = (servicetype, t) => {
   if (!servicetype.clinica)
     return {
-      title: "Diqqat! Avtorzatsiyadan o'tilmagan.",
-      description: "Iltimos bo'limdan chiqib qayta kiriting.",
+      title: t("Diqqat! Avtorzatsiyadan o'tilmagan."),
+      description: t("Iltimos bo'limdan chiqib qayta kiriting."),
       status: "error",
     };
 
   if (!servicetype.department)
     return {
-      title: "Diqqat! Bo'lim tanlanmagan.",
-      description: "Iltimos bo'lim tanlang.",
+      title: t("Diqqat! Bo'lim tanlanmagan."),
+      description: t("Iltimos bo'lim tanlang."),
       status: "error",
     };
 
   if (!servicetype.name)
     return {
-      title: "Diqqat! Xizmat turi kiritilmagan.",
-      description: "Iltimos xizmat turini kiriting.",
+      title: t("Diqqat! Xizmat turi kiritilmagan."),
+      description: t("Iltimos xizmat turini kiriting."),
       status: "error",
     };
   return false;
 };
 
-export const checkService = (service) => {
+export const checkService = (service, t) => {
   if (!service.clinica)
     return {
-      title: "Diqqat! Avtorzatsiyadan o'tilmagan.",
-      description: "Iltimos bo'limdan chiqib qayta kiring.",
+      title: t("Diqqat! Avtorzatsiyadan o'tilmagan."),
+      description: t("Iltimos bo'limdan chiqib qayta kiring."),
       status: "error",
     };
   if (!service.department)
     return {
-      title: "Diqqat! Bo'lim tanlanmagan.",
-      description: "Iltimos bo'limni tanlang.",
+      title: t("Diqqat! Bo'lim tanlanmagan."),
+      description: t("Iltimos bo'lim tanlang."),
       status: "error",
     };
   if (!service.servicetype)
     return {
-      title: "Diqqat! Xizmat turi tanlanmagan.",
-      description: "Iltimos xizmat turini tanlang.",
+      title: t("Diqqat! Xizmat turi kiritilmagan."),
+      description: t("Iltimos xizmat turini kiriting."),
       status: "error",
     };
 
   if (!service.name)
     return {
-      title: "Diqqat! Xizmat nomi kiritilmagan.",
-      description: "Iltimos xizmat nomini kiriting.",
+      title: t("Diqqat! Xizmat nomi kiritilmagan."),
+      description: t("Iltimos xizmat nomini kiriting."),
       status: "error",
     };
 
   if (!service.price)
     return {
-      title: "Diqqat! Xizmat narxi kiritilmagan.",
-      description: "Iltimos xizmat narxi kiriting.",
+      title: t("Diqqat! Xizmat narxi kiritilmagan."),
+      description: t("Iltimos xizmat narxi kiriting."),
       status: "error",
     };
   return false;

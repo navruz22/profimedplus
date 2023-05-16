@@ -89,7 +89,7 @@ const OfflineClients = () => {
             setCurrentClients(data.slice(indexFirstUser, indexLastUser))
         } catch (error) {
             notify({
-                title: error,
+                title: t(`${error}`),
                 description: '',
                 status: 'error',
             })
@@ -107,7 +107,7 @@ const OfflineClients = () => {
             setBaseUrl(data.baseUrl)
         } catch (error) {
             notify({
-                title: error,
+                title: t(`${error}`),
                 description: '',
                 status: 'error',
             })

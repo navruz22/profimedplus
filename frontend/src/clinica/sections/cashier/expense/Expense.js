@@ -115,7 +115,7 @@ const Expense = () => {
                 )
             } catch (error) {
                 notify({
-                    title: error,
+                    title: t(`${error}`),
                     description: "",
                     status: "error",
                 });
@@ -130,21 +130,21 @@ const Expense = () => {
     const checkData = () => {
         if (!expense.total) {
             return notify({
-                title: "Xarajat summasi kiritilmagan!",
+                title: t("Xarajat summasi kiritilmagan!"),
                 description: "",
                 status: "error",
             });
         }
         if (!expense.type) {
             return notify({
-                title: "Xarajat turi kiritilmagan!",
+                title: t("Xarajat turi kiritilmagan!"),
                 description: "",
                 status: "error",
             });
         }
         if (!expense.comment) {
             return notify({
-                title: "Xarajat izohi kiritilmagan!",
+                title: t("Xarajat izohi kiritilmagan!"),
                 description: "",
                 status: "error",
             });
@@ -168,7 +168,7 @@ const Expense = () => {
                 }
             )
             notify({
-                title: data.message,
+                title: t('Xarajat yaratildi!'),
                 description: "",
                 status: "success",
             });
@@ -179,7 +179,7 @@ const Expense = () => {
             getExpenses(beginDay, endDay)
         } catch (error) {
             notify({
-                title: error,
+                title: t(`${error}`),
                 description: "",
                 status: "error",
             });
@@ -197,7 +197,7 @@ const Expense = () => {
                 }
             )
             notify({
-                title: data.message,
+                title: t('Xarajat yangilandi!'),
                 description: "",
                 status: "success",
             });
@@ -208,7 +208,7 @@ const Expense = () => {
             getExpenses(beginDay, endDay)
         } catch (error) {
             notify({
-                title: error,
+                title: t(`${error}`),
                 description: "",
                 status: "error",
             });
@@ -226,7 +226,7 @@ const Expense = () => {
                 }
             )
             notify({
-                title: data.message,
+                title: t("Xarajat o'chirildi!"),
                 description: "",
                 status: "success",
             });
@@ -237,7 +237,7 @@ const Expense = () => {
             getExpenses(beginDay, endDay)
         } catch (error) {
             notify({
-                title: error,
+                title: t(`${error}`),
                 description: "",
                 status: "error",
             });

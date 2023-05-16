@@ -106,7 +106,7 @@ export const StatsionarClients = () => {
                 )
             } catch (error) {
                 notify({
-                    title: error,
+                    title: t(`${error}`),
                     description: '',
                     status: 'error',
                 })
@@ -673,7 +673,7 @@ export const StatsionarClients = () => {
             getConnectors(beginDay, endDay)
         } catch (error) {
             notify({
-                title: error,
+                title: t(`${error}`),
                 description: '',
                 status: 'error',
             })
@@ -709,7 +709,7 @@ export const StatsionarClients = () => {
             getConnectors(beginDay, endDay)
         } catch (error) {
             notify({
-                title: error,
+                title: t(`${error}`),
                 description: '',
                 status: 'error',
             })
@@ -744,7 +744,7 @@ export const StatsionarClients = () => {
             getConnectors(beginDay, endDay)
         } catch (error) {
             notify({
-                title: error,
+                title: t(`${error}`),
                 description: '',
                 status: 'error',
             })
@@ -771,7 +771,7 @@ export const StatsionarClients = () => {
             )
         } catch (error) {
             notify({
-                title: error,
+                title: t(`${error}`),
                 description: '',
                 status: 'error',
             })
@@ -808,7 +808,7 @@ export const StatsionarClients = () => {
             setBaseurl(data.baseUrl);
         } catch (error) {
             notify({
-                title: error,
+                title: t(`${error}`),
                 description: "",
                 status: "error",
             });
@@ -1007,7 +1007,7 @@ export const StatsionarClients = () => {
                 </div>}
                 setModal={setModal}
                 handler={connector.room && connector.room.endday ? createHandler : createPrepayment}
-                basic={"Mijoz " + client.lastname + " " + client.firstname}
+                basic={client.lastname + " " + client.firstname}
             />
         </div>
     )

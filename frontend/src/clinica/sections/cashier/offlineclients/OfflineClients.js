@@ -106,7 +106,7 @@ export const OfflineClients = () => {
                 )
             } catch (error) {
                 notify({
-                    title: error,
+                    title: t(`${error}`),
                     description: '',
                     status: 'error',
                 })
@@ -134,7 +134,7 @@ export const OfflineClients = () => {
             )
         } catch (error) {
             notify({
-                title: error,
+                title: t(`${error}`),
                 description: '',
                 status: 'error',
             })
@@ -152,7 +152,7 @@ export const OfflineClients = () => {
             setBaseurl(data.baseUrl);
         } catch (error) {
             notify({
-                title: error,
+                title: t(`${error}`),
                 description: "",
                 status: "error",
             });
@@ -490,7 +490,7 @@ export const OfflineClients = () => {
             e.target.value = parseInt(parseInt(e.target.value) / 10)
             return notify({
                 title:
-                    "Diqqat! Chegirma summasi umumiy xizmatlar summasidan oshmasligi kerak!",
+                    t("Diqqat! Chegirma summasi umumiy xizmatlar summasidan oshmasligi kerak!"),
                 description: '',
                 status: 'error',
             })
@@ -709,7 +709,7 @@ export const OfflineClients = () => {
             }, 1000)
         } catch (error) {
             notify({
-                title: error,
+                title: t(`${error}`),
                 description: '',
                 status: 'error',
             })

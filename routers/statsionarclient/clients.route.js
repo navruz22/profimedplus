@@ -761,11 +761,11 @@ module.exports.getAllReseption = async (req, res) => {
             clinica,
             createdAt: {
                 $gte: beginDay,
-                $lt: endDay,
+                $lte: endDay,
             },
         })
             .select('client doctor createdAt services products room diagnosis')
-            .populate('client', 'firstname lastname fullname born phone national id address gender')
+            .populate('client')
             .populate({
                 path: "services",
                 select: "service serviceid accept refuse column createdAt tables turn connector client files department",

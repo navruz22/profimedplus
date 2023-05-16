@@ -117,7 +117,7 @@ const CounterAgentInfo = () => {
                 )
             } catch (error) {
                 notify({
-                    title: error,
+                    title: t(`${error}`),
                     description: '',
                     status: 'error',
                 })
@@ -136,7 +136,7 @@ const CounterAgentInfo = () => {
             setBaseurl(data.baseUrl);
         } catch (error) {
             notify({
-                title: error,
+                title: t(`${error}`),
                 description: "",
                 status: "error",
             });
@@ -175,7 +175,7 @@ const CounterAgentInfo = () => {
             })))
         } catch (error) {
             notify({
-                title: error,
+                title: t(`${error}`),
                 description: "",
                 status: "error",
             });

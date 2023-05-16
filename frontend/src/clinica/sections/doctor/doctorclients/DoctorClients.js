@@ -113,7 +113,7 @@ export const DoctorClients = () => {
         );
       } catch (error) {
         notify({
-          title: error,
+          title: t(error),
           description: "",
           status: "error",
         });
@@ -151,7 +151,7 @@ export const DoctorClients = () => {
         );
       } catch (error) {
         notify({
-          title: error,
+          title: t(error),
           description: "",
           status: "error",
         });
@@ -188,7 +188,7 @@ export const DoctorClients = () => {
         );
       } catch (error) {
         notify({
-          title: error,
+          title: t(error),
           description: "",
           status: "error",
         });
@@ -217,7 +217,7 @@ export const DoctorClients = () => {
         );
       } catch (error) {
         notify({
-          title: error,
+          title: t(error),
           description: "",
           status: "error",
         });
@@ -298,7 +298,7 @@ export const DoctorClients = () => {
         setVisible(false);
       } catch (error) {
         notify({
-          title: error,
+          title: t(error),
           description: "",
           status: "error",
         });
@@ -336,7 +336,7 @@ export const DoctorClients = () => {
         setVisible(false);
       } catch (error) {
         notify({
-          title: error,
+          title: t(error),
           description: "",
           status: "error",
         });
@@ -416,7 +416,7 @@ export const DoctorClients = () => {
       setBaseurl(data.baseUrl);
     } catch (error) {
       notify({
-        title: error,
+        title: t(error),
         description: "",
         status: "error",
       });
@@ -442,7 +442,7 @@ export const DoctorClients = () => {
       setDepartments(data);
     } catch (error) {
       notify({
-        title: error,
+        title: t(error),
         description: "",
         status: "error",
       });
@@ -479,7 +479,7 @@ export const DoctorClients = () => {
       setProducts(s);
     } catch (error) {
       notify({
-        title: error,
+        title: t(error),
         description: "",
         status: "error",
       });

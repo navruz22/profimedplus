@@ -115,7 +115,7 @@ export const TableClients = ({
                 <option value="none">{t("Hammasi")}</option>
                 {commentSelect.map((item, index) => (
                   <option key={index} value={item}>
-                    {item}
+                    {t(item)}
                   </option>
                 ))}
               </select>
@@ -181,7 +181,7 @@ export const TableClients = ({
                       {connector.discount}
                     </td>
                     <td className="border py-1 text-right text-[16px]">
-                      {connector.comment}
+                      {t(connector.comment)}
                     </td>
                   </tr>
                 );

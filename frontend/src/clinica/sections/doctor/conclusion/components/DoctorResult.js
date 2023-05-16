@@ -216,7 +216,7 @@ const DoctorResult = ({ connector, clinica, baseUrl, user }) => {
                                         border: "1px solid #000",
                                     }}
                                 >
-                                    {t("Namuna")}
+                                    {t("NAMUNA")}
                                 </td>
                                 <td
                                     className="p-0"
@@ -545,7 +545,7 @@ const DoctorResult = ({ connector, clinica, baseUrl, user }) => {
                                             border: "1px solid #000",
                                         }}
                                     >
-                                        {t("Namuna")}
+                                        {t("NAMUNA")}
                                     </td>
                                     <td
                                         className="p-0"

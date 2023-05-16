@@ -100,7 +100,7 @@ export const OnlineClients = () => {
                 );
             } catch (error) {
                 notify({
-                    title: error,
+                    title: t(`${error}`),
                     description: "",
                     status: "error",
                 });
@@ -193,7 +193,7 @@ export const OnlineClients = () => {
             setDepartments(data);
         } catch (error) {
             notify({
-                title: error,
+                title: t(`${error}`),
                 description: "",
                 status: "error",
             });
@@ -250,7 +250,7 @@ export const OnlineClients = () => {
             setCounterDoctors(data);
         } catch (error) {
             notify({
-                title: error,
+                title: t(`${error}`),
                 description: "",
                 status: "error",
             });
@@ -298,7 +298,7 @@ export const OnlineClients = () => {
             setAdvers(data);
         } catch (error) {
             notify({
-                title: error,
+                title: t(`${error}`),
                 description: "",
                 status: "error",
             });
@@ -352,7 +352,7 @@ export const OnlineClients = () => {
             setProducts(s);
         } catch (error) {
             notify({
-                title: error,
+                title: t(`${error}`),
                 description: "",
                 status: "error",
             });
@@ -391,7 +391,7 @@ export const OnlineClients = () => {
             setBaseurl(data);
         } catch (error) {
             notify({
-                title: error,
+                title: t(`${error}`),
                 description: "",
                 status: "error",
             });
@@ -448,16 +448,16 @@ export const OnlineClients = () => {
     }, [auth]);
 
     const checkData = () => {
-        if (checkClientData(client)) {
-            return notify(checkClientData(client));
+        if (checkClientData(client, t)) {
+            return notify(checkClientData(client, t));
         }
 
-        if (checkServicesData(services && services)) {
-            return notify(checkServicesData(services));
+        if (checkServicesData(services && services, t)) {
+            return notify(checkServicesData(services, t));
         }
 
-        if (checkProductsData(newproducts)) {
-            return notify(checkProductsData(newproducts));
+        if (checkProductsData(newproducts, t)) {
+            return notify(checkProductsData(newproducts, t));
         }
         setModal(true);
     };
@@ -486,7 +486,7 @@ export const OnlineClients = () => {
                 }
             );
             notify({
-                title: "Mijoz muvaffaqqiyatli yaratildi.",
+                title: t("Mijoz muvaffaqqiyatli yaratildi."),
                 description: "",
                 status: "success",
             });
@@ -499,7 +499,7 @@ export const OnlineClients = () => {
             setVisible(false);
         } catch (error) {
             notify({
-                title: error,
+                title: t(`${error}`),
                 description: "",
                 status: "error",
             });
@@ -541,7 +541,7 @@ export const OnlineClients = () => {
             getConnectors(beginDay, endDay);
             notify({
                 title: `${data.lastname + " " + data.firstname
-                    }  ismli mijoz ma'lumotlari muvaffaqqiyatl yangilandi.`,
+                    }  ${t("ismli mijoz ma'lumotlari muvaffaqqiyatl yangilandi.")}`,
                 description: "",
                 status: "success",
             });
@@ -549,7 +549,7 @@ export const OnlineClients = () => {
             setVisible(false);
         } catch (error) {
             notify({
-                title: error,
+                title: t(`${error}`),
                 description: "",
                 status: "error",
             });
@@ -589,7 +589,7 @@ export const OnlineClients = () => {
             getConnectors(beginDay, endDay);
             notify({
                 title: `${client.lastname + " " + client.firstname
-                    }  ismli mijozga xizmatlar muvaffaqqiyatli qo'shildi.`,
+                    }  ${t("ismli mijozga xizmatlar muvaffaqqiyatli qo'shildi.")}`,
                 description: "",
                 status: "success",
             });
@@ -598,7 +598,7 @@ export const OnlineClients = () => {
             setVisible(false);
         } catch (error) {
             notify({
-                title: error,
+                title: t(`${error}`),
                 description: "",
                 status: "error",
             });
@@ -674,13 +674,13 @@ export const OnlineClients = () => {
             localStorage.setItem("data", data);
             setModal2(false)
             notify({
-                title: "Mijoz ma'lumotlari kunduzgi mijozlar ro'yxatiga o'tkazildi.",
+                title: t("Mijoz ma'lumotlari kunduzgi mijozlar ro'yxatiga o'tkazildi."),
                 description: "",
                 status: "success",
             });
         } catch (error) {
             notify({
-                title: error,
+                title: t(`${error}`),
                 description: "",
                 status: "error",
             });

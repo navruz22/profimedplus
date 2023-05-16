@@ -219,7 +219,7 @@ export const BloodTest = () => {
 
     const handleApprove = (connector) => {
         setConnectorId(connector.connector._id)
-        setModalText(`${connector.client.firstname} ${connector.client.lastname} qabul qilishni tasdiqlaysizmi?`)
+        setModalText(`${connector.client.firstname} ${connector.client.lastname} ${t("qabul qilishni tasdiqlaysizmi?")}`)
         setModal(true);
     }
 

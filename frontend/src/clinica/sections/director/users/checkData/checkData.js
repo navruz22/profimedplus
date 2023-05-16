@@ -1,24 +1,24 @@
-export const checkUserData = (user) => {
+export const checkUserData = (user, t) => {
   if (!user.firstname) {
     return {
-      title: "Diqqat! Foydalanuvchi ismi kiritilmagan.",
-      description: "Iltimos foydalanuvchi ismini kiriting.",
+      title: t("Diqqat! Foydalanuvchi ismi kiritilmagan."),
+      description: t("Iltimos foydalanuvchi ismini kiriting."),
       status: "error",
     };
   }
 
   if (!user.lastname) {
     return {
-      title: "Diqqat! Foydalanuvchi familiyasi kiritilmagan.",
-      description: "Iltimos foydalanuvchi familiyasini kiriting.",
+      title: t("Diqqat! Foydalanuvchi familiyasi kiritilmagan."),
+      description: t("Iltimos foydalanuvchi familiyasini kiriting."),
       status: "error",
     };
   }
 
   if (!user.phone) {
     return {
-      title: "Diqqat! Foydalanuvchi telefon raqami kiritilmagan.",
-      description: "Iltimos foydalanuvchi telefon raqamini kiriting.",
+      title: t("Diqqat! Foydalanuvchi telefon raqami kiritilmagan."),
+      description: t("Iltimos foydalanuvchi telefon raqamini kiriting."),
       status: "error",
     };
   }
@@ -26,16 +26,16 @@ export const checkUserData = (user) => {
   if (user.phone.length !== 9) {
     return {
       title:
-        "Diqqat! Foydalanuvchi telefon raqami kiritishda xatolikka yo'l qo'yilgan.",
-      description: "Iltimos foydalanuvchi telefon raqamini to'g'ri kiriting.",
+        t("Diqqat! Foydalanuvchi telefon raqami kiritishda xatolikka yo'l qo'yilgan."),
+      description: t("Iltimos foydalanuvchi telefon raqamini to'g'ri kiriting."),
       status: "error",
     };
   }
 
   if (!user._id && !user.password) {
     return {
-      title: "Diqqat! Foydalanuvchi paroli kiritilmagan.",
-      description: "Iltimos foydalanuvchi parolini kiriting.",
+      title: t("Diqqat! Foydalanuvchi paroli kiritilmagan."),
+      description: t("Iltimos foydalanuvchi parolini kiriting."),
       status: "error",
     };
   }
@@ -45,8 +45,8 @@ export const checkUserData = (user) => {
     (user._id && user.password && user.password < 6)
   ) {
     return {
-      title: "Diqqat! Foydalanuvchi paroli 6 belgidan kam bo'lmasligi kerak.",
-      description: "Iltimos foydalanuvchi parolini qayta kiriting.",
+      title: t("Diqqat! Foydalanuvchi paroli 6 belgidan kam bo'lmasligi kerak."),
+      description: t("Iltimos foydalanuvchi parolini qayta kiriting."),
       status: "error",
     };
   }
@@ -56,9 +56,9 @@ export const checkUserData = (user) => {
     (user._id && user.password && !user.confirmPassword)
   ) {
     return {
-      title: "Diqqat! Parolni tasdiqlash qismini to'ldirilmagan.",
+      title: t("Diqqat! Parolni tasdiqlash qismini to'ldirilmagan."),
       description:
-        "Iltimos parolni tasdiqlash bo'limiga parolni qayta kiriting.",
+        t("Iltimos parolni tasdiqlash bo'limiga parolni qayta kiriting."),
       status: "error",
     };
   }
@@ -70,24 +70,24 @@ export const checkUserData = (user) => {
       user.password !== user.confirmPassword)
   ) {
     return {
-      title: "Diqqat! Parolni qayta kiritishda xatolikka yo'l qo'yilgan.",
-      description: "Iltimos parolni to'g'ri tasdiqlang.",
+      title: t("Diqqat! Parolni qayta kiritishda xatolikka yo'l qo'yilgan."),
+      description: t("Iltimos parolni to'g'ri tasdiqlang."),
       status: "error",
     };
   }
 
   if (!user.image) {
     return {
-      title: "Diqqat! Foydalanuvchi surati yuklanmagan.",
-      description: "Iltimos foydalanuvchi suratini yuklang.",
+      title: t("Diqqat! Foydalanuvchi surati yuklanmagan."),
+      description: t("Iltimos foydalanuvchi suratini yuklang."),
       status: "error",
     };
   }
 
   if (user.type === "Doctor" && !user.specialty) {
     return {
-      title: "Diqqat! Shifokor mutaxasisligi tanlanmagan.",
-      description: "Iltimos shifokor mutaxasisligi tanlang.",
+      title: t("Diqqat! Shifokor mutaxasisligi tanlanmagan."),
+      description: t("Iltimos shifokor mutaxasisligi tanlang."),
       status: "error",
     };
   }

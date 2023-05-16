@@ -105,7 +105,7 @@ export const StatsionarReport = () => {
                 )
             } catch (error) {
                 notify({
-                    title: error,
+                    title: t(`${error}`),
                     description: '',
                     status: 'error',
                 })

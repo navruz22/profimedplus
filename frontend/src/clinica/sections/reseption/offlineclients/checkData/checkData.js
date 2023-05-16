@@ -1,32 +1,32 @@
-export const checkClientData = (client) => {
+export const checkClientData = (client, t) => {
   if (!client.firstname) {
     return {
-      title: 'Diqqat! Mijoz ismi kiritilmagan.',
-      description: 'Iltimos foydalanuvchi ismini kiriting.',
+      title: t('Diqqat! Mijoz ismi kiritilmagan.'),
+      description: '',
       status: 'error',
     }
   }
 
   if (!client.lastname) {
     return {
-      title: 'Diqqat! Mijoz familiyasi kiritilmagan.',
-      description: 'Iltimos foydalanuvchi familiyasini kiriting.',
+      title: t('Diqqat! Mijoz familiyasi kiritilmagan.'),
+      description: '',
       status: 'error',
     }
   }
   
   if (!client.born) {
     return {
-      title: "Diqqat! Mijozning tug'ilgan sanasi kiritilmagan.",
-      description: "Iltimos mijozning tug'ilgan sanasini kiriting.",
+      title: t("Diqqat! Mijozning tug'ilgan sanasi kiritilmagan."),
+      description: "",
       status: 'error',
     }
   }
 
   if (client.phone && client.phone.length !== 9) {
     return {
-      title: "Diqqat! Mijoz telefon raqami 9 raqamdan iborat bo'lishi kerak.",
-      description: "Iltimos foydalanuvchi telefon raqamini to'g'ri kiriting.",
+      title: t("Diqqat! Mijoz telefon raqami 9 raqamdan iborat bo'lishi kerak."),
+      description: "",
       status: 'error',
     }
   }
@@ -34,16 +34,16 @@ export const checkClientData = (client) => {
 
   if (!client.gender) {
     return {
-      title: 'Diqqat! Mijozning jinsi tanlanmagan.',
-      description: 'Iltimos mijozning jinsini tanlang.',
+      title: t('Diqqat! Mijozning jinsi tanlanmagan.'),
+      description: '',
       status: 'error',
     }
   }
 
   if (!client.national) {
     return {
-      title: 'Diqqat! Mijozning fuqorosi tanlanmagan.',
-      description: 'Iltimos mijozning fuqorosini tanlang.',
+      title: t('Diqqat! Mijozning fuqorosi tanlanmagan.'),
+      description: '',
       status: 'error',
     }
   }
@@ -51,12 +51,12 @@ export const checkClientData = (client) => {
   return false
 }
 
-export const checkServicesData = (services) => {
+export const checkServicesData = (services, t) => {
   for (const service of services) {
     if (service.pieces==='0') {
       return {
-        title: `Diqqat! ${service.service.name} xizmati soni 0 ko'rsatilgan.`,
-        description: `Iltimos xizmat ko'rsatilmasa uni ro'yxatdan o'chiring yoki xizmat sonini kiriting.`,
+        title: `${t("Diqqat!")} ${service.service.name} ${t("xizmati soni 0 ko'rsatilgan.")}`,
+        description: ``,
         status: 'error',
       }
     }

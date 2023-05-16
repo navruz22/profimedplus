@@ -72,7 +72,7 @@ export const Advers = () => {
       setAdvers(data)
     } catch (error) {
       notify({
-        title: error,
+        title: t(`${error}`),
         description: '',
         status: 'error',
       })
@@ -95,7 +95,7 @@ export const Advers = () => {
         },
       )
       notify({
-        title: `${data.name} reklamasi yaratildi!`,
+        title: `${data.name} ${t("reklamasi yaratildi")}!`,
         description: '',
         status: 'success',
       })
@@ -106,7 +106,7 @@ export const Advers = () => {
       clearInputs()
     } catch (error) {
       notify({
-        title: error,
+        title: t(`${error}`),
         description: '',
         status: 'error',
       })
@@ -124,7 +124,7 @@ export const Advers = () => {
         },
       )
       notify({
-        title: `${data.name} reklamasi yangilandi!`,
+        title: `${data.name} ${t("reklamasi yangilandi")}!`,
         description: '',
         status: 'success',
       })
@@ -135,7 +135,7 @@ export const Advers = () => {
       clearInputs()
     } catch (error) {
       notify({
-        title: error,
+        title: t(`${error}`),
         description: '',
         status: 'error',
       })
@@ -170,7 +170,7 @@ export const Advers = () => {
         },
       )
       notify({
-        title: `${data.name} reklamalari o'chirildi!`,
+        title: `${data.name} ${t("reklamalari o'chirildi")}!`,
         description: '',
         status: 'success',
       })
@@ -182,7 +182,7 @@ export const Advers = () => {
       clearInputs()
     } catch (error) {
       notify({
-        title: error,
+        title: t(`${error}`),
         description: '',
         status: 'error',
       })
@@ -208,7 +208,7 @@ export const Advers = () => {
       )
       localStorage.setItem('delete', data)
       notify({
-        title: `Barcha reklamalar o'chirildi!`,
+        title: t(`Barcha reklamalar o'chirildi!`),
         description: '',
         status: 'success',
       })
@@ -220,7 +220,7 @@ export const Advers = () => {
       clearInputs()
     } catch (error) {
       notify({
-        title: error,
+        title: t(`${error}`),
         description: '',
         status: 'error',
       })
@@ -388,8 +388,8 @@ export const Advers = () => {
       <Modal
         modal={modal1}
         setModal={setModal1}
-        basic={t('Barcha')}
-        text={t("reklamalarni o'chirishni tasdiqlaysizmi?")}
+        basic={''}
+        text={t("Barcha reklamalarni o'chirishni tasdiqlaysizmi?")}
         handler={deleteAll}
       />
     </>

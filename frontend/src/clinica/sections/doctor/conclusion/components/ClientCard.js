@@ -73,9 +73,9 @@ const ClientCard = ({ connector, setConnector }) => {
                 }
             );
             notify({
-                title: data.message,
+                title: t("Mijoz qabul qilindi!"),
                 description: "",
-                status: "error",
+                status: "success",
             });
         } catch (error) {
             notify({

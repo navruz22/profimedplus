@@ -32,108 +32,108 @@ export const TableClients = ({
   searchBornDay,
   searchFinished,
   searchDoctor,
-  setRoom
+  setRoom,
+  setDoctorSelect,
+  setRoomSelect
 }) => {
-  const {t} = useTranslation()
+  const { t } = useTranslation()
   return (
     <div className="border-0 shadow-lg table-container">
       <div className="border-0 table-container">
         <div className="table-responsive">
+          <div className="bg-white flex items-center justify-between gap-2 p-2">
+            <div>
+              <select
+                className="form-control form-control-sm selectpicker"
+                placeholder="Bo'limni tanlang"
+                onChange={setPageSize}
+                style={{ minWidth: "50px" }}
+              >
+                <option value={10}>10</option>
+                <option value={25}>25</option>
+                <option value={50}>50</option>
+                <option value={100}>100</option>
+              </select>
+            </div>
+            <div>
+              <input
+                onChange={searchFullname}
+                style={{ maxWidth: "100px", minWidth: "100px" }}
+                type="search"
+                className="w-100 form-control form-control-sm selectpicker"
+                placeholder={t("F.I.O")}
+              />
+            </div>
+            <div>
+              <input
+                onChange={searchBornDay}
+                style={{ maxWidth: "100px", minWidth: "100px" }}
+                type="search"
+                className="w-100 form-control form-control-sm selectpicker"
+                placeholder={t("Tug'ilgan yili")}
+              />
+            </div>
+            <div>
+              <input
+                onChange={searchPhone}
+                style={{ maxWidth: "100px", minWidth: "100px" }}
+                type="search"
+                className="w-100 form-control form-control-sm selectpicker"
+                placeholder={t("Tel")}
+              />
+            </div>
+            <div>
+              <input
+                onChange={searchId}
+                style={{ maxWidth: "60px" }}
+                type="search"
+                className="form-control form-control-sm selectpicker"
+                placeholder={t("ID")}
+              />
+            </div>
+            <div>
+              <input
+                onChange={searchDoctor}
+                style={{ maxWidth: "100px" }}
+                type="search"
+                className="form-control form-control-sm selectpicker"
+                placeholder={t("Shifokor")}
+              />
+            </div>
+            <div className="text-center">
+              <Pagination
+                setCurrentDatas={setCurrentConnectors}
+                datas={connectors}
+                setCurrentPage={setCurrentPage}
+                countPage={countPage}
+                totalDatas={connectors.length}
+              />
+            </div>
+            <div
+              className="text-center"
+              style={{ maxWidth: "120px", overflow: "hidden" }}
+            >
+              <DatePickers changeDate={changeStart} />
+            </div>
+            <div
+              className="text-center"
+              style={{ maxWidth: "120px", overflow: "hidden" }}
+            >
+              <DatePickers changeDate={changeEnd} />
+            </div>
+            <div className="text-center" style={{ maxWidth: "120px" }}>
+              <select
+                className="form-control form-control-sm selectpicker"
+                placeholder="Doctors"
+                onChange={searchFinished}
+              >
+                <option value={"all"}>{t("Hammasi")}</option>
+                <option value={"done"}>{t("Yakunlangan")}</option>
+                <option value={"begin"}>{t("Davolanishda")}</option>
+              </select>
+            </div>
+          </div>
           <table className="table m-0">
-            <thead className="bg-white">
-              <tr>
-                <th>
-                  <select
-                    className="form-control form-control-sm selectpicker"
-                    placeholder="Bo'limni tanlang"
-                    onChange={setPageSize}
-                    style={{ minWidth: "50px" }}
-                  >
-                    <option value={10}>10</option>
-                    <option value={25}>25</option>
-                    <option value={50}>50</option>
-                    <option value={100}>100</option>
-                  </select>
-                </th>
-                <th>
-                  <input
-                    onChange={searchFullname}
-                    style={{ maxWidth: "100px", minWidth: "100px" }}
-                    type="search"
-                    className="w-100 form-control form-control-sm selectpicker"
-                    placeholder={t("F.I.O")}
-                  />
-                </th>
-                <th>
-                  <input
-                    onChange={searchBornDay}
-                    style={{ maxWidth: "100px", minWidth: "100px" }}
-                    type="search"
-                    className="w-100 form-control form-control-sm selectpicker"
-                    placeholder={t("Tug'ilgan yili")}
-                  />
-                </th>
-                <th>
-                  <input
-                    onChange={searchPhone}
-                    style={{ maxWidth: "100px", minWidth: "100px" }}
-                    type="search"
-                    className="w-100 form-control form-control-sm selectpicker"
-                    placeholder={t("Tel")}
-                  />
-                </th>
-                <th>
-                  <input
-                    onChange={searchId}
-                    style={{ maxWidth: "60px" }}
-                    type="search"
-                    className="form-control form-control-sm selectpicker"
-                    placeholder={t("ID")}
-                  />
-                </th>
-                <th>
-                  <input
-                    onChange={searchDoctor}
-                    style={{ maxWidth: "100px" }}
-                    type="search"
-                    className="form-control form-control-sm selectpicker"
-                    placeholder={t("Shifokor")}
-                  />
-                </th>
-                <th className="text-center">
-                  <Pagination
-                    setCurrentDatas={setCurrentConnectors}
-                    datas={connectors}
-                    setCurrentPage={setCurrentPage}
-                    countPage={countPage}
-                    totalDatas={connectors.length}
-                  />
-                </th>
-                <th
-                  className="text-center"
-                  style={{ maxWidth: "120px", overflow: "hidden" }}
-                >
-                  <DatePickers changeDate={changeStart} />
-                </th>
-                <th
-                  className="text-center"
-                  style={{ maxWidth: "120px", overflow: "hidden" }}
-                >
-                  <DatePickers changeDate={changeEnd} />
-                </th>
-                <th className="text-center" style={{ maxWidth: "120px" }}>
-                  <select
-                    className="form-control form-control-sm selectpicker"
-                    placeholder="Doctors"
-                    onChange={searchFinished}
-                  >
-                    <option value={"all"}>{t("Hammasi")}</option>
-                    <option value={"done"}>{t("Yakunlangan")}</option>
-                    <option value={"begin"}>{t("Davolanishda")}</option>
-                  </select>
-                </th>
-              </tr>
-            </thead>
             <thead>
               <tr>
                 <th className="border py-1 bg-alotrade text-[16px]">№</th>
@@ -156,7 +156,7 @@ export const TableClients = ({
                   {t("Kelgan vaqti")}
                 </th>
                 <th className="border py-1 bg-alotrade text-[16px]">{t("Qo'shish")}</th>
-                <th className="border py-1 bg-alotrade text-[16px] text-center">{t("Chek")}</th>
+                {/* <th className="border py-1 bg-alotrade text-[16px] text-center">{t("Chek")}</th> */}
                 <th className="border py-1 bg-alotrade text-[16px] text-center">{t("Tugatish")}</th>
               </tr>
             </thead>
@@ -208,6 +208,16 @@ export const TableClients = ({
                             });
                             setVisible(true);
                             setRoom(connector.room)
+                            setDoctorSelect({
+                              ...connector.doctor,
+                              label: connector?.doctor?.firstname + ' ' + connector?.doctor?.lastname,
+                              value: connector?.doctor?._id
+                            })
+                            setRoomSelect({
+                              ...connector?.room,
+                              value: connector?.room?._id,
+                              label: connector?.room?.room?.type + " " + connector?.room?.room?.number + " xona " + connector?.room?.room?.place + " o'rin"
+                            })
                           }}
                         >
                           +
@@ -215,7 +225,7 @@ export const TableClients = ({
                       )}
                     </td>
 
-                    <td className="border py-1 text-center text-[16px]">
+                    {/* <td className="border py-1 text-center text-[16px]">
                       {loading ? (
                         <button className="btn btn-primary" disabled>
                           <span className="spinner-border spinner-border-sm"></span>
@@ -232,10 +242,10 @@ export const TableClients = ({
                           <FontAwesomeIcon icon={faPrint} />
                         </button>
                       )}
-                    </td>
+                    </td> */}
                     <td className="border py-1 text-center text-[16px]">
                       {connector?.room?.endday ? (
-                        "Tugalgan"
+                        t("Yakunlangan")
                       ) : loading ? (
                         <button className="btn btn-danger" disabled>
                           <span className="spinner-border spinner-border-sm"></span>

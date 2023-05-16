@@ -334,22 +334,7 @@ export const RegisterClient = ({
                                         </select>
                                     </div>
                                 </div>
-                                {client._id ? (
-                                    <div className="col-12 text-right">
-                                        {loading ? (
-                                            <button className="btn btn-primary" disabled>
-                                                <span className="spinner-border spinner-border-sm"></span>
-                                                Loading...
-                                            </button>
-                                        ) : (
-                                            <button onClick={updateData} className="btn btn-primary">
-                                                {t("Yangilash")}
-                                            </button>
-                                        )}
-                                    </div>
-                                ) : (
-                                    ''
-                                )}
+                                
                             </div>
                         </div>
                     </div>

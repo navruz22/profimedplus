@@ -119,7 +119,7 @@ export const Services = () => {
             }
         } catch (error) {
             notify({
-                title: error,
+                title: t(`${error}`),
                 description: '',
                 status: 'error',
             })
@@ -153,7 +153,7 @@ export const Services = () => {
             setDepartments(data)
         } catch (error) {
             notify({
-                title: error,
+                title: t(`${error}`),
                 description: '',
                 status: 'error',
             })
@@ -181,7 +181,7 @@ export const Services = () => {
             setServiceTypesSelect(data);
         } catch (error) {
             notify({
-                title: error,
+                title: t(`${error}`),
                 description: '',
                 status: 'error',
             })
@@ -204,7 +204,7 @@ export const Services = () => {
                 },
             )
             notify({
-                title: `${data.name} xizmati yaratildi!`,
+                title: `${data.name} ${t("xizmati yaratildi")}!`,
                 description: '',
                 status: 'success',
             })
@@ -215,7 +215,7 @@ export const Services = () => {
             clearInputs()
         } catch (error) {
             notify({
-                title: error,
+                title: t(`${error}`),
                 description: '',
                 status: 'error',
             })
@@ -233,7 +233,7 @@ export const Services = () => {
                 },
             )
             notify({
-                title: `${data.name} xizmati yangilandi!`,
+                title: `${data.name} ${t("xizmati yangilandi")}!`,
                 description: '',
                 status: 'success',
             })
@@ -245,7 +245,7 @@ export const Services = () => {
             document.getElementsByTagName('select')[0].selectedIndex = 0
         } catch (error) {
             notify({
-                title: error,
+                title: t(`${error}`),
                 description: '',
                 status: 'error',
             })
@@ -253,8 +253,8 @@ export const Services = () => {
     }, [auth, request, getServices, service, notify, clearInputs])
 
     const saveHandler = () => {
-        if (checkService(service)) {
-            return notify(checkService(service))
+        if (checkService(service, t)) {
+            return notify(checkService(service, t))
         }
         if (service._id) {
             return updateHandler()
@@ -281,7 +281,7 @@ export const Services = () => {
             )
             localStorage.setItem('data', data)
             notify({
-                title: `Barha xizmatlar yuklandi!`,
+                title: t(`Barha xizmatlar yuklandi!`),
                 description: '',
                 status: 'success',
             })
@@ -292,9 +292,9 @@ export const Services = () => {
             clearInputs()
             setModal2(false)
             document.getElementsByTagName('select')[0].selectedIndex = 0
-        } catch (e) {
+        } catch (error) {
             notify({
-                title: e,
+                title: t(`${error}`),
                 description: '',
                 status: 'error',
             })
@@ -339,13 +339,13 @@ export const Services = () => {
             clearInputs()
             setModal(false)
             notify({
-                title: `${data.name} xizmati o'chirildi!`,
+                title: `${data.name} ${t("xizmati o'chirildi")}!`,
                 description: '',
                 status: 'success',
             })
         } catch (error) {
             notify({
-                title: error,
+                title: t(`${error}`),
                 description: '',
                 status: 'error',
             })
@@ -371,7 +371,7 @@ export const Services = () => {
             )
             localStorage.setItem('delete', data)
             notify({
-                title: `Barcha xizmatlar o'chirildi!`,
+                title: t(`Barcha xizmatlar o'chirildi!`),
                 description: '',
                 status: 'success',
             })
@@ -383,7 +383,7 @@ export const Services = () => {
             clearInputs()
         } catch (error) {
             notify({
-                title: error,
+                title: t(`${error}`),
                 description: '',
                 status: 'error',
             })
@@ -521,8 +521,8 @@ export const Services = () => {
             <Modal
                 modal={modal1}
                 setModal={setModal1}
-                basic={t('Barcha')}
-                text={t("xizmatlarni o'chirishni tasdiqlaysizmi?")}
+                basic={''}
+                text={t("Barcha xizmatlarni o'chirishni tasdiqlaysizmi?")}
                 handler={deleteAll}
             />
 

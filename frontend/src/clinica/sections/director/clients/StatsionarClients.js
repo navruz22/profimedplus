@@ -104,7 +104,7 @@ const StatsionarClients = () => {
                 setCurrentConnectors([...data].slice(indexFirstConnector, indexLastConnector));
             } catch (error) {
                 notify({
-                    title: error,
+                    title: t(`${error}`),
                     description: "",
                     status: "error",
                 });
@@ -243,7 +243,7 @@ const StatsionarClients = () => {
             setBaseurl(data.baseUrl);
         } catch (error) {
             notify({
-                title: error,
+                title: t(`${error}`),
                 description: "",
                 status: "error",
             });

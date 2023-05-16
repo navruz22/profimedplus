@@ -5,6 +5,7 @@ import { useHttp } from "../../../hooks/http.hook";
 import { TableClients } from "../../cashier/discountclients/clientComponents/TableClients";
 import Select from 'react-select'
 import makeAnimated from 'react-select/animated'
+import { useTranslation } from "react-i18next";
 
 const animatedComponents = makeAnimated()
 
@@ -23,7 +24,7 @@ export const DiscountReport = () => {
 
     //====================================================================
     //====================================================================
-
+        const {t} = useTranslation()
     //====================================================================
     //====================================================================
     // RegisterPage
@@ -132,7 +133,7 @@ export const DiscountReport = () => {
                 setOfflineDiscounts(data);
             } catch (error) {
                 notify({
-                    title: error,
+                    title: t(`${error}`),
                     description: "",
                     status: "error",
                 });
@@ -155,7 +156,7 @@ export const DiscountReport = () => {
                 setStatsionarDiscounts(data);
             } catch (error) {
                 notify({
-                    title: error,
+                    title: t(`${error}`),
                     description: "",
                     status: "error",
                 });
@@ -353,11 +354,11 @@ export const DiscountReport = () => {
     //====================================================================
     // useEffect
 
-    const [t, setT] = useState(0);
+    const [s, setS] = useState(0);
 
     useEffect(() => {
-        if (!t) {
-            setT(1);
+        if (!s) {
+            setS(1);
             getOfflineDiscounts(beginDay, endDay, clinicaValue);
             getStatsionarDiscounts(beginDay, endDay, clinicaValue);
         }
@@ -366,7 +367,7 @@ export const DiscountReport = () => {
         getOfflineDiscounts,
         getStatsionarDiscounts,
         // getAdvers,
-        t,
+        s,
         // getProducts,
         // getCounterDoctors,
         // getDepartments,

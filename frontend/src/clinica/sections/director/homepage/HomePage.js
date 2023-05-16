@@ -21,6 +21,7 @@ export const HomePage = () => {
 
   const notify = useCallback(
     (data) => {
+      console.log(data);
       toast({
         title: data.title && data.title,
         description: data.description && data.description,
@@ -106,7 +107,7 @@ export const HomePage = () => {
     } catch (error) {
       notify({
         title: t(`${error}`),
-        description: '',
+        description: '', 
         status: 'error',
       })
     }

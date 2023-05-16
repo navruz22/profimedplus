@@ -137,7 +137,7 @@ export const TableServices = ({
                 <th className="text-center">
                   <Tooltip
                     hasArrow
-                    label="Barcha xizmatlarni o'chirish"
+                    label={t("Barcha xizmatlarni o'chirish")}
                     bg="red.500"
                   >
                     {loading ? <button className='btn btn-danger' disabled>

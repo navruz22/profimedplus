@@ -121,7 +121,7 @@ export const DiscountClients = () => {
         setOfflineDiscounts(data);
       } catch (error) {
         notify({
-          title: error,
+          title: t(error),
           description: "",
           status: "error",
         });
@@ -144,7 +144,7 @@ export const DiscountClients = () => {
         setStatsionarDiscounts(data);
       } catch (error) {
         notify({
-          title: error,
+          title: t(error),
           description: "",
           status: "error",
         });
@@ -178,7 +178,7 @@ export const DiscountClients = () => {
       setStatsionarDiscounts(data2);
     } catch (error) {
       notify({
-        title: error,
+        title: t(error),
         description: "",
         status: "error",
       });

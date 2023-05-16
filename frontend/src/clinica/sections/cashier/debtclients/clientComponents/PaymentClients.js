@@ -1,5 +1,6 @@
 import React from "react";
 import "react-datepicker/dist/react-datepicker.css";
+import { useTranslation } from "react-i18next";
 
 export const PaymentClients = ({
   payment,
@@ -9,6 +10,9 @@ export const PaymentClients = ({
   loading,
   setPayment
 }) => {
+
+  const {t} = useTranslation()
+
   return (
     <>
       {/* Row start */}
@@ -16,7 +20,7 @@ export const PaymentClients = ({
         <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
           <div className="card">
             <div className="card-header">
-              <div className="card-title">Mijozning ma'lumotlari</div>
+              <div className="card-title">{t("Mijozning ma'lumotlari")}</div>
             </div>
             <div className="card-body">
               <table className="table">
@@ -26,25 +30,25 @@ export const PaymentClients = ({
                       #
                     </th>
                     <th scope="col" className="border py-1 bg-alotrade">
-                      Malumot
+                      {t("Malumot")}
                     </th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr className="border">
-                    <td className="border py-1">F.I.O.</td>
+                    <td className="border py-1">{t("F.I.Sh")}</td>
                     <td className="py-1">
                       {payment.client && payment.client.fullname}
                     </td>
                   </tr>
                   <tr className="border">
-                    <td className="border py-1">Telefon raqami:</td>
+                    <td className="border py-1">{t("Telefon raqami")}:</td>
                     <td className="py-1">
                       +998{payment.client && payment.client.phone}
                     </td>
                   </tr>
                   <tr className="border">
-                    <td className="border py-1">Tugilgan yili</td>
+                    <td className="border py-1">{t("Tug'ilgan yili")}</td>
                     <td className="py-1">
                       {new Date(
                         payment.client && payment.client.born
@@ -52,17 +56,17 @@ export const PaymentClients = ({
                     </td>
                   </tr>
                   <tr className="border">
-                    <td className="border py-1">ID:</td>
+                    <td className="border py-1">{t("ID")}:</td>
                     <td className="py-1">
                       {payment.client && payment.client.id}
                     </td>
                   </tr>
                   <tr className="border">
-                    <td className="border py-1">Summa:</td>
+                    <td className="border py-1">{t("Summa")}:</td>
                     <td className="py-1">{payment.total && payment.total}</td>
                   </tr>
                   <tr className="border">
-                    <td className="border py-1">Qarz summasi:</td>
+                    <td className="border py-1">{t("Qarz summasi")}:</td>
                     <td className="py-1">{payment.debt && payment.debt}</td>
                   </tr>
                 </tbody>
@@ -98,7 +102,7 @@ export const PaymentClients = ({
                     type="button"
                     className={`btn btn-sm py-1 text-white  ${payment.type === "cash" ? "bg-amber-500" : "bg-alotrade"}`}
                   >
-                    Naqt
+                    {t("Naqt")}
                   </button>
                   <button
                     onClick={() => {
@@ -113,7 +117,7 @@ export const PaymentClients = ({
                     type="button"
                     className={`btn btn-sm py-1 text-white ${payment.type === "card" ? "bg-amber-500" : "bg-alotrade"}`}
                   >
-                    Plastik
+                    {t("Plastik")}
                   </button>
                   <button
                     onClick={() => {
@@ -128,7 +132,7 @@ export const PaymentClients = ({
                     type="button"
                     className={`btn btn-sm py-1 text-white ${payment.type === "transfer" ? "bg-amber-500" : "bg-alotrade"}`}
                   >
-                    O'tkazma
+                    {t("O'tkazma")}
                   </button>
                 </div>
                 {payment.type === "cash" &&
@@ -138,13 +142,13 @@ export const PaymentClients = ({
                         className="w-100 input-group-text bg-primary text-white font-weight-bold"
                         id="inputGroup-sizing-sm"
                         style={{ fontSize: "9pt" }}>
-                        Naqt
+                        {t("Naqt")}
                       </span>
                     </div>
                     <input
                       type="number"
                       className="form-control"
-                      placeholder="Naqt to'lov"
+                      placeholder={t("Naqt to'lov")}
                       value={payCount || ''}
                       name="cash"
                       onChange={(e) => setPayCount(e.target.value)}
@@ -157,13 +161,13 @@ export const PaymentClients = ({
                         className="w-100 input-group-text bg-primary text-white font-weight-bold"
                         id="inputGroup-sizing-sm"
                         style={{ fontSize: "9pt" }}>
-                        Plastik
+                        {t("Plastik")}
                       </span>
                     </div>
                     <input
                       type="number"
                       className="form-control"
-                      placeholder="Karta orqali to'lov to'lov"
+                      placeholder={t("Karta orqali to'lov")}
                       value={payCount || ''}
                       name="card"
                       onChange={(e) => setPayCount(e.target.value)}
@@ -176,13 +180,13 @@ export const PaymentClients = ({
                         className="w-100 input-group-text bg-primary text-white font-weight-bold"
                         id="inputGroup-sizing-sm"
                         style={{ fontSize: "9pt" }}>
-                        O'tkazma
+                        {t("O'tkazma")}
                       </span>
                     </div>
                     <input
                       type="number"
                       className="form-control"
-                      placeholder="O'tkazma to'lov"
+                      placeholder={t("O'tkazma to'lov")}
                       value={payCount || ''}
                       name="transfer"
                       onChange={(e) => setPayCount(e.target.value)}
@@ -200,7 +204,7 @@ export const PaymentClients = ({
                     className="bg-alotrade text-white py-2 px-3 font-semibold"
                     onClick={checkPayCount}
                   >
-                    To'lov qilish
+                    {t("To'lov qilish")}
                   </button>
                 )}
               </div>

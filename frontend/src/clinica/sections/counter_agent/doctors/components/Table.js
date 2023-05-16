@@ -55,7 +55,7 @@ const Table = ({
                             value={selected}
                             options={[
                                 {
-                                    label: t('Xammasi'),
+                                    label: t('Hammasi'),
                                     value: "none"
                                 },
                                 ...[...counterDoctorsList].map(item => ({

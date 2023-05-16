@@ -3,6 +3,7 @@ import QRCode from "qrcode";
 import { useReactToPrint } from "react-to-print";
 import CheckStatsionarClient from "../statsionarclients/clientComponents/CheckStatsionarClient";
 import { AuthContext } from "../../../context/AuthContext";
+import { useTranslation } from "react-i18next";
 
 export const CheckModalStatsionar = ({
   modal,
@@ -10,6 +11,9 @@ export const CheckModalStatsionar = ({
   setModal,
   baseUrl,
 }) => {
+
+  const {t} = useTranslation()
+
   const [qr, setQr] = useState();
 
   const auth = useContext(AuthContext);
@@ -46,7 +50,7 @@ export const CheckModalStatsionar = ({
               className="modal-title font-weight-bold text-uppercase text-center  w-100"
               id="customModalLabel"
             >
-              Qabul cheki!
+              {t("To'lov hisobi")}
             </h5>
           </div>
           <div className="modal-body overflow-scroll">
@@ -63,7 +67,7 @@ export const CheckModalStatsionar = ({
                   setModal(false);
                 }}
               >
-                Bekor qilish
+                {t("Bekor qilish")}
               </button>
             </div>
             <div className="divider" />
@@ -75,7 +79,7 @@ export const CheckModalStatsionar = ({
                 }}
                 className="btn btn-link success w-100"
               >
-                Chop etish
+                {t("Chop etish")}
               </button>
             </div>
           </div>

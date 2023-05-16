@@ -79,6 +79,7 @@ export const InputService = ({
                   placeholder={t("Xizmat turini tanlang")}
                   style={{ minWidth: "70px" }}
                 >
+                  <option>{t("Tanlang...")}</option>
                   {servicetypes &&
                     servicetypes.map((servicetype, index) => {
                       if (

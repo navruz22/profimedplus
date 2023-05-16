@@ -9,11 +9,15 @@ import { TableClients } from '../../cashier/offlineclients/clientComponents/Tabl
 import { MainReportTable } from './components/MainReportTable'
 import Select from 'react-select'
 import makeAnimated from 'react-select/animated'
+import { useTranslation } from 'react-i18next'
 
 const animatedComponents = makeAnimated()
 
 
 const MainReport = () => {
+
+  const {t} = useTranslation()
+
   const [beginDay, setBeginDay] = useState(
     new Date(new Date().setUTCHours(0, 0, 0, 0)),
   )
@@ -108,7 +112,7 @@ const MainReport = () => {
         )
       } catch (error) {
         notify({
-          title: error,
+          title: t(`${error}`),
           description: '',
           status: 'error',
         })
@@ -134,7 +138,7 @@ const MainReport = () => {
       setExpenseTotal(data.total);
     } catch (error) {
       notify({
-        title: error,
+        title: t(`${error}`),
         description: '',
         status: 'error',
       })
@@ -152,7 +156,7 @@ const MainReport = () => {
       setBaseurl(data.baseUrl);
     } catch (error) {
       notify({
-        title: error,
+        title: t(`${error}`),
         description: "",
         status: "error",
       });

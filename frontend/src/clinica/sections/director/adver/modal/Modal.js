@@ -1,6 +1,8 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 export const Modal = ({ modal, text, setModal, handler, basic }) => {
+  const {t} = useTranslation()
   return (
     <div
       className={`modal fade show ${modal ? "" : "d-none"}`}
@@ -19,7 +21,7 @@ export const Modal = ({ modal, text, setModal, handler, basic }) => {
               className="modal-title font-weight-bold text-uppercase text-center  w-100"
               id="customModalLabel"
             >
-              Diqqat!
+              {t("Diqqat!")}
             </h5>
           </div>
           <div className="modal-body">
@@ -42,13 +44,13 @@ export const Modal = ({ modal, text, setModal, handler, basic }) => {
                 data-dismiss="modal"
                 onClick={() => setModal(false)}
               >
-                Bekor qilish
+                {t("Bekor qilish")}
               </button>
             </div>
             <div className="divider" />
             <div className="right-side">
               <button onClick={handler} className="btn btn-link success w-100">
-                Tasdiqlash
+                {t("Tasdiqlash")}
               </button>
             </div>
           </div>

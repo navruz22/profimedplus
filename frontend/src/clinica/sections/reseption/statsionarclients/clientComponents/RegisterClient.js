@@ -38,10 +38,13 @@ export const RegisterClient = ({
     connector,
     setConnector,
     changeDiagnos,
-    clientDate
+    clientDate,
+    doctorSelect,
+    roomSelect,
+    agentSelect
 }) => {
-
-    const {t} = useTranslation()
+   
+    const { t } = useTranslation()
 
     const [services, setServices] = useState([]);
     const getServices = useCallback(
@@ -290,25 +293,51 @@ export const RegisterClient = ({
                                 <div className="col-sm-6 col-12">
                                     <div className="form-group">
                                         <label htmlFor="biO">{t("Doctors")}</label>
-                                        <select
+                                        <Select
+                                            value={doctorSelect}
+                                            onChange={changeDoctor}
+                                            placeholder={t('Tanlang...')}
+                                            components={animatedComponents}
+                                            options={doctors}
+                                            theme={(theme) => ({
+                                                ...theme,
+                                                borderRadius: 0,
+                                                padding: 0,
+                                                height: 0,
+                                            })}
+                                        />
+                                        {/* <select
                                             className="form-control form-control-sm selectpicker"
                                             placeholder="Doctors"
                                             onChange={changeDoctor}
                                             style={{ border: connector.doctor && '1px solid blue' }}
-                                        >
+                                        > 
                                             <option value={"delete"}>{t("Doctors")}</option>
                                             {doctors.map((doctor, index) => (
                                                 <option key={index} value={doctor._id}>
                                                     {doctor.lastname} {doctor.firstname}
                                                 </option>
                                             ))}
-                                        </select>
+                                        </select> */}
                                     </div>
                                 </div>
                                 <div className="col-sm-6 col-12">
                                     <div className="form-group">
                                         <label htmlFor="biO">{t("Xonalar")}</label>
-                                        <select
+                                        <Select
+                                            value={roomSelect}
+                                            onChange={changeRoom}
+                                            placeholder={t('Tanlang...')}
+                                            components={animatedComponents}
+                                            options={rooms}
+                                            theme={(theme) => ({
+                                                ...theme,
+                                                borderRadius: 0,
+                                                padding: 0,
+                                                height: 0,
+                                            })}
+                                        />
+                                        {/* <select
                                             className="form-control form-control-sm selectpicker"
                                             placeholder="Xonalar"
                                             onChange={changeRoom}
@@ -325,12 +354,13 @@ export const RegisterClient = ({
                                                         " o'rin"}
                                                 </option>
                                             ))}
-                                        </select>
+                                        </select> */}
                                     </div>
                                 </div>
                                 <div className="col-sm-6 col-12">
                                     <label>{t("Qabul sanasi")}</label>
                                     <input
+                                        value={room?.beginday && new Date(room?.beginday).toISOString().slice(0, 10)}
                                         onChange={(e) => setRoom({ ...room, beginday: new Date(e.target.value) })}
                                         type="date"
                                         className="form-control inp"
@@ -353,7 +383,20 @@ export const RegisterClient = ({
                                 <div className="col-sm-6 col-12">
                                     <div className="form-group">
                                         <label htmlFor="biO">{t("Kontragent")}</label>
-                                        <select
+                                        <Select
+                                            value={agentSelect}
+                                            onChange={changeCounterAgent}
+                                            placeholder={t('Tanlang...')}
+                                            components={animatedComponents}
+                                            options={counterdoctors}
+                                            theme={(theme) => ({
+                                                ...theme,
+                                                borderRadius: 0,
+                                                padding: 0,
+                                                height: 0,
+                                            })}
+                                        />
+                                        {/* <select
                                             onChange={changeCounterAgent}
                                             className="form-control form-control-sm selectpicker"
                                             placeholder="Kontragentlarni tanlash"
@@ -372,7 +415,7 @@ export const RegisterClient = ({
                                                     </option>
                                                 );
                                             })}
-                                        </select>
+                                        </select> */}
                                     </div>
                                 </div>
                                 <div className="col-sm-6 col-12">

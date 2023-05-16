@@ -126,7 +126,7 @@ const DoctorTemplate = ({ client, connector, services, clientsType, baseUrl }) =
         }
       );
       notify({
-        title: data.message,
+        title: t(data.message),
         description: "",
         status: "success",
       });
@@ -153,7 +153,7 @@ const DoctorTemplate = ({ client, connector, services, clientsType, baseUrl }) =
         }
       );
       notify({
-        title: data.message,
+        title: t(data.message),
         description: "",
         status: "success",
       });

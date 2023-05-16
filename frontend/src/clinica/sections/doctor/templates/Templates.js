@@ -98,7 +98,7 @@ const Templates = () => {
             setCurrentTemplates(data.slice(indexFirstTemplate, indexLastTemplate))
         } catch (error) {
             notify({
-                title: error,
+                title: t(error),
                 description: '',
                 status: 'error',
             })
@@ -152,14 +152,14 @@ const Templates = () => {
     const createHandler = async () => {
         if (!template.name) {
             return notify({
-                title: "Diqqat! Shablon nomini kiriting.",
+                title: t("Diqqat! Shablon nomini kiriting."),
                 description: '',
                 status: 'error',
             })
         }
         if (!templateText) {
             return notify({
-                title: "Diqqat! Shablonni kiriting.",
+                title: t("Diqqat! Shablonni kiriting."),
                 description: '',
                 status: 'error',
             })
@@ -174,7 +174,7 @@ const Templates = () => {
                 },
             )
             notify({
-                title: `${data.name} shabloni yaratildi!`,
+                title: `${data.name} ${t("shabloni yaratildi!")}`,
                 description: '',
                 status: 'success',
             })
@@ -184,7 +184,7 @@ const Templates = () => {
             clearInputs()
         } catch (error) {
             notify({
-                title: error,
+                title: t(error),
                 description: '',
                 status: 'error',
             })
@@ -203,7 +203,7 @@ const Templates = () => {
             )
             localStorage.setItem("data", data)
             notify({
-                title: `Shablonlar yaratildi!`,
+                title: t(`Shablonlar yaratildi!`),
                 description: '',
                 status: 'success',
             })
@@ -212,7 +212,7 @@ const Templates = () => {
             setModal2(false)
         } catch (error) {
             notify({
-                title: error,
+                title: t(error),
                 description: '',
                 status: 'error',
             })
@@ -230,7 +230,7 @@ const Templates = () => {
                 },
             )
             notify({
-                title: `${data.name} shabloni o'chirildi!`,
+                title: `${data.name} ${t("shabloni o'chirildi!")}`,
                 description: '',
                 status: 'success',
             })
@@ -240,7 +240,7 @@ const Templates = () => {
             setModal(false)
         } catch (error) {
             notify({
-                title: error,
+                title: t(error),
                 description: '',
                 status: 'error',
             })

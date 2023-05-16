@@ -1,7 +1,8 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 const CheckStatsionarClient = ({ connector, qr, clinica, baseUrl }) => {
-  console.log(connector);
+  const {t} = useTranslation()
   return (
     <div className="container p-3">
       <div className="">
@@ -22,7 +23,7 @@ const CheckStatsionarClient = ({ connector, qr, clinica, baseUrl }) => {
               borderLeft: "none",
             }}
           >
-            <p className="pt-2">IFUD: {clinica?.ifud2}</p>
+            <p className="pt-2">{t("IFUD")}: {clinica?.ifud2}</p>
           </div>
           <div
             className="col-4"
@@ -73,7 +74,7 @@ const CheckStatsionarClient = ({ connector, qr, clinica, baseUrl }) => {
                 border: "1px solid #000",
               }}
             >
-              Mijozning F.I.SH
+              {t("Mijozning F.I.SH")}
             </td>
             <td
               className="p-0"
@@ -103,7 +104,7 @@ const CheckStatsionarClient = ({ connector, qr, clinica, baseUrl }) => {
                 border: "1px solid #000",
               }}
             >
-              Tug'ilgan yili
+              {t("Tug'ilgan yili")}
             </td>
             <td
               className="p-0"
@@ -124,7 +125,7 @@ const CheckStatsionarClient = ({ connector, qr, clinica, baseUrl }) => {
                 border: "1px solid #000",
               }}
             >
-              Jinsi
+              {t("Jinsi")}t
             </td>
             <td
               className="p-0"
@@ -135,8 +136,8 @@ const CheckStatsionarClient = ({ connector, qr, clinica, baseUrl }) => {
                 fontSize: "20px",
               }}
             >
-              {connector?.client?.gender === 'man' && 'Erkak'}
-              {connector?.client?.gender === 'women' && 'Ayol'}
+              {connector?.client?.gender === 'man' && t('Erkak')}
+              {connector?.client?.gender === 'women' && t('Ayol')}
             </td>
           </tr>
           <tr style={{ textAlign: "center" }}>
@@ -148,7 +149,7 @@ const CheckStatsionarClient = ({ connector, qr, clinica, baseUrl }) => {
                 border: "1px solid #000",
               }}
             >
-              Kelgan sanasi
+              {t("Kelgan sanasi")}
             </td>
             <td
               className="p-0"
@@ -170,7 +171,7 @@ const CheckStatsionarClient = ({ connector, qr, clinica, baseUrl }) => {
                 border: "1px solid #000",
               }}
             >
-              Ketgan vaqti
+              {t("Ketgan vaqti")}
             </td>
             <td
               className="p-0"
@@ -194,7 +195,7 @@ const CheckStatsionarClient = ({ connector, qr, clinica, baseUrl }) => {
                 border: "1px solid #000",
               }}
             >
-              Manzil
+              {t("Manzil")}
             </td>
             <td
               className="p-0"
@@ -214,7 +215,7 @@ const CheckStatsionarClient = ({ connector, qr, clinica, baseUrl }) => {
                 border: "1px solid #000",
               }}
             >
-              ID
+              {t("ID")}
             </td>
             <td
               className="p-0"
@@ -250,19 +251,19 @@ const CheckStatsionarClient = ({ connector, qr, clinica, baseUrl }) => {
                     №
                   </td>
                   <td className="text-center font-weight-bold border py-1">
-                    Xizmat turi
+                    {t("Xizmat turi")}
                   </td>
                   <td className="text-center font-weight-bold border py-1">
-                    Miqdori (dona)
+                    {t("Miqdori")} 
                   </td>
                   <td className="text-center font-weight-bold border py-1">
-                    Narxi (1 dona)
+                    {t("Narxi")}
                   </td>
                   <td className="text-center font-weight-bold border py-1">
-                    Narxi (umumiy)
+                    {t("Umumiy")}
                   </td>
                   <td className="text-center font-weight-bold border py-1">
-                    Vaqti
+                    {t("Kelgan vaqti")}
                   </td>
                 </tr>
               </thead>
@@ -318,7 +319,7 @@ const CheckStatsionarClient = ({ connector, qr, clinica, baseUrl }) => {
                     );
                   })}
                 <tr>
-                  <td className="border py-1 text-bold">Xona</td>
+                  <td className="border py-1 text-bold">{t("O'rin")}</td>
                   <td className="text-left border px-2 py-1 text-bold font-weight-bold">
                     {connector.room && connector.room.room.type}
                   </td>
@@ -375,7 +376,7 @@ const CheckStatsionarClient = ({ connector, qr, clinica, baseUrl }) => {
               <tfoot>
                 <tr>
                   <td className="text-right px-3 font-weight-bold" colSpan="4">
-                    Jami to'lov:
+                    {t("Jami to'lov")}:
                   </td>
                   <td className="text-right">
                     {(connector?.room?.endday ? Math.round(
@@ -399,25 +400,25 @@ const CheckStatsionarClient = ({ connector, qr, clinica, baseUrl }) => {
                 </tr>
                 {!connector?.room?.endday && <tr>
                   <td className="text-right px-3 font-weight-bold" colSpan="4">
-                    Oldindan to'lov:
+                    {t("Oldindan to'lov")}:
                   </td>
                   <td className="text-right">{connector?.payments && connector?.payments.length > 0 ? connector?.payments.reduce((prev, el) => prev + el.payment, 0) : 0}</td>
                 </tr>}
                 {connector?.room?.endday && <tr>
                   <td className="text-right px-3 font-weight-bold" colSpan="4">
-                    To'langan:
+                    {t("To'langan")}:
                   </td>
                   <td className=" text-right">{connector?.payments && connector?.payments.reduce((prev, el) => prev + el.payment, 0)}</td>
                 </tr>}
                 <tr>
                   <td className="text-right px-3 font-weight-bold" colSpan="4">
-                    Qarz:
+                    {t("Qarz")}:
                   </td>
                   <td className="text-right">{connector?.payments && connector?.payments.reduce((prev, el) => prev + el.debt, 0)}</td>
                 </tr>
                 <tr>
                   <td className="text-right px-3 font-weight-bold" colSpan="4">
-                    Chegirma:
+                    {t("Chegirma")}:
                   </td>
                   <td className="text-right">{connector?.discount?.discount}</td>
                 </tr>
@@ -429,7 +430,7 @@ const CheckStatsionarClient = ({ connector, qr, clinica, baseUrl }) => {
             className="mt-3"
             style={{ fontSize: "10pt", fontFamily: "times" }}
           >
-            Qabul:{" "}
+            {t("Qabul")}:{" "}
           </h6>
           <hr />
           <h6
@@ -439,7 +440,7 @@ const CheckStatsionarClient = ({ connector, qr, clinica, baseUrl }) => {
               fontFamily: "times",
             }}
           >
-            Mijoz: {connector.client && connector.client.fullname}
+            {t("Mijoz")}: {connector.client && connector.client.fullname}
           </h6>
           <hr />
         </div>

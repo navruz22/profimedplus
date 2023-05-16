@@ -106,7 +106,7 @@ const AdoptionTemplate = () => {
         }
       );
       notify({
-        title: data.message,
+        title: t(data.message),
         description: "",
         status: "success",
       });
@@ -136,7 +136,7 @@ const AdoptionTemplate = () => {
         }
       );
       notify({
-        title: data.message,
+        title: t(data.message),
         description: "",
         status: "success",
       });

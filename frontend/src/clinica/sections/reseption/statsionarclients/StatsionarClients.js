@@ -116,7 +116,7 @@ export const StatsionarClients = () => {
                 );
             } catch (error) {
                 notify({
-                    title: error,
+                    title: t(`${error}`),
                     description: "",
                     status: "error",
                 });
@@ -125,7 +125,11 @@ export const StatsionarClients = () => {
         [request, auth, notify, indexFirstConnector, indexLastConnector]
     );
     //====================================================================
-    //====================================================================+
+    //====================================================================
+
+    const [doctorSelect, setDoctorSelect] = useState(null)
+    const [roomSelect, setRoomSelect] = useState(null)
+    const [agentSelect, setAgentSelect] = useState(null)
 
     //====================================================================
     //====================================================================
@@ -202,7 +206,6 @@ export const StatsionarClients = () => {
                 const searching = [...searchStorage].filter(
                     (item) => item?.room?.endday === null
                 );
-                console.log(searching);
                 setConnectors(searching);
                 setCurrentConnectors(searching.slice(0, countPage));
             }
@@ -259,7 +262,7 @@ export const StatsionarClients = () => {
             setDepartments(data);
         } catch (error) {
             notify({
-                title: error,
+                title: t(`${error}`),
                 description: "",
                 status: "error",
             });
@@ -312,41 +315,37 @@ export const StatsionarClients = () => {
     const getCounterDoctors = useCallback(async () => {
         try {
             const data = await request(
-                `/api/user/gettype`,
+                `/api/counter_agent/counterdoctorall/get`,
                 "POST",
                 { clinica: auth.clinica._id, type: "CounterDoctor" },
                 {
                     Authorization: `Bearer ${auth.token}`,
                 }
             );
-            setCounterDoctors(data);
+            console.log(counterdoctors);
+            setCounterDoctors([...data].map(doctor => ({
+                ...doctor,
+                value: doctor._id,
+                label: doctor?.firstname + ' ' + doctor?.lastname
+            })));
         } catch (error) {
             notify({
-                title: error,
+                title: t(`${error}`),
                 description: "",
                 status: "error",
             });
         }
     }, [request, auth, notify]);
-
-    const [counteragent, setCounterAgent] = useState({
-        clinica: auth.clinica && auth.clinica._id,
-        reseption: auth.user && auth.user._id,
-    });
+    
+    const [counteragent, setCounterAgent] = useState(null);
 
     const changeCounterAgent = (e) => {
-        if (e.target.value === "delete") {
-            let s = { ...counteragent };
-            delete s.counterdoctor;
-            delete s.counteragent;
-            setCounterAgent(s);
+        if (e.value === "delete") {
+            setCounterAgent(null)
+            setAgentSelect(null)
         } else {
-            setCounterAgent({
-                ...counteragent,
-                counterdoctor: JSON.parse(e.target.value)._id,
-                counteragent: JSON.parse(e.target.value).user,
-                clinica: auth.clinica._id,
-            });
+            setCounterAgent(e.value);
+            setAgentSelect(e)
         }
     };
     //====================================================================
@@ -370,7 +369,7 @@ export const StatsionarClients = () => {
             setAdvers(data);
         } catch (error) {
             notify({
-                title: error,
+                title: t(`${error}`),
                 description: "",
                 status: "error",
             });
@@ -424,7 +423,7 @@ export const StatsionarClients = () => {
             setProducts(s);
         } catch (error) {
             notify({
-                title: error,
+                title: t(`${error}`),
                 description: "",
                 status: "error",
             });
@@ -467,10 +466,14 @@ export const StatsionarClients = () => {
                     Authorization: `Bearer ${auth.token}`,
                 }
             );
-            setDoctors(data);
+            setDoctors([...data].map(doctor => ({
+                ...doctor,
+                label: doctor.firstname + ' ' + doctor.lastname,
+                value: doctor._id,
+            })));
         } catch (error) {
             notify({
-                title: error,
+                title: t(`${error}`),
                 description: "",
                 status: "error",
             });
@@ -478,15 +481,16 @@ export const StatsionarClients = () => {
     }, [request, auth, notify]);
 
     const changeDoctor = (e) => {
-        if (e.target.value === "delete") {
+        if (e.value === "delete") {
             let s = { ...connector };
             delete s.doctor;
             setConnector(s);
         } else {
             setConnector({
                 ...connector,
-                doctor: e.target.value,
+                doctor: e.value,
             });
+            setDoctorSelect(e)
         }
     };
 
@@ -508,10 +512,14 @@ export const StatsionarClients = () => {
                     Authorization: `Bearer ${auth.token}`,
                 }
             );
-            setRooms(data);
+            setRooms([...data].map(room => ({
+                ...room,
+                value: room._id,
+                label: room.type + " " + room.number + " xona " + room.place + " o'rin"
+            })));
         } catch (error) {
             notify({
-                title: error,
+                title: t(`${error}`),
                 description: "",
                 status: "error",
             });
@@ -521,10 +529,11 @@ export const StatsionarClients = () => {
     const [room, setRoom] = useState({
         clinica: auth.clinica && auth.clinica._id,
         reseption: auth.user._id,
+        beginday: new Date()
     });
 
     const changeRoom = (e) => {
-        if (e.target.value === "delete") {
+        if (e.value === "delete") {
             let s = { ...room };
             delete s.room;
             delete s.roomid;
@@ -532,9 +541,10 @@ export const StatsionarClients = () => {
         } else {
             setRoom({
                 ...room,
-                room: JSON.parse(e.target.value),
-                roomid: JSON.parse(e.target.value)._id,
+                room: JSON.parse(e),
+                roomid: JSON.parse(e.value)._id,
             });
+            setRoomSelect(e)
         }
     };
     // ===================================================================
@@ -551,7 +561,7 @@ export const StatsionarClients = () => {
             setBaseurl(data.baseUrl);
         } catch (error) {
             notify({
-                title: error,
+                title: t(`${error}`),
                 description: "",
                 status: "error",
             });
@@ -625,24 +635,24 @@ export const StatsionarClients = () => {
     }, [auth]);
 
     const checkData = () => {
-        if (checkClientData(client)) {
-            return notify(checkClientData(client));
+        if (checkClientData(client, t)) {
+            return notify(checkClientData(client, t));
         }
 
-        if (checkConnectorData(connector, client)) {
-            return notify(checkConnectorData(connector, client));
+        if (checkConnectorData(connector, client, t)) {
+            return notify(checkConnectorData(connector, client, t));
         }
 
-        if (checkRoomData(room, client)) {
-            return notify(checkRoomData(room, client));
+        if (checkRoomData(room, client, t)) {
+            return notify(checkRoomData(room, client, t));
         }
 
         if (checkServicesData(services && services)) {
-            return notify(checkServicesData(services && services));
+            return notify(checkServicesData(services && services, t));
         }
 
-        if (checkProductsData(newproducts)) {
-            return notify(checkProductsData(newproducts));
+        if (checkProductsData(newproducts, t)) {
+            return notify(checkProductsData(newproducts, t));
         }
 
         setModal(true);
@@ -664,7 +674,7 @@ export const StatsionarClients = () => {
                     connector: { ...connector, clinica: auth.clinica._id },
                     services: [...services],
                     products: [...newproducts],
-                    counteragent: { ...counteragent, clinica: auth.clinica._id },
+                    counterdoctor: counteragent,
                     adver: { ...adver, clinica: auth.clinica._id },
                     room: { ...room },
                     offlineclient: offlineclient,
@@ -675,7 +685,7 @@ export const StatsionarClients = () => {
                 }
             );
             notify({
-                title: "Mijoz muvaffaqqiyatli yaratildi.",
+                title: t("Mijoz muvaffaqqiyatli yaratildi."),
                 description: "",
                 status: "success",
             });
@@ -690,7 +700,7 @@ export const StatsionarClients = () => {
             setOfflineconnector()
         } catch (error) {
             notify({
-                title: error,
+                title: t(`${error}`),
                 description: "",
                 status: "error",
             });
@@ -711,7 +721,7 @@ export const StatsionarClients = () => {
         notify,
         clearDatas,
     ]);
-    console.log(room);
+    
     const updateHandler = useCallback(async () => {
         if (checkClientData(client)) {
             return notify(checkClientData(client));
@@ -734,7 +744,7 @@ export const StatsionarClients = () => {
             getConnectors(beginDay, endDay);
             notify({
                 title: `${data.lastname + " " + data.firstname
-                    }  ismli mijoz ma'lumotlari muvaffaqqiyatl yangilandi.`,
+                    }  ${t("ismli mijoz ma'lumotlari muvaffaqqiyatl yangilandi.")}`,
                 description: "",
                 status: "success",
             });
@@ -742,7 +752,7 @@ export const StatsionarClients = () => {
             setVisible(false);
         } catch (error) {
             notify({
-                title: error,
+                title: t(`${error}`),
                 description: "",
                 status: "error",
             });
@@ -784,7 +794,7 @@ export const StatsionarClients = () => {
             getConnectors(beginDay, endDay);
             notify({
                 title: `${client.lastname + " " + client.firstname
-                    }  ismli mijozga xizmatlar muvaffaqqiyatli qo'shildi.`,
+                    }  ${t("ismli mijozga xizmatlar muvaffaqqiyatli qo'shildi.")}`,
                 description: "",
                 status: "success",
             });
@@ -793,7 +803,7 @@ export const StatsionarClients = () => {
             setVisible(false);
         } catch (error) {
             notify({
-                title: error,
+                title: t(`${error}`),
                 description: "",
                 status: "error",
             });
@@ -888,14 +898,14 @@ export const StatsionarClients = () => {
             localStorage.setItem("room", data);
             setModal2(false);
             notify({
-                title: "Mijoz muvaffaqqiyatli yaratildi.",
+                title: t("Mijoz muvaffaqqiyatli yaratildi."),
                 description: "",
                 status: "success",
             });
             getConnectors(beginDay, endDay);
         } catch (error) {
             notify({
-                title: error,
+                title: t(`${error}`),
                 description: "",
                 status: "error",
             });
@@ -910,7 +920,6 @@ export const StatsionarClients = () => {
 
     useEffect(() => {
         if (state?.client) {
-            console.log(state);
             setOfflineclient(state.client._id)
             setOfflineconnector(state.connector._id)
             let clientData = { ...state.client }
@@ -1006,6 +1015,9 @@ export const StatsionarClients = () => {
                                 setConnector={setConnector}
                                 changeDiagnos={changeDiagnos}
                                 clientDate={clientDate}
+                                doctorSelect={doctorSelect}
+                                roomSelect={roomSelect}
+                                agentSelect={agentSelect}
                             />
                         </div>
                         <TableClients
@@ -1039,6 +1051,8 @@ export const StatsionarClients = () => {
                             searchBornDay={searchBornDay}
                             searchFinished={searchFinished}
                             searchDoctor={searchDoctor}
+                            setDoctorSelect={setDoctorSelect}
+                            setRoomSelect={setRoomSelect}
                         />
                     </div>
                 </div>

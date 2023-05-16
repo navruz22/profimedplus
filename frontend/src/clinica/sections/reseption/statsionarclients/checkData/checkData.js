@@ -1,48 +1,49 @@
-export const checkClientData = (client) => {
+export const checkClientData = (client, t) => {
+    console.log(client);
     if (!client.firstname) {
         return {
-            title: "Diqqat! Mijoz ismi kiritilmagan.",
-            description: "Iltimos foydalanuvchi ismini kiriting.",
+            title: t("Diqqat! Mijoz ismi kiritilmagan."),
+            description: "",
             status: "error",
         };
     }
 
     if (!client.lastname) {
         return {
-            title: "Diqqat! Mijoz familiyasi kiritilmagan.",
-            description: "Iltimos foydalanuvchi familiyasini kiriting.",
+            title: t("Diqqat! Mijoz familiyasi kiritilmagan."),
+            description: "",
             status: "error",
         };
     }
 
     if (!client.born) {
         return {
-            title: "Diqqat! Mijozning tug'ilgan sanasi kiritilmagan.",
-            description: "Iltimos mijozning tug'ilgan sanasini kiriting.",
+            title: t("Diqqat! Mijozning tug'ilgan sanasi kiritilmagan."),
+            description: "",
             status: "error",
         };
     }
 
-    if (client.phone && client.phone.length !== 9) {
+    if (!client.phone || (client.phone && client.phone.length !== 9)) {
         return {
-            title: "Diqqat! Mijoz telefon raqami 9 raqamdan iborat bo'lishi kerak.",
-            description: "Iltimos foydalanuvchi telefon raqamini to'g'ri kiriting.",
+            title: t("Diqqat! Mijoz telefon raqami kiritilmagan."),
+            description: "",
             status: "error",
         };
     }
 
     if (!client.gender) {
         return {
-            title: "Diqqat! Mijozning jinsi tanlanmagan.",
-            description: "Iltimos mijozning jinsini tanlang.",
+            title: t("Diqqat! Mijozning jinsi tanlanmagan."),
+            description: "",
             status: "error",
         };
     }
 
     if (!client.national) {
         return {
-            title: 'Diqqat! Mijozning fuqorosi tanlanmagan.',
-            description: 'Iltimos mijozning fuqorosini tanlang.',
+            title: t('Diqqat! Mijozning fuqorosi tanlanmagan.'),
+            description: '',
             status: 'error',
         }
     }
@@ -76,30 +77,30 @@ export const checkProductsData = (products) => {
     return false;
 };
 
-export const checkConnectorData = (connector, client) => {
+export const checkConnectorData = (connector, client, t) => {
     if (!connector.doctor && !client._id) {
         return {
-            title: "Diqqat! Mijozga shifokor biriktirilmagan.",
-            description: "Iltimos mijozga shifokor biriktiring.",
+            title: t("Diqqat! Mijozga shifokor biriktirilmagan."),
+            description: "",
             status: "error",
         };
     }
     return false;
 };
 
-export const checkRoomData = (room, client) => {
+export const checkRoomData = (room, client, t) => {
     if (!room.roomid && !client._id) {
         return {
-            title: "Diqqat! Mijozga xona biriktirilmagan.",
-            description: "Iltimos mijozga xona biriktiring.",
+            title: t("Diqqat! Mijozga xona biriktirilmagan."),
+            description: "",
             status: "error",
         };
     }
 
     if (!room.beginday && !client._id) {
         return {
-            title: "Diqqat! Mijozning kelgan kuni kiritilmagan.",
-            description: "Iltimos mijozning kelgan kunini kiriting.",
+            title: t("Diqqat! Mijozning kelgan kuni kiritilmagan."),
+            description: "",
             status: "error",
         };
     }

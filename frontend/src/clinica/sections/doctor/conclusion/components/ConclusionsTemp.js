@@ -173,7 +173,7 @@ const ConclusionsTemp = () => {
                 },
             )
             notify({
-                title: `${data.message}`,
+                title: `${t("shabloni yaratildi!")}`,
                 description: '',
                 status: 'success',
             })
@@ -229,7 +229,7 @@ const ConclusionsTemp = () => {
                 },
             )
             notify({
-                title: `${data.name} shabloni o'chirildi!`,
+                title: t("shabloni o'chirildi!"),
                 description: '',
                 status: 'success',
             })

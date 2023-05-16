@@ -8,7 +8,7 @@ const RegisterDoctor = ({ doctor, changeDoctorData, loading, checkData }) => {
             <div className="w-full flex flex-col items-center bg-white p-2">
                 <div className="card w-[50%]">
                     <div className="card-header">
-                        <div className="card-title">{t("Mijozning shaxsiy ma'lumotlari")}</div>
+                        <div className="card-title">{t("Yunaltiruvchi shifokor ma'lumotlari")}</div>
                     </div>
                     <div className="card-body">
                         <div className="row gutters">

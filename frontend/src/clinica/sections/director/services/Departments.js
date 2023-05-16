@@ -102,7 +102,7 @@ export const Departments = () => {
         },
       )
       notify({
-        title: `${data.name} bo'limi yaratildi!`,
+        title: `${data.name} ${t("bo'limi yaratildi")}!`,
         description: '',
         status: 'success',
       })
@@ -114,7 +114,7 @@ export const Departments = () => {
       clearInputs()
     } catch (error) {
       notify({
-        title: error,
+        title: t(`${error}`),
         description: '',
         status: 'error',
       })
@@ -132,7 +132,7 @@ export const Departments = () => {
         },
       )
       notify({
-        title: `${data.name} bo'limi yangilandi!`,
+        title: `${data.name} ${t("bo'limi yangilandi")}!`,
         description: '',
         status: 'success',
       })
@@ -144,7 +144,7 @@ export const Departments = () => {
       clearInputs()
     } catch (error) {
       notify({
-        title: error,
+        title: t(`${error}`),
         description: '',
         status: 'error',
       })
@@ -152,8 +152,8 @@ export const Departments = () => {
   }, [request, auth, notify, getDepartments, department, clearInputs])
 
   const saveHandler = () => {
-    if (checkDepartment(department)) {
-      return notify(checkDepartment(department))
+    if (checkDepartment(department, t)) {
+      return notify(checkDepartment(department, t))
     }
     if (department._id) {
       return updateHandler()
@@ -179,7 +179,7 @@ export const Departments = () => {
         },
       )
       notify({
-        title: `${data.name} bo'limi o'chirildi!`,
+        title: `${data.name} ${t("bo'limi o'chirildi")}!`,
         description: '',
         status: 'success',
       })
@@ -192,7 +192,7 @@ export const Departments = () => {
       clearInputs()
     } catch (error) {
       notify({
-        title: error,
+        title: t(`${error}`),
         description: '',
         status: 'error',
       })
@@ -202,7 +202,7 @@ export const Departments = () => {
   const deleteAll = useCallback(async () => {
     if (departments && departments.length === 0) {
       return notify({
-        title: `Bo'limlar mavjud emas`,
+        title: t(`Bo'limlar mavjud emas`),
         description: '',
         status: 'warning',
       })
@@ -218,7 +218,7 @@ export const Departments = () => {
       )
       localStorage.setItem('delete', data)
       notify({
-        title: `Barcha bo'limlar o'chirildi!`,
+        title: t(`Barcha bo'limlar o'chirildi!`),
         description: '',
         status: 'success',
       })
@@ -231,7 +231,7 @@ export const Departments = () => {
       clearInputs()
     } catch (error) {
       notify({
-        title: error,
+        title: t(`${error}`),
         description: '',
         status: 'error',
       })
@@ -457,8 +457,8 @@ export const Departments = () => {
       <Modal
         modal={modal1}
         setModal={setModal1}
-        basic={t('Barcha')}
-        text={t("bo'limlarni o'chirishni tasdiqlaysizmi?")}
+        basic={''}
+        text={t("Barcha bo'limlarni o'chirishni tasdiqlaysizmi?")}
         handler={deleteAll}
       />
     </>

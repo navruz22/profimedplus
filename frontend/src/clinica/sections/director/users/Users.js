@@ -116,7 +116,7 @@ export const Users = () => {
       setSections(data)
     } catch (error) {
       notify({
-        title: error,
+        title: t(`${error}`),
         description: '',
         status: 'error',
       })
@@ -137,7 +137,7 @@ export const Users = () => {
       setBaseUrl(data.baseUrl)
     } catch (error) {
       notify({
-        title: error,
+        title: t(`${error}`),
         description: '',
         status: 'error',
       })
@@ -187,7 +187,7 @@ export const Users = () => {
       notify({
         status: 'error',
         description: '',
-        title: error,
+        title: t(`${error}`),
       })
     }
   }
@@ -216,7 +216,7 @@ export const Users = () => {
       setCurrentUsers(data.slice(indexFirstUser, indexLastUser))
     } catch (error) {
       notify({
-        title: error,
+        title: t(`${error}`),
         description: '',
         status: 'error',
       })
@@ -232,8 +232,8 @@ export const Users = () => {
   }
 
   const createHandler = async () => {
-    if (checkUserData(user)) {
-      return notify(checkUserData(user))
+    if (checkUserData(user, t)) {
+      return notify(checkUserData(user, t))
     }
     try {
       const data = await request(
@@ -266,7 +266,7 @@ export const Users = () => {
       })
     } catch (error) {
       notify({
-        title: error,
+        title: t(`${error}`),
         description: '',
         status: 'error',
       })
@@ -297,7 +297,7 @@ export const Users = () => {
       })
     } catch (error) {
       notify({
-        title: error,
+        title: t(`${error}`),
         description: '',
         status: 'error',
       })
@@ -594,7 +594,7 @@ export const Users = () => {
         modal={modal}
         setModal={setModal}
         basic={remove && remove.lastname + ' ' + remove.firstname}
-        text={t(" ismli foydalanuvchini o'chirishni tasdiqlaysizmi?")}
+        text={t("ismli foydalanuvchini o'chirishni tasdiqlaysizmi?")}
         handler={deleteHandler}
       />
     </div>

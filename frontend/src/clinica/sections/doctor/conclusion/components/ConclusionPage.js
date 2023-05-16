@@ -73,9 +73,9 @@ const ConclusionPage = ({ connector, onChange, setConnector, clinica, baseUrl })
                 }
             );
             notify({
-                title: data.message,
+                title: t("Mijoz qabul qilindi!"),
                 description: "",
-                status: "error",
+                status: "success",
             });
         } catch (error) {
             notify({

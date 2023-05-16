@@ -98,7 +98,7 @@ const CreateCounterDoctor = () => {
                 }
             );
             notify({
-                title: `${data.firstname} ${data.lastname} yunaltiruvchi shifokor yaratildi!`,
+                title: `${data.firstname} ${data.lastname} ${t("yunaltiruvchi shifokor yaratildi!")}`,
                 description: "",
                 status: "success",
             });
@@ -178,7 +178,7 @@ const CreateCounterDoctor = () => {
             );
         } catch (error) {
             notify({
-                title: error,
+                title: t(error),
                 description: "",
                 status: "error",
             });

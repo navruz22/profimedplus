@@ -48,7 +48,7 @@ const RegisterTables = ({
                         <th className="p-2 text-white">№</th>
                         <th className="border p-2">
                             <input
-                                placeholder="Ustun nomi"
+                                placeholder={t("Ustun nomi")}
                                 className="bg-alotrade outline-0 text-white text-center font-bold"
                                 type="text"
                                 value={service && service.column && service.column.col1 ? service.column.col1 : ''}
@@ -59,7 +59,7 @@ const RegisterTables = ({
                         </th>
                         <th className="border p-2">
                             <input
-                                placeholder="Ustun nomi"
+                                placeholder={t("Ustun nomi")}
                                 className="bg-alotrade outline-0 text-white text-center font-bold"
                                 type="text"
                                 value={service && service.column && service.column.col2 ? service.column.col2 : ''}
@@ -70,7 +70,7 @@ const RegisterTables = ({
                         </th>
                         <th className="border p-2">
                             <input
-                                placeholder="Ustun nomi"
+                                placeholder={t("Ustun nomi")}
                                 className="bg-alotrade outline-0 text-white text-center font-bold"
                                 type="text"
                                 value={service && service.column && service.column.col3 ? service.column.col3 : ''}
@@ -81,7 +81,7 @@ const RegisterTables = ({
                         </th>
                         <th className="border p-2">
                             <input
-                                placeholder="Ustun nomi"
+                                placeholder={t("Ustun nomi")}
                                 className="bg-alotrade outline-0 text-white text-center font-bold"
                                 type="text"
                                 value={service && service.column && service.column.col4 ? service.column.col4 : ''}
@@ -92,7 +92,7 @@ const RegisterTables = ({
                         </th>
                         <th className="border p-2">
                             <input
-                                placeholder="Ustun nomi"
+                                placeholder={t("Ustun nomi")}
                                 className="bg-alotrade outline-0 text-white text-center font-bold"
                                 type="text"
                                 value={service && service.column && service.column.col5 ? service.column.col5 : ''}

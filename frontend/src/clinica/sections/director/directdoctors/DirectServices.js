@@ -86,7 +86,7 @@ const DirectServices = () => {
                 )
             } catch (error) {
                 notify({
-                    title: error,
+                    title: t(`${error}`),
                     description: "",
                     status: "error",
                 });
@@ -116,7 +116,7 @@ const DirectServices = () => {
             })))
         } catch (error) {
             notify({
-                title: error,
+                title: t(`${error}`),
                 description: '',
                 status: 'error',
             })

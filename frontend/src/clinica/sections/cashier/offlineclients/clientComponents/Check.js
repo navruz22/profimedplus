@@ -1,7 +1,8 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 
 export const Check = ({ baseUrl, clinica, connector, qr }) => {
-
+  const {t} = useTranslation()
   return (
     <div>
       <div className="container px-5">
@@ -14,7 +15,7 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                     <li className='flex items-center mb-2' style={{ fontSize: '11pt', fontFamily: 'times' }}>
                       <div className='mr-2'>
                         <strong style={{ color: "black", fontSize: '11pt', fontFamily: 'times' }}>
-                          Manzil:{' '}
+                          {t("Manzil")}:{' '}
                         </strong>
                       </div>
                       <div style={{color: "black"}}>
@@ -24,7 +25,7 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                     <li className='flex items-center' style={{ textAlign: '', fontSize: '11pt' }}>
                       <div className='mr-2'>
                         <strong style={{ color: "black", fontSize: '11pt', fontFamily: 'times' }}>
-                          Telefon raqam:{' '}
+                          {t("Telefon raqami")}:{' '}
                         </strong>
                       </div>
                       <div style={{color: "black"}}> 
@@ -37,7 +38,7 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                           className="d-inline-block"
                           style={{ fontSize: '27pt', fontFamily: 'times' }}
                         >
-                          NAMUNA: {connector.probirka}
+                          {t("NAMUNA")}: {connector.probirka}
                         </h6>
                       ) : (
                         ''
@@ -70,7 +71,7 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                   />
                   <br />
                   <p className="pr-3 mr-1 mb-0 " style={{ fontSize: '11pt' }}>
-                    Bu yerni skanerlang
+                    {t("Bu yerni skanerlang")}
                   </p>
                 </td>
               </tr>
@@ -88,7 +89,7 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                   fontSize: '20px',
                 }}
               >
-                ID: {connector.client && connector.client.id}
+                {t("ID")}: {connector.client && connector.client.id}
               </h6>
             </div>
           </div>
@@ -98,7 +99,7 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                 className="d-inline-block"
                 style={{ fontSize: '20px', fontFamily: 'times' }}
               >
-                F.I.O: {connector.client && connector.client.lastname}{' '}
+                {t("F.I.O")}: {connector.client && connector.client.lastname}{' '}
                 {connector.client && connector.client.firstname}
               </h6>
             </div>
@@ -109,7 +110,7 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                 className="d-inline-block"
                 style={{ fontSize: '20px', fontFamily: 'times' }}
               >
-                Yil:{' '}
+                {t("Tug'ilgan yil")}:{' '}
                 {new Date(
                   connector.client && connector.client.born,
                 ).toLocaleDateString()}
@@ -122,7 +123,7 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                 className="d-inline-block"
                 style={{ fontSize: '20px', fontFamily: 'times' }}
               >
-                Tel: +998{connector.client && connector.client.phone}
+                {t("Tel")}: +998{connector.client && connector.client.phone}
               </h6>
             </div>
           </div>
@@ -148,31 +149,31 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                       className="text-center text-black border py-0 "
                       style={{ fontSize: '18px', fontFamily: 'times' }}
                     >
-                      Bo'lim
+                      {t("Bo'lim")}
                     </th>
                     <th
                       className="text-center text-black border py-0 "
                       style={{ fontSize: '18px', fontFamily: 'times' }}
                     >
-                      Xona
+                      {t("Xona")}
                     </th>
                     <th
                       className="text-center text-black border py-0 "
                       style={{ fontSize: '18px', fontFamily: 'times' }}
                     >
-                      Navbat
+                      {t("Navbat")}
                     </th>
                     <th
                       className="text-center text-black border py-0 "
                       style={{ fontSize: '18px', fontFamily: 'times' }}
                     >
-                      Soni
+                      {t("Soni")}
                     </th>
                     <th
                       className="text-center text-black border py-0 "
                       style={{ fontSize: '18px', fontFamily: 'times' }}
                     >
-                      Summasi
+                      {t("Summasi")}
                     </th>
                   </tr>
                 </thead>
@@ -235,7 +236,7 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                 </tbody>
               </table>
               {(connector.services && connector.services.some(s => s.refuse) || connector.products && connector.products.some(p => p.refuse)) &&
-                <h2 className='text-[21px] font-bold mt-4 mb-2'>Qaytarilgan</h2>}
+                <h2 className='text-[21px] font-bold mt-4 mb-2'>{t("Qaytarilgan summa")}</h2>}
               {(connector.services && connector.services.some(s => s.refuse) || connector.products && connector.products.some(p => p.refuse)) && <table
                 className="table table-bordered text-dark mt-2"
                 style={{ fontSize: '11pt', fontFamily: 'times' }}
@@ -252,31 +253,31 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                       className="text-center text-black border py-0 "
                       style={{ fontSize: '11pt', fontFamily: 'times' }}
                     >
-                      Bo'lim
+                      {t("Bo'lim")}
                     </th>
                     <th
                       className="text-center text-black border py-0 "
                       style={{ fontSize: '11pt', fontFamily: 'times' }}
                     >
-                      Xona
+                      {t("Xona")}
                     </th>
                     <th
                       className="text-center text-black border py-0 "
                       style={{ fontSize: '11pt', fontFamily: 'times' }}
                     >
-                      Navbat
+                      {t("Navbat")}
                     </th>
                     <th
                       className="text-center text-black border py-0 "
                       style={{ fontSize: '11pt', fontFamily: 'times' }}
                     >
-                      Soni
+                      {t("Soni")}
                     </th>
                     <th
                       className="text-center text-black border py-0 "
                       style={{ fontSize: '11pt', fontFamily: 'times' }}
                     >
-                      Summasi
+                      {t("Summasi")}
                     </th>
                   </tr>
                 </thead>
@@ -340,7 +341,7 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                 <div
                   className="text-right text-[16px] font-weight-bold"
                 >
-                  Jami: {' '}
+                  {t("Jami")}: {' '}
                   {connector.products &&
                     connector.services &&
                     connector.services.reduce((summ, service) => {
@@ -357,20 +358,20 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                     }, 0)}
                 </div>
                 <div className="text-right text-[16px] font-weight-bold">
-                  Chegirma: {connector?.discount?.discount || 0}
+                  {t("Chegirma")}: {connector?.discount?.discount || 0}
                 </div>
                 <div className="text-right text-[16px] font-weight-bold">
-                  Qaytarilgan: {connector && connector.services && connector.products && (connector.services.reduce((prev, el) => prev + (el.refuse && el.service.price || 0), 0) + connector.products.reduce((prev, el) => prev + (el.refuse && el.product.price || 0), 0))}
+                  {t("Qaytarilgan summa")}: {connector && connector.services && connector.products && (connector.services.reduce((prev, el) => prev + (el.refuse && el.service.price || 0), 0) + connector.products.reduce((prev, el) => prev + (el.refuse && el.product.price || 0), 0))}
                 </div>
                 <div className="text-right text-[16px] font-weight-bold">
-                  Qarz: {connector && connector.payments && connector.payments.reduce((prev, el) => prev + el.debt, 0) || 0}
+                  {t("Qarz")}: {connector && connector.payments && connector.payments.reduce((prev, el) => prev + el.debt, 0) || 0}
                 </div>
                 <div colSpan={2} className="text-right text-[16px] font-weight-bold">
-                  To'langan: {connector && connector.payments && connector.payments.reduce((prev, el) => prev + el.payment, 0) || 0}
+                  {t("To'langan")}: {connector && connector.payments && connector.payments.reduce((prev, el) => prev + el.payment, 0) || 0}
                 </div>
               </div>
               <div className=" fs-5" style={{ fontFamily: 'Times' }}>
-                Mijoz imzosi: ________________
+                {t("Mijoz imzosi")}: ________________
               </div>
             </div>
           </div>
@@ -387,7 +388,7 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                     <li className='flex items-center mb-2' style={{ fontSize: '11pt', fontFamily: 'times' }}>
                       <div className='mr-2'>
                         <strong style={{ color: "black", fontSize: '11pt', fontFamily: 'times' }}>
-                          Manzil:{' '}
+                          {t("Manzil")}:{' '}
                         </strong>
                       </div>
                       <div style={{color: "black"}}>
@@ -397,7 +398,7 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                     <li className='flex items-center' style={{ textAlign: '', fontSize: '11pt' }}>
                       <div className='mr-2'>
                         <strong style={{ color: "black", fontSize: '11pt', fontFamily: 'times' }}>
-                          Telefon raqam:{' '}
+                          {t("Telefon raqami")}:{' '}
                         </strong>
                       </div>
                       <div style={{color: "black"}}> 
@@ -410,7 +411,7 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                           className="d-inline-block"
                           style={{ fontSize: '27pt', fontFamily: 'times' }}
                         >
-                          NAMUNA: {connector.probirka}
+                          {t("NAMUNA")}: {connector.probirka}
                         </h6>
                       ) : (
                         ''
@@ -443,7 +444,7 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                   />
                   <br />
                   <p className="pr-3 mr-1 mb-0 " style={{ fontSize: '11pt' }}>
-                    Bu yerni skanerlang
+                    {t("Bu yerni skanerlang")}
                   </p>
                 </td>
               </tr>
@@ -461,7 +462,7 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                   fontSize: '20px',
                 }}
               >
-                ID: {connector.client && connector.client.id}
+                {t("ID")}: {connector.client && connector.client.id}
               </h6>
             </div>
           </div>
@@ -471,7 +472,7 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                 className="d-inline-block"
                 style={{ fontSize: '20px', fontFamily: 'times' }}
               >
-                F.I.O: {connector.client && connector.client.lastname}{' '}
+                {t("F.I.O")}: {connector.client && connector.client.lastname}{' '}
                 {connector.client && connector.client.firstname}
               </h6>
             </div>
@@ -482,7 +483,7 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                 className="d-inline-block"
                 style={{ fontSize: '20px', fontFamily: 'times' }}
               >
-                Yil:{' '}
+                {t("Tug'ilgan yil")}:{' '}
                 {new Date(
                   connector.client && connector.client.born,
                 ).toLocaleDateString()}
@@ -495,7 +496,7 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                 className="d-inline-block"
                 style={{ fontSize: '20px', fontFamily: 'times' }}
               >
-                Tel: +998{connector.client && connector.client.phone}
+                {t("Tel")}: +998{connector.client && connector.client.phone}
               </h6>
             </div>
           </div>
@@ -521,31 +522,31 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                       className="text-center text-black border py-0 "
                       style={{ fontSize: '18px', fontFamily: 'times' }}
                     >
-                      Bo'lim
+                      {t("Bo'lim")}
                     </th>
                     <th
                       className="text-center text-black border py-0 "
                       style={{ fontSize: '18px', fontFamily: 'times' }}
                     >
-                      Xona
+                      {t("Xona")}
                     </th>
                     <th
                       className="text-center text-black border py-0 "
                       style={{ fontSize: '18px', fontFamily: 'times' }}
                     >
-                      Navbat
+                      {t("Navbat")}
                     </th>
                     <th
                       className="text-center text-black border py-0 "
                       style={{ fontSize: '18px', fontFamily: 'times' }}
                     >
-                      Soni
+                      {t("Soni")}
                     </th>
                     <th
                       className="text-center text-black border py-0 "
                       style={{ fontSize: '18px', fontFamily: 'times' }}
                     >
-                      Summasi
+                      {t("Summasi")}
                     </th>
                   </tr>
                 </thead>
@@ -608,7 +609,7 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                 </tbody>
               </table>
               {(connector.services && connector.services.some(s => s.refuse) || connector.products && connector.products.some(p => p.refuse)) &&
-                <h2 className='text-[21px] font-bold mt-4 mb-2'>Qaytarilgan</h2>}
+                <h2 className='text-[21px] font-bold mt-4 mb-2'>{t("Qaytarilgan summa")}</h2>}
               {(connector.services && connector.services.some(s => s.refuse) || connector.products && connector.products.some(p => p.refuse)) && <table
                 className="table table-bordered text-dark mt-2"
                 style={{ fontSize: '11pt', fontFamily: 'times' }}
@@ -625,25 +626,25 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                       className="text-center text-black border py-0 "
                       style={{ fontSize: '11pt', fontFamily: 'times' }}
                     >
-                      Bo'lim
+                      {t("Bo'lim")}
                     </th>
                     <th
                       className="text-center text-black border py-0 "
                       style={{ fontSize: '11pt', fontFamily: 'times' }}
                     >
-                      Navbat
+                      {t("Navbat")}
                     </th>
                     <th
                       className="text-center text-black border py-0 "
                       style={{ fontSize: '11pt', fontFamily: 'times' }}
                     >
-                      Soni
+                      {t("Soni")}
                     </th>
                     <th
                       className="text-center text-black border py-0 "
                       style={{ fontSize: '11pt', fontFamily: 'times' }}
                     >
-                      Summasi
+                      {t("Summasi")}
                     </th>
                   </tr>
                 </thead>
@@ -704,7 +705,7 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                 <div
                   className="text-right text-[16px] font-weight-bold"
                 >
-                  Jami: {' '}
+                  {t("Jami")}: {' '}
                   {connector.products &&
                     connector.services &&
                     connector.services.reduce((summ, service) => {
@@ -721,20 +722,20 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                     }, 0)}
                 </div>
                 <div className="text-right text-[16px] font-weight-bold">
-                  Chegirma: {connector?.discount?.discount || 0}
+                  {t("Chegirma")}: {connector?.discount?.discount || 0}
                 </div>
                 <div className="text-right text-[16px] font-weight-bold">
-                  Qaytarilgan: {connector && connector.services && connector.products && (connector.services.reduce((prev, el) => prev + (el.refuse && el.service.price || 0), 0) + connector.products.reduce((prev, el) => prev + (el.refuse && el.product.price || 0), 0))}
+                  {t("Qaytarilgan summa")}: {connector && connector.services && connector.products && (connector.services.reduce((prev, el) => prev + (el.refuse && el.service.price || 0), 0) + connector.products.reduce((prev, el) => prev + (el.refuse && el.product.price || 0), 0))}
                 </div>
                 <div className="text-right text-[16px] font-weight-bold">
-                  Qarz: {connector && connector.payments && connector.payments.reduce((prev, el) => prev + el.debt, 0) || 0}
+                  {t("Qarz")}: {connector && connector.payments && connector.payments.reduce((prev, el) => prev + el.debt, 0) || 0}
                 </div>
                 <div colSpan={2} className="text-right text-[16px] font-weight-bold">
-                  To'langan: {connector && connector.payments && connector.payments.reduce((prev, el) => prev + el.payment, 0) || 0}
+                  {t("To'langan")}: {connector && connector.payments && connector.payments.reduce((prev, el) => prev + el.payment, 0) || 0}
                 </div>
               </div>
               <div className=" fs-5" style={{ fontFamily: 'Times' }}>
-                Mijoz imzosi: ________________
+                {t("Mijoz imzosi")}: ________________
               </div>
             </div>
           </div>
