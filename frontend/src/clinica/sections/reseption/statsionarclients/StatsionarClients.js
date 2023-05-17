@@ -541,15 +541,15 @@ export const StatsionarClients = () => {
         } else {
             setRoom({
                 ...room,
-                room: JSON.parse(e),
-                roomid: JSON.parse(e.value)._id,
+                room: e,
+                roomid: e._id,
             });
             setRoomSelect(e)
         }
     };
     // ===================================================================
     // ===================================================================
-
+    console.log(room);
     //====================================================================
     //====================================================================
     // BASEURL
@@ -733,7 +733,7 @@ export const StatsionarClients = () => {
                 {
                     client: { ...client, clinica: auth.clinica._id },
                     connector: { ...connector, clinica: auth.clinica._id },
-                    counteragent: { ...counteragent, clinica: auth.clinica._id },
+                    counteragent: counteragent,
                     adver: { ...adver, clinica: auth.clinica._id },
                     room: { ...room }
                 },
@@ -938,7 +938,7 @@ export const StatsionarClients = () => {
                         reseption: auth.user._id,
                         serviceid: service.service._id,
                         service: service.service,
-                        department: service.department,
+                        department: service.department._id,
                         pieces: 1,
                         templates: service.templates,
                         column: service.column,

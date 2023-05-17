@@ -138,7 +138,7 @@ module.exports.register = async (req, res) => {
         let totalprice = 0
         for (const service of services) {
             
-            service.department = service.department._id
+            // service.department = service.department._id
 
             const { error } = validateStatsionarService(service)
 
@@ -244,15 +244,15 @@ module.exports.register = async (req, res) => {
         newconnector.totalprice = totalprice
         await newconnector.save()
 
-        if (counteragent.counterdoctor) {
-            const newcounteragent = new StatsionarCounteragent({
-                client: newclient._id.toString(),
-                connector: newconnector._id.toString(),
-                services: [...newconnector.services],
-                ...counteragent,
-            })
-            await newcounteragent.save()
-        }
+        // if (counteragent) {
+        //     const newcounteragent = new StatsionarCounteragent({
+        //         client: newclient._id.toString(),
+        //         connector: newconnector._id.toString(),
+        //         services: [...newconnector.services],
+        //         counteragent,
+        //     })
+        //     await newcounteragent.save()
+        // }
 
         if (adver.adver) {
             const newadver = new StatsionarAdver({
@@ -614,34 +614,34 @@ module.exports.add = async (req, res) => {
             updateStatsionarConnector.products.push(newproduct._id)
         }
 
-        if (counteragent.counterdoctor) {
-            const oldcounteragent = await StatsionarCounteragent.findOne({
-                connector: connector._id,
-            })
+        // if (counteragent.counterdoctor) {
+        //     const oldcounteragent = await StatsionarCounteragent.findOne({
+        //         connector: connector._id,
+        //     })
 
-            if (oldcounteragent) {
-                oldcounteragent.counteragent = counteragent.counteragent
-                oldcounteragent.counterdoctor = counteragent.counterdoctor
-                // oldcounteragent.services = [...updateStatsionarConnector.services]
-                await oldcounteragent.save()
-            } else {
-                const newcounteragent = new StatsionarCounteragent({
-                    client: client._id.toString(),
-                    connector: updateStatsionarConnector._id.toString(),
-                    // services: [...updateStatsionarConnector.services],
-                    ...counteragent,
-                })
-                await newcounteragent.save()
-            }
-        }
+        //     if (oldcounteragent) {
+        //         oldcounteragent.counteragent = counteragent.counteragent
+        //         oldcounteragent.counterdoctor = counteragent.counterdoctor
+        //         // oldcounteragent.services = [...updateStatsionarConnector.services]
+        //         await oldcounteragent.save()
+        //     } else {
+        //         const newcounteragent = new StatsionarCounteragent({
+        //             client: client._id.toString(),
+        //             connector: updateStatsionarConnector._id.toString(),
+        //             // services: [...updateStatsionarConnector.services],
+        //             ...counteragent,
+        //         })
+        //         await newcounteragent.save()
+        //     }
+        // }
 
-        const counteragen = await StatsionarCounteragent.findOne({
-            connector: connector._id
-        })
-        if (counteragen) {
-            counteragen.services = [...updateStatsionarConnector.services]
-            counteragen.save()
-        }
+        // const counteragen = await StatsionarCounteragent.findOne({
+        //     connector: connector._id
+        // })
+        // if (counteragen) {
+        //     counteragen.services = [...updateStatsionarConnector.services]
+        //     counteragen.save()
+        // }
 
         if (adver.adver) {
             const oldadver = await StatsionarAdver.findOne({
@@ -819,36 +819,36 @@ module.exports.update = async (req, res) => {
 
         const oldconnector = await StatsionarConnector.findById(connector._id)
 
-        if (counteragent.counterdoctor) {
-            const oldcounteragent = await StatsionarCounteragent.findOne({
-                client: client._id,
-                connector: connector._id,
-            })
+        // if (counteragent.counterdoctor) {
+        //     const oldcounteragent = await StatsionarCounteragent.findOne({
+        //         client: client._id,
+        //         connector: connector._id,
+        //     })
 
-            if (oldcounteragent) {
-                oldcounteragent.counteragent = counteragent.counteragent
-                oldcounteragent.counterdoctor = counteragent.counterdoctor
-                // oldcounteragent.services = [...oldconnector.services]
-                await oldcounteragent.save()
-            } else {
-                const newcounteragent = new StatsionarCounteragent({
-                    client: client._id.toString(),
-                    connector: connector._id,
-                    // services: [...oldconnector.services],
-                    ...counteragent,
-                })
-                await newcounteragent.save()
-            }
-        }
+        //     if (oldcounteragent) {
+        //         oldcounteragent.counteragent = counteragent.counteragent
+        //         oldcounteragent.counterdoctor = counteragent.counterdoctor
+        //         // oldcounteragent.services = [...oldconnector.services]
+        //         await oldcounteragent.save()
+        //     } else {
+        //         const newcounteragent = new StatsionarCounteragent({
+        //             client: client._id.toString(),
+        //             connector: connector._id,
+        //             // services: [...oldconnector.services],
+        //             ...counteragent,
+        //         })
+        //         await newcounteragent.save()
+        //     }
+        // }
 
-        const counteragen = await StatsionarCounteragent.findOne({
-            connector: connector._id
-        })
+        // const counteragen = await StatsionarCounteragent.findOne({
+        //     connector: connector._id
+        // })
 
-        if (counteragen) {
-            counteragen.services = [...oldconnector.services]
-            counteragen.save()
-        }
+        // if (counteragen) {
+        //     counteragen.services = [...oldconnector.services]
+        //     counteragen.save()
+        // }
 
         if (adver.adver) {
             const oldadver = await StatsionarAdver.findOne({
