@@ -33,7 +33,7 @@ export const ClinicaRoutes = (isAuthenticated, user) => {
       <Route path="/newdirector">
         <DirectorRegistor />
       </Route>
-      <Route path="/admin">
+      <Route path="/alotrade">
         <AdminRoutes isAuthenticated={isAuthenticated} user={user} />
       </Route>
       <Redirect to="/alo24" />

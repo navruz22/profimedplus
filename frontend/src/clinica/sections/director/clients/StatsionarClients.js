@@ -6,17 +6,18 @@ import { useLocation } from "react-router-dom";
 import { useHttp } from "../../../hooks/http.hook";
 import { AuthContext } from "../../../context/AuthContext";
 import StatsionarClientsTable from "./components/StatsionarClientsTable";
+import { useTranslation } from "react-i18next";
 
 const StatsionarClients = () => {
     
     const [beginDay, setBeginDay] = useState(
-        new Date(
-            new Date().setMonth(new Date().getMonth() - 3)
-        )
+        new Date(new Date().setUTCHours(0, 0, 0, 0))
     );
     const [endDay, setEndDay] = useState(
-        new Date(new Date().setDate(new Date().getDate() + 1))
+        new Date(new Date().setUTCHours(23, 59, 59, 59))
     );
+
+    const [type, setType] = useState('today')
 
     //====================================================================
     //====================================================================
@@ -38,7 +39,7 @@ const StatsionarClients = () => {
 
     //====================================================================
     //====================================================================
-
+    const {t} = useTranslation()
     //====================================================================
     //====================================================================
     // Pagination
@@ -94,7 +95,7 @@ const StatsionarClients = () => {
                 const data = await request(
                     `/api/statsionarclient/client/getallreseption`,
                     "POST",
-                    { clinica: auth && auth.clinica._id, beginDay, endDay },
+                    { clinica: auth && auth.clinica._id, beginDay, endDay, type },
                     {
                         Authorization: `Bearer ${auth.token}`,
                     }
@@ -181,24 +182,8 @@ const StatsionarClients = () => {
     );
 
     const searchFinished = (e) => {
-        if (e.target.value === "done") {
-            const searching = [...searchStorage].filter((item) => item?.room?.endday);
-            setConnectors(searching);
-            setCurrentConnectors(searching.slice(0, countPage));
-        }
-        if (e.target.value === "begin") {
-            const searching = [...searchStorage].filter(
-                (item) => item?.room?.endday === null
-            );
-            console.log(searching);
-            setConnectors(searching);
-            setCurrentConnectors(searching.slice(0, countPage));
-        }
-        if (e.target.value === "all") {
-            setConnectors(searchStorage);
-            setCurrentConnectors(searchStorage);
-        }
-    }
+        setType(e.target.value)
+}
 
     const searchDoctor = useCallback(
         (e) => {
@@ -269,38 +254,25 @@ const StatsionarClients = () => {
     // ChangeDate
 
     const changeStart = (e) => {
-        setBeginDay(e);
-        getConnectors(new Date(new Date(e).setUTCHours(0, 0, 0, 0)), endDay);
+        setBeginDay(new Date(new Date(e).setUTCHours(0, 0, 0, 0)));
+        // getConnectors(new Date(new Date(e).setUTCHours(0, 0, 0, 0)), endDay);
     };
 
     const changeEnd = (e) => {
-        const date = new Date(new Date(e).setUTCHours(23, 59, 59, 59))
-        setEndDay(date);
-        getConnectors(beginDay, date);
+        setEndDay(new Date(new Date(e).setUTCHours(23, 59, 59, 59)));
+        // getConnectors(beginDay, date);
     };
     //====================================================================
     //====================================================================
     // useEffect
 
-    const [t, setT] = useState(0);
+    useEffect(() => {
+        getBaseUrl()
+    }, [getBaseUrl]);
 
     useEffect(() => {
-        if (auth.clinica && !t) {
-            setT(1);
-            getConnectors(beginDay, endDay);
-            getBaseUrl()
-        }
-    }, [
-        getConnectors,
-        getBaseUrl,
-        auth,
-        t,
-        beginDay,
-        endDay,
-    ]);
-
-    //=================================================================
-    //=================================================================
+        getConnectors(beginDay, endDay, type);
+    }, [beginDay, endDay, type])
 
     //=================================================================
     //=================================================================

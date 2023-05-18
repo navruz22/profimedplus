@@ -6,15 +6,16 @@ import { TableClients } from "../../cashier/statsionarclients/clientComponents/T
 import Select from 'react-select'
 import makeAnimated from 'react-select/animated'
 import { StatsionarReportTable } from "./components/StatsionarReportTable";
+import { useTranslation } from "react-i18next";
 
 const animatedComponents = makeAnimated()
 
 export const StatsionarReport = () => {
     const [beginDay, setBeginDay] = useState(
-        new Date(new Date().setUTCHours(0, 0, 0, 0)),
+        new Date(new Date(new Date().getMonth() - 3).setUTCHours(0, 0, 0, 0)),
     )
     const [endDay, setEndDay] = useState(
-        new Date(new Date().setDate(new Date().getDate() + 1)),
+        new Date(new Date().setUTCHours(23, 59, 59, 59)),
     )
     //====================================================================
     //====================================================================
@@ -23,7 +24,7 @@ export const StatsionarReport = () => {
     const [modal1, setModal1] = useState(false)
     //====================================================================
     //====================================================================
-
+    const [type, setType] = useState('today')
     //====================================================================
     //====================================================================
     // RegisterPage
@@ -33,7 +34,7 @@ export const StatsionarReport = () => {
 
     //====================================================================
     //====================================================================
-
+    const {t} = useTranslation()
     //====================================================================
     //====================================================================
     // Pagination
@@ -88,12 +89,12 @@ export const StatsionarReport = () => {
     const [searchStorage, setSearchStrorage] = useState([])
 
     const getConnectors = useCallback(
-        async (beginDay, endDay, clinica) => {
+        async (beginDay, endDay, clinica, type) => {
             try {
                 const data = await request(
                     `/api/cashier/statsionar/getall`,
                     'POST',
-                    { clinica: clinica, beginDay, endDay },
+                    { clinica: clinica, beginDay, endDay, type },
                     {
                         Authorization: `Bearer ${auth.token}`,
                     },
@@ -190,31 +191,28 @@ export const StatsionarReport = () => {
 
     const changeStart = (e) => {
         setBeginDay(new Date(new Date(e).setUTCHours(0, 0, 0, 0)))
-        getConnectors(new Date(new Date(e).setUTCHours(0, 0, 0, 0)), endDay, clinicaValue)
+        // getConnectors(new Date(new Date(e).setUTCHours(0, 0, 0, 0)), endDay, clinicaValue)
     }
 
     const changeEnd = (e) => {
         const date = new Date(new Date(e).setUTCHours(23, 59, 59, 59))
 
         setEndDay(date)
-        getConnectors(beginDay, date, clinicaValue)
+        // getConnectors(beginDay, date, clinicaValue)
     }
 
     //====================================================================
     //====================================================================
-
+    const changeType = (e) => {
+        setType(e.target.value)
+    }
     //====================================================================
     //====================================================================
     // useEffect
 
-    const [t, setT] = useState(0)
-
     useEffect(() => {
-        if (!t) {
-            setT(1)
-            getConnectors(beginDay, endDay, clinicaValue)
-        }
-    }, [getConnectors, t, beginDay, endDay])
+        getConnectors(beginDay, endDay, clinicaValue, type)
+    }, [getConnectors, beginDay, endDay, clinicaValue, type])
 
     //====================================================================
     //====================================================================
@@ -273,6 +271,7 @@ export const StatsionarReport = () => {
                             setPageSize={setPageSize}
                             // setModal2={setModal2}
                             loading={loading}
+                            changeType={changeType}
                         />
                     </div>
                 </div>

@@ -21,7 +21,6 @@ export const HomePage = () => {
 
   const notify = useCallback(
     (data) => {
-      console.log(data);
       toast({
         title: data.title && data.title,
         description: data.description && data.description,
@@ -62,7 +61,7 @@ export const HomePage = () => {
       const data = await request(
         `/api/offline/monthly/get`,
         'POST',
-        { clinica: auth && auth.clinica._id },
+        { clinica: auth && auth?.clinica?._id },
         {
           Authorization: `Bearer ${auth.token}`,
         },
@@ -92,12 +91,11 @@ export const HomePage = () => {
       const data = await request(
         `/api/offline/daily/get`,
         'POST',
-        { clinica: auth && auth.clinica._id },
+        { clinica: auth && auth?.clinica?._id },
         {
           Authorization: `Bearer ${auth.token}`,
         },
       )
-      console.log('work');
       setDailyReport({
         clients: data.clients,
         services: data.services,

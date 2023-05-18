@@ -671,7 +671,7 @@ module.exports.getAll = async (req, res) => {
             .sort({ createdAt: -1 })
             .select('-__v -updatedAt -isArchive')
             .populate('clinica', 'name phone1 image')
-            .populate("client", "lastname firstname fullname born id phone address")
+            .populate("client")
             .populate({
                 path: "services",
                 select: "service serviceid accept refuse column tables turn connector client files department",

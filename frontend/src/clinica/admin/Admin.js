@@ -11,16 +11,16 @@ const Admin = ({ setIsAuthenticated, setUser }) => {
         <>
             <Navbar setIsAuthenticated={setIsAuthenticated} setUser={setUser} />
             <Switch>
-                <Route path="/admin" exact>
+                <Route path="/alotrade" exact>
                     <RegisterClinica />
                 </Route>
-                <Route path="/admin/users">
+                <Route path="/alotrade/users">
                     <Users />
                 </Route>
-                <Route path="/admin/filials">
+                <Route path="/alotrade/filials">
                     <Filials />
                 </Route>
-                <Route path="/admin/transfer_tables">
+                <Route path="/alotrade/transfer_tables">
                     <TransferLabTables />
                 </Route>
             </Switch>

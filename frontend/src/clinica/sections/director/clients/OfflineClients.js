@@ -1,5 +1,5 @@
 import { useToast } from '@chakra-ui/react'
-import { faPenAlt, faPrint } from '@fortawesome/free-solid-svg-icons'
+import { faPenAlt, faPrint, faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { useReactToPrint } from 'react-to-print'
@@ -15,7 +15,7 @@ const OfflineClients = () => {
 
     //=================================================
     //=================================================
-    const {t} = useTranslation()
+    const { t } = useTranslation()
     //=================================================
     //=================================================
     // AUTH
@@ -180,6 +180,52 @@ const OfflineClients = () => {
 
     //=================================================
     //=================================================
+    const [age, setAge] = useState(null)
+    const [gender, setGender] = useState(null)
+    const [national, setNational] = useState(null)
+    
+    const changeNational = (e) => {
+        setNational(e.target.value)
+    }
+
+    const changeGender = (e) => {
+        setGender(e.target.value)
+    }
+
+    const setSearch = () => {
+        if (!age && !gender && !national) {
+            setCurrentClients([...searchStorage])
+        } else if (age && gender && !national) {
+            setCurrentClients([...searchStorage].filter(connector =>
+                new Date().getFullYear() - new Date(connector?.client?.born).getFullYear() === age && connector?.client?.gender === gender
+            ))
+        } else if (age && national && !gender) {
+            setCurrentClients([...searchStorage].filter(connector =>
+                new Date().getFullYear() - new Date(connector?.client?.born).getFullYear() === age && (connector?.client?.national && connector?.client?.national === national)
+            ))
+        } else if (gender && national && !age) {
+            setCurrentClients([...searchStorage].filter(connector =>
+                connector?.client?.gender === gender && (connector?.client?.national && connector?.client?.national === national)
+            ))
+        } else if (age && gender && national) {
+            setCurrentClients([...searchStorage].filter(connector =>
+                new Date().getFullYear() - new Date(connector?.client?.born).getFullYear() === age && (connector?.client?.national && connector?.client?.national === national) && connector?.client?.gender === gender
+            ))
+        } else {
+            age && setCurrentClients([...searchStorage].filter(connector =>
+                new Date().getFullYear() - new Date(connector?.client?.born).getFullYear() === age
+            ))
+            national && setCurrentClients([...searchStorage].filter(connector =>
+                connector?.client?.national && connector?.client?.national === national
+            ))
+            gender && setCurrentClients([...searchStorage].filter(connector =>
+                connector?.client?.gender === gender
+            ))
+        }
+    }
+
+    //=================================================
+    //=================================================
 
     return (
         <>
@@ -202,49 +248,90 @@ const OfflineClients = () => {
                         <div className="border-0 table-container">
                             <div className="border-0 table-container">
                                 <div className="table-responsive">
+                                    <div className='bg-white flex items-center justify-between gap-2 p-2'>
+                                        <div>
+                                            <select
+                                                className="form-control form-control-sm selectpicker"
+                                                placeholder={t("Bo'limni tanlang")}
+                                                onChange={setPageSize}
+                                                style={{ minWidth: '50px' }}
+                                            >
+                                                <option value={10}>10</option>
+                                                <option value={25}>25</option>
+                                                <option value={50}>50</option>
+                                                <option value={100}>100</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <input
+                                                onChange={searchName}
+                                                style={{ maxWidth: '200px', minWidth: '100px' }}
+                                                type="search"
+                                                className="w-100 form-control form-control-sm selectpicker"
+                                                placeholder={t("F.I.Sh")}
+                                            />
+                                        </div>
+                                        <div className='text-right'>
+                                            <DatePickers changeDate={changeStart} />
+                                        </div>
+                                        <div>
+                                            <DatePickers changeDate={changeEnd} />
+                                        </div>
+                                        <div>
+                                            <Pagination
+                                                setCurrentDatas={setCurrentClients}
+                                                datas={searchStorage}
+                                                setCurrentPage={setCurrentPage}
+                                                countPage={countPage}
+                                                totalDatas={searchStorage.length}
+                                            />
+                                        </div>
+                                        <div>
+                                            <input
+                                                onChange={e => e.target.value === 0 ? setAge(0) : e.target.value > 0 ? setAge(+e.target.value) : setAge(null)}
+                                                style={{ maxWidth: '200px', minWidth: '100px' }}
+                                                type="number"
+                                                className="w-100 form-control form-control-sm selectpicker"
+                                                placeholder={t("Yoshi")}
+                                            />
+                                        </div>
+                                        <div>
+                                            <select
+                                                className="form-control form-control-sm selectpicker"
+                                                placeholder={t("Jinsi")}
+                                                onChange={changeGender}
+                                                style={{ minWidth: '50px' }}
+                                            >
+                                                <option value={''}>{t("Jinsi")}</option>
+                                                <option value={'man'}>{t("Erkak")}</option>
+                                                <option value={'woman'}>{t("Ayol")}</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <select
+                                                className="form-control form-control-sm selectpicker"
+                                                placeholder={t("Fuqoroligi")}
+                                                onChange={changeNational}
+                                                style={{ minWidth: '50px' }}
+                                            >
+                                                <option value={''}>{t("Fuqoroligi")}</option>
+                                                <option value={'uzb'}>{t("Uzbek")}</option>
+                                                <option value={'foreigner'}>{t("Chet'ellik")}</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <button
+                                                className="btn btn-success py-0"
+                                                onClick={(e) => {
+                                                    e.preventDefault()
+                                                    setSearch()
+                                                }}
+                                            >
+                                                <FontAwesomeIcon icon={faSearch} />
+                                            </button>
+                                        </div>
+                                    </div>
                                     <table className="table m-0">
-                                        <thead className="bg-white">
-                                            <tr>
-                                                <th>
-                                                    <select
-                                                        className="form-control form-control-sm selectpicker"
-                                                        placeholder={t("Bo'limni tanlang")}
-                                                        onChange={setPageSize}
-                                                        style={{ minWidth: '50px' }}
-                                                    >
-                                                        <option value={10}>10</option>
-                                                        <option value={25}>25</option>
-                                                        <option value={50}>50</option>
-                                                        <option value={100}>100</option>
-                                                    </select>
-                                                </th>
-                                                <th></th>
-                                                <th>
-                                                    <input
-                                                        onChange={searchName}
-                                                        style={{ maxWidth: '200px', minWidth: '100px' }}
-                                                        type="search"
-                                                        className="w-100 form-control form-control-sm selectpicker"
-                                                        placeholder={t("F.I.Sh")}
-                                                    />
-                                                </th>
-                                                <th className='text-right'>
-                                                    <DatePickers changeDate={changeStart} />
-                                                </th>
-                                                <th>
-                                                    <DatePickers changeDate={changeEnd} />
-                                                </th>
-                                                <th colSpan={2}>
-                                                    <Pagination
-                                                        setCurrentDatas={setCurrentClients}
-                                                        datas={searchStorage}
-                                                        setCurrentPage={setCurrentPage}
-                                                        countPage={countPage}
-                                                        totalDatas={searchStorage.length}
-                                                    />
-                                                </th>
-                                            </tr>
-                                        </thead>
                                         <thead>
                                             <tr>
                                                 <th className="border-right bg-alotrade text-[16px]">№</th>
@@ -264,6 +351,18 @@ const OfflineClients = () => {
                                                     {t("Tel")}
                                                 </th>
                                                 <th className="border-right bg-alotrade text-[16px]">
+                                                    {t("Manzil")}
+                                                </th>
+                                                <th className="border-right bg-alotrade text-[16px]">
+                                                    {t("Yoshi")}
+                                                </th>
+                                                <th className="border-right bg-alotrade text-[16px]">
+                                                    {t("Jinsi")}
+                                                </th>
+                                                <th className="border-right bg-alotrade text-[16px]">
+                                                    {t("Fuqoroligi")}
+                                                </th>
+                                                <th className="border-right bg-alotrade text-[16px]">
                                                     {t("Tug'ilgan san'asi")}
                                                 </th>
                                                 <th className="border-right bg-alotrade text-[16px] text-center"></th>
@@ -277,19 +376,31 @@ const OfflineClients = () => {
                                                             {key + 1}
                                                         </td>
                                                         <td className="border-right text-[16px]">
-                                                            {new Date(connector.createdAt).toLocaleDateString()}
+                                                            {new Date(connector?.createdAt).toLocaleDateString()}
                                                         </td>
                                                         <td className="border-right text-[16px]">
-                                                            {connector.client.fullname}
+                                                            {connector?.client?.fullname}
                                                         </td>
                                                         <td className="border-right text-[16px]">
                                                             {connector?.client?.id}
                                                         </td>
                                                         <td className="border-right text-[16px]">
-                                                            {'+998' + connector.client.phone}
+                                                            {'+998' + connector?.client?.phone}
                                                         </td>
                                                         <td className="border-right text-[16px]">
-                                                            {new Date(connector.client.born).toLocaleDateString()}
+                                                            {connector?.client?.address}
+                                                        </td>
+                                                        <td className="border-right text-[16px]">
+                                                            {new Date().getFullYear() - new Date(connector?.client?.born).getFullYear()}
+                                                        </td>
+                                                        <td className="border-right text-[16px]">
+                                                            {connector?.client?.gender ? connector?.client?.gender === 'man' ? t('Erkak') : t('Ayol') : ''}
+                                                        </td>
+                                                        <td className="border-right text-[16px]">
+                                                            {connector?.client?.national ? connector?.client?.national === 'uzb' ? t('Uzbek') : t("Chet'ellik") : ''}
+                                                        </td>
+                                                        <td className="border-right text-[16px]">
+                                                            {new Date(connector?.client?.born).toLocaleDateString()}
                                                         </td>
                                                         <td className="border py-1 text-center text-[16px]">
                                                             {loading ? (

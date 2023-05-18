@@ -18,10 +18,10 @@ import { useTranslation } from 'react-i18next';
 
 export const StatsionarClients = () => {
     const [beginDay, setBeginDay] = useState(
-        new Date(new Date().setUTCHours(0, 0, 0, 0)),
+        new Date(new Date(new Date().getMonth() - 3).setUTCHours(0, 0, 0, 0)),
     )
     const [endDay, setEndDay] = useState(
-        new Date(new Date().setDate(new Date().getDate() + 1)),
+        new Date(new Date().setUTCHours(23, 59, 59, 59)),
     )
     //====================================================================
     //====================================================================
@@ -117,7 +117,7 @@ export const StatsionarClients = () => {
     //====================================================================
     //====================================================================+
 
-    const [type, setType] = useState('all')
+    const [type, setType] = useState('today')
 
     //====================================================================
     //====================================================================
@@ -206,14 +206,14 @@ export const StatsionarClients = () => {
 
     const changeStart = (e) => {
         setBeginDay(new Date(new Date(e).setUTCHours(0, 0, 0, 0)))
-        getConnectors(new Date(new Date(e).setUTCHours(0, 0, 0, 0)), endDay, type)
+        // getConnectors(new Date(new Date(e).setUTCHours(0, 0, 0, 0)), endDay, type)
     }
 
     const changeEnd = (e) => {
         const date = new Date(new Date(e).setUTCHours(23, 59, 59, 59))
 
         setEndDay(date)
-        getConnectors(beginDay, date, type)
+        // getConnectors(beginDay, date, type)
     }
 
     //====================================================================
@@ -783,18 +783,7 @@ export const StatsionarClients = () => {
     //====================================================================
 
     const changeType = (e) => {
-        if (e.target.value === 'done') {
-            setType('done')
-            getConnectors(beginDay, endDay, e.target.value)
-        }
-        if (e.target.value === 'continue') {
-            setType('continue')
-            getConnectors(beginDay, endDay, e.target.value)
-        }
-        if (e.target.value === 'all') {
-            setType('all')
-            getConnectors(beginDay, endDay)
-        }
+        setType(e.target.value)
     }
 
     //====================================================================
@@ -819,15 +808,13 @@ export const StatsionarClients = () => {
     //====================================================================
     // useEffect
 
-    const [s, setS] = useState(0)
+    useEffect(() => {
+        getBaseUrl()
+    }, [])
 
     useEffect(() => {
-        if (auth.clinica && !s) {
-            setS(1)
-            getConnectors(beginDay, endDay)
-            getBaseUrl()
-        }
-    }, [auth, getConnectors, s, beginDay, endDay])
+        getConnectors(beginDay, endDay, type)
+    }, [beginDay, endDay, type])
 
     //====================================================================
     //====================================================================

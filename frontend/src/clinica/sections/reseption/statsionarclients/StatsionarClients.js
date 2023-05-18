@@ -18,13 +18,13 @@ import { useTranslation } from "react-i18next";
 
 export const StatsionarClients = () => {
     const [beginDay, setBeginDay] = useState(
-        new Date(
-            new Date().setMonth(new Date().getMonth() - 3)
-        )
+        new Date(new Date(new Date().getMonth() - 3).setUTCHours(0, 0, 0, 0))
     );
     const [endDay, setEndDay] = useState(
-        new Date(new Date().setDate(new Date().getDate() + 1))
+        new Date(new Date().setUTCHours(23, 59, 59, 59))
     );
+
+    const [type, setType] = useState('today')
 
     //====================================================================
     //====================================================================
@@ -95,25 +95,19 @@ export const StatsionarClients = () => {
     const [searchStorage, setSearchStrorage] = useState([]);
 
     const getConnectors = useCallback(
-        async (beginDay, endDay) => {
+        async (beginDay, endDay, type) => {
             try {
                 const data = await request(
                     `/api/statsionarclient/client/getallreseption`,
                     "POST",
-                    { clinica: auth && auth.clinica._id, beginDay, endDay },
+                    { clinica: auth && auth.clinica._id, beginDay, endDay, type },
                     {
                         Authorization: `Bearer ${auth.token}`,
                     }
                 );
-                setConnectors([...data].filter(
-                    (item) => item?.room?.endday === null
-                ));
+                setConnectors(data);
                 setSearchStrorage(data);
-                setCurrentConnectors(
-                    [...data].filter(
-                        (item) => item?.room?.endday === null
-                    ).slice(indexFirstConnector, indexLastConnector)
-                );
+                setCurrentConnectors([...data].slice(indexFirstConnector, indexLastConnector));
             } catch (error) {
                 notify({
                     title: t(`${error}`),
@@ -196,24 +190,15 @@ export const StatsionarClients = () => {
         [searchStorage, countPage]
     );
 
+    //====================================================================
+    //====================================================================
+
     const searchFinished = (e) => {
-            if (e.target.value === "done") {
-                const searching = [...searchStorage].filter((item) => item?.room?.endday);
-                setConnectors(searching);
-                setCurrentConnectors(searching.slice(0, countPage));
-            }
-            if (e.target.value === "begin") {
-                const searching = [...searchStorage].filter(
-                    (item) => item?.room?.endday === null
-                );
-                setConnectors(searching);
-                setCurrentConnectors(searching.slice(0, countPage));
-            }
-            if (e.target.value === "all") {
-                setConnectors(searchStorage);
-                setCurrentConnectors(searchStorage);
-            }
-        }
+            setType(e.target.value)
+    }
+
+    //====================================================================
+    //====================================================================
 
     const searchDoctor = useCallback(
         (e) => {
@@ -741,7 +726,7 @@ export const StatsionarClients = () => {
                     Authorization: `Bearer ${auth.token}`,
                 }
             );
-            getConnectors(beginDay, endDay);
+            getConnectors(beginDay, endDay, type);
             notify({
                 title: `${data.lastname + " " + data.firstname
                     }  ${t("ismli mijoz ma'lumotlari muvaffaqqiyatl yangilandi.")}`,
@@ -791,7 +776,7 @@ export const StatsionarClients = () => {
                 }
             );
             localStorage.setItem("data", data);
-            getConnectors(beginDay, endDay);
+            getConnectors(beginDay, endDay, type);
             notify({
                 title: `${client.lastname + " " + client.firstname
                     }  ${t("ismli mijozga xizmatlar muvaffaqqiyatli qo'shildi.")}`,
@@ -833,14 +818,13 @@ export const StatsionarClients = () => {
     // ChangeDate
 
     const changeStart = (e) => {
-        setBeginDay(e);
-        getConnectors(new Date(new Date(e).setUTCHours(0, 0, 0, 0)), endDay);
+        setBeginDay(new Date(new Date(e).setUTCHours(0, 0, 0, 0)));
+        // getConnectors(new Date(new Date(e).setUTCHours(0, 0, 0, 0)), endDay);
     };
 
     const changeEnd = (e) => {
-        const date = new Date(new Date(e).setUTCHours(23, 59, 59, 59))
-        setEndDay(date);
-        getConnectors(beginDay, date);
+        setEndDay(new Date(new Date(e).setUTCHours(23, 59, 59, 59)));
+        // getConnectors(beginDay, date);
     };
     //====================================================================
     //====================================================================
@@ -851,7 +835,6 @@ export const StatsionarClients = () => {
     useEffect(() => {
         if (auth.clinica && !s) {
             setS(1);
-            getConnectors(beginDay, endDay);
             getDepartments();
             getCounterDoctors();
             getAdvers();
@@ -861,7 +844,7 @@ export const StatsionarClients = () => {
         }
         getRooms();
     }, [
-        getConnectors,
+        // getConnectors,
         getAdvers,
         getProducts,
         getCounterDoctors,
@@ -874,6 +857,11 @@ export const StatsionarClients = () => {
         beginDay,
         endDay,
     ]);
+
+
+    useEffect(() => {
+        getConnectors(beginDay, endDay, type);
+    }, [beginDay, endDay, type])
 
     //=================================================================
     //=================================================================

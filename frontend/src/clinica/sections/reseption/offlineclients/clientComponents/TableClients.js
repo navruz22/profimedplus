@@ -190,21 +190,21 @@ export const TableClients = ({
                       {currentPage * countPage + key + 1}
                     </td>
                     <td className="border py-1 font-weight-bold text-[16px]">
-                      {connector.client.lastname +
+                      {connector?.client?.lastname +
                         ' ' +
-                        connector.client.firstname}
+                        connector?.client?.firstname}
                     </td>
                     <td className="border py-1 text-right text-[16px]">
-                      +998{connector.client.phone}
+                      +998{connector?.client?.phone}
                     </td>
                     <td className="border py-1 text-right text-[16px]">
-                      {connector.client.id}
+                      {connector?.client?.id}
                     </td>
                     <td className="border py-1 text-right text-[16px]">
-                      {connector.probirka}
+                      {connector?.probirka}
                     </td>
                     <td className="border py-1 text-right text-[16px]">
-                      {connector.totalprice}
+                      {connector?.totalprice}
                     </td>
                     <td className="border py-1 text-right text-[16px] font-bold">
                       <button onClick={() => {
@@ -217,8 +217,8 @@ export const TableClients = ({
                       </button>
                     </td>
                     <td className="border py-1 text-right text-[16px]">
-                      {new Date(connector.createdAt).toLocaleDateString()} {' '}
-                      {new Date(connector.createdAt).toLocaleTimeString()}
+                      {new Date(connector?.createdAt).toLocaleDateString()} {' '}
+                      {new Date(connector?.createdAt).toLocaleTimeString()}
                     </td>
                     <td className="border py-1 text-center text-[16px]">
                       {loading ? (

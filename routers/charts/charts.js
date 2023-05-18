@@ -56,7 +56,7 @@ module.exports.getMonthly = async (req, res) => {
 module.exports.getDaily = async (req, res) => {
     try {
         const { clinica } = req.body;
-
+       
         const clients = await OfflineClient.find({
             clinica,
             createdAt: {

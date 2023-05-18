@@ -205,7 +205,8 @@ module.exports.getAll = async (req, res) => {
                 .populate('room')
                 .populate('payments')
                 .populate('discount')
-                .then(statsionars => statsionars.filter(s => s?.room?.endday && (new Date(new Date(s?.room?.endday).setUTCHours(0, 0, 0, 0)).toISOString() >= new Date(new Date(beginDay).setUTCHours(0, 0, 0, 0)).toISOString() && new Date(new Date(s?.room?.endday).setUTCHours(0, 0, 0, 0)).toISOString() <= new Date(new Date(endDay).setUTCHours(0, 0, 0, 0)).toISOString())))
+                .then(connectors => connectors.filter(connector => connector.room && connector.room.endday 
+                    && (new Date(connector.room.endday) >= new Date(beginDay) && new Date(connector.room.endday) <= new Date(endDay))))
         } else if (type === 'continue') {
             connectors = await StatsionarConnector.find({
                 clinica,
@@ -226,8 +227,8 @@ module.exports.getAll = async (req, res) => {
             connectors = await StatsionarConnector.find({
                 clinica,
                 createdAt: {
-                    $gte: beginDay,
-                    $lte: endDay,
+                    $gte: new Date().setHours(0, 0, 0, 0),
+                    $lte: new Date().setHours(23, 59, 59, 59),
                 },
             })
                 .populate('client', '-updatedAt -isArchive -__v')

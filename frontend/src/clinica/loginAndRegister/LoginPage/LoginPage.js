@@ -1,8 +1,4 @@
-// import "./vendor/bootstrap/css/bootstrap.min.css"
 import "./fonts/font-awesome-4.7.0/css/font-awesome.min.css"
-import "./vendor/animate/animate.css"
-import "./vendor/css-hamburgers/hamburgers.min.css"
-// import "./vendor/select2/select2.min.css"
 import "./css/util.css"
 import "./css/main.css"
 import Logo from './images/img-01.png'
@@ -41,7 +37,7 @@ export const LoginPage = ({ sections, setSection, changeHandler, loginHandler })
                             <select onChange={e => setSection(e)} className="input100" style={{ outline: "none", appearance: 'none' }}>
                                 <option>{t("Tanlang...")}</option>
                                 {sections && sections.map((section, key) =>
-                                    <option key={key} value={section.type}>{section.label}</option>
+                                    <option key={key} value={section.type}>{t(section.label)}</option>
                                 )}
                             </select>
                             <span className="focus-input100"></span>
@@ -73,17 +69,17 @@ export const LoginPage = ({ sections, setSection, changeHandler, loginHandler })
                             </button>
                         </div>
 
-                        <div class="text-center p-t-12">
-                            <span class="txt1">
+                        <div className="text-center p-t-12">
+                            <span className="txt1">
                                 
                             </span>
-                            <a class="txt2" href="#">
+                            <a className="txt2" href="#">
                                 
                             </a>
                         </div>
 
-                        <div class="text-center p-t-136">
-                            <a class="txt2" href="#">
+                        <div className="text-center p-t-136">
+                            <a className="txt2" href="#">
                                 
                             </a>
                         </div>
