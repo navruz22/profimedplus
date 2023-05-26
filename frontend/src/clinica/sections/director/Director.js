@@ -7,7 +7,7 @@ import { AuthContext } from "../../context/AuthContext";
 export const Director = () => {
 
   const auth = useContext(AuthContext)
-
+  console.log(auth);
   if (auth.user.clinica.isClose) {
 
     setTimeout(() => {
@@ -28,7 +28,7 @@ export const Director = () => {
   return (
     <div>
       <Router>
-        <Navbar />
+        <Navbar clinica={auth?.clinica} />
         <DirectorRouter />
       </Router>
     </div>

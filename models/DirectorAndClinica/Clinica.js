@@ -27,6 +27,7 @@ const clinica = new Schema(
     orientation: { type: String },
     isClose: {type: Boolean, default: false},
     close_date: {type: Date},
+    isCreateUser: {type: Boolean, default: false},
     isArchive: { type: Boolean, default: false },
   },
   {
@@ -57,7 +58,8 @@ function validateClinica(clinica) {
     ifud1: Joi.string(),
     ifud2: Joi.string(),
     ifud3: Joi.string(),
-    close_date: Joi.date().optional()
+    close_date: Joi.date().optional(),
+    // isCreateUser: Joi.boolean().optional(),
   })
 
   return schema.validate(clinica)

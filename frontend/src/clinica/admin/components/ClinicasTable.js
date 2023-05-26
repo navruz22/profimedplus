@@ -17,7 +17,8 @@ export const ClinicasTable = ({
     setDirectorData,
     setRegisterType,
     setClinicaId,
-    setModal
+    setModal,
+    changeIsCreateUser
 }) => {
     return (
         <div className="border-0 table-container">
@@ -68,6 +69,7 @@ export const ClinicasTable = ({
                                 <th className='border py-1 bg-alotrade text-[16px]'>Sh.X.</th>
                                 <th className='border py-1 bg-alotrade text-[16px]'>Dir-or</th>
                                 <th className='border py-1 bg-alotrade text-[16px]'></th>
+                                <th className='border py-1 bg-alotrade text-[16px]'></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -88,6 +90,16 @@ export const ClinicasTable = ({
                                         </td>
                                         <td className="border py-1 text-right text-[16px]">
                                             {new Date(connector.createdAt).toLocaleDateString()}
+                                        </td>
+                                        <td className="border py-1 text-right text-[16px]">
+                                            {/* <input type='checkbox' checked={connector?.isCreateUser}
+                                                onChange={() => changeIsCreateUser()} /> */}
+                                            <div className='flex flex-row justify-center items-center  pt-[1.25rem] pb-[1.25rem] pr-[.625rem] pl-[.625rem] gap-[1.25rem]'>
+                                                <div className='flex items-center gap-[.625rem]'>
+                                                    <input type='checkbox' checked={connector?.isCreateUser}
+                                                        onChange={() => changeIsCreateUser(connector?._id)} />
+                                                </div>
+                                            </div>
                                         </td>
                                         <td className="border py-1 text-center text-[16px]">
                                             <button

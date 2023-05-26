@@ -109,6 +109,31 @@ const RegisterClinica = () => {
     //=========================================================
     //=========================================================
 
+    const changeIsCreateUser = async (id) => {
+        try {
+            const data = await request(
+                `/api/clinica/is_create_user`,
+                "POST",
+                { id }
+            );
+            notify({
+                title: data?.message,
+                description: "",
+                status: "success",
+            });
+            getClinicas()
+        } catch (error) {
+            notify({
+                title: error,
+                description: "",
+                status: "error",
+            });
+        }
+    }
+
+    //=========================================================
+    //=========================================================
+
     const [clinicas, setClinicas] = useState([]);
     const [searchStorage, setSearchStrorage] = useState([]);
 
@@ -191,6 +216,7 @@ const RegisterClinica = () => {
                             setVisible={setVisible}
                             setDirectorData={setDirectorData}
                             setRegisterType={setRegisterType}
+                            changeIsCreateUser={changeIsCreateUser}
                         />
                     </div>
                 </div>

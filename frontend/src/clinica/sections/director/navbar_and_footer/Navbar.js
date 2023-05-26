@@ -6,7 +6,7 @@ import { useToast } from "@chakra-ui/react";
 import AloLogo from "../../../../clinica_logo.jpg"
 import { useTranslation } from "react-i18next";
 
-export const Navbar = () => {
+export const Navbar = ({clinica}) => {
   const history = useHistory();
   //====================================================================
   //====================================================================
@@ -257,7 +257,7 @@ export const Navbar = () => {
                 </li>
               </ul>
             </li>
-            <li className="nav-item dropdown">
+            {clinica?.isCreateUser && <li className="nav-item dropdown">
               <Link
                 className={`nav-link ${activePage === "/alo24/users"
                   ? "active-page"
@@ -271,7 +271,7 @@ export const Navbar = () => {
                 <i className="icon-book-open nav-icon" />
                 {t("Foydalanuvchilar")}
               </Link>
-            </li>
+            </li>}
             <li className="nav-item dropdown">
               <span
                 to="#"

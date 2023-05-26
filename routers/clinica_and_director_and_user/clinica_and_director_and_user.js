@@ -32,6 +32,10 @@ router.get('/clinica/getall', (req, res) => {
   require('./clinica.route').getAllClinicaForFilail(req, res);
 })
 
+router.post('/clinica/is_create_user', (req, res) => {
+  require('./clinica.route').changeCreateUser(req, res);
+})
+
 //========================================================
 //Director
 router.post('/director/register', (req, res) => {

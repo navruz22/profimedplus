@@ -324,3 +324,26 @@ module.exports.filialsCreate = async (req, res) => {
     res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
   }
 }
+
+
+module.exports.changeCreateUser = async (req, res) => {
+  try {
+    const {id} = req.body;
+
+    const clinica = await Clinica.findById(id);
+
+    if (!clinica.isCreateUser) {
+      clinica.isCreateUser = true;
+    } else {
+      clinica.isCreateUser = false;
+    }
+
+    await clinica.save()
+
+    res.status(200).json({ message: "Klinika malumotlari o'zgarildi!" });
+
+  } catch (error) {
+    console.log(error);
+    res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
+  }
+}

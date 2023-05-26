@@ -156,59 +156,5 @@ export const Login = () => {
     return <h1>Loading...</h1>;
   }
 
-  // return (
-  //   <>
-  //     <div className="bg-white h-screen gradient">
-  //       <div className="wrapper">
-  //         <Translate />
-  //         <div className="authentication-lock-screen d-flex align-items-center justify-content-center">
-  //           <div className="bg-[#00c2cb] w-[400px] h-[400px] mt-[100px] rounded-full card shadow-2xl shadow-green-500">
-  //             <div className="card-body p-md-5 text-center">
-  //               <div className="text-white" style={{ fontSize: "2rem" }}>
-  //                 {hour}
-  //               </div>
-  //               <div className="text-white" style={{ fontSize: "1.25rem" }}>
-  //                 {t(weekDays[new Date().getDay()])},<span> </span>
-  //                 {new Date().getDate()}
-  //                 <span> </span>
-  //                 {t(monthNames[new Date().getMonth()])},<span> </span>
-  //                 {new Date().getFullYear()}
-  //                 <span> {t("yil")}</span>
-  //               </div>
-  //               <div className="">Mylogo</div>
-  //               {/* <p className="mt-2 text-white">Administrator</p> */}
-
-  //               <div className="mb-3 mt-3">
-  //                 <Select
-  //                   onChange={(e) => setUser({ ...user, type: e.type })}
-  //                   options={sections && sections.map(s => ({
-  //                     ...s,
-  //                     label: t(s.label)
-  //                   }))}
-  //                   isLoading={loading}
-  //                   style={{ height: "32px" }}
-  //                   placeholder={t("select_n1")}
-  //                 />
-  //               </div>
-  //               <div className="mb-3 mt-3">
-  //                 <PasswordInput
-  //                   keyPressed={keyPressed}
-  //                   name={"password"}
-  //                   changeHandler={changeHandler}
-  //                 />
-  //               </div>
-  //               <div className="d-grid">
-  //                 <button onClick={loginHandler} className="w-[200px] border-2 border-white tracking-wide bg-green-500 py-2 text-center rounded-lg font-bold text-white">
-  //                   {t("KIRISH")}
-  //                 </button>
-  //               </div>
-  //             </div>
-  //           </div>
-  //         </div>
-  //       </div>
-  //     </div>
-  //   </>
-  // );
-
   return <LoginPage sections={sections} changeHandler={changeHandler} loginHandler={loginHandler} setSection={(e) => setUser({ ...user, type: e.target.value })} />
 };

@@ -5,10 +5,13 @@ import Logo from './images/img-01.png'
 import { Tilt } from 'react-tilt'
 import { useTranslation } from "react-i18next"
 import Translaste from "../../../translation/Translate"
+import { useState } from "react"
 
 export const LoginPage = ({ sections, setSection, changeHandler, loginHandler }) => {
 
     const { t } = useTranslation()
+
+    const [passwordType, setPasswordType] = useState(false)
 
     const defaultOptions = {
         reverse: false,  // reverse the tilt direction
@@ -42,13 +45,13 @@ export const LoginPage = ({ sections, setSection, changeHandler, loginHandler })
                             </select>
                             <span className="focus-input100"></span>
                             <span className="symbol-input100">
-                            <i className="fa fa-user" aria-hidden="true"></i>
+                                <i className="fa fa-user" aria-hidden="true"></i>
                                 {/* <i className="fa fa-envelope" ></i> */}
                             </span>
                         </div>
 
                         <div className="wrap-input100 validate-input" data-validate="Password is required">
-                            <input className="input100 input" type="password" onChange={changeHandler} onKeyDown={(e) => {
+                            <input className="input100 input" type={!passwordType ? "password" : "text"} onChange={changeHandler} onKeyDown={(e) => {
                                 if (e.key === 'Enter') {
                                     e.preventDefault()
                                     return loginHandler()
@@ -56,7 +59,12 @@ export const LoginPage = ({ sections, setSection, changeHandler, loginHandler })
                             }} name="pass" placeholder={t("Parolni kiriting")} />
                             <span className="focus-input100"></span>
                             <span className="symbol-input100">
-                                <i className="fa fa-lock" aria-hidden="true"></i>
+                                <button onClick={(e) => {
+                                        e.preventDefault()
+                                        setPasswordType(!passwordType)
+                                    }}>
+                                    {!passwordType ? <i className="fa fa-eye-slash" aria-hidden="true"></i> : <i className="fa fa-eye" aria-hidden="true"></i>}
+                                </button>
                             </span>
                         </div>
 
@@ -71,16 +79,16 @@ export const LoginPage = ({ sections, setSection, changeHandler, loginHandler })
 
                         <div className="text-center p-t-12">
                             <span className="txt1">
-                                
+
                             </span>
                             <a className="txt2" href="#">
-                                
+
                             </a>
                         </div>
 
                         <div className="text-center p-t-136">
                             <a className="txt2" href="#">
-                                
+
                             </a>
                         </div>
                     </form>
