@@ -80,7 +80,10 @@ module.exports.register = async (req, res) => {
                         clinica: connector.clinica,
                         probirka: { $ne: 0 },
                         createdAt: {
-                            $gte: new Date(new Date().setUTCDate(0, 0, 0, 0)),
+                            $gte:
+                                new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+                            $lt: new Date(new Date().getFullYear(),
+                                new Date().getMonth(), new Date().getDate() + 1)
                         },
                     })
                 ).length + 1
@@ -763,6 +766,7 @@ module.exports.getAllReseption = async (req, res) => {
                 .lean()
                 .then(datas => {
                     return datas.filter(data => {
+                        console.log(data);
                         return new Date(new Date(data.client.born).setUTCHours(0, 0, 0, 0)).toISOString() === new Date(new Date(clientborn).setUTCHours(0, 0, 0, 0)).toISOString()
                     });
                 })
