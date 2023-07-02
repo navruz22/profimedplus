@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 
-export const SmallCheck = ({ baseUrl, clinica, connector, qr }) => {
+export const SmallCheck = ({ baseUrl, clinica, connector, qr, user }) => {
     console.log(connector);
 
     const [departments, setDeparmtents] = useState([])
@@ -92,11 +92,11 @@ export const SmallCheck = ({ baseUrl, clinica, connector, qr }) => {
             </div>
             {connector.probirka && <div className="flex justify-between items-center">
                 <div>
-                    <strong style={{ color: "black", fontSize: '20px', fontFamily: 'times' }}>
+                    <strong style={{ color: "black", fontSize: '30px', fontFamily: 'times' }}>
                         Namuna:{' '}
                     </strong>
                 </div>
-                <div style={{ fontWeight: "bold", color: "black", fontSize: '20px', fontFamily: 'times' }}>
+                <div style={{ fontWeight: "bold", color: "black", fontSize: '30px', fontFamily: 'times' }}>
                     {connector.probirka && connector.probirka}
                 </div>
             </div>}
@@ -170,10 +170,13 @@ export const SmallCheck = ({ baseUrl, clinica, connector, qr }) => {
                     <div>{connector && connector.payments && connector.payments.reduce((prev, el) => prev + el.payment, 0) || 0}</div>
                 </div>
             </div>
+            <div className="mt-4" style={{ fontWeight: "bold", color: "black", fontSize: '24px', fontFamily: 'times' }}>
+                {user?.firstname + ' ' + user?.lastname}
+            </div>
             <div className="mt-4 w-full flex justify-center">
                 <img width="150" src={qr && qr} alt="QR" />
             </div>
-            <div className="w-full h-[5px] mt-[100px] border-2 border-[#000]">
+            <div className="w-full h-[5px] mt-[5cm] border-2 border-[#000]">
             </div>
         </div>
 

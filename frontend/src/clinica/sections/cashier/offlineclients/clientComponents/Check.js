@@ -1,8 +1,31 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-export const Check = ({ baseUrl, clinica, connector, qr }) => {
-  const {t} = useTranslation()
+export const Check = ({ baseUrl, clinica, connector, qr, user }) => {
+  const { t } = useTranslation()
+
+  const [departments, setDeparmtents] = useState([])
+
+  useEffect(() => {
+    if (connector && connector.services && connector.services.length > 0) {
+      let all = []
+      for (const service of connector?.services) {
+        let isExist = [...all].findIndex(item => item?.department === service?.department?._id)
+        if (isExist >= 0) {
+          all[isExist].turn = service.turn;
+        } else {
+          all.push({
+            department: service?.department?._id,
+            name: service?.department?.name,
+            turn: service?.turn,
+            room: service?.department?.room
+          })
+        }
+      }
+      setDeparmtents(all)
+    }
+  }, [connector])
+
   return (
     <div>
       <div className="container px-5">
@@ -18,7 +41,7 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                           {t("Manzil")}:{' '}
                         </strong>
                       </div>
-                      <div style={{color: "black"}}>
+                      <div style={{ color: "black" }}>
                         {clinica && clinica.address}
                       </div>
                     </li>
@@ -28,7 +51,7 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                           {t("Telefon raqami")}:{' '}
                         </strong>
                       </div>
-                      <div style={{color: "black"}}> 
+                      <div style={{ color: "black" }}>
                         {clinica?.phone1}
                       </div>
                     </li>
@@ -43,8 +66,8 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                       ) : (
                         ''
                       )}
-                      <div className="ml-3 fs-5 mt-4">
-                        {connector &&
+                      <div className="ml-3 text-[14px] mt-4">
+                        {t("Kelgan vaqti")}: {connector &&
                           new Date(connector.createdAt).toLocaleDateString() +
                           ' ' +
                           new Date(connector.createdAt).toLocaleTimeString()}
@@ -127,7 +150,29 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
               </h6>
             </div>
           </div>
-
+          <div className="col-12">
+            <table className="w-full py-2">
+              <thead className="">
+                <tr>
+                  <th className="border border-black-800 text-[16px] text-center w-[33%] font-bold">Bo'lim</th>
+                  <th className="border border-black-800 text-[16px] text-center w-[33%] font-bold">Navbat</th>
+                  <th className="border border-black-800 text-[16px] text-center w-[33%] font-bold">Xona</th>
+                </tr>
+              </thead>
+              <tbody>
+                {departments.map((d, ind) => (
+                  <tr key={ind}>
+                    <td className="border border-black-800 text-[16px] text-center font-bold">{d?.name}</td>
+                    <td className="border border-black-800 text-[16px] text-center font-bold">{d?.turn}</td>
+                    <td className="border border-black-800 text-[16px] text-center font-bold">{d?.room}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className='w-full py-2'>
+            <h3 className='text-center text-[18px] font-bold'>{t("XIZMATLAR")}</h3>
+          </div>
           <div className="col-lg-12">
             <div
               className="table-responsive"
@@ -149,19 +194,7 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                       className="text-center text-black border py-0 "
                       style={{ fontSize: '18px', fontFamily: 'times' }}
                     >
-                      {t("Bo'lim")}
-                    </th>
-                    <th
-                      className="text-center text-black border py-0 "
-                      style={{ fontSize: '18px', fontFamily: 'times' }}
-                    >
-                      {t("Xona")}
-                    </th>
-                    <th
-                      className="text-center text-black border py-0 "
-                      style={{ fontSize: '18px', fontFamily: 'times' }}
-                    >
-                      {t("Navbat")}
+                      {t("Nomi")}
                     </th>
                     <th
                       className="text-center text-black border py-0 "
@@ -192,12 +225,6 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                             </td>
                             <td className="py-0 border pl-2 font-weight-bold">
                               {service.service.name}
-                            </td>
-                            <td className="py-0 border pl-2 font-weight-bold">
-                              {service?.department?.room}
-                            </td>
-                            <td className="py-0 border pl-2 text-right">
-                              {service.turn}
                             </td>
                             <td className="py-0 border pl-2 text-right">
                               {service.pieces}
@@ -253,7 +280,7 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                       className="text-center text-black border py-0 "
                       style={{ fontSize: '11pt', fontFamily: 'times' }}
                     >
-                      {t("Bo'lim")}
+                      {t("Nomi")}
                     </th>
                     <th
                       className="text-center text-black border py-0 "
@@ -370,8 +397,13 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                   {t("To'langan")}: {connector && connector.payments && connector.payments.reduce((prev, el) => prev + el.payment, 0) || 0}
                 </div>
               </div>
-              <div className=" fs-5" style={{ fontFamily: 'Times' }}>
-                {t("Mijoz imzosi")}: ________________
+              <div className='flex justify-between items-center'>
+                <div className="text-[16px]" style={{ fontFamily: 'Times' }}>
+                  {t("Mijoz imzosi")}: ________________
+                </div>
+                <div className="text-[16px] font-bold">
+                  {user?.firstname + ' ' + user?.lastname}
+                </div>
               </div>
             </div>
           </div>
@@ -391,7 +423,7 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                           {t("Manzil")}:{' '}
                         </strong>
                       </div>
-                      <div style={{color: "black"}}>
+                      <div style={{ color: "black" }}>
                         {clinica && clinica.address}
                       </div>
                     </li>
@@ -401,7 +433,7 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                           {t("Telefon raqami")}:{' '}
                         </strong>
                       </div>
-                      <div style={{color: "black"}}> 
+                      <div style={{ color: "black" }}>
                         {clinica?.phone1}
                       </div>
                     </li>
@@ -416,8 +448,8 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                       ) : (
                         ''
                       )}
-                      <div className="ml-3 fs-5 mt-4">
-                        {connector &&
+                      <div className="ml-3 text-[14px] mt-4">
+                        {t("Kelgan vaqti")}: {connector &&
                           new Date(connector.createdAt).toLocaleDateString() +
                           ' ' +
                           new Date(connector.createdAt).toLocaleTimeString()}
@@ -500,7 +532,29 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
               </h6>
             </div>
           </div>
-
+          <div className="col-12">
+            <table className="w-full py-2">
+              <thead className="">
+                <tr>
+                  <th className="border border-black-800 text-[16px] text-center w-[33%] font-bold">Bo'lim</th>
+                  <th className="border border-black-800 text-[16px] text-center w-[33%] font-bold">Navbat</th>
+                  <th className="border border-black-800 text-[16px] text-center w-[33%] font-bold">Xona</th>
+                </tr>
+              </thead>
+              <tbody>
+                {departments.map((d, ind) => (
+                  <tr key={ind}>
+                    <td className="border border-black-800 text-[16px] text-center font-bold">{d?.name}</td>
+                    <td className="border border-black-800 text-[16px] text-center font-bold">{d?.turn}</td>
+                    <td className="border border-black-800 text-[16px] text-center font-bold">{d?.room}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className='w-full py-2'>
+            <h3 className='text-center text-[18px] font-bold'>{t("XIZMATLAR")}</h3>
+          </div>
           <div className="col-lg-12">
             <div
               className="table-responsive"
@@ -522,19 +576,7 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                       className="text-center text-black border py-0 "
                       style={{ fontSize: '18px', fontFamily: 'times' }}
                     >
-                      {t("Bo'lim")}
-                    </th>
-                    <th
-                      className="text-center text-black border py-0 "
-                      style={{ fontSize: '18px', fontFamily: 'times' }}
-                    >
-                      {t("Xona")}
-                    </th>
-                    <th
-                      className="text-center text-black border py-0 "
-                      style={{ fontSize: '18px', fontFamily: 'times' }}
-                    >
-                      {t("Navbat")}
+                      {t("Nomi")}
                     </th>
                     <th
                       className="text-center text-black border py-0 "
@@ -565,12 +607,6 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                             </td>
                             <td className="py-0 border pl-2 font-weight-bold">
                               {service.service.name}
-                            </td>
-                            <td className="py-0 border pl-2 font-weight-bold">
-                              {service?.department?.name}
-                            </td>
-                            <td className="py-0 border pl-2 text-right">
-                              {service.turn}
                             </td>
                             <td className="py-0 border pl-2 text-right">
                               {service.pieces}
@@ -626,7 +662,13 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                       className="text-center text-black border py-0 "
                       style={{ fontSize: '11pt', fontFamily: 'times' }}
                     >
-                      {t("Bo'lim")}
+                      {t("Nomi")}
+                    </th>
+                    <th
+                      className="text-center text-black border py-0 "
+                      style={{ fontSize: '11pt', fontFamily: 'times' }}
+                    >
+                      {t("Xona")}
                     </th>
                     <th
                       className="text-center text-black border py-0 "
@@ -662,6 +704,9 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                           </td>
                           <td className="py-0 border pl-2 font-weight-bold">
                             {service.service.name}
+                          </td>
+                          <td className="py-0 border pl-2 font-weight-bold">
+                            {service?.department?.room}
                           </td>
                           <td className="py-0 border pl-2 text-right">
                             {service.turn}
@@ -734,8 +779,13 @@ export const Check = ({ baseUrl, clinica, connector, qr }) => {
                   {t("To'langan")}: {connector && connector.payments && connector.payments.reduce((prev, el) => prev + el.payment, 0) || 0}
                 </div>
               </div>
-              <div className=" fs-5" style={{ fontFamily: 'Times' }}>
-                {t("Mijoz imzosi")}: ________________
+              <div className='flex justify-between items-center'>
+                <div className="text-[16px]" style={{ fontFamily: 'Times' }}>
+                  {t("Mijoz imzosi")}: ________________
+                </div>
+                <div className="text-[16px] font-bold">
+                  {user?.firstname + ' ' + user?.lastname}
+                </div>
               </div>
             </div>
           </div>

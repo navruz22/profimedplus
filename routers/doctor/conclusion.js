@@ -160,71 +160,140 @@ module.exports.getClients = async (req, res) => {
 
         let clients = [];
 
-        let connectors = await StatsionarConnector.find({
-            clinica,
-        })
-            .select('-__v -updatedAt -isArchive')
-            .populate('clinica', 'name phone1 image')
-            .populate("client", "lastname firstname born id phone address")
-            .populate({
-                path: "services",
-                select: "service serviceid accept refuse column tables turn connector client files department",
-                populate: {
-                    path: "service",
-                    select: "price"
-                }
+        if (department) {
+            let connectors = await StatsionarConnector.find({
+                clinica,
             })
-            .populate({
-                path: "services",
-                select: "service serviceid accept refuse column tables turn connector client files department",
-                populate: {
-                    path: "serviceid",
-                    select: "servicetype",
+                .select('-__v -updatedAt -isArchive')
+                .populate('clinica', 'name phone1 image')
+                .populate("client", "lastname firstname born id phone address")
+                .populate({
+                    path: "services",
+                    select: "service serviceid accept refuse column tables turn connector client files department",
                     populate: {
-                        path: "servicetype",
-                        select: "name"
+                        path: "service",
+                        select: "price"
                     }
-                }
-            })
-            .populate({
-                path: "services",
-                select: "service serviceid accept refuse column tables turn connector client files department",
-                populate: {
-                    path: "templates",
-                    select: "name template",
-                }
-            })
-            .populate({
-                path: "services",
-                select: "service serviceid accept refuse column tables turn connector client files department",
-                populate: {
-                    path: 'department',
-                    select: "probirka"
-                }
-            })
-            .populate('room', 'beginday endday room')
-            .lean()
-            .then(connectors => connectors.filter(connector =>
-                connector.services.some(service => String(service.department._id) === String(department))
-            ))
-
-        if (connectors.length > 0) {
-            for (const connector of connectors) {
-                clients.push({
-                    client: connector.client,
-                    connector: {
-                        _id: connector._id,
-                        clinica: connector.clinica,
-                        accept: connector.accept,
-                        createdAt: connector.createdAt,
-                        probirka: connector.probirka,
-                        room: connector.room
-                    },
-                    services: connector.services,
                 })
+                .populate({
+                    path: "services",
+                    select: "service serviceid accept refuse column tables turn connector client files department",
+                    populate: {
+                        path: "serviceid",
+                        select: "servicetype",
+                        populate: {
+                            path: "servicetype",
+                            select: "name"
+                        }
+                    }
+                })
+                .populate({
+                    path: "services",
+                    select: "service serviceid accept refuse column tables turn connector client files department",
+                    populate: {
+                        path: "templates",
+                        select: "name template",
+                    }
+                })
+                .populate({
+                    path: "services",
+                    select: "service serviceid accept refuse column tables turn connector client files department",
+                    populate: {
+                        path: 'department',
+                        select: "probirka"
+                    }
+                })
+                .populate('room', 'beginday endday room')
+                .populate('doctor', '-__v -updatedAt -isArchive')
+                .lean()
+                .then(connectors => connectors.filter(connector =>
+                    connector.services.some(service => String(service.department._id) === String(department))
+                ))
+    
+            if (connectors.length > 0) {
+                for (const connector of connectors) {
+                    clients.push({
+                        client: connector.client,
+                        connector: {
+                            _id: connector._id,
+                            clinica: connector.clinica,
+                            accept: connector.accept,
+                            createdAt: connector.createdAt,
+                            probirka: connector.probirka,
+                            room: connector.room,
+                            doctor: connector.doctor
+                        },
+                        services: connector.services,
+                    })
+                }
             }
+            res.status(200).send(clients);
+        } else {
+            let connectors = await StatsionarConnector.find({
+                clinica,
+            })
+                .select('-__v -updatedAt -isArchive')
+                .populate('clinica', 'name phone1 image')
+                .populate("client", "lastname firstname born id phone address")
+                .populate({
+                    path: "services",
+                    select: "service serviceid accept refuse column tables turn connector client files department",
+                    populate: {
+                        path: "service",
+                        select: "price"
+                    }
+                })
+                .populate({
+                    path: "services",
+                    select: "service serviceid accept refuse column tables turn connector client files department",
+                    populate: {
+                        path: "serviceid",
+                        select: "servicetype",
+                        populate: {
+                            path: "servicetype",
+                            select: "name"
+                        }
+                    }
+                })
+                .populate({
+                    path: "services",
+                    select: "service serviceid accept refuse column tables turn connector client files department",
+                    populate: {
+                        path: "templates",
+                        select: "name template",
+                    }
+                })
+                .populate({
+                    path: "services",
+                    select: "service serviceid accept refuse column tables turn connector client files department",
+                    populate: {
+                        path: 'department',
+                        select: "probirka"
+                    }
+                })
+                .populate('room', 'beginday endday room')
+                .populate('doctor', '-__v -updatedAt -isArchive')
+                .lean()
+    
+            if (connectors.length > 0) {
+                for (const connector of connectors) {
+                    clients.push({
+                        client: connector.client,
+                        connector: {
+                            _id: connector._id,
+                            clinica: connector.clinica,
+                            accept: connector.accept,
+                            createdAt: connector.createdAt,
+                            probirka: connector.probirka,
+                            room: connector.room,
+                            doctor: connector.doctor
+                        },
+                        services: connector.services,
+                    })
+                }
+            }
+            res.status(200).send(clients);
         }
-        res.status(200).send(clients);
     } catch (error) {
         console.log(error);
         res.status(501).json({ error: "Serverda xatolik yuz berdi..." });

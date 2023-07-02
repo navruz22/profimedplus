@@ -188,7 +188,14 @@ module.exports.getAll = async (req, res) => {
                 .populate('services')
                 .populate('products')
                 .populate('room')
-                .populate('payments')
+                .populate({
+                    path: "payments",
+                    select: "-__v -isArchive -updatedAt",
+                    populate: {
+                        path: "discount",
+                        select: "-__v -isArchive -updatedAt"
+                    }
+                })
                 .populate('discount')
                 .sort({ _id: -1 })
                 .lean()
@@ -203,7 +210,14 @@ module.exports.getAll = async (req, res) => {
                 .populate('services')
                 .populate('products')
                 .populate('room')
-                .populate('payments')
+                .populate({
+                    path: "payments",
+                    select: "-__v -isArchive -updatedAt",
+                    populate: {
+                        path: "discount",
+                        select: "-__v -isArchive -updatedAt"
+                    }
+                })
                 .populate('discount')
                 .then(connectors => connectors.filter(connector => connector.room && connector.room.endday 
                     && (new Date(connector.room.endday) >= new Date(beginDay) && new Date(connector.room.endday) <= new Date(endDay))))
@@ -219,7 +233,14 @@ module.exports.getAll = async (req, res) => {
                 .populate('services')
                 .populate('products')
                 .populate('room')
-                .populate('payments')
+                .populate({
+                    path: "payments",
+                    select: "-__v -isArchive -updatedAt",
+                    populate: {
+                        path: "discount",
+                        select: "-__v -isArchive -updatedAt"
+                    }
+                })
                 .populate('discount')
                 .then(statsionars => statsionars.filter(s => s?.room?.endday === null))
         }
@@ -235,7 +256,14 @@ module.exports.getAll = async (req, res) => {
                 .populate('services')
                 .populate('products')
                 .populate('room')
-                .populate('payments')
+                .populate({
+                    path: "payments",
+                    select: "-__v -isArchive -updatedAt",
+                    populate: {
+                        path: "discount",
+                        select: "-__v -isArchive -updatedAt"
+                    }
+                })
                 .populate('discount')
                 .sort({ createdAt: -1 })
         }

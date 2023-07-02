@@ -1,5 +1,5 @@
 import { useToast } from "@chakra-ui/react";
-import { faAngleDown, faAngleUp, faPenAlt } from "@fortawesome/free-solid-svg-icons";
+import { faAngleDown, faAngleUp, faPenAlt, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -33,7 +33,7 @@ export const ConclusionClients = () => {
 
   //====================================================================
   //====================================================================
-  const {t} = useTranslation()
+  const { t } = useTranslation()
   //====================================================================
   //====================================================================
   // Pagination
@@ -45,6 +45,8 @@ export const ConclusionClients = () => {
 
   //====================================================================
   //====================================================================
+
+  const [clientBorn, setClientBorn] = useState(new Date())
 
   //====================================================================
   //====================================================================
@@ -73,7 +75,7 @@ export const ConclusionClients = () => {
 
   //====================================================================
   //====================================================================
-    const [type, setType] = useState('begin')
+  const [type, setType] = useState('begin')
   //====================================================================
   //====================================================================
   // getConnectors
@@ -125,6 +127,13 @@ export const ConclusionClients = () => {
 
   //===================================================================
   //===================================================================
+
+    const searchBorn = () => {
+      setCurrentDoctorClients([...searchStorage].filter(doctor => {
+        console.log(new Date(new Date(doctor.client.born).setHours(0, 0, 0, 0)).toISOString() === new Date(new Date(clientBorn).setHours(0, 0, 0, 0)).toISOString());
+        return new Date(new Date(doctor.client.born).setHours(0, 0, 0, 0)).toISOString() === new Date(new Date(clientBorn).setHours(0, 0, 0, 0)).toISOString()
+      }))
+    }
 
   //===================================================================
   //===================================================================
@@ -308,6 +317,23 @@ export const ConclusionClients = () => {
                         placeholder={t("ID")}
                       />
                     </div>
+                    <div className="flex items-center gap-4">
+                      <input
+                        onKeyDown={(e) => e.key === 'Enter' && searchBorn(e.target.value)}
+                        type="date"
+                        name="born"
+                        onChange={(e) => setClientBorn(e.target.value)}
+                        className="form-control inp"
+                        placeholder=""
+                        style={{ color: '#999' }}
+                      />
+                      <button onClick={() => searchBorn(clientBorn)}>
+                        <FontAwesomeIcon
+                          icon={faSearch}
+                          style={{ cursor: "pointer" }}
+                        />
+                      </button>
+                    </div>
                     <div className="text-center">
                       <Pagination
                         setCurrentDatas={setCurrentDoctorClients}
@@ -338,6 +364,9 @@ export const ConclusionClients = () => {
                           {t("F.I.O")}
                         </th>
                         <th className="border bg-alotrade text-[16px] py-1">
+                          {t("Shifokor")}
+                        </th>
+                        <th className="border bg-alotrade text-[16px] py-1">
                           {t("ID")}
                         </th>
                         <th className="border bg-alotrade text-[16px] py-1">
@@ -347,10 +376,10 @@ export const ConclusionClients = () => {
                           {t("Tug'ilgan yili")}
                         </th>
                         <th className="border bg-alotrade text-[16px] py-1">
-                            {t("Kelgan vaqti")}
+                          {t("Kelgan vaqti")}
                         </th>
                         <th className="border bg-alotrade text-[16px] py-1">
-                            {t("Ketgan vaqti")}
+                          {t("Ketgan vaqti")}
                         </th>
                         <th className="border bg-alotrade text-[16px] py-1">
 
@@ -371,6 +400,9 @@ export const ConclusionClients = () => {
                               <td className="border text-[16px] py-1 font-weight-bold">
                                 {connector.client.firstname} {connector.client.lastname}
                               </td>
+                              <td className="border text-[16px] py-1 font-weight-bold">
+                                {connector?.connector?.doctor?.firstname} {connector?.connector?.doctor?.lastname}
+                              </td>
                               <td className="border text-[16px] py-1 text-right">
                                 {connector.client.id}
                               </td>
@@ -384,7 +416,7 @@ export const ConclusionClients = () => {
                                 {new Date(connector?.connector?.createdAt).toLocaleDateString()} {new Date(connector?.connector?.createdAt).toLocaleTimeString()}
                               </td>
                               <td className="border text-[16px] py-1 text-right">
-                              {connector?.connector?.room?.endday && new Date(connector?.connector?.room?.endday).toLocaleDateString()} {connector?.connector?.room?.endday && new Date(connector?.connector?.room?.endday).toLocaleTimeString()}
+                                {connector?.connector?.room?.endday && new Date(connector?.connector?.room?.endday).toLocaleDateString()} {connector?.connector?.room?.endday && new Date(connector?.connector?.room?.endday).toLocaleTimeString()}
                               </td>
                               <td className="border text-[16px] py-1 text-center flex gap-[4px] items-center">
                                 <button

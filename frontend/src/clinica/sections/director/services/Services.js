@@ -233,14 +233,20 @@ export const Services = () => {
                 },
             )
             notify({
-                title: `${data.name} ${t("xizmati yangilandi")}!`,
+                title: `${t("Xizmati yangilandi")}!`,
                 description: '',
                 status: 'success',
             })
-            getServices()
+            if (departmentName) {
+                setCurrentServices([...data].filter(el => el.department._id === departmentName).slice(indexFirstService, indexLastService));
+            } else {
+                setCurrentServices([...data].slice(indexFirstService, indexLastService));
+            }
+            setServices([...data]);
+            setSearchStrorage([...data])
             setService({
                 clinica: auth.clinica && auth.clinica._id,
-            })
+            }) 
             clearInputs()
             document.getElementsByTagName('select')[0].selectedIndex = 0
         } catch (error) {
@@ -251,7 +257,7 @@ export const Services = () => {
             })
         }
     }, [auth, request, getServices, service, notify, clearInputs])
-
+    
     const saveHandler = () => {
         if (checkService(service, t)) {
             return notify(checkService(service, t))
@@ -332,7 +338,13 @@ export const Services = () => {
                     Authorization: `Bearer ${auth.token}`,
                 },
             )
-            getServices()
+            if (departmentName) {
+                setCurrentServices([...data].filter(el => el.department._id === departmentName).slice(indexFirstService, indexLastService));
+            } else {
+                setCurrentServices([...data].slice(indexFirstService, indexLastService));
+            }
+            setServices([...data]);
+            setSearchStrorage([...data])
             setService({
                 clinica: auth.clinica && auth.clinica._id,
             })
@@ -406,12 +418,16 @@ export const Services = () => {
     //====================================================================
     // SEARCH
 
+    const [departmentName, setDepartmentName] = useState('')
+
     const searchDepartment = (e) => {
         if (e.target.value !== 'none') {
+            setDepartmentName(e.target.value)
             setCurrentServices([...searchStorage].filter(el => el.department._id === e.target.value))
             setServices([...searchStorage].filter(el => el.department._id === e.target.value))
             setServiceTypesSelect([...servicetypes].filter(el => el.department._id === e.target.value))
         } else {
+            setDepartmentName('')
             setCurrentServices(searchStorage)
             setServices(searchStorage)
             setServiceTypesSelect(servicetypes)

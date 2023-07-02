@@ -36,7 +36,10 @@ const { ServiceTable } = require("../../models/Services/ServiceTable");
 const { OfflineService } = require('../../models/OfflineClient/OfflineService')
 const { OfflineConnector } = require('../../models/OfflineClient/OfflineConnector')
 const { OfflinePayment } = require('../../models/Cashier/OfflinePayment')
+const { OfflineDiscount } = require('../../models/Cashier/OfflineDiscount')
 const { OfflineClient } = require('../../models/OfflineClient/OfflineClient')
+const { StatsionarPayment } = require('../../models/Cashier/StatsionarPayment')
+const { StatsionarDiscount } = require('../../models/Cashier/StatsionarDiscount')
 require('../../models/Users')
 require('../../models/Services/Department')
 require('../../models/Services/ServiceType')
@@ -299,6 +302,40 @@ module.exports.register = async (req, res) => {
                 await OfflineService.findByIdAndDelete(service._id)
             }
             for (const payment of offlinepayments) {
+                const oldpayment = {...payment}
+                delete oldpayment._id 
+                delete oldpayment.discount
+                const statsionarpayment = new StatsionarPayment({...oldpayment, 
+                    connector: newconnector._id,
+                    client: newclient._id,
+                })
+                await statsionarpayment.save()
+
+                if (payment.discount) {
+                    let offlinediscount = await OfflineDiscount.findById(payment.discount)
+                    delete offlinediscount._id
+                    console.log(offlinediscount);
+                    const statsionardiscount = new StatsionarDiscount({
+                        comment: offlinediscount.comment,
+                        clinica: offlinediscount.clinica,
+                        discount: offlinediscount.discount,
+                        total: offlinediscount.total,
+                        payment: statsionarpayment._id,
+                        client: newclient._id,
+                        connector: newconnector._id
+                    })
+                    if (offlinediscount.procient) {
+                        statsionardiscount.procient = offlinediscount.procient
+                    }
+                    await statsionardiscount.save()
+
+                    statsionarpayment.discount = statsionardiscount._id
+                    await statsionarpayment.save()
+                }
+
+                newconnector.payments.push(statsionarpayment)
+                await newconnector.save()
+
                 await OfflinePayment.findByIdAndDelete(payment._id)
             }
             await OfflineConnector.findByIdAndDelete(offlineconnector)

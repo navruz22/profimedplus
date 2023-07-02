@@ -6,7 +6,7 @@ import { SmallCheck } from './SmallCheck'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPrint } from '@fortawesome/free-solid-svg-icons'
 
-export const CheckModal = ({ clinica, modal, connector, setModal, baseUrl }) => {
+export const CheckModal = ({ clinica, modal, connector, setModal, baseUrl, user }) => {
   const [qr, setQr] = useState()
 
   const componentRef = useRef()
@@ -27,7 +27,7 @@ export const CheckModal = ({ clinica, modal, connector, setModal, baseUrl }) => 
         })
     }
   }, [connector, baseUrl])
-
+console.log(baseUrl);
   return (
     <div
       className={`modal ${modal ? '' : 'd-none'}`}
@@ -51,11 +51,11 @@ export const CheckModal = ({ clinica, modal, connector, setModal, baseUrl }) => 
           </div>
           <div className="modal-body overflow-y-scroll">
             <div ref={componentRef}>
-              <Check baseUrl={baseUrl} clinica={clinica} connector={connector} qr={qr} />
+              <Check user={user} baseUrl={baseUrl} clinica={clinica} connector={connector} qr={qr} />
             </div>
             <div className='d-none'>
               <div ref={smallcheckref} className="w-[10.4cm] p-2">
-                <SmallCheck baseUrl={baseUrl} clinica={clinica} connector={connector} qr={qr} />
+                <SmallCheck user={user} baseUrl={baseUrl} clinica={clinica} connector={connector} qr={qr} />
               </div>
             </div>
           </div>

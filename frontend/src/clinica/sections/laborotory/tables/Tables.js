@@ -53,7 +53,8 @@ const Tables = () => {
     )
     //====================================================================
     //====================================================================
-
+    const [departmentName, setDepartmentName] = useState('')
+    const [serviceName, setServiceName] = useState('')
     //====================================================================
     //====================================================================
     const { request, loading } = useHttp()
@@ -360,23 +361,29 @@ const Tables = () => {
     // Service place visible
 
     const servicePlace = (e, index) => {
-        let servicess = [...services]
+        let servicess = [...currentServices]
         servicess[index].place = e.target.value
-        setServices(servicess)
+        setCurrentServices(servicess)
     }
 
     const serviceVisible = (e, index) => {
-        let servicess = [...services]
-        servicess[index].visible = e.target.checked
-        setServices(servicess)
+        // let servicess = [...currentServices]
+        // servicess[index].visible = e.target.checked
+        // console.log(servicess);
+        setCurrentServices([...currentServices].map((service, ind) => {
+            if (ind === index) {
+                service.visible = e.target.checked
+            }
+            return service
+        }))
     }
-
-    const updateService = useCallback(async (index) => {
+    console.log(currentServices);
+    const updateService = async (index) => {
         try {
             const data = await request(
                 `/api/doctor/table/serviceupdate`,
                 'POST',
-                { service: { ...services[index] } },
+                { service: { ...currentServices[index]  }, doctor: auth.user },
                 {
                     Authorization: `Bearer ${auth.token}`,
                 },
@@ -386,10 +393,21 @@ const Tables = () => {
                 description: '',
                 status: 'success',
             })
-            let servicess = [...services]
-            servicess[index] = data
-            setServices(servicess)
-            getServices()
+            // let servicess = [...services]
+            // servicess[index] = data
+            // setServices(servicess)
+            // getServices()
+            setServices(data)
+            setSearchStrorage(data)
+            if (departmentName) {
+                if (serviceName) {
+                    setCurrentServices([...data].filter(service => service.servicetype._id === departmentName).filter(s => s.name.toLowerCase().includes(serviceName.toLowerCase())))
+                } else {
+                    setCurrentServices([...data].filter(service => service.servicetype._id === departmentName))
+                }
+            } else {
+                setCurrentServices(data)
+            }
         } catch (error) {
             notify({
                 title: t(error),
@@ -397,7 +415,7 @@ const Tables = () => {
                 status: 'error',
             })
         }
-    }, [auth, request, setServices, notify, services])
+    }
 
     //====================================================================
     //====================================================================
@@ -438,6 +456,7 @@ const Tables = () => {
     const searchName = (e) => {
         const newS = [...searchStorage].filter(s => s.name.toLowerCase().includes(e.target.value.toLowerCase()))
         setCurrentServices(newS)
+        setServiceName(e.target.value.toLowerCase())
     }
 
     //====================================================================
@@ -516,6 +535,7 @@ const Tables = () => {
                     setPageSize={setPageSize}
                     searchService={searchService}
                     searchName={searchName}
+                    setDepartmentName={setDepartmentName}
                 />
             </div>
 

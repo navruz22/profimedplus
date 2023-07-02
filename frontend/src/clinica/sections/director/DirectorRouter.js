@@ -1,6 +1,8 @@
 import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import Expense from "../cashier/expense/Expense";
+import Conclusion from "../doctor/conclusion/Conclusion";
+import { ConclusionClients } from "../doctor/conclusion/ConclusionClients";
 import { Advers } from "./adver/Advers";
 import AdverChart from "./adver_chart/AdverChart";
 import StatsionarClientHistory from "./clients/components/StatsionarClientHistory";
@@ -73,7 +75,10 @@ export const DirectorRouter = () => {
           <OfflineClients />
         </Route>
         <Route path="/alo24/statsionarclients">
-          <StatsionarClients />
+          <ConclusionClients />
+        </Route>
+        <Route path="/alo24/conclusion">
+          <Conclusion />
         </Route>
         <Route path="/alo24/mainreport">
           <MainReport />

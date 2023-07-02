@@ -94,8 +94,8 @@ const Print = ({ client, connector, sections, clinica, baseUrl, doctor, qr }) =>
                                     </h4>
                                 </td>
                                 <td rowSpan="2" colSpan={2} style={{ width: "33%" }}>
-                                    <p className="fw-bold fs-5 m-0">
-                                        {t("TAHLIL")} <br /> {t("NATIJALARI")}
+                                    <p className="fw-bold text-[18px] m-0">
+                                        {t("TEKSHIRUV")} <br /> {t("NATIJALARI")}
                                     </p>
                                 </td>
                             </tr>

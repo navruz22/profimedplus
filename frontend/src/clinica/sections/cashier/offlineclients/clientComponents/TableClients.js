@@ -266,6 +266,7 @@ export const TableClients = ({
                                                     onClick={() => {
                                                         changeClient(connector, key)
                                                         setVisible(true);
+                                                        setCheck(connector);
                                                     }}
                                                 >
                                                     <FontAwesomeIcon icon={faMoneyBill} />

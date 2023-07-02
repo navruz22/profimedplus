@@ -415,8 +415,14 @@ module.exports.update = async (req, res) => {
     }
 
     await service.save();
+    const services = await Service.find({
+      clinica,
+    })
+      .populate("department", "name")
+      .populate("clinica", "name")
+      .populate("servicetype", "name");
 
-    res.send(service);
+    res.send(services);
   } catch (error) {
     res.status(501).json({ error: "Serverda xatolik yuz berdi..." });
   }
@@ -475,7 +481,14 @@ module.exports.delete = async (req, res) => {
       const del = await ProductConnector.findByIdAndDelete(productconnector);
     }
 
-    res.send(service);
+    const services = await Service.find({
+      clinica,
+    })
+      .populate("department", "name")
+      .populate("clinica", "name")
+      .populate("servicetype", "name");
+
+    res.send(services);
   } catch (error) {
     console.log(error);
     res.status(501).json({ error: "Serverda xatolik yuz berdi..." });

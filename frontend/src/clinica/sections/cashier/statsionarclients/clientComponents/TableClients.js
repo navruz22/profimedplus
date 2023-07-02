@@ -278,7 +278,7 @@ export const TableClients = ({
                                             {connector.payments.reduce((prev, el) => prev + el.payment, 0)}
                                         </td>
                                         <td className="border py-1 text-[16px] text-right">
-                                            {(connector?.discount?.discount || 0)}
+                                            {connector.payments.reduce((prev, el) => (prev + (el?.discount?.discount || 0)), 0)}
                                         </td>
                                         <td className="border py-1 text-[16px] text-right">
                                             {getDebt(connector)}

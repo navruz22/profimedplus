@@ -707,6 +707,7 @@ export const OfflineClients = () => {
             setTimeout(() => {
                 setIsActive(true)
             }, 1000)
+            setModal1(true)
         } catch (error) {
             notify({
                 title: t(`${error}`),
@@ -823,6 +824,7 @@ export const OfflineClients = () => {
                 baseUrl={baseUrl}
                 connector={check}
                 clinica={auth && auth.clinica}
+                user={auth && auth.user}
                 modal={modal1}
                 setModal={setModal1}
             />

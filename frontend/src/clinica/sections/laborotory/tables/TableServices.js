@@ -27,7 +27,8 @@ const TableServices = ({
     setImports,
     setModal,
     setRemove,
-    serviceTypes
+    serviceTypes,
+    setDepartmentName
 }) => {
     const {t} = useTranslation()
     return (
@@ -56,8 +57,10 @@ const TableServices = ({
                                     onChange={(e) => {
                                         setCurrentServices([...services].filter(s => {
                                             if (e.target.value === 'all') {
+                                                setDepartmentName('')
                                                 return s
                                             } else {
+                                                setDepartmentName(e.target.value)
                                                 return s.servicetype._id === e.target.value
                                             }
                                         }))
@@ -138,7 +141,7 @@ const TableServices = ({
                                     <td className="border-right text-[16px] py-0 text-center">
                                         <div className="custom-control custom-checkbox text-center">
                                             <input
-                                                checked={service?.visible}
+                                                checked={service.visible}
                                                 type="checkbox"
                                                 className="custom-control-input border border-dager"
                                                 id={`service${service?._id}`}

@@ -160,28 +160,28 @@ export const TableClients = ({
                       {currentPage * countPage + key + 1}
                     </td>
                     <td className="border py-1 font-weight-bold text-[16px]">
-                      {connector.client.fullname}
+                      {connector?.client?.fullname}
                     </td>
                     <td className="border py-1 text-right text-[16px]">
-                      {connector.client.id}
+                      {connector?.client?.id}
                     </td>
                     <td className="border py-1 text-right text-[16px]">
-                      {connector.client.phone}
+                      {connector?.client?.phone}
                     </td>
                     <td className="border py-1 text-right text-[16px]">
-                      {new Date(connector.client.born).toLocaleDateString()}
+                      {new Date(connector?.client?.born).toLocaleDateString()}
                     </td>
                     <td className="border py-1 text-right text-[16px]">
-                      {connector.total}
+                      {connector?.total}
                     </td>
                     <td className="border py-1 text-right text-[16px]">
-                      {connector.procient}
+                      {connector?.procient}
                     </td>
                     <td className="border py-1 text-right text-[16px]">
-                      {connector.discount}
+                      {connector?.discount}
                     </td>
                     <td className="border py-1 text-right text-[16px]">
-                      {t(connector.comment)}
+                      {t(connector?.comment)}
                     </td>
                   </tr>
                 );

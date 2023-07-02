@@ -42,7 +42,7 @@ export const Check = ({ connector, qr, clinica, baseUrl }) => {
                       ) : (
                         ''
                       )}
-                      <div className="ml-3 fs-5 mt-4">
+                      <div className="ml-3 text-[14px] mt-4">
                         {connector &&
                           new Date(connector.createdAt).toLocaleDateString() +
                           ' ' +

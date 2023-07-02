@@ -132,8 +132,8 @@ const AllServices = ({ connector, clinica, baseUrl }) => {
                                 </h4>
                             </td>
                             <td rowSpan="2" colSpan={2} style={{ width: "33%" }}>
-                                <p className="fw-bold fs-5 m-0">
-                                    TAHLIL <br /> NATIJALARI
+                                <p className="fw-bold text-[18px] m-0">
+                                    TEKSHIRUV <br /> NATIJALARI
                                 </p>
                             </td>
                         </tr>

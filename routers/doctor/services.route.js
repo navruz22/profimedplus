@@ -7,14 +7,23 @@ const { ObjectId } = require("mongodb");
 
 module.exports.update = async (req, res) => {
     try {
-        const { service } = req.body
+        const { service, doctor } = req.body
 
         const update = await Service.findByIdAndUpdate(service._id, { ...service })
 
 
-        return res.status(200).send(update)
+        const services = await Service.find({
+            department: doctor.specialty
+        })
+            .select('name visible place')
+            .populate('tables', '-__v -createdAt -updatedAt')
+            .populate('column', '-__v -createdAt -updatedAt')
+            .populate('department', 'name')
+            .populate('servicetype', 'name')
+        return res.status(200).send(services)
 
     } catch (error) {
+        console.log(error);
         res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
     }
 }
