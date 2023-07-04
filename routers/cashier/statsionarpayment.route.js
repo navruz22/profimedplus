@@ -22,9 +22,16 @@ module.exports.payment = async (req, res) => {
             })
         }
 
+        delete discount._id
+        delete discount.isArchive
+        delete discount.__v
+        delete discount.createdAt
+        delete discount.updatedAt
+
         // CheckDiscount
         const checkDiscount = validateDiscount(discount).error
         if (checkDiscount) {
+            console.log(checkDiscount);
             return res.status(400).json({
                 error: error.message,
             })
@@ -99,6 +106,7 @@ module.exports.payment = async (req, res) => {
 
         res.status(201).send(newpayment)
     } catch (error) {
+        console.log(error);
         res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
     }
 }

@@ -116,7 +116,23 @@ module.exports.payment = async (req, res) => {
 
         await updateConnector.save();
 
-        res.status(201).send(newpayment);
+        const response = await OfflineConnector.findById(updateConnector._id)
+            .populate("client", "-createdAt -updatedAt -isArchive -__v")
+            .populate({
+                path: "services",
+                select: "-__v -updatedAt -isArchive",
+                populate: {
+                    path: "department",
+                    select: "room name"
+                }
+            })
+            .populate("products")
+            .populate("payments")
+            .populate("discount")
+            .sort({ _id: -1 })
+            .lean()
+
+        res.status(201).send(response);
     } catch (error) {
         console.log(error);
         res.status(501).json({ error: "Serverda xatolik yuz berdi..." });

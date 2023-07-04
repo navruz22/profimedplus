@@ -41,7 +41,8 @@ export const RegisterClient = ({
     clientDate,
     doctorSelect,
     roomSelect,
-    agentSelect
+    agentSelect,
+    isFromOffline
 }) => {
    
     const { t } = useTranslation()
@@ -672,11 +673,12 @@ export const RegisterClient = ({
                 </div>
                 <div className="mt-6">
                     <div className="bg-white py-4">
-                        <div className="bg-white card-header">
+                        {!isFromOffline && <div className="bg-white card-header">
                             <div className="card-title">{t("Xizmatlar bilan ishlash")}</div>
-                        </div>
+                        </div>}
                         <div className="">
                             <div className="">
+                                {!isFromOffline && <>
                                 <div className="flex justify-evenly items-center">
                                     <div className="w-[300px]">
                                         <div className="form-group">
@@ -836,6 +838,7 @@ export const RegisterClient = ({
                                         </tfoot>
                                     </table>
                                 </div>
+                                </>}
                                 <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                     <div className="text-right">
                                         {loading ? (

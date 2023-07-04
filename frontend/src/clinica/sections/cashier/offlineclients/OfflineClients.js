@@ -703,6 +703,7 @@ export const OfflineClients = () => {
                 status: 'success',
             })
             setAll()
+            setCheck(data)
             getConnectors(beginDay, endDay)
             setTimeout(() => {
                 setIsActive(true)

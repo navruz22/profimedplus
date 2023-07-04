@@ -76,7 +76,7 @@ module.exports.get = async (req, res) => {
                     select: "firstname lastname clinica_name counter_agent",
                     match: { counter_agent: counter_agent }
                 })
-                .populate('client', 'firstname lastname')
+                .populate('client', 'firstname lastname createdAt')
                 .lean()
                 .then(services => services.filter(service => service.counterdoctor))
 

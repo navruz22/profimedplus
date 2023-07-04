@@ -1006,6 +1006,7 @@ export const StatsionarClients = () => {
                                 doctorSelect={doctorSelect}
                                 roomSelect={roomSelect}
                                 agentSelect={agentSelect}
+                                isFromOffline={state?.client}
                             />
                         </div>
                         <TableClients

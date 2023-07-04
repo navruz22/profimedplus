@@ -11,6 +11,7 @@ import { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
 import AllServices from "../components/AllServices";
 import { useTranslation } from "react-i18next";
+import Print from "../../laborotory/components/Print";
 
 export const OfflineClients = () => {
     const [beginDay, setBeginDay] = useState(
@@ -893,10 +894,12 @@ export const OfflineClients = () => {
 
             <div className="d-none">
                 <div className="container p-4 bg-white text-center" ref={componentRef}>
-                    {printBody && <AllServices
+                    {printBody && <Print
                         baseUrl={baseUrl}
                         clinica={auth?.clinica}
                         connector={printBody}
+                        client={printBody?.client}
+                        sections={printBody?.services}
                     />}
                 </div>
             </div>

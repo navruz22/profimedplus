@@ -331,6 +331,9 @@ module.exports.register = async (req, res) => {
 
                     statsionarpayment.discount = statsionardiscount._id
                     await statsionarpayment.save()
+
+                    newconnector.discount = statsionardiscount._id
+                    await newconnector.save()
                 }
 
                 newconnector.payments.push(statsionarpayment)

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 export const Check = ({ baseUrl, clinica, connector, qr, user }) => {
+  console.log(connector);
   const { t } = useTranslation()
 
   const [departments, setDeparmtents] = useState([])
@@ -154,9 +155,9 @@ export const Check = ({ baseUrl, clinica, connector, qr, user }) => {
             <table className="w-full py-2">
               <thead className="">
                 <tr>
-                  <th className="border border-black-800 text-[16px] text-center w-[33%] font-bold">Bo'lim</th>
-                  <th className="border border-black-800 text-[16px] text-center w-[33%] font-bold">Navbat</th>
-                  <th className="border border-black-800 text-[16px] text-center w-[33%] font-bold">Xona</th>
+                  <th className="border border-black-800 text-[16px] text-center w-[33%] font-bold">{t("Bo'lim")}</th>
+                  <th className="border border-black-800 text-[16px] text-center w-[33%] font-bold">{t("Navbat")}</th>
+                  <th className="border border-black-800 text-[16px] text-center w-[33%] font-bold">{t("Xona")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -171,7 +172,7 @@ export const Check = ({ baseUrl, clinica, connector, qr, user }) => {
             </table>
           </div>
           <div className='w-full py-2'>
-            <h3 className='text-center text-[18px] font-bold'>{t("XIZMATLAR")}</h3>
+            <h3 className='text-center text-[18px] font-bold text-uppercase'>{t("Xizmatlar")}</h3>
           </div>
           <div className="col-lg-12">
             <div

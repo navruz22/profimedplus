@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 
 export const SmallCheck = ({ baseUrl, clinica, connector, qr, user }) => {
     console.log(connector);
+
+    const { t } = useTranslation()
 
     const [departments, setDeparmtents] = useState([])
 
@@ -40,7 +43,7 @@ export const SmallCheck = ({ baseUrl, clinica, connector, qr, user }) => {
             <div className="flex justify-between items-center">
                 <div>
                     <strong style={{ color: "black", fontSize: '20px', fontFamily: 'times' }}>
-                        Manzil:{' '}
+                        {t("Manzil")}:{' '}
                     </strong>
                 </div>
                 <div style={{ fontWeight: "bold", color: "black", fontSize: '20px', fontFamily: 'times' }}>
@@ -50,7 +53,7 @@ export const SmallCheck = ({ baseUrl, clinica, connector, qr, user }) => {
             <div className="flex justify-between items-center">
                 <div>
                     <strong style={{ color: "black", fontSize: '20px', fontFamily: 'times' }}>
-                        Telefon raqam:{' '}
+                        {t("Telefon raqami")}:{' '}
                     </strong>
                 </div>
                 <div style={{ fontWeight: "bold", color: "black", fontSize: '20px', fontFamily: 'times' }}>
@@ -60,7 +63,7 @@ export const SmallCheck = ({ baseUrl, clinica, connector, qr, user }) => {
             <div className="flex justify-between items-center">
                 <div>
                     <strong style={{ color: "black", fontSize: '20px', fontFamily: 'times' }}>
-                        Sana:{' '}
+                        {t("Sa'na")}:{' '}
                     </strong>
                 </div>
                 <div style={{ fontWeight: "bold", color: "black", fontSize: '20px', fontFamily: 'times' }}>
@@ -73,7 +76,7 @@ export const SmallCheck = ({ baseUrl, clinica, connector, qr, user }) => {
             <div className="flex justify-between items-center">
                 <div>
                     <strong style={{ color: "black", fontSize: '20px', fontFamily: 'times' }}>
-                        Mijoz:{' '}
+                        {t("Mijoz")}:{' '}
                     </strong>
                 </div>
                 <div style={{ fontWeight: "bold", color: "black", fontSize: '20px', fontFamily: 'times' }}>
@@ -83,7 +86,7 @@ export const SmallCheck = ({ baseUrl, clinica, connector, qr, user }) => {
             <div className="flex justify-between items-center">
                 <div>
                     <strong style={{ color: "black", fontSize: '20px', fontFamily: 'times' }}>
-                        ID:{' '}
+                        {t("ID")}:{' '}
                     </strong>
                 </div>
                 <div style={{ fontWeight: "bold", color: "black", fontSize: '20px', fontFamily: 'times' }}>
@@ -93,7 +96,7 @@ export const SmallCheck = ({ baseUrl, clinica, connector, qr, user }) => {
             {connector.probirka && <div className="flex justify-between items-center">
                 <div>
                     <strong style={{ color: "black", fontSize: '30px', fontFamily: 'times' }}>
-                        Namuna:{' '}
+                        {t("NAMUNA")}:{' '}
                     </strong>
                 </div>
                 <div style={{ fontWeight: "bold", color: "black", fontSize: '30px', fontFamily: 'times' }}>
@@ -103,9 +106,9 @@ export const SmallCheck = ({ baseUrl, clinica, connector, qr, user }) => {
             <table className="w-full py-2">
                 <thead className="">
                     <tr>
-                        <th className="border border-black-800 text-[20px] text-center w-[33%] font-bold">Bo'lim</th>
-                        <th className="border border-black-800 text-[20px] text-center w-[33%] font-bold">Navbat</th>
-                        <th className="border border-black-800 text-[20px] text-center w-[33%] font-bold">Xona</th>
+                        <th className="border border-black-800 text-[20px] text-center w-[33%] font-bold">{t("Bo'lim")}</th>
+                        <th className="border border-black-800 text-[20px] text-center w-[33%] font-bold">{t("Navbat")}</th>
+                        <th className="border border-black-800 text-[20px] text-center w-[33%] font-bold">{t("Xona")}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -135,7 +138,7 @@ export const SmallCheck = ({ baseUrl, clinica, connector, qr, user }) => {
                 <div
                     className="p-1 mt-2 flex justify-between items-center text-[24px] font-bold"
                 >
-                    <div>Jami:</div>
+                    <div>{t("Jami")}:</div>
                     <div>
                         {connector.products &&
                             connector.services &&
@@ -154,19 +157,19 @@ export const SmallCheck = ({ baseUrl, clinica, connector, qr, user }) => {
                     </div>
                 </div>
                 <div className=" p-1 mt-2 flex justify-between items-center text-[24px] font-bold">
-                    <div>Chegirma:</div>
+                    <div>{t("Chegirma")}:</div>
                     <div>{connector?.discount?.discount || 0}</div>
                 </div>
                 <div className="p-1 mt-2 flex justify-between items-center text-[24px] font-bold">
-                    <div>Qaytarilgan:</div>
+                    <div>{t("Qaytarilgan")}:</div>
                     <div>{connector && connector.services && connector.products && (connector.services.reduce((prev, el) => prev + (el.refuse && el.service.price || 0), 0) + connector.products.reduce((prev, el) => prev + (el.refuse && el.product.price || 0), 0))}</div>
                 </div>
                 <div className="p-1 mt-2 flex justify-between items-center text-[24px] font-bold">
-                    <div>Qarz:</div>
+                    <div>{t("Qarz")}:</div>
                     <div>{connector && connector.payments && connector.payments.reduce((prev, el) => prev + el.debt, 0) || 0}</div>
                 </div>
                 <div className="p-1 mt-2 flex justify-between items-center text-[24px] font-bold">
-                    <div>To'langan:</div>
+                    <div>{t("To'langan")}:</div>
                     <div>{connector && connector.payments && connector.payments.reduce((prev, el) => prev + el.payment, 0) || 0}</div>
                 </div>
             </div>
