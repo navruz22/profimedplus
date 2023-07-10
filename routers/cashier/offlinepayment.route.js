@@ -173,7 +173,7 @@ module.exports.getAll = async (req, res) => {
                 .lean()
                 .then(connectors => {
                     return connectors.filter(connector => {
-                        return new Date(new Date(connector.client.born).setUTCHours(0, 0, 0, 0)).toISOString() === new Date(new Date(clientborn).setUTCHours(0, 0, 0, 0)).toISOString()
+                        return connector.client && (new Date(new Date(connector.client.born).setUTCHours(0, 0, 0, 0)).toISOString() === new Date(new Date(clientborn).setUTCHours(0, 0, 0, 0)).toISOString())
                     });
                 })
         } else {

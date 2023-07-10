@@ -767,7 +767,7 @@ module.exports.getAllReseption = async (req, res) => {
                 .then(datas => {
                     return datas.filter(data => {
                         console.log(data);
-                        return new Date(new Date(data.client.born).setUTCHours(0, 0, 0, 0)).toISOString() === new Date(new Date(clientborn).setUTCHours(0, 0, 0, 0)).toISOString()
+                        return data.client && (new Date(new Date(data.client.born).setUTCHours(0, 0, 0, 0)).toISOString() === new Date(new Date(clientborn).setUTCHours(0, 0, 0, 0)).toISOString())
                     });
                 })
         } else if (clientId) {

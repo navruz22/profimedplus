@@ -78,7 +78,7 @@ console.log(baseUrl);
                 }}
                 className="btn btn-link success w-100"
               >
-                <FontAwesomeIcon onClick={() => {
+                <FontAwesomeIcon fontSize={32} onClick={() => {
                   handlePrint2()
                 }} icon={faPrint} />
               </button>

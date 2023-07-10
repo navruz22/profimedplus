@@ -47,7 +47,7 @@ module.exports.getAll = async (req, res) => {
         .populate("client", "lastname firstname born id phone address")
         .populate({
           path: "services",
-          select: "service serviceid accept refuse column tables turn connector client files department",
+          select: "service serviceid accept refuse column payment tables turn connector client files department",
           populate: {
             path: "service",
             select: "price"
@@ -55,7 +55,7 @@ module.exports.getAll = async (req, res) => {
         })
         .populate({
           path: "services",
-          select: "service serviceid accept refuse column tables turn connector client files department",
+          select: "service serviceid accept refuse column payment tables turn connector client files department",
           populate: {
             path: "serviceid",
             select: "servicetype",
@@ -67,7 +67,7 @@ module.exports.getAll = async (req, res) => {
         })
         .populate({
           path: "services",
-          select: "service serviceid accept refuse column tables turn connector client files department",
+          select: "service serviceid accept refuse column payment tables turn connector client files department",
           populate: {
             path: "templates",
             select: "name template",
@@ -75,7 +75,7 @@ module.exports.getAll = async (req, res) => {
         })
         .populate({
           path: "services",
-          select: "service serviceid accept refuse column tables turn connector client files department",
+          select: "service serviceid accept refuse column payment tables turn connector client files department",
           populate: {
             path: 'department',
             select: "probirka"
@@ -85,7 +85,7 @@ module.exports.getAll = async (req, res) => {
         .lean()
         .then(connectors => connectors.filter(connector =>
           connector.services.some(service => String(service.department._id) === String(department)) &&
-          new Date(new Date(connector.client.born).setUTCHours(0, 0, 0, 0)).toISOString() === new Date(new Date(clientborn).setUTCHours(0, 0, 0, 0)).toISOString()
+          connector.client && (new Date(new Date(connector.client.born).setUTCHours(0, 0, 0, 0)).toISOString() === new Date(new Date(clientborn).setUTCHours(0, 0, 0, 0)).toISOString())
         ))
     } else {
       connectors = await OfflineConnector.find({
@@ -100,7 +100,7 @@ module.exports.getAll = async (req, res) => {
         .populate("client", "lastname firstname born id phone address")
         .populate({
           path: "services",
-          select: "service serviceid accept refuse column tables turn connector client files department",
+          select: "service serviceid accept refuse column payment tables turn connector client files department",
           populate: {
             path: "service",
             select: "price"
@@ -108,7 +108,7 @@ module.exports.getAll = async (req, res) => {
         })
         .populate({
           path: "services",
-          select: "service serviceid accept refuse column tables turn connector client files department",
+          select: "service serviceid accept refuse column payment tables turn connector client files department",
           populate: {
             path: "serviceid",
             select: "servicetype",
@@ -120,7 +120,7 @@ module.exports.getAll = async (req, res) => {
         })
         .populate({
           path: "services",
-          select: "service serviceid accept refuse column tables turn connector client files department",
+          select: "service serviceid accept refuse payment column tables turn connector client files department",
           populate: {
             path: "templates",
             select: "name template",
@@ -128,7 +128,7 @@ module.exports.getAll = async (req, res) => {
         })
         .populate({
           path: "services",
-          select: "service serviceid accept refuse column tables turn connector client files department",
+          select: "service serviceid accept payment refuse column tables turn connector client files department",
           populate: {
             path: 'department',
             select: "probirka"
@@ -152,7 +152,7 @@ module.exports.getAll = async (req, res) => {
             probirka: connector.probirka,
             _id: connector._id
           },
-          services: connector.services,
+          services: [...connector.services].filter(service => service.refuse === false && service.payment),
           payments: connector.payments
         })
       }

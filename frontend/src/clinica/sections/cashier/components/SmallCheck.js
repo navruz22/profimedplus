@@ -123,7 +123,7 @@ export const SmallCheck = ({ baseUrl, clinica, connector, qr, user }) => {
             </table>
             <div className="mt-4">
                 {connector.services &&
-                    connector.services.map((service, index) => (
+                    connector.services.map((service, index) => service.refuse === false && (
                         <div className="mb-1">
                             <div className="text-left text-[20px] font-bold">
                                 {index + 1} {service.service.name}
@@ -134,6 +134,21 @@ export const SmallCheck = ({ baseUrl, clinica, connector, qr, user }) => {
                         </div>
                     ))}
             </div>
+
+            {connector?.services && connector.services.some((service) => service.refuse === true) && <div className="mt-4">
+                <div><h2 className="text-center text-[22px] text-uppercase font-bold">{t("Qaytarilgan")}</h2></div>
+                {connector.services && 
+                    connector.services.map((service, index) => service.refuse === true && (
+                        <div className="mb-1">
+                            <div className="text-left text-[20px] font-bold">
+                                {index + 1} {service.service.name}
+                            </div>
+                            <div className="text-right text-[20px] font-bold">
+                                {service.pieces} * {service.service.price} = {service.service.price * service.pieces}
+                            </div>
+                        </div>
+                    ))}
+            </div>}
             <div className="border-2 border-black-800">
                 <div
                     className="p-1 mt-2 flex justify-between items-center text-[24px] font-bold"
