@@ -46,7 +46,8 @@ export const TableClients = ({
   setIsAddConnector,
   getClientsById,
   setPrintBody,
-  handlePrint
+  handlePrint,
+  allModalHandle
 }) => {
 
   const {t} = useTranslation()
@@ -174,9 +175,9 @@ export const TableClients = ({
                 <th className="border py-1 bg-alotrade text-[16px]">
                   {t("Qo'shish")}
                 </th>
-                {/* <th className="border py-1 bg-alotrade text-[16px]">
+                <th className="border py-1 bg-alotrade text-[16px]">
                   {t("Chop etish")}
-                </th> */}
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -208,10 +209,7 @@ export const TableClients = ({
                     </td>
                     <td className="border py-1 text-right text-[16px] font-bold">
                       <button onClick={() => {
-                        setPrintBody(connector)
-                        setTimeout(() => {
-                          handlePrint()
-                        }, 2000)
+                        allModalHandle(connector.services)
                       }}>
                         <span className={`${connector.services.filter(service => !service.refuse).length === connector.services.filter(service => service.accept).length ? 'text-green-400' : "text-red-400"}`}>{connector.services.filter(service => !service.refuse).length}</span> / <span className='text-green-400'>{connector.services.filter(service => service.accept).length}</span>
                       </button>
@@ -282,7 +280,7 @@ export const TableClients = ({
                         </button>
                       )}
                     </td>
-                    {/* <td className="border py-1 text-center text-[16px]">
+                    <td className="border py-1 text-center text-[16px]">
                       {loading ? (
                         <button className="btn btn-success" disabled>
                           <span className="spinner-border spinner-border-sm"></span>
@@ -299,7 +297,7 @@ export const TableClients = ({
                           <FontAwesomeIcon icon={faPrint} />
                         </button>
                       )}
-                    </td> */}
+                    </td>
                   </tr>
                 )
               })}

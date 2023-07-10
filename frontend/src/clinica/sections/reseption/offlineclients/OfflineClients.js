@@ -12,6 +12,7 @@ import { useReactToPrint } from "react-to-print";
 import AllServices from "../components/AllServices";
 import { useTranslation } from "react-i18next";
 import Print from "../../laborotory/components/Print";
+import AllModal from "./clientComponents/AllModal";
 
 export const OfflineClients = () => {
     const [beginDay, setBeginDay] = useState(
@@ -25,6 +26,12 @@ export const OfflineClients = () => {
     // MODAL
     const [modal, setModal] = useState(false);
     const [modal1, setModal1] = useState(false);
+    const [modal2, setModal2] = useState(false);
+    //====================================================================
+    //====================================================================
+
+    const [servicesBody, setServicesBody] = useState([])
+
     //====================================================================
     //====================================================================
 
@@ -499,7 +506,7 @@ export const OfflineClients = () => {
     });
 
     const changeClientData = (e) => {
-        setClient({ ...client, [e.target.name]: e.target.value });
+        setClient({ ...client, [e.target.name]: e.target.value});
     };
 
 
@@ -879,6 +886,12 @@ export const OfflineClients = () => {
                             getClientsById={getClientsById}
                             setPrintBody={setPrintBody}
                             handlePrint={handlePrint}
+                            allModalHandle={(services) => {
+                                setServicesBody(services)
+                                setTimeout(() => {
+                                    setModal2(true)
+                                }, 1000)
+                            }}
                         />
                     </div>
                 </div>
@@ -910,6 +923,12 @@ export const OfflineClients = () => {
                 setModal={setModal}
                 handler={client._id && !isAddConnector ? addHandler : client._id && isAddConnector ? addConnectorHandler : isActive && createHandler}
                 basic={client.lastname + " " + client.firstname}
+            />
+            <AllModal
+                modal={modal2}
+                services={servicesBody}
+                setModal={setModal2}
+                handler={handlePrint}
             />
         </div>
     );

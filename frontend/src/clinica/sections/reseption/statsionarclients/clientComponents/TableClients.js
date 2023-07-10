@@ -150,6 +150,9 @@ export const TableClients = ({
                   {t("ID")}
                 </th>
                 <th className="border py-1 bg-alotrade text-[16px]">
+                  {t("Probirka")}
+                </th>
+                <th className="border py-1 bg-alotrade text-[16px]">
                   {t("Shikokor")}
                 </th>
                 <th className="border py-1 bg-alotrade text-[16px]">
@@ -181,6 +184,9 @@ export const TableClients = ({
                     </td>
                     <td className="border py-1 text-right text-[16px]">
                       {connector.client.id}
+                    </td>
+                    <td className="border py-1 text-right text-[16px]">
+                      {connector?.dailys[0]?.probirka}
                     </td>
                     <td className="border py-1 text-[16px]">
                       {connector.doctor.lastname +

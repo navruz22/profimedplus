@@ -98,19 +98,21 @@ module.exports.register = async (req, res) => {
         //=========================================================
         // CreateStatsionarConnector
         let probirka = 0
-        if (connector.probirka && offlineconnector) {
-            probirka = connector.probirka
-        } else if (connector.probirka) {
-            probirka =
-                (
-                    await StatsionarDaily.find({
-                        clinica: connector.clinica,
-                        probirka: { $ne: 0 },
-                        createdAt: {
-                            $gte: new Date(new Date().setUTCDate(0, 0, 0, 0)),
-                        },
-                    })
-                ).length + 1
+        if (connector.probirka) {
+            const lastProbirka = await StatsionarDaily.find({
+                clinica: connector.clinica,
+                probirka: { $ne: 0 },
+                createdAt: {
+                    $gte:
+                        new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+                    $lt: new Date(new Date().getFullYear(),
+                        new Date().getMonth(), new Date().getDate() + 1)
+                },
+            })
+                .sort({ createdAt: -1 })
+
+            probirka = lastProbirka.length > 0 ? Number(lastProbirka[0].probirka.substring(1)) + 1 : 1
+
         } else {
             probirka = 0
         }
@@ -140,7 +142,7 @@ module.exports.register = async (req, res) => {
         // CreateServices
         let totalprice = 0
         for (const service of services) {
-            
+
             // service.department = service.department._id
 
             const { error } = validateStatsionarService(service)
@@ -302,10 +304,11 @@ module.exports.register = async (req, res) => {
                 await OfflineService.findByIdAndDelete(service._id)
             }
             for (const payment of offlinepayments) {
-                const oldpayment = {...payment}
-                delete oldpayment._id 
+                const oldpayment = { ...payment }
+                delete oldpayment._id
                 delete oldpayment.discount
-                const statsionarpayment = new StatsionarPayment({...oldpayment, 
+                const statsionarpayment = new StatsionarPayment({
+                    ...oldpayment,
                     connector: newconnector._id,
                     client: newclient._id,
                 })
@@ -342,7 +345,12 @@ module.exports.register = async (req, res) => {
                 await OfflinePayment.findByIdAndDelete(payment._id)
             }
             await OfflineConnector.findByIdAndDelete(offlineconnector)
-            await OfflineClient.findByIdAndDelete(offlineclient)
+
+            const offclient = await OfflineClient.findById(offlineclient)
+
+            if (offclient.connectors.length < 2) {
+                await OfflineClient.findByIdAndDelete(offlineclient)
+            }
         }
 
         const response = await StatsionarConnector.findById(newconnector._id)
@@ -545,16 +553,19 @@ module.exports.add = async (req, res) => {
         // CreateStatsionarConnector
         let probirka = 0
         if (connector.probirka) {
-            probirka =
-                (
-                    await StatsionarDaily.find({
-                        clinica: client.clinica,
-                        probirka: { $ne: 0 },
-                        createdAt: {
-                            $gte: new Date(new Date().setUTCDate(0, 0, 0, 0)),
-                        },
-                    })
-                ).length + 1
+            const lastProbirka = await StatsionarDaily.find({
+                clinica: connector.clinica,
+                probirka: { $ne: 0 },
+                createdAt: {
+                    $gte:
+                        new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+                    $lt: new Date(new Date().getFullYear(),
+                        new Date().getMonth(), new Date().getDate() + 1)
+                },
+            })
+                .sort({ createdAt: -1 })
+
+            probirka = lastProbirka.length > 0 ? Number(lastProbirka[0].probirka.substring(1)) + 1 : 1
         }
 
         const newdaily = new StatsionarDaily({
@@ -800,134 +811,137 @@ module.exports.getAllReseption = async (req, res) => {
 
         let connectors = []
 
-       if (type === 'today') {
-        connectors = await StatsionarConnector.find({
-            clinica,
-            createdAt: {
-                $gte: new Date().setHours(0, 0, 0, 0),
-                $lte: new Date().setHours(23, 59, 59, 59),
-            },
-        })
-            .select('client doctor createdAt services products room diagnosis')
-            .populate('client')
-            .populate({
-                path: "services",
-                select: "service serviceid accept refuse column createdAt tables turn connector client files department",
-                populate: {
-                    path: "serviceid",
-                    select: "servicetype",
+        if (type === 'today') {
+            connectors = await StatsionarConnector.find({
+                clinica,
+                createdAt: {
+                    $gte: new Date().setHours(0, 0, 0, 0),
+                    $lte: new Date().setHours(23, 59, 59, 59),
+                },
+            })
+                .select('client doctor createdAt services products dailys room diagnosis')
+                .populate('client')
+                .populate({
+                    path: "services",
+                    select: "service serviceid accept refuse column createdAt tables turn connector client files department",
                     populate: {
-                        path: "servicetype",
-                        select: "name"
+                        path: "serviceid",
+                        select: "servicetype",
+                        populate: {
+                            path: "servicetype",
+                            select: "name"
+                        }
                     }
-                }
-            })
-            .populate({
-                path: "services",
-                select: "service serviceid accept refuse column createdAt tables turn connector client files department",
-                populate: {
-                    path: "templates",
-                    select: "name template",
-                }
-            })
-            .populate({
-                path: "services",
-                select: "service serviceid accept refuse column createdAt tables turn connector client files department",
-                populate: {
-                    path: 'department',
-                    select: "probirka"
-                }
-            })
-            .populate("products", 'product pieces createdAt')
-            .populate("doctor", 'firstname lastname')
-            .populate("room")
-            .sort({ createdAt: -1 })
-       } else if (type === 'continue') {
-        connectors = await StatsionarConnector.find({
-            clinica,
-            createdAt: {
-                $gte: beginDay,
-                $lte: endDay,
-            },
-        })
-            .select('client doctor createdAt services products room diagnosis')
-            .populate('client')
-            .populate({
-                path: "services",
-                select: "service serviceid accept refuse column createdAt tables turn connector client files department",
-                populate: {
-                    path: "serviceid",
-                    select: "servicetype",
+                })
+                .populate({
+                    path: "services",
+                    select: "service serviceid accept refuse column createdAt tables turn connector client files department",
                     populate: {
-                        path: "servicetype",
-                        select: "name"
+                        path: "templates",
+                        select: "name template",
                     }
-                }
-            })
-            .populate({
-                path: "services",
-                select: "service serviceid accept refuse column createdAt tables turn connector client files department",
-                populate: {
-                    path: "templates",
-                    select: "name template",
-                }
-            })
-            .populate({
-                path: "services",
-                select: "service serviceid accept refuse column createdAt tables turn connector client files department",
-                populate: {
-                    path: 'department',
-                    select: "probirka"
-                }
-            })
-            .populate("products", 'product pieces createdAt')
-            .populate("doctor", 'firstname lastname')
-            .populate("room")
-            .sort({ createdAt: -1 })
-            .lean()
-            .then(connectors => connectors.filter(connector => connector.room && connector.room.endday === null))
-       } else {
-        connectors = await StatsionarConnector.find({
-            clinica
-        })
-            .select('client doctor createdAt services products room diagnosis')
-            .populate('client')
-            .populate({
-                path: "services",
-                select: "service serviceid accept refuse column createdAt tables turn connector client files department",
-                populate: {
-                    path: "serviceid",
-                    select: "servicetype",
+                })
+                .populate({
+                    path: "services",
+                    select: "service serviceid accept refuse column createdAt tables turn connector client files department",
                     populate: {
-                        path: "servicetype",
-                        select: "name"
+                        path: 'department',
+                        select: "probirka"
                     }
-                }
+                })
+                .populate("products", 'product pieces createdAt')
+                .populate("doctor", 'firstname lastname')
+                .populate("room")
+                .populate("dailys")
+                .sort({ createdAt: -1 })
+        } else if (type === 'continue') {
+            connectors = await StatsionarConnector.find({
+                clinica,
+                createdAt: {
+                    $gte: beginDay,
+                    $lte: endDay,
+                },
             })
-            .populate({
-                path: "services",
-                select: "service serviceid accept refuse column createdAt tables turn connector client files department",
-                populate: {
-                    path: "templates",
-                    select: "name template",
-                }
+                .select('client doctor createdAt dailys services products room diagnosis')
+                .populate('client')
+                .populate({
+                    path: "services",
+                    select: "service serviceid accept refuse column createdAt tables turn connector client files department",
+                    populate: {
+                        path: "serviceid",
+                        select: "servicetype",
+                        populate: {
+                            path: "servicetype",
+                            select: "name"
+                        }
+                    }
+                })
+                .populate({
+                    path: "services",
+                    select: "service serviceid accept refuse column createdAt tables turn connector client files department",
+                    populate: {
+                        path: "templates",
+                        select: "name template",
+                    }
+                })
+                .populate({
+                    path: "services",
+                    select: "service serviceid accept refuse column createdAt tables turn connector client files department",
+                    populate: {
+                        path: 'department',
+                        select: "probirka"
+                    }
+                })
+                .populate("products", 'product pieces createdAt')
+                .populate("doctor", 'firstname lastname')
+                .populate("room")
+                .populate("dailys")
+                .sort({ createdAt: -1 })
+                .lean()
+                .then(connectors => connectors.filter(connector => connector.room && connector.room.endday === null))
+        } else {
+            connectors = await StatsionarConnector.find({
+                clinica
             })
-            .populate({
-                path: "services",
-                select: "service serviceid accept refuse column createdAt tables turn connector client files department",
-                populate: {
-                    path: 'department',
-                    select: "probirka"
-                }
-            })
-            .populate("products", 'product pieces createdAt')
-            .populate("doctor", 'firstname lastname')
-            .populate("room")
-            .sort({ createdAt: -1 })
-            .lean()
-            .then(connectors => connectors.filter(connector => connector.room && connector.room.endday 
-            && (new Date(connector.room.endday) >= new Date(beginDay) && new Date(connector.room.endday) <= new Date(endDay))))
-       }
+                .select('client doctor createdAt dailys services products room diagnosis')
+                .populate('client')
+                .populate({
+                    path: "services",
+                    select: "service serviceid accept refuse column createdAt tables turn connector client files department",
+                    populate: {
+                        path: "serviceid",
+                        select: "servicetype",
+                        populate: {
+                            path: "servicetype",
+                            select: "name"
+                        }
+                    }
+                })
+                .populate({
+                    path: "services",
+                    select: "service serviceid accept refuse column createdAt tables turn connector client files department",
+                    populate: {
+                        path: "templates",
+                        select: "name template",
+                    }
+                })
+                .populate({
+                    path: "services",
+                    select: "service serviceid accept refuse column createdAt tables turn connector client files department",
+                    populate: {
+                        path: 'department',
+                        select: "probirka"
+                    }
+                })
+                .populate("products", 'product pieces createdAt')
+                .populate("doctor", 'firstname lastname')
+                .populate("room")
+                .populate("dailys")
+                .sort({ createdAt: -1 })
+                .lean()
+                .then(connectors => connectors.filter(connector => connector.room && connector.room.endday
+                    && (new Date(connector.room.endday) >= new Date(beginDay) && new Date(connector.room.endday) <= new Date(endDay))))
+        }
 
         res.status(200).send(connectors)
     } catch (error) {

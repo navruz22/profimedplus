@@ -105,7 +105,7 @@ export const RegisterClient = ({
                                     <div className="form-group">
                                         <label htmlFor="inputEmail">{t("Ismi")}</label>
                                         <input
-                                            defaultValue={client.firstname}
+                                            value={client.firstname || ''}
                                             onChange={changeClientData}
                                             type="text"
                                             className="form-control form-control-sm"
@@ -119,7 +119,7 @@ export const RegisterClient = ({
                                     <div className="form-group">
                                         <label htmlFor="education">{t("Otasining ismi")}</label>
                                         <input
-                                            defaultValue={client.fathername}
+                                            value={client.fathername || ''}
                                             onChange={changeClientData}
                                             type="text"
                                             className="form-control form-control-sm"
@@ -155,7 +155,7 @@ export const RegisterClient = ({
                                                 </span>
                                             </div>
                                             <input
-                                                defaultValue={client.phone}
+                                                value={client.phone || ''}
                                                 onChange={changeClientData}
                                                 type="number"
                                                 className="form-control"
@@ -266,7 +266,7 @@ export const RegisterClient = ({
                                     <div className="form-group">
                                         <label htmlFor="biO">{t("Manzili")}</label>
                                         <textarea
-                                            defaultValue={client.address}
+                                            value={client.address || ''}
                                             onChange={changeClientData}
                                             className="form-control form-control-sm"
                                             name="address"

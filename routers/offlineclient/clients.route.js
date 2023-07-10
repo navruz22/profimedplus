@@ -62,8 +62,13 @@ module.exports.register = async (req, res) => {
 
         //=========================================================
         // CreateClient
-        const id =
-            (await OfflineClient.find({ clinica: client.clinica })).length + 1000001
+        // const id =
+        //     (await OfflineClient.find({ clinica: client.clinica })).length + 1000001
+
+        const connectors = await OfflineClient.find({ clinica: client.clinica })
+        .sort({createdAt: -1})
+
+        const id = connectors.length > 0 ? connectors[0].id + 1 : 1000001
 
         const fullname = client.lastname + ' ' + client.firstname
 
@@ -74,19 +79,18 @@ module.exports.register = async (req, res) => {
         // CreateOfflineConnector
         let probirka = 0
         if (connector.probirka) {
-            probirka =
-                (
-                    await OfflineConnector.find({
-                        clinica: connector.clinica,
-                        probirka: { $ne: 0 },
-                        createdAt: {
-                            $gte:
-                                new Date(new Date().getFullYear(), new Date().getMonth(), 1),
-                            $lt: new Date(new Date().getFullYear(),
-                                new Date().getMonth(), new Date().getDate() + 1)
-                        },
-                    })
-                ).length + 1
+            const lastProbirka = await OfflineConnector.find({
+                clinica: connector.clinica,
+                probirka: { $ne: 0 },
+                createdAt: {
+                    $gte:
+                        new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+                    $lt: new Date(new Date().getFullYear(),
+                        new Date().getMonth(), new Date().getDate() + 1)
+                },
+            })
+            .sort({createdAt: -1})
+            probirka = lastProbirka.length > 0 ? lastProbirka[0].probirka + 1 : 1
         }
 
         const newconnector = new OfflineConnector({
@@ -270,16 +274,19 @@ module.exports.add = async (req, res) => {
         // CreateOfflineConnector
         let probirka = 0
         if (connector.probirka && !updateOfflineConnector.probirka) {
-            probirka =
-                (
-                    await OfflineConnector.find({
-                        clinica: client.clinica,
-                        probirka: { $ne: 0 },
-                        createdAt: {
-                            $gte: new Date(new Date().setUTCDate(0, 0, 0, 0)),
-                        },
-                    })
-                ).length + 1
+            const lastProbirka = await OfflineConnector.find({
+                clinica: connector.clinica,
+                probirka: { $ne: 0 },
+                createdAt: {
+                    $gte:
+                        new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+                    $lt: new Date(new Date().getFullYear(),
+                        new Date().getMonth(), new Date().getDate() + 1)
+                },
+            })
+            .sort({createdAt: -1})
+
+            probirka = lastProbirka.length > 0 ? lastProbirka[0].probirka + 1 : 1
 
             updateOfflineConnector.probirka = probirka
             await updateOfflineConnector.save()

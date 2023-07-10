@@ -293,7 +293,7 @@ export const Check = ({ connector, qr }) => {
           </div>
         </div>
       </div>
-      <div style={{ border: '2px dashed black', margin: '50px 0' }}></div>
+      {/* <div style={{ border: '2px dashed black', margin: '50px 0' }}></div>
       <div className="container px-5">
         <div className="row">
           <table className="table ">
@@ -583,7 +583,7 @@ export const Check = ({ connector, qr }) => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }

@@ -235,7 +235,10 @@ module.exports.getLabClients = async (req, res) => {
                 .populate("templates", "name template")
                 .lean()
                 .then(services => {
-                    return services.filter(service => service.connector.accept && service.payment && service.department.probirka && !service.refuse && service.serviceid?._id)
+                    return services.filter(service => {
+                        console.log(service);
+                        return service.connector.accept && service.payment && service.department.probirka && !service.refuse && service.serviceid?._id
+                    })
                 })
         }
 
