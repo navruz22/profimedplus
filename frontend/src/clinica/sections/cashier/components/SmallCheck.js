@@ -86,6 +86,16 @@ export const SmallCheck = ({ baseUrl, clinica, connector, qr, user }) => {
             <div className="flex justify-between items-center">
                 <div>
                     <strong style={{ color: "black", fontSize: '20px', fontFamily: 'times' }}>
+                        {t("Tug'ilgan sanasi")}:{' '}
+                    </strong>
+                </div>
+                <div style={{ fontWeight: "bold", color: "black", fontSize: '20px', fontFamily: 'times' }}>
+                    {connector.client && new Date(connector.client.born).toLocaleDateString('ru-RU')}
+                </div>
+            </div>
+            <div className="flex justify-between items-center">
+                <div>
+                    <strong style={{ color: "black", fontSize: '20px', fontFamily: 'times' }}>
                         {t("ID")}:{' '}
                     </strong>
                 </div>

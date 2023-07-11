@@ -486,16 +486,18 @@ module.exports.addConnector = async (req, res) => {
         // CreateOfflineConnector
         let probirka = 0
         if (connector.probirka) {
-            probirka =
-                (
-                    await OfflineConnector.find({
-                        clinica: connector.clinica,
-                        probirka: { $ne: 0 },
-                        createdAt: {
-                            $gte: new Date(new Date().setUTCDate(0, 0, 0, 0)),
-                        },
-                    })
-                ).length + 1
+            const lastProbirka = await OfflineConnector.find({
+                clinica: connector.clinica,
+                probirka: { $ne: 0 },
+                createdAt: {
+                    $gte:
+                        new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+                    $lt: new Date(new Date().getFullYear(),
+                        new Date().getMonth(), new Date().getDate() + 1)
+                },
+            })
+            .sort({createdAt: -1})
+            probirka = lastProbirka.length > 0 ? lastProbirka[0].probirka + 1 : 1
         }
 
         const newconnector = new OfflineConnector({

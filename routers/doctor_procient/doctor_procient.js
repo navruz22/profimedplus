@@ -44,8 +44,9 @@ module.exports.getDocotors = async (req, res) => {
                     $lte: endDay
                 }
             })
-                .select('service pieces counterdoctor')
+                .select('service pieces counterdoctor refuse')
                 .lean()
+                .then(services => services.filter(service => !service.refuse))
 
             const total = offlineservices.reduce((prev, el) => prev + (el.pieces * el.service.price), 0)
             const agent_profit = offlineservices.reduce((prev, el) => {
@@ -128,6 +129,7 @@ module.exports.getStatsionar = async (req, res) => {
             })
                 .populate('room')
                 .lean()
+                .then(services => services.filter(service => !service.refuse))
 
             doctor.total = connectors.reduce((prev, connector) => {
                 const sum = Math.round(
@@ -182,7 +184,7 @@ module.exports.get = async (req, res) => {
                 $lte: endDay
             }
         })
-            .select('service pieces department counterdoctor')
+            .select('service pieces department counterdoctor refuse')
             .populate('client', 'firstname lastname')
             .populate({
                 path: 'department',
@@ -193,6 +195,7 @@ module.exports.get = async (req, res) => {
                 }
             })
             .lean()
+            .then(services => services.filter(service => !service.refuse))
 
         for (const service of offlineservices) {
             // const procient = service.service.doctorProcient;

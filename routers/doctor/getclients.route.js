@@ -231,7 +231,7 @@ module.exports.getStatsionarAll = async (req, res) => {
           connector.services.some(service => String(service.department._id) === String(department)) &&
           new Date(new Date(connector.client.born).setUTCHours(0, 0, 0, 0)).toISOString() === new Date(new Date(clientborn).setUTCHours(0, 0, 0, 0)).toISOString()
         ))
-      } else {
+    } else {
       connectors = await StatsionarConnector.find({
         createdAt: {
           $gte: beginDay,
@@ -349,6 +349,30 @@ module.exports.addservices = async (req, res) => {
     const updateOfflineConnector = await OfflineConnector.findById(
       connector._id,
     )
+
+    // ===============================================================
+    // ===============================================================
+    let probirka = 0
+    if (connector.probirka && !updateOfflineConnector.probirka) {
+      const lastProbirka = await OfflineConnector.find({
+        clinica: connector.clinica,
+        probirka: { $ne: 0 },
+        createdAt: {
+          $gte:
+            new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+          $lt: new Date(new Date().getFullYear(),
+            new Date().getMonth(), new Date().getDate() + 1)
+        },
+      })
+        .sort({ createdAt: -1 })
+
+      probirka = lastProbirka.length > 0 ? lastProbirka[0].probirka + 1 : 1
+
+      updateOfflineConnector.probirka = probirka
+      await updateOfflineConnector.save()
+    }
+    // ===============================================================
+    // ===============================================================
 
     let totalprice = 0
     for (const service of services) {
@@ -732,7 +756,7 @@ module.exports.getClientHistory = async (req, res) => {
         .populate('room', 'beginday endday room')
         .lean()
 
-        return res.status(200).json(statsionarconnector)
+      return res.status(200).json(statsionarconnector)
     }
 
     return res.status(200).json(connector)
