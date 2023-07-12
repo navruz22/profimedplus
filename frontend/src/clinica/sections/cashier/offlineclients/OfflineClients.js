@@ -282,6 +282,7 @@ export const OfflineClients = () => {
         let products = []
         let servs = JSON.parse(JSON.stringify(connector.services))
         for (const serv of servs) {
+            serv.isPayment = serv.payment
             if (!serv.payment && !serv.refuse) {
                 services.push(serv._id)
                 serv.payment = true

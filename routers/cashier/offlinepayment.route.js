@@ -40,12 +40,20 @@ module.exports.payment = async (req, res) => {
             }
         }
 
+        let unpaymentServices = []
+
         //Update Services and Products
         services &&
             services.map(async (service) => {
+
+                const s = await OfflineService.findById(service._id);
+                if (!s.payment) {
+                    unpaymentServices.push(String(s._id))
+                }
+
                 const update = await OfflineService.findByIdAndUpdate(
                     service._id,
-                    service
+                    {...service, payment: true}
                 );
 
                 //=========================================================
@@ -131,6 +139,17 @@ module.exports.payment = async (req, res) => {
             .populate("discount")
             .sort({ _id: -1 })
             .lean()
+            .then(connector => {
+                console.log(unpaymentServices);
+                console.log(connector.services);
+
+                let newconnector = {
+                    ...connector, 
+                    services: connector.services.length === unpaymentServices.length ? [...connector.services] : [...connector.services].filter(service => unpaymentServices.includes(String(service._id))) 
+                
+                }
+                return newconnector
+            })
 
         res.status(201).send(response);
     } catch (error) {
@@ -190,7 +209,7 @@ module.exports.getAll = async (req, res) => {
                     select: "-__v -updatedAt -isArchive",
                     populate: {
                         path: "department",
-                        select: "room name"
+                        select: "room name probirka"
                     }
                 })
                 .populate("products")

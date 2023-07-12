@@ -267,6 +267,10 @@ export const TableClients = ({
                                                         changeClient(connector, key)
                                                         setVisible(true);
                                                         setCheck(connector);
+                                                        window.scrollTo({
+                                                            top: 0,
+                                                            behavior: "smooth"
+                                                        });
                                                     }}
                                                 >
                                                     <FontAwesomeIcon icon={faMoneyBill} />

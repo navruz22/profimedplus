@@ -44,9 +44,9 @@ module.exports.getDocotors = async (req, res) => {
                     $lte: endDay
                 }
             })
-                .select('service pieces counterdoctor refuse')
+                .select('service pieces counterdoctor refuse payment')
                 .lean()
-                .then(services => services.filter(service => !service.refuse))
+                .then(services => services.filter(service => !service.refuse && service.payment))
 
             const total = offlineservices.reduce((prev, el) => prev + (el.pieces * el.service.price), 0)
             const agent_profit = offlineservices.reduce((prev, el) => {

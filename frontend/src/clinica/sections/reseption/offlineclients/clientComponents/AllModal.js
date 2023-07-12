@@ -22,7 +22,7 @@ const AllModal = ({ services, modal, setModal, handler }) => {
             style={{ display: "block" }}
             aria-modal="true"
         >
-            <div className="modal-dialog" role="document">
+            <div className="modal-dialog" style={{width: "400px", height: "700px"}} role="document">
                 <div className="modal-content">
                     <div className="modal-body">
                             <div>

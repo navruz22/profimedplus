@@ -163,7 +163,8 @@ module.exports.login = async (req, res) => {
         path: "filials",
         select: 'name phone1 image'
       }
-    });
+    })
+    .populate("specialty", "name")
 
     let user = null;
 

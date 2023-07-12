@@ -189,9 +189,9 @@ export const TableClients = ({
                       {connector?.dailys[0]?.probirka}
                     </td>
                     <td className="border py-1 text-[16px]">
-                      {connector.doctor.lastname +
+                      {connector?.doctor?.lastname +
                         " " +
-                        connector.doctor.firstname}
+                        connector?.doctor?.firstname}
                     </td>
                     <td className="border py-1 text-right text-[16px]">
                       {connector?.room?.beginday && new Date(connector.room.beginday).toLocaleDateString()}{" "}

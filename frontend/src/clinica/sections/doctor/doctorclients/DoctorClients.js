@@ -100,7 +100,7 @@ export const DoctorClients = () => {
             clinica: auth && auth.clinica._id,
             beginDay,
             endDay,
-            department: auth?.user?.specialty,
+            department: auth?.user?.specialty?._id,
           },
           {
             Authorization: `Bearer ${auth.token}`,
@@ -559,6 +559,7 @@ export const DoctorClients = () => {
         serviceid: service.service._id,
         service: service.service,
         department: service.department._id,
+        addUser: auth?.user?.specialty?.name,
         pieces: 1,
       });
     });

@@ -36,6 +36,7 @@ const service = new Schema(
     tables: { type: Array },
     counterdoctor: { type: Schema.Types.ObjectId, ref: "CounterDoctor" },
     files: [{ type: String }],
+    addUser: {type: String}
   },
   {
     timestamps: true,
@@ -62,7 +63,8 @@ function validateOfflineService(clientservice) {
     comment: Joi.string(),
     column: Joi.object(),
     tables: Joi.array(),
-    counterdoctor: Joi.string()
+    counterdoctor: Joi.string(),
+    addUser: Joi.string().optional()
   });
 
   return schema.validate(clientservice);

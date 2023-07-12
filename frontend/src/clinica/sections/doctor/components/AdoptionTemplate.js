@@ -22,7 +22,7 @@ import { useTranslation } from "react-i18next";
 const DoctorTemplate = ({ client, connector, services, clientsType, baseUrl }) => {
 
   const {t} = useTranslation()
-
+ 
   const { request, loading } = useHttp();
   const auth = useContext(AuthContext);
 
@@ -218,10 +218,10 @@ const DoctorTemplate = ({ client, connector, services, clientsType, baseUrl }) =
   }
   
   useEffect(() => {
-    setSections([...services].filter(service => service.department.probirka === false && service.department._id === auth?.user?.specialty));
+    setSections([...services].filter(service => service.department.probirka === false && service.department._id === auth?.user?.specialty?._id));
   }, [services]);
 
-
+  
   const [qr, setQr] = useState()
 
   useEffect(() => {
@@ -629,7 +629,7 @@ const LabTemplate = ({ client, connector, services, baseUrl }) => {
     })
     setSections(filtered)
   }
-
+  
   const handleChangeTables = (e, sectionind, serviceid, tableind, prop) => {
     const newSections = [...sections].map((section, index) => {
       if (index === sectionind) {

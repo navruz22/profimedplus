@@ -91,7 +91,7 @@ export const ConclusionClients = () => {
           "POST",
           {
             clinica: auth && auth.clinica._id,
-            department: auth?.user?.specialty,
+            department: auth?.user?.specialty?._id,
           },
           {
             Authorization: `Bearer ${auth.token}`,

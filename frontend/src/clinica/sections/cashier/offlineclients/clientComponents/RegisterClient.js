@@ -112,7 +112,7 @@ export const RegisterClient = ({
                                                 services.map((service, index) => {
                                                     return (
                                                         <tr key={index}>
-                                                            <td className="py-1 border">{index + 1}</td>
+                                                            <td className={`${service?.isPayment ? "bg-green-400" : "bg-red-400"} py-1 border`}>{index + 1}</td>
                                                             <td className="py-1 border">{service.service.name}</td>
                                                             <td className="text-right py-1 border">
                                                                 {service.service.price * service.pieces}
@@ -134,7 +134,7 @@ export const RegisterClient = ({
                                                                 </div>
                                                             </td>
                                                             <td className="text-right py-1 border">
-                                                                {service.refuse && <input
+                                                                {service.refuse ? <input
                                                                     onChange={(e) => serviceComment(e, index)}
                                                                     defaultValue={service.comment}
                                                                     type="text"
@@ -142,7 +142,7 @@ export const RegisterClient = ({
                                                                     id="comment"
                                                                     name="comment"
                                                                     placeholder={t("Izoh")}
-                                                                />}
+                                                                /> : service?.addUser}
                                                             </td>
                                                         </tr>
                                                     );

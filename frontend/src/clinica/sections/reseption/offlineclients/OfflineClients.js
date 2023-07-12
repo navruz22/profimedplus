@@ -293,11 +293,12 @@ export const OfflineClients = () => {
                 setConnector({ ...connector, probirka: 1, clinica: auth.clinica._id });
             }
             return s.push({
-                clinica: auth.clinica._id,
+                clinica: auth.clinica._id, 
                 reseption: auth.user._id,
                 serviceid: service.service._id,
                 service: service.service,
                 department: service.department._id,
+                addUser: 'Qabulxona',
                 pieces: 1,
             });
         });
