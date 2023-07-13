@@ -598,7 +598,7 @@ export const OfflineClients = () => {
             setVisible(false);
             setTimeout(() => {
                 setIsActive(true)
-            }, 1000)
+            }, 5000)
         } catch (error) {
             notify({
                 title: t(`${error}`),
@@ -624,6 +624,7 @@ export const OfflineClients = () => {
     ]);
 
     const updateHandler = useCallback(async () => {
+        setIsActive(false)
         if (checkClientData(client)) {
             return notify(checkClientData(client));
         }
@@ -672,6 +673,7 @@ export const OfflineClients = () => {
     ]);
 
     const addHandler = useCallback(async () => {
+        setIsActive(false)
         try {
             const data = await request(
                 `/api/offlineclient/client/add`,
@@ -699,6 +701,9 @@ export const OfflineClients = () => {
             clearDatas();
             setModal(false);
             setVisible(false);
+            setTimeout(() => {
+                setIsActive(true)
+            }, 5000)
         } catch (error) {
             notify({
                 title: t(`${error}`),
@@ -723,6 +728,7 @@ export const OfflineClients = () => {
     ]);
 
     const addConnectorHandler = async () => {
+        setIsActive(false)
         try {
             const data = await request(
                 `/api/offlineclient/client/connector/add`,
@@ -742,6 +748,9 @@ export const OfflineClients = () => {
             getConnectors(beginDay, endDay);
             clearDatas()
             setModal(false);
+            setTimeout(() => {
+                setIsActive(true)
+            }, 5000)
         } catch (error) {
             notify({
                 title: t(`${error}`),
@@ -922,7 +931,7 @@ export const OfflineClients = () => {
                 modal={modal}
                 text={t("ma'lumotlar to'g'ri kiritilganligini tasdiqlaysizmi?")}
                 setModal={setModal}
-                handler={client._id && !isAddConnector ? addHandler : client._id && isAddConnector ? addConnectorHandler : isActive && createHandler}
+                handler={client._id && !isAddConnector ? isActive && addHandler : client._id && isAddConnector ? isActive && addConnectorHandler : isActive && createHandler}
                 basic={client.lastname + " " + client.firstname}
             />
             <AllModal

@@ -234,7 +234,7 @@ export const DoctorClients = () => {
 
   //===================================================================
   //===================================================================
-
+    const [isActive, setIsActive] = useState(true)
   //===================================================================
   //===================================================================
 
@@ -267,6 +267,7 @@ export const DoctorClients = () => {
   }
 
   const addServices = async () => {
+    setIsActive(false)
       try {
         const data = await request(
           `/api/doctor/clients/service/add`,
@@ -296,6 +297,9 @@ export const DoctorClients = () => {
         setNewProducts([])
         setNewServices([])
         setVisible(false);
+        setTimeout(() => {
+          setIsActive(true)
+      }, 5000)
       } catch (error) {
         notify({
           title: t(error),
@@ -306,6 +310,7 @@ export const DoctorClients = () => {
     }
 
   const addServiceStatsionar = async () => {
+    setIsActive(false)
       try {
         const data = await request(
           `/api/doctor/clients/statsionar/service/add`,
@@ -334,6 +339,9 @@ export const DoctorClients = () => {
         setNewProducts([])
         setNewServices([])
         setVisible(false);
+        setTimeout(() => {
+          setIsActive(true)
+      }, 5000)
       } catch (error) {
         notify({
           title: t(error),
@@ -866,7 +874,7 @@ export const DoctorClients = () => {
         modal={modal}
         text={t("ma'lumotlar to'g'ri kiritilganligini tasdiqlaysizmi?")}
         setModal={setModal}
-        handler={handleAdd}
+        handler={isActive && handleAdd}
         basic={client.lastname + " " + client.firstname}
       />
     </>

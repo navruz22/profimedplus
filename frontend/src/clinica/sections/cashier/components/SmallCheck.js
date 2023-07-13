@@ -216,7 +216,7 @@ export const SmallCheck = ({ baseUrl, clinica, connector, qr, user }) => {
                 <div className="w-full h-[5px] mt-[5cm] border-2 border-[#000]">
                 </div>
             </div>
-            {connector.services && connector.services.length !== [...connector.services].filter(service => service?.department?.probirka).length && <div>
+            {connector.services && [...connector.services].filter(service => !service?.department?.probirka).length && [...connector.services].filter(service => service?.department?.probirka).length && <div>
                 <div className='w-full text-center mb-4'>
                     <img
                         className='mx-auto'

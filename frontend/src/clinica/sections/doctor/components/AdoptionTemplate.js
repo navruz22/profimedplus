@@ -18,11 +18,12 @@ import LabPrint from "../../laborotory/components/Print"
 import DoctorResult from "../conclusion/components/DoctorResult";
 import QRCode from "qrcode"
 import { useTranslation } from "react-i18next";
+import AllServices from "./AllServices";
 
 const DoctorTemplate = ({ client, connector, services, clientsType, baseUrl }) => {
 
-  const {t} = useTranslation()
- 
+  const { t } = useTranslation()
+
   const { request, loading } = useHttp();
   const auth = useContext(AuthContext);
 
@@ -216,12 +217,12 @@ const DoctorTemplate = ({ client, connector, services, clientsType, baseUrl }) =
     });
     setSections(newSections);
   }
-  
+
   useEffect(() => {
     setSections([...services].filter(service => service.department.probirka === false && service.department._id === auth?.user?.specialty?._id));
   }, [services]);
 
-  
+
   const [qr, setQr] = useState()
 
   useEffect(() => {
@@ -546,8 +547,8 @@ const DoctorTemplate = ({ client, connector, services, clientsType, baseUrl }) =
 
 const LabTemplate = ({ client, connector, services, baseUrl }) => {
 
-  const {t} = useTranslation()
-  
+  const { t } = useTranslation()
+
   const { request } = useHttp();
   const auth = useContext(AuthContext);
 
@@ -629,7 +630,7 @@ const LabTemplate = ({ client, connector, services, baseUrl }) => {
     })
     setSections(filtered)
   }
-  
+
   const handleChangeTables = (e, sectionind, serviceid, tableind, prop) => {
     const newSections = [...sections].map((section, index) => {
       if (index === sectionind) {
@@ -1078,10 +1079,13 @@ const LabTemplate = ({ client, connector, services, baseUrl }) => {
 
 const AdoptionTemplate = () => {
 
-  const {t} = useTranslation()
+  const { t } = useTranslation()
 
   const { client, connector, services, clientsType } = useLocation().state;
   const connectorData = useLocation().state;
+
+  const [modal, setModal] = useState(false)
+  const [modalBody, setModalBody] = useState([])
 
   const [type, setType] = useState('doctor')
 
@@ -1125,6 +1129,7 @@ const AdoptionTemplate = () => {
   }, [getBaseUrl]);
 
   return <div className="container p-4 bg-white text-center">
+    <div className="flex">
     <div className="w-[300px]">
       <Select
         options={[
@@ -1145,9 +1150,18 @@ const AdoptionTemplate = () => {
         onChange={e => setType(e.value)}
       />
     </div>
+      <button onClick={() => setModal(true)} className="ml-4 block px-4 py-2 bg-alotrade text-center rounded-2 text-white">
+        Xizmatlar
+      </button>
+    </div>
     {type === 'doctor' && <DoctorTemplate clientsType={clientsType} baseUrl={baseUrl} client={client} connector={connector} services={services} />}
     {type === 'laboratory' && <LabTemplate client={client} connector={connector} services={services} baseUrl={baseUrl} />}
     {type === 'all' && <DoctorResult client={client} connector={connectorData} user={auth?.user} clinica={auth?.clinica} baseUrl={baseUrl} />}
+      <AllServices
+        modal={modal}
+        services={services || []}
+        setModal={setModal}
+      />
   </div>
 }
 
