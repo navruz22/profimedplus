@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 
-export const SmallCheck = ({ baseUrl, clinica, connector, qr, user }) => {
+export const SmallCheck = ({ baseUrl, clinica, connector, qr, user, smallCheckType }) => {
     console.log(connector);
 
     const { t } = useTranslation()
@@ -21,7 +21,8 @@ export const SmallCheck = ({ baseUrl, clinica, connector, qr, user }) => {
                         department: service?.department?._id,
                         name: service?.department?.name,
                         turn: service?.turn,
-                        room: service?.department?.room
+                        room: service?.department?.room,
+                        probirka: service?.department?.probirka
                     })
                 }
             }
@@ -132,7 +133,7 @@ export const SmallCheck = ({ baseUrl, clinica, connector, qr, user }) => {
                     </tbody>
                 </table>
                 <div className="mt-4">
-                    {connector.services && connector.services.length === [...connector.services].filter(service => service?.department?.probirka).length ?
+                    {smallCheckType === 'done' ? connector.services && connector.services.length === [...connector.services].filter(service => service?.department?.probirka).length ?
                         connector.services && connector.services.map((service, index) => service.refuse === false && (
                             <div className="mb-1">
                                 <div className="text-left text-[20px] font-bold">
@@ -142,7 +143,16 @@ export const SmallCheck = ({ baseUrl, clinica, connector, qr, user }) => {
                                     {service.pieces} * {service.service.price} = {service.service.price * service.pieces}
                                 </div>
                             </div>
-                        )) : connector.services && connector.services.map((service, index) => service.refuse === false && !service?.department?.probirka &&(
+                        )) : connector.services && connector.services.map((service, index) => service.refuse === false && !service?.department?.probirka && (
+                            <div className="mb-1">
+                                <div className="text-left text-[20px] font-bold">
+                                    {index + 1} {service.service.name}
+                                </div>
+                                <div className="text-right text-[20px] font-bold">
+                                    {service.pieces} * {service.service.price} = {service.service.price * service.pieces}
+                                </div>
+                            </div>
+                        )) : connector.services && connector.services.map((service, index) => service.refuse === false && (
                             <div className="mb-1">
                                 <div className="text-left text-[20px] font-bold">
                                     {index + 1} {service.service.name}
@@ -216,7 +226,7 @@ export const SmallCheck = ({ baseUrl, clinica, connector, qr, user }) => {
                 <div className="w-full h-[5px] mt-[5cm] border-2 border-[#000]">
                 </div>
             </div>
-            {connector.services && [...connector.services].filter(service => !service?.department?.probirka).length && [...connector.services].filter(service => service?.department?.probirka).length && <div>
+            {smallCheckType === 'done' && connector.services && [...connector.services].filter(service => !service?.department?.probirka).length && [...connector.services].filter(service => service?.department?.probirka).length && <div>
                 <div className='w-full text-center mb-4'>
                     <img
                         className='mx-auto'
@@ -307,7 +317,7 @@ export const SmallCheck = ({ baseUrl, clinica, connector, qr, user }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {departments.map((d, ind) => (
+                        {departments.map((d, ind) => d?.probirka && (
                             <tr key={ind}>
                                 <td className="border border-black-800 text-[20px] text-center font-bold">{d?.name}</td>
                                 <td className="border border-black-800 text-[20px] text-center font-bold">{d?.turn}</td>

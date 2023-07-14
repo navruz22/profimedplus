@@ -753,7 +753,7 @@ module.exports.getAllReseption = async (req, res) => {
                 .populate('client', 'fullname firstname lastname fathername phone national id gender born address')
                 .populate({
                     path: "services",
-                    select: "service serviceid accept refuse column tables turn connector client files department",
+                    select: "service serviceid accept refuse column templates tables turn connector client files department",
                     populate: {
                         path: "serviceid",
                         select: "servicetype",
@@ -765,10 +765,10 @@ module.exports.getAllReseption = async (req, res) => {
                 })
                 .populate({
                     path: "services",
-                    select: "service serviceid accept refuse column tables turn connector client files department",
+                    select: "service serviceid accept refuse column templates tables turn connector client files department",
                     populate: {
                         path: 'department',
-                        select: "probirka"
+                        select: "probirka name"
                     }
                 })
                 .populate('products', '_id product pieces')
@@ -787,7 +787,7 @@ module.exports.getAllReseption = async (req, res) => {
                 .populate('client', 'fullname firstname lastname fathername phone national id gender born address')
                 .populate({
                     path: "services",
-                    select: "service serviceid accept refuse column tables turn connector client files department",
+                    select: "service serviceid accept refuse column templates tables turn connector client files department",
                     populate: {
                         path: "serviceid",
                         select: "servicetype",
@@ -799,10 +799,10 @@ module.exports.getAllReseption = async (req, res) => {
                 })
                 .populate({
                     path: "services",
-                    select: "service serviceid accept refuse column tables turn connector client files department",
+                    select: "service serviceid accept refuse templates column tables turn connector client files department",
                     populate: {
                         path: 'department',
-                        select: "probirka"
+                        select: "probirka name"
                     }
                 })
                 .populate('products', '_id product pieces')
@@ -823,7 +823,7 @@ module.exports.getAllReseption = async (req, res) => {
                 .populate('client', 'fullname firstname lastname fathername national phone id gender born address')
                 .populate({
                     path: "services",
-                    select: "service serviceid accept refuse column tables turn connector client files department",
+                    select: "service serviceid accept refuse templates column tables turn connector client files department",
                     populate: {
                         path: "serviceid",
                         select: "servicetype",
@@ -835,10 +835,10 @@ module.exports.getAllReseption = async (req, res) => {
                 })
                 .populate({
                     path: "services",
-                    select: "service serviceid accept refuse column tables turn connector client files department",
+                    select: "service serviceid accept refuse templates column tables turn connector client files department",
                     populate: {
                         path: 'department',
-                        select: "probirka"
+                        select: "probirka name"
                     }
                 })
                 .populate('products', '_id product pieces')

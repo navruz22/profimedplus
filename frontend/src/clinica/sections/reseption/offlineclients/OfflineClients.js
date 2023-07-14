@@ -40,6 +40,12 @@ export const OfflineClients = () => {
     //====================================================================
     //====================================================================
 
+    const [connectorPrint, setConnectorPrint] = useState({})
+    const [clientPrint, setClientPrint] = useState({})
+
+    //====================================================================
+    //====================================================================
+
     const [printBody, setPrintBody] = useState(null)
 
     const componentRef = useRef()
@@ -896,8 +902,10 @@ export const OfflineClients = () => {
                             getClientsById={getClientsById}
                             setPrintBody={setPrintBody}
                             handlePrint={handlePrint}
-                            allModalHandle={(services) => {
+                            allModalHandle={(services, connector, client) => {
                                 setServicesBody(services)
+                                setConnectorPrint(connector)
+                                setClientPrint(client)
                                 setTimeout(() => {
                                     setModal2(true)
                                 }, 1000)
@@ -939,6 +947,11 @@ export const OfflineClients = () => {
                 services={servicesBody}
                 setModal={setModal2}
                 handler={handlePrint}
+                client={clientPrint}
+                connector={connectorPrint}
+                clinica={auth?.clinica}
+                doctor={auth?.user}
+                baseUrl={baseUrl}
             />
         </div>
     );

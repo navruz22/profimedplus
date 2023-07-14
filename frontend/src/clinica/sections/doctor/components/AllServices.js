@@ -2,10 +2,10 @@ import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 
 
-const AllServices = ({ services, modal, setModal, handler }) => {
+const AllServices = ({ services, modal, setModal, modalBody, user }) => {
     const { t } = useTranslation()
 
-
+    console.log(user);
     return (
         <div
             className={`modal fade show ${modal ? "" : "d-none"}`}
@@ -22,7 +22,7 @@ const AllServices = ({ services, modal, setModal, handler }) => {
                             <div>
                                 <h3 className="text-[18px] font-bold">{t("Xizmatlar")}:</h3>
                                 <div className="flex flex-col">
-                                    {services.map((service, ind) => <span className="text-[16px] font-semibold" key={ind}>{ind+1}. {service?.service?.name}</span>)}
+                                    {services.map((service, ind) => modalBody === 'all' ? <span className="text-[16px] font-semibold" key={ind}>{ind+1}. {service?.service?.name}</span> : service?.reseption === user?._id && <span className="text-[16px] font-semibold" key={ind}>{ind+1}. {service?.service?.name}</span>)}
                                 </div>
                             </div>
                     </div>

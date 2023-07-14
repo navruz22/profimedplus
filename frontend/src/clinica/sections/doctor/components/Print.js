@@ -236,7 +236,7 @@ const Print = ({ client, connector, sections, clinica, baseUrl, doctor, qr }) =>
                                         </h2>
                                         <div
                                             key={index}
-                                            className="w-full text-[20px] mb-2 print_word"
+                                            className={`w-full text-[20px] mb-2 print_word ${template?.transform ? 'editor' : ""}`}
                                         >
 
                                             {ReactHtmlParser(template.template)}

@@ -39,7 +39,8 @@ export const TableClients = ({
   setVisible,
   clientsType,
   changeClientsType,
-  getClientsByBorn
+  getClientsByBorn,
+  user
 }) => {
 
   const {t} = useTranslation()
@@ -241,7 +242,7 @@ export const TableClients = ({
                         ) : (
                           <button
                             onClick={() =>
-                              history.push("/alo24/adoption", { ...connector, clientsType })
+                              history.push("/alo24/adoption", { ...connector, clientsType, user })
                             }
                             className="btn btn-primary py-0"
                           >

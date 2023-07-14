@@ -10,6 +10,8 @@ import TableHeader from '@tiptap/extension-table-header'
 import TableRow from '@tiptap/extension-table-row'
 import Text from '@tiptap/extension-text'
 import TextAlign from '@tiptap/extension-text-align'
+import Heading from '@tiptap/extension-heading'
+import HardBreak from '@tiptap/extension-hard-break'
 
 import {
     FaBold,
@@ -23,16 +25,18 @@ import {
     FaUnderline,
     FaUndo,
 } from "react-icons/fa";
+import {RxLetterCaseUppercase} from "react-icons/rx"
 import { BsList, BsTable, BsTextCenter, BsTextLeft, BsTextRight } from 'react-icons/bs';
 import { RiDeleteColumn, RiDeleteRow, RiInsertColumnLeft, RiInsertColumnRight, RiInsertRowBottom, RiInsertRowTop } from 'react-icons/ri';
 import { TbTableOff } from 'react-icons/tb';
 
 
-const TextEditor = ({ value, onChange }) => {
+const TextEditor = ({ value, onChange, changeTransform, transform }) => {
+
     const editor = useEditor({
         extensions: [
-            StarterKit,
             Document,
+            StarterKit,
             Paragraph,
             Text,
             Gapcursor,
@@ -41,7 +45,16 @@ const TextEditor = ({ value, onChange }) => {
             }),
             TableRow,
             TableHeader,
+            HardBreak.extend({
+                addKeyboardShortcuts () {
+                  return {
+                    Enter: () => this.editor.commands.setHardBreak()
+                  }
+                }
+              }),
             TableCell,
+            Underline,
+            Heading,
             TextAlign.configure({
                 types: ['heading', 'paragraph'],
             }),
@@ -90,6 +103,12 @@ const TextEditor = ({ value, onChange }) => {
                             className="bg-slate-200 rounded-g p-2"
                         >
                             <FaHeading className="heading3" />
+                        </button>
+                        <button
+                            onClick={() => changeTransform()}
+                            className="bg-slate-200 rounded-g p-2"
+                        >
+                            <RxLetterCaseUppercase />
                         </button>
                         <button
                             onClick={() => editor.chain().focus().toggleBulletList().run()}
@@ -171,7 +190,7 @@ const TextEditor = ({ value, onChange }) => {
                 </div>
             </div>
             <div className='flex justify-center'>
-                <div className='bg-white w-[28cm]'>
+                <div className={`bg-white w-[28cm] ${transform ? 'editor' : '' }`}>
                     <EditorContent editor={editor} />
                 </div>
             </div>

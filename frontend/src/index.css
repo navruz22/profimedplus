@@ -156,3 +156,6 @@ input[type='checkbox']:checked::before {
 }
 
 
+.editor {
+  text-transform: uppercase;
+}

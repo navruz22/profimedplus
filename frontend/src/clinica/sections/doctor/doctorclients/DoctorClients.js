@@ -866,6 +866,7 @@ export const DoctorClients = () => {
               clientsType={clientsType}
               changeClientsType={changeClientsType}
               getClientsByBorn={getClientsByBorn}
+              user={auth?.user}
             />
           </div>
         </div>

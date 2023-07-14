@@ -19,6 +19,7 @@ import DoctorResult from "../conclusion/components/DoctorResult";
 import QRCode from "qrcode"
 import { useTranslation } from "react-i18next";
 import AllServices from "./AllServices";
+import ModalPrint from "./ModalPrint";
 
 const DoctorTemplate = ({ client, connector, services, clientsType, baseUrl }) => {
 
@@ -26,6 +27,8 @@ const DoctorTemplate = ({ client, connector, services, clientsType, baseUrl }) =
 
   const { request, loading } = useHttp();
   const auth = useContext(AuthContext);
+
+  const [modal, setModal] = useState(false)
 
   const toast = useToast();
 
@@ -43,11 +46,12 @@ const DoctorTemplate = ({ client, connector, services, clientsType, baseUrl }) =
     [toast]
   );
 
-  const componentRef = useRef()
-  const handlePrint = useReactToPrint({
-    content: () => componentRef.current,
-    documentTitle: client && client?.firstname + ' ' + client?.lastname
-  })
+  // const componentRef = useRef()
+  // const handlePrint = useReactToPrint({
+  //   content: () => componentRef.current,
+  //   documentTitle: client && client?.firstname + ' ' + client?.lastname,
+
+  // })
 
   const [sections, setSections] = useState([]);
   const [templates, setTemplates] = useState();
@@ -207,10 +211,42 @@ const DoctorTemplate = ({ client, connector, services, clientsType, baseUrl }) =
     setSections(newSections);
   };
 
+  const handleChangeTemplateName = (e, index, serviceid) => {
+    const newSections = [...sections].map((section) => {
+      if (section._id === serviceid) {
+        const newTemplates = section.templates.map((template, ind) => {
+          if (ind === index) {
+            template.name = e;
+          }
+          return template;
+        });
+        section.templates = newTemplates;
+      }
+      return section;
+    });
+    setSections(newSections);
+  };
+
   const handleDeleteTemplate = (index, serviceid) => {
     const newSections = [...sections].map((section) => {
       if (section._id === serviceid) {
         const newTemplates = section.templates.filter((_, ind) => ind !== index);
+        section.templates = newTemplates;
+      }
+      return section;
+    });
+    setSections(newSections);
+  }
+  console.log(sections);
+  const changeTransform = (e, index, serviceid) => {
+    const newSections = [...sections].map((section) => {
+      if (section._id === serviceid) {
+        const newTemplates = section.templates.map((template, ind) => {
+          if (ind === index) {
+            template.transform = e ? false : true
+          }
+          return template;
+        });
         section.templates = newTemplates;
       }
       return section;
@@ -240,7 +276,7 @@ const DoctorTemplate = ({ client, connector, services, clientsType, baseUrl }) =
 
   return (
     <>
-      <div className="d-none">
+      {/* <div className="d-none">
         <div
           ref={componentRef}
           className="px-[2cm] py-2"
@@ -256,7 +292,7 @@ const DoctorTemplate = ({ client, connector, services, clientsType, baseUrl }) =
             qr={qr}
           />
         </div>
-      </div>
+      </div> */}
       <div className="container p-4 bg-white" style={{ fontFamily: "times" }}>
         <div className="px-4">
           {auth?.clinica?.ifud1 && <div className="row" style={{ fontSize: "10pt" }}>
@@ -495,7 +531,15 @@ const DoctorTemplate = ({ client, connector, services, clientsType, baseUrl }) =
                     >
                       <div className="flex justify-between items-center py-2 px-4">
                         <div className="text-[18px] font-bold">
-                          {template?.name}
+                          <input
+                            value={template?.name}
+                            placeholder={t("Shablon nomi kiritish")}
+                            className="w-[200px] border outline-0 rounded-sm p-1"
+                            onChange={(e) => {
+                              handleChangeTemplateName(e.target.value, index, section._id)
+                            }}
+                          >
+                          </input>
                         </div>
                         <div className="flex justify-between items-center">
                           <FontAwesomeIcon
@@ -506,7 +550,7 @@ const DoctorTemplate = ({ client, connector, services, clientsType, baseUrl }) =
                         </div>
                       </div>
                       <div className="">
-                        <TextEditor value={template?.template} onChange={(data) => handleChangeTemplate(data, index, section._id)} />
+                        <TextEditor changeTransform={() => changeTransform(template?.transform, index, section._id)} transform={template?.transform} value={template?.template} onChange={(data) => handleChangeTemplate(data, index, section._id)} />
                       </div>
                     </div>
                   ))}
@@ -537,10 +581,21 @@ const DoctorTemplate = ({ client, connector, services, clientsType, baseUrl }) =
         <div className="row">
           <div className="col-12 text-center my-4">
             <button className="btn btn-success px-4 mx-4" onClick={() => handleSave()} > {t("Tasdiqlash")}</button>
-            <button className="btn btn-info px-5" onClick={handlePrint} >{t("Chop etish")}</button>
+            <button className="btn btn-info px-5" onClick={() => setModal(true)} >{t("Chop etish")}</button>
           </div>
         </div>
       </div>
+      <ModalPrint
+        doctor={auth.user}
+        connector={connector}
+        client={client}
+        clinica={auth && auth.clinica}
+        baseUrl={baseUrl}
+        qr={qr}
+        modal={modal}
+        services={sections}
+        setModal={setModal}
+      />
     </>
   );
 };
@@ -1081,11 +1136,11 @@ const AdoptionTemplate = () => {
 
   const { t } = useTranslation()
 
-  const { client, connector, services, clientsType } = useLocation().state;
+  const { client, connector, services, clientsType, user } = useLocation().state;
   const connectorData = useLocation().state;
 
   const [modal, setModal] = useState(false)
-  const [modalBody, setModalBody] = useState([])
+  const [modalBody, setModalBody] = useState('all')
 
   const [type, setType] = useState('doctor')
 
@@ -1130,38 +1185,49 @@ const AdoptionTemplate = () => {
 
   return <div className="container p-4 bg-white text-center">
     <div className="flex">
-    <div className="w-[300px]">
-      <Select
-        options={[
-          {
-            label: t("Shifokor"),
-            value: "doctor"
-          },
-          {
-            label: t("Laboratoriya"),
-            value: "laboratory"
-          },
-          {
-            label: t("Xammasi"),
-            value: "all"
-          }
-        ]}
-        placeholder={t("Tanlang...")}
-        onChange={e => setType(e.value)}
-      />
-    </div>
-      <button onClick={() => setModal(true)} className="ml-4 block px-4 py-2 bg-alotrade text-center rounded-2 text-white">
+      <div className="w-[300px]">
+        <Select
+          options={[
+            {
+              label: t("Shifokor"),
+              value: "doctor"
+            },
+            {
+              label: t("Laboratoriya"),
+              value: "laboratory"
+            },
+            {
+              label: t("Xammasi"),
+              value: "all"
+            }
+          ]}
+          placeholder={t("Tanlang...")}
+          onChange={e => setType(e.value)}
+        />
+      </div>
+      <button onClick={() => {
+        setModal(true)
+        setModalBody('all')
+      }} className="ml-4 block px-4 py-2 bg-alotrade text-center rounded-2 text-white">
         Xizmatlar
       </button>
+      <button onClick={() => {
+        setModal(true)
+        setModalBody('own')
+      }} className="ml-4 block px-4 py-2 bg-alotrade text-center rounded-2 text-white">
+        Yullanma
+      </button>
     </div>
-    {type === 'doctor' && <DoctorTemplate clientsType={clientsType} baseUrl={baseUrl} client={client} connector={connector} services={services} />}
+    {type === 'doctor' && <DoctorTemplate user={user} clientsType={clientsType} baseUrl={baseUrl} client={client} connector={connector} services={services} />}
     {type === 'laboratory' && <LabTemplate client={client} connector={connector} services={services} baseUrl={baseUrl} />}
     {type === 'all' && <DoctorResult client={client} connector={connectorData} user={auth?.user} clinica={auth?.clinica} baseUrl={baseUrl} />}
-      <AllServices
-        modal={modal}
-        services={services || []}
-        setModal={setModal}
-      />
+    <AllServices
+      modal={modal}
+      services={services || []}
+      setModal={setModal}
+      modalBody={modalBody}
+      user={user}
+    />
   </div>
 }
 

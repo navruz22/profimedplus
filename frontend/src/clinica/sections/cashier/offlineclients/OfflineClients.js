@@ -38,7 +38,7 @@ export const OfflineClients = () => {
 
     //====================================================================
     //====================================================================
-
+    const [smallCheckType, setSmallCheckType] = useState('all')
     //====================================================================
     //====================================================================
     // Pagination
@@ -705,6 +705,7 @@ export const OfflineClients = () => {
             })
             setAll()
             setCheck(data)
+            setSmallCheckType('done')
             getConnectors(beginDay, endDay)
             setTimeout(() => {
                 setIsActive(true)
@@ -829,6 +830,8 @@ export const OfflineClients = () => {
                 user={auth && auth.user}
                 modal={modal1}
                 setModal={setModal1}
+                smallCheckType={smallCheckType}
+                setSmallCheckType={setSmallCheckType}
             />
 
             <Modal

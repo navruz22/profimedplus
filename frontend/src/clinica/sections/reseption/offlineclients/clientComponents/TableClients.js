@@ -209,7 +209,7 @@ export const TableClients = ({
                     </td>
                     <td className="border py-1 text-right text-[16px] font-bold">
                       <button onClick={() => {
-                        allModalHandle(connector.services)
+                        allModalHandle(connector.services, connector, connector.client)
                       }}>
                         <span className={`${connector.services.filter(service => !service.refuse).length === connector.services.filter(service => service.accept).length ? 'text-green-400' : "text-red-400"}`}>{connector.services.filter(service => !service.refuse).length}</span> / <span className='text-green-400'>{connector.services.filter(service => service.accept).length}</span>
                       </button>

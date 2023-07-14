@@ -6,7 +6,7 @@ import { SmallCheck } from './SmallCheck'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPrint } from '@fortawesome/free-solid-svg-icons'
 
-export const CheckModal = ({ clinica, modal, connector, setModal, baseUrl, user }) => {
+export const CheckModal = ({ clinica, modal, connector, setModal, baseUrl, user, smallCheckType, setSmallCheckType }) => {
   const [qr, setQr] = useState()
 
   const componentRef = useRef()
@@ -55,7 +55,7 @@ console.log(baseUrl);
             </div>
             <div className='d-none'>
               <div ref={smallcheckref} className="w-[10.4cm] p-2">
-                <SmallCheck user={user} baseUrl={baseUrl} clinica={clinica} connector={connector} qr={qr} />
+                <SmallCheck smallCheckType={smallCheckType} user={user} baseUrl={baseUrl} clinica={clinica} connector={connector} qr={qr} />
               </div>
             </div>
           </div>
@@ -66,6 +66,7 @@ console.log(baseUrl);
                 data-dismiss="modal"
                 onClick={() => {
                   setModal(false)
+                  setSmallCheckType('all')
                 }}
               >
                 Bekor qilish
