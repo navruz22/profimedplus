@@ -47,7 +47,9 @@ export const TableClients = ({
   getClientsById,
   setPrintBody,
   handlePrint,
-  allModalHandle
+  allModalHandle,
+  getByClientName,
+  getByClientPhone
 }) => {
 
   const {t} = useTranslation()
@@ -79,6 +81,7 @@ export const TableClients = ({
                 type="search"
                 className="w-100 form-control form-control-sm selectpicker"
                 placeholder={t("F.I.O")}
+                onKeyDown={(e) => e.key === 'Enter' && getByClientName()}
               />
             </div>
             <div>
@@ -88,6 +91,7 @@ export const TableClients = ({
                 type="search"
                 className="w-100 form-control form-control-sm selectpicker"
                 placeholder={t("Tel")}
+                onKeyDown={(e) => e.key === 'Enter' && getByClientPhone()}
               />
             </div>
             <div>

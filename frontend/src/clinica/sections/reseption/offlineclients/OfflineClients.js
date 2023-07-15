@@ -194,6 +194,65 @@ export const OfflineClients = () => {
 
     //====================================================================
     //====================================================================
+
+    const [name, setName] = useState('')
+
+    const getByClientName = async () => {
+        try {
+            const data = await request(
+                `/api/offlineclient/client/getallreseption`,
+                "POST",
+                { clinica: auth && auth.clinica._id, name },
+                {
+                    Authorization: `Bearer ${auth.token}`,
+                }
+            );
+            setConnectors(data);
+            setSearchStrorage(data);
+            setCurrentConnectors(
+                data.slice(indexFirstConnector, indexLastConnector)
+            );
+        } catch (error) {
+            notify({
+                title: t(`${error}`),
+                description: "",
+                status: "error",
+            });
+        }
+    }
+
+    //====================================================================
+    //====================================================================
+
+    const [phone, setPhone] = useState('')
+
+    const getByClientPhone = async () => {
+        try {
+            const data = await request(
+                `/api/offlineclient/client/getallreseption`,
+                "POST",
+                { clinica: auth && auth.clinica._id, phone },
+                {
+                    Authorization: `Bearer ${auth.token}`,
+                }
+            );
+            setConnectors(data);
+            setSearchStrorage(data);
+            setCurrentConnectors(
+                data.slice(indexFirstConnector, indexLastConnector)
+            );
+        } catch (error) {
+            notify({
+                title: t(`${error}`),
+                description: "",
+                status: "error",
+            });
+        }
+    }
+
+
+    //====================================================================
+    //====================================================================
     // SEARCH
     const searchFullname = useCallback(
         (e) => {
@@ -202,6 +261,7 @@ export const OfflineClients = () => {
                     .toLowerCase()
                     .includes(e.target.value.toLowerCase())
             );
+            setName(e.target.value)
             setConnectors(searching);
             setCurrentConnectors(searching.slice(0, countPage));
         },
@@ -236,6 +296,7 @@ export const OfflineClients = () => {
             const searching = searchStorage.filter((item) =>
                 item.client.phone.toString().includes(e.target.value)
             );
+            setPhone(e.target.value)
             setConnectors(searching);
             setCurrentConnectors(searching.slice(0, countPage));
         },
@@ -900,6 +961,8 @@ export const OfflineClients = () => {
                             setClientDate={setClientDate}
                             setIsAddConnector={setIsAddConnector}
                             getClientsById={getClientsById}
+                            getByClientName={getByClientName}
+                            getByClientPhone={getByClientPhone}
                             setPrintBody={setPrintBody}
                             handlePrint={handlePrint}
                             allModalHandle={(services, connector, client) => {
