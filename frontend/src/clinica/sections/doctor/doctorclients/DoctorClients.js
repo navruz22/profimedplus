@@ -633,6 +633,27 @@ export const DoctorClients = () => {
   //=====================================================================
   //=====================================================================
 
+  const changeAccept = (e) => {
+
+    let searching = [] 
+
+    if (e.target.value === 'accept') {
+      searching = [...searchStorage].filter(connector => [...connector.services].some(service => !service.department.probirka && service.accept))
+    }
+    if (e.target.value === 'not') {
+      searching = [...searchStorage].filter(connector => connector.services.filter(service => !service.department.probirka && service.accept).length < 1)
+    }
+    if (e.target.value === 'all') {
+      searching = [...searchStorage]
+    }
+
+    setDoctorClients(searching);
+    setCurrentDoctorClients(searching.slice(0, countPage));
+  }
+
+  //=====================================================================
+  //=====================================================================
+
   return (
     <>
       <div className="d-none">
@@ -847,6 +868,7 @@ export const DoctorClients = () => {
               </div>
             </div>
             <TableClients
+            changeAccept={changeAccept}
               changeStart={changeStart}
               changeEnd={changeEnd}
               searchId={searchId}

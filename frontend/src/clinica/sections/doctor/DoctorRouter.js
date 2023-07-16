@@ -5,6 +5,9 @@ import Templates from "./templates/Templates";
 import AdoptionTemplate from "./components/AdoptionTemplate";
 import { ConclusionClients } from "./conclusion/ConclusionClients";
 import Conclusion from "./conclusion/Conclusion";
+import DoctorProfit from "./DoctorProfit";
+import StatsionarDoctorProfit from "./StatsionarDoctorProfit";
+import DirectProfit from "./DirectProfit";
 // import Tables from "./tables/Tables";
 
 export const DoctorRouter = () => {
@@ -25,6 +28,15 @@ export const DoctorRouter = () => {
         </Route>
         <Route path="/alo24/conclusion">
           <Conclusion />
+        </Route>
+        <Route path="/alo24/doctor_profit">
+          <DoctorProfit />
+        </Route>
+        <Route path="/alo24/doctor_statsionar_profit">
+          <StatsionarDoctorProfit />
+        </Route>
+        <Route path="/alo24/direct_profit">
+          <DirectProfit />
         </Route>
         <Redirect to="/alo24" />
       </Switch>

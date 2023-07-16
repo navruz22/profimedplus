@@ -40,6 +40,7 @@ export const TableClients = ({
   clientsType,
   changeClientsType,
   getClientsByBorn,
+  changeAccept,
   user
 }) => {
 
@@ -156,6 +157,20 @@ export const TableClients = ({
                 <option value="statsionar">{t("Statsionar")}</option>
               </select>
             </div>
+            <div
+              className="text-center"
+              style={{ maxWidth: "200px" }}
+            >
+              <select
+                className="form-control form-control-sm selectpicker"
+                placeholder="Mijozalar"
+                onChange={changeAccept}
+              >
+                <option value="all">{t("Xammasi")}</option>
+                <option value="accept">{t("Tasdiqlangan")}</option>
+                <option value="not">{t("Tasdiqlanmagan")}</option>
+              </select>
+            </div>
           </div>
           <table className="table m-0" id="discount-table">
             <thead>
@@ -224,7 +239,7 @@ export const TableClients = ({
                       </td>}
                       <td className="border text-[16px] py-1 text-right">
                         <div className="custom-control custom-checkbox text-center">
-                          <input checked={connector?.connector?.accept}
+                          <input checked={connector?.services?.filter(service => !service.department.probirka && service.accept).length > 0 ? true : false}
                             type="checkbox"
                             className="custom-control-input border border-dager"
                             id={`product${key}`}
