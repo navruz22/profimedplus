@@ -11,6 +11,8 @@ import Print from "./Print";
 import { useReactToPrint } from 'react-to-print'
 import QRCode from "qrcode"
 import { useTranslation } from "react-i18next";
+import { BsFillPrinterFill } from "react-icons/bs";
+import Print2 from "./Print2";
 
 const AdoptionTemplate = () => {
   // const clientId = useParams().clientid
@@ -48,7 +50,14 @@ const AdoptionTemplate = () => {
     documentTitle: client && client?.firstname + ' ' + client?.lastname
   })
 
+  const componentRef2 = useRef()
+  const handlePrint2 = useReactToPrint({
+    content: () => componentRef2.current,
+    documentTitle: client && client?.firstname + ' ' + client?.lastname
+  })
+
   const [sections, setSections] = useState([]);
+  const [section, setSection] = useState({});
 
   const [baseUrl, setBaseUrl] = useState()
 
@@ -323,6 +332,21 @@ const AdoptionTemplate = () => {
           />
         </div>
       </div>
+      <div className="d-none">
+        <div
+          ref={componentRef2}
+          className="container p-4 pagebreak"
+        >
+          <Print2
+            baseUrl={baseUrl}
+            clinica={auth?.clinica}
+            connector={connector}
+            client={client}
+            section={section}
+            qr={qr}
+          />
+        </div>
+      </div>
       <div className="container p-4 bg-white text-center" style={{ fontFamily: "times" }}>
         <div className="px-4">
           {auth?.clinica?.ifud1 && <div className="row" style={{ fontSize: "10pt" }}>
@@ -542,6 +566,14 @@ const AdoptionTemplate = () => {
                     <h2 className="block text-[18px] font-bold">
                       {section?.servicetype}
                     </h2>
+                  </div>
+                  <div className="w-full flex justify-end items-center mb-2 pr-2">
+                  <button onClick={() => {
+                    setSection(section)
+                    setTimeout(() => {
+                      handlePrint2()
+                    }, 1000)  
+                  }} ><BsFillPrinterFill fontSize={18} color="blue" /></button>
                   </div>
                   <table className="w-full text-center">
                     <thead>

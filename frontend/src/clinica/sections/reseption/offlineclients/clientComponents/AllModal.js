@@ -4,9 +4,10 @@ import { BsFillPrinterFill } from "react-icons/bs"
 import { useReactToPrint } from "react-to-print"
 import Print from "../../../doctor/components/Print"
 import LabPrint from "../../../laborotory/components/Print"
+import QRCode from "qrcode"
 
 
-const AllModal = ({ services, client, connector, clinica, baseUrl, qr, modal, doctor, setModal }) => {
+const AllModal = ({ services, client, connector, clinica, baseUrl, modal, doctor, setModal }) => {
     const { t } = useTranslation()
     const [acceptServices, setAcceptServices] = useState([])
     const [notAcceptServices, setNotAcceptServices] = useState([])
@@ -34,6 +35,17 @@ const AllModal = ({ services, client, connector, clinica, baseUrl, qr, modal, do
         setAcceptServices(accepts)
         setNotAcceptServices([...services].filter(service => !service.refuse && !service.accept))
     }, [services])
+
+    const [qr, setQr] = useState()
+
+    useEffect(() => {
+      if (connector && baseUrl) {
+        QRCode.toDataURL(`${baseUrl}/clienthistory/laboratory/${connector._id}`)
+          .then(data => {
+            setQr(data)
+          })
+      }
+    }, [connector, baseUrl])
 
     const componentRef = useRef()
     const handlePrint = useReactToPrint({
