@@ -3,6 +3,7 @@ const { AddedService } = require("../../models/Services/AddedService");
 const { User } = require("../../models/Users");
 require("../../models/OfflineClient/OfflineService");
 require('../../models/Services/Department')
+require('../../models/OfflineClient/OfflineClient')
 
 
 module.exports.getDirectDoctors = async (req, res) => {
@@ -60,13 +61,23 @@ module.exports.getDirectService = async (req, res) => {
         })
             .populate({
                 path: 'service',
-                select: 'service pieces department',
+                select: 'service pieces department client',
+                populate: {
+                    path: "client",
+                    select: "firstname lastname"
+                }
+            })
+            .populate({
+                path: 'service',
+                select: 'service pieces department client',
                 populate: {
                     path: "department",
                     select: "name"
                 }
             })
             .lean()
+
+            console.log(services);
 
         res.status(200).send(services);
 

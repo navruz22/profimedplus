@@ -226,8 +226,8 @@ export const TableClients = ({
                       <td className="border text-[16px] py-1 font-weight-bold">
                         {connector.client.firstname} {connector.client.lastname}
                       </td>
-                      <td className="border text-[16px] py-1 font-weight-bold">
-                        {new Date(connector?.connector?.createdAt).toLocaleDateString('ru-RU')}
+                      <td className="border text-[16px] py-1 text-right">
+                        {new Date(connector?.connector?.createdAt).toLocaleDateString('ru-RU')} {new Date(connector?.connector?.createdAt).toLocaleTimeString('ru-RU')}
                       </td>
                       <td className="border text-[16px] py-1 text-right">
                         {connector.client.id}

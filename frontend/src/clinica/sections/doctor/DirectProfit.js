@@ -272,6 +272,9 @@ const DirectProfit = () => {
                                 <tr>
                                     <th className="border py-1 bg-alotrade text-[16px]">№</th>
                                     <th className="border py-1 bg-alotrade text-[16px]">
+                                        {t("F.I.O")}
+                                    </th>
+                                    <th className="border py-1 bg-alotrade text-[16px]">
                                         {t("Xizmat")}
                                     </th>
                                     <th className="border py-1 bg-alotrade text-[16px]">
@@ -295,6 +298,9 @@ const DirectProfit = () => {
                                                 style={{ maxWidth: "30px !important" }}
                                             >
                                                 {currentPage * countPage + key + 1}
+                                            </td>
+                                            <td className="border py-1 text-[16px] font-weight-bold">
+                                                {doctor?.service?.client?.firstname} {doctor?.service?.client?.lastname}
                                             </td>
                                             <td className="border py-1 text-[16px] font-weight-bold">
                                                 {doctor?.service?.service?.name}

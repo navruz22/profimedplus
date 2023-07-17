@@ -29,7 +29,8 @@ export const TableClients = ({
   loading,
   handlePrint,
   getDoctorClientsByClientBorn,
-  searchProbirka
+  searchProbirka,
+  changeAccept
 }) => {
 
   const {t} = useTranslation()
@@ -137,6 +138,21 @@ export const TableClients = ({
               />
             </div>
           </div>
+          {/* <div
+              className="text-center"
+              style={{ maxWidth: "200px" }}
+            >
+              <select
+                className="form-control form-control-sm selectpicker"
+                placeholder="Mijozalar"
+                onChange={changeAccept}
+                defaultValue={'not'}
+              >
+                <option value="all">{t("Xammasi")}</option>
+                <option value="accept">{t("Tasdiqlangan")}</option>
+                <option value="not">{t("Tasdiqlanmagan")}</option>
+              </select>
+          </div> */}
         </div>
         <table className="table m-0" id="discount-table">
           <thead>

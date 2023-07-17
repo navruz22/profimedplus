@@ -108,10 +108,15 @@ export const DoctorClients = () => {
           }
         );
         const currentData = data[0].services.length > 0 ? data : []
+        // setDoctorClients([...currentData].filter(connector => connector.services.filter(service => !service.accept).length < connector.services.length));
+        // setSearchStorage(currentData);
+        // setCurrentDoctorClients(
+        //   [...currentData].filter(connector => connector.services.filter(service => !service.accept).length < connector.services.length).slice(indexFirstConnector, indexLastConnector)
+        // );
         setDoctorClients(currentData);
         setSearchStorage(currentData);
         setCurrentDoctorClients(
-          currentData.slice(indexFirstConnector, indexLastConnector)
+          [...currentData].slice(indexFirstConnector, indexLastConnector)
         );
       } catch (error) {
         notify({
@@ -239,6 +244,30 @@ export const DoctorClients = () => {
 
   //====================================================================
   //====================================================================
+
+  // const changeAccept = (e) => {
+
+  //   let searching = [] 
+
+  //   if (e.target.value === 'accept') {
+  //     searching = [...searchStorage].filter(connector => [...connector.services].some(service => service.accept))
+  //   }
+  //   if (e.target.value === 'not') {
+  //     searching = [...searchStorage].filter(connector => {
+  //       console.log([...connector.services].filter(service => !service.accept).length);
+  //       return connector.services.filter(service => !service.accept).length === 0
+  //     })
+  //   }
+  //   if (e.target.value === 'all') {
+  //     searching = [...searchStorage]
+  //   }
+
+  //   setDoctorClients(searching);
+  //   setCurrentDoctorClients(searching.slice(0, countPage));
+  // }
+
+  //====================================================================
+  //====================================================================
   // useEffect
 
   const [s, setS] = useState(0);
@@ -321,6 +350,7 @@ export const DoctorClients = () => {
               />
             </div>}
             <TableClients
+            // changeAccept={changeAccept}
               changeStart={changeStart}
               changeEnd={changeEnd}
               searchId={searchId}
