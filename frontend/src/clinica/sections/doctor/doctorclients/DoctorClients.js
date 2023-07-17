@@ -106,10 +106,10 @@ export const DoctorClients = () => {
             Authorization: `Bearer ${auth.token}`,
           }
         );
-        setDoctorClients(data);
+        setDoctorClients([...data].filter(connector => connector.services.filter(service => !service.department.probirka && service.accept).length < 1));
         setSearchStorage(data);
         setCurrentDoctorClients(
-          data.slice(indexFirstConnector, indexLastConnector)
+          [...data].filter(connector => connector.services.filter(service => !service.department.probirka && service.accept).length < 1).slice(indexFirstConnector, indexLastConnector)
         );
       } catch (error) {
         notify({
@@ -133,7 +133,7 @@ export const DoctorClients = () => {
             clinica: auth && auth.clinica._id,
             beginDay,
             endDay,
-            department: auth?.user?.specialty,
+            department: auth?.user?.specialty._id,
           },
           {
             Authorization: `Bearer ${auth.token}`,
@@ -144,10 +144,10 @@ export const DoctorClients = () => {
         // setCurrentDoctorClients(
         //   [...data].filter(item => item.connector.room.endday === null).slice(indexFirstConnector, indexLastConnector)
         // );
-        setDoctorClients(data);
+        setDoctorClients([...data].filter(connector => connector.services.filter(service => !service.department.probirka && service.accept).length < 1));
         setSearchStorage(data);
         setCurrentDoctorClients(
-          data.slice(indexFirstConnector, indexLastConnector)
+          [...data].filter(connector => connector.services.filter(service => !service.department.probirka && service.accept).length < 1).slice(indexFirstConnector, indexLastConnector)
         );
       } catch (error) {
         notify({

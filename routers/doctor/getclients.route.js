@@ -42,6 +42,7 @@ module.exports.getAll = async (req, res) => {
       connectors = await OfflineConnector.find({
         clinica,
       })
+      .sort({createdAt: -1})
         .select('-__v -updatedAt -isArchive')
         .populate('clinica', 'name phone1 image')
         .populate("client", "lastname firstname born id phone address")
@@ -95,6 +96,7 @@ module.exports.getAll = async (req, res) => {
         },
         clinica,
       })
+      .sort({createdAt: -1})
         .select('-__v -updatedAt -isArchive')
         .populate('clinica', 'name phone1 image')
         .populate("client", "lastname firstname born id phone address")

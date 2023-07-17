@@ -165,6 +165,7 @@ export const TableClients = ({
                 className="form-control form-control-sm selectpicker"
                 placeholder="Mijozalar"
                 onChange={changeAccept}
+                defaultValue={'not'}
               >
                 <option value="all">{t("Xammasi")}</option>
                 <option value="accept">{t("Tasdiqlangan")}</option>
@@ -178,6 +179,9 @@ export const TableClients = ({
                 <th className="border bg-alotrade text-[16px] py-1">№</th>
                 <th className="border bg-alotrade text-[16px] py-1">
                   {t("F.I.O")}
+                </th>
+                <th className="border bg-alotrade text-[16px] py-1">
+                  {t("Kelgan vaqti")}
                 </th>
                 <th className="border bg-alotrade text-[16px] py-1">
                   {t("ID")}
@@ -221,6 +225,9 @@ export const TableClients = ({
                       </td>
                       <td className="border text-[16px] py-1 font-weight-bold">
                         {connector.client.firstname} {connector.client.lastname}
+                      </td>
+                      <td className="border text-[16px] py-1 font-weight-bold">
+                        {new Date(connector?.connector?.createdAt).toLocaleDateString('ru-RU')}
                       </td>
                       <td className="border text-[16px] py-1 text-right">
                         {connector.client.id}
