@@ -125,6 +125,17 @@ const DoctorProfit = () => {
             setCurrentServices(searching.slice(0, countPage))
         }
 
+        const searchService =
+        (e) => {
+            const searching = searchStorage.filter((item) =>
+                item.service.name
+                    .toLowerCase()
+                    .includes(e.target.value.toLowerCase()) 
+            )
+            setServices(searching)
+            setCurrentServices(searching.slice(0, countPage))
+        }
+
     //=======================================================
     //=======================================================
 
@@ -171,6 +182,15 @@ const DoctorProfit = () => {
                                             type="search"
                                             className="w-100 form-control form-control-sm selectpicker"
                                             placeholder={t("F.I.O")}
+                                        />
+                                    </div>
+                                    <div>
+                                        <input
+                                            onChange={searchService}
+                                            style={{ minWidth: "100px" }}
+                                            type="search"
+                                            className="w-100 form-control form-control-sm selectpicker"
+                                            placeholder={t("Xizmatlar")}
                                         />
                                     </div>
                                     <div

@@ -30,7 +30,9 @@ export const TableClients = ({
   handlePrint,
   getDoctorClientsByClientBorn,
   searchProbirka,
-  changeAccept
+  changeAccept,
+  getDoctorClientsByName,
+  getDoctorClientsId
 }) => {
 
   const {t} = useTranslation()
@@ -74,6 +76,7 @@ export const TableClients = ({
               type="search"
               className="w-100 form-control form-control-sm selectpicker text-[16px]"
               placeholder={t("F.I.O")}
+              onKeyDown={(e) => e.key === 'Enter' && getDoctorClientsByName()}
             />
           </div>
           <div>
@@ -83,6 +86,7 @@ export const TableClients = ({
               type="search"
               className="form-control form-control-sm selectpicker text-[16px]"
               placeholder={t("ID")}
+              onKeyDown={(e) => e.key === 'Enter' && getDoctorClientsId()}
             />
           </div>
           <div>

@@ -41,7 +41,9 @@ export const TableClients = ({
   changeClientsType,
   getClientsByBorn,
   changeAccept,
-  user
+  user,
+  getClientsByName,
+  getClientsById
 }) => {
 
   const {t} = useTranslation()
@@ -86,6 +88,7 @@ export const TableClients = ({
                 type="search"
                 className="w-100 form-control form-control-sm selectpicker"
                 placeholder={t("F.I.O")}
+                onKeyDown={(e) => e.key === 'Enter' && getClientsByName()}
               />
             </div>
             <div>
@@ -95,6 +98,7 @@ export const TableClients = ({
                 type="search"
                 className="form-control form-control-sm selectpicker"
                 placeholder={t("ID")}
+                onKeyDown={(e) => e.key === 'Enter' && getClientsById()}
               />
             </div>
             <div className="flex items-center gap-4">
@@ -246,7 +250,7 @@ export const TableClients = ({
                       </td>}
                       <td className="border text-[16px] py-1 text-right">
                         <div className="custom-control custom-checkbox text-center">
-                          <input checked={connector?.services?.filter(service => !service.department.probirka && service.accept).length > 0 ? true : false}
+                          <input checked={connector?.services?.filter(service => service.department._id === user?.specialty?._id && !service.department.probirka && service.accept).length > 0 ? true : false}
                             type="checkbox"
                             className="custom-control-input border border-dager"
                             id={`product${key}`}

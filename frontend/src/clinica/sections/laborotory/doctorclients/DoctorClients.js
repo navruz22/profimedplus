@@ -116,7 +116,7 @@ export const DoctorClients = () => {
         setDoctorClients(currentData);
         setSearchStorage(currentData);
         setCurrentDoctorClients(
-          [...currentData].slice(indexFirstConnector, indexLastConnector)
+          currentData.slice(indexFirstConnector, indexLastConnector)
         );
       } catch (error) {
         notify({
@@ -160,11 +160,70 @@ export const DoctorClients = () => {
     }
   }
 
+  const getDoctorClientsByName = async (e) => {
+    try {
+      const data = await request(
+        `/api/labaratory/clients/get`,
+        "POST",
+        {
+          clinica: auth && auth.clinica._id,
+          name: fullname
+        },
+        {
+          Authorization: `Bearer ${auth.token}`,
+        }
+      );
+      const currentData = data[0].services.length > 0 ? data : []
+      setDoctorClients(currentData);
+      setSearchStorage(currentData);
+      setCurrentDoctorClients(
+        currentData.slice(indexFirstConnector, indexLastConnector)
+      );
+    } catch (error) {
+      notify({
+        title: error,
+        description: "",
+        status: "error",
+      });
+    }
+  }
+
+  const getDoctorClientsId = async (e) => {
+    try {
+      const data = await request(
+        `/api/labaratory/clients/get`,
+        "POST",
+        {
+          clinica: auth && auth.clinica._id,
+          clientId: clientId
+        },
+        {
+          Authorization: `Bearer ${auth.token}`,
+        }
+      );
+      const currentData = data[0].services.length > 0 ? data : []
+      setDoctorClients(currentData);
+      setSearchStorage(currentData);
+      setCurrentDoctorClients(
+        currentData.slice(indexFirstConnector, indexLastConnector)
+      );
+    } catch (error) {
+      notify({
+        title: error,
+        description: "",
+        status: "error",
+      });
+    }
+  }
+
   //===================================================================
   //===================================================================
   // Searching
 
-  const searchFullname = useCallback(
+  const [fullname, setFullname] = useState('')
+  const [clientId, setClientId] = useState('')
+
+  const searchFullname = 
     (e) => {
       const searching = searchStorage.filter((item) =>
         item.client.lastname
@@ -174,22 +233,20 @@ export const DoctorClients = () => {
           .toLowerCase()
           .includes(e.target.value.toLowerCase())
       );
+      setFullname(e.target.value)
       setDoctorClients(searching);
       setCurrentDoctorClients(searching.slice(0, countPage));
-    },
-    [searchStorage, countPage]
-  );
+    }
 
-  const searchId = useCallback(
+  const searchId = 
     (e) => {
       const searching = searchStorage.filter((item) =>
         item.client.id.toString().includes(e.target.value)
       );
+      setClientId(e.target.value)
       setDoctorClients(searching);
       setCurrentDoctorClients(searching.slice(0, countPage));
-    },
-    [searchStorage, countPage]
-  );
+    }
 
   const searchProbirka = (e) => {
       const searching = searchStorage.filter((item) =>
@@ -366,6 +423,8 @@ export const DoctorClients = () => {
               handlePrint={handlePrint}
               getDoctorClientsByClientBorn={getDoctorClientsByClientBorn}
               searchProbirka={searchProbirka}
+              getDoctorClientsByName={getDoctorClientsByName}
+              getDoctorClientsId={getDoctorClientsId}
             />
           </div>
         </div>

@@ -1,7 +1,7 @@
 import React from 'react'
 
 export const Check = ({ connector, qr, clinica, baseUrl }) => {
-
+  console.log(connector);
   return (
     <div>
       <div className="container px-5">
@@ -154,7 +154,7 @@ export const Check = ({ connector, qr, clinica, baseUrl }) => {
                       className="text-center text-black border py-0 "
                       style={{ fontSize: '16px', fontFamily: 'times' }}
                     >
-                      Navbat
+                      Vaqti
                     </th>
                     <th
                       className="text-center text-black border py-0 "
@@ -186,10 +186,10 @@ export const Check = ({ connector, qr, clinica, baseUrl }) => {
                             {service.service.name}
                           </td>
                           <td className="py-0 border pl-2 text-right">
-                            {service.turn}
+                            {new Date(service.createdAt).toLocaleDateString('ru-RU')} {new Date(service.createdAt).toLocaleTimeString('ru-RU')}
                           </td>
                           <td className="py-0 border pl-2 text-right">
-                            {service.pieces}
+                            {service?.reseption?.specialty ? service?.reseption?.specialty?.name : service?.reseption?.type === 'Reseption' && "Qabulxona" || service?.reseption?.type === 'Cashier' && "Kassa"}
                           </td>
                           <td className="py-0 border pl-2 text-right">
                             {service.service.price * service.pieces}

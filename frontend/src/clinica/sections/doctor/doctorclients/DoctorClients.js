@@ -106,10 +106,10 @@ export const DoctorClients = () => {
             Authorization: `Bearer ${auth.token}`,
           }
         );
-        setDoctorClients([...data].filter(connector => connector.services.filter(service => !service.department.probirka && service.accept).length < 1));
+        setDoctorClients([...data].filter(connector => connector.services.filter(service => service.department._id === auth?.user?.specialty?._id && !service.department.probirka && service.accept).length < 1));
         setSearchStorage(data);
         setCurrentDoctorClients(
-          [...data].filter(connector => connector.services.filter(service => !service.department.probirka && service.accept).length < 1).slice(indexFirstConnector, indexLastConnector)
+          [...data].filter(connector => connector.services.filter(service => service.department._id === auth?.user?.specialty?._id && !service.department.probirka && service.accept).length < 1).slice(indexFirstConnector, indexLastConnector)
         );
       } catch (error) {
         notify({
@@ -234,6 +234,140 @@ export const DoctorClients = () => {
 
   //===================================================================
   //===================================================================
+
+  const getDoctorClientsByName = async () => {
+    try {
+      const data = await request(
+        `/api/doctor/clients/getclients`,
+        "POST",
+        {
+          name: fullname,
+          department: auth?.user?.specialty?._id,
+          clinica: auth && auth.clinica._id,
+        },
+        {
+          Authorization: `Bearer ${auth.token}`,
+        }
+      );
+      setDoctorClients(data);
+      setSearchStorage(data);
+      setCurrentDoctorClients(
+        data.slice(indexFirstConnector, indexLastConnector)
+      );
+    } catch (error) {
+      notify({
+        title: t(error),
+        description: "",
+        status: "error",
+      });
+    }
+  }
+
+  const getStatsionarClientsName = async (e) => {
+    try {
+      const data = await request(
+        `/api/doctor/clients/statsionarclients/get`,
+        "POST",
+        {
+          name: fullname,
+          department: auth?.user?.specialty?._id,
+          clinica: auth && auth.clinica._id,
+        },
+        {
+          Authorization: `Bearer ${auth.token}`,
+        }
+      );
+      setDoctorClients(data);
+      setSearchStorage(data);
+      setCurrentDoctorClients(
+        data.slice(indexFirstConnector, indexLastConnector)
+      );
+    } catch (error) {
+      notify({
+        title: t(error),
+        description: "",
+        status: "error",
+      });
+    }
+  }
+
+  const getClientsByName = () => {
+    if (clientsType === 'offline') {
+      getDoctorClientsByName()
+    } else {
+      getStatsionarClientsName()
+    }
+  }
+
+  //===================================================================
+  //===================================================================
+
+  const getDoctorClientsById = async () => {
+    try {
+      const data = await request(
+        `/api/doctor/clients/getclients`,
+        "POST",
+        {
+          clientId: clientId,
+          department: auth?.user?.specialty?._id,
+          clinica: auth && auth.clinica._id,
+        },
+        {
+          Authorization: `Bearer ${auth.token}`,
+        }
+      );
+      setDoctorClients(data);
+      setSearchStorage(data);
+      setCurrentDoctorClients(
+        data.slice(indexFirstConnector, indexLastConnector)
+      );
+    } catch (error) {
+      notify({
+        title: t(error),
+        description: "",
+        status: "error",
+      });
+    }
+  }
+
+  const getStatsionarClientsId = async (e) => {
+    try {
+      const data = await request(
+        `/api/doctor/clients/statsionarclients/get`,
+        "POST",
+        {
+          clientId: clientId,
+          department: auth?.user?.specialty?._id,
+          clinica: auth && auth.clinica._id,
+        },
+        {
+          Authorization: `Bearer ${auth.token}`,
+        }
+      );
+      setDoctorClients(data);
+      setSearchStorage(data);
+      setCurrentDoctorClients(
+        data.slice(indexFirstConnector, indexLastConnector)
+      );
+    } catch (error) {
+      notify({
+        title: t(error),
+        description: "",
+        status: "error",
+      });
+    }
+  }
+
+  const getClientsById = () => {
+    if (clientsType === 'offline') {
+      getDoctorClientsById()
+    } else {
+      getStatsionarClientsId()
+    }
+  }
+
+  //===================================================================
+  //===================================================================
     const [isActive, setIsActive] = useState(true)
   //===================================================================
   //===================================================================
@@ -355,7 +489,10 @@ export const DoctorClients = () => {
   //===================================================================
   // Searching
 
-  const searchFullname = useCallback(
+  const [fullname, setFullname] = useState('')
+  const [clientId, setClientId] = useState('')
+
+  const searchFullname =
     (e) => {
       const searching = searchStorage.filter((item) =>
         item.client.fullname
@@ -364,20 +501,18 @@ export const DoctorClients = () => {
       );
       setDoctorClients(searching);
       setCurrentDoctorClients(searching.slice(0, countPage));
-    },
-    [searchStorage, countPage]
-  );
+      setFullname(e.target.value)
+    }
 
-  const searchId = useCallback(
+  const searchId =
     (e) => {
       const searching = searchStorage.filter((item) =>
         item.client.id.toString().includes(e.target.value)
       );
       setDoctorClients(searching);
       setCurrentDoctorClients(searching.slice(0, countPage));
-    },
-    [searchStorage, countPage]
-  );
+      setClientId(e.target.value)
+    }
 
   //===================================================================
   //===================================================================
@@ -638,10 +773,10 @@ export const DoctorClients = () => {
     let searching = [] 
 
     if (e.target.value === 'accept') {
-      searching = [...searchStorage].filter(connector => [...connector.services].some(service => !service.department.probirka && service.accept))
+      searching = [...searchStorage].filter(connector => [...connector.services].some(service => service.department._id === auth?.user?.specialty?._id && !service.department.probirka && service.accept))
     }
     if (e.target.value === 'not') {
-      searching = [...searchStorage].filter(connector => connector.services.filter(service => !service.department.probirka && service.accept).length < 1)
+      searching = [...searchStorage].filter(connector => connector.services.filter(service => service.department._id === auth?.user?.specialty?._id && !service.department.probirka && service.accept).length < 1)
     }
     if (e.target.value === 'all') {
       searching = [...searchStorage]
@@ -868,7 +1003,8 @@ export const DoctorClients = () => {
               </div>
             </div>
             <TableClients
-            changeAccept={changeAccept}
+              changeAccept={changeAccept}
+              getClientsByName={getClientsByName}
               changeStart={changeStart}
               changeEnd={changeEnd}
               searchId={searchId}
@@ -889,6 +1025,7 @@ export const DoctorClients = () => {
               changeClientsType={changeClientsType}
               getClientsByBorn={getClientsByBorn}
               user={auth?.user}
+              getClientsById={getClientsById}
             />
           </div>
         </div>

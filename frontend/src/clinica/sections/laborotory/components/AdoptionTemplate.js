@@ -328,6 +328,7 @@ const AdoptionTemplate = () => {
             connector={connector}
             client={client}
             sections={sections}
+            user={auth?.user}
             qr={qr}
           />
         </div>

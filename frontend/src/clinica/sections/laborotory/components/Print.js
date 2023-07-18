@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 
 
-const Print = ({ client, connector, sections, baseUrl, clinica, qr }) => {
+const Print = ({ client, connector, sections, baseUrl, clinica, user, qr }) => {
     const location = useLocation()
     const {t} = useTranslation()
 
@@ -274,6 +274,10 @@ const Print = ({ client, connector, sections, baseUrl, clinica, qr }) => {
                     <span className="text-[14px] font-bold">{clinica?.organitionName}</span>
                     <span className="text-[14px] font-bold">{clinica?.license}</span>
                 </div>
+                <div className="mt-2 mb-1 flex justify-between items-center">
+                    <span className="text-[20px] font-bold">{user?.signature}</span>
+                </div>
+                <div className="my-2 w-full border-2 border-black-800"></div>
             </div>
             <div className="pt-2 w-full text-center mr-6">
                 {printSections.length > 0 &&
