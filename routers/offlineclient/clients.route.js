@@ -263,7 +263,7 @@ module.exports.add = async (req, res) => {
 
         const updateClient = await OfflineClient.findByIdAndUpdate(
             client._id,
-            client,
+            {...client, fullname: client.firstname + ' ' + client.lastname},
         )
 
         const updateOfflineConnector = await OfflineConnector.findById(
@@ -412,26 +412,14 @@ module.exports.add = async (req, res) => {
             updateOfflineConnector.products.push(newproduct._id)
         }
 
-        // if (counteragent.counterdoctor) {
-        //     const oldcounteragent = await OfflineCounteragent.findOne({
-        //         connector: connector._id,
-        //     })
-
-        //     if (oldcounteragent) {
-        //         oldcounteragent.counteragent = counteragent.counteragent
-        //         oldcounteragent.counterdoctor = counteragent.counterdoctor
-        //         oldcounteragent.services = [...updateOfflineConnector.services]
-        //         await oldcounteragent.save()
-        //     } else {
-        //         const newcounteragent = new OfflineCounteragent({
-        //             client: client._id.toString(),
-        //             connector: updateOfflineConnector._id.toString(),
-        //             services: [...updateOfflineConnector.services],
-        //             ...counteragent,
-        //         })
-        //         await newcounteragent.save()
-        //     }
-        // }
+        if (counterdoctor) {
+            const servicess = await OfflineService.find({connector: connector._id})
+            for (const s of servicess) {
+                const ss = await OfflineService.findOne({_id: s._id, refuse: false})
+                ss.counterdoctor = counterdoctor;
+                await ss.save()
+            }
+        }
 
         if (adver.adver) {
             const oldadver = await OfflineAdver.findOne({

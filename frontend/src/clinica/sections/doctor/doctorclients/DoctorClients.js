@@ -494,11 +494,12 @@ export const DoctorClients = () => {
 
   const searchFullname =
     (e) => {
-      const searching = searchStorage.filter((item) =>
-        item.client.fullname
-          .toLowerCase()
-          .includes(e.target.value.toLowerCase())
-      );
+      const searching = [...searchStorage].filter((item) => {
+        console.log(item);
+        return  (item.client.firstname + item.client.lastname) 
+        .toLowerCase()
+        .includes(e.target.value.toLowerCase())
+      });
       setDoctorClients(searching);
       setCurrentDoctorClients(searching.slice(0, countPage));
       setFullname(e.target.value)

@@ -184,7 +184,7 @@ module.exports.get = async (req, res) => {
                 $lte: endDay
             }
         })
-            .select('service pieces department counterdoctor refuse')
+            .select('service payment pieces department counterdoctor refuse')
             .populate('client', 'firstname lastname')
             .populate({
                 path: 'department',
@@ -195,7 +195,7 @@ module.exports.get = async (req, res) => {
                 }
             })
             .lean()
-            .then(services => services.filter(service => !service.refuse))
+            .then(services => services.filter(service => !service.refuse && service.payment))
 
         for (const service of offlineservices) {
             // const procient = service.service.doctorProcient;

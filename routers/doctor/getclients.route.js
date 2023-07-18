@@ -190,12 +190,7 @@ module.exports.getAll = async (req, res) => {
         .populate('payments')
         .lean()
         .then(connectors => connectors.filter(connector => {
-          console.log(connector.services.filter(service => {
-            console.log(service.department._id, department);
-            return String(service.department._id) === String(department)
-          }));
-          console.log(connector.services.some(service => String(service.department._id) === String(department)));
-          return connector.services.some(service => String(service.department._id) === String(department))
+          return connector.services.some(service => String(service.department._id) === String(department) && !service.refuse && service.payment)
         }))
     }
 
