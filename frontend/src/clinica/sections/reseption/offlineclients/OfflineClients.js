@@ -35,6 +35,11 @@ export const OfflineClients = () => {
     //====================================================================
     //====================================================================
 
+    const [isAddService, setIsAddService] = useState(false)
+
+    //====================================================================
+    //====================================================================
+
     const {t} = useTranslation()
 
     //====================================================================
@@ -771,6 +776,7 @@ export const OfflineClients = () => {
             setTimeout(() => {
                 setIsActive(true)
             }, 5000)
+            setIsAddService(false)
         } catch (error) {
             notify({
                 title: t(`${error}`),
@@ -904,6 +910,7 @@ export const OfflineClients = () => {
                         </div>
                         <div className={` ${visible ? "" : "d-none"}`}>
                             <RegisterClient
+                                isAddService={isAddService}
                                 selectedServices={selectedServices}
                                 selectedProducts={selectedProducts}
                                 updateData={updateHandler}
@@ -932,6 +939,7 @@ export const OfflineClients = () => {
                             />
                         </div>
                         <TableClients
+                            setIsAddService={setIsAddService}
                             setVisible={setVisible}
                             modal1={modal1}
                             setModal1={setModal1}

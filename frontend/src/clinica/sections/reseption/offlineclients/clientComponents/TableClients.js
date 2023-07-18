@@ -49,7 +49,8 @@ export const TableClients = ({
   handlePrint,
   allModalHandle,
   getByClientName,
-  getByClientPhone
+  getByClientPhone,
+  setIsAddService
 }) => {
 
   const {t} = useTranslation()
@@ -278,6 +279,7 @@ export const TableClients = ({
                             })
                             setIsAddConnector(false);
                             setVisible(true);
+                            setIsAddService(true)
                           }}
                         >
                           <FontAwesomeIcon icon={faUserPen} />

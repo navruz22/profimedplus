@@ -30,10 +30,13 @@ export const RegisterClient = ({
     products,
     loading,
     clientDate,
-    servicetypes
+    servicetypes,
+    isAddService
 }) => {
+    console.log(isAddService);
+    const { t } = useTranslation()
 
-    const {t} = useTranslation()
+    const [isVisible, setIsVisible] = useState(false)
 
     const [services, setServices] = useState([]);
     const getServices = useCallback(
@@ -79,8 +82,11 @@ export const RegisterClient = ({
     return (
         <>
             {/* Row start */}
-            <div className="row gutters">
-                <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+            <div className={`row gutters`}>
+                <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12 relative">
+                    <div className={isAddService && !isVisible ? "absolute top-0 left-0 w-full h-[80%] bg-gray-400 bg-opacity-50 z-10 flex justify-center items-center p-4" : "hidden"}>
+                        <div className='text-red-500 font-bold text-[14px] p-2'>Mijozning ma'lumotlarini o'zgartirish uchun TAHRIRLASH tugmasini bosing </div>
+                    </div>
                     <div className="card">
                         <div className="card-header">
                             <div className="card-title">{t("Mijozning shaxsiy ma'lumotlari")}</div>
@@ -334,8 +340,11 @@ export const RegisterClient = ({
                                         </select>
                                     </div>
                                 </div>
-                                
+
                             </div>
+                        </div>
+                        <div onClick={() => setIsVisible(!isVisible)} className='flex justify-end p-2'>
+                            <button className='ml-4 block px-4 py-2 bg-alotrade text-center rounded-2 text-white'>Tahrirlash</button>
                         </div>
                     </div>
                 </div>
@@ -511,7 +520,10 @@ export const RegisterClient = ({
                                                 Loading...
                                             </button>
                                         ) : (
-                                            <button onClick={checkData} className="bg-alotrade rounded text-white py-2 px-3">
+                                            <button onClick={() => {
+                                                checkData()
+                                                setIsVisible(false)
+                                            }} className="bg-alotrade rounded text-white py-2 px-3">
                                                 {t("Saqlash")}
                                             </button>
                                         )}
