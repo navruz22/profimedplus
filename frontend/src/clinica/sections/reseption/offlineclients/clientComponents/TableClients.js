@@ -248,12 +248,14 @@ export const TableClients = ({
                         </button>
                       ) : (
                         <button
-                          className="bg-orange-500 border-orange-500 hover:bg-green-400 btn btn-success py-0"
+                          className={`${new Date(connector?.createdAt).toISOString().slice(0, 10) !== new Date().toISOString().slice(0, 10) ?  "bg-orange-500 border-orange-500 hover:bg-green-400" : "bg-gray-400"} btn btn-success py-0`}
                           onClick={() => {
-                            setClient({ ...connector.client })
-                            setClientDate(connector.client.born.slice(0, 10))
-                            setIsAddConnector(true);
-                            setVisible(true)
+                            if (new Date(connector?.createdAt).toISOString().slice(0, 10) !== new Date().toISOString().slice(0, 10)) {
+                              setClient({ ...connector.client })
+                              setClientDate(connector.client.born.slice(0, 10))
+                              setIsAddConnector(true);
+                              setVisible(true)
+                            }
                           }}
                         >
                           <FontAwesomeIcon icon={faRotate} />
@@ -268,9 +270,10 @@ export const TableClients = ({
                         </button>
                       ) : (
                         <button
-                          className="bg-green-500 border-green-500 hover:bg-green-400 btn btn-success py-0"
+                          className={`${new Date(connector?.createdAt).toISOString().slice(0, 10) === new Date().toISOString().slice(0, 10) ? "bg-green-500 border-green-500 hover:bg-green-400" : "bg-gray-400"} btn btn-success py-0`}
                           onClick={() => {
-                            setClient({ ...connector.client })
+                            if (new Date(connector?.createdAt).toISOString().slice(0, 10) === new Date().toISOString().slice(0, 10)) {
+                              setClient({ ...connector.client })
                             setClientDate(connector.client.born.slice(0, 10))
                             setConnector({
                               ...connector,
@@ -280,6 +283,7 @@ export const TableClients = ({
                             setIsAddConnector(false);
                             setVisible(true);
                             setIsAddService(true)
+                            }
                           }}
                         >
                           <FontAwesomeIcon icon={faUserPen} />

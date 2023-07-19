@@ -1,7 +1,7 @@
 import React from 'react'
 
 export const Check = ({ connector, qr, clinica, baseUrl }) => {
-  console.log(connector);
+  
   return (
     <div>
       <div className="container px-5">

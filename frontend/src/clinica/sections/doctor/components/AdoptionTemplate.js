@@ -8,7 +8,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import Select from "react-select";
+import Select, { AriaOnFocus } from "react-select";
 import { AuthContext } from "../../../context/AuthContext";
 import { useHttp } from "../../../hooks/http.hook";
 import Print from "./Print";
@@ -274,6 +274,11 @@ const DoctorTemplate = ({ client, connector, services, clientsType, baseUrl }) =
     getTemplates();
   }, [getTemplates]);
 
+  const onFocusHandler = (e) => {
+    console.log(e);
+  };
+  
+
   return (
     <>
       {/* <div className="d-none">
@@ -513,10 +518,15 @@ const DoctorTemplate = ({ client, connector, services, clientsType, baseUrl }) =
                 <div className="w-full flex items-center mb-4">
                   <div className="w-[200px] mr-[20rem]">
                     <Select
+                    id="template-select"
+                    // ref={selectRef}
                       options={templates}
                       onChange={(e) =>
                         handleAddTemplate(e, section.service._id)
                       }
+                      // ariaLiveMessages={{
+                      //   onFocus: onFocusHandler
+                      // }}
                     />
                   </div>
                   <h2 className="block text-[18px] font-bold">

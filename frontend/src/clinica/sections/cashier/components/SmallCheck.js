@@ -69,9 +69,9 @@ export const SmallCheck = ({ baseUrl, clinica, connector, qr, user, smallCheckTy
                     </div>
                     <div style={{ fontWeight: "bold", color: "black", fontSize: '20px', fontFamily: 'times' }}>
                         {connector &&
-                            new Date(connector.createdAt).toLocaleDateString() +
+                            new Date().toLocaleDateString() +
                             ' ' +
-                            new Date(connector.createdAt).toLocaleTimeString()}
+                            new Date().toLocaleTimeString()}
                     </div>
                 </div>
                 <div className="flex justify-between items-center">
@@ -337,6 +337,8 @@ export const SmallCheck = ({ baseUrl, clinica, connector, qr, user, smallCheckTy
                                 </div>
                             </div>
                         ))}
+                </div>
+                <div className="w-full h-[5px] mt-[5cm] border-2 border-[#000]">
                 </div>
             </div>}
         </>

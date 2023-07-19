@@ -33,7 +33,7 @@ export const RegisterClient = ({
     servicetypes,
     isAddService
 }) => {
-    console.log(isAddService);
+   
     const { t } = useTranslation()
 
     const [isVisible, setIsVisible] = useState(false)
