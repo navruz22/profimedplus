@@ -8,7 +8,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import Select, { AriaOnFocus } from "react-select";
+import Select, { components } from "react-select";
 import { AuthContext } from "../../../context/AuthContext";
 import { useHttp } from "../../../hooks/http.hook";
 import Print from "./Print";
@@ -20,6 +20,19 @@ import QRCode from "qrcode"
 import { useTranslation } from "react-i18next";
 import AllServices from "./AllServices";
 import ModalPrint from "./ModalPrint";
+import ReactHtmlParser from 'react-html-parser'
+
+
+const CustomMenuWithInput = ({ selectProps: { onHover, onChange, outHover }, ...props }) => {
+
+  const { data } = props
+  return (
+    <div className="hover:bg-sky-300 hover:bg-opacity-50 text-[16px] font-sans py-2 cursor-auto" onMouseLeave={() => outHover()} onMouseEnter={() => onHover(data)} onClick={() => onChange(data)} >
+      {props.children}
+    </div>
+  )
+}
+
 
 const DoctorTemplate = ({ client, connector, services, clientsType, baseUrl }) => {
 
@@ -237,7 +250,7 @@ const DoctorTemplate = ({ client, connector, services, clientsType, baseUrl }) =
     });
     setSections(newSections);
   }
-  console.log(sections);
+
   const changeTransform = (e, index, serviceid) => {
     const newSections = [...sections].map((section) => {
       if (section._id === serviceid) {
@@ -274,30 +287,21 @@ const DoctorTemplate = ({ client, connector, services, clientsType, baseUrl }) =
     getTemplates();
   }, [getTemplates]);
 
-  const onFocusHandler = (e) => {
-    console.log(e);
-  };
-  
+  //=====================================================================
+  //=====================================================================
+
+  const [templateModal, setTemplateModal] = useState(false)
+  const [templateModalTitle, setTemplateModalTitle] = useState("")
+  const [templateModalText, setTemplateModalText] = useState("")
+
+  const handleOnHover = (data) => {
+    setTemplateModal(true)
+    setTemplateModalTitle(data?.label)
+    setTemplateModalText(data?.template)
+  }
 
   return (
     <>
-      {/* <div className="d-none">
-        <div
-          ref={componentRef}
-          className="px-[2cm] py-2"
-          style={{ fontFamily: "times" }}
-        >
-          <Print
-            doctor={auth.user}
-            connector={connector}
-            client={client}
-            sections={sections}
-            clinica={auth && auth.clinica}
-            baseUrl={baseUrl}
-            qr={qr}
-          />
-        </div>
-      </div> */}
       <div className="container p-4 bg-white" style={{ fontFamily: "times" }}>
         <div className="px-4">
           {auth?.clinica?.ifud1 && <div className="row" style={{ fontSize: "10pt" }}>
@@ -518,15 +522,22 @@ const DoctorTemplate = ({ client, connector, services, clientsType, baseUrl }) =
                 <div className="w-full flex items-center mb-4">
                   <div className="w-[200px] mr-[20rem]">
                     <Select
-                    id="template-select"
-                    // ref={selectRef}
+                      id="template-select"
+                      // ref={selectRef}
                       options={templates}
-                      onChange={(e) =>
+                      onChange={(e) => {
                         handleAddTemplate(e, section.service._id)
+                        setTemplateModal(false)
+                        }
                       }
                       // ariaLiveMessages={{
-                      //   onFocus: onFocusHandler
+                      //   onFocus: onFocusHandler,
                       // }}
+                      // onBlur={e => console.log(e)}
+                      components={{ Option: CustomMenuWithInput }}
+                      onHover={handleOnHover}
+                      outHover={() => setTemplateModal(false)}
+                      closeMenuOnSelect={true}
                     />
                   </div>
                   <h2 className="block text-[18px] font-bold">
@@ -606,6 +617,18 @@ const DoctorTemplate = ({ client, connector, services, clientsType, baseUrl }) =
         services={sections}
         setModal={setModal}
       />
+      <div className={`${templateModal ? "fixed" : "hidden"} border-2 border-green-500 top-[50%] left-[30%] translate-y-[-50%] max-w-[800px] h-[600px] bg-white p-2 overflow-scroll`}>
+        <h2 className="block text-center mb-4 text-[16px] font-bold">
+          {templateModalTitle}
+        </h2>
+        <div
+          className={`w-full text-[14px] mb-2 print_word`}
+        >
+
+          {ReactHtmlParser(templateModalText)}
+
+        </div>
+      </div>
     </>
   );
 };
