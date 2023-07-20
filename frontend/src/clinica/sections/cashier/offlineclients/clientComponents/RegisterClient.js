@@ -358,6 +358,7 @@ export const RegisterClient = ({
                                     <div className="btn-group mb-3 w-100" role="group" aria-label="Basic example">
                                         <button
                                             onClick={() => {
+                                                console.log(totalpayment, payments, discount.discount, payment.debt);
                                                 setPayment({
                                                     ...payment,
                                                     type: "cash",

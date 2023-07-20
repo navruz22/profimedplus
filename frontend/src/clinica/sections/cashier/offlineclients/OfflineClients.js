@@ -287,7 +287,7 @@ export const OfflineClients = () => {
                 services.push(serv._id)
                 serv.payment = true
             }
-            if (serv.payment) {
+            if (serv.payment && !serv.refuse) {
                 total += serv.service.price * serv.pieces
             }
         }
