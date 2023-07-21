@@ -7,6 +7,7 @@ import {
   faPrint,
   faPlus,
   faSearch,
+  faArrowsUpDown,
 } from "@fortawesome/free-solid-svg-icons";
 import { Sort } from "./Sort";
 import { Pagination } from "../../components/Pagination";
@@ -43,7 +44,8 @@ export const TableClients = ({
   changeAccept,
   user,
   getClientsByName,
-  getClientsById
+  getClientsById,
+  sortData
 }) => {
 
   const {t} = useTranslation()
@@ -53,6 +55,7 @@ export const TableClients = ({
 
   const [modal, setModal] = useState(false)
   const [debt, setDebt] = useState(0)
+  const [sort, setSort] = useState(false)
 
   const isDebt = (payments) => {
     const debt = payments.reduce((prev, item) => prev + item.debt, 0)
@@ -62,6 +65,7 @@ export const TableClients = ({
       return ""
     }
   }
+
   
   return (
     <div className="border-0 shadow-lg table-container">
@@ -189,6 +193,9 @@ export const TableClients = ({
                 </th>
                 <th className="border bg-alotrade text-[16px] py-1">
                   {t("Navbat")}
+                  <button onClick={() => sortData(sort, setSort)} className="ml-2">
+                    <FontAwesomeIcon icon={faArrowsUpDown} />
+                  </button>
                 </th>
                 <th className="border bg-alotrade text-[16px] py-1">
                   {t("ID")}

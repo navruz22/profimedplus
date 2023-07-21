@@ -23,7 +23,7 @@ export const DoctorClients = () => {
   );
   //====================================================================
   //====================================================================
-  const {t} = useTranslation()
+  const { t } = useTranslation()
 
   //====================================================================
   //====================================================================
@@ -106,10 +106,10 @@ export const DoctorClients = () => {
             Authorization: `Bearer ${auth.token}`,
           }
         );
-        setDoctorClients([...data].filter(connector => connector.services.filter(service => service.department._id === auth?.user?.specialty?._id && !service.department.probirka && service.accept).length < 1));
+        setDoctorClients([...data].filter(connector => connector.services.filter(service => service.department._id === auth?.user?.specialty?._id && !service.department.probirka && service.accept).length < 1).sort((a, b) => b.services.filter(s => s.department._id === auth?.user?.specialty?._id)[0].turn - a.services.filter(s => s.department._id === auth?.user?.specialty?._id)[0].turn));
         setSearchStorage(data);
         setCurrentDoctorClients(
-          [...data].filter(connector => connector.services.filter(service => service.department._id === auth?.user?.specialty?._id && !service.department.probirka && service.accept).length < 1).slice(indexFirstConnector, indexLastConnector)
+          [...data].filter(connector => connector.services.filter(service => service.department._id === auth?.user?.specialty?._id && !service.department.probirka && service.accept).length < 1).sort((a, b) => b.services.filter(s => s.department._id === auth?.user?.specialty?._id)[0].turn - a.services.filter(s => s.department._id === auth?.user?.specialty?._id)[0].turn).slice(indexFirstConnector, indexLastConnector)
         );
       } catch (error) {
         notify({
@@ -168,69 +168,69 @@ export const DoctorClients = () => {
   //Get by born date
 
   const getDoctorClientsByBorn = async (e) => {
-      try {
-        const data = await request(
-          `/api/doctor/clients/getclients`,
-          "POST",
-          {
-            clientborn: new Date(new Date(e)),
-            department: auth?.user?.specialty,
-            clinica: auth && auth.clinica._id,
-          },
-          {
-            Authorization: `Bearer ${auth.token}`,
-          }
-        );
-        setDoctorClients(data);
-        setSearchStorage(data);
-        setCurrentDoctorClients(
-          data.slice(indexFirstConnector, indexLastConnector)
-        );
-      } catch (error) {
-        notify({
-          title: t(error),
-          description: "",
-          status: "error",
-        });
-      }
+    try {
+      const data = await request(
+        `/api/doctor/clients/getclients`,
+        "POST",
+        {
+          clientborn: new Date(new Date(e)),
+          department: auth?.user?.specialty,
+          clinica: auth && auth.clinica._id,
+        },
+        {
+          Authorization: `Bearer ${auth.token}`,
+        }
+      );
+      setDoctorClients(data);
+      setSearchStorage(data);
+      setCurrentDoctorClients(
+        data.slice(indexFirstConnector, indexLastConnector)
+      );
+    } catch (error) {
+      notify({
+        title: t(error),
+        description: "",
+        status: "error",
+      });
     }
+  }
 
 
   const getStatsionarClientsByBorn = async (e) => {
-      try {
-        const data = await request(
-          `/api/doctor/clients/statsionarclients/get`,
-          "POST",
-          {
-            clientborn: new Date(new Date(e)),
-            department: auth?.user?.specialty,
-            clinica: auth && auth.clinica._id,
-          },
-          {
-            Authorization: `Bearer ${auth.token}`,
-          }
-        );
-        setDoctorClients(data);
-        setSearchStorage(data);
-        setCurrentDoctorClients(
-          data.slice(indexFirstConnector, indexLastConnector)
-        );
-      } catch (error) {
-        notify({
-          title: t(error),
-          description: "",
-          status: "error",
-        });
-      }
+    try {
+      const data = await request(
+        `/api/doctor/clients/statsionarclients/get`,
+        "POST",
+        {
+          clientborn: new Date(new Date(e)),
+          department: auth?.user?.specialty,
+          clinica: auth && auth.clinica._id,
+        },
+        {
+          Authorization: `Bearer ${auth.token}`,
+        }
+      );
+      setDoctorClients(data);
+      setSearchStorage(data);
+      setCurrentDoctorClients(
+        data.slice(indexFirstConnector, indexLastConnector)
+      );
+    } catch (error) {
+      notify({
+        title: t(error),
+        description: "",
+        status: "error",
+      });
     }
+  }
 
-    const getClientsByBorn = (e) => {
-      if (clientsType === 'offline') {
-        getDoctorClientsByBorn(e)
-      } else {
-        getStatsionarClientsByBorn(e)
-      }
+  const getClientsByBorn = (e) => {
+    if (clientsType === 'offline') {
+      getDoctorClientsByBorn(e)
+    } else {
+      getStatsionarClientsByBorn(e)
     }
+  }
 
   //===================================================================
   //===================================================================
@@ -368,7 +368,7 @@ export const DoctorClients = () => {
 
   //===================================================================
   //===================================================================
-    const [isActive, setIsActive] = useState(true)
+  const [isActive, setIsActive] = useState(true)
   //===================================================================
   //===================================================================
 
@@ -402,88 +402,88 @@ export const DoctorClients = () => {
 
   const addServices = async () => {
     setIsActive(false)
-      try {
-        const data = await request(
-          `/api/doctor/clients/service/add`,
-          "POST",
-          {
-            client: { ...client, clinica: auth.clinica._id },
-            connector: { ...connector, clinica: auth.clinica._id },
-            services: [...newservices],
-            products: [...newproducts],
-            clinica: auth && auth.clinica._id,
-            user: auth?.user,
-          },
-          {
-            Authorization: `Bearer ${auth.token}`,
-          }
-        );
-        notify({
-          title: data.message,
-          description: "",
-          status: "success",
-        });
-        setSelectedServices(null);
-        setConnector({})
-        setClient({})
-        setModal(false);
-        getDoctorClients(beginDay, endDay)
-        setNewProducts([])
-        setNewServices([])
-        setVisible(false);
-        setTimeout(() => {
-          setIsActive(true)
+    try {
+      const data = await request(
+        `/api/doctor/clients/service/add`,
+        "POST",
+        {
+          client: { ...client, clinica: auth.clinica._id },
+          connector: { ...connector, clinica: auth.clinica._id },
+          services: [...newservices],
+          products: [...newproducts],
+          clinica: auth && auth.clinica._id,
+          user: auth?.user,
+        },
+        {
+          Authorization: `Bearer ${auth.token}`,
+        }
+      );
+      notify({
+        title: data.message,
+        description: "",
+        status: "success",
+      });
+      setSelectedServices(null);
+      setConnector({})
+      setClient({})
+      setModal(false);
+      getDoctorClients(beginDay, endDay)
+      setNewProducts([])
+      setNewServices([])
+      setVisible(false);
+      setTimeout(() => {
+        setIsActive(true)
       }, 5000)
-      } catch (error) {
-        notify({
-          title: t(error),
-          description: "",
-          status: "error",
-        });
-      }
+    } catch (error) {
+      notify({
+        title: t(error),
+        description: "",
+        status: "error",
+      });
     }
+  }
 
   const addServiceStatsionar = async () => {
     setIsActive(false)
-      try {
-        const data = await request(
-          `/api/doctor/clients/statsionar/service/add`,
-          "POST",
-          {
-            client: { ...client, clinica: auth.clinica._id },
-            connector: { ...connector, clinica: auth.clinica._id },
-            services: [...newservices],
-            products: [...newproducts],
-            clinica: auth && auth.clinica._id
-          },
-          {
-            Authorization: `Bearer ${auth.token}`,
-          }
-        );
-        notify({
-          title: data.message,
-          description: "",
-          status: "success",
-        });
-        setSelectedServices(null);
-        setConnector({})
-        setClient({})
-        setModal(false);
-        getStatsionarClients(beginDay, endDay)
-        setNewProducts([])
-        setNewServices([])
-        setVisible(false);
-        setTimeout(() => {
-          setIsActive(true)
+    try {
+      const data = await request(
+        `/api/doctor/clients/statsionar/service/add`,
+        "POST",
+        {
+          client: { ...client, clinica: auth.clinica._id },
+          connector: { ...connector, clinica: auth.clinica._id },
+          services: [...newservices],
+          products: [...newproducts],
+          clinica: auth && auth.clinica._id
+        },
+        {
+          Authorization: `Bearer ${auth.token}`,
+        }
+      );
+      notify({
+        title: data.message,
+        description: "",
+        status: "success",
+      });
+      setSelectedServices(null);
+      setConnector({})
+      setClient({})
+      setModal(false);
+      getStatsionarClients(beginDay, endDay)
+      setNewProducts([])
+      setNewServices([])
+      setVisible(false);
+      setTimeout(() => {
+        setIsActive(true)
       }, 5000)
-      } catch (error) {
-        notify({
-          title: t(error),
-          description: "",
-          status: "error",
-        });
-      }
+    } catch (error) {
+      notify({
+        title: t(error),
+        description: "",
+        status: "error",
+      });
     }
+  }
 
   //===================================================================
   //===================================================================
@@ -496,9 +496,9 @@ export const DoctorClients = () => {
     (e) => {
       const searching = [...searchStorage].filter((item) => {
         console.log(item);
-        return  (item.client.firstname + item.client.lastname) 
-        .toLowerCase()
-        .includes(e.target.value.toLowerCase())
+        return (item.client.firstname + item.client.lastname)
+          .toLowerCase()
+          .includes(e.target.value.toLowerCase())
       });
       setDoctorClients(searching);
       setCurrentDoctorClients(searching.slice(0, countPage));
@@ -771,7 +771,7 @@ export const DoctorClients = () => {
 
   const changeAccept = (e) => {
 
-    let searching = [] 
+    let searching = []
 
     if (e.target.value === 'accept') {
       searching = [...searchStorage].filter(connector => [...connector.services].some(service => service.department._id === auth?.user?.specialty?._id && !service.department.probirka && service.accept))
@@ -785,6 +785,24 @@ export const DoctorClients = () => {
 
     setDoctorClients(searching);
     setCurrentDoctorClients(searching.slice(0, countPage));
+  }
+
+  //=====================================================================
+  //=====================================================================
+
+  const sortData = (isSort, setIsSort) => {
+    if (!isSort) {
+      setDoctorClients([...searchStorage].filter(connector => connector.services.filter(service => service.department._id === auth?.user?.specialty?._id && !service.department.probirka && service.accept).length < 1).sort((a, b) => a.services.filter(s => s.department._id === auth?.user?.specialty?._id)[0].turn - b.services.filter(s => s.department._id === auth?.user?.specialty?._id)[0].turn));
+      setCurrentDoctorClients(
+        [...searchStorage].filter(connector => connector.services.filter(service => service.department._id === auth?.user?.specialty?._id && !service.department.probirka && service.accept).length < 1).sort((a, b) => a.services.filter(s => s.department._id === auth?.user?.specialty?._id)[0].turn - b.services.filter(s => s.department._id === auth?.user?.specialty?._id)[0].turn).slice(0, countPage)
+      );
+    } else {
+      setDoctorClients([...searchStorage].filter(connector => connector.services.filter(service => service.department._id === auth?.user?.specialty?._id && !service.department.probirka && service.accept).length < 1).sort((a, b) => b.services.filter(s => s.department._id === auth?.user?.specialty?._id)[0].turn - a.services.filter(s => s.department._id === auth?.user?.specialty?._id)[0].turn));
+      setCurrentDoctorClients(
+        [...searchStorage].filter(connector => connector.services.filter(service => service.department._id === auth?.user?.specialty?._id && !service.department.probirka && service.accept).length < 1).sort((a, b) => b.services.filter(s => s.department._id === auth?.user?.specialty?._id)[0].turn - a.services.filter(s => s.department._id === auth?.user?.specialty?._id)[0].turn).slice(0, countPage)
+      );
+    }
+    setIsSort(!isSort)
   }
 
   //=====================================================================
@@ -1004,6 +1022,7 @@ export const DoctorClients = () => {
               </div>
             </div>
             <TableClients
+            sortData={sortData}
               changeAccept={changeAccept}
               getClientsByName={getClientsByName}
               changeStart={changeStart}
