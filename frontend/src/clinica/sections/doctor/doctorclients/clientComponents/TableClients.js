@@ -62,7 +62,7 @@ export const TableClients = ({
       return ""
     }
   }
-
+  
   return (
     <div className="border-0 shadow-lg table-container">
       <div className="border-0 table-container">
@@ -188,6 +188,9 @@ export const TableClients = ({
                   {t("Kelgan vaqti")}
                 </th>
                 <th className="border bg-alotrade text-[16px] py-1">
+                  {t("Navbat")}
+                </th>
+                <th className="border bg-alotrade text-[16px] py-1">
                   {t("ID")}
                 </th>
                 <th className="border bg-alotrade text-[16px] py-1">
@@ -231,7 +234,10 @@ export const TableClients = ({
                         {connector.client.firstname} {connector.client.lastname}
                       </td>
                       <td className="border text-[16px] py-1 text-right">
-                        {new Date(connector?.connector?.createdAt).toLocaleDateString('ru-RU')} {new Date(connector?.connector?.createdAt).toLocaleTimeString('ru-RU')}
+                        {new Date(connector?.connector?.createdAt).toLocaleDateString('ru-RU')} {new Date([...connector?.services].filter(service => service.department._id === user.specialty._id).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0].createdAt).toLocaleTimeString('ru-RU')}
+                      </td>
+                      <td className="border text-[16px] py-1 text-right">
+                        {[...connector?.services].filter(service => service.department._id === user.specialty._id)[0].turn}
                       </td>
                       <td className="border text-[16px] py-1 text-right">
                         {connector.client.id}

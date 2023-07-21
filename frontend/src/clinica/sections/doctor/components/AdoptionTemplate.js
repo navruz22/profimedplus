@@ -530,10 +530,6 @@ const DoctorTemplate = ({ client, connector, services, clientsType, baseUrl }) =
                         setTemplateModal(false)
                         }
                       }
-                      // ariaLiveMessages={{
-                      //   onFocus: onFocusHandler,
-                      // }}
-                      // onBlur={e => console.log(e)}
                       components={{ Option: CustomMenuWithInput }}
                       onHover={handleOnHover}
                       outHover={() => setTemplateModal(false)}
