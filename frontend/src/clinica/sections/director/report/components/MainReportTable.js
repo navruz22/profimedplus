@@ -34,7 +34,8 @@ export const MainReportTable = ({
     searchStorage,
     expenseTotal,
     beginDay,
-    endDay
+    endDay,
+    expenses
 }) => {
     const {t} = useTranslation()
     // const setPosition = (connector) => {
@@ -264,11 +265,25 @@ export const MainReportTable = ({
                                     className={`py-1 font-weight-bold text-[16px]`}
                                 >
                                     <div className="flex justify-between">
-                                        <div>{t("Qoldiq")}: {searchStorage.reduce((prev, connector) => prev + (connector.payment < 0 ? 0 : connector?.payment), 0) - expenseTotal
-                                        + searchStorage.reduce((prev, el) => prev + (el?.payment < 0 ? el?.payment : 0), 0)
-                                        }</div>
                                         <div>
-                                            {t("Xarajat")}: {expenseTotal}
+                                            <div>
+                                                {t("Qoldiq")}: {searchStorage.reduce((prev, connector) => prev + (connector.payment < 0 ? 0 : connector?.payment), 0) - expenseTotal}
+                                            </div>
+                                            <div>
+                                                {t("Naqt")}: {searchStorage.reduce((prev, el) => prev + el.cash, 0) - expenses.reduce((prev, expense) => prev + (expense.type === 'cash' && expense.total), 0)}
+                                            </div>
+                                            <div>
+                                                {t("Plastik")}: {searchStorage.reduce((prev, el) => prev + el.card, 0) - expenses.reduce((prev, expense) => prev + (expense.type === 'card' && expense.total), 0)}
+                                            </div>
+                                            <div>
+                                                {t("O'tkazma")}: {searchStorage.reduce((prev, el) => prev + el.transfer, 0) - expenses.reduce((prev, expense) => prev + (expense.type === 'transfer' && expense.total), 0)}
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div>{t("Xarajat")}: {expenseTotal}</div>
+                                            <div>{t("Naqt")}: {expenses.reduce((prev, expense) => prev + (expense.type === 'cash' && expense.total), 0)}</div>
+                                            <div>{t("Plastik")}: {expenses.reduce((prev, expense) => prev + (expense.type === 'card' && expense.total), 0)}</div>
+                                            <div>{t("O'tkazma")}: {expenses.reduce((prev, expense) => prev + (expense.type === 'transfer' && expense.total), 0)}</div>
                                         </div>
                                     </div>
                                 </td>

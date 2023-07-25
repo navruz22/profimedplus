@@ -28,6 +28,8 @@ export const DoctorClients = () => {
   //====================================================================
   //====================================================================
 
+  const [isAddConnector, setIsAddConnector] = useState(false)
+
   //====================================================================
   //====================================================================
   // RegisterPage
@@ -479,6 +481,45 @@ export const DoctorClients = () => {
     } catch (error) {
       notify({
         title: t(error),
+        description: "",
+        status: "error",
+      });
+    }
+  }
+
+  const addConnectorHandler = async () => {
+    setIsActive(false)
+    try {
+      const data = await request(
+        `/api/offlineclient/client/connector/add`,
+        "POST",
+        {
+          client: { ...client, clinica: auth.clinica._id },
+          connector: { probirka: connector?.probirka, clinica: auth.clinica._id },
+          services: [...newservices],
+          products: [...newproducts],
+          // counterdoctor: counterdoctor,
+          // adver: { ...adver, clinica: auth.clinica._id },
+        },
+        {
+          Authorization: `Bearer ${auth.token}`,
+        }
+      );
+      setSelectedServices(null);
+      setConnector({})
+      setClient({})
+      setModal(false);
+      getDoctorClients(beginDay, endDay)
+      setNewProducts([])
+      setNewServices([])
+      setVisible(false);
+      setIsAddConnector(false)
+      setTimeout(() => {
+        setIsActive(true)
+      }, 5000)
+    } catch (error) {
+      notify({
+        title: t(`${error}`),
         description: "",
         status: "error",
       });
@@ -1022,7 +1063,7 @@ export const DoctorClients = () => {
               </div>
             </div>
             <TableClients
-            sortData={sortData}
+              sortData={sortData}
               changeAccept={changeAccept}
               getClientsByName={getClientsByName}
               changeStart={changeStart}
@@ -1046,6 +1087,10 @@ export const DoctorClients = () => {
               getClientsByBorn={getClientsByBorn}
               user={auth?.user}
               getClientsById={getClientsById}
+              setIsAddConnector={setIsAddConnector}
+              setSelectedServices={setSelectedServices}
+              setNewServices={setNewServices}
+              setNewProducts={setNewProducts}
             />
           </div>
         </div>
@@ -1054,7 +1099,7 @@ export const DoctorClients = () => {
         modal={modal}
         text={t("ma'lumotlar to'g'ri kiritilganligini tasdiqlaysizmi?")}
         setModal={setModal}
-        handler={isActive && handleAdd}
+        handler={isActive && isAddConnector ? addConnectorHandler : isActive && handleAdd}
         basic={client.lastname + " " + client.firstname}
       />
     </>

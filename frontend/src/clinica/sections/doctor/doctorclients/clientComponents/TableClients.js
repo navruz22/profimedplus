@@ -8,6 +8,7 @@ import {
   faPlus,
   faSearch,
   faArrowsUpDown,
+  faRotate,
 } from "@fortawesome/free-solid-svg-icons";
 import { Sort } from "./Sort";
 import { Pagination } from "../../components/Pagination";
@@ -45,10 +46,14 @@ export const TableClients = ({
   user,
   getClientsByName,
   getClientsById,
-  sortData
+  sortData,
+  setIsAddConnector,
+  setSelectedServices,
+  setNewServices,
+  setNewProducts
 }) => {
 
-  const {t} = useTranslation()
+  const { t } = useTranslation()
 
   const history = useHistory();
   const [clientBorn, setClientBorn] = useState('')
@@ -66,7 +71,7 @@ export const TableClients = ({
     }
   }
 
-  
+
   return (
     <div className="border-0 shadow-lg table-container">
       <div className="border-0 table-container">
@@ -280,6 +285,27 @@ export const TableClients = ({
                           </button>
                         ) : (
                           <button
+                            onClick={() => {
+                              setClient(connector.client)
+                              setConnector(connector.connector)
+                              setVisible(true)
+                              setIsAddConnector(true)
+                              setSelectedServices(null)
+                              setNewServices([])
+                              setNewProducts([])
+                            }}
+                            className="btn btn-success bg-orange-500 border-orange-500 py-0"
+                          >
+                            <FontAwesomeIcon icon={faRotate} />
+                          </button>
+                        )}
+                        {loading ? (
+                          <button className="btn btn-success" disabled>
+                            <span className="spinner-border spinner-border-sm"></span>
+                            Loading...
+                          </button>
+                        ) : (
+                          <button
                             onClick={() =>
                               history.push("/alo24/adoption", { ...connector, clientsType, user })
                             }
@@ -298,7 +324,11 @@ export const TableClients = ({
                             onClick={() => {
                               setClient(connector.client)
                               setConnector(connector.connector)
+                              setIsAddConnector(false)
                               setVisible(true)
+                              setSelectedServices(null)
+                              setNewServices([])
+                              setNewProducts([])
                             }}
                             className="btn btn-success py-0"
                           >

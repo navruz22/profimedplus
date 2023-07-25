@@ -466,7 +466,7 @@ module.exports.addConnector = async (req, res) => {
 
         if (checkOfflineConnector) {
             return res.status(400).json({
-                error: error.message,
+                error: checkOfflineConnector.message,
             })
         }
 
@@ -626,7 +626,7 @@ module.exports.addConnector = async (req, res) => {
         newconnector.totalprice = totalprice
         await newconnector.save()
 
-        if (adver.adver) {
+        if (adver && adver.adver) {
             const newadver = new OfflineAdver({
                 client: client._id,
                 connector: newconnector._id,

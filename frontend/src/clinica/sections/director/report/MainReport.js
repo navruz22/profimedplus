@@ -124,6 +124,7 @@ const MainReport = () => {
   //====================================================================
 
   const [expenseTotal, setExpenseTotal] = useState(0)
+  const [expenses, setExpenses] = useState([])
 
   const getExpenseTotal = useCallback(async (beginDay, endDay, clinica) => {
     try {
@@ -136,6 +137,7 @@ const MainReport = () => {
         },
       )
       setExpenseTotal(data.total);
+      setExpenses(data.expenses)
     } catch (error) {
       notify({
         title: t(`${error}`),
@@ -430,6 +432,7 @@ const MainReport = () => {
               expenseTotal={expenseTotal}
               beginDay={beginDay}
               endDay={endDay}
+              expenses={expenses}
             />
           </div>
         </div>

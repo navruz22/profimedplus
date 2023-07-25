@@ -106,7 +106,7 @@ module.exports.getTotal = async (req, res) => {
 
         const total = expenses.reduce((prev, el) => prev + el.total, 0);
 
-        res.status(200).json({ total });
+        res.status(200).json({ total, expenses });
     } catch (error) {
         console.log(error);
         res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
