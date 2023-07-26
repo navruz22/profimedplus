@@ -267,7 +267,7 @@ export const MainReportTable = ({
                                     <div className="flex justify-between">
                                         <div>
                                             <div>
-                                                {t("Qoldiq")}: {searchStorage.reduce((prev, connector) => prev + (connector.payment < 0 ? 0 : connector?.payment), 0) - expenseTotal}
+                                                {t("Qoldiq")}: {searchStorage.reduce((prev, connector) => prev + connector.payment, 0) - expenseTotal}
                                             </div>
                                             <div>
                                                 {t("Naqt")}: {searchStorage.reduce((prev, el) => prev + el.cash, 0) - expenses.reduce((prev, expense) => prev + (expense.type === 'cash' && expense.total), 0)}
