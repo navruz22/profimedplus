@@ -8,8 +8,13 @@ import { TableClients } from "./clientComponents/TableClients";
 import { checkClientData, checkProductsData, checkServicesData, } from "./checkData/checkData";
 import { CheckModal } from "../components/ModalCheck";
 import { useTranslation } from "react-i18next";
+import { useHistory, useLocation } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPenAlt, faRotate } from "@fortawesome/free-solid-svg-icons";
+import { DatePickers } from "./clientComponents/DatePickers";
+import { Pagination } from "../components/Pagination";
 
-export const OnlineClients = () => {
+export const OnlineClientsDoctor = () => {
     const [beginDay, setBeginDay] = useState(
         new Date(new Date().setUTCHours(0, 0, 0, 0))
     );
@@ -18,13 +23,20 @@ export const OnlineClients = () => {
     );
     //====================================================================
     //====================================================================
+
+    const { state: { doctor } } = useLocation()
+
+    const history = useHistory()
+
+    //====================================================================
+    //====================================================================
     // MODAL
     const [modal, setModal] = useState(false);
     const [modal1, setModal1] = useState(false);
     const [modal2, setModal2] = useState(false);
     //====================================================================
     //====================================================================
-    const {t} = useTranslation()
+    const { t } = useTranslation()
     //====================================================================
     //====================================================================
     // RegisterPage
@@ -86,9 +98,9 @@ export const OnlineClients = () => {
         async (beginDay, endDay) => {
             try {
                 const data = await request(
-                    `/api/onlineclient/client/getdoctors`,
+                    `/api/onlineclient/client/getall`,
                     "POST",
-                    { clinica: auth && auth.clinica._id, beginDay, endDay },
+                    { clinica: auth && auth.clinica._id, department: doctor?.specialty?._id, beginDay, endDay },
                     {
                         Authorization: `Bearer ${auth.token}`,
                     }
@@ -115,27 +127,35 @@ export const OnlineClients = () => {
     //====================================================================
     // SEARCH
     const searchFullname = (e) => {
-            const searching = searchStorage.filter((item) =>
-                (item.firstname + item.lastname)
-                    .toLowerCase()
-                    .includes(e.target.value.toLowerCase())
-            );
-            setConnectors(searching);
-            setCurrentConnectors(searching.slice(0, countPage));
-        }
+        const searching = searchStorage.filter((item) =>
+            (item.firstname + item.lastname)
+                .toLowerCase()
+                .includes(e.target.value.toLowerCase())
+        );
+        setConnectors(searching);
+        setCurrentConnectors(searching.slice(0, countPage));
+    }
+
+    const searchPhone = (e) => {
+        const searching = searchStorage.filter((item) =>
+            item.phone
+                .toLowerCase()
+                .includes(e.target.value.toLowerCase())
+        );
+        setConnectors(searching);
+        setCurrentConnectors(searching.slice(0, countPage));
+    }
     //====================================================================
     //====================================================================
 
     //====================================================================
     //====================================================================
-    const setPageSize = useCallback(
+    const setPageSize =
         (e) => {
             setCurrentPage(0);
             setCountPage(e.target.value);
             setCurrentConnectors(connectors.slice(0, countPage));
-        },
-        [countPage, connectors]
-    );
+        }
     //====================================================================
     //====================================================================
 
@@ -269,6 +289,7 @@ export const OnlineClients = () => {
             });
             clearDatas();
             setVisible(false);
+            setModal(false)
         } catch (error) {
             notify({
                 title: t(`${error}`),
@@ -338,6 +359,7 @@ export const OnlineClients = () => {
         }
     }, [request, auth, notify]);
 
+
     //====================================================================
     //====================================================================
     // useEffect
@@ -346,19 +368,23 @@ export const OnlineClients = () => {
     useEffect(() => {
         if (auth.clinica && !s) {
             setS(1);
-            getConnectors(beginDay, endDay);
             getDepartments();
             getBaseUrl();
         }
     }, [
         auth,
-        getConnectors, 
         s,
         getDepartments,
         getBaseUrl,
         beginDay,
         endDay,
     ]);
+
+    useEffect(() => {
+        if (doctor) {
+            getConnectors(beginDay, endDay);
+        }
+    }, [getConnectors])
 
     //====================================================================
     //====================================================================
@@ -399,28 +425,146 @@ export const OnlineClients = () => {
                                 clientDate={clientDate}
                             />
                         </div>
-                        <TableClients
-                            setVisible={setVisible}
-                            modal1={modal1}
-                            setModal1={setModal1}
-                            changeStart={changeStart}
-                            changeEnd={changeEnd}
-                            setClient={setClient}
-                            searchFullname={searchFullname}
-                            connectors={connectors}
-                            // setModal={setModal}
-                            setConnectors={setConnectors}
-                            // setConnector={setConnector}
-                            setCurrentPage={setCurrentPage}
-                            countPage={countPage}
-                            setCountPage={setCountPage}
-                            currentConnectors={currentConnectors}
-                            setCurrentConnectors={setCurrentConnectors}
-                            currentPage={currentPage}
-                            setPageSize={setPageSize}
-                            loading={loading}
-                            setModal2={setModal2}
-                        />
+                        <div className="border-0 table-container">
+                            <div className="border-0 table-container">
+                                <div className="table-responsive">
+                                    <div className="bg-white flex items-center p-2 gap-4">
+                                        <div>
+                                            <select
+                                                className="form-control form-control-sm selectpicker"
+                                                placeholder="Bo'limni tanlang"
+                                                onChange={setPageSize}
+                                                style={{ minWidth: "50px" }}
+                                            >
+                                                <option value={10}>10</option>
+                                                <option value={25}>25</option>
+                                                <option value={50}>50</option>
+                                                <option value={100}>100</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <input
+                                                onChange={searchFullname}
+                                                style={{ maxWidth: "100px", minWidth: "100px" }}
+                                                type="search"
+                                                className="w-100 form-control form-control-sm selectpicker"
+                                                placeholder={t("F.I.O")}
+                                            />
+                                        </div>
+                                        <div>
+                                            <input
+                                                onChange={searchPhone}
+                                                style={{ maxWidth: "100px", minWidth: "100px" }}
+                                                type="search"
+                                                className="w-100 form-control form-control-sm selectpicker"
+                                                placeholder={t("Tel")}
+                                            />
+                                        </div>
+                                        <div className="text-center ml-auto">
+                                            <Pagination
+                                                setCurrentDatas={setCurrentConnectors}
+                                                datas={connectors}
+                                                setCurrentPage={setCurrentPage}
+                                                countPage={countPage}
+                                                totalDatas={connectors.length}
+                                            />
+                                        </div>
+                                        <div
+                                            className="text-center flex gap-2"
+                                            style={{ maxWidth: "300px", overflow: "hidden" }}
+                                        >
+                                            <DatePickers changeDate={changeStart} />
+                                            <DatePickers changeDate={changeEnd} />
+                                        </div>
+                                    </div>
+                                    <table className="table m-0">
+                                        <thead>
+                                            <tr>
+                                                <th className="border py-1 bg-alotrade text-[16px]">№</th>
+                                                <th className="border py-1 bg-alotrade text-[16px]">
+                                                    {t("F.I.O")}
+                                                </th>
+                                                <th className="border py-1 bg-alotrade text-[16px]">
+                                                    {t("Tel")}
+                                                </th>
+                                                <th className="border py-1 bg-alotrade text-[16px]">
+                                                    {t("Kelish vaqti")}
+                                                </th>
+                                                <th className="border py-1 bg-alotrade text-[16px]">
+                                                    {t("O'tkazish")}
+                                                </th>
+                                                <th className="border py-1 bg-alotrade text-[16px]">
+                                                    {t("Qo'shish")}
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {currentConnectors.map((connector, key) => {
+                                                return (
+                                                    <tr key={key}>
+                                                        <td
+                                                            className="border py-1 font-weight-bold text-right"
+                                                            style={{ maxWidth: "30px !important" }}
+                                                        >
+                                                            {currentPage * countPage + key + 1}
+                                                        </td>
+                                                        <td className="border py-1 font-weight-bold text-[16px]">
+                                                            {connector.lastname +
+                                                                " " +
+                                                                connector.firstname}
+                                                        </td>
+                                                        <td className="border py-1 text-right text-[16px]">
+                                                            +998{connector?.phone}
+                                                        </td>
+                                                        <td className="border py-1 text-right text-[16px]">
+                                                            {new Date(connector?.brondate).toLocaleDateString('RU-ru')} {new Date(connector?.brondate).toLocaleTimeString('RU-ru')}
+                                                        </td>
+                                                        <td className="border py-1 text-center">
+                                                            {loading ? (
+                                                                <button className="btn btn-success" disabled>
+                                                                    <span className="spinner-border spinner-border-sm"></span>
+                                                                    Loading...
+                                                                </button>
+                                                            ) : (
+                                                                <button
+                                                                    className="btn btn-success py-0"
+                                                                    onClick={() => {
+                                                                        history.push('/alo24', {
+                                                                            onlineclient: connector
+                                                                        })
+                                                                    }}
+                                                                >
+                                                                    <FontAwesomeIcon icon={faRotate} />
+                                                                </button>
+                                                            )}
+                                                        </td>
+                                                        <td className="border py-1 text-center">
+                                                            {loading ? (
+                                                                <button className="btn btn-success" disabled>
+                                                                    <span className="spinner-border spinner-border-sm"></span>
+                                                                    Loading...
+                                                                </button>
+                                                            ) : (
+                                                                <button
+                                                                    className="btn btn-success py-0"
+                                                                    onClick={() => {
+                                                                        setClient({ ...client, ...connector })
+                                                                        setClientDate(connector.brondate.slice(0, 16))
+                                                                        setVisible(true)
+                                                                    }}
+                                                                >
+                                                                    <FontAwesomeIcon icon={faPenAlt} />
+                                                                </button>
+                                                            )}
+                                                        </td>
+                                                    </tr>
+                                                );
+                                            })}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

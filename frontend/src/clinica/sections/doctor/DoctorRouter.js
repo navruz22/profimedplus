@@ -8,6 +8,7 @@ import Conclusion from "./conclusion/Conclusion";
 import DoctorProfit from "./DoctorProfit";
 import StatsionarDoctorProfit from "./StatsionarDoctorProfit";
 import DirectProfit from "./DirectProfit";
+import { OnlineClients } from "./OnlineClients";
 // import Tables from "./tables/Tables";
 
 export const DoctorRouter = () => {
@@ -37,6 +38,9 @@ export const DoctorRouter = () => {
         </Route>
         <Route path="/alo24/direct_profit">
           <DirectProfit />
+        </Route>
+        <Route path="/alo24/onlineclients">
+          <OnlineClients />
         </Route>
         <Redirect to="/alo24" />
       </Switch>

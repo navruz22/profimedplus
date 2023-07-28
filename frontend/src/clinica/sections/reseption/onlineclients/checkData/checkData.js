@@ -15,7 +15,7 @@ export const checkClientData = (client, t) => {
     };
   }
 
-  if (!client.born) {
+  if (!client.brondate) {
     return {
       title: t("Diqqat! Mijozning tug'ilgan sanasi kiritilmagan."),
       description: "",
@@ -31,46 +31,6 @@ export const checkClientData = (client, t) => {
     };
   }
 
-  if (!client.gender) {
-    return {
-      title: t("Diqqat! Mijozning jinsi tanlanmagan."),
-      description: "",
-      status: "error",
-    };
-  }
-
   return false;
 };
 
-export const checkServicesData = (services, t) => {
-  for (const service of services) {
-    if (service.pieces === "0") {
-      return {
-        title: `${t("Diqqat!")} ${service.service.name} ${t("xizmati soni 0 ko'rsatilgan.")}`,
-        description: ``,
-        status: "error",
-      };
-    }
-    if (!service.bronday) {
-      return {
-        title: t(`Diqqat! Siz xizmat vaqtini belgilamadiz`),
-        description: ``,
-        status: "error",
-      };
-    }
-  }
-  return false;
-};
-
-export const checkProductsData = (products, t) => {
-  for (const product of products) {
-    if (product.pieces === "0") {
-      return {
-        title: `${t("Diqqat!")} ${product.product.name} ${t("mahsuloti soni 0 ko'rsatilgan.")}`,
-        description: ``,
-        status: "error",
-      };
-    }
-  }
-  return false;
-};

@@ -7,31 +7,17 @@ import { useTranslation } from "react-i18next";
 const animatedComponents = makeAnimated();
 
 export const RegisterClient = ({
-  selectedServices,
-  selectedProducts,
-  updateData,
   checkData,
-  setNewServices,
-  setNewProducts,
-  newproducts,
-  newservices,
-  changeProduct,
-  changeService,
-  changeCounterAgent,
-  changeAdver,
-  setClient,
   client,
   changeClientData,
   changeClientBorn,
   departments,
-  counterdoctors,
-  advers,
-  products,
+  setModal,
   loading,
-  changeBronDay,
+  clientDate
 }) => {
 
-  const {t} = useTranslation()
+  const { t } = useTranslation()
 
   const [services, setServices] = useState([]);
   const getServices = useCallback(
@@ -89,7 +75,7 @@ export const RegisterClient = ({
                   <div className="form-group">
                     <label htmlFor="fullName">{t("Familiyasi")}</label>
                     <input
-                      value={client.lastname}
+                      value={client?.lastname || ''}
                       onChange={changeClientData}
                       type="text"
                       className="form-control form-control-sm"
@@ -103,7 +89,7 @@ export const RegisterClient = ({
                   <div className="form-group">
                     <label htmlFor="inputEmail">{t("Ismi")}</label>
                     <input
-                      defaultValue={client.firstname}
+                      value={client?.firstname || ''}
                       onChange={changeClientData}
                       type="text"
                       className="form-control form-control-sm"
@@ -114,24 +100,19 @@ export const RegisterClient = ({
                   </div>
                 </div>
                 <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                  <div className="form-group">
-                    <label htmlFor="education">{t("Otasining ismi")}</label>
-                    <input
-                      defaultValue={client.fathername}
-                      onChange={changeClientData}
-                      type="text"
-                      className="form-control form-control-sm"
-                      id="fathername"
-                      name="fathername"
-                      placeholder={t("Otasining ismi")}
-                    />
-                  </div>
-                </div>
-                <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                  <label htmlFor="education">{t("Tug'ilgan sanasi")}</label>
-                  <DatePickers
+                  <label htmlFor="education">{t("Kelish sanasi")}</label>
+                  {/* <DatePickers
                     dateFormat="dd/MM/yyyy"
                     changeDate={changeClientBorn}
+                  /> */}
+                  <input
+                    onChange={(e) => changeClientBorn(e)}
+                    type="datetime-local"
+                    name="born"
+                    className="form-control inp"
+                    placeholder=""
+                    style={{ color: '#999' }}
+                    value={clientDate}
                   />
                 </div>
                 <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
@@ -147,7 +128,7 @@ export const RegisterClient = ({
                         </span>
                       </div>
                       <input
-                        defaultValue={client.phone}
+                        value={client?.phone || ''}
                         onChange={changeClientData}
                         type="number"
                         className="form-control"
@@ -156,195 +137,15 @@ export const RegisterClient = ({
                     </div>
                   </div>
                 </div>
-                <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                  <div className="form-group">
-                    <label htmlFor="biO">{t("Jinsi")}</label>
-                    <div>
-                      <div className="custom-control custom-radio custom-control-inline">
-                        <input
-                          checked={
-                            client.gender && client.gender === "man"
-                              ? true
-                              : false
-                          }
-                          onChange={(e) => {
-                            setClient({ ...client, gender: "man" });
-                          }}
-                          type="radio"
-                          id="customRadioInline1"
-                          name="gender"
-                          className="custom-control-input"
-                        />
-                        <label
-                          className="custom-control-label"
-                          htmlFor="customRadioInline1"
-                        >
-                          {t("Erkak")}
-                        </label>
-                      </div>
-                      <div className="custom-control custom-radio custom-control-inline">
-                        <input
-                          defaultChecked={
-                            client.gender === "woman" ? true : false
-                          }
-                          onChange={(e) => {
-                            setClient({ ...client, gender: "woman" });
-                          }}
-                          type="radio"
-                          id="customRadioInline2"
-                          name="gender"
-                          className="custom-control-input"
-                        />
-                        <label
-                          className="custom-control-label"
-                          htmlFor="customRadioInline2"
-                        >
-                          {t("Ayol")}
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                  <div className="form-group">
-                    <label htmlFor="biO">{t("Fuqoroligi")}</label>
-                    <div>
-                      <div className="custom-control custom-radio custom-control-inline">
-                        <input
-                          checked={
-                            client.national && client.national === 'uzb'
-                              ? true
-                              : false
-                          }
-                          onChange={(e) => {
-                            setClient({ ...client, national: 'uzb' })
-                          }}
-                          type="radio"
-                          id="national1"
-                          name="national"
-                          className="custom-control-input"
-                        />
-                        <label
-                          className="custom-control-label"
-                          htmlFor="national1"
-                        >
-                          {t("Uzbek")}
-                        </label>
-                      </div>
-                      <div className="custom-control custom-radio custom-control-inline">
-                        <input
-                          defaultChecked={
-                            client.national === 'foreigner' ? true : false
-                          }
-                          onChange={(e) => {
-                            setClient({ ...client, national: 'foreigner' })
-                          }}
-                          type="radio"
-                          id="national2"
-                          name="national"
-                          className="custom-control-input"
-                        />
-                        <label
-                          className="custom-control-label"
-                          htmlFor="national2"
-                        >
-                          {t("Chet'ellik")}
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-12">
-                  <div className="form-group">
-                    <label htmlFor="biO">{t("Manzili")}</label>
-                    <textarea
-                      defaultValue={client.address}
-                      onChange={changeClientData}
-                      className="form-control form-control-sm"
-                      name="address"
-                      rows={1}
-                      placeholder={t("Navoiy shahar ....")}
-                    />
-                  </div>
-                </div>
-                <div className="col-sm-6 col-12">
-                  <div className="form-group">
-                    <label htmlFor="biO">{t("Kontragent")}</label>
-                    <select
-                      onChange={changeCounterAgent}
-                      className="form-control form-control-sm selectpicker"
-                      placeholder="Kontragentlarni tanlash"
-                    >
-                      <option value="delete">{t("Tanlanmagan")}</option>
-                      {counterdoctors.map((counterdoctor, index) => {
-                        return (
-                          <option
-                            key={index}
-                            value={JSON.stringify(counterdoctor)}
-                            id={counterdoctor.user}
-                          >
-                            {counterdoctor.lastname +
-                              " " +
-                              counterdoctor.firstname}
-                          </option>
-                        );
-                      })}
-                    </select>
-                  </div>
-                </div>
-                <div className="col-sm-6 col-12">
-                  <div className="form-group">
-                    <label htmlFor="biO">{t("Reklama")}</label>
-                    <select
-                      onChange={changeAdver}
-                      className="form-control form-control-sm selectpicker"
-                      placeholder={t("Reklamalarni tanlash")}
-                    >
-                      <option value="delete">{t("Tanlanmagan")}</option>
-                      {advers.map((adver, index) => {
-                        return (
-                          <option key={index} value={adver._id}>
-                            {adver.name}
-                          </option>
-                        );
-                      })}
-                    </select>
-                  </div>
-                </div>
-                {client._id ? (
-                  <div className="col-12 text-right">
-                    {loading ? (
-                      <button className="btn btn-primary" disabled>
-                        <span className="spinner-border spinner-border-sm"></span>
-                        Loading...
-                      </button>
-                    ) : (
-                      <button onClick={updateData} className="btn btn-primary">
-                        {t("Yangilash")}
-                      </button>
-                    )}
-                  </div>
-                ) : (
-                  ""
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-          <div className="card">
-            <div className="card-header">
-              <div className="card-title">{t("Xizmatlar bilan ishlash")}</div>
-            </div>
-            <div className="card-body">
-              <div className="row gutters">
                 <div className="col-12">
                   <div className="form-group">
                     <label htmlFor="fullName">{t("Bo'limlar")}</label>
                     <select
                       className="form-control form-control-sm selectpicker"
                       placeholder="Reklamalarni tanlash"
-                      onChange={(event) => getServices(event.target.value)}
+                      onChange={changeClientData}
+                      name="department"
+                      value={client?.department}
                     >
                       <option value="all"> {t("Barcha bo'limlar")}</option>
                       {departments.map((department, index) => {
@@ -357,164 +158,15 @@ export const RegisterClient = ({
                     </select>
                   </div>
                 </div>
-                <div className="col-12">
-                  <div className="form-group">
-                    <label htmlFor="inputEmail">{t("Xizmatlar")}</label>
-                    <Select
-                      value={selectedServices}
-                      onChange={changeService}
-                      closeMenuOnSelect={false}
-                      components={animatedComponents}
-                      options={services}
-                      theme={(theme) => ({
-                        ...theme,
-                        borderRadius: 0,
-                        padding: 0,
-                        height: 0,
-                      })}
-                      isMulti
-                    />
-                  </div>
-                </div>
-                <div className="col-12">
-                  <div className="form-group">
-                    <label htmlFor="inputEmail">{t("Mahsulotlar")}</label>
-                    <Select
-                      value={selectedProducts}
-                      onChange={changeProduct}
-                      closeMenuOnSelect={false}
-                      components={animatedComponents}
-                      options={products}
-                      theme={(theme) => ({
-                        ...theme,
-                        borderRadius: 0,
-                        padding: 0,
-                        height: 0,
-                      })}
-                      isMulti
-                    />
-                  </div>
-                </div>
-                <div className="col-12">
-                  <table className="table">
-                    <thead>
-                      <tr>
-                        <th className="border py-1 bg-alotrade">№</th>
-                        <th className="border py-1 bg-alotrade">{t("Nomi")}</th>
-                        <th className="border py-1 bg-alotrade">{t("Narxi")}</th>
-                        <th className="border py-1 bg-alotrade">{t("Soni")}</th>
-                        <th className="border py-1 bg-alotrade">{t("Xizmat vaqti")}</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {newservices &&
-                        newservices.map((service, index) => {
-                          return (
-                            <tr key={index}>
-                              <td className="py-1">{index + 1}</td>
-                              <td className="py-1">{service.service.name}</td>
-                              <td className="text-right py-1">
-                                {service.service.price * service.pieces}
-                              </td>
-                              <td className="text-right py-1">
-                                <input
-                                  onChange={(e) =>
-                                    setNewServices(
-                                      Object.values({
-                                        ...newservices,
-                                        [index]: {
-                                          ...newservices[index],
-                                          pieces: e.target.value,
-                                        },
-                                      })
-                                    )
-                                  }
-                                  className="text-right outline-none"
-                                  style={{ maxWidth: "50px", outline: "none" }}
-                                  defaultValue={service.pieces}
-                                  type="number"
-                                />
-                              </td>
-                              <td className=" text-right py-1">
-                                <div>
-                                  <DatePickers
-                                    timeInputLabel="Time:"
-                                    dateFormat="MM/dd/yyyy hh:mm"
-                                    showTimeInput
-                                    changeDate={(date) =>
-                                      changeBronDay(date, index)
-                                    }
-                                  />
-                                </div>
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      <tr className="border"></tr>
-                      {newproducts &&
-                        newproducts.map((product, index) => {
-                          return (
-                            <tr key={index}>
-                              <td className="py-1">{index + 1}</td>
-                              <td className="py-1">{product.product.name}</td>
-                              <td className="text-right py-1">
-                                {product.product.price * product.pieces}
-                              </td>
-                              <td className="text-right py-1">
-                                <input
-                                  onChange={(e) =>
-                                    setNewProducts(
-                                      Object.values({
-                                        ...newproducts,
-                                        [index]: {
-                                          ...newproducts[index],
-                                          pieces: e.target.value,
-                                        },
-                                      })
-                                    )
-                                  }
-                                  className="text-right outline-none"
-                                  style={{ maxWidth: "50px", outline: "none" }}
-                                  defaultValue={product.pieces}
-                                  type="number"
-                                />
-                              </td>
-                            </tr>
-                          );
-                        })}
-                    </tbody>
-                    <tfoot>
-                      <tr>
-                        <th className="text-right" colSpan={2}>
-                          {t("Jami")}:
-                        </th>
-                        <th colSpan={2}>
-                          {newservices.reduce((summa, service) => {
-                            return (
-                              summa +
-                              service.service.price * parseInt(service.pieces)
-                            );
-                          }, 0) +
-                            newproducts.reduce((summa, product) => {
-                              return (
-                                summa +
-                                product.product.price * parseInt(product.pieces)
-                              );
-                            }, 0)}
-                        </th>
-                      </tr>
-                    </tfoot>
-                  </table>
-                </div>
                 <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                   <div className="text-right">
                     {loading ? (
-                      <button className="bg-alotrade text-white py-2 px-3 rounded" disabled>
+                      <button className="bg-alotrade rounded text-white py-2 px-3" disabled>
                         <span className="spinner-border spinner-border-sm"></span>
                         Loading...
                       </button>
                     ) : (
-                      <button onClick={checkData} className="bg-alotrade text-white py-2 px-3 rounded">
+                      <button onClick={checkData} className="bg-alotrade rounded text-white py-2 px-3">
                         {t("Saqlash")}
                       </button>
                     )}
@@ -524,6 +176,7 @@ export const RegisterClient = ({
             </div>
           </div>
         </div>
+
       </div>
       {/* Row end */}
     </>

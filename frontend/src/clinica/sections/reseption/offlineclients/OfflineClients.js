@@ -13,6 +13,7 @@ import AllServices from "../components/AllServices";
 import { useTranslation } from "react-i18next";
 import Print from "../../laborotory/components/Print";
 import AllModal from "./clientComponents/AllModal";
+import { useLocation } from "react-router-dom";
 
 export const OfflineClients = () => {
     const [beginDay, setBeginDay] = useState(
@@ -31,6 +32,11 @@ export const OfflineClients = () => {
     //====================================================================
 
     const [servicesBody, setServicesBody] = useState([])
+
+    //====================================================================
+    //====================================================================
+
+    const { state } = useLocation()
 
     //====================================================================
     //====================================================================
@@ -881,6 +887,21 @@ export const OfflineClients = () => {
         beginDay,
         endDay,
     ]);
+
+
+    useEffect(() => {
+        if (state?.onlineclient) {
+            let onlineclient = state?.onlineclient
+            setClient({
+                clinica: auth.clinica && auth.clinica._id,
+                reseption: auth.user && auth.user._id,
+                firstname: onlineclient.firstname, 
+                lastname: onlineclient.lastname,
+                phone: onlineclient.phone
+            })
+            setVisible(true)
+        }
+    }, [state?.onlineclient])
 
 
     //====================================================================
