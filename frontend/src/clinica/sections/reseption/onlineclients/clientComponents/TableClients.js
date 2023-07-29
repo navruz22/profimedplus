@@ -79,13 +79,6 @@ export const TableClients = ({
                     totalDatas={connectors.length}
                   />
                 </div>
-                <div
-                  className="text-center flex gap-2"
-                  style={{ maxWidth: "300px", overflow: "hidden" }}
-                >
-                  <DatePickers changeDate={changeStart} />
-                  <DatePickers changeDate={changeEnd} />
-                </div>
           </div>
           <table className="table m-0">
             <thead>

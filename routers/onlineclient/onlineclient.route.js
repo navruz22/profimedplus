@@ -18,4 +18,8 @@ router.post('/client/getall', auth, (req, res) => {
   require('./clients.route').getClients(req, res)
 })
 
+router.post('/client/delete', auth, (req, res) => {
+  require('./clients.route').deleteClient(req, res)
+})
+
 module.exports = router

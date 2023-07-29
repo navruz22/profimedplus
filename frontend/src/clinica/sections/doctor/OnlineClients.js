@@ -1,5 +1,5 @@
 import { useToast } from "@chakra-ui/react";
-import { faPenAlt } from "@fortawesome/free-solid-svg-icons";
+import { faPenAlt, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -9,13 +9,11 @@ import { Pagination } from "../reseption/components/Pagination";
 import { checkClientData } from "../reseption/onlineclients/checkData/checkData";
 import { DatePickers } from "../reseption/onlineclients/clientComponents/DatePickers";
 import { RegisterClient } from "../reseption/onlineclients/clientComponents/RegisterClient";
-import { Modal } from "./components/Modal";
+import { Modal, Modal as Modal2 } from "./components/Modal";
 
 
 export const OnlineClients = () => {
-    const [beginDay, setBeginDay] = useState(
-        new Date(new Date().setUTCHours(0, 0, 0, 0))
-    );
+    const [beginDay, setBeginDay] = useState(new Date());
     const [endDay, setEndDay] = useState(
         new Date(new Date().setDate(new Date().getDate() + 1))
     );
@@ -81,7 +79,7 @@ export const OnlineClients = () => {
 
     //====================================================================
     //====================================================================
-
+    const [type, setType] = useState('today')
     //====================================================================
     //====================================================================
     // getConnectors
@@ -89,12 +87,12 @@ export const OnlineClients = () => {
     const [searchStorage, setSearchStrorage] = useState([]);
 
     const getConnectors = useCallback(
-        async (beginDay, endDay) => {
+        async (type) => {
             try {
                 const data = await request(
                     `/api/onlineclient/client/getall`,
                     "POST",
-                    { clinica: auth && auth.clinica._id, department: auth?.user?.specialty?._id, beginDay, endDay },
+                    { clinica: auth && auth.clinica._id, department: auth?.user?.specialty?._id, beginDay: new Date, type },
                     {
                         Authorization: `Bearer ${auth.token}`,
                     }
@@ -144,7 +142,7 @@ export const OnlineClients = () => {
 
     //====================================================================
     //====================================================================
-    const setPageSize = 
+    const setPageSize =
         (e) => {
             setCurrentPage(0);
             setCountPage(e.target.value);
@@ -160,7 +158,7 @@ export const OnlineClients = () => {
     const [client, setClient] = useState({
         clinica: auth.clinica && auth.clinica._id,
         reseption: auth.user && auth.user._id,
-        department: auth?.user?.specialty?._id 
+        department: auth?.user?.specialty?._id
     });
 
     const changeClientData = (e) => {
@@ -217,7 +215,7 @@ export const OnlineClients = () => {
                 description: "",
                 status: "success",
             });
-            getConnectors(beginDay, endDay)
+            getConnectors(type)
             setModal(false);
             clearDatas();
             setVisible(false);
@@ -254,7 +252,7 @@ export const OnlineClients = () => {
                     Authorization: `Bearer ${auth.token}`,
                 }
             );
-            getConnectors(beginDay, endDay);
+            getConnectors(type);
             notify({
                 title: `${data.lastname + " " + data.firstname
                     }  ${t("ismli mijoz ma'lumotlari muvaffaqqiyatl yangilandi.")}`,
@@ -282,6 +280,46 @@ export const OnlineClients = () => {
         endDay,
     ]);
 
+    const deleteHandler = useCallback(async () => {
+        try {
+            const data = await request(
+                `/api/onlineclient/client/delete`,
+                "POST",
+                {
+                    id: client._id,
+                },
+                {
+                    Authorization: `Bearer ${auth.token}`,
+                }
+            );
+            getConnectors(type);
+            notify({
+                title: `${data.lastname + " " + data.firstname
+                    }  ${t("ismli mijoz ma'lumotlari muvaffaqqiyatl yangilandi.")}`,
+                description: "",
+                status: "success",
+            });
+            clearDatas();
+            setVisible(false);
+            setModal2(false)
+        } catch (error) {
+            notify({
+                title: t(`${error}`),
+                description: "",
+                status: "error",
+            });
+        }
+    }, [
+        auth,
+        client,
+        notify,
+        request,
+        clearDatas,
+        getConnectors,
+        beginDay,
+        endDay,
+    ]);
+
     //====================================================================
     //====================================================================
 
@@ -289,9 +327,21 @@ export const OnlineClients = () => {
     //====================================================================
     // ChangeDate
 
+    const changeType = (e) => {
+        setType(e.target.value)
+        getConnectors(e.target.value)
+    }
+
+    //====================================================================
+    //====================================================================
+    // ChangeDate
+
     const changeStart = (e) => {
-        setBeginDay(new Date(new Date(e).setUTCHours(0, 0, 0, 0)));
-        getConnectors(new Date(new Date(e).setUTCHours(0, 0, 0, 0)), endDay);
+        console.log(e);
+        setBeginDay(new Date(e));
+        const search = [...searchStorage].filter(el => new Date(el.brondate).getTime() > new Date(new Date(e).setHours(0, 0, 0, 0)).getTime() && new Date(el.brondate).getTime() < new Date(new Date(e).setHours(23, 59, 59, 0)).getTime())
+        setConnectors(search)
+        setCurrentConnectors(search)
     };
 
     const changeEnd = (e) => {
@@ -312,7 +362,7 @@ export const OnlineClients = () => {
     //====================================================================
 
     useEffect(() => {
-        getConnectors(beginDay, endDay);
+        getConnectors(type);
     }, [getConnectors])
 
     //====================================================================
@@ -379,10 +429,6 @@ export const OnlineClients = () => {
                                                 </div>
                                                 <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                                     <label htmlFor="education">{t("Kelish sanasi")}</label>
-                                                    {/* <DatePickers
-                    dateFormat="dd/MM/yyyy"
-                    changeDate={changeClientBorn}
-                  /> */}
                                                     <input
                                                         onChange={(e) => changeClientBorn(e)}
                                                         type="datetime-local"
@@ -471,6 +517,16 @@ export const OnlineClients = () => {
                                                 placeholder={t("Tel")}
                                             />
                                         </div>
+                                        <div>
+                                            <select
+                                                className="form-control form-control-sm selectpicker"
+                                                placeholder="Bo'limni tanlang"
+                                                onChange={changeType}
+                                            >
+                                                <option value={'today'}>Royxat</option>
+                                                <option value={'late'}>O'tganlar</option>
+                                            </select>
+                                        </div>
                                         <div className="text-center ml-auto">
                                             <Pagination
                                                 setCurrentDatas={setCurrentConnectors}
@@ -485,7 +541,6 @@ export const OnlineClients = () => {
                                             style={{ maxWidth: "300px", overflow: "hidden" }}
                                         >
                                             <DatePickers changeDate={changeStart} />
-                                            <DatePickers changeDate={changeEnd} />
                                         </div>
                                     </div>
                                     <table className="table m-0">
@@ -499,10 +554,13 @@ export const OnlineClients = () => {
                                                     {t("Tel")}
                                                 </th>
                                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                                    {t("Kelish vaqti")}
+                                                    {t("Kelish sanasi")}
                                                 </th>
                                                 <th className="border py-1 bg-alotrade text-[16px]">
-                                                    {t("Qo'shish")}
+                                                    {t("Tahrirlash")}
+                                                </th>
+                                                <th className="border py-1 bg-alotrade text-[16px]">
+                                                    {t("O'chirish")}
                                                 </th>
                                             </tr>
                                         </thead>
@@ -546,6 +604,24 @@ export const OnlineClients = () => {
                                                                 </button>
                                                             )}
                                                         </td>
+                                                        <td className="border py-1 text-center">
+                                                            {loading ? (
+                                                                <button className="btn btn-success" disabled>
+                                                                    <span className="spinner-border spinner-border-sm"></span>
+                                                                    Loading...
+                                                                </button>
+                                                            ) : (
+                                                                <button
+                                                                    className="btn btn-danger py-0"
+                                                                    onClick={() => {
+                                                                        setClient({ ...client, ...connector })
+                                                                        setModal2(true)
+                                                                    }}
+                                                                >
+                                                                    <FontAwesomeIcon icon={faTrash} />
+                                                                </button>
+                                                            )}
+                                                        </td>
                                                     </tr>
                                                 );
                                             })}
@@ -573,13 +649,12 @@ export const OnlineClients = () => {
                 basic={client.lastname + " " + client.firstname}
             />
 
-            {/* <Modal2
+            <Modal2
                 modal={modal2}
-                text={t("ma'lumotlar to'g'ri kiritilganligini tasdiqlaysizmi?")}
+                text={t("Malumotlarni o'chirishni tasdiqlaysizmi?")}
                 setModal={setModal2}
-                handler={PostToOffline}
-                basic={postConnector.client && postConnector.client.fullname}
-            /> */}
+                handler={client._id && deleteHandler}
+            />
         </div>
     );
 };

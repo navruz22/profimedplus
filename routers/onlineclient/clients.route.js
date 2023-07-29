@@ -59,7 +59,7 @@ module.exports.update = async (req, res) => {
 
 module.exports.getDoctors = async (req, res) => {
     try {
-        const {clinica, beginDay, endDay} = req.body;
+        const {clinica} = req.body;
 
         const clinic = await Clinica.findById(clinica)
 
@@ -85,9 +85,9 @@ module.exports.getDoctors = async (req, res) => {
             const clients = await OnlineClient.find({
                 clinica,
                 department: doctor.specialty._id,
-                createdAt: {
-                    $gte: beginDay,
-                    $lt: endDay,
+                brondate: {
+                    $gte: new Date(new Date().setHours(0, 0, 0, 0)),
+                    $lt: new Date(new Date().setHours(23, 59, 59, 0)),
                 },
             })
             doctor.clients = clients.length;
@@ -102,7 +102,7 @@ module.exports.getDoctors = async (req, res) => {
 
 module.exports.getClients = async (req, res) => {
     try {
-        const {department, clinica, beginDay, endDay} = req.body;
+        const {department, clinica, beginDay, type} = req.body;
 
         const clinic = await Clinica.findById(clinica)
 
@@ -112,18 +112,49 @@ module.exports.getClients = async (req, res) => {
             })
         }
 
-        const clients = await OnlineClient.find({
-            clinica,
-            department,
-            createdAt: {
-                $gte: beginDay,
-                $lt: endDay
-            }
-        })
-        .select('-__v -updatedAt -isArchive')
-        .lean()
+        let clients = []
+
+
+        if (type === 'late') {
+            clients = await OnlineClient.find({
+                clinica,
+                department,
+                brondate: {
+                    $lte: beginDay
+                }
+            })
+            .select('-__v -updatedAt -isArchive')
+            .lean()
+        } else {
+            clients = await OnlineClient.find({
+                clinica,
+                department,
+                brondate: {
+                    $gte: beginDay
+                }
+            })
+            .select('-__v -updatedAt -isArchive')
+            .lean()
+        }
 
         res.status(200).json(clients)
+    } catch (error) {
+        console.log(error);
+        res.status(501).json({error: 'Serverda xatolik yuz berdi...'})
+    }
+}
+
+module.exports.deleteClient = async (req, res) => {
+    try {
+        const {
+            id
+        } = req.body
+        //=========================================================
+        
+
+        await OnlineClient.findByIdAndDelete(id)
+        
+        res.status(201).send({message: "Mijoz o'chirildi"})
     } catch (error) {
         console.log(error);
         res.status(501).json({error: 'Serverda xatolik yuz berdi...'})
