@@ -95,7 +95,7 @@ export const Check = ({ baseUrl, clinica, connector, qr, user }) => {
                   />
                   <br />
                   <p className="pr-3 mr-1 mb-0 " style={{ fontSize: '11pt' }}>
-                    {t("Bu yerni skanerlang")}
+                    {t("Ushbu QR kod faqat tahlil natijalarini olish uchun!")}
                   </p>
                 </td>
               </tr>

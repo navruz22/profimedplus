@@ -223,6 +223,9 @@ export const SmallCheck = ({ baseUrl, clinica, connector, qr, user, smallCheckTy
                 <div className="mt-4 w-full flex justify-center">
                     <img width="150" src={qr && qr} alt="QR" />
                 </div>
+                <div className="mt-2">
+                    <p className="text-center font-bold">Ushbu QR kod faqat tahlil natijalarini olish uchun!</p>
+                </div>
                 <div className="w-full h-[5px] mt-[5cm] border-2 border-[#000]">
                 </div>
             </div>

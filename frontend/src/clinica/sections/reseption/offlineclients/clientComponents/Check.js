@@ -70,7 +70,7 @@ export const Check = ({ connector, qr, clinica, baseUrl }) => {
                   />
                   <br />
                   <p className="pr-3 mr-1 mb-0 " style={{ fontSize: '11pt' }}>
-                    Bu yerni skanerlang
+                    Ushbu QR kod faqat tahlil natijalarini olish uchun!
                   </p>
                 </td>
               </tr>
