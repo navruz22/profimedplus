@@ -108,11 +108,11 @@ export const DoctorClients = () => {
             Authorization: `Bearer ${auth.token}`,
           }
         );
-        setDoctorClients([...data].filter(connector => connector.services.filter(service => service.department._id === auth?.user?.specialty?._id && !service.department.probirka && service.accept).length < 1).sort((a, b) => b.services.filter(s => s.department._id === auth?.user?.specialty?._id)[0].turn - a.services.filter(s => s.department._id === auth?.user?.specialty?._id)[0].turn));
+        let data2 = [...data].filter(connector => connector.services.filter(service => service.department._id === auth?.user?.specialty?._id && !service.department.probirka && service.accept).length < 1).sort((a, b) => b.services.filter(s => s.department._id === auth?.user?.specialty?._id)[0].turn - a.services.filter(s => s.department._id === auth?.user?.specialty?._id)[0].turn)
+        let data3 = [...data2].filter(connector => !connector.connector.step)
+        setDoctorClients(data3);
         setSearchStorage(data);
-        setCurrentDoctorClients(
-          [...data].filter(connector => connector.services.filter(service => service.department._id === auth?.user?.specialty?._id && !service.department.probirka && service.accept).length < 1).sort((a, b) => b.services.filter(s => s.department._id === auth?.user?.specialty?._id)[0].turn - a.services.filter(s => s.department._id === auth?.user?.specialty?._id)[0].turn).slice(indexFirstConnector, indexLastConnector)
-        );
+        setCurrentDoctorClients(data3);
       } catch (error) {
         notify({
           title: t(error),
@@ -754,6 +754,45 @@ export const DoctorClients = () => {
 
   //=================================================================
   //=================================================================
+
+  const saveService = async (sections, id) => {
+    try {
+      const data = await request(
+        `/api/doctor/clients/adopt`,
+        "POST",
+        {
+          services: sections,
+          connector: id
+        },
+        {
+          Authorization: `Bearer ${auth.token}`,
+        }
+      );
+      notify({
+        title: t(data.message),
+        description: "",
+        status: "success",
+      });
+      let arr = [...searchStorage].map(el => {
+        if (el.connector._id === id) {
+          el.connector.accept = true;
+        }
+        return el;
+      })
+      setSearchStorage(arr)
+      setDoctorClients(arr.filter(connector => connector.services.filter(service => service.department._id === auth?.user?.specialty?._id && !service.department.probirka && service.accept).length < 1))
+      setCurrentDoctorClients(arr.filter(connector => connector.services.filter(service => service.department._id === auth?.user?.specialty?._id && !service.department.probirka && service.accept).length < 1))
+    } catch (error) {
+      notify({
+        title: error,
+        description: "",
+        status: "error",
+      });
+    }
+  }
+
+  //=================================================================
+  //=================================================================
   const [services, setServices] = useState([])
 
   const getServices = useCallback(
@@ -810,20 +849,22 @@ export const DoctorClients = () => {
   //=====================================================================
   //=====================================================================
 
+  const [acceptType, setAcceptType] = useState('not')
+
   const changeAccept = (e) => {
 
     let searching = []
 
     if (e.target.value === 'accept') {
-      searching = [...searchStorage].filter(connector => [...connector.services].some(service => service.department._id === auth?.user?.specialty?._id && !service.department.probirka && service.accept))
+      searching = [...searchStorage].filter(el => !el.connector.step).filter(connector => [...connector.services].some(service => service.department._id === auth?.user?.specialty?._id && !service.department.probirka && service.accept))
     }
     if (e.target.value === 'not') {
-      searching = [...searchStorage].filter(connector => connector.services.filter(service => service.department._id === auth?.user?.specialty?._id && !service.department.probirka && service.accept).length < 1)
+      searching = [...searchStorage].filter(el => !el.connector.step).filter(connector => connector.services.filter(service => service.department._id === auth?.user?.specialty?._id && !service.department.probirka && service.accept).length < 1)
     }
     if (e.target.value === 'all') {
-      searching = [...searchStorage]
+      searching = [...searchStorage].filter(el => !el.connector.step)
     }
-
+    setAcceptType(e.target.value)
     setDoctorClients(searching);
     setCurrentDoctorClients(searching.slice(0, countPage));
   }
@@ -844,6 +885,61 @@ export const DoctorClients = () => {
       );
     }
     setIsSort(!isSort)
+  }
+
+  //=====================================================================
+  //=====================================================================
+
+  const [afterClients, setAfterClients] = useState([])
+
+  const getAfterClients = useCallback(
+    async () => {
+      try {
+        const data = await request(
+          `/api/offlineclient/client/after_client/get`,
+          "POST",
+          { clinica: auth && auth.clinica._id },
+          {
+            Authorization: `Bearer ${auth.token}`,
+          }
+        );
+        setAfterClients(data);
+      } catch (error) {
+        notify({
+          title: t(`${error}`),
+          description: "",
+          status: "error",
+        });
+      }
+    },
+    [request, auth, notify]
+  );
+
+  useEffect(() => {
+    getAfterClients()
+  }, [])
+
+  //=====================================================================
+  //=====================================================================
+
+  const [listType, setListType] = useState('all')
+
+  const changeListType = (listtype) => {
+    if (listtype === 'nextsteps') {
+      setListType(listtype)
+      setDoctorClients([...searchStorage].filter(item => item.connector.step).sort((a, b) => new Date(a.connector.stepDate) - new Date(b.connector.stepDate)))
+      setCurrentDoctorClients([...searchStorage].filter(item => item.connector.step).sort((a, b) => new Date(a.connector.stepDate) - new Date(b.connector.stepDate)))
+    }
+    if (listtype === 'all') {
+      setListType(listtype)
+      setDoctorClients([...searchStorage].filter(el => !el.connector.step).filter(connector => connector.services.filter(service => service.department._id === auth?.user?.specialty?._id && !service.department.probirka && service.accept).length < 1))
+      setCurrentDoctorClients([...searchStorage].filter(el => !el.connector.step).filter(connector => connector.services.filter(service => service.department._id === auth?.user?.specialty?._id && !service.department.probirka && service.accept).length < 1))
+    }
+    if (listtype === 'operation') {
+        setListType(listtype)
+        setDoctorClients([...afterClients])
+        setCurrentDoctorClients([...afterClients])
+    }
   }
 
   //=====================================================================
@@ -870,7 +966,7 @@ export const DoctorClients = () => {
       <div className="bg-slate-100 content-wrapper px-lg-5 px-3">
         <div className="row gutters">
           <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-            <div className="row">
+            {/* <div className="row">
               <div className="col-12 text-end">
                 <button
                   className={`btn bg-alotrade text-white mb-2 w-100`}
@@ -879,6 +975,44 @@ export const DoctorClients = () => {
                   {t("Malumot")}
                 </button>
               </div>
+            </div> */}
+            <div className="row justify-content-between">
+              <div className="col-3 text-end">
+                <button
+                  className={`btn bg-green-500 text-white mb-2 w-100 ${visible ? "d-none" : ""
+                    }`}
+                  onClick={changeVisible}
+                >
+                  {t("Registratsiya")}
+                </button>
+                <button
+                  className={`btn bg-green-500 text-white mb-2 w-100 ${visible ? "" : "d-none"
+                    }`}
+                  onClick={changeVisible}
+                >
+                  {t("Registratsiya")}
+                </button>
+              </div>
+              {!auth?.user?.isOne && <div className="col-6 text-end flex justify-between gap-4">
+                <button
+                  className={`btn bg-alotrade text-white mb-2 w-100`}
+                  onClick={() => changeListType('all')}
+                >
+                  {t("DASTLABKI KO'RIK")}
+                </button>
+                <button
+                  className={`btn bg-green-400 text-white mb-2 w-100`}
+                  onClick={() => changeListType('nextsteps')}
+                >
+                  {t("KO")}
+                </button>
+                <button
+                  className={`btn bg-orange-500 text-white mb-2 w-100`}
+                onClick={() => changeListType('operation')}
+                >
+                  {t("ПО")}
+                </button>
+              </div>}
             </div>
             <div className={` ${visible ? "bg-white" : "d-none"}`}>
               <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
@@ -1091,6 +1225,8 @@ export const DoctorClients = () => {
               setSelectedServices={setSelectedServices}
               setNewServices={setNewServices}
               setNewProducts={setNewProducts}
+              saveService={saveService}
+              listType={listType}
             />
           </div>
         </div>

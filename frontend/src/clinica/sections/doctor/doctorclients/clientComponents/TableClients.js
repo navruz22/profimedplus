@@ -9,6 +9,7 @@ import {
   faSearch,
   faArrowsUpDown,
   faRotate,
+  faCheck,
 } from "@fortawesome/free-solid-svg-icons";
 import { Sort } from "./Sort";
 import { Pagination } from "../../components/Pagination";
@@ -50,7 +51,9 @@ export const TableClients = ({
   setIsAddConnector,
   setSelectedServices,
   setNewServices,
-  setNewProducts
+  setNewProducts,
+  saveService,
+  listType
 }) => {
 
   const { t } = useTranslation()
@@ -62,15 +65,36 @@ export const TableClients = ({
   const [debt, setDebt] = useState(0)
   const [sort, setSort] = useState(false)
 
-  const isDebt = (payments) => {
-    const debt = payments.reduce((prev, item) => prev + item.debt, 0)
-    if (debt > 0) {
-      return 'bg-red-400'
-    } else {
-      return ""
+  // const isDebt = (payments) => {
+  //   const debt = payments.reduce((prev, item) => prev + item.debt, 0)
+  //   if (debt > 0) {
+  //     return 'bg-red-400'
+  //   } else {
+  //     return ""
+  //   }
+  // }
+
+  const setColor = (connector) => {
+    if (connector.step && !connector.accept) {
+      return 'bg-gray-400'
     }
+    if (connector.step && connector.accept) {
+      return 'bg-green-400'
+    }
+    return ''
   }
 
+  const getTurn = (connector) => {
+    
+    const data = [...doctorClients].filter(el => el.connector.step).sort((a, b) => new Date(a.connector.stepDate) - new Date(b.connector.stepDate))
+    const index = data.reduce((prev, el, ind) => {
+      if (connector?.connector?._id === el?.connector?._id) {
+        prev = ind
+      }
+      return prev;
+    }, 0)
+    return index + 1
+  }
 
   return (
     <div className="border-0 shadow-lg table-container">
@@ -157,7 +181,7 @@ export const TableClients = ({
                 />
               </div>
             </div>
-            <div
+            {/* {listType === 'all' && <div
               className="text-center"
               style={{ maxWidth: "200px" }}
             >
@@ -169,8 +193,8 @@ export const TableClients = ({
                 <option value="offline">{t("Kunduzgi")}</option>
                 <option value="statsionar">{t("Statsionar")}</option>
               </select>
-            </div>
-            <div
+            </div>} */}
+            {listType === 'all' && <div
               className="text-center"
               style={{ maxWidth: "200px" }}
             >
@@ -180,11 +204,11 @@ export const TableClients = ({
                 onChange={changeAccept}
                 defaultValue={'not'}
               >
-                <option value="all">{t("Xammasi")}</option>
+                <option value="all">{t("Hammasi")}</option>
                 <option value="accept">{t("Tasdiqlangan")}</option>
                 <option value="not">{t("Tasdiqlanmagan")}</option>
               </select>
-            </div>
+            </div>}
           </div>
           <table className="table m-0" id="discount-table">
             <thead>
@@ -217,20 +241,20 @@ export const TableClients = ({
                 {clientsType === 'statsionar' && <th className="border bg-alotrade text-[16px] py-1">
                   {t("Xonasi")}
                 </th>}
-                <th className="border bg-alotrade text-[16px] py-1">
+                {listType !== 'operation' && <th className="border bg-alotrade text-[16px] py-1">
                   {t("Tasdiqlangan")}
-                </th>
-                <th className="border bg-alotrade text-[16px] py-1 w-[12%]">
-                </th>
+                </th>}
+                {listType !== 'operation' && <th className="border bg-alotrade text-[16px] py-1 w-[12%]">
+                </th>}
               </tr>
             </thead>
             <tbody>
               {currentDoctorClients.length > 0 &&
                 currentDoctorClients.map((connector, key) => {
-                  return (
+                  return  (
                     <tr key={key}>
                       <td
-                        className={`${isDebt(connector.payments)} border text-[16px] py-1 font-weight-bold text-right`}
+                        className={`${listType === 'operation' ?  "" : setColor(connector.connector)} border text-[16px] py-1 font-weight-bold text-right`}
                         style={{ maxWidth: "30px !important" }}
                         onClick={() => {
                           const debt = connector.payments.reduce((prev, item) => prev + item.debt, 0)
@@ -243,22 +267,22 @@ export const TableClients = ({
                         {currentPage * countPage + key + 1}
                       </td>
                       <td className="border text-[16px] py-1 font-weight-bold">
-                        {connector.client.firstname} {connector.client.lastname}
+                        {listType === 'operation' ? `${connector?.firstname} ${connector?.lastname}` : `${connector?.client?.firstname} ${connector?.client?.lastname}`}
                       </td>
                       <td className="border text-[16px] py-1 text-right">
-                        {new Date(connector?.connector?.createdAt).toLocaleDateString('ru-RU')} {new Date([...connector?.services].filter(service => service.department._id === user.specialty._id).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0].createdAt).toLocaleTimeString('ru-RU')}
+                        {listType === 'operation' ? `${new Date(connector?.createdAt).toLocaleTimeString('ru-RU')}` : `${new Date(connector?.connector?.createdAt).toLocaleDateString('ru-RU')} ${new Date([...connector?.services].filter(service => service.department._id === user.specialty._id).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0].createdAt).toLocaleTimeString('ru-RU')}`}
+                      </td>
+                      <td className={`${listType === 'all' && connector.connector?.isBooking && 'bg-green-400'} border text-[16px] py-1 text-right font-bold`}>
+                      {listType === 'all' && connector.connector?.isBooking ? t('Belgilangan') : `${listType === 'operation' ? 'ПО' : connector?.connector?.step ? 'KO' : "A"} ${listType === 'operation' ? connector?.turn : (connector?.connector?.step ? getTurn(connector) : [...connector?.services].filter(service => service.department.probirka === false)[0]?.turn)}`}
                       </td>
                       <td className="border text-[16px] py-1 text-right">
-                        {[...connector?.services].filter(service => service.department._id === user.specialty._id)[0].turn}
+                        {listType === 'operation' ? connector?.id : connector?.client?.id}
                       </td>
                       <td className="border text-[16px] py-1 text-right">
-                        {connector.client.id}
+                        {listType === 'operation' ? connector?.phone : connector?.client?.phone}
                       </td>
                       <td className="border text-[16px] py-1 text-right">
-                        {connector.client.phone}
-                      </td>
-                      <td className="border text-[16px] py-1 text-right">
-                        {new Date(connector.client.born).toLocaleDateString()}
+                        {listType === 'operation' ? new Date(connector?.born).toLocaleDateString() : new Date(connector?.client?.born).toLocaleDateString()}
                       </td>
                       {clientsType === 'statsionar' && <td className="border text-[16px] py-1 text-right">
                         {new Date(connector?.connector?.createdAt).toLocaleDateString()} {new Date(connector?.connector?.createdAt).toLocaleTimeString().slice(0, 5)}
@@ -266,7 +290,7 @@ export const TableClients = ({
                       {clientsType === 'statsionar' && <td className="border text-[16px] py-1 text-right">
                         {connector?.connector?.room?.room?.type} {connector?.connector?.room?.room?.number} {connector?.connector?.room?.room?.place}
                       </td>}
-                      <td className="border text-[16px] py-1 text-right">
+                      {listType !== 'operation' && <td className="border text-[16px] py-1 text-right">
                         <div className="custom-control custom-checkbox text-center">
                           <input checked={connector?.services?.filter(service => service.department._id === user?.specialty?._id && !service.department.probirka && service.accept).length > 0 ? true : false}
                             type="checkbox"
@@ -276,9 +300,9 @@ export const TableClients = ({
                           <label className="custom-control-label"
                             htmlFor={`product${key}`}></label>
                         </div>
-                      </td>
-                      <td className="border text-[16px] py-1 text-center flex gap-[4px] items-center">
-                        {loading ? (
+                      </td>}
+                      {listType !== 'operation' && <td className="border text-[16px] py-1 text-center flex gap-[4px] items-center">
+                        {/* {loading ? (
                           <button className="btn btn-success" disabled>
                             <span className="spinner-border spinner-border-sm"></span>
                             Loading...
@@ -298,7 +322,7 @@ export const TableClients = ({
                           >
                             <FontAwesomeIcon icon={faRotate} />
                           </button>
-                        )}
+                        )} */}
                         {loading ? (
                           <button className="btn btn-success" disabled>
                             <span className="spinner-border spinner-border-sm"></span>
@@ -343,14 +367,14 @@ export const TableClients = ({
                         ) : (
                           <button
                             onClick={() =>
-                              handlePrint(connector)
+                              saveService(connector.services, connector.connector._id)
                             }
                             className="btn btn-success py-0"
                           >
-                            <FontAwesomeIcon icon={faPrint} />
+                            <FontAwesomeIcon icon={faCheck} />
                           </button>
                         )}
-                      </td>
+                      </td>}
                     </tr>
                   );
                 })}

@@ -303,3 +303,20 @@ module.exports.removeUser = async (req, res) => {
     res.status(501).json({ error: error });
   }
 };
+
+//
+module.exports.changeOne = async (req, res) => {
+  try {
+    const {isOne, userId} = req.body;
+
+    const user = await User.findById(userId);
+    user.isOne = isOne;
+    await user.save()
+
+    res.json(user);
+
+  } catch (error) {
+    console.log(error);
+    res.status(501).json({ error: error });
+  }
+}

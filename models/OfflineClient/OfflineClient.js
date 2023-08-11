@@ -16,7 +16,7 @@ const client = new Schema(
     connectors: [{ type: Schema.Types.ObjectId, ref: 'OfflineConnector' }],
     reseption: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     id: { type: Number },
-    national: {type: String, required: true}
+    national: {type: String}
   },
   {
     timestamps: true,
@@ -35,7 +35,7 @@ function validateClient(client) {
     address: Joi.string(),
     connectors: Joi.string(),
     reseption: Joi.string().required(),
-    national: Joi.string().required()
+    national: Joi.string().optional()
   })
 
   return schema.validate(client)

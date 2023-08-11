@@ -80,6 +80,10 @@ router.post('/user/remove', (req, res) => {
   require('./user.route').removeUser(req, res)
 })
 
+router.post('/user/isone', (req, res) => {
+  require('./user.route').changeOne(req, res)
+})
+
 
 // Admin
 router.post('/admin/create_admin/post', (req, res) => {

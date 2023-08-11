@@ -114,7 +114,7 @@ export const SmallCheck = ({ baseUrl, clinica, connector, qr, user, smallCheckTy
                         {connector.probirka && connector.probirka}
                     </div>
                 </div>}
-                <table className="w-full py-2">
+                {/* <table className="w-full py-2">
                     <thead className="">
                         <tr>
                             <th className="border border-black-800 text-[20px] text-center w-[33%] font-bold">{t("Bo'lim")}</th>
@@ -126,12 +126,12 @@ export const SmallCheck = ({ baseUrl, clinica, connector, qr, user, smallCheckTy
                         {departments.map((d, ind) => (
                             <tr key={ind}>
                                 <td className="border border-black-800 text-[20px] text-center font-bold">{d?.name}</td>
-                                <td className="border border-black-800 text-[20px] text-center font-bold">{d?.turn}</td>
+                                <td className="border border-black-800 text-[20px] text-center font-bold">A{d?.turn}</td>
                                 <td className="border border-black-800 text-[20px] text-center font-bold">{d?.room}</td>
                             </tr>
                         ))}
                     </tbody>
-                </table>
+                </table> */}
                 <div className="mt-4">
                     {smallCheckType === 'done' ? connector.services && connector.services.length === [...connector.services].filter(service => service?.department?.probirka).length ?
                         connector.services && connector.services.map((service, index) => service.refuse === false && (
@@ -217,9 +217,9 @@ export const SmallCheck = ({ baseUrl, clinica, connector, qr, user, smallCheckTy
                         <div>{connector && connector.payments && connector.payments.reduce((prev, el) => prev + el.payment, 0) || 0}</div>
                     </div>
                 </div>
-                <div className="mt-4" style={{ fontWeight: "bold", color: "black", fontSize: '24px', fontFamily: 'times' }}>
+                {/* <div className="mt-4" style={{ fontWeight: "bold", color: "black", fontSize: '24px', fontFamily: 'times' }}>
                     {user?.firstname + ' ' + user?.lastname}
-                </div>
+                </div> */}
                 <div className="mt-4 w-full flex justify-center">
                     <img width="150" src={qr && qr} alt="QR" />
                 </div>

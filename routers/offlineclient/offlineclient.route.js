@@ -42,4 +42,22 @@ router.post('/client/registeronline', auth, (req, res) => {
     require('./clients.route').registerOnline(req, res);
 })
 
+router.post('/client/next_step', auth, (req, res) => {
+    require('./clients.route').nextToStep(req, res)
+})
+
+router.post('/client/next_step/access', auth, (req, res) => {
+    require('./clients.route').accessNextStep(req, res)
+})
+
+// AfterClient
+
+router.post("/client/after_client/register", auth, (req, res) => {
+    require("./clients.route").registerAfter(req, res)
+})
+
+router.post("/client/after_client/get", auth, (req, res) => {
+    require("./clients.route").getAfterClients(req, res)
+})
+
 module.exports = router

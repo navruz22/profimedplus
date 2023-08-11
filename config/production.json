@@ -2,5 +2,5 @@
     "PORT":80,
     "mongoUri": "mongodb://localhost/aloMed",
     "jwtSecret": "aloMed",
-    "baseUrl":"https://alo-med.uz"
+    "baseUrl":"https://46.18.107.98"
 }

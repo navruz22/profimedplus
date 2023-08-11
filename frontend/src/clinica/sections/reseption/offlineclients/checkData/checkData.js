@@ -40,13 +40,6 @@ export const checkClientData = (client, t) => {
     }
   }
 
-  if (!client.national) {
-    return {
-      title: t('Diqqat! Mijozning fuqorosi tanlanmagan.'),
-      description: '',
-      status: 'error',
-    }
-  }
 
   return false
 }

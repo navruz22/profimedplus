@@ -117,7 +117,7 @@ export const Navbar = () => {
                                     {t("Kunduzgi")}
                                 </Link>
                             </li>
-                            <li className="nav-item">
+                            {/* <li className="nav-item">
                                 <Link
                                     className={`nav-link ${activePage === "/alo24/statsionar"
                                         ? "active-page"
@@ -132,7 +132,7 @@ export const Navbar = () => {
                                     <i className="icon-devices_other nav-icon" />
                                     {t("Statsionar")}
                                 </Link>
-                            </li>
+                            </li> */}
                             <li className="nav-item">
                                 <Link
                                     className={`nav-link ${activePage === "/alo24/online"
@@ -149,7 +149,7 @@ export const Navbar = () => {
                                     {t("Online")}
                                 </Link>
                             </li>
-                            <li className="nav-item dropdown">
+                            {/* <li className="nav-item dropdown">
                                 <Link
                                     role="button"
                                     data-toggle="dropdown"
@@ -247,7 +247,7 @@ export const Navbar = () => {
                                         </Link>
                                     </li>
                                 </ul>
-                            </li>
+                            </li> */}
                         </ul>
                         <ul className="header-actions py-1 mr-2">
                             <li className="dropdown">

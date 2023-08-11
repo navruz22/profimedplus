@@ -128,7 +128,7 @@ export const Navbar = () => {
                   {t("Shablonlar")}
                 </Link>
               </li>
-              <li className="nav-item">
+              {/* <li className="nav-item">
                 <Link
                   className={`nav-link ${activePage === "/alo24/conclusionclients" ? "active-page" : ""
                     }`}
@@ -141,7 +141,7 @@ export const Navbar = () => {
                   <i className="icon-devices_other nav-icon" />
                   {t("Xulosa berish")}
                 </Link>
-              </li>
+              </li> */}
               <li className="nav-item">
                 <Link
                   className={`nav-link ${activePage === "/alo24/doctor_profit" ? "active-page" : ""
@@ -211,7 +211,7 @@ export const Navbar = () => {
                             `${baseUrl}/api/upload/file/${user.image}`
                           }
                           alt={user.firstname + user.lastname}
-                        />
+                        />    
                       </div>
                       {user.firstname} {user.lastname}
                       <p>Reseption</p>

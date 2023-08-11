@@ -31,9 +31,12 @@ export const RegisterClient = ({
     loading,
     clientDate,
     servicetypes,
-    isAddService
+    isAddService,
+    listType,
+    connector,
+    setConnector
 }) => {
-   
+
     const { t } = useTranslation()
 
     const [isVisible, setIsVisible] = useState(false)
@@ -219,51 +222,18 @@ export const RegisterClient = ({
                                         </div>
                                     </div>
                                 </div>
-                                <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div className="col-xl-1 col-lg-1 col-md-1 col-sm-1 col-12">
                                     <div className="form-group">
-                                        <label htmlFor="biO">{t("Fuqoroligi")}</label>
                                         <div>
-                                            <div className="custom-control custom-radio custom-control-inline">
-                                                <input
-                                                    checked={
-                                                        client.national && client.national === 'uzb'
-                                                            ? true
-                                                            : false
-                                                    }
-                                                    onChange={(e) => {
-                                                        setClient({ ...client, national: 'uzb' })
-                                                    }}
-                                                    type="radio"
-                                                    id="national1"
-                                                    name="national"
-                                                    className="custom-control-input"
+                                            <div className="custom-control custom-checkbox text-center">
+                                                <input checked={connector?.isBooking || false}
+                                                    type="checkbox"
+                                                    onChange={() => setConnector({...connector, isBooking: !connector.isBooking})}
+                                                    className="custom-control-input border border-dager"
+                                                    id={`isBookoing`}
                                                 />
-                                                <label
-                                                    className="custom-control-label"
-                                                    htmlFor="national1"
-                                                >
-                                                    {t("Uzbek")}
-                                                </label>
-                                            </div>
-                                            <div className="custom-control custom-radio custom-control-inline">
-                                                <input
-                                                    defaultChecked={
-                                                        client.national === 'foreigner' ? true : false
-                                                    }
-                                                    onChange={(e) => {
-                                                        setClient({ ...client, national: 'foreigner' })
-                                                    }}
-                                                    type="radio"
-                                                    id="national2"
-                                                    name="national"
-                                                    className="custom-control-input"
-                                                />
-                                                <label
-                                                    className="custom-control-label"
-                                                    htmlFor="national2"
-                                                >
-                                                    {t("Chet'ellik")}
-                                                </label>
+                                                <label className="custom-control-label"
+                                                    htmlFor={`isBookoing`}>{t("Belgilangan")}</label>
                                             </div>
                                         </div>
                                     </div>

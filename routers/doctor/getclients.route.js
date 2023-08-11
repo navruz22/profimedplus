@@ -203,7 +203,10 @@ module.exports.getAll = async (req, res) => {
             accept: connector.accept,
             createdAt: connector.createdAt,
             probirka: connector.probirka,
-            _id: connector._id
+            _id: connector._id,  
+            step: connector.step && connector.step,
+            stepDate: connector.stepDate && connector.stepDate,
+            isBooking: connector.isBooking && connector.isBooking,
           },
           services: [...connector.services].filter(service => service.refuse === false && service.payment),
           payments: connector.payments

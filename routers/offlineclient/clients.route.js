@@ -29,6 +29,7 @@ const { ServiceTable } = require("../../models/Services/ServiceTable");
 const { ServiceType } = require("../../models/Services/ServiceType");
 const { CounterDoctor } = require('../../models/CounterDoctor/CounterDoctor')
 const { Department } = require('../../models/Services/Department')
+const { AfterOperationClient } = require('../../models/OfflineClient/AfterOperationClient')
 require('../../models/Cashier/OfflinePayment')
 require('../../models/Users')
 
@@ -66,7 +67,7 @@ module.exports.register = async (req, res) => {
         //     (await OfflineClient.find({ clinica: client.clinica })).length + 1000001
 
         const connectors = await OfflineClient.find({ clinica: client.clinica })
-        .sort({createdAt: -1})
+            .sort({ createdAt: -1 })
 
         const id = connectors.length > 0 ? connectors[0].id + 1 : 1000001
 
@@ -89,7 +90,7 @@ module.exports.register = async (req, res) => {
                         new Date().getMonth(), new Date().getDate() + 1)
                 },
             })
-            .sort({createdAt: -1})
+                .sort({ createdAt: -1 })
             probirka = lastProbirka.length > 0 ? lastProbirka[0].probirka + 1 : 1
         }
 
@@ -239,8 +240,16 @@ module.exports.register = async (req, res) => {
         }
 
         const response = await OfflineConnector.findById(newconnector._id)
+        .select("-__v -updatedAt -isArchive")
             .populate('client')
-            .populate('services')
+            .populate({
+                path: "services",
+                select: "-__v -updatedAt -isArchive",
+                populate: {
+                    path: "department",
+                    select: "room name probirka"
+                }
+            })
             .populate('products')
 
         res.status(201).send(response)
@@ -263,7 +272,7 @@ module.exports.add = async (req, res) => {
 
         const updateClient = await OfflineClient.findByIdAndUpdate(
             client._id,
-            {...client, fullname: client.firstname + ' ' + client.lastname},
+            { ...client, fullname: client.firstname + ' ' + client.lastname },
         )
 
         const updateOfflineConnector = await OfflineConnector.findById(
@@ -284,7 +293,7 @@ module.exports.add = async (req, res) => {
                         new Date().getMonth(), new Date().getDate() + 1)
                 },
             })
-            .sort({createdAt: -1})
+                .sort({ createdAt: -1 })
 
             probirka = lastProbirka.length > 0 ? lastProbirka[0].probirka + 1 : 1
 
@@ -413,9 +422,9 @@ module.exports.add = async (req, res) => {
         }
 
         if (counterdoctor) {
-            const servicess = await OfflineService.find({connector: connector._id})
+            const servicess = await OfflineService.find({ connector: connector._id })
             for (const s of servicess) {
-                const ss = await OfflineService.findOne({_id: s._id, refuse: false})
+                const ss = await OfflineService.findOne({ _id: s._id, refuse: false })
                 ss.counterdoctor = counterdoctor;
                 await ss.save()
             }
@@ -484,7 +493,7 @@ module.exports.addConnector = async (req, res) => {
                         new Date().getMonth(), new Date().getDate() + 1)
                 },
             })
-            .sort({createdAt: -1})
+                .sort({ createdAt: -1 })
             probirka = lastProbirka.length > 0 ? lastProbirka[0].probirka + 1 : 1
         }
 
@@ -737,7 +746,7 @@ module.exports.getAllReseption = async (req, res) => {
             connectors = await OfflineConnector.find({
                 clinica
             })
-                .select('probirka client accept services products createdAt totalprice')
+                .select('isBooking probirka client accept services products createdAt totalprice step stepDate')
                 .populate('client', 'fullname firstname lastname fathername phone national id gender born address')
                 .populate({
                     path: "services",
@@ -756,7 +765,7 @@ module.exports.getAllReseption = async (req, res) => {
                     select: "service pieces reseption createdAt serviceid accept refuse column templates tables turn connector client files department",
                     populate: {
                         path: 'department',
-                        select: "probirka name"
+                        select: "probirka name room"
                     }
                 })
                 .populate({
@@ -783,7 +792,7 @@ module.exports.getAllReseption = async (req, res) => {
             connectors = await OfflineConnector.find({
                 clinica
             })
-                .select('probirka client accept services products createdAt totalprice')
+                .select('isBooking probirka client accept services products createdAt totalprice step stepDate')
                 .populate('client', 'fullname firstname lastname fathername phone national id gender born address')
                 .populate({
                     path: "services",
@@ -802,7 +811,7 @@ module.exports.getAllReseption = async (req, res) => {
                     select: "service createdAt reseption pieces serviceid accept refuse templates column tables turn connector client files department",
                     populate: {
                         path: 'department',
-                        select: "probirka name"
+                        select: "probirka name room"
                     }
                 })
                 .populate({
@@ -827,7 +836,7 @@ module.exports.getAllReseption = async (req, res) => {
             connectors = await OfflineConnector.find({
                 clinica
             })
-                .select('probirka client accept services products createdAt totalprice')
+                .select('isBooking probirka client accept services products createdAt totalprice step stepDate')
                 .populate('client', 'fullname firstname lastname fathername phone national id gender born address')
                 .populate({
                     path: "services",
@@ -846,7 +855,7 @@ module.exports.getAllReseption = async (req, res) => {
                     select: "service createdAt reseption pieces serviceid accept refuse templates column tables turn connector client files department",
                     populate: {
                         path: 'department',
-                        select: "probirka name"
+                        select: "probirka name room"
                     }
                 })
                 .populate({
@@ -871,7 +880,7 @@ module.exports.getAllReseption = async (req, res) => {
             connectors = await OfflineConnector.find({
                 clinica
             })
-                .select('probirka client accept services products createdAt totalprice')
+                .select('isBooking probirka client accept services products createdAt totalprice step stepDate')
                 .populate('client', 'fullname firstname lastname fathername phone national id gender born address')
                 .populate({
                     path: "services",
@@ -890,7 +899,7 @@ module.exports.getAllReseption = async (req, res) => {
                     select: "service createdAt reseption pieces serviceid accept refuse templates column tables turn connector client files department",
                     populate: {
                         path: 'department',
-                        select: "probirka name"
+                        select: "probirka name room"
                     }
                 })
                 .populate({
@@ -919,7 +928,7 @@ module.exports.getAllReseption = async (req, res) => {
                     $lt: endDay,
                 },
             })
-                .select('probirka client accept services products createdAt totalprice')
+                .select('isBooking probirka client accept services products createdAt totalprice step stepDate')
                 .populate('client', 'fullname firstname lastname fathername national phone id gender born address')
                 .populate({
                     path: "services",
@@ -938,7 +947,7 @@ module.exports.getAllReseption = async (req, res) => {
                     select: "service createdAt reseption pieces serviceid accept refuse templates column tables turn connector client files department",
                     populate: {
                         path: 'department',
-                        select: "probirka name"
+                        select: "probirka name room"
                     }
                 })
                 .populate({
@@ -1348,6 +1357,194 @@ module.exports.registerOnline = async (req, res) => {
             .populate('products')
 
         res.status(201).send(response)
+    } catch (error) {
+        console.log(error);
+        res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
+    }
+}
+
+
+/////
+module.exports.nextToStep = async (req, res) => {
+    try {
+        const { connectorId, step, stepDate } = req.body;
+
+        const connector = await OfflineConnector.findById(connectorId)
+        
+            
+
+        connector.step = step;
+        connector.stepDate = stepDate
+
+        await connector.save()
+
+        const response = await OfflineConnector.findById(connector._id)
+        .select('probirka client accept services products createdAt totalprice clinica step stepDate')
+        .populate('client', 'fullname firstname lastname fathername national phone id gender born address')
+        .populate({
+            path: "services",
+            select: "service createdAt reseption pieces serviceid accept refuse templates column tables turn connector client files department",
+            populate: {
+                path: 'department',
+                select: "probirka name room"
+            }
+        })
+        .lean()
+
+        const connectors = await OfflineConnector.find({
+            clinica: response.clinica,
+            createdAt: {
+                $gte: new Date(new Date().setHours(0, 0, 0, 0)),
+                $lte: new Date(new Date().setHours(23, 59, 59, 59))
+            }   
+        })
+        .select('probirka client accept services products createdAt totalprice clinica step stepDate')
+        .populate('client', 'fullname firstname lastname fathername national phone id gender born address')
+        .populate({
+            path: "services",
+            select: "service createdAt reseption pieces serviceid accept refuse templates column tables turn connector client files department",
+            populate: {
+                path: "serviceid",
+                select: "servicetype",
+                populate: {
+                    path: "servicetype",
+                    select: "name"
+                }
+            }
+        })
+        .populate({
+            path: "services",
+            select: "service createdAt reseption pieces serviceid accept refuse templates column tables turn connector client files department",
+            populate: {
+                path: 'department',
+                select: "probirka name room"
+            }
+        })
+        .populate({
+            path: "services",
+            select: "service createdAt reseption pieces serviceid accept refuse templates column tables turn connector client files department",
+            populate: {
+                path: 'reseption',
+                select: "type specialty",
+                populate: {
+                    path: 'specialty',
+                    select: "name",
+                }
+            }
+        })
+        .populate('products', '_id product pieces')
+        .lean()
+        .then(connectors => connectors.filter(el => el.step).sort((a, b) => new Date(a.stepDate) - new Date(b.stepDate)))
+        
+            const depart = [...response.services].filter(el => el.department.probirka === false)[0]?.department?._id
+            const data = [...connectors].filter(el => el.services.some(el => String(el.department._id) === String(depart)))
+            const index = [...data].reduce((prev, el, ind) => {
+              if (String(response._id) === String(el._id)) {
+                prev = ind
+              }
+              return prev;
+            }, 0)
+
+        response.turn = index + 1
+
+        res.json(response)
+
+    } catch (error) {
+        console.log(error);
+        res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
+    }
+}
+
+module.exports.accessNextStep = async (req, res) => {
+    try {
+        const {connectorId, access} = req.body;
+
+        const connector = await OfflineConnector.findById(connectorId)
+        connector.stepAccess = access;
+        await connector.save()
+
+        res.json(connector)
+
+    } catch (error) {
+        console.log(error);
+        res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
+    }
+}
+
+//=================================================
+//After Operation Client
+module.exports.registerAfter = async (req, res) => {
+    try {
+        const {connector, clinica} = req.body;
+
+        const {firstname, lastname, born, phone, gender, id, address} = connector.client
+
+        const afterclient = new AfterOperationClient({
+            firstname,
+            lastname,
+            born,
+            phone,
+            gender,
+            id,
+            address,
+            clinica
+        })
+
+        // const depart = connector.services.filter(el => !el.department.probirka)[0].department._id;
+
+        // afterclient.department = depart;
+
+        const clients = await AfterOperationClient.find({
+            clinica,
+            createdAt: {
+                $gte: new Date(new Date().setHours(0, 0, 0, 0)),
+                $lte: new Date(new Date().setHours(23, 59, 59, 59))
+            } 
+        })
+        .sort({createdAt: 1})
+        .select('-__v -updatedAt -isArchive')
+        .lean()
+
+        const index = clients.length
+
+        afterclient.turn = index + 1;
+        await afterclient.save()
+
+        const response = await AfterOperationClient.findById(afterclient._id)
+        .select("-__v -updatedAt -isArchive")
+        .lean()
+
+        res.json(response)
+
+    } catch (error) {
+        console.log(error);
+        res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })
+    }
+}
+
+module.exports.getAfterClients = async (req, res) => {
+    try {
+        const {clinica} = req.body;
+
+        const afterclients = await AfterOperationClient.find({
+            clinica,
+            createdAt: {
+                $gte: new Date(new Date().setHours(0, 0, 0, 0)),
+                $lte: new Date(new Date().setHours(23, 59, 59, 59))
+            } 
+        })
+        .sort({createdAt: 1})
+        .select("-__v -updatedAt -isArchive")
+        .lean()
+
+        console.log(afterclients);
+
+        res.json(afterclients)
+
+        // await AfterOperationClient.deleteMany();
+
+        // res.json({message: "Deleted"})
+
     } catch (error) {
         console.log(error);
         res.status(501).json({ error: 'Serverda xatolik yuz berdi...' })

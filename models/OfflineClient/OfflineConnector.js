@@ -23,6 +23,10 @@ const connector = new Schema(
         totalprice: { type: Number },
         payments: [{ type: Schema.Types.ObjectId, ref: 'OfflinePayment' }],
         discount: { type: Schema.Types.ObjectId, ref: 'OfflineDiscount' },
+        step: {type: Boolean},
+        stepDate: {type: Date},
+        isBooking: {type: Boolean, default: false},
+        stepAccess: {type: Boolean, default: false}
     },
     {
         timestamps: true,
@@ -37,7 +41,11 @@ function validateOfflineConnector(connector) {
         products: Joi.string(),
         probirka: Joi.number(),
         accept: Joi.boolean(),
-        totalprice: Joi.number()
+        totalprice: Joi.number(),
+        step: Joi.boolean().optional(),
+        stepDate: Joi.date().optional(),
+        isBooking: Joi.boolean(),
+        stepAccess: Joi.boolean()
     })
 
     return schema.validate(connector)

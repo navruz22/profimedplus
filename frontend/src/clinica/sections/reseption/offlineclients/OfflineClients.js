@@ -2,7 +2,7 @@ import { useToast } from "@chakra-ui/react";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../context/AuthContext";
 import { useHttp } from "../../../hooks/http.hook";
-import { Modal } from "../components/Modal";
+import { Modal, Modal as Modal2, Modal as Modal3 } from "../components/Modal";
 import { RegisterClient } from "./clientComponents/RegisterClient";
 import { TableClients } from "./clientComponents/TableClients";
 import { checkClientData, checkProductsData, checkServicesData, } from "./checkData/checkData";
@@ -14,6 +14,8 @@ import { useTranslation } from "react-i18next";
 import Print from "../../laborotory/components/Print";
 import AllModal from "./clientComponents/AllModal";
 import { useLocation } from "react-router-dom";
+import { SmallCheck } from "../components/SmallCheck";
+import { SmallCheck2 } from "../components/SmallCheck2";
 
 export const OfflineClients = () => {
     const [beginDay, setBeginDay] = useState(
@@ -28,6 +30,8 @@ export const OfflineClients = () => {
     const [modal, setModal] = useState(false);
     const [modal1, setModal1] = useState(false);
     const [modal2, setModal2] = useState(false);
+    const [modal3, setModal3] = useState(false);
+    const [modal4, setModal4] = useState(false);
     //====================================================================
     //====================================================================
 
@@ -46,7 +50,7 @@ export const OfflineClients = () => {
     //====================================================================
     //====================================================================
 
-    const {t} = useTranslation()
+    const { t } = useTranslation()
 
     //====================================================================
     //====================================================================
@@ -62,6 +66,11 @@ export const OfflineClients = () => {
     const componentRef = useRef()
     const handlePrint = useReactToPrint({
         content: () => componentRef.current,
+    })
+
+    const componentRef2 = useRef()
+    const handlePrint2 = useReactToPrint({
+        content: () => componentRef2.current,
     })
 
     //====================================================================
@@ -115,6 +124,7 @@ export const OfflineClients = () => {
     //====================================================================
     //====================================================================
     const [isActive, setIsActive] = useState(true)
+    const [listType, setListType] = useState('all')
     //====================================================================
     //====================================================================
     // getConnectors
@@ -132,11 +142,9 @@ export const OfflineClients = () => {
                         Authorization: `Bearer ${auth.token}`,
                     }
                 );
-                setConnectors(data);
+                setConnectors([...data].filter(el => !el.step));
                 setSearchStrorage(data);
-                setCurrentConnectors(
-                    data.slice(indexFirstConnector, indexLastConnector)
-                );
+                setCurrentConnectors([...data].filter(el => !el.step))
             } catch (error) {
                 notify({
                     title: t(`${error}`),
@@ -162,9 +170,7 @@ export const OfflineClients = () => {
             );
             setConnectors(data);
             setSearchStrorage(data);
-            setCurrentConnectors(
-                data.slice(indexFirstConnector, indexLastConnector)
-            );
+            setCurrentConnectors(data);
         } catch (error) {
             notify({
                 title: t(`${error}`),
@@ -191,9 +197,7 @@ export const OfflineClients = () => {
             );
             setConnectors(data);
             setSearchStrorage(data);
-            setCurrentConnectors(
-                data.slice(indexFirstConnector, indexLastConnector)
-            );
+            setCurrentConnectors(data);
         } catch (error) {
             notify({
                 title: t(`${error}`),
@@ -220,9 +224,7 @@ export const OfflineClients = () => {
             );
             setConnectors(data);
             setSearchStrorage(data);
-            setCurrentConnectors(
-                data.slice(indexFirstConnector, indexLastConnector)
-            );
+            setCurrentConnectors(data);
         } catch (error) {
             notify({
                 title: t(`${error}`),
@@ -250,7 +252,7 @@ export const OfflineClients = () => {
             setConnectors(data);
             setSearchStrorage(data);
             setCurrentConnectors(
-                data.slice(indexFirstConnector, indexLastConnector)
+                data
             );
         } catch (error) {
             notify({
@@ -274,7 +276,7 @@ export const OfflineClients = () => {
             );
             setName(e.target.value)
             setConnectors(searching);
-            setCurrentConnectors(searching.slice(0, countPage));
+            setCurrentConnectors(searching);
         },
         [searchStorage, countPage]
     );
@@ -286,7 +288,7 @@ export const OfflineClients = () => {
             );
             setClientId(e.target.value);
             setConnectors(searching);
-            setCurrentConnectors(searching.slice(0, countPage));
+            setCurrentConnectors(searching);
         },
         [searchStorage, countPage]
     );
@@ -297,7 +299,7 @@ export const OfflineClients = () => {
                 item.probirka.toString().includes(e.target.value)
             );
             setConnectors(searching);
-            setCurrentConnectors(searching.slice(0, countPage));
+            setCurrentConnectors(searching);
         },
         [searchStorage, countPage]
     );
@@ -309,7 +311,7 @@ export const OfflineClients = () => {
             );
             setPhone(e.target.value)
             setConnectors(searching);
-            setCurrentConnectors(searching.slice(0, countPage));
+            setCurrentConnectors(searching);
         },
         [searchStorage, countPage]
     );
@@ -322,7 +324,7 @@ export const OfflineClients = () => {
         (e) => {
             setCurrentPage(0);
             setCountPage(e.target.value);
-            setCurrentConnectors(connectors.slice(0, e.target.value));
+            setCurrentConnectors(connectors);
         },
         [connectors]
     );
@@ -371,7 +373,7 @@ export const OfflineClients = () => {
                 setConnector({ ...connector, probirka: 1, clinica: auth.clinica._id });
             }
             return s.push({
-                clinica: auth.clinica._id, 
+                clinica: auth.clinica._id,
                 reseption: auth.user._id,
                 serviceid: service.service._id,
                 service: service.service,
@@ -585,7 +587,7 @@ export const OfflineClients = () => {
     });
 
     const changeClientData = (e) => {
-        setClient({ ...client, [e.target.name]: e.target.value});
+        setClient({ ...client, [e.target.name]: e.target.value });
     };
 
 
@@ -621,6 +623,7 @@ export const OfflineClients = () => {
         setSelectedServices([]);
         setClientDate(new Date().toISOString().slice(0, 10))
         setIsAddConnector(false);
+        setStep(false)
     }, [auth]);
 
     const checkData = () => {
@@ -639,6 +642,8 @@ export const OfflineClients = () => {
     };
     //====================================================================
     //====================================================================
+
+    const [checkType, setCheckType] = useState('nextsteps')
 
     //====================================================================
     //====================================================================
@@ -667,13 +672,11 @@ export const OfflineClients = () => {
                 description: "",
                 status: "success",
             });
-            const s = [data, ...connectors];
-            setConnectors(s);
-            setSearchStrorage(s);
-            setCurrentConnectors(s.slice(indexFirstConnector, indexLastConnector));
+            getConnectors(beginDay, endDay);
             setModal(false);
             clearDatas();
             setVisible(false);
+            showSmallCehckReturn(data)
             setTimeout(() => {
                 setIsActive(true)
             }, 5000)
@@ -839,9 +842,97 @@ export const OfflineClients = () => {
         }
     }
 
+    const showSmallCehckReturn = (connector) => {
+        setCheckType('all')
+        setPrintBody({ ...connector, turn: [...connector?.services].filter(service => service.department.probirka === false)[0]?.turn })
+        setTimeout(() => {
+            handlePrint()
+        }, 1000)
+        setTimeout(() => {
+            setPrintBody(null)
+        }, 2000)
+    }
+
     //====================================================================
     //====================================================================
-    
+
+    const [afterClients, setAfterClients] = useState([])
+
+    const getAfterClients = useCallback(
+        async () => {
+            try {
+                const data = await request(
+                    `/api/offlineclient/client/after_client/get`,
+                    "POST",
+                    { clinica: auth && auth.clinica._id },
+                    {
+                        Authorization: `Bearer ${auth.token}`,
+                    }
+                );
+                setAfterClients(data);
+            } catch (error) {
+                notify({
+                    title: t(`${error}`),
+                    description: "",
+                    status: "error",
+                });
+            }
+        },
+        [request, auth, notify]
+    );
+
+    const createAfterClient = useCallback(async () => {
+        try {
+            const data = await request(
+                `/api/offlineclient/client/after_client/register`,
+                "POST",
+                {
+                    connector: connector,
+                    clinica: auth?.clinica?._id
+                },
+                {
+                    Authorization: `Bearer ${auth.token}`,
+                }
+            );
+            notify({
+                title: t("Mijoz muvaffaqqiyatli yaratildi."),
+                description: "",
+                status: "success",
+            });
+            const arr = [...afterClients, data];
+            setAfterClients(arr)
+            setOperationList('operation', arr)
+            clearDatas()
+            setModal4(false)
+            showSmallCehck2(data)
+        } catch (error) {
+            notify({
+                title: t(`${error}`),
+                description: "",
+                status: "error",
+            });
+        }
+    }, [
+        auth,
+        notify,
+        connector,
+    ]);
+
+    const changeAfterClient = (data) => {
+        setConnector({ ...data })
+        setModal4(true)
+    }
+
+    const showSmallCehck2 = (connector) => {
+        setCheckType('operation')
+        setPrintBody({ ...connector })
+        setTimeout(() => {
+            handlePrint()
+        }, 1000)
+        setTimeout(() => {
+            setPrintBody(null)
+        }, 2000)
+    }
 
     //====================================================================
     //====================================================================
@@ -895,7 +986,7 @@ export const OfflineClients = () => {
             setClient({
                 clinica: auth.clinica && auth.clinica._id,
                 reseption: auth.user && auth.user._id,
-                firstname: onlineclient.firstname, 
+                firstname: onlineclient.firstname,
                 lastname: onlineclient.lastname,
                 phone: onlineclient.phone
             })
@@ -903,7 +994,160 @@ export const OfflineClients = () => {
         }
     }, [state?.onlineclient])
 
+    useEffect(() => {
+        getAfterClients()
+    }, [])
 
+    //====================================================================
+    //====================================================================
+
+    const setAllList = (listtype, arr = []) => {
+        setListType(listtype)
+        setConnectors([...arr].filter(el => !el.step))
+        setCurrentConnectors([...arr].filter(el => !el.step))
+    }
+
+    const setNextsList = (listtype, arr = []) => {
+        setListType(listtype)
+        setConnectors([...arr].filter(item => item.step).sort((a, b) => new Date(a.stepDate) - new Date(b.stepDate)))
+        setCurrentConnectors([...arr].filter(item => item.step).sort((a, b) => new Date(a.stepDate) - new Date(b.stepDate)))
+    }
+
+    const setOperationList = (listtype, arr = []) => {
+        setListType(listtype)
+        setConnectors([...arr])
+        setCurrentConnectors([...arr])
+    }
+
+    const changeListType = (listtype) => {
+        if (listtype === 'nextsteps') {
+            setNextsList(listtype, [...searchStorage])
+        }
+        if (listtype === 'all') {
+            setAllList(listtype, [...searchStorage])
+        }
+        if (listtype === 'operation') {
+            setOperationList(listtype, [...afterClients])
+        }
+    }
+
+    //====================================================================
+    //====================================================================
+
+    const [step, setStep] = useState(false)
+
+    const changeStep = (connector) => {
+        if (!connector.step) {
+            setStep(true)
+            setConnector(connector)
+            setModal3(true)
+        }
+    }
+
+    const showSmallCehck = (connector) => {
+        setCheckType('nextsteps')
+        const depart = [...connector.services].filter(el => el.department.probirka === false)[0]?.department?._id
+        const data = [...searchStorage].filter(el => el.services.some(el => el.department._id === depart)).filter(item => item.step).sort((a, b) => new Date(a.stepDate) - new Date(b.stepDate))
+        const index = [...data].reduce((prev, el, ind) => {
+            if (connector._id === el._id) {
+                prev = ind
+            }
+            return prev;
+        }, 0)
+        setPrintBody({ ...connector, turn: index + 1 })
+        setTimeout(() => {
+            handlePrint()
+        }, 1000)
+        setTimeout(() => {
+            setPrintBody(null)
+        }, 2000)
+    }
+
+    const handleNextStep = useCallback(async () => {
+        // setIsActive(false)
+        try {
+            const data = await request(
+                `/api/offlineclient/client/next_step`,
+                "POST",
+                {
+                    connectorId: connector._id,
+                    step,
+                    stepDate: new Date()
+                },
+                {
+                    Authorization: `Bearer ${auth.token}`,
+                }
+            );
+            notify({
+                title: t("Mijoz muvaffaqqiyatli yaratildi."),
+                description: "",
+                status: "success",
+            });
+            const arr = [...searchStorage].map(el => {
+                if (el._id === connector._id) {
+                    el.step = true;
+                    el.stepDate = new Date()
+                }
+                return el
+            })
+            setNextsList('nextsteps', arr)
+            setModal3(false);
+            clearDatas();
+            setVisible(false);
+            showSmallCehck(data)
+        } catch (error) {
+            notify({
+                title: t(`${error}`),
+                description: "",
+                status: "error",
+            });
+            setIsActive(true)
+        }
+    }, [
+        auth,
+        client,
+        connector,
+        notify,
+        services,
+        newproducts,
+        request,
+        indexLastConnector,
+        indexFirstConnector,
+        connectors,
+        clearDatas,
+        adver,
+        counterdoctor,
+    ]);
+
+    const handleAccessNext = async (id, value) => {
+        try {
+            const data = await request(
+                `/api/offlineclient/client/next_step/access`,
+                "POST",
+                {
+                    connectorId: id,
+                    access: value,
+                },
+                {
+                    Authorization: `Bearer ${auth.token}`,
+                }
+            );
+            const arr = [...searchStorage].map(el => {
+                if (el._id === data._id) {
+                    el.stepAccess = data.stepAccess
+                }
+                return el
+            })
+            setNextsList('nextsteps', arr)
+        } catch (error) {
+            notify({
+                title: t(`${error}`),
+                description: "",
+                status: "error",
+            });
+        }
+    }
+    
     //====================================================================
     //====================================================================
     return (
@@ -911,21 +1155,41 @@ export const OfflineClients = () => {
             <div className="bg-slate-100 content-wrapper px-lg-5 px-3">
                 <div className="row gutters">
                     <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                        <div className="row">
-                            <div className="col-12 text-end">
+                        <div className="row justify-content-between">
+                            <div className="col-3 text-end">
                                 <button
-                                    className={`btn bg-alotrade text-white mb-2 w-100 ${visible ? "d-none" : ""
+                                    className={`btn bg-green-500 text-white mb-2 w-100 ${visible ? "d-none" : ""
                                         }`}
                                     onClick={changeVisible}
                                 >
                                     {t("Registratsiya")}
                                 </button>
                                 <button
-                                    className={`btn bg-alotrade text-white mb-2 w-100 ${visible ? "" : "d-none"
+                                    className={`btn bg-green-500 text-white mb-2 w-100 ${visible ? "" : "d-none"
                                         }`}
                                     onClick={changeVisible}
                                 >
                                     {t("Registratsiya")}
+                                </button>
+                            </div>
+                            <div className="col-6 text-end flex justify-between gap-4">
+                                <button
+                                    className={`btn bg-alotrade text-white mb-2 w-100`}
+                                    onClick={() => changeListType('all')}
+                                >
+                                    {t("DASTLABKI KO'RIK")}
+                                </button>
+                                <button
+                                    className={`btn bg-green-400 text-white mb-2 w-100`}
+                                    onClick={() => changeListType('nextsteps')}
+                                >
+                                    {t("KO")}
+                                </button>
+                                <button
+                                    className={`btn bg-orange-500 text-white mb-2 w-100`}
+                                    onClick={() => changeListType('operation')}
+                                >
+                                    {t("ПО")}
                                 </button>
                             </div>
                         </div>
@@ -957,6 +1221,9 @@ export const OfflineClients = () => {
                                 setClientDate={setClientDate}
                                 setIsAddConnector={setIsAddConnector}
                                 servicetypes={serviceTypes}
+                                listType={listType}
+                                connector={connector}
+                                setConnector={setConnector}
                             />
                         </div>
                         <TableClients
@@ -1002,6 +1269,13 @@ export const OfflineClients = () => {
                                     setModal2(true)
                                 }, 1000)
                             }}
+                            changeStep={changeStep}
+                            listType={listType}
+                            showSmallCehck={showSmallCehck}
+                            changeAfterClient={changeAfterClient}
+                            showSmallCehck2={showSmallCehck2}
+                            showSmallCehckReturn={showSmallCehckReturn}
+                            handleAccessNext={handleAccessNext}
                         />
                     </div>
                 </div>
@@ -1016,16 +1290,36 @@ export const OfflineClients = () => {
             />
 
             <div className="d-none">
-                <div className="container p-4 bg-white text-center" ref={componentRef}>
-                    {printBody && <Print
-                        baseUrl={baseUrl}
-                        clinica={auth?.clinica}
-                        connector={printBody}
-                        client={printBody?.client}
-                        sections={printBody?.services}
-                    />}
+                <div className="w-[10.4cm] p-2 bg-white text-center" ref={componentRef}>
+                    {
+                        printBody && checkType === 'nextsteps' ? <SmallCheck
+                            baseUrl={baseUrl}
+                            clinica={auth?.clinica}
+                            connector={printBody}
+                            client={printBody?.client}
+                            sections={printBody?.services}
+                            turn={printBody?.turn}
+                            turntitle={'KO'}
+                        /> : printBody && checkType === 'all' ?
+                            <SmallCheck
+                                baseUrl={baseUrl}
+                                clinica={auth?.clinica}
+                                connector={printBody}
+                                client={printBody?.client}
+                                sections={printBody?.services}
+                                turn={printBody?.turn}
+                                turntitle={'A'}
+                            />
+                            : printBody && checkType === 'operation' && <SmallCheck2
+                                baseUrl={baseUrl}
+                                clinica={auth?.clinica}
+                                client={printBody}
+                                turn={printBody?.turn}
+                            />
+                    }
                 </div>
             </div>
+
 
             <Modal
                 modal={modal}
@@ -1033,6 +1327,25 @@ export const OfflineClients = () => {
                 setModal={setModal}
                 handler={client._id && !isAddConnector ? isActive && addHandler : client._id && isAddConnector ? isActive && addConnectorHandler : isActive && createHandler}
                 basic={client.lastname + " " + client.firstname}
+            />
+            <Modal2
+                modal={modal3}
+                text={t("ma'lumotlar to'g'ri kiritilganligini tasdiqlaysizmi?")}
+                setModal={() => {
+                    setModal3(false)
+                    setStep(false)
+                    clearDatas()
+                }}
+                handler={handleNextStep}
+            />
+            <Modal2
+                modal={modal4}
+                text={t("ma'lumotlar to'g'ri kiritilganligini tasdiqlaysizmi?")}
+                setModal={() => {
+                    setModal4(false)
+                    clearDatas()
+                }}
+                handler={createAfterClient}
             />
             <AllModal
                 modal={modal2}

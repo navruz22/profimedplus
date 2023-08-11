@@ -15,6 +15,7 @@ const user = new Schema(
     users: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     user: { type: Schema.Types.ObjectId, ref: 'User' },
     signature: { type: String },
+    isOne: {type: Boolean, default: false},
     isArchive: { type: Boolean, default: false },
   },
   {
@@ -37,6 +38,7 @@ function validateUser(user) {
     specialty: Joi.string(),
     users: Joi.array(),
     user: Joi.string(),
+    isOne: Joi.boolean(),
     _id: Joi.string(),
   })
 

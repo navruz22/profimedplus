@@ -12,6 +12,8 @@ import {
   faPenSquare,
   faPenToSquare,
   faUserPen,
+  faArrowsLeftRightToLine,
+  faArrowRight,
 } from '@fortawesome/free-solid-svg-icons'
 import { Sort } from './Sort'
 import { Pagination } from '../../components/Pagination'
@@ -50,19 +52,49 @@ export const TableClients = ({
   allModalHandle,
   getByClientName,
   getByClientPhone,
-  setIsAddService
+  setIsAddService,
+  changeStep,
+  listType,
+  showSmallCehck,
+  changeAfterClient,
+  showSmallCehck2,
+  showSmallCehckReturn,
+  handleAccessNext
 }) => {
 
-  const {t} = useTranslation()
+  const { t } = useTranslation()
 
   const history = useHistory()
   const [clientBorn, setClientBorn] = useState('')
+
+  const setColor = (connector) => {
+    if (connector.step && !connector.stepAccess) {
+      return 'bg-gray-400'
+    }
+    if (connector.step && connector.stepAccess) {
+      return 'bg-green-400'
+    }
+    return ''
+  }
+
+  const getTurnStepClient = (connector) => {
+    const depart = connector.services.filter(el => el.department.probirka === false)[0]?.department?._id
+    const data = [...currentConnectors].filter(el => el.step && el.services.some(el => el.department._id === depart)).sort((a, b) => new Date(a.stepDate) - new Date(b.stepDate))
+    const index = data.reduce((prev, el, ind) => {
+      if (connector._id === el._id) {
+        prev = ind
+      }
+      return prev;
+    }, 0)
+    return index + 1
+  }
+
   return (
     <div className="border-0 table-container">
       <div className="border-0 table-container">
         <div className="table-responsive">
           <div className="bg-white flex gap-6 items-center py-2 px-2">
-            <div>
+            {/* <div>
               <select
                 className="form-control form-control-sm selectpicker"
                 placeholder="Bo'limni tanlang"
@@ -74,7 +106,7 @@ export const TableClients = ({
                 <option value={50}>50</option>
                 <option value={100}>100</option>
               </select>
-            </div>
+            </div> */}
             <div>
               <input
                 onChange={searchFullname}
@@ -105,7 +137,7 @@ export const TableClients = ({
                 onKeyDown={(e) => e.key === 'Enter' && getClientsById()}
               />
             </div>
-            <div>
+            {/* <div>
               <input
                 onChange={searchProbirka}
                 style={{ maxWidth: '70px' }}
@@ -113,7 +145,7 @@ export const TableClients = ({
                 className="form-control form-control-sm selectpicker"
                 placeholder={t("Probirka")}
               />
-            </div>
+            </div> */}
             <div className="flex items-center gap-4">
               <input
                 onKeyDown={(e) => e.key === 'Enter' && getConnectorsByClientBorn(e.target.value)}
@@ -131,7 +163,7 @@ export const TableClients = ({
                 />
               </button>
             </div>
-            <div className="text-center ml-auto ">
+            {/* <div className="text-center ml-auto ">
               <Pagination
                 setCurrentDatas={setCurrentConnectors}
                 datas={connectors}
@@ -139,7 +171,7 @@ export const TableClients = ({
                 countPage={countPage}
                 totalDatas={connectors.length}
               />
-            </div>
+            </div> */}
             <div
               className="text-center ml-auto flex gap-2"
               style={{ overflow: 'hidden' }}
@@ -159,27 +191,30 @@ export const TableClients = ({
                 <th className="border py-1 bg-alotrade text-[16px]">
                   {t("ID")}
                 </th>
-                <th className="border py-1 bg-alotrade text-[16px]">
+                {/* <th className="border py-1 bg-alotrade text-[16px]">
                   {t("Probirka")}
-                </th>
+                </th> */}
+                {listType !== 'operation' && <th className="border py-1 bg-alotrade text-[16px]">
+                  {t("Bo'lim")}
+                </th>}
                 <th className="border py-1 bg-alotrade text-[16px]">
-                  {t("Summa")}
-                </th>
-                <th className="border py-1 bg-alotrade text-[16px]">
-                  {t("Xizmatlar")}
+                  {t("Navbat")}
                 </th>
                 <th className="border py-1 bg-alotrade text-[16px]">
                   {t("Kelgan vaqti")}
                 </th>
-                <th className="border py-1 bg-alotrade text-[16px]">
+                {listType === 'all' && <th className="border py-1 bg-alotrade text-[16px]">
 
-                </th>
-                <th className="border py-1 bg-alotrade text-[16px]">
-                  
-                </th>
-                <th className="border py-1 bg-alotrade text-[16px]">
+                </th>}
+                {listType === 'all' && <th className="border py-1 bg-alotrade text-[16px]">
+
+                </th>}
+                {listType === 'all' && <th className="border py-1 bg-alotrade text-[16px]">
                   {t("Qo'shish")}
-                </th>
+                </th>}
+                {listType === 'nextsteps' && <th className="border py-1 bg-alotrade text-[16px]">
+                  
+                </th>}
                 <th className="border py-1 bg-alotrade text-[16px]">
                   {t("Chop etish")}
                 </th>
@@ -190,90 +225,62 @@ export const TableClients = ({
                 return (
                   <tr key={key}>
                     <td
-                      className="border py-1 font-weight-bold text-right"
+                      className={`border py-1 font-weight-bold text-right ${setColor(connector)}`}
                       style={{ maxWidth: '30px !important' }}
                     >
                       {currentPage * countPage + key + 1}
                     </td>
                     <td className="border py-1 font-weight-bold text-[16px]">
-                      {connector?.client?.lastname +
+                      {listType === 'operation' ? connector?.lastname +
                         ' ' +
-                        connector?.client?.firstname}
+                        connector?.firstname : connector?.client?.lastname +
+                        ' ' +
+                      connector?.client?.firstname}
                     </td>
                     <td className="border py-1 text-right text-[16px]">
-                      +998{connector?.client?.phone}
+                      +998{listType === 'operation' ? connector?.phone : connector?.client?.phone}
                     </td>
                     <td className="border py-1 text-right text-[16px]">
-                      {connector?.client?.id}
+                      {listType === 'operation' ? connector?.id : connector?.client?.id}
                     </td>
-                    <td className="border py-1 text-right text-[16px]">
+                    {/* <td className="border py-1 text-right text-[16px]">
                       {connector?.probirka}
+                    </td> */}
+                    {listType !== 'operation' && <td className="border py-1 text-right text-[16px]">
+                      {listType === 'operation' ? connector?.department?.name : [...connector?.services].filter(service => service.department.probirka === false)[0]?.department?.name}
+                    </td>}
+                    <td className={`border py-1 text-right text-[16px] font-bold ${listType === 'all' && connector.isBooking && "bg-green-400"}`}>
+                      {listType === 'all' && connector?.isBooking ? t('Belgilangan') : `${listType === 'operation' ? 'ПО' : connector.step ? 'KO' : "A"} ${listType === 'operation' ? connector?.turn : (listType === 'nextsteps' && connector?.step ? getTurnStepClient(connector) : [...connector?.services].filter(service => service.department.probirka === false)[0]?.turn)}`}
                     </td>
                     <td className="border py-1 text-right text-[16px]">
-                      {connector?.totalprice}
+                      {
+                        listType === 'nextsteps' ?
+                          `${new Date(connector?.stepDate).toLocaleDateString()} ${new Date(connector?.stepDate).toLocaleTimeString()}` :
+                          `${new Date(connector?.createdAt).toLocaleDateString()} ${new Date(connector?.createdAt).toLocaleTimeString()}`
+                      }
                     </td>
-                    <td className="border py-1 text-right text-[16px] font-bold">
-                      <button onClick={() => {
-                        allModalHandle(connector.services, connector, connector.client)
-                      }}>
-                        <span className={`${connector.services.filter(service => !service.refuse).length === connector.services.filter(service => service.accept).length ? 'text-green-400' : "text-red-400"}`}>{connector.services.filter(service => !service.refuse).length}</span> / <span className='text-green-400'>{connector.services.filter(service => service.accept).length}</span>
+                    {listType === 'all' && <td className="border py-1 text-center text-[16px]">
+                      <button
+                        className={connector.step ? "btn bg-green-400 py-0 text-white" : "btn btn-success py-0 text-white"}
+                        onClick={() => changeStep(connector)}
+                      >
+                        КО
                       </button>
-                    </td>
-                    <td className="border py-1 text-right text-[16px]">
-                      {new Date(connector?.createdAt).toLocaleDateString()} {' '}
-                      {new Date(connector?.createdAt).toLocaleTimeString()}
-                    </td>
-                    <td className="border py-1 text-center text-[16px]">
-                      {loading ? (
-                        <button className="btn btn-success" disabled>
-                          <span className="spinner-border spinner-border-sm"></span>
-                          Loading...
-                        </button>
-                      ) : (
-                        <button
-                          className="btn btn-success py-0"
-                          onClick={() => {
-                            history.push('alo24/statsionar', { client: { ...connector.client }, services: [...connector.services], connector: { _id: connector._id, probirka: connector?.probirka, accept: connector?.accept } })
-                          }}
-                        >
-                          {t("Statsionar")}
-                        </button>
-                      )}
-                    </td>
-                    <td className="border py-1 text-center text-[16px]">
-                      {loading ? (
-                        <button className="btn btn-success" disabled>
-                          <span className="spinner-border spinner-border-sm"></span>
-                          Loading...
-                        </button>
-                      ) : (
-                        <button
-                          className={`${new Date(connector?.createdAt).toISOString().slice(0, 10) !== new Date().toISOString().slice(0, 10) ?  "bg-orange-500 border-orange-500 hover:bg-green-400" : "bg-gray-400"} btn btn-success py-0`}
-                          onClick={() => {
-                            if (new Date(connector?.createdAt).toISOString().slice(0, 10) !== new Date().toISOString().slice(0, 10)) {
-                              setClient({ ...connector.client })
-                              setClientDate(connector.client.born.slice(0, 10))
-                              setIsAddConnector(true);
-                              setVisible(true)
-                            }
-                          }}
-                        >
-                          <FontAwesomeIcon icon={faRotate} />
-                        </button>
-                      )}
-                    </td>
-                    <td className="border py-1 text-center text-[16px]">
-                      {loading ? (
-                        <button className="btn btn-success" disabled>
-                          <span className="spinner-border spinner-border-sm"></span>
-                          Loading...
-                        </button>
-                      ) : (
-                        <button
-                          className={`${new Date(connector?.createdAt).toISOString().slice(0, 10) === new Date().toISOString().slice(0, 10) ? "bg-green-500 border-green-500 hover:bg-green-400" : "bg-gray-400"} btn btn-success py-0`}
-                          onClick={() => {
-                            if (new Date(connector?.createdAt).toISOString().slice(0, 10) === new Date().toISOString().slice(0, 10)) {
-                              setClient({ ...connector.client })
+                    </td>}
+                    {listType === 'all' && <td className="border py-1 text-center text-[16px]">
+                      <button
+                        className="bg-orange-500 border-orange-500 hover:bg-green-400 btn btn-success py-0"
+                        onClick={() => changeAfterClient(connector)}
+                      >
+                        ПО
+                      </button>
+                    </td>}
+                    {listType === 'all' && <td className="border py-1 text-center text-[16px]">
+                      <button
+                        className={`${new Date(connector?.createdAt).toISOString().slice(0, 10) === new Date().toISOString().slice(0, 10) ? "bg-green-500 border-green-500 hover:bg-green-400" : "bg-gray-400"} btn btn-success py-0`}
+                        onClick={() => {
+                          if (new Date(connector?.createdAt).toISOString().slice(0, 10) === new Date().toISOString().slice(0, 10)) {
+                            setClient({ ...connector.client })
                             setClientDate(connector.client.born.slice(0, 10))
                             setConnector({
                               ...connector,
@@ -283,13 +290,22 @@ export const TableClients = ({
                             setIsAddConnector(false);
                             setVisible(true);
                             setIsAddService(true)
-                            }
-                          }}
-                        >
-                          <FontAwesomeIcon icon={faUserPen} />
-                        </button>
-                      )}
-                    </td>
+                          }
+                        }}
+                      >
+                        <FontAwesomeIcon icon={faUserPen} />
+                      </button>
+                    </td>}
+                    {listType === 'nextsteps' &&
+                      <td className="border py-1 text-right text-[16px]">
+                        <div className='flex flex-row justify-center items-center  pt-[1.25rem] pb-[1.25rem] pr-[.625rem] pl-[.625rem] gap-[1.25rem]'>
+                          <div className='flex items-center gap-[.625rem]'>
+                            <input type='checkbox' checked={connector?.stepAccess}
+                              onChange={() => handleAccessNext(connector?._id, connector.stepAccess ? false : true)} />
+                          </div>
+                        </div>
+                      </td>
+                    }
                     <td className="border py-1 text-center text-[16px]">
                       {loading ? (
                         <button className="btn btn-success" disabled>
@@ -300,8 +316,15 @@ export const TableClients = ({
                         <button
                           className="btn btn-primary py-0"
                           onClick={() => {
-                            setCheck(connector)
-                            setModal1(true)
+                            if (listType === 'nextsteps') {
+                              showSmallCehck(connector)
+                            }
+                            if (listType === 'operation') {
+                              showSmallCehck2(connector)
+                            }
+                            if (listType === 'all') {
+                              showSmallCehckReturn(connector)
+                            }
                           }}
                         >
                           <FontAwesomeIcon icon={faPrint} />
