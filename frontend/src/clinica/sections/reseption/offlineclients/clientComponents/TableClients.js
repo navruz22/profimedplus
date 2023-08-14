@@ -59,7 +59,9 @@ export const TableClients = ({
   changeAfterClient,
   showSmallCehck2,
   showSmallCehckReturn,
-  handleAccessNext
+  handleAccessNext,
+  departments,
+  selectDepartment
 }) => {
 
   const { t } = useTranslation()
@@ -163,15 +165,22 @@ export const TableClients = ({
                 />
               </button>
             </div>
-            {/* <div className="text-center ml-auto ">
-              <Pagination
-                setCurrentDatas={setCurrentConnectors}
-                datas={connectors}
-                setCurrentPage={setCurrentPage}
-                countPage={countPage}
-                totalDatas={connectors.length}
-              />
-            </div> */}
+            {listType !== 'operation' && <div className="text-center ml-auto ">
+              <select
+                className="form-control form-control-sm selectpicker"
+                placeholder="Reklamalarni tanlash"
+                onChange={selectDepartment}
+              >
+                <option value="all">{t("Barcha bo'limlar")}</option>
+                {departments.map((department, index) => {
+                  return (
+                    <option key={index} value={department._id}>
+                      {department.name}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>}
             <div
               className="text-center ml-auto flex gap-2"
               style={{ overflow: 'hidden' }}
@@ -213,7 +222,7 @@ export const TableClients = ({
                   {t("Qo'shish")}
                 </th>}
                 {listType === 'nextsteps' && <th className="border py-1 bg-alotrade text-[16px]">
-                  
+
                 </th>}
                 <th className="border py-1 bg-alotrade text-[16px]">
                   {t("Chop etish")}
@@ -247,10 +256,10 @@ export const TableClients = ({
                       {connector?.probirka}
                     </td> */}
                     {listType !== 'operation' && <td className="border py-1 text-right text-[16px]">
-                      {listType === 'operation' ? connector?.department?.name : [...connector?.services].filter(service => service.department.probirka === false)[0]?.department?.name}
+                      {listType === 'operation' ? connector?.department?.name : [...connector?.services].filter(service => service.department.probirka === false)[0]?.department?.name || [...connector?.services].filter(service => service.department.probirka)[0]?.department?.name}
                     </td>}
                     <td className={`border py-1 text-right text-[16px] font-bold ${listType === 'all' && connector.isBooking && "bg-green-400"}`}>
-                      {listType === 'all' && connector?.isBooking ? t('Belgilangan') : `${listType === 'operation' ? 'ПО' : connector.step ? 'KO' : "A"} ${listType === 'operation' ? connector?.turn : (listType === 'nextsteps' && connector?.step ? getTurnStepClient(connector) : [...connector?.services].filter(service => service.department.probirka === false)[0]?.turn)}`}
+                      {listType === 'all' && connector?.isBooking ? t('Belgilangan') : `${listType === 'operation' ? 'ПО' : connector.step ? 'KO' : connector.services.filter(i => !i.department.probirka)[0]?.department?.turntitle || 'L'} ${listType === 'operation' ? connector?.turn : (listType === 'nextsteps' && connector?.step ? getTurnStepClient(connector) : [...connector?.services].filter(service => service.department.probirka === false)[0]?.turn || [...connector?.services].filter(service => service.department.probirka)[0]?.turn)}`}
                     </td>
                     <td className="border py-1 text-right text-[16px]">
                       {

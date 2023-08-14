@@ -844,7 +844,7 @@ export const OfflineClients = () => {
 
     const showSmallCehckReturn = (connector) => {
         setCheckType('all')
-        setPrintBody({ ...connector, turn: [...connector?.services].filter(service => service.department.probirka === false)[0]?.turn })
+        setPrintBody({ ...connector, turntitle: [...connector?.services].filter(service => service.department.probirka === false)[0]?.department?.turntitle || 'L', turn: [...connector?.services].filter(service => service.department.probirka === false)[0]?.turn || [...connector?.services].filter(service => service.department.probirka)[0]?.turn })
         setTimeout(() => {
             handlePrint()
         }, 1000)
@@ -948,6 +948,28 @@ export const OfflineClients = () => {
 
         setEndDay(date);
         getConnectors(beginDay, date);
+    }
+
+    //====================================================================
+    //====================================================================
+    
+    const selectDepartment = (e) => {
+        let arr = []
+        if (listType === 'all') {
+            if (e.target.value === 'all') {
+                arr = [...searchStorage]
+            } else {
+                arr = [...searchStorage].filter(el => el.services.some(s => s.department._id === e.target.value))
+            }
+            setAllList('all', arr)
+        } else {
+            if (e.target.value === 'all') {
+                arr = [...searchStorage]
+            } else {
+                arr = [...searchStorage].filter(el => el.services.some(s => s.department._id === e.target.value))
+            }
+            setNextsList('nextsteps', arr)
+        }
     }
 
     //====================================================================
@@ -1276,6 +1298,8 @@ export const OfflineClients = () => {
                             showSmallCehck2={showSmallCehck2}
                             showSmallCehckReturn={showSmallCehckReturn}
                             handleAccessNext={handleAccessNext}
+                            departments={departments}
+                            selectDepartment={selectDepartment}
                         />
                     </div>
                 </div>
@@ -1305,10 +1329,10 @@ export const OfflineClients = () => {
                                 baseUrl={baseUrl}
                                 clinica={auth?.clinica}
                                 connector={printBody}
-                                client={printBody?.client}
+                                client={printBody?.client}    
                                 sections={printBody?.services}
                                 turn={printBody?.turn}
-                                turntitle={'A'}
+                                turntitle={printBody?.turntitle}
                             />
                             : printBody && checkType === 'operation' && <SmallCheck2
                                 baseUrl={baseUrl}

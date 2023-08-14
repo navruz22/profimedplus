@@ -288,6 +288,7 @@ export const Departments = () => {
                     <tr>
                       <th className="w-25 bg-alotrade text-[16px]">{t("Bo'lim nomi")}</th>
                       <th className="w-25 bg-alotrade text-[16px]">{t("Bo'lim xonasi")}</th>
+                      <th className="w-25 bg-alotrade text-[16px]">{t("Navbat")}</th>
                       <th className="w-25 bg-alotrade text-[16px]">{t("Probirka")}</th>
                       <th className="w-25 bg-alotrade text-[16px]">{t("Saqlash")}</th>
                       <th className="w-25 bg-alotrade text-[16px]">{t("Bo'limlarni o'chirish")}</th>
@@ -313,6 +314,18 @@ export const Departments = () => {
                           value={department?.room}
                           onKeyUp={keyPressed}
                           onChange={(e) => setDepartment({ ...department, room: e.target.value })}
+                          type="text"
+                          className="form-control w-75"
+                          id="inputName"
+                          // placeholder={t("Bo'lim xonasini kiriting")}
+                        />
+                      </td>
+                      <td>
+                        <input
+                          style={{ minWidth: '70px' }}
+                          value={department?.turntitle}
+                          onKeyUp={keyPressed}
+                          onChange={(e) => setDepartment({ ...department, turntitle: e.target.value })}
                           type="text"
                           className="form-control w-75"
                           id="inputName"
@@ -385,6 +398,9 @@ export const Departments = () => {
                         {t("Xonasi")}
                       </th>
                       <th className="w-25 bg-alotrade text-[16px]">
+                        {t("Navbat")}
+                      </th>
+                      <th className="w-25 bg-alotrade text-[16px]">
                         {t("Barcha xizmat turlari")}
                       </th>
                       <th className="w-25 bg-alotrade text-[16px]">
@@ -402,6 +418,7 @@ export const Departments = () => {
                             <td className="font-weight-bold text-[16px]">{key + 1}</td>
                             <td className='text-[16px]'>{d.name}</td>
                             <td className='text-[16px]'>{d?.room}</td>
+                            <td className='text-[16px]'>{d?.turntitle}</td>
                             <td>
                               <button
                                 onClick={() => history.push('/alo24/servicetypes', {

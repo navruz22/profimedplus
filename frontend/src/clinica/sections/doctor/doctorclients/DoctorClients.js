@@ -11,6 +11,7 @@ import makeAnimated from 'react-select/animated'
 import { checkClientData, checkProductsData, checkServicesData } from "../../reseption/offlineclients/checkData/checkData";
 import { Modal } from "../../reseption/components/Modal";
 import { useTranslation } from "react-i18next";
+import { OfflineClients } from "../OfflineClients";
 
 const animatedComponents = makeAnimated()
 
@@ -34,8 +35,17 @@ export const DoctorClients = () => {
   //====================================================================
   // RegisterPage
   const [visible, setVisible] = useState(false);
+  const [visible2, setVisible2] = useState(false);
 
-  const changeVisible = () => setVisible(!visible);
+  const changeVisible = () => {
+    setVisible2(false)
+    setVisible(!visible)
+  }
+
+  const changeVisible2 = () => {
+    setVisible(false)
+    setVisible2(!visible2)
+  }
 
   //====================================================================
   //====================================================================
@@ -936,9 +946,9 @@ export const DoctorClients = () => {
       setCurrentDoctorClients([...searchStorage].filter(el => !el.connector.step).filter(connector => connector.services.filter(service => service.department._id === auth?.user?.specialty?._id && !service.department.probirka && service.accept).length < 1))
     }
     if (listtype === 'operation') {
-        setListType(listtype)
-        setDoctorClients([...afterClients])
-        setCurrentDoctorClients([...afterClients])
+      setListType(listtype)
+      setDoctorClients([...afterClients])
+      setCurrentDoctorClients([...afterClients])
     }
   }
 
@@ -976,6 +986,16 @@ export const DoctorClients = () => {
                 </button>
               </div>
             </div> */}
+            {/* <div className="row">
+              <div className="col-12 text-end">
+                <button
+                  className={`btn bg-green-500 text-white mb-2 w-100`}
+                  onClick={changeVisible2}
+                >
+                  {t("Registratsiya")}
+                </button>
+              </div>
+            </div> */}
             <div className="row justify-content-between">
               <div className="col-3 text-end">
                 <button
@@ -983,14 +1003,14 @@ export const DoctorClients = () => {
                     }`}
                   onClick={changeVisible}
                 >
-                  {t("Registratsiya")}
+                  {t("Xizmat qo'shish")}
                 </button>
                 <button
                   className={`btn bg-green-500 text-white mb-2 w-100 ${visible ? "" : "d-none"
                     }`}
                   onClick={changeVisible}
                 >
-                  {t("Registratsiya")}
+                  {t("Xizmat qo'shish")}
                 </button>
               </div>
               {!auth?.user?.isOne && <div className="col-6 text-end flex justify-between gap-4">
@@ -1008,7 +1028,7 @@ export const DoctorClients = () => {
                 </button>
                 <button
                   className={`btn bg-orange-500 text-white mb-2 w-100`}
-                onClick={() => changeListType('operation')}
+                  onClick={() => changeListType('operation')}
                 >
                   {t("ПО")}
                 </button>
@@ -1196,6 +1216,9 @@ export const DoctorClients = () => {
                 </div>
               </div>
             </div>
+            {/* <div className={` ${visible2 ? "bg-white" : "d-none"}`}>
+                <OfflineClients/>
+            </div> */}
             <TableClients
               sortData={sortData}
               changeAccept={changeAccept}

@@ -49,7 +49,7 @@ module.exports.register = async (req, res) => {
         const checkClient = validateOfflineClient(client).error
         if (checkClient) {
             return res.status(400).json({
-                error: error.message,
+                error: checkClient.message,
             })
         }
 
@@ -247,10 +247,12 @@ module.exports.register = async (req, res) => {
                 select: "-__v -updatedAt -isArchive",
                 populate: {
                     path: "department",
-                    select: "room name probirka"
+                    select: "room name probirka turntitle"
                 }
             })
             .populate('products')
+            .lean()
+            .then(connector => ({...connector, turn: [...connector.services].filter(s => s.department.probirka === false)[0]?.turn, turntitle: [...connector.services].filter(s => s.department.probirka === false)[0]?.department?.turntitle || 'A'}))
 
         res.status(201).send(response)
     } catch (error) {
@@ -765,7 +767,7 @@ module.exports.getAllReseption = async (req, res) => {
                     select: "service pieces reseption createdAt serviceid accept refuse column templates tables turn connector client files department",
                     populate: {
                         path: 'department',
-                        select: "probirka name room"
+                        select: "probirka name room turntitle"
                     }
                 })
                 .populate({
@@ -811,7 +813,7 @@ module.exports.getAllReseption = async (req, res) => {
                     select: "service createdAt reseption pieces serviceid accept refuse templates column tables turn connector client files department",
                     populate: {
                         path: 'department',
-                        select: "probirka name room"
+                        select: "probirka name room turntitle"
                     }
                 })
                 .populate({
@@ -855,7 +857,7 @@ module.exports.getAllReseption = async (req, res) => {
                     select: "service createdAt reseption pieces serviceid accept refuse templates column tables turn connector client files department",
                     populate: {
                         path: 'department',
-                        select: "probirka name room"
+                        select: "probirka name room turntitle"
                     }
                 })
                 .populate({
@@ -899,7 +901,7 @@ module.exports.getAllReseption = async (req, res) => {
                     select: "service createdAt reseption pieces serviceid accept refuse templates column tables turn connector client files department",
                     populate: {
                         path: 'department',
-                        select: "probirka name room"
+                        select: "probirka name room turntitle"
                     }
                 })
                 .populate({
@@ -947,7 +949,7 @@ module.exports.getAllReseption = async (req, res) => {
                     select: "service createdAt reseption pieces serviceid accept refuse templates column tables turn connector client files department",
                     populate: {
                         path: 'department',
-                        select: "probirka name room"
+                        select: "probirka name room turntitle"
                     }
                 })
                 .populate({

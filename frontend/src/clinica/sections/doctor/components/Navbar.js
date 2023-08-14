@@ -5,6 +5,8 @@ import { useHttp } from "../../../hooks/http.hook";
 import { useToast } from "@chakra-ui/react";
 import AloLogo from "../../../../clinica_logo.jpg"
 import { useTranslation } from "react-i18next";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSquarePlus } from "@fortawesome/free-solid-svg-icons";
 
 export const Navbar = () => {
   const history = useHistory();
@@ -100,6 +102,22 @@ export const Navbar = () => {
               </li>
               <li className="nav-item">
                 <Link
+                  className={`nav-link ${activePage === "/alo24/doctor_clients" || activePage === "/"
+                    ? "active-page"
+                    : ""
+                    }`}
+                  
+                  onClick={() => {
+                    setActivePage("/alo24/doctor_clients");
+                  }}
+                  to="/alo24/doctor_clients"
+                  style={{minWidth: 0, background: activePage === "/alo24/doctor_clients" || activePage === "/" ? "#F97316" : "" }}
+                >
+                  <FontAwesomeIcon color="green" fontSize="24px" icon={faSquarePlus} />
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
                   className={`nav-link ${activePage === "/alo24" || activePage === "/"
                     ? "active-page"
                     : ""
@@ -114,6 +132,7 @@ export const Navbar = () => {
                   {t("Mijozlar")}
                 </Link>
               </li>
+              
               <li className="nav-item">
                 <Link
                   className={`nav-link ${activePage === "/alo24/templates" ? "active-page" : ""
@@ -170,6 +189,20 @@ export const Navbar = () => {
                   {t("Online")}
                 </Link>
               </li>
+              {/* <li className="nav-item">
+                <Link
+                  className={`nav-link ${activePage === "/alo24/doctor_clients" ? "active-page" : ""
+                    }`}
+                  onClick={() => {
+                    setActivePage("/alo24/doctor_clients");
+                  }}
+                  to="/alo24/doctor_clients"
+                  style={{ background: activePage === "/alo24/doctor_clients" ? "#F97316" : "" }}
+                >
+                  <i className="icon-devices_other nav-icon" />
+                  {t("Qabul")}
+                </Link>
+              </li> */}
             </ul>
             <ul className="header-actions py-1 mr-2">
               <li className="dropdown">

@@ -18,12 +18,12 @@ export const SmallCheck = ({ baseUrl, clinica, client, connector, qr, turn, turn
                     />
                 </div>
                 <div>
-                    <h1 className="uppercase font-bold text-[36px]">{turntitle === 'A' ? t("DASTLABKI KO'RIK") : t("Qayta ko'rik")}</h1>
+                    <h1 className="uppercase font-bold text-[36px]">{turntitle === 'KO' ? t("Qayta ko'rik") : t("DASTLABKI KO'RIK")}</h1>
                 </div>
                 <div className="flex justify-between items-center">
                     <div>
                         <strong style={{ color: "black", fontSize: '20px', fontFamily: 'times' }}>
-                            {turntitle === 'A' ? t("Vaqti") : t('Muolaja vaqti')}:{' '}
+                    {turntitle === 'KO' ? t('Muolaja vaqti') : t("Vaqti")}{' '}
                         </strong>
                     </div>
                     <div style={{ fontWeight: "bold", color: "black", fontSize: '20px', fontFamily: 'times' }}>
@@ -43,23 +43,16 @@ export const SmallCheck = ({ baseUrl, clinica, client, connector, qr, turn, turn
                     {connector.client && connector.client.id}
                     </div>
                 </div>
-                <div className="flex justify-between items-center">
-                    <div>
-                        <strong style={{ color: "black", fontSize: '20px', fontFamily: 'times' }}>
-                            {t("Xona")}:{' '}
-                        </strong>
-                    </div>
-                    <div style={{ fontWeight: "bold", color: "black", fontSize: '20px', fontFamily: 'times' }}>
-                    {connector?.services.filter(el => !el.department.probirka)[0]?.department?.room}
-                    </div>
-                </div>
-                <div className="mt-4" style={{ fontWeight: "bold", color: "black", fontSize: '24px', fontFamily: 'times' }}>
+                <div className="mt-4" style={{ fontWeight: "bold", color: "black", fontSize: '32px', fontFamily: 'times' }}>
                     {client?.firstname + ' ' + client?.lastname}
                 </div>
                 <div style={{ fontWeight: "bold", color: "black", fontSize: '100px'}}>
                      {turntitle === 'A' && connector.isBooking ?  t('Belgilangan') : `${turntitle} ${turn}`}
                 </div>
-                <div className="w-full h-[5px] mt-[5cm] border-2 border-[#000]">
+                <div style={{ marginTop: '1cm', fontWeight: "bold", color: "black", fontSize: '60px'}}>
+                    {t("Xona")}:{connector?.services.filter(el => !el.department.probirka)[0]?.department?.room}
+                </div>
+                <div className="w-full h-[5px] border-2 border-[#000]">
                 </div>
             </div>
         </>

@@ -65,7 +65,7 @@ module.exports.register = async (req, res) => {
             })
         }
 
-        const { name, probirka, clinica, room } = req.body
+        const { name, probirka, clinica, room, turntitle } = req.body
 
         const department = await Department.findOne({
             clinica,
@@ -90,7 +90,8 @@ module.exports.register = async (req, res) => {
             name,
             probirka,
             clinica,
-            room
+            room,
+            turntitle
         })
         await newDepartment.save()
 
@@ -103,7 +104,7 @@ module.exports.register = async (req, res) => {
 //Department update
 module.exports.update = async (req, res) => {
     try {
-        const { name, probirka, clinica, room } = req.body
+        const { name, probirka, clinica, room, turntitle } = req.body
 
         const department = await Department.findById(req.body._id)
 
@@ -124,6 +125,7 @@ module.exports.update = async (req, res) => {
         department.name = name
         department.probirka = probirka;
         department.room = room;
+        department.turntitle = turntitle;
         await department.save()
 
         res.send(department)
