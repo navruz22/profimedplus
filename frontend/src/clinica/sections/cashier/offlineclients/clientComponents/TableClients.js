@@ -35,7 +35,8 @@ export const TableClients = ({
     searchStorage,
     getConnectorsByClientBorn,
     beginDay,
-    endDay
+    endDay,
+    handlePrint2
 }) => {
 
     const {t} = useTranslation()
@@ -287,8 +288,10 @@ export const TableClients = ({
                                                 <button
                                                     className="btn btn-primary py-0"
                                                     onClick={() => {
-                                                        setCheck(connector);
-                                                        setModal1(true);
+                                                        setConnector(connector)
+                                                        setTimeout(() => {
+                                                            handlePrint2()
+                                                        }, 1000)
                                                     }}
                                                 >
                                                     <FontAwesomeIcon icon={faPrint} />

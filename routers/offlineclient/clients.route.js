@@ -878,7 +878,7 @@ module.exports.getAllReseption = async (req, res) => {
                 .then(connectors => {
                     return connectors.filter(connector => connector.client && connector.client.fullname.toLowerCase().includes(name.toLowerCase()));
                 })
-        } else if (phone) {
+        } else if (phone) {   
             connectors = await OfflineConnector.find({
                 clinica
             })

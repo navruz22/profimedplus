@@ -32,13 +32,13 @@ export const checkClientData = (client, t) => {
   }
 
 
-  if (!client.gender) {
-    return {
-      title: t('Diqqat! Mijozning jinsi tanlanmagan.'),
-      description: '',
-      status: 'error',
-    }
-  }
+  // if (!client.gender) {
+  //   return {
+  //     title: t('Diqqat! Mijozning jinsi tanlanmagan.'),
+  //     description: '',
+  //     status: 'error',
+  //   }
+  // }
 
 
   return false

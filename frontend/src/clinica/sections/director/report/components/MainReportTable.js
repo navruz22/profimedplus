@@ -136,7 +136,7 @@ export const MainReportTable = ({
                             </div>
                         </div>
                     </div>
-                    <table className="overflow-scroll table m-0 table-sm" style={{display: 'block', maxHeight: "600px"}}>
+                    <table className="overflow-scroll table m-0 table-sm" id="mainreport-table" style={{display: 'block', maxHeight: "600px"}}>
                         <thead style={{position: 'sticky', top: "0"}}>
                             <tr>
                                 <th className="border py-1 bg-alotrade text-[16px]">№</th>

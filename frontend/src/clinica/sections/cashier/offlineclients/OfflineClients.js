@@ -1,5 +1,5 @@
 import { useToast } from '@chakra-ui/react'
-import React, { useCallback, useContext, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { AuthContext } from '../../../context/AuthContext'
 import { useHttp } from '../../../hooks/http.hook'
 import { Modal } from "../components/Modal";
@@ -13,6 +13,9 @@ import { checkData } from './checkData/checkData'
 // } from "./checkData/checkData";
 import { CheckModal } from "../components/ModalCheck";
 import { useTranslation } from 'react-i18next';
+import { SmallCheck } from '../components/SmallCheck';
+import { useReactToPrint } from 'react-to-print';
+import QRCode from 'qrcode'
 
 export const OfflineClients = () => {
     const [beginDay, setBeginDay] = useState(
@@ -28,7 +31,7 @@ export const OfflineClients = () => {
     const [modal1, setModal1] = useState(false)
     //====================================================================
     //====================================================================
-    const {t} = useTranslation()
+    const { t } = useTranslation()
     //====================================================================
     //====================================================================
     // RegisterPage
@@ -50,7 +53,14 @@ export const OfflineClients = () => {
     const [currentConnectors, setCurrentConnectors] = useState([])
 
     //====================================================================
+
+    const smallcheckref = useRef()
+    const handlePrint2 = useReactToPrint({
+        content: () => smallcheckref.current,
+    })
+
     //====================================================================
+
     const [check, setCheck] = useState({});
     //====================================================================
     //====================================================================
@@ -723,7 +733,17 @@ export const OfflineClients = () => {
 
     //====================================================================
     //====================================================================
-    
+    const [qr, setQr] = useState()
+
+    useEffect(() => {
+        if (connector && baseUrl) {
+          QRCode.toDataURL(`${baseUrl}/clienthistory/laboratory/${connector._id}`)
+            .then(data => {
+              setQr(data)
+            })
+        }
+      }, [connector, baseUrl])
+
     //====================================================================
     //====================================================================
     // useEffect
@@ -818,12 +838,13 @@ export const OfflineClients = () => {
                             getConnectorsByClientBorn={getConnectorsByClientBorn}
                             beginDay={beginDay}
                             endDay={endDay}
+                            handlePrint2={handlePrint2}
                         />
                     </div>
                 </div>
             </div>
 
-            <CheckModal
+            {/* <CheckModal
                 baseUrl={baseUrl}
                 connector={check}
                 clinica={auth && auth.clinica}
@@ -832,7 +853,13 @@ export const OfflineClients = () => {
                 setModal={setModal1}
                 smallCheckType={smallCheckType}
                 setSmallCheckType={setSmallCheckType}
-            />
+            /> */}
+
+            <div className='d-none'>
+                <div ref={smallcheckref} className="w-[10.4cm] p-2">
+                    <SmallCheck smallCheckType={smallCheckType} user={auth && auth.user} baseUrl={baseUrl} clinica={auth && auth.clinica} connector={connector} qr={qr} />
+                </div>
+            </div>
 
             <Modal
                 modal={modal}
