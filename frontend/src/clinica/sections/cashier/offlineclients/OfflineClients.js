@@ -719,6 +719,7 @@ export const OfflineClients = () => {
             getConnectors(beginDay, endDay)
             setTimeout(() => {
                 setIsActive(true)
+                handlePrint2()
             }, 1000)
             setModal1(true)
         } catch (error) {
@@ -857,7 +858,7 @@ export const OfflineClients = () => {
 
             <div className='d-none'>
                 <div ref={smallcheckref} className="w-[10.4cm] p-2">
-                    <SmallCheck smallCheckType={smallCheckType} user={auth && auth.user} baseUrl={baseUrl} clinica={auth && auth.clinica} connector={connector} qr={qr} />
+                    <SmallCheck smallCheckType={smallCheckType} user={auth && auth.user} baseUrl={baseUrl} clinica={auth && auth.clinica} connector={check} qr={qr} />
                 </div>
             </div>
 

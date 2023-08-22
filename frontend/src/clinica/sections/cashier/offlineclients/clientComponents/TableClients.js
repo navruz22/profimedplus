@@ -288,7 +288,7 @@ export const TableClients = ({
                                                 <button
                                                     className="btn btn-primary py-0"
                                                     onClick={() => {
-                                                        setConnector(connector)
+                                                        setCheck(connector)
                                                         setTimeout(() => {
                                                             handlePrint2()
                                                         }, 1000)
