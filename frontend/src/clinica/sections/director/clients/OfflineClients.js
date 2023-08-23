@@ -10,6 +10,11 @@ import { Pagination } from '../components/Pagination'
 import { DatePickers } from '../../reseption/offlineclients/clientComponents/DatePickers'
 import { useHistory } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import Select from 'react-select'
+import makeAnimated from 'react-select/animated'
+import ReactHtmlTableToExcel from 'react-html-table-to-excel'
+
+const animatedComponents = makeAnimated()
 
 const OfflineClients = () => {
 
@@ -86,7 +91,7 @@ const OfflineClients = () => {
                 },
             )
             setSearchStrorage(data)
-            setCurrentClients(data.slice(indexFirstUser, indexLastUser))
+            setCurrentClients(data)
         } catch (error) {
             notify({
                 title: t(`${error}`),
@@ -94,7 +99,35 @@ const OfflineClients = () => {
                 status: 'error',
             })
         }
-    }, [request, auth, notify, setSearchStrorage, indexFirstUser, indexLastUser])
+    }, [request, auth, notify, setSearchStrorage])
+
+    //=================================================
+    //=================================================
+
+    const [doctors, setDoctors] = useState([])
+
+    const getDoctors = useCallback(async () => {
+        try {
+            const data = await request(
+                `/api/doctor/get`,
+                'POST',
+                { clinica: auth.clinica._id },
+                {
+                    Authorization: `Bearer ${auth.token}`,
+                },
+            )
+            setDoctors([...data].map(el => ({
+                value: el.specialty._id,
+                label: el.firstname + ' ' + el.lastname
+            })))
+        } catch (error) {
+            notify({
+                title: t(`${error}`),
+                description: '',
+                status: 'error',
+            })
+        }
+    }, [request, auth, notify])
 
     //=================================================
     //=================================================
@@ -174,6 +207,7 @@ const OfflineClients = () => {
         if (!s) {
             setS(1)
             getConnectors(beginDay, endDay)
+            getDoctors()
             getBaseUrl()
         }
     }, [getConnectors, getBaseUrl, beginDay, endDay])
@@ -183,7 +217,7 @@ const OfflineClients = () => {
     const [age, setAge] = useState(null)
     const [gender, setGender] = useState(null)
     const [national, setNational] = useState(null)
-    
+
     const changeNational = (e) => {
         setNational(e.target.value)
     }
@@ -227,6 +261,17 @@ const OfflineClients = () => {
     //=================================================
     //=================================================
 
+    const changeDoctorClients = (e) => {
+        if (e.value === 'all') {
+            setCurrentClients([...searchStorage])
+        } else {
+            setCurrentClients([...searchStorage].filter(el => el.services.some(i => !i.accept && i.department._id === e.value)))
+        }
+    }
+
+    //=================================================
+    //=================================================
+
     return (
         <>
             <div className="d-none">
@@ -245,11 +290,30 @@ const OfflineClients = () => {
             <div className="content-wrapper px-lg-5 px-3">
                 <div className="row gutters">
                     <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div className="w-[300px] mb-2">
+                            <Select
+                                components={animatedComponents}
+                                options={[
+                                    {
+                                        value: 'all',
+                                        label: 'Xammasi',
+                                    },
+                                    ...doctors
+                                ]}
+                                theme={(theme) => ({
+                                    ...theme,
+                                    borderRadius: 0,
+                                    padding: 0,
+                                    height: 0,
+                                })}
+                                onChange={changeDoctorClients}
+                            />
+                        </div>
                         <div className="border-0 table-container">
                             <div className="border-0 table-container">
                                 <div className="table-responsive">
                                     <div className='bg-white flex items-center justify-between gap-2 p-2'>
-                                        <div>
+                                        {/* <div>
                                             <select
                                                 className="form-control form-control-sm selectpicker"
                                                 placeholder={t("Bo'limni tanlang")}
@@ -261,7 +325,7 @@ const OfflineClients = () => {
                                                 <option value={50}>50</option>
                                                 <option value={100}>100</option>
                                             </select>
-                                        </div>
+                                        </div> */}
                                         <div>
                                             <input
                                                 onChange={searchName}
@@ -277,7 +341,7 @@ const OfflineClients = () => {
                                         <div>
                                             <DatePickers changeDate={changeEnd} />
                                         </div>
-                                        <div>
+                                        {/* <div>
                                             <Pagination
                                                 setCurrentDatas={setCurrentClients}
                                                 datas={searchStorage}
@@ -285,6 +349,17 @@ const OfflineClients = () => {
                                                 countPage={countPage}
                                                 totalDatas={searchStorage.length}
                                             />
+                                        </div> */}
+                                        <div className="texte-center">
+                                            <div className="btn btn-primary">
+                                                <ReactHtmlTableToExcel
+                                                    id="reacthtmltoexcel"
+                                                    table="clients-table"
+                                                    sheet="Sheet"
+                                                    buttonText="Excel"
+                                                    filename={t("Mijozlar")}
+                                                />
+                                            </div>
                                         </div>
                                         <div>
                                             <input
@@ -331,7 +406,7 @@ const OfflineClients = () => {
                                             </button>
                                         </div>
                                     </div>
-                                    <table className="table m-0">
+                                    <table className="table m-0" id="clients-table">
                                         <thead>
                                             <tr>
                                                 <th className="border-right bg-alotrade text-[16px]">№</th>

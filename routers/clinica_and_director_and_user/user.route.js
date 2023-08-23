@@ -320,3 +320,23 @@ module.exports.changeOne = async (req, res) => {
     res.status(501).json({ error: error });
   }
 }
+
+
+
+module.exports.getDoctors = async (req, res) => {
+  try {
+    const { clinica } = req.body;
+
+    const users = await User.find({
+      clinica,
+      isArchive: false,
+    })
+      .populate("specialty", "name")
+      .select("-password -isArchive -createdAt -updatedAt -__v ")
+      .then(users => users.filter(user => user.type === 'Doctor' || user.type === 'Laborotory'))
+
+    res.status(201).send(users);
+  } catch (error) {
+    res.status(501).json({ error: error });
+  }
+}

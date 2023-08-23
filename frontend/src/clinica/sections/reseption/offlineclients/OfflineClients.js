@@ -1160,7 +1160,11 @@ export const OfflineClients = () => {
                 }
                 return el
             })
-            setNextsList('nextsteps', arr)
+            if (listType === 'nextsteps') {
+                setNextsList('nextsteps', arr)
+            } else {
+                setAllList('all', arr)
+            }
         } catch (error) {
             notify({
                 title: t(`${error}`),

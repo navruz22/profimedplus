@@ -99,5 +99,12 @@ router.get('/admin/clinica_list/get', (req, res) => {
 })
 
 
+//===================================================
+//===================================================
+
+router.post('/doctor/get', (req, res) => {
+  require('./user.route').getDoctors(req, res)
+})
+
 
 module.exports = router

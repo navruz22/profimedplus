@@ -70,10 +70,10 @@ export const TableClients = ({
   const [clientBorn, setClientBorn] = useState('')
 
   const setColor = (connector) => {
-    if (connector.step && !connector.stepAccess) {
+    if (!connector.stepAccess) {
       return 'bg-gray-400'
     }
-    if (connector.step && connector.stepAccess) {
+    if (connector.stepAccess) {
       return 'bg-green-400'
     }
     return ''
@@ -221,7 +221,7 @@ export const TableClients = ({
                 {listType === 'all' && <th className="border py-1 bg-alotrade text-[16px]">
                   {t("Qo'shish")}
                 </th>}
-                {listType === 'nextsteps' && <th className="border py-1 bg-alotrade text-[16px]">
+                {listType !== 'operation' && <th className="border py-1 bg-alotrade text-[16px]">
 
                 </th>}
                 <th className="border py-1 bg-alotrade text-[16px]">
@@ -305,7 +305,7 @@ export const TableClients = ({
                         <FontAwesomeIcon icon={faUserPen} />
                       </button>
                     </td>}
-                    {listType === 'nextsteps' &&
+                    {listType !== 'operation' &&
                       <td className="border py-1 text-right text-[16px]">
                         <div className='flex flex-row justify-center items-center  pt-[1.25rem] pb-[1.25rem] pr-[.625rem] pl-[.625rem] gap-[1.25rem]'>
                           <div className='flex items-center gap-[.625rem]'>
