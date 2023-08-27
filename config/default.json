@@ -2,5 +2,7 @@
     "PORT":9900,
     "mongoUri": "mongodb://localhost/alo24",
     "jwtSecret": "alo24",
-    "baseUrl":"http://localhost:9900"
-}
+    "baseUrl":"http://localhost:9900",
+    "botToken": "6375327237:AAH1b7LPszrY9RJ-VzqnsnK8YMt_ryAow-Y",
+    "tgChannelIdForOrder": "-1001809795904" 
+} 

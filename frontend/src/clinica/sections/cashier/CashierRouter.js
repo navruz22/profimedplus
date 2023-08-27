@@ -13,9 +13,9 @@ export const CashierRouter = () => {
         <Route path="/alo24" exact>
           <OfflineClients />
         </Route>
-        <Route path="/alo24/statsionar">
+        {/* <Route path="/alo24/statsionar">
           <StatsionarClients />
-        </Route>
+        </Route> */}
         <Route path="/alo24/discount">
           <DiscountClients />
         </Route>

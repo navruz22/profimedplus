@@ -164,7 +164,7 @@ module.exports.login = async (req, res) => {
         select: 'name phone1 image'
       }
     })
-    .populate("specialty", "name")
+    .populate("specialty", "name room")
 
     let user = null;
 

@@ -647,6 +647,34 @@ export const DoctorClients = () => {
   //====================================================================
   //====================================================================
 
+  const sendMessageToBot = async (firstname, lastname) => {
+    try {
+      const data = await request(
+        `/api/bot/send`,
+        "POST",
+        {
+          firstname,
+          lastname,
+          room: auth?.user?.specialty?.room
+        },
+        {
+          Authorization: `Bearer ${auth.token}`,
+        }
+      );
+      notify({
+        title: 'Success',
+        description: "",
+        status: "success",
+      });
+    } catch (error) {
+      notify({
+        title: t(error),
+        description: "",
+        status: "error",
+      });
+    }
+  }
+
   //====================================================================
   //====================================================================
   // PRODUCTS
@@ -1250,6 +1278,7 @@ export const DoctorClients = () => {
               setNewProducts={setNewProducts}
               saveService={saveService}
               listType={listType}
+              sendMessageToBot={sendMessageToBot}
             />
           </div>
         </div>

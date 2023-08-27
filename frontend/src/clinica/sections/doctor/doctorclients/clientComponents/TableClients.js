@@ -10,6 +10,8 @@ import {
   faArrowsUpDown,
   faRotate,
   faCheck,
+  faPhone,
+  faBell,
 } from "@fortawesome/free-solid-svg-icons";
 import { Sort } from "./Sort";
 import { Pagination } from "../../components/Pagination";
@@ -53,7 +55,8 @@ export const TableClients = ({
   setNewServices,
   setNewProducts,
   saveService,
-  listType
+  listType,
+  sendMessageToBot
 }) => {
 
   const { t } = useTranslation()
@@ -372,6 +375,21 @@ export const TableClients = ({
                             className="btn btn-success py-0"
                           >
                             <FontAwesomeIcon icon={faCheck} />
+                          </button>
+                        )}
+                        {loading ? (
+                          <button className="ml-2 btn btn-warning" disabled>
+                            <span className="spinner-border spinner-border-sm"></span>
+                            Loading...
+                          </button>
+                        ) : (
+                          <button
+                            onClick={() =>
+                              sendMessageToBot(connector.client?.firstname, connector.client?.lastname)
+                            }
+                            className="btn btn-warning py-0"
+                          >
+                            <FontAwesomeIcon icon={faBell} />
                           </button>
                         )}
                       </td>}

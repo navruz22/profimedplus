@@ -965,7 +965,7 @@ module.exports.getAllReseption = async (req, res) => {
                     }
                 })
                 .populate('products', '_id product pieces')
-                .sort({ _id: -1 })
+                .sort({ createdAt: 1 })
         }
 
         res.status(200).send(connectors)

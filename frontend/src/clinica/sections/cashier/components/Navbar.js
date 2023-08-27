@@ -116,7 +116,7 @@ export const Navbar = () => {
                                     {t("Kunduzgi")}
                                 </Link>
                             </li>
-                            <li className="nav-item">
+                            {/* <li className="nav-item">
                                 <Link
                                     className={`nav-link ${activePage === "/alo24/statsionar"
                                         ? "active-page"
@@ -131,7 +131,7 @@ export const Navbar = () => {
                                     <i className="icon-devices_other nav-icon" />
                                     {t("Statsionar")}
                                 </Link>
-                            </li>
+                            </li> */}
                             <li className="nav-item">
                                 <Link
                                     className={`nav-link ${activePage === "/alo24/discount"
@@ -161,7 +161,7 @@ export const Navbar = () => {
                                     style={{ background: activePage === "/alo24/debt" ? "#F97316" : "" }}
                                 >
                                     <i className="icon-devices_other nav-icon" />
-                                    {t("Qarizlar")}
+                                    {t("Qarz")}
                                 </Link>
                             </li>
                             <li className="nav-item">

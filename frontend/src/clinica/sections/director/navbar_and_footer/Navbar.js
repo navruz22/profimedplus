@@ -209,11 +209,11 @@ export const Navbar = ({clinica}) => {
                     </li>
                   </ul>
                 </li>
-                <li>
+                {/* <li>
                   <Link className="dropdown-item" onClick={() => setActivePage('/alo24/rooms')} to="/alo24/rooms">
                     {t("Statsionar xonalar")}
                   </Link>
-                </li>
+                </li> */}
                 <li>
                   <Link
                     className="dropdown-toggle sub-nav-link"
@@ -303,13 +303,13 @@ export const Navbar = ({clinica}) => {
                     {t("Kunduzgi")}
                   </Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link className="dropdown-item" to="/alo24/statsionarclients"
                     onClick={() => setActivePage('/alo24/statsionarclients')}
                   >
                     {t("Statsionar")}
                   </Link>
-                </li>
+                </li> */}
               </ul>
             </li>
             <li className="nav-item dropdown">
@@ -371,13 +371,13 @@ export const Navbar = ({clinica}) => {
                     {t("Kunduzgi")}
                   </Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link className="dropdown-item" to="/alo24/statsionarreport"
                     onClick={() => setActivePage('/alo24/statsionarreport')}
                   >
                     {t("Statsionar")}
                   </Link>
-                </li>
+                </li> */}
                 <li>
                   <Link className="dropdown-item" to="/alo24/discountreport"
                     onClick={() => setActivePage('/alo24/discountreport')}
@@ -399,13 +399,13 @@ export const Navbar = ({clinica}) => {
                     {t("Shifokor ulushi")}
                   </Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link className="dropdown-item" to="/alo24/nurse_profit"
                     onClick={() => setActivePage('/alo24/nurse_profit')}
                   >
                     {t("Xamshira ulushi")}
                   </Link>
-                </li>
+                </li> */}
                 <li>
                   <Link className="dropdown-item" to="/alo24/counteragent"
                     onClick={() => setActivePage('/alo24/counteragent')}
