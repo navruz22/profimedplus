@@ -1072,6 +1072,20 @@ export const DoctorClients = () => {
                     <div className="row gutters">
                       <div className="col-12">
                         <div className="form-group">
+                          <label htmlFor="education">{t("Izoh")}</label>
+                          <input
+                            value={connector.comment || ''}
+                            onChange={(e) => setConnector({...connector, comment: e.target.value})}
+                            type="text"
+                            className="form-control form-control-sm"
+                            id="comment"
+                            name="comment"
+                            placeholder={t("Izoh")}
+                          />
+                        </div>
+                      </div>
+                      <div className="col-12">
+                        <div className="form-group">
                           <label htmlFor="fullName">{t("Bo'limlar")}</label>
                           <select
                             className="form-control form-control-sm selectpicker"

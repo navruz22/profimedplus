@@ -25,6 +25,7 @@ const connector = new Schema(
         discount: { type: Schema.Types.ObjectId, ref: 'OfflineDiscount' },
         step: {type: Boolean},
         stepDate: {type: Date},
+        comment: {type: String},
         isBooking: {type: Boolean, default: false},
         stepAccess: {type: Boolean, default: false}
     },
@@ -45,6 +46,7 @@ function validateOfflineConnector(connector) {
         step: Joi.boolean().optional(),
         stepDate: Joi.date().optional(),
         isBooking: Joi.boolean(),
+        comment: Joi.string().optional(),
         stepAccess: Joi.boolean()
     })
 

@@ -626,6 +626,10 @@ module.exports.addservices = async (req, res) => {
 
       updateOfflineConnector.services.push(newservice._id)
     }
+    
+    if (connector?.comment) {
+      updateOfflineConnector.comment = connector.comment
+    }
 
     updateOfflineConnector.totalprice =
       updateOfflineConnector.totalprice + totalprice

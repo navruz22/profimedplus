@@ -196,6 +196,9 @@ export const RegisterClient = ({
                                         </tbody>
 
                                     </table>
+                                    <div className="w-full text-end">
+                                        <div className="card-title">{t("Izoh")}: {connector?.comment}</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
