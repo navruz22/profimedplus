@@ -36,7 +36,9 @@ export const TableClients = ({
     getConnectorsByClientBorn,
     beginDay,
     endDay,
-    handlePrint2
+    handlePrint2,
+    changeDepartment,
+    departments
 }) => {
 
     const {t} = useTranslation()
@@ -85,14 +87,14 @@ export const TableClients = ({
                         <div>
                             <select
                                 className="form-control form-control-sm selectpicker"
-                                placeholder="Bo'limni tanlang"
-                                onChange={setPageSize}
-                                style={{ minWidth: '50px' }}
+                                // placeholder="Bo'limni tanlang"
+                                onChange={changeDepartment}
+                                // style={{ minWidth: '50px' }}
                             >
-                                <option value={10}>10</option>
-                                <option value={25}>25</option>
-                                <option value={50}>50</option>
-                                <option value={100}>100</option>
+                                <option value={'all'}>{t("Xammasi")}</option>
+                                {departments.map((d, k) => 
+                                    <option key={k} value={d._id}>{d.name}</option>
+                                )}
                             </select>
                         </div>
                         <div>
@@ -144,7 +146,7 @@ export const TableClients = ({
                                 onKeyDown={(e) => e.key === 'Enter' && getConnectorsByClientBorn(e)}
                             />
                         </div>
-                        <div className="text-center ml-auto ">
+                        {/* <div className="text-center ml-auto ">
                             <Pagination
                                 setCurrentDatas={setCurrentConnectors}
                                 datas={connectors}
@@ -152,7 +154,7 @@ export const TableClients = ({
                                 countPage={countPage}
                                 totalDatas={connectors.length}
                             />
-                        </div>
+                        </div> */}
                         <div
                             className="text-center ml-auto flex gap-2"
                             style={{ overflow: 'hidden' }}

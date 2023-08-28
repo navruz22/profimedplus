@@ -111,9 +111,7 @@ export const OfflineClients = () => {
                 )
                 setConnectors(data)
                 setSearchStrorage(data)
-                setCurrentConnectors(
-                    data.slice(indexFirstConnector, indexLastConnector),
-                )
+                setCurrentConnectors(data)
             } catch (error) {
                 notify({
                     title: t(`${error}`),
@@ -734,16 +732,52 @@ export const OfflineClients = () => {
 
     //====================================================================
     //====================================================================
+
+    const [departments, setDepartments] = useState([]);
+
+    const getDepartments = useCallback(async () => {
+        try {
+            const data = await request(
+                `/api/services/department/reseption`,
+                "POST",
+                { clinica: auth.clinica._id },
+                {
+                    Authorization: `Bearer ${auth.token}`,
+                }
+            );
+            setDepartments(data);
+        } catch (error) {
+            notify({
+                title: t(`${error}`),
+                description: "",
+                status: "error",
+            });
+        }
+    }, [request, auth, notify]);
+
+    const changeDepartment = (e) => {
+        if (e.target.value === 'all') {
+            setConnectors([...searchStorage])
+            setCurrentConnectors([...searchStorage])
+        } else {
+            const data = [...searchStorage].filter(el => el.services.some(s => s.department._id === e.target.value))
+            setConnectors(data)
+            setCurrentConnectors(data)
+        }
+    }
+
+    //====================================================================
+    //====================================================================
     const [qr, setQr] = useState()
 
     useEffect(() => {
         if (connector && baseUrl) {
-          QRCode.toDataURL(`${baseUrl}/clienthistory/laboratory/${connector._id}`)
-            .then(data => {
-              setQr(data)
-            })
+            QRCode.toDataURL(`${baseUrl}/clienthistory/laboratory/${connector._id}`)
+                .then(data => {
+                    setQr(data)
+                })
         }
-      }, [connector, baseUrl])
+    }, [connector, baseUrl])
 
     //====================================================================
     //====================================================================
@@ -756,8 +790,9 @@ export const OfflineClients = () => {
             setS(1)
             getConnectors(beginDay, endDay)
             getBaseUrl()
+            getDepartments()
         }
-    }, [auth, getConnectors, getBaseUrl, s, beginDay, endDay])
+    }, [auth, getConnectors, getBaseUrl, getDepartments, s, beginDay, endDay])
 
     //====================================================================
     //====================================================================
@@ -840,6 +875,8 @@ export const OfflineClients = () => {
                             beginDay={beginDay}
                             endDay={endDay}
                             handlePrint2={handlePrint2}
+                            changeDepartment={changeDepartment}
+                            departments={departments}
                         />
                     </div>
                 </div>

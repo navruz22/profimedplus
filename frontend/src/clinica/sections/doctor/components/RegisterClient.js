@@ -251,6 +251,19 @@ export const RegisterClient = ({
                                         />
                                     </div>
                                 </div>
+                                <div className="col-12">
+                                    <div className="form-group">
+                                        <label htmlFor="biO">{t("Izoh")}</label>
+                                        <textarea
+                                            value={connector.comment || ''}
+                                            onChange={(e) => setConnector({...connector, comment: e.target.value})}
+                                            className="form-control form-control-sm"
+                                            name="address"
+                                            rows={1}
+                                            placeholder={t("Izoh kiriting....")}
+                                        />
+                                    </div>
+                                </div>
 
                             </div>
                         </div>
