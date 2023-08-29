@@ -80,12 +80,14 @@ export const TableClients = ({
   const isWasted = (connector) => {
     const now = new Date().getTime()
     const date = new Date(connector.stepDate).getTime()
+    console.log(Math.round((now - date) / 60000));
     return Math.round((now - date) / 60000) >= 40 
   }
 
   const setColor = (connector) => {
+    console.log(isWasted(connector));
     if (connector.step && !connector.accept && isWasted(connector)) {
-      return ''
+      return 'bg-red-400'
     }
     if (connector.step && !connector.accept) {
       return 'bg-gray-400'
@@ -264,7 +266,7 @@ export const TableClients = ({
               {currentDoctorClients.length > 0 &&
                 currentDoctorClients.map((connector, key) => {
                   return  (
-                    <tr key={key} className={connector.connector.step && !connector.connector.accept && isWasted(connector.connector) ? 'bg-red-400' : ""}>
+                    <tr key={key}>
                       <td
                         className={`${listType === 'operation' ?  "" : setColor(connector.connector)} border text-[16px] py-1 font-weight-bold text-right`}
                         style={{ maxWidth: "30px !important" }}
