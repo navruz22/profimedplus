@@ -818,8 +818,13 @@ export const DoctorClients = () => {
         return el;
       })
       setSearchStorage(arr)
-      setDoctorClients(arr.filter(connector => connector.services.filter(service => service.department._id === auth?.user?.specialty?._id && !service.department.probirka && service.accept).length < 1))
-      setCurrentDoctorClients(arr.filter(connector => connector.services.filter(service => service.department._id === auth?.user?.specialty?._id && !service.department.probirka && service.accept).length < 1))
+      if (listType === 'nextsteps') {
+        setDoctorClients([...arr].filter(item => item.connector.step).sort((a, b) => new Date(a.connector.stepDate) - new Date(b.connector.stepDate)))
+      setCurrentDoctorClients([...arr].filter(item => item.connector.step).sort((a, b) => new Date(a.connector.stepDate) - new Date(b.connector.stepDate)))
+      } else {
+        setDoctorClients([...searchStorage].filter(el => !el.connector.step).filter(connector => connector.services.filter(service => service.department._id === auth?.user?.specialty?._id && !service.department.probirka && service.accept).length < 1))
+      setCurrentDoctorClients([...searchStorage].filter(el => !el.connector.step).filter(connector => connector.services.filter(service => service.department._id === auth?.user?.specialty?._id && !service.department.probirka && service.accept).length < 1))
+      }
     } catch (error) {
       notify({
         title: error,

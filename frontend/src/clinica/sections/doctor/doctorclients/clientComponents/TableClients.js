@@ -313,28 +313,8 @@ export const TableClients = ({
                             htmlFor={`product${key}`}></label>
                         </div>
                       </td>}
-                      {listType !== 'operation' && <td className="border text-[16px] bg-white py-1 text-center flex gap-[4px] items-center">
-                        {/* {loading ? (
-                          <button className="btn btn-success" disabled>
-                            <span className="spinner-border spinner-border-sm"></span>
-                            Loading...
-                          </button>
-                        ) : (
-                          <button
-                            onClick={() => {
-                              setClient(connector.client)
-                              setConnector(connector.connector)
-                              setVisible(true)
-                              setIsAddConnector(true)
-                              setSelectedServices(null)
-                              setNewServices([])
-                              setNewProducts([])
-                            }}
-                            className="btn btn-success bg-orange-500 border-orange-500 py-0"
-                          >
-                            <FontAwesomeIcon icon={faRotate} />
-                          </button>
-                        )} */}
+                      {listType !== 'operation' && <td className="border text-[16px] bg-white py-1 text-center">
+                        <div className="flex gap-[4px] items-center">
                         {loading ? (
                           <button className="btn btn-success" disabled>
                             <span className="spinner-border spinner-border-sm"></span>
@@ -401,6 +381,8 @@ export const TableClients = ({
                             <FontAwesomeIcon icon={faBell} />
                           </button>
                         )}
+                        </div>
+                        
                       </td>}
                     </tr>
                   );
