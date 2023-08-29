@@ -1366,14 +1366,13 @@ module.exports.registerOnline = async (req, res) => {
 }
 
 
-/////
+
+
 module.exports.nextToStep = async (req, res) => {
     try {
         const { connectorId, step, stepDate } = req.body;
 
         const connector = await OfflineConnector.findById(connectorId)
-        
-            
 
         connector.step = step;
         connector.stepDate = stepDate

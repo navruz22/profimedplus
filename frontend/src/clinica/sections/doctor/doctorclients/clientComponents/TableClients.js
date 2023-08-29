@@ -77,7 +77,16 @@ export const TableClients = ({
   //   }
   // }
 
+  const isWasted = (connector) => {
+    const now = new Date().getTime()
+    const date = new Date(connector.stepDate).getTime()
+    return Math.round((now - date) / 60000) >= 40 
+  }
+
   const setColor = (connector) => {
+    if (connector.step && !connector.accept && isWasted(connector)) {
+      return ''
+    }
     if (connector.step && !connector.accept) {
       return 'bg-gray-400'
     }
@@ -255,7 +264,7 @@ export const TableClients = ({
               {currentDoctorClients.length > 0 &&
                 currentDoctorClients.map((connector, key) => {
                   return  (
-                    <tr key={key}>
+                    <tr key={key} className={connector.connector.step && !connector.connector.accept && isWasted(connector.connector) ? 'bg-red-400' : ""}>
                       <td
                         className={`${listType === 'operation' ?  "" : setColor(connector.connector)} border text-[16px] py-1 font-weight-bold text-right`}
                         style={{ maxWidth: "30px !important" }}
@@ -293,7 +302,7 @@ export const TableClients = ({
                       {clientsType === 'statsionar' && <td className="border text-[16px] py-1 text-right">
                         {connector?.connector?.room?.room?.type} {connector?.connector?.room?.room?.number} {connector?.connector?.room?.room?.place}
                       </td>}
-                      {listType !== 'operation' && <td className="border text-[16px] py-1 text-right">
+                      {listType !== 'operation' && <td className="border text-[16px] bg-white py-1 text-right">
                         <div className="custom-control custom-checkbox text-center">
                           <input checked={connector?.services?.filter(service => service.department._id === user?.specialty?._id && !service.department.probirka && service.accept).length > 0 ? true : false}
                             type="checkbox"
@@ -304,7 +313,7 @@ export const TableClients = ({
                             htmlFor={`product${key}`}></label>
                         </div>
                       </td>}
-                      {listType !== 'operation' && <td className="border text-[16px] py-1 text-center flex gap-[4px] items-center">
+                      {listType !== 'operation' && <td className="border text-[16px] bg-white py-1 text-center flex gap-[4px] items-center">
                         {/* {loading ? (
                           <button className="btn btn-success" disabled>
                             <span className="spinner-border spinner-border-sm"></span>
