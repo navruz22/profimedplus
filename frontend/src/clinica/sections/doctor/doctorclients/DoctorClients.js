@@ -179,7 +179,7 @@ export const DoctorClients = () => {
         setDoctorClients([...data].filter(connector => connector.services.filter(service => !service.department.probirka && service.accept).length < 1));
         setSearchStorage(data);
         setCurrentDoctorClients(
-          [...data].filter(connector => connector.services.filter(service => !service.department.probirka && service.accept).length < 1).slice(indexFirstConnector, indexLastConnector)
+          [...data].filter(connector => connector.services.filter(service => !service.department.probirka && service.accept).length < 1)
         );
       } catch (error) {
         notify({
@@ -215,9 +215,7 @@ export const DoctorClients = () => {
       );
       setDoctorClients(data);
       setSearchStorage(data);
-      setCurrentDoctorClients(
-        data.slice(indexFirstConnector, indexLastConnector)
-      );
+      setCurrentDoctorClients(data);
     } catch (error) {
       notify({
         title: t(error),
@@ -307,9 +305,7 @@ export const DoctorClients = () => {
       );
       setDoctorClients(data);
       setSearchStorage(data);
-      setCurrentDoctorClients(
-        data.slice(indexFirstConnector, indexLastConnector)
-      );
+      setCurrentDoctorClients(data);
     } catch (error) {
       notify({
         title: t(error),
@@ -372,9 +368,7 @@ export const DoctorClients = () => {
       );
       setDoctorClients(data);
       setSearchStorage(data);
-      setCurrentDoctorClients(
-        data.slice(indexFirstConnector, indexLastConnector)
-      );
+      setCurrentDoctorClients(data);
     } catch (error) {
       notify({
         title: t(error),
@@ -421,7 +415,7 @@ export const DoctorClients = () => {
           .includes(e.target.value.toLowerCase())
       });
       setDoctorClients(searching);
-      setCurrentDoctorClients(searching.slice(0, countPage));
+      setCurrentDoctorClients(searching);
       setFullname(e.target.value)
     }
 
@@ -431,7 +425,7 @@ export const DoctorClients = () => {
         item.client.id.toString().includes(e.target.value)
       );
       setDoctorClients(searching);
-      setCurrentDoctorClients(searching.slice(0, countPage));
+      setCurrentDoctorClients(searching);
       setClientId(e.target.value)
     }
 
@@ -593,7 +587,7 @@ export const DoctorClients = () => {
     }
     setAcceptType(e.target.value)
     setDoctorClients(searching);
-    setCurrentDoctorClients(searching.slice(0, countPage));
+    setCurrentDoctorClients(searching);
   }
 
   //=====================================================================
@@ -603,12 +597,12 @@ export const DoctorClients = () => {
     if (!isSort) {
       setDoctorClients([...searchStorage].filter(connector => connector.services.filter(service => service.department._id === auth?.user?.specialty?._id && !service.department.probirka && service.accept).length < 1).sort((a, b) => a.services.filter(s => s.department._id === auth?.user?.specialty?._id)[0].turn - b.services.filter(s => s.department._id === auth?.user?.specialty?._id)[0].turn));
       setCurrentDoctorClients(
-        [...searchStorage].filter(connector => connector.services.filter(service => service.department._id === auth?.user?.specialty?._id && !service.department.probirka && service.accept).length < 1).sort((a, b) => a.services.filter(s => s.department._id === auth?.user?.specialty?._id)[0].turn - b.services.filter(s => s.department._id === auth?.user?.specialty?._id)[0].turn).slice(0, countPage)
+        [...searchStorage].filter(connector => connector.services.filter(service => service.department._id === auth?.user?.specialty?._id && !service.department.probirka && service.accept).length < 1).sort((a, b) => a.services.filter(s => s.department._id === auth?.user?.specialty?._id)[0].turn - b.services.filter(s => s.department._id === auth?.user?.specialty?._id)[0].turn)
       );
     } else {
       setDoctorClients([...searchStorage].filter(connector => connector.services.filter(service => service.department._id === auth?.user?.specialty?._id && !service.department.probirka && service.accept).length < 1).sort((a, b) => b.services.filter(s => s.department._id === auth?.user?.specialty?._id)[0].turn - a.services.filter(s => s.department._id === auth?.user?.specialty?._id)[0].turn));
       setCurrentDoctorClients(
-        [...searchStorage].filter(connector => connector.services.filter(service => service.department._id === auth?.user?.specialty?._id && !service.department.probirka && service.accept).length < 1).sort((a, b) => b.services.filter(s => s.department._id === auth?.user?.specialty?._id)[0].turn - a.services.filter(s => s.department._id === auth?.user?.specialty?._id)[0].turn).slice(0, countPage)
+        [...searchStorage].filter(connector => connector.services.filter(service => service.department._id === auth?.user?.specialty?._id && !service.department.probirka && service.accept).length < 1).sort((a, b) => b.services.filter(s => s.department._id === auth?.user?.specialty?._id)[0].turn - a.services.filter(s => s.department._id === auth?.user?.specialty?._id)[0].turn)
       );
     }
     setIsSort(!isSort)

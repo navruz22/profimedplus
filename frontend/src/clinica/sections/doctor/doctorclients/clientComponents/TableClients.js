@@ -81,7 +81,7 @@ export const TableClients = ({
   const isWasted = (connector) => {
     const now = new Date().getTime()
     const date = new Date(connector.stepDate).getTime()
-    console.log(connector);
+
     return Math.round((now - date) / 60000) >= 40
   }
 
