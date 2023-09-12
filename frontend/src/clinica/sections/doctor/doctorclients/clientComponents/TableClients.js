@@ -82,7 +82,7 @@ export const TableClients = ({
     const now = new Date().getTime()
     const date = new Date(connector.stepDate).getTime()
     console.log(connector);
-    return Math.round((now - date) / 60000) >= 1
+    return Math.round((now - date) / 60000) >= 40
   }
 
   const setColor = (connector) => {
