@@ -190,7 +190,7 @@ module.exports.getAll = async (req, res) => {
         .populate('payments')
         .lean()
         .then(connectors => connectors.filter(connector => {
-          return connector.services.some(service => String(service.department._id) === String(department) && !service.refuse && service.payment)
+          return connector.services.some(service => String(service.department._id) === String(department) && !service.refuse && (connector.addedByDoctor ? true : service.payment))
         }))
     }
 
@@ -208,7 +208,7 @@ module.exports.getAll = async (req, res) => {
             stepDate: connector.stepDate && connector.stepDate,
             isBooking: connector.isBooking && connector.isBooking,
           },
-          services: [...connector.services].filter(service => service.refuse === false && service.payment),
+          services: [...connector.services].filter(service => service.refuse === false && (connector.addedByDoctor ? true : service.payment)),
           payments: connector.payments
         })
       }

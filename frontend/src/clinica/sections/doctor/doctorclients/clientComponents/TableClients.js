@@ -56,7 +56,8 @@ export const TableClients = ({
   setNewProducts,
   saveService,
   listType,
-  sendMessageToBot
+  sendMessageToBot,
+  acceptType
 }) => {
 
   const { t } = useTranslation()
@@ -80,26 +81,26 @@ export const TableClients = ({
   const isWasted = (connector) => {
     const now = new Date().getTime()
     const date = new Date(connector.stepDate).getTime()
-    console.log(Math.round((now - date) / 60000));
-    return Math.round((now - date) / 60000) >= 40 
+    console.log(connector);
+    return Math.round((now - date) / 60000) >= 1
   }
 
   const setColor = (connector) => {
-    console.log(isWasted(connector));
-    if (connector.step && !connector.accept && isWasted(connector)) {
+    // console.log(!connector.services.some(s => s.accept === false));
+    if (connector.connector.step && connector.services.some(s => s.accept === false) && isWasted(connector.connector)) {
       return 'bg-red-400'
     }
-    if (connector.step && !connector.accept) {
+    if (connector.connector.step && connector.services.some(s => s.accept === false)) {
       return 'bg-gray-400'
     }
-    if (connector.step && connector.accept) {
+    if (connector.connector.step && !connector.services.some(s => s.accept === false)) {
       return 'bg-green-400'
     }
     return ''
   }
 
   const getTurn = (connector) => {
-    
+
     const data = [...doctorClients].filter(el => el.connector.step).sort((a, b) => new Date(a.connector.stepDate) - new Date(b.connector.stepDate))
     const index = data.reduce((prev, el, ind) => {
       if (connector?.connector?._id === el?.connector?._id) {
@@ -115,19 +116,6 @@ export const TableClients = ({
       <div className="border-0 table-container">
         <div className="table-responsive">
           <div className="bg-white flex gap-6 items-center py-2 px-2">
-            <div>
-              <select
-                className="form-control form-control-sm selectpicker"
-                placeholder="Bo'limni tanlang"
-                onChange={setPageSize}
-                style={{ minWidth: "50px" }}
-              >
-                <option value={10}>10</option>
-                <option value={25}>25</option>
-                <option value={50}>50</option>
-                <option value={100}>100</option>
-              </select>
-            </div>
             <div>
               <input
                 onChange={searchFullname}
@@ -164,15 +152,6 @@ export const TableClients = ({
                   style={{ cursor: "pointer" }}
                 />
               </button>
-            </div>
-            <div className="text-center">
-              <Pagination
-                setCurrentDatas={setCurrentDoctorClients}
-                datas={doctorClients}
-                setCurrentPage={setCurrentPage}
-                countPage={countPage}
-                totalDatas={doctorClients.length}
-              />
             </div>
             <div
               className="flex items-center gap-2 justify-center"
@@ -236,13 +215,10 @@ export const TableClients = ({
                 </th>
                 <th className="border bg-alotrade text-[16px] py-1">
                   {t("Navbat")}
-                  <button onClick={() => sortData(sort, setSort)} className="ml-2">
-                    <FontAwesomeIcon icon={faArrowsUpDown} />
-                  </button>
                 </th>
-                <th className="border bg-alotrade text-[16px] py-1">
+                {/* <th className="border bg-alotrade text-[16px] py-1">
                   {t("ID")}
-                </th>
+                </th> */}
                 <th className="border bg-alotrade text-[16px] py-1">
                   {t("Telefon raqami")}
                 </th>
@@ -255,7 +231,7 @@ export const TableClients = ({
                 {clientsType === 'statsionar' && <th className="border bg-alotrade text-[16px] py-1">
                   {t("Xonasi")}
                 </th>}
-                {listType !== 'operation' && <th className="border bg-alotrade text-[16px] py-1">
+                {listType !== 'operation' && acceptType === 'accept' && <th className="border bg-alotrade text-[16px] py-1">
                   {t("Tasdiqlangan")}
                 </th>}
                 {listType !== 'operation' && <th className="border bg-alotrade text-[16px] py-1 w-[12%]">
@@ -265,10 +241,10 @@ export const TableClients = ({
             <tbody>
               {currentDoctorClients.length > 0 &&
                 currentDoctorClients.map((connector, key) => {
-                  return  (
+                  return (
                     <tr key={key}>
                       <td
-                        className={`${listType === 'operation' ?  "" : setColor(connector.connector)} border text-[16px] py-1 font-weight-bold text-right`}
+                        className={`${listType === 'operation' ? "" : setColor(connector)} border text-[16px] py-1 font-weight-bold text-right`}
                         style={{ maxWidth: "30px !important" }}
                         onClick={() => {
                           const debt = connector.payments.reduce((prev, item) => prev + item.debt, 0)
@@ -280,31 +256,36 @@ export const TableClients = ({
                       >
                         {currentPage * countPage + key + 1}
                       </td>
-                      <td className="border text-[16px] py-1 font-weight-bold">
+                      <td
+                        style={{ cursor: listType !== 'operation' && "pointer" }}
+                        onClick={() =>
+                          listType !== 'operation' && history.push("/alo24/adoption", { ...connector, clientsType, user })
+                        }
+                        className="border text-[18px] py-1 font-weight-bold">
                         {listType === 'operation' ? `${connector?.firstname} ${connector?.lastname}` : `${connector?.client?.firstname} ${connector?.client?.lastname}`}
                       </td>
-                      <td className="border text-[16px] py-1 text-right">
+                      <td className="border text-[18px] py-1 text-right">
                         {listType === 'operation' ? `${new Date(connector?.createdAt).toLocaleTimeString('ru-RU')}` : listType === 'nextsteps' ? `${new Date(connector?.connector?.stepDate).toLocaleDateString('ru-RU')} ${new Date(connector?.connector?.stepDate).toLocaleTimeString('ru-RU')}` : `${new Date(connector?.connector?.createdAt).toLocaleDateString('ru-RU')} ${new Date([...connector?.services].filter(service => service.department._id === user.specialty._id).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0].createdAt).toLocaleTimeString('ru-RU')}`}
                       </td>
-                      <td className={`${listType === 'all' && connector.connector?.isBooking && 'bg-green-400'} border text-[16px] py-1 text-right font-bold`}>
-                      {listType === 'all' && connector.connector?.isBooking ? t('Belgilangan') : `${listType === 'operation' ? 'ПО' : connector?.connector?.step ? 'KO' : "A"} ${listType === 'operation' ? connector?.turn : (connector?.connector?.step ? getTurn(connector) : [...connector?.services].filter(service => service.department.probirka === false)[0]?.turn)}`}
+                      <td className={`${listType === 'all' && connector.connector?.isBooking && 'bg-green-400'} border text-[18px] py-1 text-right font-bold`}>
+                        {listType === 'all' && connector.connector?.isBooking ? t('Belgilangan') : `${listType === 'operation' ? 'ПО' : connector?.connector?.step ? 'KO' : "A"} ${listType === 'operation' ? connector?.turn : (connector?.connector?.step ? getTurn(connector) : [...connector?.services].filter(service => service.department.probirka === false)[0]?.turn)}`}
                       </td>
-                      <td className="border text-[16px] py-1 text-right">
+                      {/* <td className="border text-[16px] py-1 text-right">
                         {listType === 'operation' ? connector?.id : connector?.client?.id}
-                      </td>
-                      <td className="border text-[16px] py-1 text-right">
+                      </td> */}
+                      <td className="border text-[18px] py-1 text-right">
                         {listType === 'operation' ? connector?.phone : connector?.client?.phone}
                       </td>
-                      <td className="border text-[16px] py-1 text-right">
+                      <td className="border text-[18px] py-1 text-right">
                         {listType === 'operation' ? new Date(connector?.born).toLocaleDateString() : new Date(connector?.client?.born).toLocaleDateString()}
                       </td>
-                      {clientsType === 'statsionar' && <td className="border text-[16px] py-1 text-right">
+                      {clientsType === 'statsionar' && <td className="border text-[18px] py-1 text-right">
                         {new Date(connector?.connector?.createdAt).toLocaleDateString()} {new Date(connector?.connector?.createdAt).toLocaleTimeString().slice(0, 5)}
                       </td>}
                       {clientsType === 'statsionar' && <td className="border text-[16px] py-1 text-right">
                         {connector?.connector?.room?.room?.type} {connector?.connector?.room?.room?.number} {connector?.connector?.room?.room?.place}
                       </td>}
-                      {listType !== 'operation' && <td className="border text-[16px] bg-white py-1 text-right">
+                      {listType !== 'operation' && acceptType === 'accept' && <td className="border text-[16px] bg-white py-1 text-right">
                         <div className="custom-control custom-checkbox text-center">
                           <input checked={connector?.services?.filter(service => service.department._id === user?.specialty?._id && !service.department.probirka && service.accept).length > 0 ? true : false}
                             type="checkbox"
@@ -315,76 +296,15 @@ export const TableClients = ({
                             htmlFor={`product${key}`}></label>
                         </div>
                       </td>}
-                      {listType !== 'operation' && <td className="border text-[16px] bg-white py-1 text-center">
-                        <div className="flex gap-[4px] items-center">
-                        {loading ? (
-                          <button className="btn btn-success" disabled>
-                            <span className="spinner-border spinner-border-sm"></span>
-                            Loading...
-                          </button>
-                        ) : (
-                          <button
-                            onClick={() =>
-                              history.push("/alo24/adoption", { ...connector, clientsType, user })
-                            }
-                            className="btn btn-primary py-0"
-                          >
-                            <FontAwesomeIcon icon={faPenAlt} />
-                          </button>
-                        )}
-                        {loading ? (
-                          <button className="btn btn-success" disabled>
-                            <span className="spinner-border spinner-border-sm"></span>
-                            Loading...
-                          </button>
-                        ) : (
-                          <button
-                            onClick={() => {
-                              setClient(connector.client)
-                              setConnector(connector.connector)
-                              setIsAddConnector(false)
-                              setVisible(true)
-                              setSelectedServices(null)
-                              setNewServices([])
-                              setNewProducts([])
-                            }}
-                            className="btn btn-success py-0"
-                          >
-                            <FontAwesomeIcon icon={faPlus} />
-                          </button>
-                        )}
-                        {loading ? (
-                          <button className="ml-2 btn btn-success" disabled>
-                            <span className="spinner-border spinner-border-sm"></span>
-                            Loading...
-                          </button>
-                        ) : (
-                          <button
-                            onClick={() =>
-                              saveService(connector.services, connector.connector._id)
-                            }
-                            className="btn btn-success py-0"
-                          >
-                            <FontAwesomeIcon icon={faCheck} />
-                          </button>
-                        )}
-                        {loading ? (
-                          <button className="ml-2 btn btn-warning" disabled>
-                            <span className="spinner-border spinner-border-sm"></span>
-                            Loading...
-                          </button>
-                        ) : (
-                          <button
-                            onClick={() =>
-                              sendMessageToBot(connector.client?.firstname, connector.client?.lastname)
-                            }
-                            className="btn btn-warning py-0"
-                          >
-                            <FontAwesomeIcon icon={faBell} />
-                          </button>
-                        )}
-                        </div>
-                        
+                      {listType !== 'operation' && <td className=" bg-white py-1 text-center">
+                        <button
+                          onClick={() =>
+                            saveService(connector.services, connector.connector._id)
+                          }
+                          className="w-full bg-alotrade rounded-2 text-[18px] font-bold text-white"
+                        >
+                         {t("Qabul qilish")}
+                        </button>
                       </td>}
                     </tr>
                   );

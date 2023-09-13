@@ -1,5 +1,7 @@
 import { useToast } from "@chakra-ui/react";
 import {
+  faBell,
+  faPlus,
   faSave,
   faTrash,
   faTrashAlt,
@@ -9,6 +11,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import Select, { components } from "react-select";
+import makeAnimated from 'react-select/animated'
 import { AuthContext } from "../../../context/AuthContext";
 import { useHttp } from "../../../hooks/http.hook";
 import Print from "./Print";
@@ -21,7 +24,10 @@ import { useTranslation } from "react-i18next";
 import AllServices from "./AllServices";
 import ModalPrint from "./ModalPrint";
 import ReactHtmlParser from 'react-html-parser'
+import { Modal } from "../../reseption/components/Modal";
+import { checkProductsData, checkServicesData } from "../../reseption/offlineclients/checkData/checkData";
 
+const animatedComponents = makeAnimated()
 
 const CustomMenuWithInput = ({ selectProps: { onHover, onChange, outHover }, ...props }) => {
 
@@ -528,7 +534,7 @@ const DoctorTemplate = ({ client, connector, services, clientsType, baseUrl }) =
                       onChange={(e) => {
                         handleAddTemplate(e, section.service._id)
                         setTemplateModal(false)
-                        }
+                      }
                       }
                       components={{ Option: CustomMenuWithInput }}
                       onHover={handleOnHover}
@@ -1166,9 +1172,11 @@ const AdoptionTemplate = () => {
   const { t } = useTranslation()
 
   const { client, connector, services, clientsType, user } = useLocation().state;
+  
   const connectorData = useLocation().state;
 
   const [modal, setModal] = useState(false)
+  const [modal2, setModal2] = useState(false)
   const [modalBody, setModalBody] = useState('all')
 
   const [type, setType] = useState('doctor')
@@ -1208,9 +1216,281 @@ const AdoptionTemplate = () => {
   }, [request, notify]);
 
 
+  //============================================================================
+  //============================================================================
+
+  const [isAddConnector, setIsAddConnector] = useState(false)
+  const [visible, setVisible] = useState(false)
+  const [isActive, setIsActive] = useState(true)
+
+  const [client2, setClient] = useState({})
+  const [connector2, setConnector] = useState({})
+
+
+  const addServices = async () => {
+    setIsActive(false)
+    try {
+      const data = await request(
+        `/api/doctor/clients/service/add`,
+        "POST", 
+        {
+          client: { ...client2, clinica: auth.clinica._id },
+          connector: { ...connector2, clinica: auth.clinica._id },
+          services: [...newservices],
+          products: [...newproducts],
+          clinica: auth && auth.clinica._id,
+          user: auth?.user,
+        },
+        {
+          Authorization: `Bearer ${auth.token}`,
+        }
+      );
+      notify({
+        title: data.message,
+        description: "",
+        status: "success",
+      });
+      setSelectedServices(null);
+      setConnector({})
+      setClient({})
+      setModal2(false);
+      setNewProducts([])
+      setNewServices([])
+      setVisible(false);
+      setTimeout(() => {
+        setIsActive(true)
+      }, 5000)
+    } catch (error) {
+      notify({
+        title: t(error),
+        description: "",
+        status: "error",
+      });
+    }
+  }
+
+  const addConnectorHandler = async () => {
+    setIsActive(false)
+    try {
+      const data = await request(
+        `/api/offlineclient/client/connector/add`,
+        "POST",
+        {
+          client: { ...client2, clinica: auth.clinica._id },
+          connector: { probirka: connector2?.probirka, clinica: auth.clinica._id },
+          services: [...newservices],
+          products: [...newproducts],
+          // counterdoctor: counterdoctor,
+          // adver: { ...adver, clinica: auth.clinica._id },
+        },
+        {
+          Authorization: `Bearer ${auth.token}`,
+        }
+      );
+      setSelectedServices(null);
+      setConnector({})
+      setClient({})
+      setModal2(false);
+      setNewProducts([])
+      setNewServices([])
+      setVisible(false);
+      setIsAddConnector(false)
+      setTimeout(() => {
+        setIsActive(true)
+      }, 5000)
+    } catch (error) {
+      notify({
+        title: t(`${error}`),
+        description: "",
+        status: "error",
+      });
+    }
+  }
+
+  const [departments, setDepartments] = useState([]);
+
+  const getDepartments = useCallback(async () => {
+    try {
+      const data = await request(
+        `/api/services/department/reseption`,
+        "POST",
+        { clinica: auth.clinica._id },
+        {
+          Authorization: `Bearer ${auth.token}`,
+        }
+      );
+      setDepartments(data);
+    } catch (error) {
+      notify({
+        title: t(error),
+        description: "",
+        status: "error",
+      });
+    }
+  }, [request, auth, notify]);
+  const [products, setProducts] = useState([]);
+
+  const getProducts = useCallback(async () => {
+    try {
+      const data = await request(
+        `/api/services/product/getallreseption`,
+        "POST",
+        { clinica: auth.clinica._id },
+        {
+          Authorization: `Bearer ${auth.token}`,
+        }
+      );
+
+      let s = [];
+      data.map((product) => {
+        return s.push({
+          label: product.name,
+          value: product._id,
+          product: product,
+        });
+      });
+      setProducts(s);
+    } catch (error) {
+      notify({
+        title: t(error),
+        description: "",
+        status: "error",
+      });
+    }
+  }, [request, auth, notify]);
+
+  const [newproducts, setNewProducts] = useState([]);
+  const [selectedProducts, setSelectedProducts] = useState([]);
+
+  const changeProduct = (newproducts) => {
+    let s = [];
+    newproducts.map((product) => {
+      return s.push({
+        clinica: auth.clinica._id,
+        reseption: auth.user._id,
+        productid: product.product._id,
+        product: product.product,
+        pieces: 1,
+      });
+    });
+    setNewProducts(s);
+    setSelectedProducts(newproducts);
+  };
+  const [newservices, setNewServices] = useState([]);
+  const [selectedServices, setSelectedServices] = useState([]);
+
+  const changeService = (services) => {
+    let s = [];
+    services.map((service) => {
+      if (service.department.probirka) {
+        setConnector({ ...connector, probirka: 1, clinica: auth.clinica._id });
+      }
+      return s.push({
+        clinica: auth.clinica._id,
+        reseption: auth.user._id,
+        serviceid: service.service._id,
+        service: service.service,
+        department: service.department._id,
+        addUser: auth?.user?.specialty?.name,
+        pieces: 1,
+      });
+    });
+    setNewServices(s);
+    setSelectedServices(services);
+  };
+  const [services2, setServices] = useState([])
+
+  const getServices = useCallback(
+    (e) => {
+      var s = []
+      if (e === 'all') {
+        departments.map((department) => {
+          return department.services.map((service) => {
+            return s.push({
+              label: service.name,
+              value: service._id,
+              service: service,
+              department: department,
+            })
+          })
+        })
+      } else {
+        departments.map((department) => {
+          if (e === department._id) {
+            department.services.map((service) => {
+              s.push({
+                label: service.name,
+                value: service._id,
+                service: service,
+                department: department,
+              })
+              return ''
+            })
+          }
+          return ''
+        })
+      }
+      setServices(s)
+    },
+    [departments],
+  )
+
+  useEffect(() => {
+    if (departments) {
+      getServices('all')
+    }
+  }, [departments, getServices])
+
+  const checkData = () => {
+    if (checkServicesData(newservices && newservices)) {
+      return notify(checkServicesData(newservices));
+    }
+
+    if (checkProductsData(newproducts)) {
+      return notify(checkProductsData(newproducts));
+    }
+    setModal2(true);
+  };
+
+  //============================================================================
+  //============================================================================
+
+  const sendMessageToBot = async (firstname, lastname) => {
+    try {
+      const data = await request(
+        `/api/bot/send`,
+        "POST",
+        {
+          firstname,
+          lastname,
+          room: auth?.user?.specialty?.room
+        },
+        {
+          Authorization: `Bearer ${auth.token}`,
+        }
+      );
+      notify({
+        title: 'Success',
+        description: "",
+        status: "success",
+      });
+    } catch (error) {
+      notify({
+        title: t(error),
+        description: "",
+        status: "error",
+      });
+    }
+  }
+
+  //============================================================================
+  //============================================================================
+
   useEffect(() => {
     getBaseUrl()
-  }, [getBaseUrl]);
+    getDepartments()
+    getProducts()
+  }, [getBaseUrl, getDepartments, getProducts]);
 
   return <div className="container p-4 bg-white text-center">
     <div className="flex">
@@ -1246,6 +1526,217 @@ const AdoptionTemplate = () => {
       }} className="ml-4 block px-4 py-2 bg-alotrade text-center rounded-2 text-white">
         Yullanma
       </button>
+      <button
+        onClick={() => {
+          setClient(client)
+          setConnector(connector)
+          setIsAddConnector(false)
+          setVisible(!visible)
+          setSelectedServices(null)
+          setNewServices([])
+          setNewProducts([])
+        }}
+        className="ml-4 block px-4 py-2 bg-alotrade text-center rounded-2 text-white"
+      >
+        <FontAwesomeIcon icon={faPlus} />
+      </button>
+      {/* <button
+        onClick={() =>
+          sendMessageToBot(client?.firstname, client?.lastname)
+        }
+        className="ml-4 block px-4 py-2 bg-orange-400 text-center rounded-2 text-white"
+      >
+        <FontAwesomeIcon icon={faBell} />
+      </button> */}
+    </div>
+    <div className={` ${visible ? "bg-white" : "d-none"}`}>
+      <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+        <div className="card">
+          <div className="card-header text-left">
+            <div className="card-title">{t("Xizmatlar bilan ishlash")}</div>
+          </div>
+          <div className="card-body">
+            <div className="row gutters">
+              <div className="col-12 text-left">
+                <div className="form-group">
+                  <label htmlFor="education">{t("Izoh")}</label>
+                  <input
+                    value={connector.comment || ''}
+                    onChange={(e) => setConnector({ ...connector2, comment: e.target.value })}
+                    type="text"
+                    className="form-control form-control-sm"
+                    id="comment"
+                    name="comment"
+                    placeholder={t("Izoh")}
+                  />
+                </div>
+              </div>
+              <div className="col-12 text-left">
+                <div className="form-group">
+                  <label htmlFor="fullName">{t("Bo'limlar")}</label>
+                  <select
+                    className="form-control form-control-sm selectpicker"
+                    placeholder="Reklamalarni tanlash"
+                    onChange={(event) => getServices(event.target.value)}
+                  >
+                    <option value="all"> {t("Barcha bo'limlar")}</option>
+                    {departments.map((department, index) => {
+                      return (
+                        <option key={index} value={department._id}>
+                          {department.name}
+                        </option>
+                      )
+                    })}
+                  </select>
+                </div>
+              </div>
+              <div className="col-12 text-left">
+                <div className="form-group">
+                  <label htmlFor="inputEmail">{t("Xizmatlar")}</label>
+                  <Select
+                    value={selectedServices}
+                    onChange={changeService}
+                    closeMenuOnSelect={false}
+                    components={animatedComponents}
+                    options={services2}
+                    theme={(theme) => ({
+                      ...theme,
+                      borderRadius: 0,
+                      padding: 0,
+                      height: 0,
+                    })}
+                    isMulti
+                  />
+                </div>
+              </div>
+              <div className="col-12 text-left">
+                <div className="form-group">
+                  <label htmlFor="inputEmail">{t("Mahsulotlar")}</label>
+                  <Select
+                    value={selectedProducts}
+                    onChange={changeProduct}
+                    closeMenuOnSelect={false}
+                    components={animatedComponents}
+                    options={products}
+                    theme={(theme) => ({
+                      ...theme,
+                      borderRadius: 0,
+                      padding: 0,
+                      height: 0,
+                    })}
+                    isMulti
+                  />
+                </div>
+              </div>
+              <div className="col-12 text-left">
+                <table className="table">
+                  <thead>
+                    <tr>
+                      <th className="border bg-alotrade py-1">№</th>
+                      <th className="border bg-alotrade py-1">{t("Nomi")}</th>
+                      <th className="border bg-alotrade py-1">{t("Narxi")}</th>
+                      <th className="border bg-alotrade py-1">{t("Soni")}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {newservices &&
+                      newservices.map((service, index) => {
+                        return (
+                          <tr key={index}>
+                            <td className="py-1">{index + 1}</td>
+                            <td className="py-1">{service.service.name}</td>
+                            <td className="text-right py-1">
+                              {service.service.price * service.pieces}
+                            </td>
+                            <td className="text-right py-1">
+                              <input
+                                onChange={(e) =>
+                                  setNewServices(
+                                    Object.values({
+                                      ...newservices,
+                                      [index]: {
+                                        ...newservices[index],
+                                        pieces: e.target.value,
+                                      },
+                                    }),
+                                  )
+                                }
+                                className="text-right outline-none"
+                                style={{ maxWidth: '50px', outline: 'none' }}
+                                defaultValue={service.pieces}
+                                type="number"
+                              />
+                            </td>
+                          </tr>
+                        )
+                      })}
+                    <tr className="border"></tr>
+                    {newproducts &&
+                      newproducts.map((product, index) => {
+                        return (
+                          <tr key={index}>
+                            <td className="py-1">{index + 1}</td>
+                            <td className="py-1">{product.product.name}</td>
+                            <td className="text-right py-1">
+                              {product.product.price * product.pieces}
+                            </td>
+                            <td className="text-right py-1">
+                              <input
+                                onChange={(e) =>
+                                  setNewProducts(
+                                    Object.values({
+                                      ...newproducts,
+                                      [index]: {
+                                        ...newproducts[index],
+                                        pieces: e.target.value,
+                                      },
+                                    }),
+                                  )
+                                }
+                                className="text-right outline-none"
+                                style={{ maxWidth: '50px', outline: 'none' }}
+                                defaultValue={product.pieces}
+                                type="number"
+                              />
+                            </td>
+                          </tr>
+                        )
+                      })}
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <th className="text-right" colSpan={2}>
+                        {t("Jami")}:
+                      </th>
+                      <th colSpan={2}>
+                        {newservices.reduce((summa, service) => {
+                          return (
+                            summa +
+                            service.service.price * parseInt(service.pieces)
+                          )
+                        }, 0) +
+                          newproducts.reduce((summa, product) => {
+                            return (
+                              summa +
+                              product.product.price * parseInt(product.pieces)
+                            )
+                          }, 0)}
+                      </th>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+              <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div className="text-right">
+                  <button onClick={checkData} className="bg-alotrade rounded text-white py-2 px-3">
+                      {t("Saqlash")}
+                    </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     {type === 'doctor' && <DoctorTemplate user={user} clientsType={clientsType} baseUrl={baseUrl} client={client} connector={connector} services={services} />}
     {type === 'laboratory' && <LabTemplate client={client} connector={connector} services={services} baseUrl={baseUrl} />}
@@ -1256,6 +1747,13 @@ const AdoptionTemplate = () => {
       setModal={setModal}
       modalBody={modalBody}
       user={user}
+    />
+    <Modal
+      modal={modal2}
+      text={t("ma'lumotlar to'g'ri kiritilganligini tasdiqlaysizmi?")}
+      setModal={setModal2}
+      handler={isActive && isAddConnector ? addConnectorHandler : isActive && addServices}
+      basic={client.lastname + " " + client.firstname}
     />
   </div>
 }

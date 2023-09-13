@@ -23,6 +23,7 @@ const connector = new Schema(
         totalprice: { type: Number },
         payments: [{ type: Schema.Types.ObjectId, ref: 'OfflinePayment' }],
         discount: { type: Schema.Types.ObjectId, ref: 'OfflineDiscount' },
+        addedByDoctor: {type: Boolean, default: false},
         step: {type: Boolean},
         stepDate: {type: Date},
         comment: {type: String},

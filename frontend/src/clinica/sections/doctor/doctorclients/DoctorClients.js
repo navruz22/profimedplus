@@ -29,23 +29,12 @@ export const DoctorClients = () => {
   //====================================================================
   //====================================================================
 
-  const [isAddConnector, setIsAddConnector] = useState(false)
 
   //====================================================================
   //====================================================================
   // RegisterPage
   const [visible, setVisible] = useState(false);
-  const [visible2, setVisible2] = useState(false);
 
-  const changeVisible = () => {
-    setVisible2(false)
-    setVisible(!visible)
-  }
-
-  const changeVisible2 = () => {
-    setVisible(false)
-    setVisible2(!visible2)
-  }
 
   //====================================================================
   //====================================================================
@@ -93,6 +82,29 @@ export const DoctorClients = () => {
   //====================================================================
   //====================================================================
 
+  const [listType, setListType] = useState('all')
+
+  const changeListType = (listtype) => {
+    if (listtype === 'nextsteps') {
+      setListType(listtype)
+      setDoctorClients([...searchStorage].filter(item => item.connector.step).sort((a, b) => new Date(a.connector.stepDate) - new Date(b.connector.stepDate)))
+      setCurrentDoctorClients([...searchStorage].filter(item => item.connector.step).sort((a, b) => new Date(a.connector.stepDate) - new Date(b.connector.stepDate)))
+    }
+    if (listtype === 'all') {
+      setListType(listtype)
+      setDoctorClients([...searchStorage].filter(el => !el.connector.step).filter(connector => connector.services.filter(service => service.department._id === auth?.user?.specialty?._id && !service.department.probirka && service.accept).length < 1))
+      setCurrentDoctorClients([...searchStorage].filter(el => !el.connector.step).filter(connector => connector.services.filter(service => service.department._id === auth?.user?.specialty?._id && !service.department.probirka && service.accept).length < 1))
+    }
+    if (listtype === 'operation') {
+      setListType(listtype)
+      setDoctorClients([...afterClients])
+      setCurrentDoctorClients([...afterClients])
+    }
+  }
+
+  //====================================================================
+  //====================================================================
+
   const [clientsType, setClientsType] = useState('offline')
 
   //====================================================================
@@ -118,11 +130,20 @@ export const DoctorClients = () => {
             Authorization: `Bearer ${auth.token}`,
           }
         );
-        let data2 = [...data].filter(connector => connector.services.filter(service => service.department._id === auth?.user?.specialty?._id && !service.department.probirka && service.accept).length < 1).sort((a, b) => b.services.filter(s => s.department._id === auth?.user?.specialty?._id)[0].turn - a.services.filter(s => s.department._id === auth?.user?.specialty?._id)[0].turn)
-        let data3 = [...data2].filter(connector => !connector.connector.step)
-        setDoctorClients(data3);
-        setSearchStorage(data);
-        setCurrentDoctorClients(data3);
+        let data2 = [...data].filter(connector => connector.services
+          .filter(service => service.department._id === auth?.user?.specialty?._id && !service.department.probirka && service.accept).length < 1)
+          .sort((a, b) =>
+            a.services.filter(s => s.department._id === auth?.user?.specialty?._id)[0].turn -
+            b.services.filter(s => s.department._id === auth?.user?.specialty?._id)[0].turn)
+        setSearchStorage(data)
+        if (listType === 'nextsteps') {
+          setDoctorClients([...data].filter(item => item.connector.step).sort((a, b) => new Date(a.connector.stepDate) - new Date(b.connector.stepDate)))
+          setCurrentDoctorClients([...data].filter(item => item.connector.step).sort((a, b) => new Date(a.connector.stepDate) - new Date(b.connector.stepDate)))
+        }
+        if (listType === 'all') {
+          setDoctorClients([...data2].filter(el => !el.connector.step))
+          setCurrentDoctorClients([...data2].filter(el => !el.connector.step))
+        }
       } catch (error) {
         notify({
           title: t(error),
@@ -131,9 +152,8 @@ export const DoctorClients = () => {
         });
       }
     },
-    [request, auth, notify, indexFirstConnector, indexLastConnector]
+    [request, auth, notify, listType]
   );
-
 
   const getStatsionarClients = useCallback(
     async (beginDay, endDay) => {
@@ -224,9 +244,7 @@ export const DoctorClients = () => {
       );
       setDoctorClients(data);
       setSearchStorage(data);
-      setCurrentDoctorClients(
-        data.slice(indexFirstConnector, indexLastConnector)
-      );
+      setCurrentDoctorClients(data);
     } catch (error) {
       notify({
         title: t(error),
@@ -263,9 +281,7 @@ export const DoctorClients = () => {
       );
       setDoctorClients(data);
       setSearchStorage(data);
-      setCurrentDoctorClients(
-        data.slice(indexFirstConnector, indexLastConnector)
-      );
+      setCurrentDoctorClients(data);
     } catch (error) {
       notify({
         title: t(error),
@@ -330,9 +346,7 @@ export const DoctorClients = () => {
       );
       setDoctorClients(data);
       setSearchStorage(data);
-      setCurrentDoctorClients(
-        data.slice(indexFirstConnector, indexLastConnector)
-      );
+      setCurrentDoctorClients(data);
     } catch (error) {
       notify({
         title: t(error),
@@ -380,161 +394,17 @@ export const DoctorClients = () => {
 
   //===================================================================
   //===================================================================
-  const [isActive, setIsActive] = useState(true)
+  
   //===================================================================
   //===================================================================
 
   const [modal, setModal] = useState(false);
 
-  const checkData = () => {
-    if (checkServicesData(newservices && newservices)) {
-      return notify(checkServicesData(newservices));
-    }
 
-    if (checkProductsData(newproducts)) {
-      return notify(checkProductsData(newproducts));
-    }
-    setModal(true);
-  };
 
   //===================================================================
   //===================================================================
 
-  const [client, setClient] = useState({})
-  const [connector, setConnector] = useState({})
-
-
-  const handleAdd = () => {
-    if (clientsType === 'offline') {
-      addServices()
-    } else {
-      addServiceStatsionar()
-    }
-  }
-
-  const addServices = async () => {
-    setIsActive(false)
-    try {
-      const data = await request(
-        `/api/doctor/clients/service/add`,
-        "POST",
-        {
-          client: { ...client, clinica: auth.clinica._id },
-          connector: { ...connector, clinica: auth.clinica._id },
-          services: [...newservices],
-          products: [...newproducts],
-          clinica: auth && auth.clinica._id,
-          user: auth?.user,
-        },
-        {
-          Authorization: `Bearer ${auth.token}`,
-        }
-      );
-      notify({
-        title: data.message,
-        description: "",
-        status: "success",
-      });
-      setSelectedServices(null);
-      setConnector({})
-      setClient({})
-      setModal(false);
-      getDoctorClients(beginDay, endDay)
-      setNewProducts([])
-      setNewServices([])
-      setVisible(false);
-      setTimeout(() => {
-        setIsActive(true)
-      }, 5000)
-    } catch (error) {
-      notify({
-        title: t(error),
-        description: "",
-        status: "error",
-      });
-    }
-  }
-
-  const addServiceStatsionar = async () => {
-    setIsActive(false)
-    try {
-      const data = await request(
-        `/api/doctor/clients/statsionar/service/add`,
-        "POST",
-        {
-          client: { ...client, clinica: auth.clinica._id },
-          connector: { ...connector, clinica: auth.clinica._id },
-          services: [...newservices],
-          products: [...newproducts],
-          clinica: auth && auth.clinica._id
-        },
-        {
-          Authorization: `Bearer ${auth.token}`,
-        }
-      );
-      notify({
-        title: data.message,
-        description: "",
-        status: "success",
-      });
-      setSelectedServices(null);
-      setConnector({})
-      setClient({})
-      setModal(false);
-      getStatsionarClients(beginDay, endDay)
-      setNewProducts([])
-      setNewServices([])
-      setVisible(false);
-      setTimeout(() => {
-        setIsActive(true)
-      }, 5000)
-    } catch (error) {
-      notify({
-        title: t(error),
-        description: "",
-        status: "error",
-      });
-    }
-  }
-
-  const addConnectorHandler = async () => {
-    setIsActive(false)
-    try {
-      const data = await request(
-        `/api/offlineclient/client/connector/add`,
-        "POST",
-        {
-          client: { ...client, clinica: auth.clinica._id },
-          connector: { probirka: connector?.probirka, clinica: auth.clinica._id },
-          services: [...newservices],
-          products: [...newproducts],
-          // counterdoctor: counterdoctor,
-          // adver: { ...adver, clinica: auth.clinica._id },
-        },
-        {
-          Authorization: `Bearer ${auth.token}`,
-        }
-      );
-      setSelectedServices(null);
-      setConnector({})
-      setClient({})
-      setModal(false);
-      getDoctorClients(beginDay, endDay)
-      setNewProducts([])
-      setNewServices([])
-      setVisible(false);
-      setIsAddConnector(false)
-      setTimeout(() => {
-        setIsActive(true)
-      }, 5000)
-    } catch (error) {
-      notify({
-        title: t(`${error}`),
-        description: "",
-        status: "error",
-      });
-    }
-  }
 
   //===================================================================
   //===================================================================
@@ -546,7 +416,6 @@ export const DoctorClients = () => {
   const searchFullname =
     (e) => {
       const searching = [...searchStorage].filter((item) => {
-        console.log(item);
         return (item.client.firstname + item.client.lastname)
           .toLowerCase()
           .includes(e.target.value.toLowerCase())
@@ -620,115 +489,7 @@ export const DoctorClients = () => {
 
   //====================================================================
   //====================================================================
-
-  // DEPARTMENTS
-  const [departments, setDepartments] = useState([]);
-
-  const getDepartments = useCallback(async () => {
-    try {
-      const data = await request(
-        `/api/services/department/reseption`,
-        "POST",
-        { clinica: auth.clinica._id },
-        {
-          Authorization: `Bearer ${auth.token}`,
-        }
-      );
-      setDepartments(data);
-    } catch (error) {
-      notify({
-        title: t(error),
-        description: "",
-        status: "error",
-      });
-    }
-  }, [request, auth, notify]);
-
-  //====================================================================
-  //====================================================================
-
-  const sendMessageToBot = async (firstname, lastname) => {
-    try {
-      const data = await request(
-        `/api/bot/send`,
-        "POST",
-        {
-          firstname,
-          lastname,
-          room: auth?.user?.specialty?.room
-        },
-        {
-          Authorization: `Bearer ${auth.token}`,
-        }
-      );
-      notify({
-        title: 'Success',
-        description: "",
-        status: "success",
-      });
-    } catch (error) {
-      notify({
-        title: t(error),
-        description: "",
-        status: "error",
-      });
-    }
-  }
-
-  //====================================================================
-  //====================================================================
-  // PRODUCTS
-  const [products, setProducts] = useState([]);
-
-  const getProducts = useCallback(async () => {
-    try {
-      const data = await request(
-        `/api/services/product/getallreseption`,
-        "POST",
-        { clinica: auth.clinica._id },
-        {
-          Authorization: `Bearer ${auth.token}`,
-        }
-      );
-
-      let s = [];
-      data.map((product) => {
-        return s.push({
-          label: product.name,
-          value: product._id,
-          product: product,
-        });
-      });
-      setProducts(s);
-    } catch (error) {
-      notify({
-        title: t(error),
-        description: "",
-        status: "error",
-      });
-    }
-  }, [request, auth, notify]);
-
-  const [newproducts, setNewProducts] = useState([]);
-  const [selectedProducts, setSelectedProducts] = useState([]);
-
-  const changeProduct = (newproducts) => {
-    let s = [];
-    newproducts.map((product) => {
-      return s.push({
-        clinica: auth.clinica._id,
-        reseption: auth.user._id,
-        productid: product.product._id,
-        product: product.product,
-        pieces: 1,
-      });
-    });
-    setNewProducts(s);
-    setSelectedProducts(newproducts);
-  };
-
-  //====================================================================
-  //====================================================================
+ 
 
   //====================================================================
   //====================================================================
@@ -740,11 +501,9 @@ export const DoctorClients = () => {
     if (auth.clinica && !s) {
       setS(1);
       getDoctorClients(beginDay, endDay);
-      getDepartments()
       getBaseUrl()
-      getProducts()
     }
-  }, [auth, beginDay, s, endDay, getDoctorClients, getDepartments, getProducts]);
+  }, [auth, beginDay, s, endDay, getDoctorClients,]);
 
 
   const componentRef = useRef()
@@ -767,28 +526,7 @@ export const DoctorClients = () => {
   //=====================================================================
   //=====================================================================
 
-  const [newservices, setNewServices] = useState([]);
-  const [selectedServices, setSelectedServices] = useState([]);
-
-  const changeService = (services) => {
-    let s = [];
-    services.map((service) => {
-      if (service.department.probirka) {
-        setConnector({ ...connector, probirka: 1, clinica: auth.clinica._id });
-      }
-      return s.push({
-        clinica: auth.clinica._id,
-        reseption: auth.user._id,
-        serviceid: service.service._id,
-        service: service.service,
-        department: service.department._id,
-        addUser: auth?.user?.specialty?.name,
-        pieces: 1,
-      });
-    });
-    setNewServices(s);
-    setSelectedServices(services);
-  };
+  
 
   //=================================================================
   //=================================================================
@@ -811,20 +549,7 @@ export const DoctorClients = () => {
         description: "",
         status: "success",
       });
-      let arr = [...searchStorage].map(el => {
-        if (el.connector._id === id) {
-          el.connector.accept = true;
-        }
-        return el;
-      })
-      setSearchStorage(arr)
-      if (listType === 'nextsteps') {
-        setDoctorClients([...arr].filter(item => item.connector.step).sort((a, b) => new Date(a.connector.stepDate) - new Date(b.connector.stepDate)))
-      setCurrentDoctorClients([...arr].filter(item => item.connector.step).sort((a, b) => new Date(a.connector.stepDate) - new Date(b.connector.stepDate)))
-      } else {
-        setDoctorClients([...searchStorage].filter(el => !el.connector.step).filter(connector => connector.services.filter(service => service.department._id === auth?.user?.specialty?._id && !service.department.probirka && service.accept).length < 1))
-      setCurrentDoctorClients([...searchStorage].filter(el => !el.connector.step).filter(connector => connector.services.filter(service => service.department._id === auth?.user?.specialty?._id && !service.department.probirka && service.accept).length < 1))
-      }
+      getDoctorClients(beginDay, endDay)
     } catch (error) {
       notify({
         title: error,
@@ -836,42 +561,7 @@ export const DoctorClients = () => {
 
   //=================================================================
   //=================================================================
-  const [services, setServices] = useState([])
-
-  const getServices = useCallback(
-    (e) => {
-      var s = []
-      if (e === 'all') {
-        departments.map((department) => {
-          return department.services.map((service) => {
-            return s.push({
-              label: service.name,
-              value: service._id,
-              service: service,
-              department: department,
-            })
-          })
-        })
-      } else {
-        departments.map((department) => {
-          if (e === department._id) {
-            department.services.map((service) => {
-              s.push({
-                label: service.name,
-                value: service._id,
-                service: service,
-                department: department,
-              })
-              return ''
-            })
-          }
-          return ''
-        })
-      }
-      setServices(s)
-    },
-    [departments],
-  )
+  
 
   const changeClientsType = (e) => {
     if (e.target.value === 'offline') {
@@ -882,12 +572,6 @@ export const DoctorClients = () => {
     }
     setClientsType(e.target.value)
   }
-
-  useEffect(() => {
-    if (departments) {
-      getServices('all')
-    }
-  }, [departments, getServices])
 
   //=====================================================================
   //=====================================================================
@@ -965,26 +649,6 @@ export const DoctorClients = () => {
   //=====================================================================
   //=====================================================================
 
-  const [listType, setListType] = useState('all')
-
-  const changeListType = (listtype) => {
-    if (listtype === 'nextsteps') {
-      setListType(listtype)
-      setDoctorClients([...searchStorage].filter(item => item.connector.step).sort((a, b) => new Date(a.connector.stepDate) - new Date(b.connector.stepDate)))
-      setCurrentDoctorClients([...searchStorage].filter(item => item.connector.step).sort((a, b) => new Date(a.connector.stepDate) - new Date(b.connector.stepDate)))
-    }
-    if (listtype === 'all') {
-      setListType(listtype)
-      setDoctorClients([...searchStorage].filter(el => !el.connector.step).filter(connector => connector.services.filter(service => service.department._id === auth?.user?.specialty?._id && !service.department.probirka && service.accept).length < 1))
-      setCurrentDoctorClients([...searchStorage].filter(el => !el.connector.step).filter(connector => connector.services.filter(service => service.department._id === auth?.user?.specialty?._id && !service.department.probirka && service.accept).length < 1))
-    }
-    if (listtype === 'operation') {
-      setListType(listtype)
-      setDoctorClients([...afterClients])
-      setCurrentDoctorClients([...afterClients])
-    }
-  }
-
   //=====================================================================
   //=====================================================================
 
@@ -1009,44 +673,8 @@ export const DoctorClients = () => {
       <div className="bg-slate-100 content-wrapper px-lg-5 px-3">
         <div className="row gutters">
           <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-            {/* <div className="row">
-              <div className="col-12 text-end">
-                <button
-                  className={`btn bg-alotrade text-white mb-2 w-100`}
-                  onClick={() => setVisible(!visible)}
-                >
-                  {t("Malumot")}
-                </button>
-              </div>
-            </div> */}
-            {/* <div className="row">
-              <div className="col-12 text-end">
-                <button
-                  className={`btn bg-green-500 text-white mb-2 w-100`}
-                  onClick={changeVisible2}
-                >
-                  {t("Registratsiya")}
-                </button>
-              </div>
-            </div> */}
-            <div className="row justify-content-between">
-              <div className="col-3 text-end">
-                <button
-                  className={`btn bg-green-500 text-white mb-2 w-100 ${visible ? "d-none" : ""
-                    }`}
-                  onClick={changeVisible}
-                >
-                  {t("Xizmat qo'shish")}
-                </button>
-                <button
-                  className={`btn bg-green-500 text-white mb-2 w-100 ${visible ? "" : "d-none"
-                    }`}
-                  onClick={changeVisible}
-                >
-                  {t("Xizmat qo'shish")}
-                </button>
-              </div>
-              {!auth?.user?.isOne && <div className="col-6 text-end flex justify-between gap-4">
+            <div className="row justify-content-end">
+              {!auth?.user?.isOne && <div className="col-6 flex text-center justify-end gap-4">
                 <button
                   className={`btn bg-alotrade text-white mb-2 w-100`}
                   onClick={() => changeListType('all')}
@@ -1059,213 +687,14 @@ export const DoctorClients = () => {
                 >
                   {t("KO")}
                 </button>
-                <button
+                {/* <button
                   className={`btn bg-orange-500 text-white mb-2 w-100`}
                   onClick={() => changeListType('operation')}
                 >
                   {t("ПО")}
-                </button>
+                </button> */}
               </div>}
             </div>
-            <div className={` ${visible ? "bg-white" : "d-none"}`}>
-              <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                <div className="card">
-                  <div className="card-header">
-                    <div className="card-title">{t("Xizmatlar bilan ishlash")}</div>
-                  </div>
-                  <div className="card-body">
-                    <div className="row gutters">
-                      <div className="col-12">
-                        <div className="form-group">
-                          <label htmlFor="education">{t("Izoh")}</label>
-                          <input
-                            value={connector.comment || ''}
-                            onChange={(e) => setConnector({...connector, comment: e.target.value})}
-                            type="text"
-                            className="form-control form-control-sm"
-                            id="comment"
-                            name="comment"
-                            placeholder={t("Izoh")}
-                          />
-                        </div>
-                      </div>
-                      <div className="col-12">
-                        <div className="form-group">
-                          <label htmlFor="fullName">{t("Bo'limlar")}</label>
-                          <select
-                            className="form-control form-control-sm selectpicker"
-                            placeholder="Reklamalarni tanlash"
-                            onChange={(event) => getServices(event.target.value)}
-                          >
-                            <option value="all"> {t("Barcha bo'limlar")}</option>
-                            {departments.map((department, index) => {
-                              return (
-                                <option key={index} value={department._id}>
-                                  {department.name}
-                                </option>
-                              )
-                            })}
-                          </select>
-                        </div>
-                      </div>
-                      <div className="col-12">
-                        <div className="form-group">
-                          <label htmlFor="inputEmail">{t("Xizmatlar")}</label>
-                          <Select
-                            value={selectedServices}
-                            onChange={changeService}
-                            closeMenuOnSelect={false}
-                            components={animatedComponents}
-                            options={services}
-                            theme={(theme) => ({
-                              ...theme,
-                              borderRadius: 0,
-                              padding: 0,
-                              height: 0,
-                            })}
-                            isMulti
-                          />
-                        </div>
-                      </div>
-                      <div className="col-12">
-                        <div className="form-group">
-                          <label htmlFor="inputEmail">{t("Mahsulotlar")}</label>
-                          <Select
-                            value={selectedProducts}
-                            onChange={changeProduct}
-                            closeMenuOnSelect={false}
-                            components={animatedComponents}
-                            options={products}
-                            theme={(theme) => ({
-                              ...theme,
-                              borderRadius: 0,
-                              padding: 0,
-                              height: 0,
-                            })}
-                            isMulti
-                          />
-                        </div>
-                      </div>
-                      <div className="col-12">
-                        <table className="table">
-                          <thead>
-                            <tr>
-                              <th className="border bg-alotrade py-1">№</th>
-                              <th className="border bg-alotrade py-1">{t("Nomi")}</th>
-                              <th className="border bg-alotrade py-1">{t("Narxi")}</th>
-                              <th className="border bg-alotrade py-1">{t("Soni")}</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {newservices &&
-                              newservices.map((service, index) => {
-                                return (
-                                  <tr key={index}>
-                                    <td className="py-1">{index + 1}</td>
-                                    <td className="py-1">{service.service.name}</td>
-                                    <td className="text-right py-1">
-                                      {service.service.price * service.pieces}
-                                    </td>
-                                    <td className="text-right py-1">
-                                      <input
-                                        onChange={(e) =>
-                                          setNewServices(
-                                            Object.values({
-                                              ...newservices,
-                                              [index]: {
-                                                ...newservices[index],
-                                                pieces: e.target.value,
-                                              },
-                                            }),
-                                          )
-                                        }
-                                        className="text-right outline-none"
-                                        style={{ maxWidth: '50px', outline: 'none' }}
-                                        defaultValue={service.pieces}
-                                        type="number"
-                                      />
-                                    </td>
-                                  </tr>
-                                )
-                              })}
-                            <tr className="border"></tr>
-                            {newproducts &&
-                              newproducts.map((product, index) => {
-                                return (
-                                  <tr key={index}>
-                                    <td className="py-1">{index + 1}</td>
-                                    <td className="py-1">{product.product.name}</td>
-                                    <td className="text-right py-1">
-                                      {product.product.price * product.pieces}
-                                    </td>
-                                    <td className="text-right py-1">
-                                      <input
-                                        onChange={(e) =>
-                                          setNewProducts(
-                                            Object.values({
-                                              ...newproducts,
-                                              [index]: {
-                                                ...newproducts[index],
-                                                pieces: e.target.value,
-                                              },
-                                            }),
-                                          )
-                                        }
-                                        className="text-right outline-none"
-                                        style={{ maxWidth: '50px', outline: 'none' }}
-                                        defaultValue={product.pieces}
-                                        type="number"
-                                      />
-                                    </td>
-                                  </tr>
-                                )
-                              })}
-                          </tbody>
-                          <tfoot>
-                            <tr>
-                              <th className="text-right" colSpan={2}>
-                                {t("Jami")}:
-                              </th>
-                              <th colSpan={2}>
-                                {newservices.reduce((summa, service) => {
-                                  return (
-                                    summa +
-                                    service.service.price * parseInt(service.pieces)
-                                  )
-                                }, 0) +
-                                  newproducts.reduce((summa, product) => {
-                                    return (
-                                      summa +
-                                      product.product.price * parseInt(product.pieces)
-                                    )
-                                  }, 0)}
-                              </th>
-                            </tr>
-                          </tfoot>
-                        </table>
-                      </div>
-                      <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                        <div className="text-right">
-                          {loading ? (
-                            <button className="bg-alotrade rounded text-white py-2 px-3" disabled>
-                              <span className="spinner-border spinner-border-sm"></span>
-                              Loading...
-                            </button>
-                          ) : (
-                            <button onClick={checkData} className="bg-alotrade rounded text-white py-2 px-3">
-                              {t("Saqlash")}
-                            </button>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {/* <div className={` ${visible2 ? "bg-white" : "d-none"}`}>
-                <OfflineClients/>
-            </div> */}
             <TableClients
               sortData={sortData}
               changeAccept={changeAccept}
@@ -1283,32 +712,18 @@ export const DoctorClients = () => {
               setPageSize={setPageSize}
               loading={loading}
               handlePrint={handlePrint}
-              setClient={setClient}
-              setConnector={setConnector}
-              setVisible={setVisible}
               clientsType={clientsType}
+              acceptType={acceptType}
               changeClientsType={changeClientsType}
               getClientsByBorn={getClientsByBorn}
               user={auth?.user}
               getClientsById={getClientsById}
-              setIsAddConnector={setIsAddConnector}
-              setSelectedServices={setSelectedServices}
-              setNewServices={setNewServices}
-              setNewProducts={setNewProducts}
               saveService={saveService}
               listType={listType}
-              sendMessageToBot={sendMessageToBot}
             />
           </div>
         </div>
       </div>
-      <Modal
-        modal={modal}
-        text={t("ma'lumotlar to'g'ri kiritilganligini tasdiqlaysizmi?")}
-        setModal={setModal}
-        handler={isActive && isAddConnector ? addConnectorHandler : isActive && handleAdd}
-        basic={client.lastname + " " + client.firstname}
-      />
     </>
   );
 };

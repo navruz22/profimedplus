@@ -43,6 +43,7 @@ module.exports.register = async (req, res) => {
             products,
             counterdoctor,
             adver,
+            addedByDoctor
         } = req.body
         //=========================================================
         // CheckData
@@ -99,6 +100,11 @@ module.exports.register = async (req, res) => {
             client: newclient._id,
             probirka,
         })
+
+        if (addedByDoctor) {
+            newconnector.addedByDoctor = true;
+        }
+
         await newconnector.save()
 
         newclient.connectors.push(newconnector._id)

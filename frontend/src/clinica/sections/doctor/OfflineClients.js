@@ -661,6 +661,7 @@ export const OfflineClients = () => {
                     products: [...newproducts],
                     counterdoctor: counterdoctor,
                     adver: { ...adver, clinica: auth.clinica._id },
+                    addedByDoctor: true,
                 },
                 {
                     Authorization: `Bearer ${auth.token}`,
