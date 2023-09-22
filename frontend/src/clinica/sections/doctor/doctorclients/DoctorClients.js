@@ -121,7 +121,7 @@ export const DoctorClients = () => {
           `/api/doctor/clients/getclients`,
           "POST",
           {
-            clinica: auth && auth.clinica._id,
+            clinica: auth && auth?.clinica?._id,
             beginDay,
             endDay,
             department: auth?.user?.specialty?._id,
@@ -619,7 +619,7 @@ export const DoctorClients = () => {
         const data = await request(
           `/api/offlineclient/client/after_client/get`,
           "POST",
-          { clinica: auth && auth.clinica._id },
+          { clinica: auth && auth?.clinica?._id },
           {
             Authorization: `Bearer ${auth.token}`,
           }

@@ -137,7 +137,7 @@ export const OfflineClients = () => {
                 const data = await request(
                     `/api/offlineclient/client/getallreseption`,
                     "POST",
-                    { clinica: auth && auth.clinica._id, beginDay, endDay },
+                    { clinica: auth && auth.clinica?._id, beginDay, endDay },
                     {
                         Authorization: `Bearer ${auth.token}`,
                     }
@@ -163,7 +163,7 @@ export const OfflineClients = () => {
             const data = await request(
                 `/api/offlineclient/client/getallreseption`,
                 "POST",
-                { clinica: auth && auth.clinica._id, clientborn: new Date(e) },
+                { clinica: auth && auth.clinica?._id, clientborn: new Date(e) },
                 {
                     Authorization: `Bearer ${auth.token}`,
                 }
@@ -190,7 +190,7 @@ export const OfflineClients = () => {
             const data = await request(
                 `/api/offlineclient/client/getallreseption`,
                 "POST",
-                { clinica: auth && auth.clinica._id, clientId },
+                { clinica: auth && auth.clinica?._id, clientId },
                 {
                     Authorization: `Bearer ${auth.token}`,
                 }
@@ -217,7 +217,7 @@ export const OfflineClients = () => {
             const data = await request(
                 `/api/offlineclient/client/getallreseption`,
                 "POST",
-                { clinica: auth && auth.clinica._id, name },
+                { clinica: auth && auth?.clinica?._id, name },
                 {
                     Authorization: `Bearer ${auth.token}`,
                 }
@@ -267,8 +267,7 @@ export const OfflineClients = () => {
     //====================================================================
     //====================================================================
     // SEARCH
-    const searchFullname = useCallback(
-        (e) => {
+    const searchFullname = (e) => {
             const searching = searchStorage.filter((item) =>
                 item.client.fullname
                     .toLowerCase()
@@ -277,57 +276,43 @@ export const OfflineClients = () => {
             setName(e.target.value)
             setConnectors(searching);
             setCurrentConnectors(searching);
-        },
-        [searchStorage, countPage]
-    );
+        }
 
-    const searchId = useCallback(
-        (e) => {
+    const searchId = (e) => {
             const searching = searchStorage.filter((item) =>
                 item.client.id.toString().includes(e.target.value)
             );
             setClientId(e.target.value);
             setConnectors(searching);
             setCurrentConnectors(searching);
-        },
-        [searchStorage, countPage]
-    );
+        }
 
-    const searchProbirka = useCallback(
-        (e) => {
+    const searchProbirka = (e) => {
             const searching = searchStorage.filter((item) =>
                 item.probirka.toString().includes(e.target.value)
             );
             setConnectors(searching);
             setCurrentConnectors(searching);
-        },
-        [searchStorage, countPage]
-    );
+        }
 
-    const searchPhone = useCallback(
-        (e) => {
+    const searchPhone = (e) => {
             const searching = searchStorage.filter((item) =>
                 item.client.phone.toString().includes(e.target.value)
             );
             setPhone(e.target.value)
             setConnectors(searching);
             setCurrentConnectors(searching);
-        },
-        [searchStorage, countPage]
-    );
+        }
     //====================================================================
     //====================================================================
 
     //====================================================================
     //====================================================================
-    const setPageSize = useCallback(
-        (e) => {
+    const setPageSize = (e) => {
             setCurrentPage(0);
             setCountPage(e.target.value);
             setCurrentConnectors(connectors);
-        },
-        [connectors]
-    );
+        }
     //====================================================================
     //====================================================================
 
@@ -341,7 +326,7 @@ export const OfflineClients = () => {
             const data = await request(
                 `/api/services/department/reseption`,
                 "POST",
-                { clinica: auth.clinica._id },
+                { clinica: auth?.clinica?._id },
                 {
                     Authorization: `Bearer ${auth.token}`,
                 }
@@ -401,7 +386,7 @@ export const OfflineClients = () => {
             const data = await request(
                 `/api/offlineclient/client/counter_doctors/get`,
                 "POST",
-                { clinica: auth.clinica._id, },
+                { clinica: auth?.clinica?._id, },
                 {
                     Authorization: `Bearer ${auth.token}`,
                 }
@@ -438,7 +423,7 @@ export const OfflineClients = () => {
             const data = await request(
                 `/api/services/servicetype/getall`,
                 "POST",
-                { clinica: auth.clinica._id, },
+                { clinica: auth?.clinica?._id, },
                 {
                     Authorization: `Bearer ${auth.token}`,
                 }
@@ -463,7 +448,7 @@ export const OfflineClients = () => {
             const data = await request(
                 `/api/adver/adver/getall`,
                 "POST",
-                { clinica: auth.clinica._id },
+                { clinica: auth.clinica?._id },
                 {
                     Authorization: `Bearer ${auth.token}`,
                 }
@@ -508,7 +493,7 @@ export const OfflineClients = () => {
             const data = await request(
                 `/api/services/product/getallreseption`,
                 "POST",
-                { clinica: auth.clinica._id },
+                { clinica: auth?.clinica?._id },
                 {
                     Authorization: `Bearer ${auth.token}`,
                 }
@@ -864,7 +849,7 @@ export const OfflineClients = () => {
                 const data = await request(
                     `/api/offlineclient/client/after_client/get`,
                     "POST",
-                    { clinica: auth && auth.clinica._id },
+                    { clinica: auth && auth?.clinica?._id },
                     {
                         Authorization: `Bearer ${auth.token}`,
                     }

@@ -790,6 +790,7 @@ module.exports.adoptClient = async (req, res) => {
 
     const offlineConnector = await OfflineConnector.findById(connector)
     offlineConnector.accept = true;
+    offlineConnector.stepAccess = true;
     offlineConnector.save()
 
     res.status(200).json({ message: "Mijoz qabul qilindi!" })
