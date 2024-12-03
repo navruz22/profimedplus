@@ -13,9 +13,10 @@ import AllServices from "../components/AllServices";
 import { useTranslation } from "react-i18next";
 import Print from "../../laborotory/components/Print";
 import AllModal from "./clientComponents/AllModal";
-import { useLocation } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { SmallCheck } from "../components/SmallCheck";
 import { SmallCheck2 } from "../components/SmallCheck2";
+
 
 export const OfflineClients = () => {
     const [beginDay, setBeginDay] = useState(
@@ -41,6 +42,8 @@ export const OfflineClients = () => {
     //====================================================================
 
     const { state } = useLocation()
+
+    const history = useHistory()
 
     //====================================================================
     //====================================================================
@@ -268,51 +271,51 @@ export const OfflineClients = () => {
     //====================================================================
     // SEARCH
     const searchFullname = (e) => {
-            const searching = searchStorage.filter((item) =>
-                item.client.fullname
-                    .toLowerCase()
-                    .includes(e.target.value.toLowerCase())
-            );
-            setName(e.target.value)
-            setConnectors(searching);
-            setCurrentConnectors(searching);
-        }
+        const searching = searchStorage.filter((item) =>
+            item.client.fullname
+                .toLowerCase()
+                .includes(e.target.value.toLowerCase())
+        );
+        setName(e.target.value)
+        setConnectors(searching);
+        setCurrentConnectors(searching);
+    }
 
     const searchId = (e) => {
-            const searching = searchStorage.filter((item) =>
-                item.client.id.toString().includes(e.target.value)
-            );
-            setClientId(e.target.value);
-            setConnectors(searching);
-            setCurrentConnectors(searching);
-        }
+        const searching = searchStorage.filter((item) =>
+            item.client.id.toString().includes(e.target.value)
+        );
+        setClientId(e.target.value);
+        setConnectors(searching);
+        setCurrentConnectors(searching);
+    }
 
     const searchProbirka = (e) => {
-            const searching = searchStorage.filter((item) =>
-                item.probirka.toString().includes(e.target.value)
-            );
-            setConnectors(searching);
-            setCurrentConnectors(searching);
-        }
+        const searching = searchStorage.filter((item) =>
+            item.probirka.toString().includes(e.target.value)
+        );
+        setConnectors(searching);
+        setCurrentConnectors(searching);
+    }
 
     const searchPhone = (e) => {
-            const searching = searchStorage.filter((item) =>
-                item.client.phone.toString().includes(e.target.value)
-            );
-            setPhone(e.target.value)
-            setConnectors(searching);
-            setCurrentConnectors(searching);
-        }
+        const searching = searchStorage.filter((item) =>
+            item.client.phone.toString().includes(e.target.value)
+        );
+        setPhone(e.target.value)
+        setConnectors(searching);
+        setCurrentConnectors(searching);
+    }
     //====================================================================
     //====================================================================
 
     //====================================================================
     //====================================================================
     const setPageSize = (e) => {
-            setCurrentPage(0);
-            setCountPage(e.target.value);
-            setCurrentConnectors(connectors);
-        }
+        setCurrentPage(0);
+        setCountPage(e.target.value);
+        setCurrentConnectors(connectors);
+    }
     //====================================================================
     //====================================================================
 
@@ -652,6 +655,7 @@ export const OfflineClients = () => {
                     Authorization: `Bearer ${auth.token}`,
                 }
             );
+
             notify({
                 title: t("Mijoz muvaffaqqiyatli yaratildi."),
                 description: "",
@@ -664,7 +668,12 @@ export const OfflineClients = () => {
             showSmallCehckReturn(data)
             setTimeout(() => {
                 setIsActive(true)
+                // history.push({
+                //     pathname: '/alo24/cashier',
+                //     state: data?.client._id,
+                // });
             }, 5000)
+
         } catch (error) {
             notify({
                 title: t(`${error}`),
@@ -756,6 +765,10 @@ export const OfflineClients = () => {
                     Authorization: `Bearer ${auth.token}`,
                 }
             );
+            history.push({
+                pathname: '/alo24/cashier',
+                state: data?.client._id,
+            });
             localStorage.setItem("data", data);
             getConnectors(beginDay, endDay);
             notify({
@@ -937,7 +950,7 @@ export const OfflineClients = () => {
 
     //====================================================================
     //====================================================================
-    
+
     const selectDepartment = (e) => {
         let arr = []
         if (listType === 'all') {
@@ -1158,7 +1171,7 @@ export const OfflineClients = () => {
             });
         }
     }
-    
+
     //====================================================================
     //====================================================================
     return (
@@ -1318,7 +1331,7 @@ export const OfflineClients = () => {
                                 baseUrl={baseUrl}
                                 clinica={auth?.clinica}
                                 connector={printBody}
-                                client={printBody?.client}    
+                                client={printBody?.client}
                                 sections={printBody?.services}
                                 turn={printBody?.turn}
                                 turntitle={printBody?.turntitle}

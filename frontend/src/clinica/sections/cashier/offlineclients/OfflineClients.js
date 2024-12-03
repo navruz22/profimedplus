@@ -16,6 +16,7 @@ import { useTranslation } from 'react-i18next';
 import { SmallCheck } from '../components/SmallCheck';
 import { useReactToPrint } from 'react-to-print';
 import QRCode from 'qrcode'
+import { useHistory, useLocation } from 'react-router-dom';
 
 export const OfflineClients = () => {
     const [beginDay, setBeginDay] = useState(
@@ -39,6 +40,9 @@ export const OfflineClients = () => {
 
     const changeVisible = () => setVisible(!visible)
 
+
+    const location = useLocation()
+    const history = useHistory()
     //====================================================================
     //====================================================================
     const [smallCheckType, setSmallCheckType] = useState('all')
@@ -720,6 +724,11 @@ export const OfflineClients = () => {
                 handlePrint2()
             }, 1000)
             setModal1(true)
+            // if (location.state) {
+            //     history.push({
+            //         pathname: '/alo24',
+            //     });
+            // }
         } catch (error) {
             notify({
                 title: t(`${error}`),
@@ -781,6 +790,23 @@ export const OfflineClients = () => {
 
     //====================================================================
     //====================================================================
+
+    useEffect(() => {
+        const client_id = location.state
+        if (client_id) {
+            if (loading === false && connectors.length > 0) {
+                const connector = connectors.find((c) => c.client._id === client_id);
+                if (connector) {
+                    const index = connectors.indexOf(connector);
+                    changeClient(connector, index);
+                    changeVisible();
+                }
+            }
+        }
+    }, [connectors, loading]);
+
+    //====================================================================
+    //====================================================================
     // useEffect
 
     const [s, setS] = useState(0)
@@ -791,6 +817,7 @@ export const OfflineClients = () => {
             getConnectors(beginDay, endDay)
             getBaseUrl()
             getDepartments()
+            console.log(location.state);
         }
     }, [auth, getConnectors, getBaseUrl, getDepartments, s, beginDay, endDay])
 

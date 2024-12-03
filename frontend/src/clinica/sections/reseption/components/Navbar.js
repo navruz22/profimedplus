@@ -11,7 +11,7 @@ export const Navbar = () => {
     //====================================================================
     //====================================================================
 
-    const {t} = useTranslation()
+    const { t } = useTranslation()
 
     //====================================================================
     //====================================================================
@@ -149,7 +149,7 @@ export const Navbar = () => {
                                     {t("Online")}
                                 </Link>
                             </li>
-                            {/* <li className="nav-item dropdown">
+                            <li className="nav-item dropdown">
                                 <Link
                                     role="button"
                                     data-toggle="dropdown"
@@ -247,7 +247,7 @@ export const Navbar = () => {
                                         </Link>
                                     </li>
                                 </ul>
-                            </li> */}
+                            </li>
                         </ul>
                         <ul className="header-actions py-1 mr-2">
                             <li className="dropdown">
