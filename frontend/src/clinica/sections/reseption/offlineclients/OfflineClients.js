@@ -765,10 +765,10 @@ export const OfflineClients = () => {
                     Authorization: `Bearer ${auth.token}`,
                 }
             );
-            history.push({
-                pathname: '/alo24/cashier',
-                state: data?.client._id,
-            });
+            // history.push({
+            //     pathname: '/alo24/cashier',
+            //     state: data?.client._id,
+            // });
             localStorage.setItem("data", data);
             getConnectors(beginDay, endDay);
             notify({
