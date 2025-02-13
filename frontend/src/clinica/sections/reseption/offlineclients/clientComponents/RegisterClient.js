@@ -11,6 +11,8 @@ export const RegisterClient = ({
     selectedServices,
     selectedProducts,
     updateData,
+    changeStatus,
+    statuses,
     checkData,
     setNewServices,
     setNewProducts,
@@ -228,7 +230,7 @@ export const RegisterClient = ({
                                             <div className="custom-control custom-checkbox text-center">
                                                 <input checked={connector?.isBooking || false}
                                                     type="checkbox"
-                                                    onChange={() => setConnector({...connector, isBooking: !connector.isBooking})}
+                                                    onChange={() => setConnector({ ...connector, isBooking: !connector.isBooking })}
                                                     className="custom-control-input border border-dager"
                                                     id={`isBookoing`}
                                                 />
@@ -289,6 +291,26 @@ export const RegisterClient = ({
                                                 )
                                             })}
                                         </select> */}
+                                    </div>
+                                </div>
+                                <div className="col-sm-6 col-12">
+                                    <div className="form-group">
+                                        <label htmlFor="biO">{t("Status")}</label>
+                                        <Select
+                                            onChange={changeStatus}
+                                            placeholder={t('Tanlang...')}
+                                            // styles={CustomStyle}
+                                            // value={value} 
+                                            options={[{
+                                                label: t("Hammasi"),
+                                                value: "delete"
+                                            }, ...statuses]}
+                                            // isDisabled={isDisabled}
+                                            // placeholder={placeholder}
+                                            components={{
+                                                IndicatorSeparator: () => null,
+                                            }}
+                                        />
                                     </div>
                                 </div>
                                 <div className="col-sm-6 col-12">

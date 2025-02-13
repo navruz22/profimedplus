@@ -4,6 +4,8 @@ import Expense from "../cashier/expense/Expense";
 import Conclusion from "../doctor/conclusion/Conclusion";
 import { ConclusionClients } from "../doctor/conclusion/ConclusionClients";
 import { Advers } from "./adver/Advers";
+import { Status } from "./adver/Status";
+import StatusClients from "./adver/StatusClients";
 import AdverChart from "./adver_chart/AdverChart";
 import StatsionarClientHistory from "./clients/components/StatsionarClientHistory";
 import OfflineClients from "./clients/OfflineClients";
@@ -116,6 +118,12 @@ export const DirectorRouter = () => {
         </Route>
         <Route path="/alo24/advers">
           <Advers />
+        </Route>
+        <Route path="/alo24/status">
+          <Status />
+        </Route>
+        <Route path="/alo24/status_clients">
+          <StatusClients />
         </Route>
         <Route path="/alo24/adver">
           <AdverChart />

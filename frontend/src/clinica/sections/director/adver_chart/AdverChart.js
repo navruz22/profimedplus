@@ -23,7 +23,7 @@ const AdverChart = () => {
     //======================================================
     //======================================================
 
-    const {t} = useTranslation()
+    const { t } = useTranslation()
 
     const toast = useToast();
 
@@ -168,6 +168,7 @@ const AdverChart = () => {
                 <Link to='/alo24/advers' className='bg-purple-500 flex justify-center items-center py-2 px-4 w-[300px] h-[150px] rounded-xl text-[20px] text-white shadow-2xl font-bold text-uppercase'>{t("REKLAMALAR")}</Link>
                 <Link to='/alo24/counter_doctors' className='bg-green-500 flex justify-center items-center py-2 px-4 w-[300px] h-[150px] text-[20px] rounded-xl shadow-2xl text-white font-bold text-uppercase'>{t("AGENTLAR")}</Link>
                 <Link to='/alo24/popular_services' className='bg-sky-500 flex justify-center items-center py-2 px-4 w-[300px] h-[150px] text-[20px] rounded-xl shadow-2xl text-white font-bold text-uppercase'>{t("AKTUAL XIZMATLAR")}</Link>
+                <Link to='/alo24/status' className='bg-sky-500 flex justify-center items-center py-2 px-4 w-[300px] h-[150px] text-[20px] rounded-xl shadow-2xl text-white font-bold text-uppercase'>{t("STATUS")}</Link>
             </div>
             <div className='flex justify-evenly items-center'>
                 <div>

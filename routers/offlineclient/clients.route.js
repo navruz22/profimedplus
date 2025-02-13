@@ -32,6 +32,7 @@ const { Department } = require('../../models/Services/Department')
 const { AfterOperationClient } = require('../../models/OfflineClient/AfterOperationClient')
 require('../../models/Cashier/OfflinePayment')
 require('../../models/Users')
+require('../../models/Status/Status')
 
 // register
 module.exports.register = async (req, res) => {
@@ -42,6 +43,7 @@ module.exports.register = async (req, res) => {
             services,
             products,
             counterdoctor,
+            status,
             adver,
             addedByDoctor
         } = req.body
@@ -101,9 +103,12 @@ module.exports.register = async (req, res) => {
             probirka,
         })
 
+
         if (addedByDoctor) {
             newconnector.addedByDoctor = true;
         }
+
+        newconnector.status = status
 
         await newconnector.save()
 
@@ -246,7 +251,7 @@ module.exports.register = async (req, res) => {
         }
 
         const response = await OfflineConnector.findById(newconnector._id)
-        .select("-__v -updatedAt -isArchive")
+            .select("-__v -updatedAt -isArchive")
             .populate('client')
             .populate({
                 path: "services",
@@ -258,7 +263,7 @@ module.exports.register = async (req, res) => {
             })
             .populate('products')
             .lean()
-            .then(connector => ({...connector, turn: [...connector.services].filter(s => s.department.probirka === false)[0]?.turn, turntitle: [...connector.services].filter(s => s.department.probirka === false)[0]?.department?.turntitle || 'A'}))
+            .then(connector => ({ ...connector, turn: [...connector.services].filter(s => s.department.probirka === false)[0]?.turn, turntitle: [...connector.services].filter(s => s.department.probirka === false)[0]?.department?.turntitle || 'A' }))
 
         res.status(201).send(response)
     } catch (error) {
@@ -688,6 +693,7 @@ module.exports.getAll = async (req, res) => {
             .sort({ createdAt: -1 })
             .select('-__v -updatedAt -isArchive')
             .populate('clinica', 'name phone1 image')
+            .populate("status", "name")
             .populate("client")
             .populate({
                 path: "services",
@@ -884,7 +890,7 @@ module.exports.getAllReseption = async (req, res) => {
                 .then(connectors => {
                     return connectors.filter(connector => connector.client && connector.client.fullname.toLowerCase().includes(name.toLowerCase()));
                 })
-        } else if (phone) {   
+        } else if (phone) {
             connectors = await OfflineConnector.find({
                 clinica
             })
@@ -1386,71 +1392,71 @@ module.exports.nextToStep = async (req, res) => {
         await connector.save()
 
         const response = await OfflineConnector.findById(connector._id)
-        .select('probirka client accept services products createdAt totalprice clinica step stepDate')
-        .populate('client', 'fullname firstname lastname fathername national phone id gender born address')
-        .populate({
-            path: "services",
-            select: "service createdAt reseption pieces serviceid accept refuse templates column tables turn connector client files department",
-            populate: {
-                path: 'department',
-                select: "probirka name room"
-            }
-        })
-        .lean()
+            .select('probirka client accept services products createdAt totalprice clinica step stepDate')
+            .populate('client', 'fullname firstname lastname fathername national phone id gender born address')
+            .populate({
+                path: "services",
+                select: "service createdAt reseption pieces serviceid accept refuse templates column tables turn connector client files department",
+                populate: {
+                    path: 'department',
+                    select: "probirka name room"
+                }
+            })
+            .lean()
 
         const connectors = await OfflineConnector.find({
             clinica: response.clinica,
             createdAt: {
                 $gte: new Date(new Date().setHours(0, 0, 0, 0)),
                 $lte: new Date(new Date().setHours(23, 59, 59, 59))
-            }   
+            }
         })
-        .select('probirka client accept services products createdAt totalprice clinica step stepDate')
-        .populate('client', 'fullname firstname lastname fathername national phone id gender born address')
-        .populate({
-            path: "services",
-            select: "service createdAt reseption pieces serviceid accept refuse templates column tables turn connector client files department",
-            populate: {
-                path: "serviceid",
-                select: "servicetype",
+            .select('probirka client accept services products createdAt totalprice clinica step stepDate')
+            .populate('client', 'fullname firstname lastname fathername national phone id gender born address')
+            .populate({
+                path: "services",
+                select: "service createdAt reseption pieces serviceid accept refuse templates column tables turn connector client files department",
                 populate: {
-                    path: "servicetype",
-                    select: "name"
+                    path: "serviceid",
+                    select: "servicetype",
+                    populate: {
+                        path: "servicetype",
+                        select: "name"
+                    }
                 }
-            }
-        })
-        .populate({
-            path: "services",
-            select: "service createdAt reseption pieces serviceid accept refuse templates column tables turn connector client files department",
-            populate: {
-                path: 'department',
-                select: "probirka name room"
-            }
-        })
-        .populate({
-            path: "services",
-            select: "service createdAt reseption pieces serviceid accept refuse templates column tables turn connector client files department",
-            populate: {
-                path: 'reseption',
-                select: "type specialty",
+            })
+            .populate({
+                path: "services",
+                select: "service createdAt reseption pieces serviceid accept refuse templates column tables turn connector client files department",
                 populate: {
-                    path: 'specialty',
-                    select: "name",
+                    path: 'department',
+                    select: "probirka name room"
                 }
-            }
-        })
-        .populate('products', '_id product pieces')
-        .lean()
-        .then(connectors => connectors.filter(el => el.step).sort((a, b) => new Date(a.stepDate) - new Date(b.stepDate)))
-        
-            const depart = [...response.services].filter(el => el.department.probirka === false)[0]?.department?._id
-            const data = [...connectors].filter(el => el.services.some(el => String(el.department._id) === String(depart)))
-            const index = [...data].reduce((prev, el, ind) => {
-              if (String(response._id) === String(el._id)) {
+            })
+            .populate({
+                path: "services",
+                select: "service createdAt reseption pieces serviceid accept refuse templates column tables turn connector client files department",
+                populate: {
+                    path: 'reseption',
+                    select: "type specialty",
+                    populate: {
+                        path: 'specialty',
+                        select: "name",
+                    }
+                }
+            })
+            .populate('products', '_id product pieces')
+            .lean()
+            .then(connectors => connectors.filter(el => el.step).sort((a, b) => new Date(a.stepDate) - new Date(b.stepDate)))
+
+        const depart = [...response.services].filter(el => el.department.probirka === false)[0]?.department?._id
+        const data = [...connectors].filter(el => el.services.some(el => String(el.department._id) === String(depart)))
+        const index = [...data].reduce((prev, el, ind) => {
+            if (String(response._id) === String(el._id)) {
                 prev = ind
-              }
-              return prev;
-            }, 0)
+            }
+            return prev;
+        }, 0)
 
         response.turn = index + 1
 
@@ -1464,7 +1470,7 @@ module.exports.nextToStep = async (req, res) => {
 
 module.exports.accessNextStep = async (req, res) => {
     try {
-        const {connectorId, access} = req.body;
+        const { connectorId, access } = req.body;
 
         const connector = await OfflineConnector.findById(connectorId)
         connector.stepAccess = access;
@@ -1482,9 +1488,9 @@ module.exports.accessNextStep = async (req, res) => {
 //After Operation Client
 module.exports.registerAfter = async (req, res) => {
     try {
-        const {connector, clinica} = req.body;
+        const { connector, clinica } = req.body;
 
-        const {firstname, lastname, born, phone, gender, id, address} = connector.client
+        const { firstname, lastname, born, phone, gender, id, address } = connector.client
 
         const afterclient = new AfterOperationClient({
             firstname,
@@ -1506,11 +1512,11 @@ module.exports.registerAfter = async (req, res) => {
             createdAt: {
                 $gte: new Date(new Date().setHours(0, 0, 0, 0)),
                 $lte: new Date(new Date().setHours(23, 59, 59, 59))
-            } 
+            }
         })
-        .sort({createdAt: 1})
-        .select('-__v -updatedAt -isArchive')
-        .lean()
+            .sort({ createdAt: 1 })
+            .select('-__v -updatedAt -isArchive')
+            .lean()
 
         const index = clients.length
 
@@ -1518,8 +1524,8 @@ module.exports.registerAfter = async (req, res) => {
         await afterclient.save()
 
         const response = await AfterOperationClient.findById(afterclient._id)
-        .select("-__v -updatedAt -isArchive")
-        .lean()
+            .select("-__v -updatedAt -isArchive")
+            .lean()
 
         res.json(response)
 
@@ -1531,18 +1537,18 @@ module.exports.registerAfter = async (req, res) => {
 
 module.exports.getAfterClients = async (req, res) => {
     try {
-        const {clinica} = req.body;
+        const { clinica } = req.body;
 
         const afterclients = await AfterOperationClient.find({
             clinica,
             createdAt: {
                 $gte: new Date(new Date().setHours(0, 0, 0, 0)),
                 $lte: new Date(new Date().setHours(23, 59, 59, 59))
-            } 
+            }
         })
-        .sort({createdAt: 1})
-        .select("-__v -updatedAt -isArchive")
-        .lean()
+            .sort({ createdAt: 1 })
+            .select("-__v -updatedAt -isArchive")
+            .lean()
 
         console.log(afterclients);
 

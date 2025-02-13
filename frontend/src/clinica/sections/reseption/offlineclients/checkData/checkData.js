@@ -14,7 +14,7 @@ export const checkClientData = (client, t) => {
       status: 'error',
     }
   }
-  
+
   if (!client.born) {
     return {
       title: t("Diqqat! Mijozning tug'ilgan sanasi kiritilmagan."),
@@ -43,10 +43,21 @@ export const checkClientData = (client, t) => {
 
   return false
 }
+export const checkStatus = (status, t) => {
+  if (!status) {
+    return {
+      title: t('Diqqat! Stataus kiritilmagan.'),
+      description: '',
+      status: 'error',
+    }
+  }
+
+  return false
+}
 
 export const checkServicesData = (services, t) => {
   for (const service of services) {
-    if (service.pieces==='0') {
+    if (service.pieces === '0') {
       return {
         title: `${t("Diqqat!")} ${service.service.name} ${t("xizmati soni 0 ko'rsatilgan.")}`,
         description: ``,
@@ -59,7 +70,7 @@ export const checkServicesData = (services, t) => {
 
 export const checkProductsData = (products) => {
   for (const product of products) {
-    if (product.pieces==='0') {
+    if (product.pieces === '0') {
       return {
         title: `Diqqat! ${product.product.name} mahsuloti soni 0 ko'rsatilgan.`,
         description: `Iltimos mahsulot qo'shilmasa uni ro'yxatdan o'chiring yoki mahsulot sonini kiriting.`,

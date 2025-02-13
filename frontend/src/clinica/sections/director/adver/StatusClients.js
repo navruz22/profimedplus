@@ -5,10 +5,10 @@ import React, { useCallback, useContext, useEffect, useRef, useState } from 'rea
 import { useReactToPrint } from 'react-to-print'
 import { AuthContext } from '../../../context/AuthContext'
 import { useHttp } from '../../../hooks/http.hook'
-import Print from './components/Print'
+import Print from '../clients/components/Print'
 import { Pagination } from '../components/Pagination'
 import { DatePickers } from '../../reseption/offlineclients/clientComponents/DatePickers'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import Select from 'react-select'
 import makeAnimated from 'react-select/animated'
@@ -16,7 +16,7 @@ import ReactHtmlTableToExcel from 'react-html-table-to-excel'
 
 const animatedComponents = makeAnimated()
 
-const OfflineClients = () => {
+const StatusClients = () => {
 
     //=================================================
     //=================================================
@@ -33,6 +33,8 @@ const OfflineClients = () => {
     //=================================================
 
     const history = useHistory()
+
+    const { state } = useLocation()
 
     //=================================================
     //=================================================
@@ -83,9 +85,9 @@ const OfflineClients = () => {
     const getConnectors = useCallback(async (beginDay, endDay) => {
         try {
             const data = await request(
-                `/api/offlineclient/client/getall`,
+                `/api/adver/status/clients`,
                 'POST',
-                { clinica: auth.clinica._id, beginDay, endDay },
+                { clinica: auth.clinica._id, beginDay, endDay, status: state.status },
                 {
                     Authorization: `Bearer ${auth.token}`,
                 },
@@ -104,30 +106,30 @@ const OfflineClients = () => {
     //=================================================
     //=================================================
 
-    const [doctors, setDoctors] = useState([])
+    // const [doctors, setDoctors] = useState([])
 
-    const getDoctors = useCallback(async () => {
-        try {
-            const data = await request(
-                `/api/doctor/get`,
-                'POST',
-                { clinica: auth.clinica._id },
-                {
-                    Authorization: `Bearer ${auth.token}`,
-                },
-            )
-            setDoctors([...data].map(el => ({
-                value: el.specialty._id,
-                label: el.firstname + ' ' + el.lastname
-            })))
-        } catch (error) {
-            notify({
-                title: t(`${error}`),
-                description: '',
-                status: 'error',
-            })
-        }
-    }, [request, auth, notify])
+    // const getDoctors = useCallback(async () => {
+    //     try {
+    //         const data = await request(
+    //             `/api/doctor/get`,
+    //             'POST',
+    //             { clinica: auth.clinica._id },
+    //             {
+    //                 Authorization: `Bearer ${auth.token}`,
+    //             },
+    //         )
+    //         setDoctors([...data].map(el => ({
+    //             value: el.specialty._id,
+    //             label: el.firstname + ' ' + el.lastname
+    //         })))
+    //     } catch (error) {
+    //         notify({
+    //             title: t(`${error}`),
+    //             description: '',
+    //             status: 'error',
+    //         })
+    //     }
+    // }, [request, auth, notify])
 
     //=================================================
     //=================================================
@@ -213,7 +215,7 @@ const OfflineClients = () => {
         if (!s) {
             setS(1)
             getConnectors(beginDay, endDay)
-            getDoctors()
+            // getDoctors()
             getBaseUrl()
         }
     }, [getConnectors, getBaseUrl, beginDay, endDay])
@@ -296,13 +298,13 @@ const OfflineClients = () => {
     //=================================================
     //=================================================
 
-    const changeDoctorClients = (e) => {
-        if (e.value === 'all') {
-            setCurrentClients([...searchStorage])
-        } else {
-            setCurrentClients([...searchStorage].filter(el => el.services.some(i => !i.accept && i.department._id === e.value)))
-        }
-    }
+    // const changeDoctorClients = (e) => {
+    //     if (e.value === 'all') {
+    //         setCurrentClients([...searchStorage])
+    //     } else {
+    //         setCurrentClients([...searchStorage].filter(el => el.services.some(i => !i.accept && i.department._id === e.value)))
+    //     }
+    // }
 
     //=================================================
     //=================================================
@@ -325,7 +327,7 @@ const OfflineClients = () => {
             <div className="content-wrapper px-lg-5 px-3">
                 <div className="row gutters">
                     <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                        <div className="w-[300px] mb-2">
+                        {/* <div className="w-[300px] mb-2">
                             <Select
                                 components={animatedComponents}
                                 options={[
@@ -343,7 +345,7 @@ const OfflineClients = () => {
                                 })}
                                 onChange={changeDoctorClients}
                             />
-                        </div>
+                        </div> */}
                         <div className="border-0 table-container">
                             <div className="border-0 table-container">
                                 <div className="table-responsive">
@@ -461,6 +463,7 @@ const OfflineClients = () => {
                                         <thead>
                                             <tr>
                                                 <th className="border-right bg-alotrade text-[16px]">№</th>
+                                                <th className="border-right bg-alotrade text-[16px]">{t("Status")}</th>
                                                 <th className="border-right bg-alotrade text-[16px]">{t("Kelgan vaqti")}</th>
                                                 <th className="border-right bg-alotrade text-[16px]">
                                                     {t("F.I.Sh")}
@@ -483,9 +486,6 @@ const OfflineClients = () => {
                                                     {t("Yoshi")}
                                                 </th>
                                                 <th className="border-right bg-alotrade text-[16px]">
-                                                    {t("Status")}
-                                                </th>
-                                                <th className="border-right bg-alotrade text-[16px]">
                                                     {t("Jinsi")}
                                                 </th>
                                                 <th className="border-right bg-alotrade text-[16px]">
@@ -505,6 +505,9 @@ const OfflineClients = () => {
                                                             {key + 1}
                                                         </td>
                                                         <td className="border-right text-[16px]">
+                                                            {connector?.status?.name}
+                                                        </td>
+                                                        <td className="border-right text-[16px]">
                                                             {new Date(connector?.createdAt).toLocaleDateString()}
                                                         </td>
                                                         <td className="border-right text-[16px]">
@@ -521,9 +524,6 @@ const OfflineClients = () => {
                                                         </td>
                                                         <td className="border-right text-[16px]">
                                                             {new Date().getFullYear() - new Date(connector?.client?.born).getFullYear()}
-                                                        </td>
-                                                        <td className="border-right text-[16px]">
-                                                            {connector?.status?.name}
                                                         </td>
                                                         <td className="border-right text-[16px]">
                                                             {connector?.client?.gender ? connector?.client?.gender === 'man' ? t('Erkak') : t('Ayol') : ''}
@@ -566,4 +566,4 @@ const OfflineClients = () => {
     )
 }
 
-export default OfflineClients
+export default StatusClients

@@ -5,7 +5,7 @@ import { useHttp } from "../../../hooks/http.hook";
 import { Modal, Modal as Modal2, Modal as Modal3 } from "../components/Modal";
 import { RegisterClient } from "./clientComponents/RegisterClient";
 import { TableClients } from "./clientComponents/TableClients";
-import { checkClientData, checkProductsData, checkServicesData, } from "./checkData/checkData";
+import { checkClientData, checkProductsData, checkServicesData, checkStatus, } from "./checkData/checkData";
 import { CheckModal } from "../components/ModalCheck";
 import { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
@@ -419,6 +419,46 @@ export const OfflineClients = () => {
     //====================================================================
     //====================================================================
 
+    //====================================================================
+    //====================================================================
+    // Status
+    const [statuses, setStatuses] = useState([]);
+
+    const getStatuses = useCallback(async () => {
+        try {
+            const data = await request(
+                `/api/adver/status/getall`,
+                "POST",
+                { clinica: auth?.clinica?._id, },
+                {
+                    Authorization: `Bearer ${auth.token}`,
+                }
+            );
+            setStatuses([...data].map(item => ({
+                value: item._id,
+                label: item.name,
+            })));
+        } catch (error) {
+            notify({
+                title: t(`${error}`),
+                description: "",
+                status: "error",
+            });
+        }
+    }, [request, auth, notify]);
+
+    const [status, setStatus] = useState(null);
+
+    const changeStatus = (e) => {
+        if (e.value === "delete") {
+            setStatus(null)
+        } else {
+            setStatus(e.value);
+        }
+    };
+    //====================================================================
+    //====================================================================
+
     const [serviceTypes, setServiceTypes] = useState([])
 
     const getServiceTypes = useCallback(async () => {
@@ -637,7 +677,10 @@ export const OfflineClients = () => {
     //====================================================================
     // CreateHandler
 
-    const createHandler = useCallback(async () => {
+    const createHandler = async () => {
+        if (checkStatus(status, t)) {
+            return notify(checkStatus(status, t));
+        }
         setIsActive(false)
         try {
             const data = await request(
@@ -649,6 +692,7 @@ export const OfflineClients = () => {
                     services: [...services],
                     products: [...newproducts],
                     counterdoctor: counterdoctor,
+                    status: status,
                     adver: { ...adver, clinica: auth.clinica._id },
                 },
                 {
@@ -682,21 +726,7 @@ export const OfflineClients = () => {
             });
             setIsActive(true)
         }
-    }, [
-        auth,
-        client,
-        connector,
-        notify,
-        services,
-        newproducts,
-        request,
-        indexLastConnector,
-        indexFirstConnector,
-        connectors,
-        clearDatas,
-        adver,
-        counterdoctor,
-    ]);
+    }
 
     const updateHandler = useCallback(async () => {
         setIsActive(false)
@@ -711,6 +741,7 @@ export const OfflineClients = () => {
                     client: { ...client, clinica: auth.clinica._id },
                     connector: { ...connector, clinica: auth.clinica._id },
                     counterdoctor: counterdoctor,
+                    status: status,
                     adver: { ...adver, clinica: auth.clinica._id },
                 },
                 {
@@ -738,6 +769,7 @@ export const OfflineClients = () => {
         client,
         adver,
         counterdoctor,
+        status,
         connector,
         notify,
         request,
@@ -759,6 +791,7 @@ export const OfflineClients = () => {
                     services: [...services],
                     products: [...newproducts],
                     counterdoctor: counterdoctor,
+                    status: status,
                     adver: { ...adver, clinica: auth.clinica._id },
                 },
                 {
@@ -799,6 +832,7 @@ export const OfflineClients = () => {
         connector,
         adver,
         counterdoctor,
+        status,
         beginDay,
         endDay,
         notify,
@@ -819,6 +853,7 @@ export const OfflineClients = () => {
                     services: [...services],
                     products: [...newproducts],
                     counterdoctor: counterdoctor,
+                    status: status,
                     adver: { ...adver, clinica: auth.clinica._id },
                 },
                 {
@@ -982,6 +1017,7 @@ export const OfflineClients = () => {
             getConnectors(beginDay, endDay);
             getDepartments();
             getCounterDoctors();
+            getStatuses();
             getAdvers();
             getProducts();
             getBaseUrl();
@@ -993,6 +1029,7 @@ export const OfflineClients = () => {
         s,
         getProducts,
         getCounterDoctors,
+        getStatuses,
         getDepartments,
         getBaseUrl,
         beginDay,
@@ -1232,12 +1269,14 @@ export const OfflineClients = () => {
                                 changeService={changeService}
                                 changeAdver={changeAdver}
                                 changeCounterDoctor={changeCounterDoctor}
+                                changeStatus={changeStatus}
                                 client={client}
                                 setClient={setClient}
                                 changeClientData={changeClientData}
                                 changeClientBorn={changeClientBorn}
                                 departments={departments}
                                 counterdoctors={counterdoctors}
+                                statuses={statuses}
                                 advers={advers}
                                 products={products}
                                 loading={loading}
