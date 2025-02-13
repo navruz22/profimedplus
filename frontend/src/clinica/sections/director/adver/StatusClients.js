@@ -179,7 +179,7 @@ const StatusClients = () => {
                 const age = (new Date().getFullYear() - new Date(item?.client?.born).getFullYear())
                 return item.client.fullname.toLowerCase().includes(e.target.value.toLowerCase()) && age >= minAge && age <= maxAge
             })
-            setCurrentClients(searching.slice(0, countPage))
+            setCurrentClients(searching)
             setName(e.target.value)
 
         }
