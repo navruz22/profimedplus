@@ -80,7 +80,7 @@ const OfflineClients = () => {
     const [currentClients, setCurrentClients] = useState([])
     const [searchStorage, setSearchStrorage] = useState([])
 
-    const getConnectors = useCallback(async (beginDay, endDay) => {
+    const getConnectors = async (beginDay, endDay) => {
         try {
             const data = await request(
                 `/api/offlineclient/client/getall`,
@@ -99,7 +99,7 @@ const OfflineClients = () => {
                 status: 'error',
             })
         }
-    }, [request, auth, notify, setSearchStrorage])
+    }
 
     //=================================================
     //=================================================
@@ -192,7 +192,7 @@ const OfflineClients = () => {
 
     const changeStart = (e) => {
         setBeginDay(new Date(new Date(e).setUTCHours(0, 0, 0, 0)));
-        getConnectors(new Date(new Date(e).setUTCHours(0, 0, 0, 0)), endDay);
+        // getConnectors(new Date(new Date(e).setUTCHours(0, 0, 0, 0)), endDay);
     };
 
     const changeEnd = (e) => {
@@ -205,7 +205,7 @@ const OfflineClients = () => {
             )
         );
         setEndDay(date);
-        getConnectors(beginDay, date);
+        // getConnectors(beginDay, date);
     };
 
     const [s, setS] = useState()
@@ -262,34 +262,45 @@ const OfflineClients = () => {
         setMaxAge(max_age)
     }
 
-    const setSearch = () => {
+    const searchAll = (data) => {
         const getAge = age => new Date().getFullYear() - new Date(age?.client?.born).getFullYear()
         if (gender && !national) {
-            setCurrentClients([...searchStorage].filter(connector =>
+            setCurrentClients([...data].filter(connector =>
                 getAge(connector) >= minAge && getAge(connector) <= maxAge && connector?.client?.gender === gender
             ))
         } else if (national && !gender) {
-            setCurrentClients([...searchStorage].filter(connector =>
+            setCurrentClients([...data].filter(connector =>
                 getAge(connector) >= minAge && getAge(connector) <= maxAge && (connector?.client?.national && connector?.client?.national === national)
             ))
-            // } else if (gender && national && !age) {
-            //     setCurrentClients([...searchStorage].filter(connector =>
-            //         connector?.client?.gender === gender && (connector?.client?.national && connector?.client?.national === national)
-            //     ))
-            // } else if (age && gender && national) {
-            //     setCurrentClients([...searchStorage].filter(connector =>
-            //         new Date().getFullYear() - new Date(connector?.client?.born).getFullYear() === age && (connector?.client?.national && connector?.client?.national === national) && connector?.client?.gender === gender
-            //     ))
+        } else if (gender && national) {
+            setCurrentClients([...data].filter(connector =>
+                getAge(connector) >= minAge && getAge(connector) <= maxAge && connector?.client?.gender === gender && (connector?.client?.national && connector?.client?.national === national)
+            ))
         } else {
-            // age && setCurrentClients([...searchStorage].filter(connector =>
-            //     new Date().getFullYear() - new Date(connector?.client?.born).getFullYear() === age
-            // ))
-            national && setCurrentClients([...searchStorage].filter(connector =>
-                connector?.client?.national && connector?.client?.national === national
+            setCurrentClients([...data].filter(connector =>
+                getAge(connector) >= minAge && getAge(connector) <= maxAge
             ))
-            gender && setCurrentClients([...searchStorage].filter(connector =>
-                connector?.client?.gender === gender
-            ))
+        }
+    }
+
+    const setSearch = async () => {
+        try {
+            const data = await request(
+                `/api/offlineclient/client/getall`,
+                'POST',
+                { clinica: auth.clinica._id, beginDay, endDay },
+                {
+                    Authorization: `Bearer ${auth.token}`,
+                },
+            )
+            setSearchStrorage(data)
+            searchAll(data)
+        } catch (error) {
+            notify({
+                title: t(`${error}`),
+                description: '',
+                status: 'error',
+            })
         }
     }
 
