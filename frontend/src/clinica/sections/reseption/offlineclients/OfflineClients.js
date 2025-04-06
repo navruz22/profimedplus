@@ -99,6 +99,8 @@ export const OfflineClients = () => {
     //====================================================================
     //====================================================================
 
+    const [brondate, setBrondate] = useState()
+
     //====================================================================
     //====================================================================
     const toast = useToast();
@@ -710,6 +712,7 @@ export const OfflineClients = () => {
             clearDatas();
             setVisible(false);
             showSmallCehckReturn(data)
+            console.log(data);
             setTimeout(() => {
                 setIsActive(true)
                 // history.push({
@@ -876,6 +879,7 @@ export const OfflineClients = () => {
     }
 
     const showSmallCehckReturn = (connector) => {
+        console.log(connector);
         setCheckType('all')
         setPrintBody({ ...connector, turntitle: [...connector?.services].filter(service => service.department.probirka === false)[0]?.department?.turntitle || 'L', turn: [...connector?.services].filter(service => service.department.probirka === false)[0]?.turn || [...connector?.services].filter(service => service.department.probirka)[0]?.turn })
         setTimeout(() => {
@@ -1040,12 +1044,15 @@ export const OfflineClients = () => {
     useEffect(() => {
         if (state?.onlineclient) {
             let onlineclient = state?.onlineclient
+            console.log(onlineclient);
+            // setBrondate(onlineclient.brondate)
             setClient({
                 clinica: auth.clinica && auth.clinica._id,
                 reseption: auth.user && auth.user._id,
                 firstname: onlineclient.firstname,
                 lastname: onlineclient.lastname,
-                phone: onlineclient.phone
+                phone: onlineclient.phone,
+                brondate: onlineclient.brondate
             })
             setVisible(true)
         }

@@ -23,7 +23,7 @@ export const SmallCheck = ({ baseUrl, clinica, client, connector, qr, turn, turn
                 <div className="flex justify-between items-center">
                     <div>
                         <strong style={{ color: "black", fontSize: '20px', fontFamily: 'times' }}>
-                    {turntitle === 'KO' ? t('Muolaja vaqti') : t("Vaqti")}{' '}
+                            {turntitle === 'KO' ? t('Muolaja vaqti') : t("Vaqti")}{' '}
                         </strong>
                     </div>
                     <div style={{ fontWeight: "bold", color: "black", fontSize: '20px', fontFamily: 'times' }}>
@@ -40,16 +40,16 @@ export const SmallCheck = ({ baseUrl, clinica, client, connector, qr, turn, turn
                         </strong>
                     </div>
                     <div style={{ fontWeight: "bold", color: "black", fontSize: '20px', fontFamily: 'times' }}>
-                    {connector.client && connector.client.id}
+                        {connector.client && connector.client.id}
                     </div>
                 </div>
                 <div className="mt-4" style={{ fontWeight: "bold", color: "black", fontSize: '32px', fontFamily: 'times' }}>
                     {client?.firstname + ' ' + client?.lastname}
                 </div>
-                <div style={{ fontWeight: "bold", color: "black", fontSize: '100px'}}>
-                     {turntitle === 'A' && connector.isBooking ?  t('Belgilangan') : `${turntitle} ${turn}`}
+                <div style={{ fontWeight: "bold", color: "black", fontSize: client.brondate ? "48px" : '100px' }}>
+                    {client.brondate ? `${new Date(client.brondate).toLocaleDateString('Ru-ru')} ${new Date(client.brondate).toLocaleTimeString('Ru-ru').slice(0, 5)}` : (turntitle === 'A' && connector.isBooking ? t('Belgilangan') : `${turntitle} ${turn}`)}
                 </div>
-                <div style={{ marginTop: '1cm', fontWeight: "bold", color: "black", fontSize: '60px'}}>
+                <div style={{ marginTop: '1cm', fontWeight: "bold", color: "black", fontSize: '60px' }}>
                     {t("Xona")}:{connector?.services.filter(el => !el.department.probirka)[0]?.department?.room}
                 </div>
                 <div className="w-full h-[5px] border-2 border-[#000]">

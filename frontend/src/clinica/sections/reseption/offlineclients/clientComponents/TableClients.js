@@ -332,6 +332,7 @@ export const TableClients = ({
                               showSmallCehck2(connector)
                             }
                             if (listType === 'all') {
+                              console.log('ok');
                               showSmallCehckReturn(connector)
                             }
                           }}

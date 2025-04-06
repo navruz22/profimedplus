@@ -761,7 +761,7 @@ module.exports.getAllReseption = async (req, res) => {
                 clinica
             })
                 .select('isBooking probirka client accept services products createdAt totalprice step stepAccess stepDate')
-                .populate('client', 'fullname firstname lastname fathername phone national id gender born address')
+                .populate('client', 'fullname firstname lastname fathername phone national id gender born address brondate')
                 .populate({
                     path: "services",
                     select: "service reseption pieces createdAt serviceid accept refuse column templates tables turn connector client files department",
@@ -807,7 +807,7 @@ module.exports.getAllReseption = async (req, res) => {
                 clinica
             })
                 .select('isBooking probirka client accept services products createdAt totalprice stepAccess step stepDate')
-                .populate('client', 'fullname firstname lastname fathername phone national id gender born address')
+                .populate('client', 'fullname firstname lastname fathername phone national id gender born brondate address')
                 .populate({
                     path: "services",
                     select: "service createdAt reseption pieces serviceid accept refuse column templates tables turn connector client files department",
@@ -851,7 +851,7 @@ module.exports.getAllReseption = async (req, res) => {
                 clinica
             })
                 .select('isBooking probirka client accept services products createdAt totalprice step stepDate stepAccess')
-                .populate('client', 'fullname firstname lastname fathername phone national id gender born address')
+                .populate('client', 'fullname firstname lastname fathername phone national id gender born brondate address')
                 .populate({
                     path: "services",
                     select: "service createdAt reseption pieces serviceid accept refuse column templates tables turn connector client files department",
@@ -895,7 +895,7 @@ module.exports.getAllReseption = async (req, res) => {
                 clinica
             })
                 .select('isBooking probirka client accept services products createdAt totalprice step stepDate stepAccess')
-                .populate('client', 'fullname firstname lastname fathername phone national id gender born address')
+                .populate('client', 'fullname firstname lastname fathername phone national id gender brondate born address')
                 .populate({
                     path: "services",
                     select: "service createdAt reseption pieces serviceid accept refuse column templates tables turn connector client files department",
@@ -943,7 +943,7 @@ module.exports.getAllReseption = async (req, res) => {
                 },
             })
                 .select('isBooking probirka client accept services products createdAt totalprice step stepDate stepAccess')
-                .populate('client', 'fullname firstname lastname fathername national phone id gender born address')
+                .populate('client', 'fullname firstname lastname fathername national phone id brondate gender born address')
                 .populate({
                     path: "services",
                     select: "service createdAt reseption pieces serviceid accept refuse templates column tables turn connector client files department",
